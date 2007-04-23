@@ -1,0 +1,8 @@
+(Please enable word-wrap when viewing this file)
+
+We have a complete demo framework. All examples for this open source project were implemented using this demo framework. However it depends on other JIDE components which are not part of this open source project. Just for now, instead of including the demos and jars in this project, please run the demo at http://www.jidesoft.com/products/download.htm (the first webstart link). You can run the demos for all JIDE components (open source and commercial) and view the source code of all the demos ("View Source Code" button in the "Options" panel) within this webstart application. 
+
+If you wish to download the complete source code of the demos so that you can compile locally, you can download the evaluation package from the same link above. Registration on JIDE Developers' Forum is required.
+
+Best regards,
+JIDE Software, Inc.

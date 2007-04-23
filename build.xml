@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JIDE_${jideversion}" default="dist">
+
+    <!-- Default configuration and properties for script execution. If does not exist then uses ${basedir}/CM_build.properties. -->
+    <property file="${basedir}/build.properties"/>
+
+    <!-- *** TARGET: init *** -->
+    <target name="init" description="print out important settings on your system">
+        <!-- Echo system variables. -->
+        <echo message="Ant Version: ${ant.version}"/>
+        <echo message="Ant Home: ${ant.home}"/>
+        <echo message="--------------------------------"/>
+        <echo message="Java Vendor: ${java.vendor}"/>
+        <echo message="Java Version: ${java.version}"/>
+        <echo message="Java Home: ${java.home}"/>
+        <echo message="Java initial heap size: ${initheapsize}"/>
+        <echo message="Java max heap size: ${maxheapsize}"/>
+        <echo message="Debug: ${debug}"/>
+        <echo message="Deprecation: ${deprecation}."/>
+        <echo message="--------------------------------"/>
+        <echo message="User Name: ${user.name}"/>
+        <echo message="User Home: ${user.home}"/>
+        <echo message="Current Dir: ${user.dir}"/>
+        <echo message="--------------------------------"/>
+        <echo message="Base Dir: ${basedir}"/>
+        <echo message="Output Dir: ${output_dir}"/>
+        <echo message="JavaDoc Dir: ${javadoc_dir}"/>
+        <echo message="Source list: ${source_list}"/>
+        <tstamp/>
+    </target>
+
+    <target name="clean" depends="init" description="clean the compile output folder">
+        <!-- Delete the ${builddir} directory -->
+        <delete dir="${output_dir}"/>
+        <mkdir dir="${output_dir}"/>
+    </target>
+
+    <path id="standard_classpath">
+        <pathelement location="${basedir}\libs\laf.jar"></pathelement>
+    </path>
+
+    <target name="compile" depends="init" description="compile the source code">
+        <delete dir="${output_dir}"/>
+        <mkdir dir="${output_dir}"/>
+        <javac source="1.4" target="1.4" srcdir="${src_dir}"
+               destdir="${output_dir}"
+               fork="yes" memoryInitialSize="${initheapsize}" memoryMaximumSize="${maxheapsize}" verbose="no"
+               debug="${debug}" deprecation="${deprecation}">
+            <classpath refid="standard_classpath"/>
+        </javac>
+        <copy todir="${output_dir}">
+            <fileset dir="${src_dir}" includes="**/*.gif,**/*.jpg,**/*.png,**/*.properties,**/*.ttf,**/*.vm"/>
+        </copy>
+    </target>
+
+    <target name="javadoc" depends="compile" description="generate javadoc">
+        <delete dir="${javadoc_dir}"/>
+        <mkdir dir="${javadoc_dir}"></mkdir>
+        <javadoc maxmemory="${maxheapsize}" sourcepath="${javadoc_source_list}"
+                 packagenames="com.jidesoft.*" destdir="${javadoc_dir}"
+                 header="JIDE ${jide_version}">
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+        </javadoc>
+    </target>
+
+    <target name="jar" depends="compile" description="create the distributation jar">
+        <delete file="${base_dir}/jide-oss-${jide_version}.jar"></delete>
+        <jar update="false" jarfile="${base_dir}/jide-oss-${jide_version}.jar" basedir="${output_dir}"
+             includes="com/jidesoft/**">
+            <manifest>
+                <attribute name="Company" value="${company_name}"/>
+                <attribute name="Build-Date" value="${DSTAMP}"/>
+                <attribute name="Build-Time" value="${TSTAMP}"/>
+                <attribute name="Jide-Version" value="${jide_version}"/>
+                <section name="com/jidesoft/swing/JideButton.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideToggleButton.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideSplitButton.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideToggleButton.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideToggleSplitButton.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideTabbedPane.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/AutoCompletionComboBox.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/AutoResizingTextArea.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/CheckBoxList.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/CheckBoxTree.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/JideScrollPane.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/LabeledTextField.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/RangeSlider.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/swing/StyledLabel.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+                <section name="com/jidesoft/spinner/DateSpinner.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="source" depends="init" description="create the source code zip file">
+        <zip destfile="${base_dir}/jide-oss-src-${jide_version}.zip">
+            <fileset dir="${source_list}"></fileset>
+        </zip>
+    </target>
+
+    <target name="dist" depends="javadoc, jar, source"
+            description="build the distributation jar, generate javadoc and create the source code zip file">
+    </target>
+
+</project>

@@ -1,0 +1,875 @@
+package com.jidesoft.plaf.office2003;
+
+import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.XPUtils;
+import com.jidesoft.plaf.basic.BasicPainter;
+import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.swing.ComponentStateSupport;
+import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.utils.ColorUtils;
+import com.jidesoft.utils.SystemInfo;
+
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.UIResource;
+import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * Painter for Office2003 L&F.
+ * <p/>
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
+ * Future version might break your build if you use it.
+ */
+public class Office2003Painter extends BasicPainter {
+
+    private static Office2003Painter _instance;
+
+    public static ThemePainter getInstance() {
+        if (_instance == null) {
+            _instance = new Office2003Painter();
+            PropertyChangeListener listener = new PropertyChangeListener() {
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if (Office2003Painter.isNative()) {
+                        if (XPUtils.PROPERTY_COLORNAME.equals(evt.getPropertyName())) {
+                            if (evt.getNewValue() != null) {
+                                _instance.setColorName((String) evt.getNewValue());
+                            }
+                            else {
+                                _instance.setColorName("");
+                            }
+                        }
+                        else if (XPUtils.PROPERTY_THEMEACTIVE.equals(evt.getPropertyName())) {
+                            if (evt.getNewValue().equals(Boolean.FALSE))
+                                _instance.setColorName("");
+                            else {
+                                _instance.setColorName(XPUtils.getColorName());
+                            }
+                        }
+                    }
+                }
+            };
+            Toolkit.getDefaultToolkit().addPropertyChangeListener(XPUtils.PROPERTY_COLORNAME, listener);
+            Toolkit.getDefaultToolkit().addPropertyChangeListener(XPUtils.PROPERTY_THEMEACTIVE, listener);
+
+            if (Office2003Painter.isNative()) {
+                try {
+                    if (XPUtils.isXPStyleOn()) {
+                        _instance.setColorName(XPUtils.getColorName());
+                    }
+                    else {
+                        _instance.setColorName("");
+                    }
+                }
+                catch (UnsupportedOperationException e) {
+                    _instance.setColorName("");
+                }
+            }
+        }
+        return _instance;
+    }
+
+    private String _colorName = XPUtils.DEFAULT;
+
+    private static boolean _native = SystemInfo.isWindowsXP();
+
+    private static Office2003Theme _defaultTheme = new DefaultOffice2003Theme();
+    private static Office2003Theme _normalTheme = new Office2003Theme(XPUtils.GRAY);
+    private static Office2003Theme _blueTheme = new Office2003Theme(XPUtils.BLUE);
+    private static Office2003Theme _homeSteadTheme = new Office2003Theme(XPUtils.HOMESTEAD);
+    private static Office2003Theme _metallicTheme = new Office2003Theme(XPUtils.METALLIC);
+
+    private static Map _themeCache = new TreeMap();
+
+    static {
+        _themeCache.put(_defaultTheme.getThemeName(), _defaultTheme);
+        _themeCache.put(_normalTheme.getThemeName(), _normalTheme);
+        _themeCache.put(_blueTheme.getThemeName(), _blueTheme);
+        _themeCache.put(_homeSteadTheme.getThemeName(), _homeSteadTheme);
+        _themeCache.put(_metallicTheme.getThemeName(), _metallicTheme);
+
+        final int SIZE = 20;
+        ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_gray.png"); // 10 x 10 x 8
+
+        Object uiDefaultsNormal[] = {
+                "control", new ColorUIResource(219, 216, 209),
+                "controlLt", new ColorUIResource(245, 244, 242),
+                "controlDk", new ColorUIResource(213, 210, 202),
+                "controlShadow", new ColorUIResource(128, 128, 128),
+
+                "TabbedPane.selectDk", new ColorUIResource(230, 139, 44),
+                "TabbedPane.selectLt", new ColorUIResource(255, 199, 60),
+
+                "OptionPane.bannerLt", new ColorUIResource(0, 52, 206),
+                "OptionPane.bannerDk", new ColorUIResource(45, 96, 249),
+                "OptionPane.bannerForeground", new ColorUIResource(255, 255, 255),
+
+                "Separator.foreground", new ColorUIResource(166, 166, 166),
+                "Separator.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Gripper.foreground", new ColorUIResource(160, 160, 160),
+                "Gripper.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Chevron.backgroundLt", new ColorUIResource(160, 160, 160),
+                "Chevron.backgroundDk", new ColorUIResource(128, 128, 128),
+
+                "Divider.backgroundLt", new ColorUIResource(110, 110, 110),
+                "Divider.backgroundDk", new ColorUIResource(90, 90, 90),
+
+                "CollapsiblePane.contentBackground", new ColorUIResource(255, 255, 255),
+                "CollapsiblePanes.backgroundLt", new ColorUIResource(160, 160, 160),
+                "CollapsiblePanes.backgroundDk", new ColorUIResource(128, 128, 128),
+                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(213, 210, 202),
+                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(91, 91, 91),
+                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(137, 137, 137),
+                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(68, 68, 68),
+                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(94, 94, 94),
+                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
+                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+                "backgroundLt", new ColorUIResource(245, 245, 244),
+                "backgroundDk", new ColorUIResource(212, 208, 200),
+
+                "CommandBar.titleBarBackground", new ColorUIResource(128, 128, 128),
+                "MenuItem.background", new ColorUIResource(249, 248, 247),
+
+                "DockableFrameTitlePane.backgroundLt", new ColorUIResource(243, 242, 240),
+                "DockableFrameTitlePane.backgroundDk", new ColorUIResource(212, 208, 200),
+                "DockableFrameTitlePane.activeForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrameTitlePane.inactiveForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrame.backgroundLt", new ColorUIResource(234, 232, 228),
+                "DockableFrame.backgroundDk", new ColorUIResource(234, 232, 228),
+
+                "selection.border", new ColorUIResource(0, 0, 128)
+        };
+        _normalTheme.putDefaults(uiDefaultsNormal);
+
+        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_blue.png"); // 10 x 10 x 8
+
+        Object uiDefaultsBlue[] = {
+                "control", new ColorUIResource(196, 219, 249),
+                "controlLt", new ColorUIResource(218, 234, 253),
+                "controlDk", new ColorUIResource(129, 169, 226),
+                "controlShadow", new ColorUIResource(59, 67, 156),
+
+                "TabbedPane.selectDk", new ColorUIResource(230, 139, 44),
+                "TabbedPane.selectLt", new ColorUIResource(255, 199, 60),
+
+                "OptionPane.bannerLt", new ColorUIResource(0, 52, 206),
+                "OptionPane.bannerDk", new ColorUIResource(45, 96, 249),
+                "OptionPane.bannerForeground", new ColorUIResource(255, 255, 255),
+
+                "Separator.foreground", new ColorUIResource(106, 140, 203),
+                "Separator.foregroundLt", new ColorUIResource(241, 249, 255),
+
+                "Gripper.foreground", new ColorUIResource(39, 65, 118),
+                "Gripper.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Chevron.backgroundLt", new ColorUIResource(117, 166, 241),
+                "Chevron.backgroundDk", new ColorUIResource(0, 53, 145),
+
+                "Divider.backgroundLt", new ColorUIResource(89, 135, 214),
+                "Divider.backgroundDk", new ColorUIResource(0, 45, 150),
+
+                "CollapsiblePane.contentBackground", new ColorUIResource(214, 223, 247),
+                "CollapsiblePanes.backgroundLt", new ColorUIResource(123, 162, 231),
+                "CollapsiblePanes.backgroundDk", new ColorUIResource(103, 125, 217),
+                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(198, 211, 247),
+                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(33, 93, 198),
+                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(65, 142, 254),
+                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(0, 73, 181),
+                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(41, 93, 206),
+
+                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(65, 142, 254),
+                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+                "backgroundLt", new ColorUIResource(195, 218, 249),
+                "backgroundDk", new ColorUIResource(158, 190, 245),
+
+                "CommandBar.titleBarBackground", new ColorUIResource(42, 102, 201),
+                "MenuItem.background", new ColorUIResource(246, 246, 246),
+
+                "DockableFrameTitlePane.backgroundLt", new ColorUIResource(218, 234, 253),
+                "DockableFrameTitlePane.backgroundDk", new ColorUIResource(123, 164, 224),
+                "DockableFrameTitlePane.activeForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrameTitlePane.inactiveForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrame.backgroundLt", new ColorUIResource(221, 236, 254),
+                "DockableFrame.backgroundDk", new ColorUIResource(221, 236, 254),
+
+                "selection.border", new ColorUIResource(0, 0, 128)
+        };
+        _blueTheme.putDefaults(uiDefaultsBlue);
+
+        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_homestead.png"); // 10 x 10 x 8
+
+        // green theme
+        Object uiDefaultsHomeStead[] = {
+                "control", new ColorUIResource(209, 222, 173),
+                "controlLt", new ColorUIResource(244, 247, 222),
+                "controlDk", new ColorUIResource(183, 198, 145),
+                "controlShadow", new ColorUIResource(96, 128, 88),
+
+                "TabbedPane.selectDk", new ColorUIResource(207, 114, 37),
+                "TabbedPane.selectLt", new ColorUIResource(227, 145, 79),
+
+                "OptionPane.bannerLt", new ColorUIResource(150, 185, 120),
+                "OptionPane.bannerDk", new ColorUIResource(179, 214, 149),
+                "OptionPane.bannerForeground", new ColorUIResource(255, 255, 255),
+
+                "Separator.foreground", new ColorUIResource(96, 128, 88),
+                "Separator.foregroundLt", new ColorUIResource(244, 247, 242),
+
+                "Gripper.foreground", new ColorUIResource(81, 94, 51),
+                "Gripper.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Chevron.backgroundLt", new ColorUIResource(176, 194, 140),
+                "Chevron.backgroundDk", new ColorUIResource(96, 119, 107),
+
+                "Divider.backgroundLt", new ColorUIResource(120, 142, 111),
+                "Divider.backgroundDk", new ColorUIResource(73, 91, 67),
+
+                "CollapsiblePane.contentBackground", new ColorUIResource(246, 246, 246),
+                "CollapsiblePanes.backgroundLt", new ColorUIResource(204, 217, 173),
+                "CollapsiblePanes.backgroundDk", new ColorUIResource(165, 189, 132),
+                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(254, 252, 236),
+                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(224, 231, 184),
+                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(86, 102, 45),
+                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(114, 146, 29),
+                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 140, 64),
+                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(150, 168, 103),
+                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(224, 231, 151),
+                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+                "backgroundLt", new ColorUIResource(242, 240, 228),
+                "backgroundDk", new ColorUIResource(217, 217, 167),
+
+                "CommandBar.titleBarBackground", new ColorUIResource(116, 134, 94),
+                "MenuItem.background", new ColorUIResource(244, 244, 238),
+
+                "DockableFrameTitlePane.backgroundLt", new ColorUIResource(237, 242, 212),
+                "DockableFrameTitlePane.backgroundDk", new ColorUIResource(181, 196, 143),
+                "DockableFrameTitlePane.activeForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrameTitlePane.inactiveForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrame.backgroundLt", new ColorUIResource(243, 242, 231),
+                "DockableFrame.backgroundDk", new ColorUIResource(243, 242, 231),
+
+                "selection.border", new ColorUIResource(63, 93, 56)
+        };
+        _homeSteadTheme.putDefaults(uiDefaultsHomeStead);
+
+        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_metallic.png"); // 10 x 10 x 8
+
+        Object uiDefaultsMetallic[] = {
+                "control", new ColorUIResource(219, 218, 228),
+                "controlLt", new ColorUIResource(243, 244, 250),
+                "controlDk", new ColorUIResource(153, 151, 181),
+                "controlShadow", new ColorUIResource(124, 124, 148),
+
+                "TabbedPane.selectDk", new ColorUIResource(230, 139, 44),
+                "TabbedPane.selectLt", new ColorUIResource(255, 200, 60),
+
+                "OptionPane.bannerLt", new ColorUIResource(181, 195, 222),
+                "OptionPane.bannerDk", new ColorUIResource(120, 140, 167),
+                "OptionPane.bannerForeground", new ColorUIResource(255, 255, 255),
+
+                "Separator.foreground", new ColorUIResource(110, 109, 143),
+                "Separator.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Gripper.foreground", new ColorUIResource(84, 84, 117),
+                "Gripper.foregroundLt", new ColorUIResource(255, 255, 255),
+
+                "Chevron.backgroundLt", new ColorUIResource(179, 178, 200),
+                "Chevron.backgroundDk", new ColorUIResource(118, 116, 146),
+
+                "Divider.backgroundLt", new ColorUIResource(168, 167, 191),
+                "Divider.backgroundDk", new ColorUIResource(119, 118, 151),
+
+                "CollapsiblePane.contentBackground", new ColorUIResource(240, 241, 245),
+                "CollapsiblePanes.backgroundLt", new ColorUIResource(196, 200, 212),
+                "CollapsiblePanes.backgroundDk", new ColorUIResource(177, 179, 200),
+                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(214, 215, 224),
+                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(63, 61, 61),
+                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(126, 124, 124),
+                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 119, 145),
+                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(180, 182, 199),
+                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
+
+                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+                "backgroundLt", new ColorUIResource(243, 243, 247),
+                "backgroundDk", new ColorUIResource(215, 215, 229),
+
+                "CommandBar.titleBarBackground", new ColorUIResource(122, 121, 153),
+                "MenuItem.background", new ColorUIResource(253, 250, 255),
+
+                "DockableFrameTitlePane.backgroundLt", new ColorUIResource(240, 240, 248),
+                "DockableFrameTitlePane.backgroundDk", new ColorUIResource(147, 145, 176),
+                "DockableFrameTitlePane.activeForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrameTitlePane.inactiveForeground", new ColorUIResource(0, 0, 0),
+                "DockableFrame.backgroundLt", new ColorUIResource(238, 238, 244),
+                "DockableFrame.backgroundDk", new ColorUIResource(238, 238, 244),
+
+                "selection.border", new ColorUIResource(75, 75, 111)
+        };
+        _metallicTheme.putDefaults(uiDefaultsMetallic);
+    }
+
+    protected Office2003Painter() {
+    }
+
+    public void addTheme(Office2003Theme theme) {
+        _themeCache.put(theme.getThemeName(), theme);
+    }
+
+    public Office2003Theme getTheme(String themeName) {
+        return (Office2003Theme) _themeCache.get(themeName);
+    }
+
+    public void removeTheme(String themeName) {
+        _themeCache.remove(themeName);
+    }
+
+    public Collection getAvailableThemes() {
+        return _themeCache.values();
+    }
+
+    public void installDefaults() {
+    }
+
+    public void uninstallDefaults() {
+    }
+
+    public String getColorName() {
+        return _colorName;
+    }
+
+    public void setColorName(String colorName) {
+        _colorName = colorName;
+    }
+
+    public static boolean isNative() {
+        return _native;
+    }
+
+    public static void setNative(boolean aNative) {
+        _native = aNative;
+    }
+
+    public Office2003Theme getCurrentTheme() {
+        if (getColorName() == null || getColorName().trim().length() == 0 || _themeCache.get(getColorName()) == null) {
+            return (Office2003Theme) _themeCache.get(XPUtils.DEFAULT);
+        }
+        else {
+            return (Office2003Theme) _themeCache.get(getColorName());
+        }
+    }
+
+    public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        Color startColor = null;
+        Color endColor = null;
+        Color background = null;
+        switch (state) {
+            case STATE_DEFAULT:
+                background = c.getBackground();
+                if (!(background instanceof UIResource)) {
+                    startColor = ColorUtils.getDerivedColor(background, 0.6f);
+                    endColor = ColorUtils.getDerivedColor(background, 0.4f);
+                    showBorder = false;
+                }
+                else {
+                    startColor = getCurrentTheme().getColor("controlLt");
+                    endColor = getCurrentTheme().getColor("controlDk");
+                }
+
+                break;
+            case STATE_ROLLOVER:
+                if (c instanceof ComponentStateSupport) {
+                    background = ((ComponentStateSupport) c).getBackgroundOfState(state);
+                }
+                if (background != null && !(background instanceof UIResource)) {
+                    startColor = ColorUtils.getDerivedColor(background, 0.6f);
+                    endColor = ColorUtils.getDerivedColor(background, 0.4f);
+                }
+                else {
+                    startColor = getCurrentTheme().getColor("selection.RolloverLt");
+                    endColor = getCurrentTheme().getColor("selection.RolloverDk");
+                }
+                break;
+            case STATE_SELECTED:
+                if (c instanceof ComponentStateSupport) {
+                    background = ((ComponentStateSupport) c).getBackgroundOfState(state);
+                }
+                if (background != null && !(background instanceof UIResource)) {
+                    startColor = ColorUtils.getDerivedColor(background, 0.6f);
+                    endColor = ColorUtils.getDerivedColor(background, 0.4f);
+                }
+                else {
+                    startColor = getCurrentTheme().getColor("selection.SelectedLt");
+                    endColor = getCurrentTheme().getColor("selection.SelectedDk");
+                }
+                break;
+            case STATE_PRESSED:
+                if (c instanceof ComponentStateSupport) {
+                    background = ((ComponentStateSupport) c).getBackgroundOfState(state);
+                }
+                if (background != null && !(background instanceof UIResource)) {
+                    startColor = ColorUtils.getDerivedColor(background, 0.4f);
+                    endColor = ColorUtils.getDerivedColor(background, 0.6f);
+                }
+                else {
+                    startColor = getCurrentTheme().getColor("selection.PressedDk");
+                    endColor = getCurrentTheme().getColor("selection.PressedLt");
+                }
+                break;
+        }
+
+        if (startColor != null && endColor != null) {
+            paintBackground(c, (Graphics2D) g, rect, showBorder ? getCurrentTheme().getColor("selection.border") : null, startColor, endColor, orientation);
+        }
+    }
+
+    protected void paintBackground(JComponent c, Graphics2D g2d, Rectangle rect, Color borderColor, Color startColor, Color endColor, int orientation) {
+        if (borderColor != null) {
+            if (startColor != null && endColor != null) {
+                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 1, rect.y + 1, rect.width - 1, rect.height - 1), startColor, endColor, orientation == SwingConstants.HORIZONTAL);
+            }
+            Color oldColor = g2d.getColor();
+            g2d.setColor(borderColor);
+            g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+            g2d.setColor(oldColor);
+        }
+        else {
+            if (startColor != null && endColor != null) {
+                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, orientation == SwingConstants.HORIZONTAL);
+            }
+        }
+    }
+
+    public void paintChevronBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        if (state == STATE_DEFAULT) {
+            paintChevron(orientation, getCurrentTheme().getColor("Chevron.backgroundLt"), getCurrentTheme().getColor("Chevron.backgroundDk"), rect, g2d);
+        }
+        else if (state == STATE_ROLLOVER) {
+            paintChevron(orientation, getCurrentTheme().getColor("selection.RolloverLt"), getCurrentTheme().getColor("selection.RolloverDk"), rect, g2d);
+        }
+        else if (state == STATE_SELECTED) {
+            paintChevron(orientation, getCurrentTheme().getColor("selection.SelectedDk"), getCurrentTheme().getColor("selection.SelectedLt"), rect, g2d);
+        }
+        else if (state == STATE_PRESSED) {
+            paintChevron(orientation, getCurrentTheme().getColor("selection.PressedDk"), getCurrentTheme().getColor("selection.PressedLt"), rect, g2d);
+        }
+    }
+
+    public void paintDividerBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, rect,
+                getCurrentTheme().getColor("Divider.backgroundLt"), getCurrentTheme().getColor("Divider.backgroundDk"), true);
+    }
+
+    protected void paintChevron(int orientation, Color color1, Color color2, Rectangle rect, Graphics2D g2d) {
+        if (orientation == SwingConstants.HORIZONTAL) {
+            // don't use fast gradient painter as it has some problem
+            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 2, rect.y + 2, rect.width - 2, rect.height - 4), color1, color2, true);
+            g2d.setColor(color1);
+            g2d.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
+            g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 2, rect.y + 1);
+            g2d.setColor(color2);
+            g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
+            g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+        }
+        else {
+            // don't use fast gradient painter as it has some problem
+            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 2, rect.y + 2, rect.width - 4, rect.height - 2), color1, color2, false);
+            g2d.setColor(color1);
+            g2d.drawLine(rect.x, rect.y, rect.x, rect.y + rect.height - 3);
+            g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 2);
+            g2d.setColor(color2);
+            g2d.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 2);
+            g2d.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 3);
+        }
+    }
+
+    public Color getColor(Object key) {
+        return getCurrentTheme().getColor(key);
+    }
+
+    public void paintCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, new RoundRectangle2D.Float(rect.x, rect.y, rect.width, rect.height, 4, 4),
+                getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation == SwingConstants.HORIZONTAL);
+        g2d.setColor(getCurrentTheme().getColor("controlShadow"));
+        if (orientation == SwingConstants.HORIZONTAL) {
+            g2d.drawLine(rect.x + 2, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+        }
+        else {
+            g2d.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 3);
+        }
+    }
+
+    public void paintFloatingCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, rect,
+                getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation == SwingConstants.HORIZONTAL);
+    }
+
+    public void paintMenuShadow(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, rect, getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation != SwingConstants.HORIZONTAL);
+    }
+
+    public Color getControl() {
+        return getCurrentTheme().getColor("control");
+    }
+
+    public Color getControlLt() {
+        return getCurrentTheme().getColor("controlLt");
+    }
+
+    public Color getControlDk() {
+        return getCurrentTheme().getColor("controlDk");
+    }
+
+    public Color getControlShadow() {
+        return getCurrentTheme().getColor("controlShadow");
+    }
+
+    public Color getGripperForeground() {
+        return getCurrentTheme().getColor("Gripper.foreground");
+    }
+
+    public Color getGripperForegroundLt() {
+        return getCurrentTheme().getColor("Gripper.foregroundLt");
+    }
+
+    public Color getSeparatorForeground() {
+        return getCurrentTheme().getColor("Separator.foreground");
+    }
+
+    public Color getSeparatorForegroundLt() {
+        return getCurrentTheme().getColor("Separator.foregroundLt");
+    }
+
+    public Color getCollapsiblePaneContentBackground() {
+        return getCurrentTheme().getColor("CollapsiblePane.contentBackground");
+    }
+
+    public Color getCollapsiblePaneTitleForeground() {
+        return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground");
+    }
+
+    public Color getCollapsiblePaneFocusTitleForeground() {
+        return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.focus");
+    }
+
+    public Color getCollapsiblePaneTitleForegroundEmphasized() {
+        return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.emphasized");
+    }
+
+    public Color getCollapsiblePaneFocusTitleForegroundEmphasized() {
+        return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.focus.emphasized");
+    }
+
+    public ImageIcon getCollapsiblePaneUpIcon() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.upIcon");
+    }
+
+    public ImageIcon getCollapsiblePaneDownIcon() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downIcon");
+    }
+
+    public ImageIcon getCollapsiblePaneUpIconEmphasized() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.upIcon.emphasized");
+    }
+
+    public ImageIcon getCollapsiblePaneDownIconEmphasized() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downIcon.emphasized");
+    }
+
+    public Color getBackgroundDk() {
+        return getCurrentTheme().getColor("backgroundDk");
+    }
+
+    public Color getBackgroundLt() {
+        return getCurrentTheme().getColor("backgroundLt");
+    }
+
+    public Color getSelectionSelectedDk() {
+        return getCurrentTheme().getColor("selection.SelectedDk");
+    }
+
+    public Color getSelectionSelectedLt() {
+        return getCurrentTheme().getColor("selection.SelectedLt");
+    }
+
+    public Color getMenuItemBorderColor() {
+        return getCurrentTheme().getColor("selection.border");
+    }
+
+    public Color getMenuItemBackground() {
+        return getCurrentTheme().getColor("MenuItem.background");
+    }
+
+    public Color getCommandBarTitleBarBackground() {
+        return getCurrentTheme().getColor("CommandBar.titleBarBackground");
+    }
+
+    public Color getDockableFrameTitleBarActiveForeground() {
+        return getCurrentTheme().getColor("DockableFrameTitlePane.activeForeground");
+    }
+
+    public Color getDockableFrameTitleBarInactiveForeground() {
+        return getCurrentTheme().getColor("DockableFrameTitlePane.inactiveForeground");
+    }
+
+    public Color getOptionPanebannerForeground() {
+        return getCurrentTheme().getColor("OptionPane.bannerForeground");
+    }
+
+    public Color getTabbedPaneSelectDk() {
+        return getCurrentTheme().getColor("TabbedPane.selectDk");
+    }
+
+    public Color getTabbedPaneSelectLt() {
+        return getCurrentTheme().getColor("TabbedPane.selectLt");
+    }
+
+    public Color getOptionPaneBannerDk() {
+        return getCurrentTheme().getColor("OptionPane.bannerDk");
+    }
+
+    public Color getOptionPaneBannerLt() {
+        return getCurrentTheme().getColor("OptionPane.bannerLt");
+    }
+
+    public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, rect, getBackgroundDk(), getBackgroundLt(), false);
+    }
+
+    public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (rect.width > 30) {
+            orientation = SwingConstants.VERTICAL;
+        }
+        else if (rect.height > 30) {
+            orientation = SwingConstants.HORIZONTAL;
+        }
+
+        int h = (orientation == SwingConstants.HORIZONTAL) ? rect.height : rect.width;
+        int count = Math.min(9, (h - 6) / 4);
+        int y = rect.y;
+        int x = rect.x;
+
+        if (orientation == SwingConstants.HORIZONTAL) {
+            y += rect.height / 2 - count * 2;
+            x += rect.width / 2 - 1;
+        }
+        else {
+            x += rect.width / 2 - count * 2;
+            y += rect.height / 2 - 1;
+        }
+
+        for (int i = 0; i < count; i++) {
+            g.setColor(getGripperForegroundLt());
+            g.fillRect(x + 1, y + 1, 2, 2);
+            g.setColor(getGripperForeground());
+            g.fillRect(x, y, 2, 2);
+            if (orientation == SwingConstants.HORIZONTAL) {
+                y += 4;
+            }
+            else {
+                x += 4;
+            }
+        }
+    }
+
+    public void paintChevronMore(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int startX = rect.x + 4;
+        int startY = rect.x + 5;
+
+        int oppositeOrientation = orientation == SwingConstants.HORIZONTAL ? SwingConstants.VERTICAL : SwingConstants.HORIZONTAL;
+
+        if (orientation == SwingConstants.HORIZONTAL) {
+            startX++;
+            startY++;
+            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+            startX += 4;
+            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+            startX--;
+            startX -= 4;
+            startY--;
+            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+            startX += 4;
+            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+        }
+        else {
+            startX++;
+            startY++;
+            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+            startY += 4;
+            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+            startX--;
+            startY--;
+            startY -= 4;
+            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+            startY += 4;
+            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+        }
+    }
+
+    public void paintChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int startX;
+        int startY;
+        if (orientation == SwingConstants.HORIZONTAL) {
+            startX = rect.x + rect.width - 8;
+            startY = rect.y + rect.height - 10;
+        }
+        else {
+            startX = rect.x + rect.width - 10;
+            startY = rect.y + rect.height - 8;
+        }
+
+        startX++;
+        startY++;
+        paintDown(g, Color.WHITE, startX, startY, orientation);
+
+        startX--;
+        startY--;
+        paintDown(g, Color.BLACK, startX, startY, orientation);
+    }
+
+    private void paintDown(Graphics g, Color color, int startX, int startY, int orientation) {
+        g.setColor(color);
+        if (orientation == SwingConstants.HORIZONTAL) {
+            g.drawLine(startX, startY, startX + 4, startY);
+            JideSwingUtilities.paintArrow(g, color, startX, startY + 3, 5, orientation);
+        }
+        else {
+            g.drawLine(startX, startY, startX, startY + 4);
+            JideSwingUtilities.paintArrow(g, color, startX + 3, startY, 5, orientation);
+        }
+    }
+
+    public void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                getCurrentTheme().getColor("DockableFrame.backgroundLt"),
+                getCurrentTheme().getColor("DockableFrame.backgroundDk"),
+                orientation == SwingConstants.HORIZONTAL);
+    }
+
+    public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int x = rect.x;
+        int y = rect.y;
+        int w = rect.width;
+        int h = rect.height;
+        if (c.getBorder() != null) {
+            Insets insets = c.getBorder().getBorderInsets(c);
+            x += insets.left;
+            y += insets.top;
+            w -= insets.right + insets.left;
+            h -= insets.top + insets.bottom;
+        }
+        rect = new Rectangle(x, y, w, h);
+
+        boolean active = state == STATE_SELECTED;
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d, rect,
+                active ? getCurrentTheme().getColor("selection.SelectedLt") : getCurrentTheme().getColor("DockableFrameTitlePane.backgroundLt"),
+                active ? getCurrentTheme().getColor("selection.SelectedDk") : getCurrentTheme().getColor("DockableFrameTitlePane.backgroundDk"),
+                orientation == SwingConstants.HORIZONTAL);
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
+        Color old = g.getColor();
+        g.setColor(colorLt);
+        g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
+        g.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.VERTICAL);
+        g.setColor(colorDk);
+        g.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
+        g.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
+        g.setColor(old);
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
+        g.setColor(colorLt);
+        g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
+        g.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.VERTICAL);
+        g.setColor(colorDk);
+        g.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
+        g.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
+    }
+
+    public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                getCurrentTheme().getColor("CollapsiblePanes.backgroundLt"),
+                getCurrentTheme().getColor("CollapsiblePanes.backgroundDk"),
+                orientation == SwingConstants.HORIZONTAL);
+
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y + rect.height - 1, rect.width, 1),
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.HORIZONTAL);
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y + rect.height - 1, rect.width, 1),
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.HORIZONTAL);
+    }
+}
