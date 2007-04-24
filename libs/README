@@ -1,0 +1,5 @@
+laf.jar is part of JDK distribuation on Mac OSX from Apple Inc.
+We included this jar here only to make our source code compile.
+You shouldn't include this jar in your release no matter your 
+application supports Mac OSX just like you usually don't 
+include JDK's rt.jar in your release.
