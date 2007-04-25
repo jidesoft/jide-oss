@@ -296,7 +296,7 @@ public class CheckBoxTree extends JTree {
         }
 
         private void toggleSelection(TreePath path) {
-            if (!_tree.isCheckBoxEnabled(path)) {
+            if (!_tree.isEnabled() || !_tree.isCheckBoxEnabled(path)) {
                 return;
             }
             CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();

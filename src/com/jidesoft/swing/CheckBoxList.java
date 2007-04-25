@@ -260,7 +260,7 @@ public class CheckBoxList extends JList {
         }
 
         protected void toggleSelection(int index) {
-            if (!_list.isCheckBoxEnabled(index)) {
+            if (!_list.isEnabled() || !_list.isCheckBoxEnabled(index)) {
                 return;
             }
 
