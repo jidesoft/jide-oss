@@ -440,9 +440,6 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
 
-        ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
-        final int titleButtonSize = 10;
-
         // For Alloy
 /*        if (lnf.getClass().getName().equals(ALLOY_LNF) && isAlloyLnfInstalled()) {
             Object progressBarUI = uiDefaults.get("ProgressBarUI");
@@ -475,6 +472,9 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
                 case VSNET_STYLE:
                 case VSNET_STYLE_WITHOUT_MENU:
+                    ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
+                    final int titleButtonSize = 10;
+
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     uiDefaults.put("DockableFrameUI", "com.jidesoft.plaf.vsnet.VsnetDockableFrameUI");
