@@ -81,7 +81,7 @@ public class PointSpinner extends JSpinner {
                     int comma = text.indexOf(',');
                     String digit;
                     int number;
-                    if (model.getField().equals(SpinnerPointModel.Field.X)) {
+                    if (model.getField() == SpinnerPointModel.FIELD_X) {
                         digit = text.substring(text.indexOf('(') + 1, comma).trim();
                         number = text.indexOf(digit);
                     }
@@ -102,8 +102,7 @@ public class PointSpinner extends JSpinner {
             SpinnerPointModel model = (SpinnerPointModel) getModel();
             int comma = ftf.getText().indexOf(',');
             int caret = ftf.getCaretPosition();
-            model.setField(caret <= comma ?
-                    SpinnerPointModel.Field.X : SpinnerPointModel.Field.Y);
+            model.setField(caret <= comma ? SpinnerPointModel.FIELD_X : SpinnerPointModel.FIELD_Y);
         }
     }
 

@@ -16,12 +16,6 @@ import java.text.ParseException;
  */
 public class PointFormatter extends DefaultFormatter {
 
-    private static String PATTERN = "\\s*\\d+\\s*,\\s*\\d+\\s*";
-
-    static {
-        PATTERN = String.format("[\\s*\\(%s\\)\\s*][%s]", PATTERN, PATTERN);
-    }
-
     private static JFormattedTextField.AbstractFormatter formatter;
 
     public synchronized static JFormattedTextField.AbstractFormatter getInstance() {
@@ -54,7 +48,7 @@ public class PointFormatter extends DefaultFormatter {
     public String valueToString(Object value) throws ParseException {
         if (value instanceof Point) {
             Point point = (Point) value;
-            return String.format("(%d, %d)", point.x, point.y);
+            return "(" + point.x + ", " + point.y + ")";
         }
         else {
             return super.valueToString(value);

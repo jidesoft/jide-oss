@@ -14,12 +14,11 @@ import java.awt.*;
  */
 public class SpinnerPointModel extends AbstractSpinnerModel {
 
-    public static enum Field {
-        X, Y
-    }
+    public final static int FIELD_X = 0;
+    public final static int FIELD_Y = 1;
 
     private Point point;
-    private Field field = Field.X;
+    private int field = FIELD_X;
 
     /**
      * Create a default <code>SpinnerPointModel</code>
@@ -91,14 +90,14 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     /**
      * @return
      */
-    public Field getField() {
+    public int getField() {
         return field;
     }
 
     /**
      * @param field
      */
-    public void setField(Field field) {
+    public void setField(int field) {
         this.field = field;
     }
 
@@ -113,7 +112,7 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
      */
     public Object getNextValue() {
         Point p = (Point) point.clone();
-        if (field == Field.X) {
+        if (field == FIELD_X) {
             p.x++;
         }
         else {
@@ -133,7 +132,7 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
      */
     public Object getPreviousValue() {
         Point p = (Point) point.clone();
-        if (field == Field.X) {
+        if (field == FIELD_X) {
             p.x--;
         }
         else {
