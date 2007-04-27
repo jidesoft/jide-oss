@@ -1477,6 +1477,12 @@ public class JideTabbedPane extends JTabbedPane {
         _tabListCellRenderer = tabListCellRenderer;
     }
 
+    /**
+     * Checks if the JideTabbedPane has the focus component. If true, in some styles such as Office2003 style, we will
+     * paint a background on the insets to indicate the tabbed pane has focus.
+     *
+     * @return true if the JideTabbedPane has the focus component. Otherwise false.
+     */
     public boolean hasFocusComponent() {
         return JideSwingUtilities.isAncestorOfFocusOwner(this);
     }
@@ -1485,6 +1491,12 @@ public class JideTabbedPane extends JTabbedPane {
         return _contentBorderInsets;
     }
 
+    /**
+     * Sets the content border insets. It's the inserts around the JideTabbedPane's content. The direction of the insets
+     * is when the tabs are on top. We will rotate it automatically when the tabs are on other direcitons.
+     *
+     * @param contentBorderInsets
+     */
     public void setContentBorderInsets(Insets contentBorderInsets) {
         _contentBorderInsets = contentBorderInsets;
     }
