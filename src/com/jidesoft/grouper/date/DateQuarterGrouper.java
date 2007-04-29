@@ -6,6 +6,8 @@
 
 package com.jidesoft.grouper.date;
 
+import com.jidesoft.converter.ConverterContext;
+import com.jidesoft.converter.QuarterNameConverter;
 import com.jidesoft.grouper.GroupResources;
 import com.jidesoft.grouper.GrouperContext;
 
@@ -39,6 +41,10 @@ public class DateQuarterGrouper extends DateGrouper {
 
     public String getName() {
         return GroupResources.getResourceBundle(Locale.getDefault()).getString("Date.quarter");
+    }
+
+    public ConverterContext getConverterContext() {
+        return QuarterNameConverter.CONTEXT;
     }
 
 //    public static void main(String[] args) {

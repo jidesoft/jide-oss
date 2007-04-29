@@ -1,10 +1,22 @@
 package com.jidesoft.grouper;
 
+import com.jidesoft.converter.ConverterContext;
+
 /**
  * Default implenmentation of <code>ObjectGrouper</code>.
  * Its getGroupValue simply returns the value directly.
  */
-public class DefaultObjectGrouper implements ObjectGrouper {
+public class DefaultObjectGrouper extends AbstractObjectGrouper {
+    private String _name;
+
+    public DefaultObjectGrouper() {
+        this("");
+    }
+
+    public DefaultObjectGrouper(String name) {
+        _name = name;
+    }
+
     public Object getValue(Object value) {
         return value;
     }
@@ -14,6 +26,10 @@ public class DefaultObjectGrouper implements ObjectGrouper {
     }
 
     public String getName() {
-        return "";
+        return _name;
+    }
+
+    public void setName(String name) {
+        _name = name;
     }
 }

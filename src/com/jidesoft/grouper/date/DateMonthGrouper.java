@@ -1,5 +1,7 @@
 package com.jidesoft.grouper.date;
 
+import com.jidesoft.converter.ConverterContext;
+import com.jidesoft.converter.MonthNameConverter;
 import com.jidesoft.grouper.GroupResources;
 import com.jidesoft.grouper.GrouperContext;
 
@@ -37,6 +39,10 @@ public class DateMonthGrouper extends DateGrouper {
 
     public String getName() {
         return GroupResources.getResourceBundle(Locale.getDefault()).getString("Date.month");
+    }
+
+    public ConverterContext getConverterContext() {
+        return MonthNameConverter.CONTEXT;
     }
 
 //    public static void main(String[] args) {

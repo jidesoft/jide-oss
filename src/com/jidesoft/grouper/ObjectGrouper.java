@@ -1,7 +1,12 @@
 package com.jidesoft.grouper;
 
+import com.jidesoft.converter.ConverterContext;
+import com.jidesoft.comparator.ComparatorContext;
+
 /**
  * An interface that can convert a object to a group so that the objects that has the same group can be grouped together.
+ * We suggest you extends {@link com.jidesoft.grouper.AbstractObjectGrouper} if you want to create your own ObjectGrouper
+ * in case we add new methods to this interface due to requirement changes.
  */
 public interface ObjectGrouper {
     /**
@@ -27,4 +32,22 @@ public interface ObjectGrouper {
      * @return the name of this grouper.
      */
     String getName();
+
+    /**
+     * Gets the converter context for the value returned from this object grouper.
+     * This converter context will be used to find the ObjectConverter that will convert
+     * the value returned from {@link #getValue(Object)} method to String so that it can be displayed somewhere.
+     *
+     * @return the converter context.
+     */
+    ConverterContext getConverterContext();
+
+    /**
+     * Gets the comparator context for the value returned from this object grouper.
+     * This comprator context will be used to find the ObjectComparator that will sort the
+     * values return from {@link #getValue(Object)} method whenever sorting is needed.
+     *
+     * @return the converter context.
+     */
+    ComparatorContext getComparatorContext();
 }

@@ -1,5 +1,7 @@
 package com.jidesoft.grouper.date;
 
+import com.jidesoft.converter.ConverterContext;
+import com.jidesoft.converter.YearNameConverter;
 import com.jidesoft.grouper.GroupResources;
 import com.jidesoft.grouper.GrouperContext;
 
@@ -27,4 +29,9 @@ public class DateYearGrouper extends DateGrouper {
 //            calendar.roll(Calendar.YEAR, 1);
 //        }
 //    }
+
+
+    public ConverterContext getConverterContext() {
+        return YearNameConverter.CONTEXT;
+    }
 }
