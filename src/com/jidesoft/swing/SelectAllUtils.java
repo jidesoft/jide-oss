@@ -34,13 +34,20 @@ import java.awt.event.FocusListener;
  * until setEditable(true) is called.
  */
 public class SelectAllUtils {
+    /**
+     * A client property. If set to Boolean.TRUE, we will only select all the text just for the first time when the component gets focus.
+     */
+    public static final String CLIENT_PROPERTY_ONLYONCE = "SelectAll.onlyOnce";
 
     private static FocusListener SELECT_ALL = new FocusAdapter() {
         public void focusGained(FocusEvent e) {
             Object object = e.getSource();
             if (object instanceof JTextComponent) {
                 ((JTextComponent) object).selectAll();
-                ((JTextComponent) object).removeFocusListener(SELECT_ALL);
+                Object clientProperty = ((JTextComponent) object).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
+                if (Boolean.TRUE.equals(clientProperty)) {
+                    ((JTextComponent) object).removeFocusListener(SELECT_ALL);
+                }
             }
             else if (object instanceof Component) {
                 JideSwingUtilities.setRecursively((Component) object, new JideSwingUtilities.Handler() {
@@ -50,7 +57,10 @@ public class SelectAllUtils {
 
                     public void action(Component c) {
                         ((JTextComponent) c).selectAll();
-                        ((JTextComponent) c).removeFocusListener(SELECT_ALL);
+                        Object clientProperty = ((JTextComponent) c).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
+                        if (Boolean.TRUE.equals(clientProperty)) {
+                            c.removeFocusListener(SELECT_ALL);
+                        }
                     }
 
                     public void postAction(Component c) {
@@ -64,19 +74,41 @@ public class SelectAllUtils {
      * Installs focus listener to all text components inside the component. This focus listener
      * will select all the text when it gets focus.
      *
-     * @param component
+     * @param component the component to make it select all when having focus. The component could be a JTextComponent or could be
+     *                  a container that contains one or more JTextComponents. This install method will make all JTextComponents
+     *                  to have this select all feature.
      */
-    public static void install(Component component) {
+    public static void install(final Component component) {
+        install(component, true);
+    }
+
+    /**
+     * Installs focus listener to all text components inside the component. This focus listener
+     * will select all the text when it gets focus.
+     *
+     * @param component the component to make it select all when having focus. The component could be a JTextComponent or could be
+     *                  a container that contains one or more JTextComponents. This install method will make all JTextComponents
+     *                  to have this select all feature.
+     * @param onlyOnce  if true, we will only select all the text when the component has focus for the first time. Otherwise, it will
+     *                  always select all the text whenever the component receives focus.
+     */
+    public static void install(final Component component, final boolean onlyOnce) {
         if (component instanceof JTextComponent) {
+            if (onlyOnce) {
+                ((JTextComponent) component).putClientProperty(CLIENT_PROPERTY_ONLYONCE, Boolean.TRUE);
+            }
             component.addFocusListener(SELECT_ALL);
         }
-        else if (component instanceof Component) {
+        else {
             JideSwingUtilities.setRecursively(component, new JideSwingUtilities.Handler() {
                 public boolean condition(Component c) {
                     return c instanceof JTextComponent;
                 }
 
                 public void action(Component c) {
+                    if (onlyOnce) {
+                        ((JTextComponent) c).putClientProperty(CLIENT_PROPERTY_ONLYONCE, Boolean.TRUE);
+                    }
                     c.addFocusListener(SELECT_ALL);
                 }
 
@@ -89,14 +121,14 @@ public class SelectAllUtils {
     /**
      * Uninstalls focus listener to all text components inside the component.
      *
-     * @param component
+     * @param component the component which {@link #install(java.awt.Component)} is called.
      */
     public static void uninstall(Component component) {
         if (component instanceof JTextComponent) {
             component.removeFocusListener(SELECT_ALL);
         }
-        else if (component instanceof Component) {
-            JideSwingUtilities.setRecursively((Component) component, new JideSwingUtilities.Handler() {
+        else {
+            JideSwingUtilities.setRecursively(component, new JideSwingUtilities.Handler() {
                 public boolean condition(Component c) {
                     return c instanceof JTextComponent;
                 }
