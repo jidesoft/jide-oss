@@ -13,6 +13,7 @@ import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.Sticky;
 import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -150,6 +151,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     // Listeners
 
     protected ChangeListener _tabChangeListener;
+    protected FocusListener _tabFocusListener;
 
     protected PropertyChangeListener _propertyChangeListener;
 
@@ -520,6 +522,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabChangeListener = createChangeListener();
             _tabPane.addChangeListener(_tabChangeListener);
         }
+        if (_tabFocusListener == null) {
+            _tabFocusListener = createFocusListener();
+            _tabPane.addFocusListener(_tabFocusListener);
+        }
         if (_mouseListener == null) {
             _mouseListener = createMouseListener();
             if (scrollableTabLayoutEnabled()) {
@@ -601,6 +607,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabChangeListener = null;
         }
 
+        if (_tabFocusListener != null) {
+            _tabPane.removeFocusListener(_tabFocusListener);
+            _tabFocusListener = null;
+        }
+
         if (_propertyChangeListener != null) {
             _tabPane.removePropertyChangeListener(_propertyChangeListener);
             _propertyChangeListener = null;
@@ -616,6 +627,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected ChangeListener createChangeListener() {
         return new TabSelectionHandler();
+    }
+
+    protected FocusListener createFocusListener() {
+        return new TabFocusListener();
     }
 
     protected PropertyChangeListener createPropertyChangeListener() {
@@ -7430,6 +7445,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    public class TabFocusListener implements FocusListener {
+        public void focusGained(FocusEvent e) {
+            repaintSelectedTab();
+        }
+
+        public void focusLost(FocusEvent e) {
+            repaintSelectedTab();
+        }
+
+        private void repaintSelectedTab() {
+            Rectangle rect = getTabBounds(_tabPane, _tabPane.getSelectedIndex());
+            _tabPane.repaint(rect);
+        }
+    }
+
     public class MouseMotionHandler extends MouseMotionAdapter {
 
     }
@@ -7448,21 +7478,40 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (SwingUtilities.isLeftMouseButton(e) || _tabPane.isRightClickSelect()) {
                 int tabIndex = getTabAtLocation(e.getX(), e.getY());
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
-                    if (tabIndex == _tabPane.getSelectedIndex()) {
+                    if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isRequestFocusEnabled()) {
                             _tabPane.requestFocusInWindow();
                         }
                     }
                     else {
                         _tabPane.setSelectedIndex(tabIndex);
-                        Component comp = _tabPane.getComponentAt(tabIndex);
-                        Component lastFocused = _tabPane.getLastFocusedComponent(comp);
-                        if (lastFocused != null) {
-                            // this code works in JDK6 but on JDK5
-                            lastFocused.requestFocusInWindow();
+                        final Component comp = _tabPane.getComponentAt(tabIndex);
+                        if (!comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk16Above()) {
+                            comp.addComponentListener(new ComponentAdapter() {
+                                public void componentShown(ComponentEvent e) {
+                                    // remove the listener
+                                    comp.removeComponentListener(this);
+
+                                    Component lastFocused = _tabPane.getLastFocusedComponent(comp);
+                                    if (lastFocused != null) {
+                                        // this code works in JDK6 but on JDK5
+                                        lastFocused.requestFocusInWindow();
+                                    }
+                                    else if (_tabPane.isRequestFocusEnabled()) {
+                                        _tabPane.requestFocusInWindow();
+                                    }
+                                }
+                            });
                         }
-                        else if (_tabPane.isRequestFocusEnabled()) {
-                            _tabPane.requestFocusInWindow();
+                        else {
+                            Component lastFocused = _tabPane.getLastFocusedComponent(comp);
+                            if (lastFocused != null) {
+                                // this code works in JDK6 but on JDK5
+                                lastFocused.requestFocusInWindow();
+                            }
+                            else if (_tabPane.isRequestFocusEnabled()) {
+                                _tabPane.requestFocusInWindow();
+                            }
                         }
                     }
                 }
