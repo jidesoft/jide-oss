@@ -7,6 +7,7 @@
 package com.jidesoft.plaf.office2003;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
@@ -41,9 +42,6 @@ public class BasicOffice2003Theme extends Office2003Theme {
         float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
         Color selectionColor = Color.getHSBColor(hsb[0], (hsb[1] > 0.01) ? 0.45f : hsb[0], 0.90f);
 
-        ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_" + prefix + ".png"); // 20 x 20
-        final int SIZE = 20;
-
         Object uiDefaults[] = {
                 "control", ColorUtils.getDerivedColor(color, 0.9f),
                 "controlLt", ColorUtils.getDerivedColor(color, 0.95f),
@@ -69,23 +67,6 @@ public class BasicOffice2003Theme extends Office2003Theme {
                 "Divider.backgroundLt", ColorUtils.getDerivedColor(color, 0.9f),
                 "Divider.backgroundDk", ColorUtils.getDerivedColor(color, 0.97f),
 
-                "CollapsiblePane.contentBackground", ColorUtils.getDerivedColor(color, 0.98f),
-                "CollapsiblePanes.backgroundLt", ColorUtils.getDerivedColor(color, 0.82f),
-                "CollapsiblePanes.backgroundDk", ColorUtils.getDerivedColor(color, 0.78f),
-                "CollapsiblePaneTitlePane.backgroundLt", ColorUtils.getDerivedColor(color, 0.98f),
-                "CollapsiblePaneTitlePane.backgroundDk", ColorUtils.getDerivedColor(color, 0.93f),
-                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(63, 61, 61),
-                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(126, 124, 124),
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", ColorUtils.getDerivedColor(color, 0.7f),
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", ColorUtils.getDerivedColor(color, 0.72f),
-                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
-
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", ColorUtils.getDerivedColor(color, 0.95f),
                 "backgroundDk", ColorUtils.getDerivedColor(color, 0.9f),
 
@@ -104,8 +85,32 @@ public class BasicOffice2003Theme extends Office2003Theme {
 
         putDefaults(uiDefaults);
 
-        if (derivedSelectionColor) {
+        int products = LookAndFeelFactory.getProductsUsed();
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_" + prefix + ".png"); // 20 x 20
+            final int SIZE = 20;
+            uiDefaults = new Object[]{
+                    "CollapsiblePane.contentBackground", ColorUtils.getDerivedColor(color, 0.98f),
+                    "CollapsiblePanes.backgroundLt", ColorUtils.getDerivedColor(color, 0.82f),
+                    "CollapsiblePanes.backgroundDk", ColorUtils.getDerivedColor(color, 0.78f),
+                    "CollapsiblePaneTitlePane.backgroundLt", ColorUtils.getDerivedColor(color, 0.98f),
+                    "CollapsiblePaneTitlePane.backgroundDk", ColorUtils.getDerivedColor(color, 0.93f),
+                    "CollapsiblePaneTitlePane.foreground", new ColorUIResource(63, 61, 61),
+                    "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(126, 124, 124),
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", ColorUtils.getDerivedColor(color, 0.7f),
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", ColorUtils.getDerivedColor(color, 0.72f),
+                    "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
 
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+            };
+            putDefaults(uiDefaults);
+        }
+
+        if (derivedSelectionColor) {
             Object[] uiDefaultsSelection = new Object[]{
                     "selection.Rollover", selectionColor,
                     "selection.RolloverLt", ColorUtils.getDerivedColor(selectionColor, 0.55f),

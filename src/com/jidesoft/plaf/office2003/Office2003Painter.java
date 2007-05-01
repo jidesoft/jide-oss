@@ -1,6 +1,7 @@
 package com.jidesoft.plaf.office2003;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
@@ -94,7 +95,8 @@ public class Office2003Painter extends BasicPainter {
         _themeCache.put(_metallicTheme.getThemeName(), _metallicTheme);
 
         final int SIZE = 20;
-        ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_gray.png"); // 10 x 10 x 8
+
+        int products = LookAndFeelFactory.getProductsUsed();
 
         Object uiDefaultsNormal[] = {
                 "control", new ColorUIResource(219, 216, 209),
@@ -121,26 +123,11 @@ public class Office2003Painter extends BasicPainter {
                 "Divider.backgroundLt", new ColorUIResource(110, 110, 110),
                 "Divider.backgroundDk", new ColorUIResource(90, 90, 90),
 
-                "CollapsiblePane.contentBackground", new ColorUIResource(255, 255, 255),
-                "CollapsiblePanes.backgroundLt", new ColorUIResource(160, 160, 160),
-                "CollapsiblePanes.backgroundDk", new ColorUIResource(128, 128, 128),
-                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(213, 210, 202),
-                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(91, 91, 91),
-                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(137, 137, 137),
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(68, 68, 68),
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(94, 94, 94),
-                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", new ColorUIResource(245, 245, 244),
                 "backgroundDk", new ColorUIResource(212, 208, 200),
 
-                "CommandBar.titleBarBackground", new ColorUIResource(128, 128, 128),
+                "selection.border", new ColorUIResource(0, 0, 128),
+
                 "MenuItem.background", new ColorUIResource(249, 248, 247),
 
                 "DockableFrameTitlePane.backgroundLt", new ColorUIResource(243, 242, 240),
@@ -150,11 +137,31 @@ public class Office2003Painter extends BasicPainter {
                 "DockableFrame.backgroundLt", new ColorUIResource(234, 232, 228),
                 "DockableFrame.backgroundDk", new ColorUIResource(234, 232, 228),
 
-                "selection.border", new ColorUIResource(0, 0, 128)
+                "CommandBar.titleBarBackground", new ColorUIResource(128, 128, 128),
         };
         _normalTheme.putDefaults(uiDefaultsNormal);
 
-        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_blue.png"); // 10 x 10 x 8
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_gray.png"); // 10 x 10 x 8
+            uiDefaultsNormal = new Object[]{
+                    "CollapsiblePane.contentBackground", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePanes.backgroundLt", new ColorUIResource(160, 160, 160),
+                    "CollapsiblePanes.backgroundDk", new ColorUIResource(128, 128, 128),
+                    "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(213, 210, 202),
+                    "CollapsiblePaneTitlePane.foreground", new ColorUIResource(91, 91, 91),
+                    "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(137, 137, 137),
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(68, 68, 68),
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(94, 94, 94),
+                    "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+            };
+            _normalTheme.putDefaults(uiDefaultsNormal);
+        }
 
         Object uiDefaultsBlue[] = {
                 "control", new ColorUIResource(196, 219, 249),
@@ -181,27 +188,11 @@ public class Office2003Painter extends BasicPainter {
                 "Divider.backgroundLt", new ColorUIResource(89, 135, 214),
                 "Divider.backgroundDk", new ColorUIResource(0, 45, 150),
 
-                "CollapsiblePane.contentBackground", new ColorUIResource(214, 223, 247),
-                "CollapsiblePanes.backgroundLt", new ColorUIResource(123, 162, 231),
-                "CollapsiblePanes.backgroundDk", new ColorUIResource(103, 125, 217),
-                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(198, 211, 247),
-                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(33, 93, 198),
-                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(65, 142, 254),
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(0, 73, 181),
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(41, 93, 206),
-
-                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(65, 142, 254),
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", new ColorUIResource(195, 218, 249),
                 "backgroundDk", new ColorUIResource(158, 190, 245),
 
-                "CommandBar.titleBarBackground", new ColorUIResource(42, 102, 201),
+                "selection.border", new ColorUIResource(0, 0, 128),
+
                 "MenuItem.background", new ColorUIResource(246, 246, 246),
 
                 "DockableFrameTitlePane.backgroundLt", new ColorUIResource(218, 234, 253),
@@ -211,11 +202,33 @@ public class Office2003Painter extends BasicPainter {
                 "DockableFrame.backgroundLt", new ColorUIResource(221, 236, 254),
                 "DockableFrame.backgroundDk", new ColorUIResource(221, 236, 254),
 
-                "selection.border", new ColorUIResource(0, 0, 128)
+                "CommandBar.titleBarBackground", new ColorUIResource(42, 102, 201),
         };
         _blueTheme.putDefaults(uiDefaultsBlue);
 
-        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_homestead.png"); // 10 x 10 x 8
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_blue.png"); // 10 x 10 x 8
+            uiDefaultsNormal = new Object[]{
+                    "CollapsiblePane.contentBackground", new ColorUIResource(214, 223, 247),
+                    "CollapsiblePanes.backgroundLt", new ColorUIResource(123, 162, 231),
+                    "CollapsiblePanes.backgroundDk", new ColorUIResource(103, 125, 217),
+                    "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(198, 211, 247),
+                    "CollapsiblePaneTitlePane.foreground", new ColorUIResource(33, 93, 198),
+                    "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(65, 142, 254),
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(0, 73, 181),
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(41, 93, 206),
+
+                    "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(65, 142, 254),
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+            };
+            _blueTheme.putDefaults(uiDefaultsNormal);
+        }
 
         // green theme
         Object uiDefaultsHomeStead[] = {
@@ -243,26 +256,11 @@ public class Office2003Painter extends BasicPainter {
                 "Divider.backgroundLt", new ColorUIResource(120, 142, 111),
                 "Divider.backgroundDk", new ColorUIResource(73, 91, 67),
 
-                "CollapsiblePane.contentBackground", new ColorUIResource(246, 246, 246),
-                "CollapsiblePanes.backgroundLt", new ColorUIResource(204, 217, 173),
-                "CollapsiblePanes.backgroundDk", new ColorUIResource(165, 189, 132),
-                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(254, 252, 236),
-                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(224, 231, 184),
-                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(86, 102, 45),
-                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(114, 146, 29),
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 140, 64),
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(150, 168, 103),
-                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(224, 231, 151),
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", new ColorUIResource(242, 240, 228),
                 "backgroundDk", new ColorUIResource(217, 217, 167),
 
-                "CommandBar.titleBarBackground", new ColorUIResource(116, 134, 94),
+                "selection.border", new ColorUIResource(63, 93, 56),
+
                 "MenuItem.background", new ColorUIResource(244, 244, 238),
 
                 "DockableFrameTitlePane.backgroundLt", new ColorUIResource(237, 242, 212),
@@ -272,11 +270,33 @@ public class Office2003Painter extends BasicPainter {
                 "DockableFrame.backgroundLt", new ColorUIResource(243, 242, 231),
                 "DockableFrame.backgroundDk", new ColorUIResource(243, 242, 231),
 
-                "selection.border", new ColorUIResource(63, 93, 56)
+                "CommandBar.titleBarBackground", new ColorUIResource(116, 134, 94),
+
         };
         _homeSteadTheme.putDefaults(uiDefaultsHomeStead);
 
-        collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_metallic.png"); // 10 x 10 x 8
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_homestead.png"); // 10 x 10 x 8
+            uiDefaultsNormal = new Object[]{
+                    "CollapsiblePane.contentBackground", new ColorUIResource(246, 246, 246),
+                    "CollapsiblePanes.backgroundLt", new ColorUIResource(204, 217, 173),
+                    "CollapsiblePanes.backgroundDk", new ColorUIResource(165, 189, 132),
+                    "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(254, 252, 236),
+                    "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(224, 231, 184),
+                    "CollapsiblePaneTitlePane.foreground", new ColorUIResource(86, 102, 45),
+                    "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(114, 146, 29),
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 140, 64),
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(150, 168, 103),
+                    "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(224, 231, 151),
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+            };
+            _homeSteadTheme.putDefaults(uiDefaultsNormal);
+        }
 
         Object uiDefaultsMetallic[] = {
                 "control", new ColorUIResource(219, 218, 228),
@@ -303,27 +323,11 @@ public class Office2003Painter extends BasicPainter {
                 "Divider.backgroundLt", new ColorUIResource(168, 167, 191),
                 "Divider.backgroundDk", new ColorUIResource(119, 118, 151),
 
-                "CollapsiblePane.contentBackground", new ColorUIResource(240, 241, 245),
-                "CollapsiblePanes.backgroundLt", new ColorUIResource(196, 200, 212),
-                "CollapsiblePanes.backgroundDk", new ColorUIResource(177, 179, 200),
-                "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(214, 215, 224),
-                "CollapsiblePaneTitlePane.foreground", new ColorUIResource(63, 61, 61),
-                "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(126, 124, 124),
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 119, 145),
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(180, 182, 199),
-                "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
-
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", new ColorUIResource(243, 243, 247),
                 "backgroundDk", new ColorUIResource(215, 215, 229),
 
-                "CommandBar.titleBarBackground", new ColorUIResource(122, 121, 153),
+                "selection.border", new ColorUIResource(75, 75, 111),
+
                 "MenuItem.background", new ColorUIResource(253, 250, 255),
 
                 "DockableFrameTitlePane.backgroundLt", new ColorUIResource(240, 240, 248),
@@ -333,9 +337,33 @@ public class Office2003Painter extends BasicPainter {
                 "DockableFrame.backgroundLt", new ColorUIResource(238, 238, 244),
                 "DockableFrame.backgroundDk", new ColorUIResource(238, 238, 244),
 
-                "selection.border", new ColorUIResource(75, 75, 111)
+                "CommandBar.titleBarBackground", new ColorUIResource(122, 121, 153),
         };
         _metallicTheme.putDefaults(uiDefaultsMetallic);
+
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_metallic.png"); // 10 x 10 x 8
+            uiDefaultsNormal = new Object[]{
+                    "CollapsiblePane.contentBackground", new ColorUIResource(240, 241, 245),
+                    "CollapsiblePanes.backgroundLt", new ColorUIResource(196, 200, 212),
+                    "CollapsiblePanes.backgroundDk", new ColorUIResource(177, 179, 200),
+                    "CollapsiblePaneTitlePane.backgroundLt", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.backgroundDk", new ColorUIResource(214, 215, 224),
+                    "CollapsiblePaneTitlePane.foreground", new ColorUIResource(63, 61, 61),
+                    "CollapsiblePaneTitlePane.foreground.focus", new ColorUIResource(126, 124, 124),
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", new ColorUIResource(119, 119, 145),
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(180, 182, 199),
+                    "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
+
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+            };
+            _metallicTheme.putDefaults(uiDefaultsNormal);
+        }
     }
 
     protected Office2003Painter() {

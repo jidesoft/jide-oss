@@ -6,10 +6,7 @@
 package com.jidesoft.plaf.office2003;
 
 import com.jidesoft.icons.IconsFactory;
-import com.jidesoft.plaf.ExtWindowsDesktopProperty;
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.WindowsDesktopProperty;
-import com.jidesoft.plaf.XPUtils;
+import com.jidesoft.plaf.*;
 import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.utils.ColorUtils;
 
@@ -94,9 +91,6 @@ public class DefaultOffice2003Theme extends Office2003Theme {
             }
         });
 
-        ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_default.png"); // 10 x 10 x 8
-        final int SIZE = 20;
-
         Object uiDefaults[] = {
                 "control", control,
                 "controlLt", controlLt,
@@ -119,26 +113,11 @@ public class DefaultOffice2003Theme extends Office2003Theme {
                 "Divider.backgroundLt", controlShadow,
                 "Divider.backgroundDk", controlDkShadow,
 
-                "CollapsiblePane.contentBackground", controlLtHighlight,
-                "CollapsiblePanes.backgroundLt", control,
-                "CollapsiblePanes.backgroundDk", controlShadow,
-                "CollapsiblePaneTitlePane.backgroundLt", controlLt,
-                "CollapsiblePaneTitlePane.backgroundDk", control,
-                "CollapsiblePaneTitlePane.foreground", controlText,
-                "CollapsiblePaneTitlePane.foreground.focus", controlText,
-                "CollapsiblePaneTitlePane.backgroundLt.emphasized", controlShadow,
-                "CollapsiblePaneTitlePane.backgroundDk.emphasized", controlDkShadow,
-                "CollapsiblePaneTitlePane.foreground.emphasized", controlLtHighlight,
-                "CollapsiblePaneTitlePane.foreground.focus.emphasized", controlLtHighlight,
-                "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
-
                 "backgroundLt", controlLt,
                 "backgroundDk", control,
 
-                "CommandBar.titleBarBackground", commandBarCaption,
+                "selection.border", controlShadow,
+
                 "MenuItem.background", menuItemBackground,
 
                 "DockableFrameTitlePane.backgroundLt", controlLt,
@@ -148,9 +127,35 @@ public class DefaultOffice2003Theme extends Office2003Theme {
                 "DockableFrame.backgroundLt", controlLt,
                 "DockableFrame.backgroundDk", controlLt,
 
-                "selection.border", controlShadow
+                "CommandBar.titleBarBackground", commandBarCaption,
         };
         putDefaults(uiDefaults);
+
+        int products = LookAndFeelFactory.getProductsUsed();
+
+        if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_default.png"); // 10 x 10 x 8
+            final int SIZE = 20;
+            uiDefaults = new Object[]{
+                    "CollapsiblePane.contentBackground", controlLtHighlight,
+                    "CollapsiblePanes.backgroundLt", control,
+                    "CollapsiblePanes.backgroundDk", controlShadow,
+                    "CollapsiblePaneTitlePane.backgroundLt", controlLt,
+                    "CollapsiblePaneTitlePane.backgroundDk", control,
+                    "CollapsiblePaneTitlePane.foreground", controlText,
+                    "CollapsiblePaneTitlePane.foreground.focus", controlText,
+                    "CollapsiblePaneTitlePane.backgroundLt.emphasized", controlShadow,
+                    "CollapsiblePaneTitlePane.backgroundDk.emphasized", controlDkShadow,
+                    "CollapsiblePaneTitlePane.foreground.emphasized", controlLtHighlight,
+                    "CollapsiblePaneTitlePane.foreground.focus.emphasized", controlLtHighlight,
+                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+
+            };
+            putDefaults(uiDefaults);
+        }
     }
 
     private void putDerivedSelectionColor() {
