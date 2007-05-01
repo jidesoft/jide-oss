@@ -144,12 +144,7 @@ public class CheckBoxList extends JList {
     }
 
     public ListCellRenderer getActualCellRenderer() {
-        if (_listCellRenderer != null) {
-            return _listCellRenderer.getActualListRenderer();
-        }
-        else {
-            return super.getCellRenderer();
-        }
+        return super.getCellRenderer();
     }
 
     protected static class Handler implements MouseListener, KeyListener, ListSelectionListener {
