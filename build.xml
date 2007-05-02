@@ -54,7 +54,6 @@
     </target>
 
     <target name="javadoc" depends="compile" description="generate javadoc">
-        <delete dir="${javadoc_dir}"/>
         <mkdir dir="${javadoc_dir}"></mkdir>
         <javadoc maxmemory="${maxheapsize}" sourcepath="${javadoc_source_list}"
                  packagenames="com.jidesoft.*" destdir="${javadoc_dir}"
@@ -132,4 +131,7 @@
             description="build the distributation jar, generate javadoc and create the source code zip file">
     </target>
 
+    <target name="dist-nojavadoc" depends="compile, jar, source"
+            description="build the distributation jar, and create the source code zip file">
+    </target>
 </project>
