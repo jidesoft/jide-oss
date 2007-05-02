@@ -20,7 +20,7 @@ public class ObjectGrouperManager {
 
     private static CacheMap _cache = new CacheMap(GrouperContext.DEFAULT_CONTEXT);
 
-    private static ObjectGrouper _defaultGrouper = new DefaultObjectGrouper();
+    private static ObjectGrouper _defaultGrouper = null;
 
     /**
      * Registers a grouper with the type specified as class and a grouper context specified as context.
@@ -84,7 +84,7 @@ public class ObjectGrouperManager {
      *
      * @param clazz   the data type.
      * @param context the grouper context.
-     * @return the registered grouper.
+     * @return the registered grouper. It could return null if there is no grouper for the type and the context.
      */
     public static ObjectGrouper getGrouper(Class clazz, GrouperContext context) {
         if (isAutoInit()) {
@@ -107,7 +107,7 @@ public class ObjectGrouperManager {
      * Gets the grouper associated with the type.
      *
      * @param clazz the data type.
-     * @return the grouper.
+     * @return the grouper. It could return null if there is no grouper for the type.
      */
     public static ObjectGrouper getGrouper(Class clazz) {
         return getGrouper(clazz, GrouperContext.DEFAULT_CONTEXT);
@@ -217,16 +217,21 @@ public class ObjectGrouperManager {
     /**
      * Initialize default groupers. Please make sure you call this method before you use any
      * group related classes. By default we register following groupers.
-     * <ul>
-     * <li> registerGrouper(Object.class, new DefaultObjectGrouper());
-     * </ul>
+     * <code><pre>
+     *   DateYearGrouper dateYearGrouper = new DateYearGrouper();
+     *   registerGrouper(Date.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+     *   registerGrouper(Calendar.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+     *   registerGrouper(Long.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+     *   DateMonthGrouper dateMonthGrouper = new DateMonthGrouper();
+     *   registerGrouper(Date.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+     *   registerGrouper(Calendar.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+     *   registerGrouper(Long.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+     * </pre></code>
      */
     public static void initDefaultGrouper() {
         if (_inited) {
             return;
         }
-
-        registerGrouper(Object.class, new DefaultObjectGrouper());
 
         DateYearGrouper dateYearGrouper = new DateYearGrouper();
         registerGrouper(Date.class, dateYearGrouper, DateYearGrouper.CONTEXT);
