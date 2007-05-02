@@ -1251,7 +1251,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Determines wether the JSplitPane is set to use a continuous layout.
+     * Determines whether the JSplitPane is set to use a continuous layout.
      */
     public boolean isContinuousLayout() {
         return _continuousLayout;
