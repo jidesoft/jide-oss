@@ -244,6 +244,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "DockableFrame.slidingNorthBorder", useShadowBorder ? slidingNorthFrameBorder : slidingNorthFrameBorder2,
                     "DockableFrame.slidingSouthBorder", useShadowBorder ? slidingSouthFrameBorder : slidingSouthFrameBorder2,
 
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(3, 3, 3, 3),
             };
             table.putDefaults(uiDefaults);
         }
