@@ -381,7 +381,7 @@ public abstract class Searchable {
     /**
      * Hides the popup.
      */
-    protected void hidePopup() {
+    public void hidePopup() {
         if (_popup != null) {
             if (isHeavyweightComponentEnabled()) {
                 _popup.hidePopupImmediately();
