@@ -1155,6 +1155,16 @@ public class LookAndFeelFactory implements ProductNames {
         return _productsUsed;
     }
 
+    /**
+     * Sets the products you will use. This is needed so that LookAndFeelFactory knows what UIDefault to initialize.
+     * For example, if you use only JIDE Docking Framework and JIDE Grids, you should call
+     * <code>setProductUsed(ProductNames.PRODUCT_DOCK | ProductNames.PRODUCT_GRIDS)</code> so that we don't initialize
+     * UIDefaults needed by any other products. If you use this class as part of JIDE Common Layer open source
+     * project, you should call <code>setProductUsed(ProductNames.PRODUCT_COMMON)</code>. If you want to use all JIDE products,
+     * you should call <code>setProductUsed(ProductNames.PRODUCT_ALL)</code>
+     *
+     * @param productsUsed a bit-wise OR of product values defined in {@link com.jidesoft.utils.ProductNames}.
+     */
     public static void setProductsUsed(int productsUsed) {
         _productsUsed = productsUsed;
     }
