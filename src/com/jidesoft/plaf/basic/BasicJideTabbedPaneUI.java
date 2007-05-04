@@ -7455,8 +7455,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         private void repaintSelectedTab() {
-            Rectangle rect = getTabBounds(_tabPane, _tabPane.getSelectedIndex());
-            _tabPane.repaint(rect);
+            if (_tabPane.getTabCount() > 0) {
+                Rectangle rect = getTabBounds(_tabPane, _tabPane.getSelectedIndex());
+                _tabPane.repaint(rect);
+            }
         }
     }
 
@@ -8104,6 +8106,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public void actionPerformed(ActionEvent e) {
+            if (_tabPane.getTabCount() == 0) {
+                return;
+            }
             if (_index == _tabPane.getSelectedIndex()) {
                 if (_tabPane.isRequestFocusEnabled()) {
                     _tabPane.requestFocusInWindow();

@@ -404,10 +404,11 @@ public class IconsFactory {
     }
 
     private static ImageIcon createImageIconWithException(final Class baseClass, final String file) throws IOException {
+        InputStream resource =
+                baseClass.getResourceAsStream(file);
+
         final byte[][] buffer = new byte[1][];
         try {
-            InputStream resource =
-                    baseClass.getResourceAsStream(file);
             if (resource == null) {
                 throw new IOException("File " + file + " not found");
             }
@@ -415,6 +416,7 @@ public class IconsFactory {
                     new BufferedInputStream(resource);
             ByteArrayOutputStream out =
                     new ByteArrayOutputStream(1024);
+
             buffer[0] = new byte[1024];
             int n;
             while ((n = in.read(buffer[0])) > 0) {
