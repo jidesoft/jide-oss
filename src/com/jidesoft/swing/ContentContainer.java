@@ -27,8 +27,8 @@ public class ContentContainer extends JPanel {
      */
     public ContentContainer() {
         setBorder(BorderFactory.createEmptyBorder());
+        updateUI();
     }
-
 
     public void updateUI() {
         super.updateUI();
