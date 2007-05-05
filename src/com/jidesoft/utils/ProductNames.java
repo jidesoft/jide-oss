@@ -17,6 +17,7 @@ public interface ProductNames {
     public final static String PRODUCT_NAME_ACTION = "JIDE Action Framework";
     public final static String PRODUCT_NAME_SHORTCUT = "JIDE Shortcut Editor";
     public final static String PRODUCT_NAME_PIVOT = "JIDE Pivot Grid";
+    public final static String PRODUCT_NAME_CODE_EDITOR = "JIDE Code Editor";
     public final static String ALL_PRODUCTS =
             PRODUCT_NAME_DOCK + ", " +
                     PRODUCT_NAME_ACTION + ", " +
