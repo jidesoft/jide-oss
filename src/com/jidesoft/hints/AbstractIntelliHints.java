@@ -5,9 +5,8 @@
  */
 package com.jidesoft.hints;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.popup.JidePopup;
-import com.jidesoft.swing.DelegateAction;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,8 +15,10 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
-import java.awt.event.*;
+
+import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.popup.JidePopup;
+import com.jidesoft.swing.DelegateAction;
 
 
 /**
@@ -44,6 +45,10 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
     // we use this flag to workaround the bug that setText() will trigger the hint popup.
     private boolean _keyTyped = false;
+
+    // Specifies whether the hints popup should be displayed automatically.
+    // Default is true for backward compatibility.
+    private boolean _autoPopup = true;
 
     /**
      * Creates an IntelliHints object for a given JTextComponent.
@@ -329,6 +334,28 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         _followCaret = followCaret;
     }
 
+    /**
+     * Returns whether the hints popup is automatically displayed. Default is
+     * true
+     * @return true if the popup should be automatically displayed. False will
+     * never show it automatically and then need the user to manually activate
+     * it via the getShowHintsKeyStroke() key binding.
+     */
+    public boolean isAutoPopup() {
+       return _autoPopup;
+    }
+
+    /**
+     * Sets whether the popup should be displayed automatically. If autoPopup
+     * is true then is the popup automatically displayed whenever updateHints()
+     * return true. If autoPopup is false it's not automatically displayed and
+     * will need the user to activate the key binding defined by
+     * getShowHintsKeyStroke().
+     * @param autoPopup true or false
+     */
+    public void setAutoPopup(boolean autoPopup) {
+        this._autoPopup = autoPopup;
+    }
 
     /**
      * Gets the delegate keystrokes.
@@ -422,7 +449,9 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         private Timer timer = new Timer(200, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isKeyTyped()) {
-                    showHintsPopup();
+                    if (isHintsPopupVisible() || isAutoPopup()) {
+                       showHintsPopup();
+                    }
                     setKeyTyped(false);
                 }
             }
