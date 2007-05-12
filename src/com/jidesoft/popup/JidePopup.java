@@ -1754,7 +1754,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Depending on the detached/attached mode, the resizing behavior
      * may be different. If a popup is detached to a component, it only
      * allows you to resize from bottom, bottom right and right
-     * It obviously doesn’t make sense to resize from top and top side
+     * It obviously doesn't make sense to resize from top and top side
      * is aligned with the attached component.
      * <p/>
      * (Notes: in the future we will allow resize from different corner if the

@@ -48,7 +48,7 @@ public class JideBoxLayout implements LayoutManager2 {
 
     /**
      * FLEXIBLE components try to keep the preferred width. If
-     * there isn’t enough space, all FLEXIBLE components will shrink
+     * there isn't enough space, all FLEXIBLE components will shrink
      * proportionally.
      */
     public static final String FLEXIBLE = "flexible";
