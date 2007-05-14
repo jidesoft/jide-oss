@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Converter which converts Date to String and converts it back.
@@ -44,6 +45,15 @@ public class DateConverter implements ObjectConverter {
     public DateConverter() {
     }
 
+    /**
+     * Converts the object to String. The object can be a Calendar, a Date or a Number. As long as the DateFormat
+     * can format it correctly, it will be converted to a String. If the object is already a String, we will
+     * return it directly as it is.
+     *
+     * @param object
+     * @param context
+     * @return the string
+     */
     public String toString(Object object, ConverterContext context) {
         if (object == null) {
             return "";
@@ -53,14 +63,22 @@ public class DateConverter implements ObjectConverter {
                 object = ((Calendar) object).getTime();
             }
 
-            if (DATETIME_CONTEXT.equals(context)) {
-                return _defaultDatetimeFormat.format(object);
+            if (object instanceof Date || object instanceof Number) {
+                if (DATETIME_CONTEXT.equals(context)) {
+                    return _defaultDatetimeFormat.format(object);
+                }
+                else if (TIME_CONTEXT.equals(context)) {
+                    return _defaultTimeFormat.format(object);
+                }
+                else {
+                    return _defaultFormat.format(object);
+                }
             }
-            else if (TIME_CONTEXT.equals(context)) {
-                return _defaultTimeFormat.format(object);
+            else if (object instanceof String) {
+                return (String) object;
             }
             else {
-                return _defaultFormat.format(object);
+                return null;
             }
         }
     }
