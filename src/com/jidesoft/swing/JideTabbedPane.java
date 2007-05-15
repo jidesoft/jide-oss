@@ -46,6 +46,7 @@ public class JideTabbedPane extends JTabbedPane {
     private boolean _showCloseButtonOnTab = false;
     private boolean _useDefaultShowCloseButtonOnTab = false;
     private boolean _showTabArea = true;
+    private boolean _showTabContent = true;
 
     private boolean _showIconsOnTab = true;
     private boolean _useDefaultShowIconsOnTab = true;
@@ -93,12 +94,17 @@ public class JideTabbedPane extends JTabbedPane {
     public final static String SHOW_CLOSE_BUTTON_PROPERTY = "showCloseButton";
 
     /**
-     * Bound property name for if showing close button
+     * Bound property name for if the tab area is visible.
      */
     public final static String SHOW_TAB_AREA_PROPERTY = "showTabArea";
 
     /**
-     * Bound property name for if showing close button
+     * Bound property name for if the tab area is visible.
+     */
+    public final static String SHOW_TAB_CONTENT_PROPERTY = "showTabContent";
+
+    /**
+     * Bound property name for tab closable.
      */
     public final static String TAB_CLOSABLE_PROPERTY = "tabClosable";
 
@@ -844,6 +850,28 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
+     * If the tab content is visible.
+     *
+     * @return true if the tab content is visible.
+     */
+    public boolean isShowTabContent() {
+        return _showTabContent;
+    }
+
+    /**
+     * Sets if the tab content is visible.
+     *
+     * @param showTabContent true or false.
+     */
+    public void setShowTabContent(boolean showTabContent) {
+        boolean oldShowTabContent = _showTabContent;
+        if (oldShowTabContent != showTabContent) {
+            _showTabContent = showTabContent;
+            firePropertyChange(SHOW_TAB_CONTENT_PROPERTY, oldShowTabContent, _showTabContent);
+        }
+    }
+
+    /**
      * Gets the string converter that converts the tab title to the display title.
      *
      * @return the converter that converts the tab title to the display title.
@@ -1499,5 +1527,10 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setContentBorderInsets(Insets contentBorderInsets) {
         _contentBorderInsets = contentBorderInsets;
+    }
+
+
+    public Dimension getPreferredSize() {
+        return super.getPreferredSize();
     }
 }

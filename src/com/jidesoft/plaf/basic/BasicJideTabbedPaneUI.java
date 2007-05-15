@@ -5154,22 +5154,26 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 // Determine minimum size required to display largest
                 // child in each dimension
                 //
-                for (int i = 0; i < _tabPane.getTabCount(); i++) {
-                    Component component = _tabPane.getComponentAt(i);
-                    if (component != null) {
-                        Dimension size = zeroSize;
-                        size = minimum ? component.getMinimumSize() :
-                                component.getPreferredSize();
 
-                        if (size != null) {
-                            cHeight = Math.max(size.height, cHeight);
-                            cWidth = Math.max(size.width, cWidth);
+                if (_tabPane.isShowTabContent()) {
+                    for (int i = 0; i < _tabPane.getTabCount(); i++) {
+                        Component component = _tabPane.getComponentAt(i);
+                        if (component != null) {
+                            Dimension size = zeroSize;
+                            size = minimum ? component.getMinimumSize() :
+                                    component.getPreferredSize();
+
+                            if (size != null) {
+                                cHeight = Math.max(size.height, cHeight);
+                                cWidth = Math.max(size.width, cWidth);
+                            }
                         }
                     }
+                    // Add content border insets to minimum size
+                    width += cWidth;
+                    height += cHeight;
                 }
-                // Add content border insets to minimum size
-                width += cWidth;
-                height += cHeight;
+
                 int tabExtent = 0;
 
                 // Calculate how much space the tabs will need, based on the
@@ -6127,8 +6131,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                         else
                         if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
-                            // All content children...
-                            child.setBounds(cx, cy, cw, ch);
+                            if (_tabPane.isShowTabContent()) {
+                                // All content children...
+                                child.setVisible(true);
+                                child.setBounds(cx, cy, cw, ch);
+                            }
+                            else {
+                                child.setVisible(false);
+                                child.setBounds(0, 0, 0, 0);
+                            }
                         }
                     }
 
@@ -7408,6 +7419,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             else if (name.equals(JideTabbedPane.SHRINK_TAB_PROPERTY) ||
                     name.equals(JideTabbedPane.HIDE_IF_ONE_TAB_PROPERTY) ||
                     name.equals(JideTabbedPane.SHOW_TAB_AREA_PROPERTY) ||
+                    name.equals(JideTabbedPane.SHOW_TAB_CONTENT_PROPERTY) ||
                     name.equals(JideTabbedPane.BOX_STYLE_PROPERTY) ||
                     name.equals(JideTabbedPane.SHOW_ICONS_PROPERTY) ||
                     name.equals(JideTabbedPane.SHOW_CLOSE_BUTTON_PROPERTY) ||
