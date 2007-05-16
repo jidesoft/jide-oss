@@ -6133,11 +6133,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
                             if (_tabPane.isShowTabContent()) {
                                 // All content children...
-                                child.setVisible(true);
                                 child.setBounds(cx, cy, cw, ch);
                             }
                             else {
-                                child.setVisible(false);
                                 child.setBounds(0, 0, 0, 0);
                             }
                         }
