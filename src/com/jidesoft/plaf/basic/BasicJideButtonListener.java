@@ -34,11 +34,15 @@ public class BasicJideButtonListener extends BasicButtonListener {
 
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
-        if (e.getPropertyName().equals(JideButton.BUTTON_STYLE_PROPERTY)) {
+        if (JideButton.BUTTON_STYLE_PROPERTY.equals(e.getPropertyName())
+                || "opaque".equals(e.getPropertyName())
+                || AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY.equals(e.getPropertyName())
+                ) {
             AbstractButton b = (AbstractButton) e.getSource();
             b.repaint();
         }
-        else if (e.getPropertyName().equals(JideButton.PROPERTY_ORIENTATION)) {
+        else if (JideButton.PROPERTY_ORIENTATION.equals(e.getPropertyName())
+                || "hideActionText".equals(e.getPropertyName())) {
             AbstractButton b = (AbstractButton) e.getSource();
             b.invalidate();
             b.repaint();
