@@ -311,6 +311,10 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
+    public void paintStatusBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        paintContentBackground(c, g, rect, orientation, state);
+    }
+
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         g.setColor(getCommandBarTitleBarBackground());
         g.fillRect(rect.x, rect.y, rect.width, rect.height);

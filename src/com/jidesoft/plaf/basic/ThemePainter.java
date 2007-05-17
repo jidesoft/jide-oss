@@ -53,6 +53,8 @@ public interface ThemePainter {
 
     void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
+    void paintStatusBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
     void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
     void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
