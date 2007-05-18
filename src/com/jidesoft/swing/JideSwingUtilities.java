@@ -1382,7 +1382,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Setups the graphics to use anti-alias.
+     * Setups the graphics to draw text using anti-alias.
      * <p/>
      * Under JDK1.4 and JDK5, this method will use a system property "swing.aatext" to determine if anti-alias is used.
      * Under JDK6, we will read the system setting. For example, on Windows XP, there is a check box to turn on clear type anti-alias.
@@ -1411,7 +1411,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Restores the old setting for anti-alias.
+     * Restores the old setting for text anti-alias.
      *
      * @param c
      * @param g
@@ -1427,6 +1427,32 @@ public class JideSwingUtilities implements SwingConstants {
         else {
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, oldHints);
         }
+    }
+
+    /**
+     * Setups the graphics to draw shape using anti-alias.
+     *
+     * @param c
+     * @param g
+     * @return the old hints. You will need this value as the third parameter in {@link #restoreShapeAntialiasing(java.awt.Graphics,Object)}.
+     */
+    public static Object setupShapeAntialiasing(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        Object oldHints = g2d.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        return oldHints;
+    }
+
+    /**
+     * Restores the old setting for shape anti-alias.
+     *
+     * @param c
+     * @param g
+     * @param oldHints the value returned from {@link #setupShapeAntialiasing(java.awt.Graphics)}.
+     */
+    public static void restoreShapeAntialiasing(Graphics g, Object oldHints) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldHints);
     }
 
     public static void drawGrip(Graphics g, Rectangle rectangle, int maxLength, int maxThickness) {
