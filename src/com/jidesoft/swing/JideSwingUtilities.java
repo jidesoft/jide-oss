@@ -1432,7 +1432,6 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Setups the graphics to draw shape using anti-alias.
      *
-     * @param c
      * @param g
      * @return the old hints. You will need this value as the third parameter in {@link #restoreShapeAntialiasing(java.awt.Graphics,Object)}.
      */
@@ -1446,7 +1445,6 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Restores the old setting for shape anti-alias.
      *
-     * @param c
      * @param g
      * @param oldHints the value returned from {@link #setupShapeAntialiasing(java.awt.Graphics)}.
      */
