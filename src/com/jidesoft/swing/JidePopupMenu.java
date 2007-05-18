@@ -10,6 +10,8 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.utils.PortingUtils;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.PopupMenuUI;
 import java.awt.*;
 
@@ -17,15 +19,22 @@ import java.awt.*;
  * This component extends JPopupMenu and adds a method to
  * display the menu inside the screen even if the mouse
  * pointer is near the edge of the screen.
+ * <p/>
+ * It also puts the menu items into a scroll pane.
+ * When there are too many menu items that can't fit into one screen, the scroll pane
+ * will scroll up and down so that you can still get to all menu items.
  */
 public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     private static final String uiClassID = "JidePopupMenuUI";
 
+    private boolean _useLightWeightPopup;
+
     /**
      * Constructs a <code>JPopupMenu</code> without an "invoker".
      */
     public JidePopupMenu() {
+        setupPopupMenu();
     }
 
     /**
@@ -36,10 +45,15 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
      */
     public JidePopupMenu(String label) {
         super(label);
+        setupPopupMenu();
     }
 
     public String getUIClassID() {
         return uiClassID;
+    }
+
+    private void setupPopupMenu() {
+        addPopupMenuListener(new ToolTipSwitchPopupMenuListener());
     }
 
     public void updateUI() {
@@ -138,5 +152,20 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     public boolean getScrollableTracksViewportHeight() {
         return false;
+    }
+
+    private class ToolTipSwitchPopupMenuListener implements PopupMenuListener {
+        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+            _useLightWeightPopup = ToolTipManager.sharedInstance().isLightWeightPopupEnabled();
+            ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
+        }
+
+        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            ToolTipManager.sharedInstance().setLightWeightPopupEnabled(_useLightWeightPopup);
+        }
+
+        public void popupMenuCanceled(PopupMenuEvent e) {
+            ToolTipManager.sharedInstance().setLightWeightPopupEnabled(_useLightWeightPopup);
+        }
     }
 }
