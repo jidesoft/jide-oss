@@ -344,8 +344,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the two strings equal. If both are null, they are equal. If <code>s1.equals(s2)</code>, they are equal too.
-     * In all other cases, they are not equal.
+     * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will
+     * use compareTo method to see if it equals 0. At last, we will use <code>o1.equals(o2)</code> to compare.
+     * If none of the above conditions match, we return false.
      *
      * @param o1 the first object to compare
      * @param o2 the second object to compare
@@ -358,10 +359,13 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 != null && o2 == null) {
             return false;
         }
-        else if (o1 == null && o2 != null) {
+        else if (o1 == null) {
             return false;
         }
-        else /*if(o1 != null && o2 != null)*/ {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable) {
+            return ((Comparable) o1).compareTo(o2) == 0;
+        }
+        else {
             return o1.equals(o2);
         }
     }
