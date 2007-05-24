@@ -395,6 +395,11 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
                 AbstractButton b = (AbstractButton) e.getSource();
                 b.repaint();
             }
+            else if ("verticalTextPosition".equals(prop)
+                    || "horizontalTextPosition".equals(prop)) {
+                AbstractButton b = (AbstractButton) e.getSource();
+                b.updateUI();
+            }
         }
     }
 
