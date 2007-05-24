@@ -44,4 +44,19 @@ public interface SplitButtonModel extends ButtonModel {
      * @return true if the button is enabled.
      */
     boolean isButtonEnabled();
+
+    /**
+     * Sets the button part of the JideSplitButton as rollover.
+     *
+     * @param b true set the button as rollover,
+     *          false set the button as not rollover
+     */
+    void setButtonRollover(boolean b);
+
+    /**
+     * Indicates if the button part of the JideSplitButton is rollover.
+     *
+     * @return true if the button is rollover
+     */
+    boolean isButtonRollover();
 }

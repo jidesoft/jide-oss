@@ -12,15 +12,20 @@ import java.awt.event.ItemEvent;
  */
 public class DefaultSplitButtonModel extends DefaultButtonModel implements SplitButtonModel {
     /**
-     * Indicates that the button has been selected. Only needed for
-     * certain types of buttons - such as RadioButton or Checkbox.
+     * Indicates that the button part of the split button has been selected.
      */
     public final static int BUTTON_SELECTED = 1 << 6;
 
     /**
-     * Indicates that the button is enabled or disabled.
+     * Indicates that the button part of the split button is enabled or disabled.
      */
     public final static int BUTTON_ENABLED = 1 << 7;
+
+    /**
+     * Indicates that the button part of the split button is rollover.
+     */
+    public final static int BUTTON_ROLLOVER = 1 << 8;
+
 
     public DefaultSplitButtonModel() {
         setButtonEnabled(true);
@@ -91,6 +96,37 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
      */
     public boolean isButtonEnabled() {
         return (stateMask & BUTTON_ENABLED) != 0;
+    }
+
+    /**
+     * Sets the button part of the JideSplitButton as rollover.
+     *
+     * @param b true set the button as rollover,
+     *          false set the button as not rollover
+     */
+    public void setButtonRollover(boolean b) {
+        if (this.isButtonRollover() == b) {
+            return;
+        }
+
+        if (b) {
+            stateMask |= BUTTON_ROLLOVER;
+        }
+        else {
+            stateMask &= ~BUTTON_ROLLOVER;
+        }
+
+        fireStateChanged();
+
+    }
+
+    /**
+     * Indicates if the button part of the JideSplitButton is rollover.
+     *
+     * @return true if the button is rollover
+     */
+    public boolean isButtonRollover() {
+        return (stateMask & BUTTON_ROLLOVER) != 0;
     }
 
 }
