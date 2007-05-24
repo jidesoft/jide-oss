@@ -696,6 +696,39 @@ public class JideSwingUtilities implements SwingConstants {
         });
     }
 
+    public static Dimension getPreferredButtonSize(AbstractButton b, int textIconGap, boolean isHorizontal) {
+        if (b.getComponentCount() > 0) {
+            return null;
+        }
+
+        Icon icon = (Icon) b.getIcon();
+        String text = b.getText();
+
+        Font font = b.getFont();
+        FontMetrics fm = b.getFontMetrics(font);
+
+        Rectangle iconR = new Rectangle();
+        Rectangle textR = new Rectangle();
+        Rectangle viewR = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
+
+        layoutCompoundLabel((JComponent) b, fm, text, icon, isHorizontal,
+                b.getVerticalAlignment(), b.getHorizontalAlignment(),
+                b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
+                viewR, iconR, textR, (text == null ? 0 : textIconGap));
+
+        /* The preferred size of the button is the size of
+         * the text and icon rectangles plus the buttons insets.
+         */
+
+        Rectangle r = iconR.union(textR);
+
+        Insets insets = b.getInsets();
+        r.width += insets.left + insets.right;
+        r.height += insets.top + insets.bottom;
+
+        return r.getSize();
+    }
+
     /**
      * Compute and return the location of the icons origin, the
      * location of origin of the text baseline, and a possibly clipped
@@ -850,6 +883,31 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
 
+    private static String getMaxLengthWord(String text) {
+        if (text.indexOf(' ') == -1) {
+            return text;
+        }
+        else {
+            int minDiff = text.length();
+            int minPos = -1;
+            int mid = text.length() / 2;
+
+            int pos = -1;
+            while (true) {
+                pos = text.indexOf(' ', pos + 1);
+                if (pos == -1) {
+                    break;
+                }
+                int diff = Math.abs(pos - mid);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    minPos = pos;
+                }
+            }
+            return minPos >= mid ? text.substring(0, minPos) : text.substring(minPos + 1);
+        }
+    }
+
     private static String layoutCompoundLabelImplHorizontal(JComponent c,
                                                             FontMetrics fm,
                                                             String text,
@@ -892,8 +950,25 @@ public class JideSwingUtilities implements SwingConstants {
                 textR.height = (int) v.getPreferredSpan(View.Y_AXIS);
             }
             else {
-                textR.width = SwingUtilities.computeStringWidth(fm, text);
-                textR.height = fm.getHeight();
+                if (false) { // TODO: debug switch
+                    boolean wrapText = false;
+                    if (verticalTextPosition == BOTTOM && horizontalTextPosition == CENTER) { // in this case, we will wrap the text into two lines
+                        wrapText = true;
+                    }
+
+                    if (wrapText) {
+                        textR.width = SwingUtilities.computeStringWidth(fm, getMaxLengthWord(text));
+                        textR.height = fm.getHeight() + fm.getAscent() + 2; // gap between the two lines is 2.
+                    }
+                    else {
+                        textR.width = SwingUtilities.computeStringWidth(fm, text);
+                        textR.height = fm.getHeight();
+                    }
+                }
+                else {
+                    textR.width = SwingUtilities.computeStringWidth(fm, text);
+                    textR.height = fm.getHeight();
+                }
             }
         }
 
