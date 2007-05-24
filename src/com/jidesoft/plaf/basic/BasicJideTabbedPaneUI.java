@@ -1236,7 +1236,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
 
-                if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
+                if (tabPlacement == TOP || tabPlacement == BOTTOM) {
                     JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
                 }
                 else {// draw string from top to bottom
@@ -1249,7 +1249,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             }
             else { // tab disabled
-                if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
+                if (tabPlacement == TOP || tabPlacement == BOTTOM) {
                     g.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
                     JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
                     g.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
