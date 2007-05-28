@@ -317,11 +317,26 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled.
+     * Creates a version from an input image which replaces one color with another color.
+     *
+     * @param c        The component to get properties useful for painting, e.g. the foreground or background color.
+     * @param icon     icon
+     * @param oldColor the old color to be replaced.
+     * @param newColor the new color that will replace the old color.
+     * @return the image after replacing the color.
+     */
+    public static ImageIcon createMaskImage(Component c, Icon icon, Color oldColor, Color newColor) {
+        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        icon.paintIcon(c, image.getGraphics(), 0, 0);
+        return new ImageIcon(MaskFilter.createImage(image, oldColor, newColor));
+    }
+
+    /**
+     * Creates a negative version from an input black image which basically replaces black pixel with white pixel.
      *
      * @param c    The component to get properties useful for painting, e.g. the foreground or background color.
      * @param icon icon
-     * @return gray version of the image
+     * @return the negative version of the image
      */
     public static ImageIcon createNegativeImage(Component c, Icon icon) {
         BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);

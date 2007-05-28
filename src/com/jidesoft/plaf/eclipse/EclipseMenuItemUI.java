@@ -684,7 +684,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
             if (b.getIcon() == null) {
                 if (model.isArmed() || (b instanceof JMenu && model.isSelected())) {
                     if (checkIcon instanceof ImageIcon) {
-                        ImageIcon image = IconsFactory.createNegativeImage(((ImageIcon) checkIcon).getImage());
+                        ImageIcon image = IconsFactory.createMaskImage(b, checkIcon, Color.BLACK, selectionForeground);
                         image.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
                     }
                     else {
@@ -693,7 +693,13 @@ public class EclipseMenuItemUI extends MenuItemUI {
                     }
                 }
                 else {
-                    checkIcon.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
+                    if (checkIcon instanceof ImageIcon) {
+                        ImageIcon image = IconsFactory.createMaskImage(b, checkIcon, Color.BLACK, b.getForeground());
+                        image.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
+                    }
+                    else {
+                        checkIcon.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
+                    }
                 }
             }
         }
