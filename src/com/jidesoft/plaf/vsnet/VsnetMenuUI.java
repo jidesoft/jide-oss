@@ -731,6 +731,9 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
                     int indexes[] = null;
 
                     for (int j = 0; j < items.length; j++) {
+                        if (!(items[j] instanceof JMenuItem)) {
+                            continue;
+                        }
                         int key = ((JMenuItem) items[j]).getMnemonic();
                         if (lower((char) key) == lower(keyChar)) {
                             if (matches == 0) {
