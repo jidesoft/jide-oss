@@ -1149,7 +1149,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
     }
 
-    private static int _productsUsed = PRODUCT_COMMON;
+    private static int _productsUsed = PRODUCT_ALL;
 
     public static int getProductsUsed() {
         return _productsUsed;
