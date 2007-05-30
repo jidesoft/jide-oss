@@ -241,6 +241,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected int _indexMouseOver = -1;
 
     protected boolean _alwaysShowLineBorder = false;
+    protected boolean _showFocusIndicator = false;
 
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideTabbedPaneUI();
@@ -493,6 +494,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         _defaultTabBorderShadowColor = UIDefaultsLookup.getColor("JideTabbedPane.defaultTabBorderShadowColor");
         _alwaysShowLineBorder = UIDefaultsLookup.getBoolean("JideTabbedPane.alwaysShowLineBorder");
+        _showFocusIndicator = UIDefaultsLookup.getBoolean("JideTabbedPane.showFocusIndicator");
     }
 
     protected void uninstallDefaults() {
@@ -922,7 +924,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         if (isShowCloseButton() && isShowCloseButtonOnTab() && _tabPane.isTabClosableAt(tabIndex)
                 && (!_tabPane.isShowCloseButtonOnSelectedTab() || isSelected)) {
-            if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
+            if (tabPlacement == TOP || tabPlacement == BOTTOM) {
                 int buttonWidth = _closeButtons[tabIndex].getPreferredSize().width + _closeButtonMargin;
                 if (_closeButtonAlignment == SwingConstants.LEADING) {
                     tempTabRect.x += buttonWidth;
@@ -1149,7 +1151,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                              int tabIndex, Icon icon, Rectangle iconRect,
                              boolean isSelected) {
         if (icon != null && iconRect.width >= icon.getIconWidth()) {
-            if (_tabPane.getTabPlacement() == TOP | _tabPane.getTabPlacement() == BOTTOM) {
+            if (tabPlacement == TOP || tabPlacement == BOTTOM) {
                 icon.paintIcon(_tabPane, g, iconRect.x, iconRect.y);
             }
             else {
@@ -1218,7 +1220,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     Color color = _tabPane.getForegroundAt(tabIndex);
-                    if (isSelected && _tabPane.hasFocusComponent()) {
+                    if (isSelected && showFocusIndicator()) {
                         if (!(color instanceof ColorUIResource)) {
                             g.setColor(color);
                         }
@@ -2443,7 +2445,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                             g.setColor(_unselectColor2);
                             g.drawLine(x + 3, y + h - 2, x + w - 2, y + h - 2);// bottom
-                            g.drawLine(x + w - 1, y + h - 3, x + w - 1, y);// right 
+                            g.drawLine(x + w - 1, y + h - 3, x + w - 1, y);// right
 
                             g.setColor(_unselectColor3);
                             g.drawLine(x + 3, y + h - 1, x + w - 2, y + h - 1);// bottom
@@ -6167,14 +6169,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 case RIGHT:
                     _maxTabWidth = calculateMaxTabWidth(tabPlacement);
                     if (isTabLeadingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == RIGHT) {
+                        if (tabPlacement == RIGHT) {
                             if (_maxTabWidth < _tabLeadingComponent.getSize().width) {
                                 _maxTabWidth = _tabLeadingComponent.getSize().width;
                             }
                         }
                     }
                     if (isTabTrailingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == RIGHT) {
+                        if (tabPlacement == RIGHT) {
                             if (_maxTabWidth < _tabTrailingComponent.getSize().width) {
                                 _maxTabWidth = _tabTrailingComponent.getSize().width;
                             }
@@ -6186,14 +6188,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 default:
                     _maxTabHeight = calculateMaxTabHeight(tabPlacement);
                     if (isTabLeadingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == BOTTOM) {
+                        if (tabPlacement == BOTTOM) {
                             if (_maxTabHeight < _tabLeadingComponent.getSize().height) {
                                 _maxTabHeight = _tabLeadingComponent.getSize().height;
                             }
                         }
                     }
                     if (isTabTrailingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == BOTTOM) {
+                        if (tabPlacement == BOTTOM) {
                             if (_maxTabHeight < _tabTrailingComponent.getSize().height) {
                                 _maxTabHeight = _tabTrailingComponent.getSize().height;
                             }
@@ -6241,7 +6243,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                     int temp = -1;
                     if (isTabLeadingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == TOP) {
+                        if (tabPlacement == TOP) {
                             if (_maxTabHeight < _tabLeadingComponent.getSize().height) {
                                 rect.y = y + _tabLeadingComponent.getSize().height - _maxTabHeight - 2;
                                 temp = _tabLeadingComponent.getSize().height;
@@ -6254,7 +6256,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
                     if (isTabTrailingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == TOP) {
+                        if (tabPlacement == TOP) {
                             if (_maxTabHeight < _tabTrailingComponent.getSize().height
                                     && temp < _tabTrailingComponent.getSize().height) {
                                 rect.y = y + _tabTrailingComponent.getSize().height - _maxTabHeight - 2;
@@ -6291,7 +6293,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     rect.x = x;
                     int temp = -1;
                     if (isTabLeadingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == LEFT) {
+                        if (tabPlacement == LEFT) {
                             if (_maxTabWidth < _tabLeadingComponent.getSize().width) {
                                 rect.x = x + _tabLeadingComponent.getSize().width - _maxTabWidth - 2;
                                 temp = _tabLeadingComponent.getSize().width;
@@ -6304,7 +6306,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
                     if (isTabTrailingComponentVisible()) {
-                        if (_tabPane.getTabPlacement() == LEFT) {
+                        if (tabPlacement == LEFT) {
                             if (_maxTabWidth < _tabTrailingComponent.getSize().width
                                     && temp < _tabTrailingComponent.getSize().width) {
                                 rect.x = x + _tabTrailingComponent.getSize().width - _maxTabWidth - 2;
@@ -8375,5 +8377,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 return (isTabLeadingComponentVisible() && _tabLeadingComponent.getPreferredSize().height > calculateMaxTabHeight(tabPlacement)) ||
                         (isTabTrailingComponentVisible() && _tabTrailingComponent.getPreferredSize().height > calculateMaxTabHeight(tabPlacement));
         }
+    }
+
+    protected boolean showFocusIndicator() {
+        return _tabPane.hasFocusComponent() && _showFocusIndicator;
     }
 }
