@@ -115,6 +115,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
                 "JideTabbedPane.gripperPainter", gripperPainter,
                 "JideTabbedPane.alwaysShowLineBorder", Boolean.FALSE,
+                "JideTabbedPane.showFocusIndicator", Boolean.TRUE,
 
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
 

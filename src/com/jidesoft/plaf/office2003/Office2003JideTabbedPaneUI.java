@@ -68,13 +68,18 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
 
         installBackgroundColor();
-
     }
 
     protected void installBackgroundColor() {
         if (_tabPane.getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {
-            _backgroundSelectedColorStart = getPainter().getSelectionSelectedLt();
-            _backgroundSelectedColorEnd = getPainter().getSelectionSelectedDk();
+            if (_showFocusIndicator) {
+                _backgroundSelectedColorStart = getPainter().getSelectionSelectedLt();
+                _backgroundSelectedColorEnd = getPainter().getSelectionSelectedDk();
+            }
+            else {
+                _backgroundSelectedColorStart = getPainter().getBackgroundLt();
+                _backgroundSelectedColorEnd = getPainter().getBackgroundDk();
+            }
             if (getTabShape() == JideTabbedPane.SHAPE_BOX) {
                 _backgroundUnselectedColorStart = null;
                 _backgroundUnselectedColorEnd = null;

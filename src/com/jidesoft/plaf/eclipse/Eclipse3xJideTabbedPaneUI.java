@@ -638,7 +638,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             Graphics2D g2d = (Graphics2D) g;
             Color background1;
             Color background2;
-            if (_tabPane.hasFocusComponent()) {
+            if (showFocusIndicator()) {
                 background1 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
                 background2 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground2");
             }
@@ -969,7 +969,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
 
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
-            if (_tabPane.hasFocusComponent()) {
+            if (showFocusIndicator()) {
                 Insets insets = getContentBorderInsets(_tabPane.getTabPlacement());
                 Color selectedTitleColor2 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground2");
                 g.setColor(selectedTitleColor2);

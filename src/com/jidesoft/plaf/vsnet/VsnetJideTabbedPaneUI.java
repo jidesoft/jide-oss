@@ -1237,7 +1237,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
 
         if (isSelected) {
-            if (_tabPane.hasFocusComponent()) {
+            if (showFocusIndicator()) {
                 if (backgroundEnd == null) {
                     backgroundEnd = _backgroundSelectedColorEnd;
                 }

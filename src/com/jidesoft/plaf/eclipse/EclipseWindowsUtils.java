@@ -196,6 +196,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.closeButtonRightMargin", new Integer(2),
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
+                "JideTabbedPane.showFocusIndicator", Boolean.TRUE,
 
                 "JideTabbedPane.gripperPainter", gripperPainter,
                 "JideTabbedPane.border", new BorderUIResource(shadowBorder),
