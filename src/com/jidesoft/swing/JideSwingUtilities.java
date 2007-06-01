@@ -1781,12 +1781,6 @@ public class JideSwingUtilities implements SwingConstants {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String oldName = evt.getOldValue() == null ? "null" : evt.getOldValue().getClass().getName();
-                if ("javax.swing.JTextField".equals(oldName)) {
-                    System.out.println("Yeild focus");
-                }
-                else if ("javax.swing.JTextArea".equals(oldName)) {
-                    System.out.println("Yeild focus");
-                }
                 System.out.println(evt.getPropertyName() + ": " + oldName + " ==> " +
                         (evt.getNewValue() == null ? "null" : evt.getNewValue().getClass().getName()));
             }

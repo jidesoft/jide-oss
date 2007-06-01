@@ -16,7 +16,9 @@ import javax.swing.*;
 import javax.swing.plaf.TabbedPaneUI;
 import javax.swing.plaf.UIResource;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
@@ -1370,26 +1372,16 @@ public class JideTabbedPane extends JTabbedPane {
         return ((JideTabbedPaneUI) getUI()).getEditingTabIndex();
     }
 
-    private Timer _repaintTimer;
     protected PropertyChangeListener _focusChangeListener;
 
     protected PropertyChangeListener createFocusChangeListener() {
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 final boolean hadFocus = JideTabbedPane.this.isAncestorOf((Component) evt.getOldValue()) || JideTabbedPane.this == evt.getOldValue() || JideTabbedPane.this.hasFocus();
-                if (_repaintTimer == null) {
-                    _repaintTimer = new Timer(20, new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            boolean hasFocus = JideTabbedPane.this.isAncestorOf(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner()) || JideTabbedPane.this == KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() || JideTabbedPane.this.hasFocus();
-                            if (hasFocus != hadFocus) {
-                                repaintTabAreaAndContentBorder();
-                            }
-                            _repaintTimer = null;
-                        }
-                    });
-                    _repaintTimer.setRepeats(false);
+                boolean hasFocus = JideTabbedPane.this.isAncestorOf(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner()) || JideTabbedPane.this == KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() || JideTabbedPane.this.hasFocus();
+                if (hasFocus != hadFocus) {
+                    repaintTabAreaAndContentBorder();
                 }
-                _repaintTimer.restart();
             }
         };
     }
@@ -1398,7 +1390,8 @@ public class JideTabbedPane extends JTabbedPane {
      * Repaints the tab area and the content border if any. This is mainly for the focus border in JideTabbedPane Office2003 and Eclipse3x style.
      */
     public void repaintTabAreaAndContentBorder() {
-        ((JideTabbedPaneUI) getUI()).getTabPanel().repaint(200);
+        int delay = 200;
+        ((JideTabbedPaneUI) getUI()).getTabPanel().repaint(delay);
 
         if (UIDefaultsLookup.get("JideTabbedPane.contentBorderInsets") == null) {
             LookAndFeelFactory.installJideExtension();
@@ -1409,16 +1402,16 @@ public class JideTabbedPane extends JTabbedPane {
             Insets insets = new Insets(0, 0, 0, 0);
             BasicJideTabbedPaneUI.rotateInsets(contentinsets, insets, tabPlacement);
             if (insets.top != 0) {
-                repaint(200, 0, 0, getWidth(), insets.top);
+                repaint(delay, 0, 0, getWidth(), insets.top);
             }
             if (insets.left != 0) {
-                repaint(200, 0, 0, insets.left, getHeight());
+                repaint(delay, 0, 0, insets.left, getHeight());
             }
             if (insets.right != 0) {
-                repaint(200, getWidth() - insets.right, 0, insets.right, getHeight());
+                repaint(delay, getWidth() - insets.right, 0, insets.right, getHeight());
             }
             if (insets.bottom != 0) {
-                repaint(200, 0, getHeight() - insets.bottom, getWidth(), insets.bottom);
+                repaint(delay, 0, getHeight() - insets.bottom, getWidth(), insets.bottom);
             }
         }
     }
