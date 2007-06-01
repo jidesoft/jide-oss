@@ -1149,9 +1149,54 @@ public class LookAndFeelFactory implements ProductNames {
         }
     }
 
-    private static int _productsUsed = PRODUCT_COMMON;
+    private static int _productsUsed = -1;
 
     public static int getProductsUsed() {
+        if(_productsUsed == -1) {
+            _productsUsed = 0;
+            try {
+                Class.forName("com.jidesoft.docking.Product");
+                _productsUsed |= PRODUCT_DOCK;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.action.Product");
+                _productsUsed |= PRODUCT_ACTION;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.document.Product");
+                _productsUsed |= PRODUCT_COMPONENTS;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.grid.Product");
+                _productsUsed |= PRODUCT_GRIDS;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.wizard.Product");
+                _productsUsed |= PRODUCT_DIALOGS;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.pivot.Product");
+                _productsUsed |= PRODUCT_PIVOT;
+            }
+            catch (ClassNotFoundException e) {
+            }
+            try {
+                Class.forName("com.jidesoft.shortcut.Product");
+                _productsUsed |= PRODUCT_SHORTCUT;
+            }
+            catch (ClassNotFoundException e) {
+            }
+        }
         return _productsUsed;
     }
 
