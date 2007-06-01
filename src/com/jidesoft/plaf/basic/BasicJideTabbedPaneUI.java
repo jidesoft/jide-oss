@@ -4874,7 +4874,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     private static class RequestFocusAction extends AbstractAction {
         public void actionPerformed(ActionEvent e) {
             JTabbedPane pane = (JTabbedPane) e.getSource();
-            pane.requestFocusInWindow();
+            if (!pane.requestFocusInWindow()) {
+                pane.requestFocus();
+            }
         }
     }
 
@@ -5301,7 +5303,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                     if (shouldChangeFocus) {
                         if (!requestFocusForVisibleComponent()) {
-                            _tabPane.requestFocusInWindow();
+                            if (!_tabPane.requestFocusInWindow()) {
+                                _tabPane.requestFocus();
+                            }
                         }
                     }
                 }
@@ -6143,7 +6147,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                     if (shouldChangeFocus) {
                         if (!requestFocusForVisibleComponent()) {
-                            _tabPane.requestFocusInWindow();
+                            if (!_tabPane.requestFocusInWindow()) {
+                                _tabPane.requestFocus();
+                            }
                         }
                     }
                 }
@@ -7454,7 +7460,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isRequestFocusEnabled()) {
-                            _tabPane.requestFocusInWindow();
+                            if (!_tabPane.requestFocusInWindow()) {
+                                _tabPane.requestFocus();
+                            }
                         }
                     }
                     else {
@@ -7469,10 +7477,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     Component lastFocused = _tabPane.getLastFocusedComponent(comp);
                                     if (lastFocused != null) {
                                         // this code works in JDK6 but on JDK5
-                                        lastFocused.requestFocusInWindow();
+                                        if (!lastFocused.requestFocusInWindow()) {
+                                            lastFocused.requestFocus();
+                                        }
                                     }
                                     else if (_tabPane.isRequestFocusEnabled()) {
-                                        _tabPane.requestFocusInWindow();
+                                        if (!_tabPane.requestFocusInWindow()) {
+                                            _tabPane.requestFocus();
+                                        }
                                     }
                                 }
                             });
@@ -7481,10 +7493,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             Component lastFocused = _tabPane.getLastFocusedComponent(comp);
                             if (lastFocused != null) {
                                 // this code works in JDK6 but on JDK5
-                                lastFocused.requestFocusInWindow();
+                                if (!lastFocused.requestFocusInWindow()) {
+                                    lastFocused.requestFocus();
+                                }
                             }
                             else if (_tabPane.isRequestFocusEnabled()) {
-                                _tabPane.requestFocusInWindow();
+                                if (!_tabPane.requestFocusInWindow()) {
+                                    _tabPane.requestFocus();
+                                }
                             }
                         }
                     }

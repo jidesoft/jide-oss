@@ -1377,8 +1377,8 @@ public class JideTabbedPane extends JTabbedPane {
     protected PropertyChangeListener createFocusChangeListener() {
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                final boolean hadFocus = JideTabbedPane.this.isAncestorOf((Component) evt.getOldValue()) || JideTabbedPane.this == evt.getOldValue() || JideTabbedPane.this.hasFocus();
-                boolean hasFocus = JideTabbedPane.this.isAncestorOf(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner()) || JideTabbedPane.this == KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() || JideTabbedPane.this.hasFocus();
+                final boolean hadFocus = JideTabbedPane.this.isAncestorOf((Component) evt.getOldValue()) || JideTabbedPane.this == evt.getOldValue();
+                boolean hasFocus = JideTabbedPane.this == evt.getNewValue() || JideTabbedPane.this.hasFocusComponent();
                 if (hasFocus != hadFocus) {
                     repaintTabAreaAndContentBorder();
                 }

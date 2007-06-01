@@ -2193,7 +2193,7 @@ public class JideSwingUtilities implements SwingConstants {
 
     public static boolean isAncestorOfFocusOwner(Component component) {
         boolean hasFocus = false;
-        Component focusOwner = DefaultFocusManager.getCurrentManager().getPermanentFocusOwner();
+        Component focusOwner = DefaultFocusManager.getCurrentManager().getFocusOwner();
         if (component == focusOwner || (component instanceof Container && ((Container) component).isAncestorOf(focusOwner))) {
             hasFocus = true;
         }
