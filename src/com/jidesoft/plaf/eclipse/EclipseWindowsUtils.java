@@ -242,6 +242,10 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                         "ctrl KP_UP", "requestFocus",
                 }),
 
+                // this two colors are used by JideTabbedPane so moved it here 
+                "DockableFrame.activeTitleBackground2", activeTitleBarGradientColor, //EclipseUtils.getLighterColor((Color)windowTitleBackground),
+                "DockableFrame.activeTitleBackground", activeTitleBackgroundColor,
+
                 "Gripper.size", new Integer(8),
                 "Gripper.painter", gripperPainter,
 
@@ -374,8 +378,6 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "DockableFrame.slidingNorthBorder", slidingNorthFrameBorder,
                     "DockableFrame.slidingSouthBorder", slidingSouthFrameBorder,
 
-                    "DockableFrame.activeTitleBackground", activeTitleBackgroundColor,
-                    "DockableFrame.activeTitleBackground2", activeTitleBarGradientColor, //EclipseUtils.getLighterColor((Color)windowTitleBackground),
                     "DockableFrame.activeTitleForeground", activeTitleTextColor,
                     "DockableFrame.inactiveTitleBackground", inactiveTitleBackgroundColor,
                     "DockableFrame.inactiveTitleForeground", defaultTextColor,
