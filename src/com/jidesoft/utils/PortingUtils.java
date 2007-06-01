@@ -320,6 +320,27 @@ public class PortingUtils {
     }
 
     /**
+     * Ensures the rectangle is visible on the screen.
+     *
+     * @param invoker the invoking component
+     * @param bounds  the input bounds
+     * @return the modified bounds.
+     */
+    public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
+        Rectangle mainScreenBounds = PortingUtils.getLocalScreenBounds(); // this is fast. Only if it is outside this bounds, we try the more expensive one.
+        if (!mainScreenBounds.contains(bounds.getLocation())) {
+            Rectangle screenBounds = PortingUtils.getScreenBounds(invoker);
+            if (bounds.x > screenBounds.x + screenBounds.width || bounds.x < screenBounds.x) {
+                bounds.x = mainScreenBounds.x;
+            }
+            if (bounds.y > screenBounds.y + screenBounds.height || bounds.y < screenBounds.y) {
+                bounds.y = mainScreenBounds.y;
+            }
+        }
+        return bounds;
+    }
+
+    /**
      * Modifies the position of rect so that it is completly on screen if that is possible.
      *
      * @param rect The rectange to move onto a single screen
