@@ -27,6 +27,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.security.AccessControlException;
 import java.util.*;
@@ -345,7 +346,8 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will
-     * use compareTo method to see if it equals 0. At last, we will use <code>o1.equals(o2)</code> to compare.
+     * use compareTo method to see if it equals 0.
+     * At last, we will use <code>o1.equals(o2)</code> to compare.
      * If none of the above conditions match, we return false.
      *
      * @param o1 the first object to compare
@@ -353,6 +355,21 @@ public class JideSwingUtilities implements SwingConstants {
      * @return true if the two objects are equal. Otherwise false.
      */
     public static boolean equals(Object o1, Object o2) {
+        return equals(o1, o2, false);
+    }
+
+    /**
+     * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will
+     * use compareTo method to see if it equals 0. If considerArray is true and o1 and o2 are both array, we will compare each element in the array.
+     * At last, we will use <code>o1.equals(o2)</code> to compare.
+     * If none of the above conditions match, we return false.
+     *
+     * @param o1            the first object to compare
+     * @param o2            the second object to compare
+     * @param considerArray If true, and if o1 and o2 are both array, we will compare each element in the array instead of just compare the two array objects.
+     * @return true if the two objects are equal. Otherwise false.
+     */
+    public static boolean equals(Object o1, Object o2, boolean considerArray) {
         if (o1 == null && o2 == null) {
             return true;
         }
@@ -366,7 +383,23 @@ public class JideSwingUtilities implements SwingConstants {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
         else {
-            return o1.equals(o2);
+            if (considerArray && o1.getClass().isArray() && o2.getClass().isArray()) {
+                int length1 = Array.getLength(o1);
+                int length2 = Array.getLength(o2);
+                if (length1 != length2) {
+                    return false;
+                }
+                for (int i = 0; i < length1; i++) {
+                    boolean equals = equals(Array.get(o1, i), Array.get(o1, i));
+                    if (!equals) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
+                return o1.equals(o2);
+            }
         }
     }
 
