@@ -344,6 +344,84 @@ public class JideSwingUtilities implements SwingConstants {
         return ThemePainter.STATE_DEFAULT;
     }
 
+    public static int[] getButtonState(JideSplitButton b) {
+        int[] states = new int[2];
+        SplitButtonModel model = (SplitButtonModel) b.getModel();
+        if (!model.isEnabled()) {
+            if (model.isButtonSelected()) {
+                states[0] = ThemePainter.STATE_DISABLE_SELECTED;
+            }
+            else {
+                states[0] = ThemePainter.STATE_DISABLE;
+            }
+        }
+        else if (b.hasFocus() && b.isFocusPainted()) {
+            if (model.isButtonSelected()) {
+                states[0] = ThemePainter.STATE_SELECTED;
+                states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            }
+            else if (model.isSelected()) {
+                states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+                states[1] = ThemePainter.STATE_SELECTED;
+            }
+            else {
+                states[0] = ThemePainter.STATE_ROLLOVER;
+                states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            }
+        }
+        else if (model.isPressed() && model.isArmed()) {
+            if (model.isButtonRollover()) {
+                states[0] = ThemePainter.STATE_PRESSED;
+                states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            }
+            else if (model.isRollover()) {
+                states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+                states[1] = ThemePainter.STATE_ROLLOVER;
+            }
+        }
+        else if (b.isRolloverEnabled() && model.isButtonRollover()) {
+            if (model.isButtonSelected()) {
+                states[0] = ThemePainter.STATE_PRESSED;
+                states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            }
+            else if (model.isSelected()) {
+                states[0] = ThemePainter.STATE_ROLLOVER;
+                states[1] = ThemePainter.STATE_PRESSED;
+            }
+            else {
+                states[0] = ThemePainter.STATE_ROLLOVER;
+                states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            }
+        }
+        else if (b.isRolloverEnabled() && model.isRollover()) {
+            if (model.isButtonSelected()) {
+                states[0] = ThemePainter.STATE_PRESSED;
+                states[1] = ThemePainter.STATE_ROLLOVER;
+            }
+            else if (model.isSelected()) {
+                states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+                states[1] = ThemePainter.STATE_PRESSED;
+            }
+            else {
+                states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+                states[1] = ThemePainter.STATE_ROLLOVER;
+            }
+        }
+        else if (model.isButtonSelected()) {
+            states[0] = ThemePainter.STATE_SELECTED;
+            states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+        }
+        else if (model.isSelected()) {
+            states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
+            states[1] = ThemePainter.STATE_SELECTED;
+        }
+        else {
+            states[0] = ThemePainter.STATE_DEFAULT;
+            states[1] = ThemePainter.STATE_DEFAULT;
+        }
+        return states;
+    }
+
     /**
      * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will
      * use compareTo method to see if it equals 0.
@@ -379,8 +457,13 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
-        else if (o1 instanceof Comparable && o2 instanceof Comparable) {
+        else
+        if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
+        }
+        else
+        if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+            return ((Comparable) o2).compareTo(o1) == 0;
         }
         else {
             if (considerArray && o1.getClass().isArray() && o2.getClass().isArray()) {
@@ -983,7 +1066,7 @@ public class JideSwingUtilities implements SwingConstants {
                 textR.height = (int) v.getPreferredSpan(View.Y_AXIS);
             }
             else {
-                if (false) { // TODO: debug switch
+                if (true) { // TODO: debug switch
                     boolean wrapText = false;
                     if (verticalTextPosition == BOTTOM && horizontalTextPosition == CENTER) { // in this case, we will wrap the text into two lines
                         wrapText = true;
