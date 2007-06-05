@@ -1124,6 +1124,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _tabPane.putClientProperty("html", null);
 
         if (tabPlacement == TOP || tabPlacement == BOTTOM) {
+            iconRect.x = tabRect.x + _iconMargin;
+            textRect.x = (icon != null ? iconRect.x + iconRect.width + _textIconGap : tabRect.x + _textPadding);
+            iconRect.width = Math.min(iconRect.width, tabRect.width - _tabRectPadding);
+            textRect.width = tabRect.width - _tabRectPadding - iconRect.width - (icon != null ? _textIconGap + _iconMargin : _noIconMargin);
+
             if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_COMPRESSED
                     && isShowCloseButton() && isShowCloseButtonOnTab()) {
                 if (!_tabPane.isShowCloseButtonOnSelectedTab()) {
@@ -1135,6 +1140,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
         else {// tabplacement is left or right
+            iconRect.y = tabRect.y + _iconMargin;
+            textRect.y = (icon != null ? iconRect.y + iconRect.height + _textIconGap : tabRect.y + _textPadding);
+            iconRect.x = tabRect.x + 2;
+            textRect.x = tabRect.x + 2;
+            textRect.width = tabRect.width - _textMarginVertical;
+            textRect.height = tabRect.height - _tabRectPadding - iconRect.height - (icon != null ? _textIconGap + _iconMargin : _noIconMargin);
+
             if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_COMPRESSED
                     && isShowCloseButton() && isShowCloseButtonOnTab()) {
                 if (!_tabPane.isShowCloseButtonOnSelectedTab()) {
