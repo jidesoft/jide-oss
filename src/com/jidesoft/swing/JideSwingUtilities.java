@@ -1066,7 +1066,7 @@ public class JideSwingUtilities implements SwingConstants {
                 textR.height = (int) v.getPreferredSpan(View.Y_AXIS);
             }
             else {
-                if (true) { // TODO: debug switch
+                if (false) { // TODO: debug switch
                     boolean wrapText = false;
                     if (verticalTextPosition == BOTTOM && horizontalTextPosition == CENTER) { // in this case, we will wrap the text into two lines
                         wrapText = true;
@@ -1077,12 +1077,12 @@ public class JideSwingUtilities implements SwingConstants {
                         textR.height = fm.getHeight() + fm.getAscent() + 2; // gap between the two lines is 2.
                     }
                     else {
-                        textR.width = SwingUtilities.computeStringWidth(fm, text);
+                        textR.width = SwingUtilities.computeStringWidth(fm, text) + 1; // add an extra pixel at the end of the text
                         textR.height = fm.getHeight();
                     }
                 }
                 else {
-                    textR.width = SwingUtilities.computeStringWidth(fm, text);
+                    textR.width = SwingUtilities.computeStringWidth(fm, text); // add an extra pixel at the end of the text
                     textR.height = fm.getHeight();
                 }
             }

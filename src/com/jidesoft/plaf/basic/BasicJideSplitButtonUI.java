@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 
 /**
- * Menu UI implementation
+ * SplitButtonUI implementation
  */
 public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
@@ -424,7 +424,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
     }
 
-    private void paintSunkenBorder(Graphics g, Rectangle b) {
+    protected void paintSunkenBorder(Graphics g, Rectangle b) {
         Color old = g.getColor();
         g.setColor(_shadowColor);    // inner 3D border
         g.drawLine(b.x, b.y, b.x + b.width - 1, b.y);
@@ -436,7 +436,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         g.setColor(old);
     }
 
-    private void paintSunken2Border(Graphics g, Rectangle b) {
+    protected void paintSunken2Border(Graphics g, Rectangle b) {
         Color old = g.getColor();
         g.setColor(_darkShadowColor);    // inner 3D border
         g.drawLine(b.x, b.y, b.x + b.width - 2, b.y);
@@ -452,7 +452,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         g.setColor(old);
     }
 
-    private void paintRaised2Border(Graphics g, Rectangle b) {
+    protected void paintRaised2Border(Graphics g, Rectangle b) {
         Color old = g.getColor();
         g.setColor(_lightHighlightColor);    // inner 3D border
         g.drawLine(b.x, b.y, b.x + b.width - 1, b.y);
@@ -468,7 +468,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         g.setColor(old);
     }
 
-    private void paintRaisedBorder(Graphics g, Rectangle b) {
+    protected void paintRaisedBorder(Graphics g, Rectangle b) {
         Color old = g.getColor();
         g.setColor(_lightHighlightColor);    // inner 3D border
         g.drawLine(b.x, b.y, b.x + b.width - 1, b.y);
@@ -722,99 +722,6 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         return d;
     }
 
-    protected String layoutMenuItem1(FontMetrics fm,
-                                     String text,
-                                     FontMetrics fmAccel,
-                                     String acceleratorText,
-                                     Icon icon,
-                                     Icon checkIcon,
-                                     Icon arrowIcon,
-                                     int verticalAlignment,
-                                     int horizontalAlignment,
-                                     int verticalTextPosition,
-                                     int horizontalTextPosition,
-                                     Rectangle viewRect,
-                                     Rectangle iconRect,
-                                     Rectangle textRect,
-                                     Rectangle acceleratorRect,
-                                     Rectangle checkIconRect,
-                                     Rectangle arrowIconRect,
-                                     int textIconGap,
-                                     int menuItemGap) {
-        textRect.width -= _splitButtonMargin;
-        text = JideSwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL,
-                verticalAlignment, horizontalAlignment, verticalTextPosition,
-                horizontalTextPosition, viewRect, iconRect, textRect,
-                textIconGap);
-
-        textIconGap = defaultTextIconGap;
-
-        // get viewRect which is the bounds of menuitem
-        viewRect.x = viewRect.y = 0;
-        if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
-            //   Dimension size = b.getSize();
-            viewRect.height = menuItem.getHeight();
-            viewRect.width = menuItem.getWidth();
-        }
-        else {
-            viewRect.height = menuItem.getWidth();
-            viewRect.width = menuItem.getHeight();
-        }
-
-        if ((text == null) || text.equals("")) {
-            textRect.width = textRect.height = 0;
-            text = "";
-        }
-        else {
-            textRect.width = SwingUtilities.computeStringWidth(fm, text);
-            textRect.height = fm.getHeight();
-        }
-
-        if (icon == null) {
-            if (useCheckAndArrow())
-                iconRect.width = iconRect.height = 16;
-            else
-                iconRect.width = iconRect.height = 0;
-        }
-        else {
-            iconRect.width = icon.getIconWidth();
-            iconRect.height = icon.getIconHeight();
-        }
-
-        if (menuItem.getComponentOrientation().isLeftToRight()) {
-            if (icon != null) {
-                iconRect.x = 3;
-                textRect.x = iconRect.x + iconRect.width + textIconGap;
-            }
-            else {
-                iconRect.x = 0;
-                textRect.x = 3;
-            }
-            iconRect.y = (viewRect.height - iconRect.height) / 2;
-            textRect.y = (viewRect.height - textRect.height) / 2;
-        }
-        else {
-            if (icon != null) {
-                iconRect.y = 3;
-                textRect.y = iconRect.y + iconRect.height + textIconGap;
-            }
-            else {
-                iconRect.y = 0;
-                textRect.y = 3;
-            }
-            iconRect.x = (viewRect.width - iconRect.width) / 2;
-            textRect.x = (viewRect.width - textRect.width) / 2;
-        }
-
-//        System.out.println("Layout: text=" + menuItem.getText() + "\n\tv="
-//                + viewRect + "\n\tc=" + checkIconRect + "\n\ti="
-//                + iconRect + "\n\tt=" + textRect + "\n\tacc="
-//                + acceleratorRect + "\n\ta=" + arrowIconRect + "\n");
-
-
-        return text;
-    }
-
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
@@ -857,11 +764,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         else {
             // For Win95, the selected text color is the selection forground color
             if (model.isSelected()) {
-                if (/*SystemInfo.isClassicWindows() ||
-                        */!((JMenu) menuItem).isTopLevelMenu()) {
-
-                    g.setColor(selectionForeground); // Uses protected field.
-                }
+                g.setColor(selectionForeground); // Uses protected field.
             }
             else {
                 int state = JideSwingUtilities.getButtonState(menuItem);

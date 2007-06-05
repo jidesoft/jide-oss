@@ -9,6 +9,7 @@ package com.jidesoft.plaf.vsnet;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.swing.ButtonStyle;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
 import com.jidesoft.utils.SecurityUtils;
@@ -1289,6 +1290,13 @@ public class VsnetMenuItemUI extends MenuItemUI {
             if (name.equals("labelFor") || name.equals("displayedMnemonic") ||
                     name.equals("accelerator")) {
                 updateAcceleratorBinding();
+            }
+            else if (ButtonStyle.BUTTON_STYLE_PROPERTY.equals(name)
+                    || "opaque".equals(name)
+                    || AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY.equals(name)
+                    ) {
+                JMenuItem lbl = ((JMenuItem) e.getSource());
+                lbl.repaint();
             }
             else if (name.equals("orientation")) {
                 JMenuItem lbl = ((JMenuItem) e.getSource());

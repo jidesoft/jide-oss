@@ -371,6 +371,10 @@ public class JideMenu extends JMenu implements Alignable {
         }
     }
 
+    public boolean originalIsOpaque() {
+        return super.isOpaque();
+    }
+
     protected void hideMenu() {
         MenuSelectionManager msm = MenuSelectionManager.defaultManager();
         msm.clearSelectedPath();

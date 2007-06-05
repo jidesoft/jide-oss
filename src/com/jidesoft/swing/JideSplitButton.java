@@ -120,10 +120,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * @return true if the toggle button is selected, otherwise false
      */
     public boolean isButtonSelected() {
-        if (model instanceof SplitButtonModel) {
-            return ((DefaultSplitButtonModel) model).isButtonSelected();
-        }
-        return false;
+        return model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected();
     }
 
     /**
@@ -146,10 +143,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * @return true if the button is enabled, otherwise false
      */
     public boolean isButtonEnabled() {
-        if (model instanceof SplitButtonModel) {
-            return ((DefaultSplitButtonModel) model).isButtonEnabled();
-        }
-        return false;
+        return model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonEnabled();
     }
 
     /**
@@ -313,7 +307,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
      *
      * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
-     * @param color
+     * @param color the background color
      */
     public void setBackgroundOfState(int state, Color color) {
         switch (state) {
@@ -341,7 +335,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * for each component to use a different foreground. So if you want the foreground to be used, don't use a ColorUIResource because
      * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
      *
-     * @param state
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
      * @return the foreground for different states.
      */
     public Color getForegroundOfState(int state) {
@@ -368,8 +362,8 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * for each component to use a different foreground. So if you want the foreground to be used, don't use a ColorUIResource because
      * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
      *
-     * @param state
-     * @param color
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
+     * @param color the background color
      */
     public void setForegroundOfState(int state, Color color) {
         switch (state) {

@@ -117,7 +117,6 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
         }
 
         fireStateChanged();
-
     }
 
     /**
@@ -129,4 +128,10 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
         return (stateMask & BUTTON_ROLLOVER) != 0;
     }
 
+    public void setRollover(boolean b) {
+        super.setRollover(b);
+        if (!b) {
+            setButtonRollover(false);
+        }
+    }
 }
