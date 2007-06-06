@@ -263,16 +263,76 @@ public class Calculator extends JPanel implements ActionListener {
         }
         add(_pointButton = createButton("."));
         add(_equalButton = createButton("="));
-        add(_backspaceButton = createButton("‹–"));
-        add(_negativeButton = createButton("±"));
+        add(_backspaceButton = createButton(null, new BackspaceIcon()));
+        add(_negativeButton = createButton(null, new ToggleNegativeIcon()));
         add(_clearButton = createButton("C"));
+    }
+
+    class BackspaceIcon implements Icon {
+        public BackspaceIcon() {
+        }
+
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            Object save = JideSwingUtilities.setupShapeAntialiasing(g);
+            Color old = g.getColor();
+            g.setColor(c.getForeground());
+            g.drawLine(x, y + 3, x + 3, y);
+            g.drawLine(x, y + 3, x + 3, y + 6);
+            g.drawLine(x + 3, y + 3, x + 7, y + 3);
+            g.setColor(old);
+            JideSwingUtilities.restoreShapeAntialiasing(g, save);
+        }
+
+        public int getIconWidth() {
+            return 7;
+        }
+
+        public int getIconHeight() {
+            return 7;
+        }
+    }
+
+    class ToggleNegativeIcon implements Icon {
+        public ToggleNegativeIcon() {
+        }
+
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            Color old = g.getColor();
+            Object save = JideSwingUtilities.setupShapeAntialiasing(g);
+            g.setColor(c.getForeground());
+            g.drawLine(x, y + 2, x + 6, y + 2);
+            g.drawLine(x, y + 7, x + 6, y + 7);
+            g.drawLine(x + 3, y, x + 3, y + 5);
+            g.setColor(old);
+            JideSwingUtilities.restoreShapeAntialiasing(g, save);
+        }
+
+        public int getIconWidth() {
+            return 7;
+        }
+
+        public int getIconHeight() {
+            return 7;
+        }
+    }
+
+    /**
+     * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You can override it
+     * to create your own button. This method is used to create all buttons except the backspace and the +/- button. So if you want
+     * to override it, it's better to override {@link #createButton(String,javax.swing.Icon)} method.
+     *
+     * @param text the text on the button.
+     * @return the button.
+     */
+    protected AbstractButton createButton(String text) {
+        return createButton(text, null);
     }
 
     /**
      * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You can override it
      * to create your own button.
      * <pre><code>
-     * AbstractButton button = new JideButton(text);
+     * AbstractButton button = new JideButton(text, icon);
      * button.setOpaque(true);
      * button.setContentAreaFilled(true);
      * button.setRequestFocusEnabled(false);
@@ -282,10 +342,11 @@ public class Calculator extends JPanel implements ActionListener {
      * </code></pre>
      *
      * @param text the text on the button.
+     * @param icon the icon on the button.
      * @return the button.
      */
-    protected AbstractButton createButton(String text) {
-        AbstractButton button = new JideButton(text);
+    protected AbstractButton createButton(String text, Icon icon) {
+        AbstractButton button = new JideButton(text, icon);
         button.setOpaque(true);
         button.setContentAreaFilled(true);
         button.setRequestFocusEnabled(false);
