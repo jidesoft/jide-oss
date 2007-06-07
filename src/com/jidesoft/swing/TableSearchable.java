@@ -225,4 +225,20 @@ public class TableSearchable extends Searchable implements TableModelListener, P
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
         }
     }
+
+    protected boolean isActivateKey(KeyEvent e) {
+        boolean editable = isSelectedCellEditable();
+        return !editable && super.isActivateKey(e);
+    }
+
+    /**
+     * Checks if the selected cell is editable. If yes, we will not activate Searchable when key is typed.
+     *
+     * @return true if the selected cell is editable.
+     */
+    protected boolean isSelectedCellEditable() {
+        int selectedRow = ((JTable) _component).getSelectionModel().getLeadSelectionIndex();
+        int selectedColumn = ((JTable) _component).getColumnModel().getSelectionModel().getLeadSelectionIndex();
+        return ((JTable) _component).isCellEditable(selectedRow, selectedColumn);
+    }
 }
