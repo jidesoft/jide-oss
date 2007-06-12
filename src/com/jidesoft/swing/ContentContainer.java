@@ -5,6 +5,7 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
 
@@ -32,6 +33,9 @@ public class ContentContainer extends JPanel {
 
     public void updateUI() {
         super.updateUI();
+        if (UIDefaultsLookup.get("Theme.painter") == null) {
+            LookAndFeelFactory.installJideExtension();
+        }
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
     }
 
