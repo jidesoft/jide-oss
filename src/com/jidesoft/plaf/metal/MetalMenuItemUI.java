@@ -656,17 +656,17 @@ public class MetalMenuItemUI extends MenuItemUI {
                 // *** paint the acceleratorText disabled
                 if (disabledForeground != null) {
                     g.setColor(disabledForeground);
-                    JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset,
                             acceleratorRect.y + fmAccel.getAscent());
                 }
                 else {
                     g.setColor(b.getBackground().brighter());
-                    JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset,
                             acceleratorRect.y + fmAccel.getAscent());
                     g.setColor(b.getBackground().darker());
-                    JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset - 1,
                             acceleratorRect.y + fmAccel.getAscent() - 1);
                 }
@@ -679,7 +679,7 @@ public class MetalMenuItemUI extends MenuItemUI {
                 else {
                     g.setColor(acceleratorForeground);
                 }
-                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                         acceleratorRect.x - accOffset,
                         acceleratorRect.y + fmAccel.getAscent());
             }

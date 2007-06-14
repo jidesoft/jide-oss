@@ -17,7 +17,6 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
@@ -633,17 +632,17 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 // *** paint the acceleratorText disabled
                 if (disabledForeground != null) {
                     g.setColor(disabledForeground);
-                    JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset,
                             acceleratorRect.y + fmAccel.getAscent());
                 }
                 else {
                     g.setColor(b.getBackground().brighter());
-                    JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset,
                             acceleratorRect.y + fmAccel.getAscent());
                     g.setColor(b.getBackground().darker());
-                    BasicGraphicsUtils.drawString(g, acceleratorText, 0,
+                    JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                             acceleratorRect.x - accOffset - 1,
                             acceleratorRect.y + fmAccel.getAscent() - 1);
                 }
@@ -656,7 +655,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 else {
                     g.setColor(acceleratorForeground);
                 }
-                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, acceleratorText, 0,
+                JideSwingUtilities.drawString(menuItem, g, acceleratorText,
                         acceleratorRect.x - accOffset,
                         acceleratorRect.y + fmAccel.getAscent());
             }
