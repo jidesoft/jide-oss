@@ -73,14 +73,14 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected void setSelectedIndex(int index, boolean incremental) {
         int majorIndex, minorIndex;
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+        if (isColumnSelectionAllowed(table)) {
             majorIndex = index;
             minorIndex = getMainIndex();
             if (majorIndex != -1) {
                 table.changeSelection(majorIndex, minorIndex, false, incremental);
             }
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) {
+        else if (isRowSelectionAllowed(table)) {
             majorIndex = index;
             minorIndex = getMainIndex();
             if (majorIndex != -1) {
@@ -94,13 +94,37 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    /**
+     * Is the column selection allowed?
+     *
+     * @param table the table.
+     * @return true if the table is the column selection.
+     */
+    protected boolean isColumnSelectionAllowed(JTable table) {
+        return getMainIndex() != -1 && (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed());
+    }
 
+    /**
+     * Is the row selection allowed?
+     *
+     * @param table the table.
+     * @return true if the table is the row selection.
+     */
+    protected boolean isRowSelectionAllowed(JTable table) {
+        return getMainIndex() != -1 && (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed());
+    }
+
+    /**
+     * Gets the selected index.
+     *
+     * @return the selected index.
+     */
     protected int getSelectedIndex() {
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+        if (isColumnSelectionAllowed(table)) {
             return table.getColumnModel().getSelectionModel().getLeadSelectionIndex();
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) {
+        else if (isRowSelectionAllowed(table)) {
             return table.getSelectionModel().getLeadSelectionIndex();
         }
         else { // cell selection allowed
@@ -111,10 +135,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected Object getElementAt(int index) {
         TableModel model = ((JTable) _component).getModel();
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) { // column selection mode
+        if (isColumnSelectionAllowed(table)) { // column selection mode
             return getValueAt(model, getMainIndex(), table.convertColumnIndexToModel(index));
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) { // row selection mode
+        else if (isRowSelectionAllowed(table)) { // row selection mode
             return getValueAt(model, index, table.convertColumnIndexToModel(getMainIndex()));
         }
         else { // cell selection allowed
@@ -136,10 +160,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected int getElementCount() {
         TableModel model = ((JTable) _component).getModel();
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+        if (isColumnSelectionAllowed(table)) {
             return table.getColumnModel().getColumnCount();
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) {
+        else if (isRowSelectionAllowed(table)) {
             return model.getRowCount();
         }
         else { // cell selection allowed
@@ -181,10 +205,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected boolean isFindNextKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+        if (isColumnSelectionAllowed(table)) {
             return keyCode == KeyEvent.VK_RIGHT;
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) {
+        else if (isRowSelectionAllowed(table)) {
             return keyCode == KeyEvent.VK_DOWN;
         }
         else { // cell selection allowed
@@ -195,10 +219,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected boolean isFindPreviousKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
         JTable table = ((JTable) _component);
-        if (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed()) {
+        if (isColumnSelectionAllowed(table)) {
             return keyCode == KeyEvent.VK_LEFT;
         }
-        else if (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed()) {
+        else if (isRowSelectionAllowed(table)) {
             return keyCode == KeyEvent.VK_UP;
         }
         else { // cell selection allowed
