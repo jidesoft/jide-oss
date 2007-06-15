@@ -1,4 +1,4 @@
-/*
+/* 
  * @(#) DateConverter.java
  *
  * Copyright 2002 - 2003 JIDE Software. All rights reserved.
@@ -64,7 +64,11 @@ public class DateConverter implements ObjectConverter {
             }
 
             if (object instanceof Date || object instanceof Number) {
-                if (DATETIME_CONTEXT.equals(context)) {
+                Object userObject = context.getUserObject();
+                if (userObject instanceof DateFormat) {
+                    return ((DateFormat) userObject).format(object);
+                }
+                else if (DATETIME_CONTEXT.equals(context)) {
                     return _defaultDatetimeFormat.format(object);
                 }
                 else if (TIME_CONTEXT.equals(context)) {
@@ -100,7 +104,11 @@ public class DateConverter implements ObjectConverter {
         }
 
         try {
-            if (DATETIME_CONTEXT.equals(context)) {
+            Object userObject = context.getUserObject();
+            if (userObject instanceof DateFormat) {
+                return ((DateFormat) userObject).parse(string);
+            }
+            else if (DATETIME_CONTEXT.equals(context)) {
                 return _defaultDatetimeFormat.parse(string);
             }
             else if (TIME_CONTEXT.equals(context)) {
