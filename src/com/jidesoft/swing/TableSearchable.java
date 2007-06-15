@@ -76,21 +76,37 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         if (isColumnSelectionAllowed(table)) {
             majorIndex = index;
             minorIndex = getMainIndex();
-            if (majorIndex != -1) {
-                table.changeSelection(majorIndex, minorIndex, false, incremental);
-            }
+            addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else if (isRowSelectionAllowed(table)) {
             majorIndex = index;
             minorIndex = getMainIndex();
-            if (majorIndex != -1) {
-                table.changeSelection(majorIndex, minorIndex, false, incremental);
-            }
+            addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else { // cell selection allowed
             majorIndex = index / table.getColumnModel().getColumnCount();
             minorIndex = index % table.getColumnModel().getColumnCount();
-            table.changeSelection(majorIndex, minorIndex, false, incremental);
+            addTableSelection(table, majorIndex, minorIndex, incremental);
+        }
+    }
+
+    /**
+     * Selects the cell at the specified row and column index. If incremental is true, the previous selection will not be cleared.
+     * This method will use {@link JTable#changeSelection(int,int,boolean,boolean)} method to select the cell
+     * if the row and column index is in the range and the cell was not selected. The last two parameters of changeSelection
+     * is true and false respectively.
+     *
+     * @param table       the table
+     * @param rowIndex    the row index of the cell.
+     * @param columnIndex the column index of the cell
+     * @param incremental false to clear all previous selection. True to keep the previous selection.
+     */
+    protected void addTableSelection(JTable table, int rowIndex, int columnIndex, boolean incremental) {
+        if (!incremental)
+            table.clearSelection();
+        if (rowIndex >= 0 && columnIndex >= 0 && rowIndex < table.getRowCount() && columnIndex < table.getColumnCount()
+                && !table.isCellSelected(rowIndex, columnIndex)) {
+            table.changeSelection(rowIndex, columnIndex, true, false);
         }
     }
 
