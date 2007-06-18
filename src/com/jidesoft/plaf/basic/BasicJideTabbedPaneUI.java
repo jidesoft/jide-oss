@@ -8033,12 +8033,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
             iconRect.x = tabRect.x + _iconMargin;
             textRect.x = (icon != null ? iconRect.x + iconRect.width + _textIconGap : tabRect.x + _textPadding);
+            textRect.width += 2;
         }
         else {
             iconRect.y = tabRect.y + _iconMargin;
             textRect.y = (icon != null ? iconRect.y + iconRect.height + _textIconGap : tabRect.y + _textPadding);
             iconRect.x = tabRect.x + 2;
             textRect.x = tabRect.x + 2;
+            textRect.height += 2;
         }
 
         return textRect;
@@ -8076,7 +8078,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public void startEditing(MouseEvent e) {
-        int tabIndex = _tabPane.getSelectedIndex();
+        int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
 
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
