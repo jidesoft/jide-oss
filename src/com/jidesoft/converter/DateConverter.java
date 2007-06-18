@@ -64,9 +64,8 @@ public class DateConverter implements ObjectConverter {
             }
 
             if (object instanceof Date || object instanceof Number) {
-                Object userObject = context.getUserObject();
-                if (userObject instanceof DateFormat) {
-                    return ((DateFormat) userObject).format(object);
+                if (context != null && context.getUserObject() instanceof DateFormat) {
+                    return ((DateFormat) context.getUserObject()).format(object);
                 }
                 else if (DATETIME_CONTEXT.equals(context)) {
                     return _defaultDatetimeFormat.format(object);
