@@ -757,11 +757,21 @@ public class JideSwingUtilities implements SwingConstants {
     };
 
     private static PropertyChangeListener _setOpaqueFalseListener;
+    private static final String OPAQUE_LISTENER = "setOpaqueRecursively.opaqueListener";
+
+    /**
+     * setOpaqueRecursively method will make all child components opaque true or false. But if you call
+     * jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE), we will not touch
+     * this particular component when setOpaqueRecursively.
+     */
+    public static final String SET_OPAQUE_RECURSIVELY_EXCLUDED = "setOpaqueRecursively.excluded";
 
     /**
      * Calls setOpaque method recursively on each component except
      * for JButton, JComboBox and JTextComponent.
      * <code>Component</code> c is usually a <code>Container</code>.
+     * If you would like certain child component not affected by this call, you can
+     * call jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE) before calling this method.
      *
      * @param c      component
      * @param opaque true if setOpaque to true; false otherwise
@@ -769,14 +779,18 @@ public class JideSwingUtilities implements SwingConstants {
     public static void setOpaqueRecursively(final Component c, final boolean opaque) {
         setRecursively(c, new Handler() {
             public boolean condition(Component c) {
-                return !(c instanceof JComboBox || c instanceof JButton || c instanceof JTextComponent || c instanceof JComboBox);
+                return !(c instanceof JComboBox || c instanceof JButton || c instanceof JTextComponent);
             }
 
             public void action(Component c) {
                 if (c instanceof JComponent) {
                     JComponent jc = (JComponent) c;
+                    if (Boolean.TRUE.equals(jc.getClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED))) {
+                        return;
+                    }
+
                     jc.setOpaque(opaque);
-                    if (jc.getClientProperty("opaqueListener") == null) {
+                    if (jc.getClientProperty(OPAQUE_LISTENER) == null) {
                         if (opaque) {
                             if (_setOpaqueTrueListener == null) {
                                 _setOpaqueTrueListener = new PropertyChangeListener() {
@@ -787,7 +801,7 @@ public class JideSwingUtilities implements SwingConstants {
                                     }
                                 };
                             }
-                            c.addPropertyChangeListener("opaque", _setOpaqueTrueListener);
+                            jc.addPropertyChangeListener("opaque", _setOpaqueTrueListener);
                             jc.putClientProperty("opaqueListener", _setOpaqueTrueListener);
                         }
                         else {
@@ -800,8 +814,8 @@ public class JideSwingUtilities implements SwingConstants {
                                     }
                                 };
                             }
-                            c.addPropertyChangeListener("opaque", _setOpaqueFalseListener);
-                            jc.putClientProperty("opaqueListener", _setOpaqueFalseListener);
+                            jc.addPropertyChangeListener("opaque", _setOpaqueFalseListener);
+                            jc.putClientProperty(OPAQUE_LISTENER, _setOpaqueFalseListener);
                         }
                     }
                 }
