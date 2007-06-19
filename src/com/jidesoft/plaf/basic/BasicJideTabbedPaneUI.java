@@ -8019,6 +8019,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 textRect = new Rectangle();
 
         String title = _tabPane.getDisplayTitleAt(tabIndex);
+        if (title == null || title.length() < 4) {
+            title = "    ";
+        }
         Icon icon = getIconForTab(tabIndex);
 
         Font font = _tabPane.getFont();
