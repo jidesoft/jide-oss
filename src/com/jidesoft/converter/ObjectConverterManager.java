@@ -380,7 +380,7 @@ public class ObjectConverterManager {
      * This method will reset the internal flag so that you can call  {@link #initDefaultConverter()} in case you unresgister all
      * converters using {@link #unregisterAllConverters()}.
      */
-    public void resetInit() {
+    public static void resetInit() {
         _inited = false;
     }
 }

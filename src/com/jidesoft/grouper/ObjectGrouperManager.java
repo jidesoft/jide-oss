@@ -251,7 +251,7 @@ public class ObjectGrouperManager {
      * This method will reset the internal flag so that you can call  {@link #initDefaultGrouper()} in case you unresgister all
      * groupers using {@link #unregisterAllGroupers()}.
      */
-    public void resetInit() {
+    public static void resetInit() {
         _inited = false;
     }
 }
