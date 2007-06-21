@@ -52,6 +52,24 @@ public class CacheMap {
         return (Cache) _cache.get(clazz);
     }
 
+    /**
+     * Gets the secondary keys that are registered with the class in CacheMap.
+     *
+     * @param clazz the class
+     * @return the secondary keys.
+     */
+    public Object[] getKeys(Class clazz) {
+        Cache cache = getCache(clazz);
+        Set set = cache.keySet();
+        Object[] keys = new Object[set.size()];
+        int i = 0;
+        for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+            Object key = iterator.next();
+            keys[i++] = key;
+        }
+        return keys;
+    }
+
     protected Cache initCache(Class clazz) {
         Object editors = getCache(clazz);
         if (editors != null) {

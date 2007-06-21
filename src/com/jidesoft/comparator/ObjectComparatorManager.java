@@ -251,6 +251,24 @@ public class ObjectComparatorManager {
     }
 
     /**
+     * Gets the available ComparatorContexts registered with the class.
+     *
+     * @param clazz the class.
+     * @return the available ComparatorContext.
+     */
+    public ComparatorContext[] getComparatorContexts(Class clazz) {
+        Object[] keys = _cache.getKeys(clazz);
+        ComparatorContext[] contexts = new ComparatorContext[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            Object key = keys[i];
+            if (key instanceof ComparatorContext) {
+                contexts[i] = (ComparatorContext) key;
+            }
+        }
+        return contexts;
+    }
+
+    /**
      * Initialize default comparator. Please make sure you call this method
      * before you use any comparator related classes such as SortableTableModel.
      */

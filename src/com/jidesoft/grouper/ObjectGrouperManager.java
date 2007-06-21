@@ -215,6 +215,24 @@ public class ObjectGrouperManager {
     }
 
     /**
+     * Gets the available GrouperContexts registered with the class.
+     *
+     * @param clazz the class.
+     * @return the available GrouperContexts.
+     */
+    public GrouperContext[] getGrouperContexts(Class clazz) {
+        Object[] keys = _cache.getKeys(clazz);
+        GrouperContext[] contexts = new GrouperContext[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            Object key = keys[i];
+            if (key instanceof GrouperContext) {
+                contexts[i] = (GrouperContext) key;
+            }
+        }
+        return contexts;
+    }
+
+    /**
      * Initialize default groupers. Please make sure you call this method before you use any
      * group related classes. By default we register following groupers.
      * <code><pre>
