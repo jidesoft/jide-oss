@@ -42,7 +42,7 @@ public class Eclipse3xWindowsUtils extends EclipseWindowsUtils {
      * @param table
      */
     public static void initComponentDefaults(UIDefaults table) {
-        initComponentDefaults(table);
+        EclipseWindowsUtils.initComponentDefaults(table);
         initComponentDefaultsForEclipse3x(table);
     }
 
