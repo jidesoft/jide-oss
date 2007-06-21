@@ -122,6 +122,26 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         }
     }
 
+    /**
+     * Overrides the method in DefaultTreeSelectionModel to consider digIn mode.
+     *
+     * @param pPaths the tree paths to be selected.
+     */
+    public void setSelectionPaths(TreePath[] pPaths) {
+        if (!isDigIn()) {
+            super.setSelectionPaths(pPaths);
+        }
+        else {
+            clearSelection();
+            addSelectionPaths(pPaths);
+        }
+    }
+
+    /**
+     * Overrides the method in DefaultTreeSelectionModel to consider digIn mode.
+     *
+     * @param pPaths the tree paths to be added to selection paths.
+     */
     public void addSelectionPaths(TreePath[] paths) {
         if (!isDigIn()) {
             super.addSelectionPaths(paths);
