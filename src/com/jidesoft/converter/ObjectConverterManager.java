@@ -251,7 +251,7 @@ public class ObjectConverterManager {
      * @param clazz the class.
      * @return the available ConverterContexts.
      */
-    public ConverterContext[] getConverterContexts(Class clazz) {
+    public static ConverterContext[] getConverterContexts(Class clazz) {
         Object[] keys = _cache.getKeys(clazz);
         ConverterContext[] contexts = new ConverterContext[keys.length];
         for (int i = 0; i < keys.length; i++) {

@@ -220,7 +220,7 @@ public class ObjectGrouperManager {
      * @param clazz the class.
      * @return the available GrouperContexts.
      */
-    public GrouperContext[] getGrouperContexts(Class clazz) {
+    public static GrouperContext[] getGrouperContexts(Class clazz) {
         Object[] keys = _cache.getKeys(clazz);
         GrouperContext[] contexts = new GrouperContext[keys.length];
         for (int i = 0; i < keys.length; i++) {

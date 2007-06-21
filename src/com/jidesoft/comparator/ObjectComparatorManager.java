@@ -256,7 +256,7 @@ public class ObjectComparatorManager {
      * @param clazz the class.
      * @return the available ComparatorContext.
      */
-    public ComparatorContext[] getComparatorContexts(Class clazz) {
+    public static ComparatorContext[] getComparatorContexts(Class clazz) {
         Object[] keys = _cache.getKeys(clazz);
         ComparatorContext[] contexts = new ComparatorContext[keys.length];
         for (int i = 0; i < keys.length; i++) {
