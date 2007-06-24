@@ -1546,7 +1546,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         if (e.getID() == ComponentEvent.COMPONENT_HIDDEN && isAncestorOf(getOwner(), e.getSource())) {
             ancestorHidden();
         }
-        else if (e.getID() == ComponentEvent.COMPONENT_MOVED && isAncestorOf(getOwner(), e.getSource())) {
+        else if (e.getID() == ComponentEvent.COMPONENT_MOVED
+                // this line is for Linux because the jframe moves when combobox is shown inside JidePopup
+                && e.getSource() != ((JComponent) getOwner()).getTopLevelAncestor()
+                && isAncestorOf(getOwner(), e.getSource())) {
             ancestorMoved();
         }
     }
