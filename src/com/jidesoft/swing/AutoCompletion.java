@@ -12,10 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.PlainDocument;
+import javax.swing.text.*;
 import javax.swing.tree.TreePath;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -66,6 +63,9 @@ public class AutoCompletion {
 
     private boolean _strict = true;
     private boolean _strictCompletion = true;
+    private PropertyChangeListener _propertyChangeListener;
+    private JComboBox _comboBox;
+    private Document _oldDocument;
 
     public AutoCompletion(final JComboBox comboBox) {
         this(comboBox, new ComboBoxSearchable(comboBox));
@@ -73,7 +73,7 @@ public class AutoCompletion {
 
     public AutoCompletion(final JComboBox comboBox, Searchable searchable) {
         _searchable = searchable;
-        comboBox.addPropertyChangeListener(new PropertyChangeListener() {
+        _propertyChangeListener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 if ("editor".equals(e.getPropertyName())) {
                     if (e.getNewValue() != null) {
@@ -82,7 +82,8 @@ public class AutoCompletion {
                     }
                 }
             }
-        });
+        };
+        _comboBox = comboBox;
         _searchable.setWildcardEnabled(false);
         if (_searchable instanceof ComboBoxSearchable) {
             ((ComboBoxSearchable) _searchable).setShowPopupDuringSearching(false);
@@ -202,7 +203,36 @@ public class AutoCompletion {
         }
     }
 
-    private void installListeners() {
+    /**
+     * Uninstalls the listeners so that the component is not auto-completion anymore.
+     */
+    public void uninstallListeners() {
+        if (_propertyChangeListener != null && _comboBox != null) {
+            _comboBox.removePropertyChangeListener(_propertyChangeListener);
+        }
+
+        if (getTextComponent() != null) {
+            getTextComponent().removeKeyListener(_editorKeyListener);
+            getTextComponent().removeFocusListener(_editorFocusListener);
+            String text = getTextComponent().getText();
+            if (_oldDocument != null) {
+                getTextComponent().setDocument(_oldDocument);
+                _oldDocument = null;
+            }
+            getTextComponent().setText(text);
+        }
+    }
+
+    /**
+     * Installs the listeners needed for auto-completion feature.
+     * Please note, this method is already called when you create AutoCompletion.
+     * Unless you called {@link #uninstallListeners()}, there is no need to call this method yourself.
+     */
+    public void installListeners() {
+        if (_comboBox != null && _propertyChangeListener != null) {
+            _comboBox.addPropertyChangeListener(_propertyChangeListener);
+        }
+
         _editorKeyListener = new KeyAdapter() {
             private boolean _deletePressed;
             private String _saveText;
@@ -288,7 +318,10 @@ public class AutoCompletion {
             _textComponent = textComponent;
             getTextComponent().addKeyListener(_editorKeyListener);
             getTextComponent().addFocusListener(_editorFocusListener);
+            String text = getTextComponent().getText();
+            _oldDocument = getTextComponent().getDocument();
             getTextComponent().setDocument(_document);
+            getTextComponent().setText(text);
         }
     }
 
