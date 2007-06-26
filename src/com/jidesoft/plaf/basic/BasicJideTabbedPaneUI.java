@@ -7451,7 +7451,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         private void repaintSelectedTab() {
             if (_tabPane.getTabCount() > 0) {
                 Rectangle rect = getTabBounds(_tabPane, _tabPane.getSelectedIndex());
-                _tabPane.repaint(rect);
+                if (rect != null) {
+                    _tabPane.repaint(rect);
+                }
             }
         }
     }

@@ -245,6 +245,17 @@ public class LookAndFeelFactory implements ProductNames {
     public final static int XERTO_STYLE = 4;
 
     /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as XERTO_STYLE
+     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from JIDE Action Framework.
+     * Please note, we only use menu extension for Xerto style when the underlying L&F is Windows L&F. If you are using L&F such as Metal or other 3rd party L&F based on Metal,
+     * XERTO_STYLE_WITHOUT_MENU will be used even you use XERTO_STYLE when calling to installJideExtension().
+     * <p/>
+     *
+     * @see #XERTO_STYLE
+     */
+    public final static int XERTO_STYLE_WITHOUT_MENU = 6;
+
+    /**
      * A style that you can use with {@link #installJideExtension(int)} method.
      * This style mimics the visual style of Eclipse 3.x for the toolbars, menus and dockable windows.
      * <p/>
@@ -515,6 +526,7 @@ public class LookAndFeelFactory implements ProductNames {
                     Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                     break;
                 case XERTO_STYLE:
+                case XERTO_STYLE_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -540,6 +552,7 @@ public class LookAndFeelFactory implements ProductNames {
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     break;
                 case XERTO_STYLE:
+                case XERTO_STYLE_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -599,6 +612,10 @@ public class LookAndFeelFactory implements ProductNames {
                 case XERTO_STYLE:
                     XertoWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     XertoWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
+                    break;
+                case XERTO_STYLE_WITHOUT_MENU:
+                    XertoWindowsUtils.initComponentDefaults(uiDefaults);
+                    XertoWindowsUtils.initClassDefaults(uiDefaults);
                     break;
                 default:
             }
@@ -698,6 +715,16 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         XertoWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         XertoWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
+                    }
+                    else {
+                        XertoMetalUtils.initComponentDefaults(uiDefaults);
+                        XertoMetalUtils.initClassDefaults(uiDefaults);
+                    }
+                    break;
+                case XERTO_STYLE_WITHOUT_MENU:
+                    if (SystemInfo.isWindows()) {
+                        XertoWindowsUtils.initClassDefaults(uiDefaults);
+                        XertoWindowsUtils.initComponentDefaults(uiDefaults);
                     }
                     else {
                         XertoMetalUtils.initComponentDefaults(uiDefaults);
@@ -1152,7 +1179,7 @@ public class LookAndFeelFactory implements ProductNames {
     private static int _productsUsed = -1;
 
     public static int getProductsUsed() {
-        if(_productsUsed == -1) {
+        if (_productsUsed == -1) {
             _productsUsed = 0;
             try {
                 Class.forName("com.jidesoft.docking.Product");
