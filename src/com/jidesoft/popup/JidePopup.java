@@ -192,6 +192,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     private ComponentAdapter _popupResizeListener;
 
     protected Dimension _previousSize;
+    private Component _actualOwner;
+    private Point _actualOwnerLocation;
 
     /**
      * Creates a Popup.
@@ -692,9 +694,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     public void showPopup(Insets insets, Component owner) {
         _insets = insets;
         Component actualOwner = (owner != null) ? owner : getOwner();
-        Point point = null;
         if (actualOwner != null && actualOwner.isShowing()) {
-            point = actualOwner.getLocationOnScreen();
+            Point point = actualOwner.getLocationOnScreen();
             internalShowPopup(point.x, point.y, actualOwner);
         }
         else {
@@ -921,6 +922,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void internalShowPopup(int x, int y, Component owner) {
+        _actualOwner = owner;
+        if (_actualOwner != null) {
+            _actualOwnerLocation = _actualOwner.getLocationOnScreen();
+        }
         createWindow(owner, x, y);
         showPopupImmediately();
     }
@@ -1179,15 +1184,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void movePopup() {
         if (!isDetached() && getOwner() != null) {
-            Point point = getOwner().getLocationOnScreen();
-            if (_insets != null) {
-                Point p = getPopupLocation(point, _window.getSize(), getOwner());
-                _window.setLocation(p.x, p.y);
-            }
-            else {
-                Dimension ownerSize = getOwner().getSize();
-                _window.setLocation(point.x, point.y + ownerSize.height);
-            }
+            showPopup(_insets, _actualOwner);
         }
     }
 
@@ -1547,10 +1544,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             ancestorHidden();
         }
         else if (e.getID() == ComponentEvent.COMPONENT_MOVED
-                // this line is for Linux because the jframe moves when combobox is shown inside JidePopup
-                && e.getSource() != ((JComponent) getOwner()).getTopLevelAncestor()
                 && isAncestorOf(getOwner(), e.getSource())) {
-            ancestorMoved();
+            // this line is for Linux because the jframe moves when combobox is shown inside JidePopup
+            System.out.println("_actualOwnerLocation " + _actualOwnerLocation + " _actualOwner " + _actualOwner + " _actualOwner.getLocationOnScreen() " + (_actualOwner != null ? _actualOwner.getLocationOnScreen() : null));
+            if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
+                ancestorMoved();
+            }
         }
     }
 
@@ -1660,6 +1659,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
             }
         }
+
+        _actualOwner = null;
+        _actualOwnerLocation = null;
     }
 
     /**
