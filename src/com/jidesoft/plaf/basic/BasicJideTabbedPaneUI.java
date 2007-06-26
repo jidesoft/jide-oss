@@ -567,10 +567,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabPane.addComponentListener(_componentListener);
         }
 
-        if (_dropListener == null) {
-            _dropListener = createDropListener();
-            _dt = new DropTarget(getTabPanel(), _dropListener);
-            getTabPanel().setDropTarget(_dt);
+        if (!_tabPane.isDragOverDisabled()) {
+            if (_dropListener == null) {
+                _dropListener = createDropListener();
+                _dt = new DropTarget(getTabPanel(), _dropListener);
+            }
         }
     }
 
@@ -7355,6 +7356,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 updateMnemonics();
             }
             else if (name.equals("tabLayoutPolicy")) {
+                _tabPane.updateUI();
+            }
+            else if (name.equals(JideTabbedPane.PROPERTY_DRAG_OVER_DISABLED)) {
                 _tabPane.updateUI();
             }
             else if (name.equals(JideTabbedPane.PROPERTY_TAB_COLOR_PROVIDER)) {

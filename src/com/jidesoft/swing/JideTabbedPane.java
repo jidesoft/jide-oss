@@ -54,6 +54,7 @@ public class JideTabbedPane extends JTabbedPane {
     private boolean _useDefaultShowIconsOnTab = true;
 
     private boolean _rightClickSelect;
+    private boolean _dragOverDisabled;
 
     /**
      * Bound property name for shrink tabs.
@@ -131,6 +132,8 @@ public class JideTabbedPane extends JTabbedPane {
     public final static String PROPERTY_TAB_LEADING_COMPONENT = "tabLeadingComponent";
     public final static String PROPERTY_TAB_TRAILING_COMPONENT = "tabTrailingComponent";
     public final static String PROPERTY_TAB_COLOR_PROVIDER = "tabColorProvider";
+    public final static String PROPERTY_CONTENT_BORDER_INSETS = "contentBorderInsets";
+    public final static String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
 
     /**
      * @see #getUIClassID
@@ -1519,11 +1522,32 @@ public class JideTabbedPane extends JTabbedPane {
      * @param contentBorderInsets
      */
     public void setContentBorderInsets(Insets contentBorderInsets) {
+        Insets old = _contentBorderInsets;
         _contentBorderInsets = contentBorderInsets;
+        firePropertyChange(PROPERTY_CONTENT_BORDER_INSETS, old, _contentBorderInsets);
     }
 
+    /**
+     * Checks the dragOverDisabled property. By default it is false.
+     *
+     * @return true or false.
+     * @see #setDragOverDisabled(boolean)
+     */
+    public boolean isDragOverDisabled() {
+        return _dragOverDisabled;
+    }
 
-    public Dimension getPreferredSize() {
-        return super.getPreferredSize();
+    /**
+     * Sets the dragOverDisabled property. Default is false. It means when you drag something over an unselected tab, the tab will be selected
+     * automatically. You may want to set it to true if you want to add your own drop listener to the tabs.
+     *
+     * @param dragOverDisabled
+     */
+    public void setDragOverDisabled(boolean dragOverDisabled) {
+        boolean old = _dragOverDisabled;
+        if (old != dragOverDisabled) {
+            _dragOverDisabled = dragOverDisabled;
+            firePropertyChange(PROPERTY_DRAG_OVER_DISABLED, old, dragOverDisabled);
+        }
     }
 }
