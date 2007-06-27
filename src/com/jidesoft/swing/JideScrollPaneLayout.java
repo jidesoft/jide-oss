@@ -640,9 +640,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          */
 
         Component view = (viewport != null) ? viewport.getView() : null;
-        Dimension viewPrefSize =
-                (view != null) ? view.getPreferredSize()
-                        : new Dimension(0, 0);
+        Dimension viewPrefSize = (view != null) ? view.getPreferredSize() : new Dimension(0, 0);
 
         Dimension extentSize =
                 (viewport != null) ? viewport.toViewCoordinates(availR.getSize())
@@ -682,7 +680,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             vsbNeeded = false;
         }
         else {  // vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED
-            vsbNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height);
+            vsbNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || rowHead.getView().getPreferredSize().height > extentSize.height);
         }
 
 
@@ -708,7 +706,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             hsbNeeded = false;
         }
         else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
-            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width);
+            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || colHead.getView().getPreferredSize().width > extentSize.width);
         }
 
         if ((hsb != null) && hsbNeeded) {
@@ -747,13 +745,10 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
                 boolean oldHSBNeeded = hsbNeeded;
                 boolean oldVSBNeeded = vsbNeeded;
-                viewTracksViewportWidth = sv.
-                        getScrollableTracksViewportWidth();
-                viewTracksViewportHeight = sv.
-                        getScrollableTracksViewportHeight();
+                viewTracksViewportWidth = sv.getScrollableTracksViewportWidth();
+                viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
                 if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
-                    boolean newVSBNeeded = !viewTracksViewportHeight &&
-                            (viewPrefSize.height > extentSize.height);
+                    boolean newVSBNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || rowHead.getView().getPreferredSize().height > extentSize.height);
                     if (newVSBNeeded != vsbNeeded) {
                         vsbNeeded = newVSBNeeded;
                         adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets,
@@ -763,8 +758,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                     }
                 }
                 if (hsb != null && hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
-                    boolean newHSBbNeeded = !viewTracksViewportWidth &&
-                            (viewPrefSize.width > extentSize.width);
+                    boolean newHSBbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || colHead.getView().getPreferredSize().width > extentSize.width);
                     if (newHSBbNeeded != hsbNeeded) {
                         hsbNeeded = newHSBbNeeded;
                         adjustForHSB(hsbNeeded, availR, hsbR, vpbInsets);
