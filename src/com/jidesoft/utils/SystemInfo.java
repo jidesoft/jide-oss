@@ -38,6 +38,7 @@ final public class SystemInfo {
      * should be disabled.
      */
     private static boolean _isClassicWindows = false;
+
     /**
      * Variable for whether or not we're on Windows 95.
      */
@@ -92,12 +93,7 @@ final public class SystemInfo {
         try {
             String osVersion = SecurityUtils.getProperty("os.version", "5.0");
             Float version = Float.valueOf(osVersion);
-            if (version.floatValue() <= 4.0) {
-                _isClassicWindows = true;
-            }
-            else {
-                _isClassicWindows = false;
-            }
+            _isClassicWindows = version.floatValue() <= 4.0;
         }
         catch (NumberFormatException ex) {
             _isClassicWindows = false;
@@ -133,13 +129,35 @@ final public class SystemInfo {
 
     /**
      * Returns the version of java we're using.
+     *
+     * @return the java verison.
      */
     public static String getJavaVersion() {
         return SecurityUtils.getProperty("java.version", "1.4.2");
     }
 
     /**
+     * Returns the vendor for java we're using.
+     *
+     * @return the java vendor.
+     */
+    public static String getJavaVendor() {
+        return SecurityUtils.getProperty("java.vendor", "");
+    }
+
+    /**
+     * Returns the verion of the java classwe're using.
+     *
+     * @return the java class verison.
+     */
+    public static String getJavaClassVerion() {
+        return SecurityUtils.getProperty("java.class.version", "");
+    }
+
+    /**
      * Returns the operating system.
+     *
+     * @return the os name.
      */
     public static String getOS() {
         return SecurityUtils.getProperty("os.name", "Windows XP");
@@ -147,13 +165,26 @@ final public class SystemInfo {
 
     /**
      * Returns the operating system version.
+     *
+     * @return the os version.
      */
     public static String getOSVersion() {
-        return SecurityUtils.getProperty("os.version", "5.0");
+        return SecurityUtils.getProperty("os.version", "");
     }
 
     /**
-     * Returns the user's current working directory.
+     * Returns the operating system architecture.
+     *
+     * @return the os architecture.
+     */
+    public static String getOSArchitecture() {
+        return SecurityUtils.getProperty("os.arch", "");
+    }
+
+    /**
+     * Returns the user's home directory.
+     *
+     * @return the user home .
      */
     public static String getCurrentDirectory() {
         return SecurityUtils.getProperty("user.dir", "");
@@ -162,6 +193,8 @@ final public class SystemInfo {
     /**
      * Returns true if this is Windows NT or Windows 2000 and
      * hence can support a system tray feature.
+     *
+     * @return true of system tray is supported.
      */
     public static boolean supportsTray() {
         return _supportsTray;
@@ -169,6 +202,8 @@ final public class SystemInfo {
 
     /**
      * Set supportTray to false in case dll is missing.
+     *
+     * @param support true or false.
      */
     public static void setSupportsTray(boolean support) {
         _supportsTray = support;
@@ -215,6 +250,26 @@ final public class SystemInfo {
      */
     public static boolean isWindowsXP() {
         return _isWindowsXP;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Windows 95.
+     *
+     * @return <tt>true</tt> if the application is running on Windows XP,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isWindows95() {
+        return _isWindows95;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Windows 98.
+     *
+     * @return <tt>true</tt> if the application is running on Windows XP,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isWindows98() {
+        return _isWindows98;
     }
 
     /**
@@ -303,6 +358,7 @@ final public class SystemInfo {
             return version >= 1.3;
         }
         catch (NumberFormatException e) {
+            // ignore
         }
         return false;
     }
@@ -317,11 +373,8 @@ final public class SystemInfo {
         String s = getJavaVersion();
         String sub = s.substring(0, 5);
 
-        if (sub.compareTo("1.4.2") >= 0) {
-            return true;
-        }
+        return sub.compareTo("1.4.2") >= 0;
 
-        return false;
     }
 
     /**
@@ -338,6 +391,7 @@ final public class SystemInfo {
             return version >= 1.4;
         }
         catch (NumberFormatException e) {
+            // ignore
         }
         return false;
     }
@@ -356,6 +410,7 @@ final public class SystemInfo {
             return version >= 1.5;
         }
         catch (NumberFormatException e) {
+            // ignore
         }
         return false;
     }
@@ -386,6 +441,7 @@ final public class SystemInfo {
             return version >= 1.6;
         }
         catch (NumberFormatException e) {
+            // ignore
         }
         return false;
     }
@@ -404,6 +460,7 @@ final public class SystemInfo {
             return version >= 1.7;
         }
         catch (NumberFormatException e) {
+            // ignore
         }
         return false;
     }
