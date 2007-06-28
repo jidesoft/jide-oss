@@ -103,7 +103,7 @@ public class DateConverter implements ObjectConverter {
         }
 
         try {
-            Object userObject = context.getUserObject();
+            Object userObject = context != null ? context.getUserObject() : null;
             if (userObject instanceof DateFormat) {
                 return ((DateFormat) userObject).parse(string);
             }
