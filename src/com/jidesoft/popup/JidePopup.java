@@ -1526,7 +1526,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 // TODO: don't why DEACTIVATED event is fired when popup is showing only if the applet is in browser mode.
                 // so the best solution is to find out why. For now just skip the case if the frame is a EmbeddedFrame.
                 if (doUnpostPopupOnDeactivation()) {
-                    hidePopup(true);
+                    if (e.getOppositeWindow() != getTopLevelAncestor()) {
+                        hidePopup(true);
+                    }
                 }
             }
         }
