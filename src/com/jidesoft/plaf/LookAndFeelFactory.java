@@ -483,28 +483,15 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
                 case VSNET_STYLE:
                 case VSNET_STYLE_WITHOUT_MENU:
-                    ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
-                    final int titleButtonSize = 10;
-
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
-                    uiDefaults.put("DockableFrameUI", "com.jidesoft.plaf.vsnet.VsnetDockableFrameUI");
-                    uiDefaults.put("DockableFrameTitlePane.hideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 0, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.unfloatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.floatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 2 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.autohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 3 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 4 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
-                    uiDefaults.put("DockableFrameTitlePane.buttonGap", new Integer(4)); // gap between buttons
-                    uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 3, 0)));
-                    uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
+
                     Painter gripperPainter = new Painter() {
                         public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                             Office2003Painter.getInstance().paintGripper(c, g, rect, orientation, state);
                         }
                     };
+
                     // set all grippers to Office2003 style gripper
                     uiDefaults.put("Gripper.painter", gripperPainter);
                     uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
@@ -515,7 +502,26 @@ public class LookAndFeelFactory implements ProductNames {
                     uiDefaults.put("JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.light", UIDefaultsLookup.getColor("control"));
                     uiDefaults.put("JideSplitPaneDivider.gripperPainter", gripperPainter);
-                    uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
+
+                    int products = LookAndFeelFactory.getProductsUsed();
+                    if ((products & PRODUCT_DOCK) != 0) {
+                        ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
+                        final int titleButtonSize = 10;
+
+                        uiDefaults.put("DockableFrameUI", "com.jidesoft.plaf.vsnet.VsnetDockableFrameUI");
+                        uiDefaults.put("DockableFrameTitlePane.hideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 0, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.unfloatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.floatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 2 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.autohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 3 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 4 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        uiDefaults.put("DockableFrameTitlePane.buttonGap", new Integer(4)); // gap between buttons
+                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 3, 0)));
+                        uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
+                        uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
+                    }
                     break;
                 case ECLIPSE_STYLE:
                     EclipseMetalUtils.initComponentDefaults(uiDefaults);
