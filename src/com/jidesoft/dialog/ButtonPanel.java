@@ -422,12 +422,33 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
                         SwingUtilities.invokeLater(runnable);
                         break;
                     case ButtonEvent.SET_DEFAULT_BUTTON:
-                        if (component instanceof JButton && getRootPane() != null) {
-                            getRootPane().setDefaultButton(((JButton) component));
+                        if (component instanceof JButton) {
+                            if (getRootPane() != null) {
+                                getRootPane().setDefaultButton(((JButton) component));
+                            }
+                            else {
+                                _defaultButton = (JButton) component;
+                                _addNotify = true;
+                            }
                         }
                         break;
                 }
                 break;
+            }
+        }
+    }
+
+    private boolean _addNotify = false;
+    private JButton _defaultButton;
+
+    public void addNotify() {
+        super.addNotify();
+        if (_addNotify) {
+            JRootPane pane = getRootPane();
+            if (_defaultButton != null && pane != null) {
+                pane.setDefaultButton(_defaultButton);
+                _addNotify = false;
+                _defaultButton = null;
             }
         }
     }
