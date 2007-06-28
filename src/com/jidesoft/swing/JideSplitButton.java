@@ -63,6 +63,9 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
 
     protected void initComponent() {
         setModel(new DefaultSplitButtonModel());
+        if (getAction() != null) {
+            configurePropertiesFromAction(getAction());
+        }
         setFocusable(true);
         setRequestFocusEnabled(false);
     }
