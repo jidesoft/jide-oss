@@ -1091,25 +1091,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         _popupResizeListener = new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 removeComponentListener(_popupResizeListener);
-//                Dimension size = getSize();
-//                Dimension windowSize = new Dimension(size.width,size.height);
-//                if (getPopupBorder() != null) {
-//                    Insets borderInsets = getPopupBorder().getBorderInsets(JidePopup.this);
-//                    windowSize.width += borderInsets.left + borderInsets.right;
-//                    windowSize.height += borderInsets.top + borderInsets.bottom;
-//                }
-//                else if (_window.getBorder() != null) {
-//                    Insets borderInsets = _window.getBorder().getBorderInsets(_window);
-//                    windowSize.width += borderInsets.left + borderInsets.right;
-//                    windowSize.height += borderInsets.top + borderInsets.bottom;
-//                }
-//                _window.setSize(windowSize);
-                // pack is good enough to replace all code above
-                _window.pack();
+                contentResized();
                 addComponentListener(_popupResizeListener);
             }
         };
         addComponentListener(_popupResizeListener);
+    }
+
+    protected void contentResized() {
+        // pack is good enough to replace all code above
+        _window.pack();
     }
 
     protected void installBorder() {
