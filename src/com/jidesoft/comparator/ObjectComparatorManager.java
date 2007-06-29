@@ -115,6 +115,20 @@ public class ObjectComparatorManager {
      */
 
     public static int compare(Object o1, Object o2) {
+        return compare(o1, o2, ComparatorContext.DEFAULT_CONTEXT);
+    }
+
+    /**
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
+     * to find the comparator and compare.
+     *
+     * @param o1      the first object to be compared.
+     * @param o2      the second object to be compared.
+     * @param context the comparator context
+     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     */
+
+    public static int compare(Object o1, Object o2, ComparatorContext context) {
         if (o1 == null && o2 == null) {
             return 0;
         }
@@ -165,6 +179,17 @@ public class ObjectComparatorManager {
         return compare(o1, o2, clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
+    /**
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
+     * to find the comparator and compare. If it is not found, we will convert the object to
+     * string and compare the two strings.
+     *
+     * @param o1      the first object to be compared.
+     * @param o2      the second object to be compared.
+     * @param clazz   the data type of the two objects. If your two objects have the same type, you may just use {@link #compare(Object,Object)} methods.
+     * @param context the comparator context
+     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     */
     public static int compare(Object o1, Object o2, Class clazz, ComparatorContext context) {
         Comparator comparator = getComparator(clazz, context);
         if (comparator != null) {
