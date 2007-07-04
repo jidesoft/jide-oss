@@ -9,6 +9,7 @@ import com.jidesoft.utils.SecurityUtils;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JideBoxLayout is very similar to BoxLayout in the way that all components
@@ -706,7 +707,7 @@ public class JideBoxLayout implements LayoutManager2 {
      *
      * @return the map of constraints
      */
-    public HashMap<Component, Object> getConstraintMap() {
+    public Map<Component, Object> getConstraintMap() {
         return _constraintMap;
     }
 
