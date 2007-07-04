@@ -87,6 +87,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         _component.registerKeyboardAction(highlightRemover, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
     }
 
+    @Override
     public void installListeners() {
         super.installListeners();
         if (_component instanceof JTextComponent) {
@@ -95,6 +96,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     public void uninstallListeners() {
         super.uninstallListeners();
         if (_component instanceof JTextComponent) {
@@ -103,6 +105,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         if (_component instanceof JTextComponent) {
             if (index == -1) {
@@ -188,6 +191,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     protected int getSelectedIndex() {
         if (_component instanceof JTextComponent) {
             return _selectedIndex;
@@ -195,6 +199,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         return 0;
     }
 
+    @Override
     protected Object getElementAt(int index) {
         String text = getSearchingText();
         if (text != null) {
@@ -215,6 +220,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         return "";
     }
 
+    @Override
     protected int getElementCount() {
         if (_component instanceof JTextComponent) {
             return ((JTextComponent) _component).getDocument().getLength();
@@ -229,6 +235,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
      * @param object
      * @return the string representing the element in the JTextComponent.
      */
+    @Override
     protected String convertElementToString(Object object) {
         if (object != null) {
             return object.toString();
@@ -268,6 +275,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
 
+    @Override
     protected boolean isActivateKey(KeyEvent e) {
         if (_component instanceof JTextComponent && ((JTextComponent) _component).isEditable()) {
             return (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F && (KeyEvent.CTRL_MASK & e.getModifiers()) != 0);
@@ -301,6 +309,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         _highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(_highlightColor);
     }
 
+    @Override
     public int findLast(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
@@ -337,6 +346,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         return _text;
     }
 
+    @Override
     public int findFirst(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
@@ -352,6 +362,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     public int findFromCursor(String s) {
         if (isReverseOrder()) {
             return reverseFindFromCursor(s);
@@ -388,6 +399,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     public int reverseFindFromCursor(String s) {
         if (!isReverseOrder()) {
             return findFromCursor(s);
@@ -424,6 +436,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     public int findNext(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
@@ -456,6 +469,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         }
     }
 
+    @Override
     public int findPrevious(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();

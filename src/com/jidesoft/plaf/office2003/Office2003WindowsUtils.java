@@ -109,8 +109,8 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = new Object[]{
-                "JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_OFFICE2003),
-                "JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_OFFICE2003),
+                "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003,
+                "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_OFFICE2003,
                 "JideTabbedPane.contentBorderInsets", new InsetsUIResource(3, 3, 3, 3),
 
                 "JideTabbedPane.gripperPainter", gripperPainter,
@@ -119,7 +119,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
 
-                "Gripper.size", new Integer(8),
+                "Gripper.size", 8,
                 "Gripper.painter", gripperPainter,
                 "Icon.floating", Boolean.FALSE,
 
@@ -141,8 +141,8 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
                 "Menu.margin", new InsetsUIResource(2, 7, 3, 7),
 
-                "Menu.submenuPopupOffsetX", new Integer(1),
-                "Menu.submenuPopupOffsetY", new Integer(0),
+                "Menu.submenuPopupOffsetX", 1,
+                "Menu.submenuPopupOffsetY", 0,
                 "MenuBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 2, 1, 2)),
 
                 "PopupMenu.background", new UIDefaults.ActiveValue() {
@@ -272,14 +272,14 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(table.getColor("activeCaption"), 2),
                     BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.floatingBorder", floatingBorder,
-                    "CommandBar.separatorSize", new Integer(5),
-                    "CommandBar.titleBarSize", new Integer(17),
-                    "CommandBar.titleBarButtonGap", new Integer(1),
+                    "CommandBar.separatorSize", 5,
+                    "CommandBar.titleBarSize", 17,
+                    "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", table.getColor("activeCaption"),
                     "CommandBar.titleBarForeground", table.getColor("activeCaptionText"),
                     "CommandBar.titleBarFont", boldFont,
 
-                    "Chevron.size", new Integer(13),
+                    "Chevron.size", 13,
                     "Chevron.alwaysVisible", Boolean.TRUE,
             };
             table.putDefaults(uiDefaults);

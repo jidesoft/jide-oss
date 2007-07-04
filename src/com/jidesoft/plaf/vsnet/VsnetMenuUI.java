@@ -50,6 +50,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         return new VsnetMenuUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         if (menuItem instanceof JMenu) {
@@ -58,10 +59,12 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         crossMenuMnemonic = UIDefaultsLookup.getBoolean("Menu.crossMenuMnemonic");
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "Menu";
     }
 
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         if (!(menuItem instanceof JMenu) || !((JMenu) menuItem).isTopLevelMenu()) {
             super.paintBackground(g, menuItem, bgColor);
@@ -135,6 +138,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         g.setColor(oldColor);
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
 
@@ -188,6 +192,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         };
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         updateMnemonicBinding();
@@ -224,6 +229,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         lastMnemonic = mnemonic;
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         super.uninstallKeyboardActions();
     }
@@ -232,6 +238,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
      * The ActionMap for BasicMenUI can not be shared, this is subclassed
      * to create a new one for each invocation.
      */
+    @Override
     ActionMap getActionMap() {
         return createActionMap();
     }
@@ -239,6 +246,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
     /**
      * Invoked to create the ActionMap.
      */
+    @Override
     protected ActionMap createActionMap() {
         ActionMap am = super.createActionMap();
         if (am != null && menuItem instanceof JMenu) {
@@ -247,6 +255,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         return am;
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
@@ -263,6 +272,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         return new PropertyChangeHandler();
     }
 
+    @Override
     protected void uninstallDefaults() {
         menuItem.setArmed(false);
         menuItem.setSelected(false);
@@ -270,6 +280,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
 
@@ -296,14 +307,17 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         popupMenuListener = null;
     }
 
+    @Override
     protected MenuDragMouseListener createMenuDragMouseListener(JComponent c) {
         return new MenuDragMouseHandler();
     }
 
+    @Override
     protected MenuKeyListener createMenuKeyListener(JComponent c) {
         return new MenuKeyHandler();
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (menuItem instanceof JMenu && ((JMenu) menuItem).isTopLevelMenu()) {
             Dimension d = c.getPreferredSize();
@@ -379,6 +393,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             }
         }
 
+        @Override
         public boolean isEnabled() {
             return menu.getModel().isEnabled();
         }
@@ -803,6 +818,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
      * @param text     String to render
      * @since 1.4
      */
+    @Override
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
@@ -865,6 +881,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         return isMouseOver;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension size = super.getPreferredSize(c);
         if (menuItem instanceof JMenu && ((JMenu) menuItem).isTopLevelMenu() &&

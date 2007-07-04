@@ -14,13 +14,16 @@ public class LoggerUtils {
         Logger log = Logger.getLogger(loggerName);
         log.setLevel(level);
         Handler handler = new Handler() {
+            @Override
             public void publish(LogRecord record) {
                 System.err.println(record.getMessage());
             }
 
+            @Override
             public void flush() {
             }
 
+            @Override
             public void close() throws SecurityException {
             }
         };

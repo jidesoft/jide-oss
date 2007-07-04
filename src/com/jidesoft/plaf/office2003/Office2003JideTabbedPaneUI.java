@@ -17,6 +17,7 @@ import java.awt.*;
  * JideTabbedPane UI implementation
  */
 public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
+    @Override
     public void installColorTheme() {
         super.installColorTheme();
 
@@ -70,6 +71,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         installBackgroundColor();
     }
 
+    @Override
     protected void installBackgroundColor() {
         if (_tabPane.getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {
             if (_showFocusIndicator) {
@@ -95,6 +97,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the background of the _tabScroller
+    @Override
     public void paintBackground(Graphics g, Component c) {
         if (_tabPane.isOpaque()) {
             int width = c.getWidth();
@@ -164,6 +167,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         return new Office2003JideTabbedPaneUI();
     }
 
+    @Override
     protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
         if (getColorTheme() != JideTabbedPane.COLOR_THEME_OFFICE2003) {
             super.paintTabAreaBackground(g, rect, tabPlacement);
@@ -197,6 +201,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the content top line when the tab is on the top
+    @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
             return;
@@ -339,6 +344,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the content bottom line when the tab is on the bottom
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
             return;
@@ -474,6 +480,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the content left line when the tab is on the left
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
 
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -588,6 +595,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the content right line when the tab is on the right
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
             return;

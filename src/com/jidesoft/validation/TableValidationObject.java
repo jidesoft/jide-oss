@@ -59,6 +59,7 @@ public class TableValidationObject extends ValidationObject {
         _column = column;
     }
 
+    @Override
     public String toString() {
         String properties =
                 " source=" + getSource() +

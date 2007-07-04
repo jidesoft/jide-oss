@@ -39,7 +39,7 @@ public class YearNameConverter implements ObjectConverter {
     public Object fromString(String string, ConverterContext context) {
         try {
             int year = Integer.parseInt(string);
-            return new Integer(year);
+            return year;
         }
         catch (NumberFormatException e) {
             return string;

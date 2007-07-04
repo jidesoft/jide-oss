@@ -30,6 +30,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
      * note that this function does now draw the background of the tab.
      * that is done elsewhere
      */
+    @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             Color old = g.getColor();
@@ -197,6 +198,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             int tabCount = _tabPane.getTabCount();
@@ -233,6 +235,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             if (_tabPane.isTabShown()) {
@@ -245,6 +248,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             if (_tabPane.isTabShown()) {
@@ -257,6 +261,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             if (_tabPane.isTabShown()) {
@@ -269,6 +274,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             if (_tabPane.isTabShown()) {
@@ -281,6 +287,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             _tabPane.setBackgroundAt(tabIndex, _tabBackground);

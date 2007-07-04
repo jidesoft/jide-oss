@@ -19,6 +19,7 @@ public class EclipseRadioButtonMenuItemUI extends EclipseMenuItemUI {
         return new EclipseRadioButtonMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "RadioButtonMenuItem";
     }

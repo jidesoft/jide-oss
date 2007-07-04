@@ -23,7 +23,7 @@ public class DateQuarterGrouper extends DateGrouper {
         if (_groups == null) {
             _groups = new Object[4];
             for (int i = 0; i < _groups.length; i++) {
-                _groups[i] = new Integer(i);
+                _groups[i] = i;
             }
         }
         return _groups;
@@ -32,7 +32,7 @@ public class DateQuarterGrouper extends DateGrouper {
     public Object getValue(Object value) {
         Object dateField = getCalendarField(value, Calendar.MONTH);
         if (dateField instanceof Integer) {
-            return getAvailableGroups()[((Integer) dateField).intValue() / 3];
+            return getAvailableGroups()[(Integer) dateField / 3];
         }
         else {
             return null;
@@ -43,6 +43,7 @@ public class DateQuarterGrouper extends DateGrouper {
         return GroupResources.getResourceBundle(Locale.getDefault()).getString("Date.quarter");
     }
 
+    @Override
     public ConverterContext getConverterContext() {
         return QuarterNameConverter.CONTEXT;
     }

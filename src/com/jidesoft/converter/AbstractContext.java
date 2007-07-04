@@ -82,6 +82,7 @@ abstract public class AbstractContext implements Serializable {
      * @param o object to compare.
      * @return if two objects euqnals.
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AbstractContext)) return false;
@@ -91,10 +92,12 @@ abstract public class AbstractContext implements Serializable {
         return !(_name != null ? !_name.equals(abstractContext._name) : abstractContext._name != null);
     }
 
+    @Override
     public int hashCode() {
         return (_name != null ? _name.hashCode() : 0);
     }
 
+    @Override
     public String toString() {
         return getName();
     }

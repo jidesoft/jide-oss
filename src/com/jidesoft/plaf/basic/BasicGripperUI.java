@@ -32,6 +32,7 @@ public class BasicGripperUI extends GripperUI {
         return new BasicGripperUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
         _gripperPainter = (Painter) UIDefaultsLookup.get("Gripper.painter");
@@ -39,6 +40,7 @@ public class BasicGripperUI extends GripperUI {
         installListeners((Gripper) c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         _painter = null;
         _gripperPainter = null;
@@ -90,6 +92,7 @@ public class BasicGripperUI extends GripperUI {
         }
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         Gripper gripper = (Gripper) c;
         paintBackground(g, gripper);
@@ -102,14 +105,17 @@ public class BasicGripperUI extends GripperUI {
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return new Dimension(_size, _size);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return getPreferredSize(c);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Gripper gripper = (Gripper) c;
         if (gripper.getOrientation() == SwingConstants.HORIZONTAL)
@@ -123,6 +129,7 @@ public class BasicGripperUI extends GripperUI {
     }
 
     class GripperMouseListener extends MouseAdapter {
+        @Override
         public void mouseEntered(MouseEvent e) {
             super.mouseEntered(e);
             if (e.getSource() instanceof Gripper) {
@@ -132,6 +139,7 @@ public class BasicGripperUI extends GripperUI {
             }
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             super.mouseExited(e);
             if (e.getSource() instanceof Gripper) {

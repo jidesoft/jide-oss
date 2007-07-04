@@ -162,6 +162,7 @@ public class Contour extends JComponent implements IContour {
      *
      * @return true if this component is double buffered, otherwise false
      */
+    @Override
     public boolean isDoubleBuffered() {
         return true;
     }
@@ -171,6 +172,7 @@ public class Contour extends JComponent implements IContour {
      *
      * @param g
      */
+    @Override
     public void paint(Graphics g) {
         if (!_ghost) {
             paintOutline(g, false);
@@ -342,6 +344,7 @@ public class Contour extends JComponent implements IContour {
      *
      * @param r the new bounding rectangle for this component
      */
+    @Override
     public void setBounds(Rectangle r) {
         setBounds(r.x, r.y, r.width, r.height);
     }
@@ -358,6 +361,7 @@ public class Contour extends JComponent implements IContour {
      * @param height the new <code>height</code> of this
      *               component
      */
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         if (isLightweight()) {
             if (getOutlineMode() == PARTIAL_OUTLINE_MODE) {
@@ -730,6 +734,7 @@ public class Contour extends JComponent implements IContour {
      * @param aFlag true to make the component visible; false to
      *              make it invisible
      */
+    @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);
         updateCursor();
@@ -752,6 +757,7 @@ public class Contour extends JComponent implements IContour {
      * @see #setVisible
      * @since JDK1.0
      */
+    @Override
     public boolean isVisible() {
         if (super.isVisible()) {
             return true;
@@ -770,6 +776,7 @@ public class Contour extends JComponent implements IContour {
             setBackground(_lineColor);
         }
 
+        @Override
         public void paint(Graphics g) {
             g.setColor(_lineColor);
             g.fillRect(0, 0, getWidth(), getHeight());

@@ -35,6 +35,7 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
         _sides = sides;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Color oldColor = g.getColor();
         int i;

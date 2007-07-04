@@ -79,6 +79,7 @@ public class NullCheckBox extends JCheckBox {
         super(text, icon, selected);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();

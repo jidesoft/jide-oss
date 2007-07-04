@@ -26,6 +26,7 @@ public class AquaJideSplitButtonUI extends BasicJideSplitButtonUI {
      *
      * @return the gap.
      */
+    @Override
     protected int getOffset() {
         return 2;
     }

@@ -17,6 +17,7 @@ public class VsnetRadioButtonMenuItemUI extends VsnetMenuItemUI {
         return new VsnetRadioButtonMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "RadioButtonMenuItem";
     }

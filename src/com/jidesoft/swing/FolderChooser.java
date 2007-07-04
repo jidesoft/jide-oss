@@ -35,7 +35,7 @@ public class FolderChooser extends JFileChooser {
 
     private static final String uiClassID = "FolderChooserUI";
 
-    private List _recentList;
+    private List<String> _recentList;
 
     public final static String PROPERTY_RECENTLIST = "recentList";
 
@@ -67,7 +67,7 @@ public class FolderChooser extends JFileChooser {
      *
      * @return the recent selected folder list.
      */
-    public List getRecentList() {
+    public List<String> getRecentList() {
         return _recentList;
     }
 
@@ -77,8 +77,8 @@ public class FolderChooser extends JFileChooser {
      *
      * @param recentList the recent folder list.
      */
-    public void setRecentList(List recentList) {
-        List old = _recentList;
+    public void setRecentList(List<String> recentList) {
+        List<String> old = _recentList;
         _recentList = recentList;
         firePropertyChange(PROPERTY_RECENTLIST, old, recentList);
     }
@@ -89,6 +89,7 @@ public class FolderChooser extends JFileChooser {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -104,6 +105,7 @@ public class FolderChooser extends JFileChooser {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }

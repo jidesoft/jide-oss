@@ -34,6 +34,7 @@ public class HeaderBox extends JButton {
      *
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -48,6 +49,7 @@ public class HeaderBox extends JButton {
      *
      * @return the string "HeaderBoxUI"
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }

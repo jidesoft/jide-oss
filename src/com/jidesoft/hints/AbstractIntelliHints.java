@@ -5,8 +5,9 @@
  */
 package com.jidesoft.hints;
 
-import java.awt.*;
-import java.awt.event.*;
+import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.popup.JidePopup;
+import com.jidesoft.swing.DelegateAction;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -15,10 +16,8 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
-
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.popup.JidePopup;
-import com.jidesoft.swing.DelegateAction;
+import java.awt.*;
+import java.awt.event.*;
 
 
 /**
@@ -102,6 +101,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
         getDelegateComponent().setRequestFocusEnabled(false);
         getDelegateComponent().addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 hideHintsPopup();
                 setHintsEnabled(false);
@@ -337,12 +337,13 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     /**
      * Returns whether the hints popup is automatically displayed. Default is
      * true
+     *
      * @return true if the popup should be automatically displayed. False will
-     * never show it automatically and then need the user to manually activate
-     * it via the getShowHintsKeyStroke() key binding.
+     *         never show it automatically and then need the user to manually activate
+     *         it via the getShowHintsKeyStroke() key binding.
      */
     public boolean isAutoPopup() {
-       return _autoPopup;
+        return _autoPopup;
     }
 
     /**
@@ -351,6 +352,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * return true. If autoPopup is false it's not automatically displayed and
      * will need the user to activate the key binding defined by
      * getShowHintsKeyStroke().
+     *
      * @param autoPopup true or false
      */
     public void setAutoPopup(boolean autoPopup) {
@@ -396,6 +398,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     private DelegateAction acceptAction = new DelegateAction() {
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
             AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
@@ -420,6 +423,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     };
 
     private static DelegateAction showAction = new DelegateAction() {
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
             AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
@@ -432,10 +436,12 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     };
 
     private DelegateAction hideAction = new DelegateAction() {
+        @Override
         public boolean isEnabled() {
             return _textComponent.isEnabled() && isHintsPopupVisible();
         }
 
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             if (isEnabled()) {
                 hideHintsPopup();
@@ -450,7 +456,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             public void actionPerformed(ActionEvent e) {
                 if (isKeyTyped()) {
                     if (isHintsPopupVisible() || isAutoPopup()) {
-                       showHintsPopup();
+                        showHintsPopup();
                     }
                     setKeyTyped(false);
                 }
@@ -494,6 +500,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             _keyStroke = keyStroke;
         }
 
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
             AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);

@@ -31,6 +31,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
         _folderChooser = folderChooser;
     }
 
+    @Override
     public boolean isLeaf() {
         if (!isLoaded()) {
             return false;
@@ -59,6 +60,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
         }
     }
 
+    @Override
     protected void initChildren() {
         if (_folderChooser == null) {
             return;
@@ -126,6 +128,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
         return _folderChooser.getFileSystemView().getSystemDisplayName(file);
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -143,6 +146,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
         return getFile().compareTo(((BasicFileSystemTreeNode) o).getFile());
     }
 
+    @Override
     public int hashCode() {
         return (_file != null ? _file.hashCode() : 0);
     }
@@ -153,6 +157,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
                 && !_folderChooser.getFileSystemView().isFileSystemRoot(getFile());
     }
 
+    @Override
     public String toString() {
         return _file != null ? _file.toString() : "null";
     }

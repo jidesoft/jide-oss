@@ -95,6 +95,7 @@ public class DefaultSelectable implements Selectable {
      *
      * @return the hash code.
      */
+    @Override
     public int hashCode() {
         return (_object != null ? _object.hashCode() : 0);
     }
@@ -105,10 +106,12 @@ public class DefaultSelectable implements Selectable {
      *
      * @return toString() of object.
      */
+    @Override
     public String toString() {
         return (_object != null ? _object.toString() : "");
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof DefaultSelectable) {
             if (getObject() == null && ((DefaultSelectable) obj).getObject() == null) {

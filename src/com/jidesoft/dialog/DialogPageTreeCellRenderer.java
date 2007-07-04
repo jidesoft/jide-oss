@@ -82,6 +82,7 @@ class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
         return this;
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         Color bColor = getBackground();
         Icon icon = getIcon();

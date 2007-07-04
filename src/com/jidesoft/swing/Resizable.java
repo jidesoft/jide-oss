@@ -240,10 +240,12 @@ public class Resizable {
             _corner = corner;
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(SIZE, SIZE);
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             int size = Math.min(getWidth(), getHeight());

@@ -22,8 +22,7 @@ public class FloatConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            float value = getNumberFormat().parse(string).floatValue();
-            return new Float(value);
+            return getNumberFormat().parse(string).floatValue();
         }
         catch (ParseException e) {
             return null;

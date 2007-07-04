@@ -19,9 +19,9 @@ abstract public class ArrayConverter implements ObjectConverter {
 
     private int _size;
 
-    private Class _elementClass;
+    private Class<?> _elementClass;
 
-    private Class[] _elementClasses;
+    private Class<?>[] _elementClasses;
 
     /**
      * Creates an ArrayConverter.
@@ -29,9 +29,9 @@ abstract public class ArrayConverter implements ObjectConverter {
      * @param separator    separator to separate values. It should contain at least non-empty charactor.
      * @param size         size of the array
      * @param elementClass class of the array element. Assume all elements have the same class type.
-     *                     If not, use the constructor which takes Class[] as parameter.
+     *                     If not, use the constructor which takes Class<?>[] as parameter.
      */
-    public ArrayConverter(String separator, int size, Class elementClass) {
+    public ArrayConverter(String separator, int size, Class<?> elementClass) {
         _separator = separator;
         _size = size;
         _elementClass = elementClass;
@@ -45,7 +45,7 @@ abstract public class ArrayConverter implements ObjectConverter {
      * @param elementClasses classes of the array element. The length must be the same as size.
      *                       If not, IllegalArgumentException will be thrown.
      */
-    public ArrayConverter(String separator, int size, Class[] elementClasses) {
+    public ArrayConverter(String separator, int size, Class<?>[] elementClasses) {
         if (separator == null || separator.trim().length() == 0) {
             throw new IllegalArgumentException("separator cannot be empty.");
         }
@@ -114,7 +114,7 @@ abstract public class ArrayConverter implements ObjectConverter {
      *
      * @return the element class for the array.
      */
-    public Class getElementClass() {
+    public Class<?> getElementClass() {
         return _elementClass;
     }
 }

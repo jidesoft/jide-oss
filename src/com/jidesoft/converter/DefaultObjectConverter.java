@@ -36,6 +36,7 @@ public class DefaultObjectConverter implements ObjectConverter {
                 return ((JFormattedTextField.AbstractFormatter) context.getUserObject()).valueToString(object);
             }
             catch (ParseException e) {
+                // ignore
             }
         }
         return object == null ? "" : object.toString();
@@ -51,6 +52,7 @@ public class DefaultObjectConverter implements ObjectConverter {
                 return ((JFormattedTextField.AbstractFormatter) context.getUserObject()).stringToValue(string);
             }
             catch (ParseException e) {
+                // ignore
             }
         }
         return string;

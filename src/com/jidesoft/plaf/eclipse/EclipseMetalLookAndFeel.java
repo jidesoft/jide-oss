@@ -16,23 +16,28 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class EclipseMetalLookAndFeel extends MetalLookAndFeel {
+    @Override
     public String getName() {
         return "Eclipse";
     }
 
+    @Override
     public String getDescription() {
         return "The Eclipse Look And Feel";
     }
 
+    @Override
     public String getID() {
         return "Eclipse";
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         EclipseMetalUtils.initClassDefaults(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         EclipseMetalUtils.initComponentDefaults(table);

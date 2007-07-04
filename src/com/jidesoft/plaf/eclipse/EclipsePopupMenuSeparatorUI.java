@@ -21,6 +21,7 @@ public class EclipsePopupMenuSeparatorUI extends BasicSeparatorUI {
         return new EclipsePopupMenuSeparatorUI();
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (!(c.getParent() instanceof JPopupMenu)) {
             super.paint(g, c);
@@ -38,6 +39,7 @@ public class EclipsePopupMenuSeparatorUI extends BasicSeparatorUI {
         g.drawLine(1, 1, s.width - 2, 1);
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return new Dimension(0, 2);
     }

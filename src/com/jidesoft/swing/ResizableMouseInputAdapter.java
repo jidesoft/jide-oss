@@ -48,6 +48,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
         return _resizable != null && (_resizable.getResizableCorners() & resizeDir) != 0;
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         _resizeCorner = RESIZE_NONE;
 
@@ -182,6 +183,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         if (_startingBounds == null) {
             return;
@@ -353,6 +355,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
         _resizable.resizing(_resizeCorner, newX, newY, newW, newH);
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         _startingBounds = null;
 
@@ -396,6 +399,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
      *
      * @param e mouse event
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
         if (e.getSource() instanceof Resizable.ResizeCorner) {
             Resizable.ResizeCorner corner = (Resizable.ResizeCorner) e.getSource();
@@ -469,6 +473,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
     }
 
     // implements java.awt.event.MouseListener
+    @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() instanceof Resizable.ResizeCorner) {
             Resizable.ResizeCorner corner = (Resizable.ResizeCorner) e.getSource();

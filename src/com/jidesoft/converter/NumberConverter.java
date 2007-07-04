@@ -25,7 +25,7 @@ abstract public class NumberConverter implements ObjectConverter {
     /**
      * Creates the number converter with a specified NumberFormat.
      *
-     * @param format
+     * @param format the number format.
      */
     public NumberConverter(NumberFormat format) {
         _numberFormat = format;

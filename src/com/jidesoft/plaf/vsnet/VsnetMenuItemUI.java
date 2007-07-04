@@ -83,6 +83,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         return new VsnetMenuItemUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         menuItem = (JMenuItem) c;
 
@@ -118,7 +119,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         oldBorderPainted = menuItem.isBorderPainted();
         Object borderPainted = UIDefaultsLookup.get(prefix + ".borderPainted");
         if (borderPainted instanceof Boolean) {
-            menuItem.setBorderPainted(((Boolean) borderPainted).booleanValue());
+            menuItem.setBorderPainted((Boolean) borderPainted);
         }
         LookAndFeel.installColorsAndFont(menuItem,
                 prefix + ".background",
@@ -204,6 +205,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         updateAcceleratorBinding();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         menuItem = (JMenuItem) c;
         uninstallDefaults();
@@ -336,6 +338,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -346,6 +349,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return getPreferredMenuItemSize(c,
                 checkIcon,
@@ -353,6 +357,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 defaultTextIconGap);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -450,21 +455,21 @@ public class VsnetMenuItemUI extends MenuItemUI {
             Integer maxTextWidth = (Integer) p.getClientProperty(VsnetMenuItemUI.MAX_TEXT_WIDTH);
             Integer maxAccWidth = (Integer) p.getClientProperty(VsnetMenuItemUI.MAX_ACC_WIDTH);
 
-            int maxTextValue = maxTextWidth != null ? maxTextWidth.intValue() : 0;
-            int maxAccValue = maxAccWidth != null ? maxAccWidth.intValue() : 0;
+            int maxTextValue = maxTextWidth != null ? maxTextWidth : 0;
+            int maxAccValue = maxAccWidth != null ? maxAccWidth : 0;
 
             //Compare the text widths, and adjust the r.width to the widest.
             if (r.width < maxTextValue) {
                 r.width = maxTextValue;
             }
             else {
-                p.putClientProperty(VsnetMenuItemUI.MAX_TEXT_WIDTH, new Integer(r.width));
+                p.putClientProperty(VsnetMenuItemUI.MAX_TEXT_WIDTH, r.width);
             }
 
             //Compare the accelarator widths.
             if (acceleratorRect.width > maxAccValue) {
                 maxAccValue = acceleratorRect.width;
-                p.putClientProperty(VsnetMenuItemUI.MAX_ACC_WIDTH, new Integer(acceleratorRect.width));
+                p.putClientProperty(VsnetMenuItemUI.MAX_ACC_WIDTH, acceleratorRect.width);
             }
 
             r.width += maxAccValue;
@@ -522,10 +527,12 @@ public class VsnetMenuItemUI extends MenuItemUI {
      * so override update (which fills the background of opaque
      * components by default) to just call paint().
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         paint(g, c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         paintMenuItem(g, c, checkIcon, arrowIcon,
                 selectionBackground, selectionForeground,
@@ -659,7 +666,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 JComponent p = (JComponent) parent;
                 Integer maxValueInt = (Integer) p.getClientProperty(VsnetMenuItemUI.MAX_ACC_WIDTH);
                 int maxValue = maxValueInt != null ?
-                        maxValueInt.intValue() : acceleratorRect.width;
+                        maxValueInt : acceleratorRect.width;
 
                 //Calculate the offset, with which the accelerator texts will be drawn with.
                 accOffset = maxValue - acceleratorRect.width;

@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class ObjectGrouperManager {
 
-    private static CacheMap _cache = new CacheMap(GrouperContext.DEFAULT_CONTEXT);
+    private static CacheMap<ObjectGrouper, GrouperContext> _cache = new CacheMap<ObjectGrouper, GrouperContext>(GrouperContext.DEFAULT_CONTEXT);
 
     private static ObjectGrouper _defaultGrouper = null;
 
@@ -29,7 +29,7 @@ public class ObjectGrouperManager {
      * @param grouper group to be registered
      * @param context the grouper context.
      */
-    public static void registerGrouper(Class clazz, ObjectGrouper grouper, GrouperContext context) {
+    public static void registerGrouper(Class<?> clazz, ObjectGrouper grouper, GrouperContext context) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter class cannot be null");
         }
@@ -46,7 +46,7 @@ public class ObjectGrouperManager {
      * @param clazz   the data type.
      * @param grouper the grouper to be registered
      */
-    public static void registerGrouper(Class clazz, ObjectGrouper grouper) {
+    public static void registerGrouper(Class<?> clazz, ObjectGrouper grouper) {
         registerGrouper(clazz, grouper, GrouperContext.DEFAULT_CONTEXT);
     }
 
@@ -56,7 +56,7 @@ public class ObjectGrouperManager {
      * @param clazz   the data type.
      * @param context the grouper context.
      */
-    public static void unregisterGrouper(Class clazz, GrouperContext context) {
+    public static void unregisterGrouper(Class<?> clazz, GrouperContext context) {
         if (context == null) {
             context = GrouperContext.DEFAULT_CONTEXT;
         }
@@ -68,7 +68,7 @@ public class ObjectGrouperManager {
      *
      * @param clazz the data type.
      */
-    public static void unregisterGrouper(Class clazz) {
+    public static void unregisterGrouper(Class<?> clazz) {
         unregisterGrouper(clazz, GrouperContext.DEFAULT_CONTEXT);
     }
 
@@ -86,7 +86,7 @@ public class ObjectGrouperManager {
      * @param context the grouper context.
      * @return the registered grouper. It could return null if there is no grouper for the type and the context.
      */
-    public static ObjectGrouper getGrouper(Class clazz, GrouperContext context) {
+    public static ObjectGrouper getGrouper(Class<?> clazz, GrouperContext context) {
         if (isAutoInit()) {
             initDefaultGrouper();
         }
@@ -94,9 +94,9 @@ public class ObjectGrouperManager {
         if (context == null) {
             context = GrouperContext.DEFAULT_CONTEXT;
         }
-        Object object = _cache.getRegisteredObject(clazz, context);
-        if (object != null && object instanceof ObjectGrouper) {
-            return (ObjectGrouper) object;
+        ObjectGrouper object = _cache.getRegisteredObject(clazz, context);
+        if (object != null) {
+            return object;
         }
         else {
             return _defaultGrouper;
@@ -109,7 +109,7 @@ public class ObjectGrouperManager {
      * @param clazz the data type.
      * @return the grouper. It could return null if there is no grouper for the type.
      */
-    public static ObjectGrouper getGrouper(Class clazz) {
+    public static ObjectGrouper getGrouper(Class<?> clazz) {
         return getGrouper(clazz, GrouperContext.DEFAULT_CONTEXT);
     }
 
@@ -133,7 +133,7 @@ public class ObjectGrouperManager {
      * @param clazz  type of the object
      * @return the string
      */
-    public static Object getGroupValue(Object object, Class clazz) {
+    public static Object getGroupValue(Object object, Class<?> clazz) {
         return getValue(object, clazz, GrouperContext.DEFAULT_CONTEXT);
     }
 
@@ -145,7 +145,7 @@ public class ObjectGrouperManager {
      * @param context group context
      * @return the string converted from object
      */
-    public static Object getValue(Object object, Class clazz, GrouperContext context) {
+    public static Object getValue(Object object, Class<?> clazz, GrouperContext context) {
         ObjectGrouper grouper = getGrouper(clazz, context);
         if (grouper != null) {
             return grouper.getValue(object);
@@ -220,16 +220,8 @@ public class ObjectGrouperManager {
      * @param clazz the class.
      * @return the available GrouperContexts.
      */
-    public static GrouperContext[] getGrouperContexts(Class clazz) {
-        Object[] keys = _cache.getKeys(clazz);
-        GrouperContext[] contexts = new GrouperContext[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            Object key = keys[i];
-            if (key instanceof GrouperContext) {
-                contexts[i] = (GrouperContext) key;
-            }
-        }
-        return contexts;
+    public static GrouperContext[] getGrouperContexts(Class<?> clazz) {
+        return _cache.getKeys(clazz, new GrouperContext[0]);
     }
 
     /**

@@ -18,31 +18,38 @@ import javax.swing.*;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class EclipseWindowsLookAndFeel extends WindowsLookAndFeel {
+    @Override
     public String getName() {
         return "Eclipse";
     }
 
+    @Override
     public String getDescription() {
         return "The Eclipse Look And Feel";
     }
 
+    @Override
     public String getID() {
         return "Eclipse";
     }
 
+    @Override
     public boolean isSupportedLookAndFeel() {
         return isNativeLookAndFeel();
     }
 
+    @Override
     public boolean isNativeLookAndFeel() {
         return SystemInfo.isWindows();
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         EclipseWindowsUtils.initClassDefaultsWithMenu(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         EclipseWindowsUtils.initComponentDefaultsWithMenu(table);

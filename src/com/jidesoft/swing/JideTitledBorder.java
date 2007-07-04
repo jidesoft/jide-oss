@@ -203,6 +203,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param width  the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 
         Border border = getBorder();
@@ -382,6 +383,7 @@ public class JideTitledBorder extends AbstractBorder {
      *
      * @param c the component for which this border insets value applies
      */
+    @Override
     public Insets getBorderInsets(Component c) {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
@@ -392,6 +394,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param c      the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         FontMetrics fm;
         int descent = 0;
@@ -465,6 +468,7 @@ public class JideTitledBorder extends AbstractBorder {
     /**
      * Returns whether or not the border is opaque.
      */
+    @Override
     public boolean isBorderOpaque() {
         return false;
     }

@@ -385,9 +385,11 @@ public class Office2003Painter extends BasicPainter {
         return _themeCache.values();
     }
 
+    @Override
     public void installDefaults() {
     }
 
+    @Override
     public void uninstallDefaults() {
     }
 
@@ -416,6 +418,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
         Color startColor = null;
         Color endColor = null;
@@ -497,6 +500,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintChevronBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         if (state == STATE_DEFAULT) {
@@ -513,6 +517,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintDividerBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, rect,
@@ -542,10 +547,12 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public Color getColor(Object key) {
         return getCurrentTheme().getColor(key);
     }
 
+    @Override
     public void paintCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, new RoundRectangle2D.Float(rect.x, rect.y, rect.width, rect.height, 4, 4),
@@ -559,117 +566,145 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintFloatingCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, rect,
                 getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation == SwingConstants.HORIZONTAL);
     }
 
+    @Override
     public void paintMenuShadow(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, rect, getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation != SwingConstants.HORIZONTAL);
     }
 
+    @Override
     public Color getControl() {
         return getCurrentTheme().getColor("control");
     }
 
+    @Override
     public Color getControlLt() {
         return getCurrentTheme().getColor("controlLt");
     }
 
+    @Override
     public Color getControlDk() {
         return getCurrentTheme().getColor("controlDk");
     }
 
+    @Override
     public Color getControlShadow() {
         return getCurrentTheme().getColor("controlShadow");
     }
 
+    @Override
     public Color getGripperForeground() {
         return getCurrentTheme().getColor("Gripper.foreground");
     }
 
+    @Override
     public Color getGripperForegroundLt() {
         return getCurrentTheme().getColor("Gripper.foregroundLt");
     }
 
+    @Override
     public Color getSeparatorForeground() {
         return getCurrentTheme().getColor("Separator.foreground");
     }
 
+    @Override
     public Color getSeparatorForegroundLt() {
         return getCurrentTheme().getColor("Separator.foregroundLt");
     }
 
+    @Override
     public Color getCollapsiblePaneContentBackground() {
         return getCurrentTheme().getColor("CollapsiblePane.contentBackground");
     }
 
+    @Override
     public Color getCollapsiblePaneTitleForeground() {
         return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground");
     }
 
+    @Override
     public Color getCollapsiblePaneFocusTitleForeground() {
         return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.focus");
     }
 
+    @Override
     public Color getCollapsiblePaneTitleForegroundEmphasized() {
         return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.emphasized");
     }
 
+    @Override
     public Color getCollapsiblePaneFocusTitleForegroundEmphasized() {
         return getCurrentTheme().getColor("CollapsiblePaneTitlePane.foreground.focus.emphasized");
     }
 
+    @Override
     public ImageIcon getCollapsiblePaneUpIcon() {
         return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.upIcon");
     }
 
+    @Override
     public ImageIcon getCollapsiblePaneDownIcon() {
         return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downIcon");
     }
 
+    @Override
     public ImageIcon getCollapsiblePaneUpIconEmphasized() {
         return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.upIcon.emphasized");
     }
 
+    @Override
     public ImageIcon getCollapsiblePaneDownIconEmphasized() {
         return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downIcon.emphasized");
     }
 
+    @Override
     public Color getBackgroundDk() {
         return getCurrentTheme().getColor("backgroundDk");
     }
 
+    @Override
     public Color getBackgroundLt() {
         return getCurrentTheme().getColor("backgroundLt");
     }
 
+    @Override
     public Color getSelectionSelectedDk() {
         return getCurrentTheme().getColor("selection.SelectedDk");
     }
 
+    @Override
     public Color getSelectionSelectedLt() {
         return getCurrentTheme().getColor("selection.SelectedLt");
     }
 
+    @Override
     public Color getMenuItemBorderColor() {
         return getCurrentTheme().getColor("selection.border");
     }
 
+    @Override
     public Color getMenuItemBackground() {
         return getCurrentTheme().getColor("MenuItem.background");
     }
 
+    @Override
     public Color getCommandBarTitleBarBackground() {
         return getCurrentTheme().getColor("CommandBar.titleBarBackground");
     }
 
+    @Override
     public Color getDockableFrameTitleBarActiveForeground() {
         return getCurrentTheme().getColor("DockableFrameTitlePane.activeForeground");
     }
 
+    @Override
     public Color getDockableFrameTitleBarInactiveForeground() {
         return getCurrentTheme().getColor("DockableFrameTitlePane.inactiveForeground");
     }
@@ -678,27 +713,33 @@ public class Office2003Painter extends BasicPainter {
         return getCurrentTheme().getColor("OptionPane.bannerForeground");
     }
 
+    @Override
     public Color getTabbedPaneSelectDk() {
         return getCurrentTheme().getColor("TabbedPane.selectDk");
     }
 
+    @Override
     public Color getTabbedPaneSelectLt() {
         return getCurrentTheme().getColor("TabbedPane.selectLt");
     }
 
+    @Override
     public Color getOptionPaneBannerDk() {
         return getCurrentTheme().getColor("OptionPane.bannerDk");
     }
 
+    @Override
     public Color getOptionPaneBannerLt() {
         return getCurrentTheme().getColor("OptionPane.bannerLt");
     }
 
+    @Override
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, rect, getBackgroundDk(), getBackgroundLt(), false);
     }
 
+    @Override
     public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (rect.width > 30) {
             orientation = SwingConstants.VERTICAL;
@@ -735,6 +776,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintChevronMore(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int startX = rect.x + 4;
         int startY = rect.x + 5;
@@ -769,6 +811,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int startX;
         int startY;
@@ -802,6 +845,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d,
@@ -811,6 +855,7 @@ public class Office2003Painter extends BasicPainter {
                 orientation == SwingConstants.HORIZONTAL);
     }
 
+    @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int x = rect.x;
         int y = rect.y;
@@ -833,6 +878,7 @@ public class Office2003Painter extends BasicPainter {
                 orientation == SwingConstants.HORIZONTAL);
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
@@ -852,6 +898,7 @@ public class Office2003Painter extends BasicPainter {
         g.setColor(old);
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
@@ -869,6 +916,7 @@ public class Office2003Painter extends BasicPainter {
         g.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
     }
 
+    @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d,
@@ -879,6 +927,7 @@ public class Office2003Painter extends BasicPainter {
 
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
@@ -890,6 +939,7 @@ public class Office2003Painter extends BasicPainter {
                 orientation == SwingConstants.HORIZONTAL);
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");

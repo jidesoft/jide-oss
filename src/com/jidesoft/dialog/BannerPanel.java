@@ -295,6 +295,7 @@ public class BannerPanel extends JPanel {
      *
      * @param g the Graphics
      */
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (getStartColor() != null && getEndColor() != null) {
@@ -491,6 +492,7 @@ public class BannerPanel extends JPanel {
         }
     }
 
+    @Override
     public void setBackground(Color bg) {
         super.setBackground(bg);
         if (_titleLabel != null) {
@@ -504,6 +506,7 @@ public class BannerPanel extends JPanel {
         }
     }
 
+    @Override
     public void setForeground(Color fg) {
         super.setForeground(fg);
         setTitleColor(fg);

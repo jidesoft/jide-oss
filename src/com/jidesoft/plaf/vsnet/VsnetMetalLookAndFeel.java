@@ -16,11 +16,13 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class VsnetMetalLookAndFeel extends MetalLookAndFeel {
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         VsnetMetalUtils.initClassDefaults(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         VsnetMetalUtils.initComponentDefaults(table);

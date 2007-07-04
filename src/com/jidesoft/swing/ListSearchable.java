@@ -47,6 +47,7 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
         list.addPropertyChangeListener("model", this);
     }
 
+    @Override
     public void uninstallListeners() {
         super.uninstallListeners();
         if (_component instanceof JList) {
@@ -56,6 +57,7 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
     }
 
 
+    @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         if (incremental) {
             ((JList) _component).addSelectionInterval(index, index);
@@ -68,15 +70,18 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
         ((JList) _component).ensureIndexIsVisible(index);
     }
 
+    @Override
     protected int getSelectedIndex() {
         return ((JList) _component).getSelectedIndex();
     }
 
+    @Override
     protected Object getElementAt(int index) {
         ListModel listModel = ((JList) _component).getModel();
         return listModel.getElementAt(index);
     }
 
+    @Override
     protected int getElementCount() {
         ListModel listModel = ((JList) _component).getModel();
         return listModel.getSize();
@@ -89,6 +94,7 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
      * @param object
      * @return the string representing the element in the JList.
      */
+    @Override
     protected String convertElementToString(Object object) {
         if (object != null) {
             return object.toString();

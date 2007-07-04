@@ -189,6 +189,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         //setup text field
         _textField = createTextField();
         _textField.addFocusListener(new FocusAdapter() {
+            @Override
             public void focusGained(FocusEvent e) {
                 _textField.selectAll();
             }
@@ -662,6 +663,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         return searchableBar;
     }
 
+    @Override
     public void processKeyEvent(KeyEvent e) {
     }
 

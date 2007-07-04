@@ -216,12 +216,14 @@ public abstract class Searchable {
         SearchField() {
         }
 
+        @Override
         public Dimension getPreferredSize() {
             Dimension size = super.getPreferredSize();
             size.width = getFontMetrics(getFont()).stringWidth(getText()) + 4;
             return size;
         }
 
+        @Override
         public void processKeyEvent(KeyEvent e) {
             int keyCode = e.getKeyCode();
             if (keyCode == KeyEvent.VK_BACK_SPACE && getDocument().getLength() == 0) {
@@ -343,6 +345,7 @@ public abstract class Searchable {
             setPopupBorder(BorderFactory.createEmptyBorder());
         }
 
+        @Override
         protected void select(int index, KeyEvent e, String searchingText) {
             if (index != -1) {
                 setSelectedIndex(index, e != null && isIncrementalSelectKey(e));
@@ -413,6 +416,7 @@ public abstract class Searchable {
     public void installListeners() {
         if (_componentListener == null) {
             _componentListener = new ComponentAdapter() {
+                @Override
                 public void componentHidden(ComponentEvent e) {
                     super.componentHidden(e);
                     boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
@@ -421,6 +425,7 @@ public abstract class Searchable {
                     }
                 }
 
+                @Override
                 public void componentResized(ComponentEvent e) {
                     super.componentResized(e);
                     boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
@@ -429,6 +434,7 @@ public abstract class Searchable {
                     }
                 }
 
+                @Override
                 public void componentMoved(ComponentEvent e) {
                     super.componentMoved(e);
                     boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
@@ -445,6 +451,7 @@ public abstract class Searchable {
         }
 
         _keyListener = new KeyAdapter() {
+            @Override
             public void keyTyped(KeyEvent e) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
                 if (passive) {
@@ -452,6 +459,7 @@ public abstract class Searchable {
                 }
             }
 
+            @Override
             public void keyPressed(KeyEvent e) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
                 if (passive) {
@@ -462,6 +470,7 @@ public abstract class Searchable {
         JideSwingUtilities.insertKeyListener(getComponent(), _keyListener, 0);
 
         _focusListener = new FocusAdapter() {
+            @Override
             public void focusLost(FocusEvent focusevent) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
                 if (passive) {
@@ -1322,6 +1331,7 @@ public abstract class Searchable {
     public abstract class SearchPopup extends JidePopup {
         protected SearchField _textField;
 
+        @Override
         public void processKeyEvent(KeyEvent e) {
             _textField.processKeyEvent(e);
             if (e.isConsumed()) {

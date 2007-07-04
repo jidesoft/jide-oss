@@ -26,6 +26,7 @@ public abstract class LazyMutableTreeNode extends DefaultMutableTreeNode {
         super(userObject, allowsChildren);
     }
 
+    @Override
     public int getChildCount() {
         synchronized (this) {
             if (!_loaded) {

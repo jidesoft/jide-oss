@@ -27,6 +27,7 @@ public class EclipseGripperUI extends BasicGripperUI {
         return new EclipseGripperUI();
     }
 
+    @Override
     protected void installDefaults(Gripper s) {
         _shadowColor = UIDefaultsLookup.getColor("controlShadow");
         _darkShadowColor = UIDefaultsLookup.getColor("controlDkShadow");
@@ -35,6 +36,7 @@ public class EclipseGripperUI extends BasicGripperUI {
         super.installDefaults(s);
     }
 
+    @Override
     protected void uninstallDefaults(Gripper s) {
         _shadowColor = null;
         _highlight = null;
@@ -43,6 +45,7 @@ public class EclipseGripperUI extends BasicGripperUI {
         super.uninstallDefaults(s);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (_gripperPainter == null) {
             getPainter().paintGripper(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), JideSwingUtilities.getOrientationOf(c), 0);

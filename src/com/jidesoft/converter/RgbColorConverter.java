@@ -54,6 +54,7 @@ public class RgbColorConverter extends ColorConverter {
                 r = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
+                // ingore
             }
         }
         if (token.hasMoreTokens()) {
@@ -62,6 +63,7 @@ public class RgbColorConverter extends ColorConverter {
                 g = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
+                // ingore
             }
         }
         if (token.hasMoreTokens()) {
@@ -70,6 +72,7 @@ public class RgbColorConverter extends ColorConverter {
                 b = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
+                // ingore
             }
         }
         return new Color(r, g, b);

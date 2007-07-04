@@ -19,7 +19,7 @@ public class InsetsConverter extends ArrayConverter {
         if (object instanceof Insets) {
             Insets Insets = (Insets) object;
             return arrayToString(new Object[]{
-                    new Integer(Insets.top), new Integer(Insets.left), new Integer(Insets.bottom), new Integer(Insets.right)
+                    Insets.top, Insets.left, Insets.bottom, Insets.right
             }, context);
         }
         else {
@@ -38,16 +38,16 @@ public class InsetsConverter extends ArrayConverter {
         Object[] objects = arrayFromString(string, context);
         int top = 0, left = 0, bottom = 0, right = 0;
         if (objects.length >= 1 && objects[0] instanceof Integer) {
-            top = ((Integer) objects[0]).intValue();
+            top = (Integer) objects[0];
         }
         if (objects.length >= 2 && objects[1] instanceof Integer) {
-            left = ((Integer) objects[1]).intValue();
+            left = (Integer) objects[1];
         }
         if (objects.length >= 3 && objects[2] instanceof Integer) {
-            bottom = ((Integer) objects[2]).intValue();
+            bottom = (Integer) objects[2];
         }
         if (objects.length >= 4 && objects[3] instanceof Integer) {
-            right = ((Integer) objects[3]).intValue();
+            right = (Integer) objects[3];
         }
         return new Insets(top, left, bottom, right);
     }

@@ -34,11 +34,13 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         return new Eclipse3xJideTabbedPaneUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         _rectSizeExtend = 12;
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         // set the border of the tabbedpane
@@ -49,6 +51,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         _iconMarginVertical = UIDefaultsLookup.getInt("JideTabbedPane.iconMarginVertical");
     }
 
+    @Override
     public void paintBackground(Graphics g, Component c) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
             if (_tabPane.isOpaque()) {
@@ -86,6 +89,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void ensureCurrentLayout() {
         /*
            * If tabPane doesn't have a peer yet, the validate() call will silently
@@ -164,6 +168,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
      * @param tabPlacement  the placement for the tabs within the JTabbedPane
      * @param selectedIndex the tab index of the selected component
      */
+    @Override
     protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
 
         if (!PAINT_TABAREA) {
@@ -299,6 +304,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected void layoutLabel(int tabPlacement, FontMetrics metrics,
                                int tabIndex, String title, Icon icon, Rectangle tabRect,
                                Rectangle iconRect, Rectangle textRect, boolean isSelected) {
@@ -389,6 +395,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
      * this function draws the border around each tab note that this function
      * does now draw the background of the tab. that is done elsewhere
      */
+    @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                   int x, int y, int w, int h, boolean isSelected) {
         if (!PAINT_TAB_BORDER) {
@@ -624,6 +631,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintTabBackground(Graphics g, int tabPlacement,
                                       int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         if (!PAINT_TAB_BACKGROUND) {
@@ -705,6 +713,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
             int width = _tabPane.getWidth();
@@ -963,6 +972,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the component border of every tab
+    @Override
     protected void paintContentBorder(Graphics g, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER) {
             return;
@@ -985,6 +995,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the top line of the content when the tab is on the top
+    @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
                                              int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -1027,6 +1038,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the bottom line of the content when the tab is on the bottom
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
                                                 int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -1071,6 +1083,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
 //  paint the left line of the content when the tab is on the left
 
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
                                               int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -1114,6 +1127,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
 //  paint the right line of the content when the tab is on the right
 
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
                                                int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -1156,6 +1170,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected Rectangle getTabsTextBoundsAt(int tabIndex) {
         Rectangle tabRect = _tabPane.getBoundsAt(tabIndex);
         Rectangle iconRect = new Rectangle(), textRect = new Rectangle();
@@ -1184,6 +1199,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected void paintFocusIndicator(Graphics g, int tabPlacement,
                                        Rectangle[] rects, int tabIndex, Rectangle iconRect,
                                        Rectangle textRect, boolean isSelected) {
@@ -1221,6 +1237,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected TabCloseButton createNoFocusButton(int type) {
         return new Eclipse3xTabCloseButton(type);
     }
@@ -1230,10 +1247,12 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             super(type);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(15, 15);
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             if (!isEnabled()) {
                 setMouseOver(false);

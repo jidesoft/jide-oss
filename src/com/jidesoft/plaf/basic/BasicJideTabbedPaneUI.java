@@ -249,6 +249,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     // UI Installation/De-installation
 
+    @Override
     public void installUI(JComponent c) {
         if (c == null) {
             return;
@@ -327,6 +328,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions();
         uninstallListeners();
@@ -748,7 +750,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             initMnemonics();
         }
         _mnemonicInputMap.put(KeyStroke.getKeyStroke(mnemonic, Event.ALT_MASK), "setSelectedIndex");
-        _mnemonicToIndexMap.put(new Integer(mnemonic), new Integer(index));
+        _mnemonicToIndexMap.put(mnemonic, index);
     }
 
     /**
@@ -763,16 +765,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     // Geometry
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         // Default to LayoutManager's preferredLayoutSize
         return null;
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         // Default to LayoutManager's minimumLayoutSize
         return null;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // Default to LayoutManager's maximumLayoutSize
         return null;
@@ -780,6 +785,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     // UI Rendering
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         int tc = _tabPane.getTabCount();
 
@@ -4043,12 +4049,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Returns the bounds of the specified tab index.  The bounds are
      * with respect to the JTabbedPane's coordinate space.
      */
+    @Override
     public Rectangle getTabBounds(JTabbedPane pane, int i) {
         ensureCurrentLayout();
         Rectangle tabRect = new Rectangle();
         return getTabBounds(i, tabRect);
     }
 
+    @Override
     public int getTabRunCount(JTabbedPane pane) {
         ensureCurrentLayout();
         return _runCount;
@@ -4058,6 +4066,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Returns the tab index which intersects the specified point
      * in the JTabbedPane's coordinate space.
      */
+    @Override
     public int tabForCoordinate(JTabbedPane pane, int x, int y) {
         ensureCurrentLayout();
         Point p = new Point(x, y);
@@ -4921,8 +4930,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     Integer index = (Integer) ui._mnemonicToIndexMap
                             .get(new Integer(mnemonic));
-                    if (index != null && pane.isEnabledAt(index.intValue())) {
-                        pane.setSelectedIndex(index.intValue());
+                    if (index != null && pane.isEnabledAt(index)) {
+                        pane.setSelectedIndex(index);
                     }
                 }
             }
@@ -5655,14 +5664,17 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected class TabbedPaneScrollLayout extends TabbedPaneLayout {
 
+        @Override
         protected int preferredTabAreaHeight(int tabPlacement, int width) {
             return calculateMaxTabHeight(tabPlacement);
         }
 
+        @Override
         protected int preferredTabAreaWidth(int tabPlacement, int height) {
             return calculateMaxTabWidth(tabPlacement);
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             int tabPlacement = _tabPane.getTabPlacement();
             int tabCount = _tabPane.getTabCount();
@@ -6169,6 +6181,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
+        @Override
         protected void calculateTabRects(int tabPlacement, int tabCount) {
             Dimension size = _tabPane.getSize();
             Insets insets = _tabPane.getInsets();
@@ -6703,6 +6716,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         public void createPopup(int tabPlacement) {
             final JList list = new JList() {
                 // override this method to disallow deselect by ctrl-click
+                @Override
                 public void removeSelectionInterval(int index0, int index1) {
                     super.removeSelectionInterval(index0, index1);
                     if (getSelectedIndex() == -1) {
@@ -6710,6 +6724,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
 
+                @Override
                 public Dimension getPreferredScrollableViewportSize() {
                     Dimension preferredScrollableViewportSize = super.getPreferredScrollableViewportSize();
                     if (preferredScrollableViewportSize.width < 150) {
@@ -6755,6 +6770,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             list.setModel(listModel);
             list.setSelectedIndex(selectedIndex);
             list.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseReleased(MouseEvent e) {
                     int index = list.getSelectedIndex();
                     if (index != -1 && _tabPane.isEnabledAt(index)) {
@@ -6951,6 +6967,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
+        @Override
         public String toString() {
             return "viewport.viewSize=" + viewport.getViewSize() + "\n" +
                     "viewport.viewRectangle=" + viewport.getViewRect() + "\n" +
@@ -6974,6 +6991,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
          *         have a background color, the background color of its parent
          *         is returned
          */
+        @Override
         public Color getBackground() {
             return UIDefaultsLookup.getColor("JideTabbedPane.background");
         }
@@ -6984,10 +7002,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             setLayout(null);
         }
 
+        @Override
         public boolean isOpaque() {
             return false;
         }
 
+        @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
 
@@ -7006,22 +7026,27 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         // workaround for swing bug
         // http://developer.java.sun.com/developer/bugParade/bugs/4668865.html
+        @Override
         public void setToolTipText(String text) {
             _tabPane.setToolTipText(text);
         }
 
+        @Override
         public String getToolTipText() {
             return _tabPane.getToolTipText();
         }
 
+        @Override
         public String getToolTipText(MouseEvent event) {
             return _tabPane.getToolTipText(SwingUtilities.convertMouseEvent(this, event, _tabPane));
         }
 
+        @Override
         public Point getToolTipLocation(MouseEvent event) {
             return _tabPane.getToolTipLocation(SwingUtilities.convertMouseEvent(this, event, _tabPane));
         }
 
+        @Override
         public JToolTip createToolTip() {
             return _tabPane.createToolTip();
         }
@@ -7052,6 +7077,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
          *
          * @see JComponent#updateUI
          */
+        @Override
         public void updateUI() {
             super.updateUI();
             setMargin(new Insets(0, 0, 0, 0));
@@ -7073,10 +7099,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             setType(type);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(16, 16);
         }
 
+        @Override
         public Dimension getMinimumSize() {
             return new Dimension(5, 5);
         }
@@ -7089,10 +7117,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _index = index;
         }
 
+        @Override
         public Dimension getMaximumSize() {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             if (!isEnabled()) {
                 setMouseOver(false);
@@ -7238,13 +7268,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
+        @Override
         public boolean isFocusable() {
             return false;
         }
 
+        @Override
         public void requestFocus() {
         }
 
+        @Override
         public boolean isOpaque() {
             return false;
         }
@@ -7337,7 +7370,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 pane.repaint();
             }
             else if (name.equals("indexForTitle")) {
-                int index = ((Integer) e.getNewValue()).intValue();
+                int index = (Integer) e.getNewValue();
                 String title = _tabPane.getDisplayTitleAt(index);
                 if (BasicHTML.isHTMLString(title)) {
                     if (htmlViews == null) { // Initialize vector
@@ -7468,6 +7501,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Instantiate it only within subclasses of VsnetJideTabbedPaneUI.
      */
     public class MouseHandler extends MouseAdapter {
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!_tabPane.isEnabled()) {
                 return;
@@ -7488,6 +7522,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         final Component comp = _tabPane.getComponentAt(tabIndex);
                         if (!comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk16Above()) {
                             comp.addComponentListener(new ComponentAdapter() {
+                                @Override
                                 public void componentShown(ComponentEvent e) {
                                     // remove the listener
                                     comp.removeComponentListener(this);
@@ -7628,7 +7663,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Integer indexObj =
                     (Integer) tp.getClientProperty("__index_to_remove__");
             if (indexObj != null) {
-                int index = indexObj.intValue();
+                int index = indexObj;
                 if (htmlViews != null && htmlViews.size() >= index) {
                     htmlViews.removeElementAt(index);
                 }
@@ -7660,6 +7695,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return htmlViews;
     }
 
+    @Override
     public Component getTabPanel() {
         if (scrollableTabLayoutEnabled())
             return _tabScroller.tabPanel;
@@ -7900,6 +7936,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected String _oldPostfix;
 
+    @Override
     public boolean isTabEditing() {
         return _isEditing;
     }
@@ -7908,6 +7945,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         TabEditor editor = new TabEditor();
         editor.getDocument().addDocumentListener(this);
         editor.addFocusListener(new FocusAdapter() {
+            @Override
             public void focusLost(FocusEvent e) {
                 if (_isEditing) {
                     stopTabEditing();
@@ -7920,6 +7958,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         });
         editor.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (_isEditing && (e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
                     if (_editingTab >= 0 && _editingTab < _tabPane.getTabCount()) {
@@ -7934,6 +7973,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return editor;
     }
 
+    @Override
     public void stopTabEditing() {
         if (_editingTab >= 0 && _editingTab < _tabPane.getTabCount()) {
             _tabPane.setTitleAt(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
@@ -7941,6 +7981,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         cancelTabEditing();
     }
 
+    @Override
     public void cancelTabEditing() {
         if (_tabEditor != null) {
             _isEditing = false;
@@ -7963,6 +8004,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @Override
     public boolean editTabAt(int tabIndex) {
         if (_isEditing) {
             return false;
@@ -7993,6 +8035,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return false;
     }
 
+    @Override
     public int getEditingTabIndex() {
         return _editingTab;
     }
@@ -8333,6 +8376,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public class DefaultMouseMotionHandler extends MouseMotionAdapter {
+        @Override
         public void mouseMoved(MouseEvent e) {
             super.mouseMoved(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
@@ -8346,10 +8390,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public class DefaultMouseHandler extends BasicJideTabbedPaneUI.MouseHandler {
+        @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             super.mouseEntered(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
@@ -8358,6 +8404,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabPane.repaint();
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             super.mouseExited(e);
             _indexMouseOver = -1;
@@ -8367,6 +8414,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public class RolloverMouseMotionHandler extends MouseMotionAdapter {
+        @Override
         public void mouseMoved(MouseEvent e) {
             super.mouseMoved(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
@@ -8380,6 +8428,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public class RolloverMouseHandler extends BasicJideTabbedPaneUI.MouseHandler {
+        @Override
         public void mouseEntered(MouseEvent e) {
             super.mouseEntered(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
@@ -8388,6 +8437,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabPane.repaint();
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             super.mouseExited(e);
             _indexMouseOver = -1;

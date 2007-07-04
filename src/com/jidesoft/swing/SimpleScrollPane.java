@@ -134,6 +134,7 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         LookAndFeel.installBorder(this, "JideScrollPane.border");
@@ -400,6 +401,7 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener {
         viewport.setViewPosition(p);
     }
 
+    @Override
     public Rectangle getViewportBorderBounds() {
         Rectangle borderR = new Rectangle(getSize());
 

@@ -33,6 +33,7 @@ public class MetalPainter extends BasicPainter {
     public MetalPainter() {
     }
 
+    @Override
     public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (orientation == HORIZONTAL) {
             MetalBumps bumps = new MetalBumps(rect.width, rect.height - 6,

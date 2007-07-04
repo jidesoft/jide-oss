@@ -193,6 +193,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @param rowHeader the new row header
      */
+    @Override
     public void setRowHeader(JViewport rowHeader) {
         super.setRowHeader(rowHeader);
         JideSwingUtilities.synchronizeView(rowHeader, getViewport(), SwingConstants.VERTICAL);
@@ -264,6 +265,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @param columnHeader
      */
+    @Override
     public void setColumnHeader(JViewport columnHeader) {
         super.setColumnHeader(columnHeader);
         JideSwingUtilities.synchronizeView(this.columnHeader, getViewport(), SwingConstants.HORIZONTAL);
@@ -409,6 +411,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         repaint();
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         LookAndFeel.installBorder(this, "JideScrollPane.border");
@@ -449,8 +452,10 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
 
+    @Override
     protected JViewport createViewport() {
         return new JViewport() {
+            @Override
             public Dimension getViewSize() {
                 Dimension viewSize = super.getViewSize();
                 if (getView() == JideScrollPane.this.getViewport().getView()) {

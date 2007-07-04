@@ -24,6 +24,7 @@ public class Office2003RangeSliderUI extends BasicRangeSliderUI {
         return new Office2003RangeSliderUI((JSlider) slider);
     }
 
+    @Override
     protected void setMouseRollover(int handle) {
         resetAllIcons();
         switch (handle) {

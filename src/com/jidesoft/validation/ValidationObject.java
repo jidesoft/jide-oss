@@ -73,6 +73,7 @@ public class ValidationObject extends EventObject {
         return _oldValue;
     }
 
+    @Override
     public String toString() {
         String properties =
                 " source=" + getSource() +

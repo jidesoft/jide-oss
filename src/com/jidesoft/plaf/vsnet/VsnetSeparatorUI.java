@@ -25,9 +25,11 @@ public class VsnetSeparatorUI extends WindowsSeparatorUI {
         return new VsnetSeparatorUI();
     }
 
+    @Override
     protected void installDefaults(JSeparator s) {
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (!(c.getParent() instanceof JPopupMenu)) {
             super.paint(g, c);
@@ -69,6 +71,7 @@ public class VsnetSeparatorUI extends WindowsSeparatorUI {
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return new Dimension(0, HEIGHT);
     }

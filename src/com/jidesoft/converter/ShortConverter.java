@@ -24,7 +24,7 @@ public class ShortConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            return new Short(getNumberFormat().parse(string).shortValue());
+            return getNumberFormat().parse(string).shortValue();
         }
         catch (ParseException e) {
             return null;

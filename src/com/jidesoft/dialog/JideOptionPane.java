@@ -64,6 +64,7 @@ public class JideOptionPane extends JOptionPane {
      *
      * @param newType
      */
+    @Override
     public void setOptionType(int newType) {
         if (newType != DEFAULT_OPTION && newType != YES_NO_OPTION &&
                 newType != YES_NO_CANCEL_OPTION && newType != OK_CANCEL_OPTION

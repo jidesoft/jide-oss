@@ -17,23 +17,28 @@ import javax.swing.*;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class Office2003WindowsLookAndFeel extends VsnetWindowsLookAndFeel {
+    @Override
     public String getName() {
         return "Office 2003";
     }
 
+    @Override
     public String getDescription() {
         return "The Microsoft Office 2003 Look And Feel";
     }
 
+    @Override
     public String getID() {
         return "Office 2003";
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         Office2003WindowsUtils.initClassDefaults(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         Office2003WindowsUtils.initComponentDefaults(table);

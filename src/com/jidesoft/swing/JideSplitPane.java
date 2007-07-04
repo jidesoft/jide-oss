@@ -309,6 +309,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         }
 
         // For proportional layouts, override the key box layout method:
+        @Override
         protected boolean calculateComponentSizes(int availableSize, int startIndex, int endIndex) {
             // Just go to super for non-proportional layout, or if there are no more
             // than one component.
@@ -379,6 +380,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         }
     }
 
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get("JideSplitPane.dividerSize") == null) {
             LookAndFeelFactory.installJideExtension();
@@ -672,6 +674,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * @return true
      * @see JComponent#revalidate
      */
+    @Override
     public boolean isValidateRoot() {
         return true;
     }
@@ -685,6 +688,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (_windowDeactivatedListener == null) {
                 // this a listener to remove the dragging outline when window is deactivated
                 _windowDeactivatedListener = new WindowAdapter() {
+                    @Override
                     public void windowDeactivated(WindowEvent e) {
                         stopDragging();
                         if (e.getWindow() != null) {
@@ -1243,6 +1247,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * @see #validate
      * @since JDK1.1
      */
+    @Override
     public void doLayout() {
         if (removeExtraDividers()) {
             ((JideSplitPaneLayout) getLayout()).invalidateLayout(this);
@@ -1277,6 +1282,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * @return an AccessibleJideSplitPane that serves as the
      *         AccessibleContext of this JideSplitPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJideSplitPane();
@@ -1298,6 +1304,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
          *         of the object
          * @see javax.accessibility.AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getOrientation() == VERTICAL_SPLIT) {
@@ -1316,6 +1323,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
          *         the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SPLIT_PANE;
         }

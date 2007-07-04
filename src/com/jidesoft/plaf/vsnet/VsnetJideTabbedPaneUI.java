@@ -34,6 +34,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         return new VsnetJideTabbedPaneUI();
     }
 
+    @Override
     public void installColorTheme() {
         super.installColorTheme();
 
@@ -195,6 +196,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     public void uninstallColorTheme() {
         super.uninstallColorTheme();
 
@@ -204,6 +206,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         _backgroundUnselectedColorEnd = null;
     }
 
+    @Override
     public void paintBackground(Graphics g, Component c) {
         if (_tabPane.isOpaque()) {
             int width = c.getWidth();
@@ -258,6 +261,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
         if (_tabPane.isOpaque()) {
             int tabShape = getTabShape();
@@ -284,6 +288,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintTabBackground(Graphics g, int tabPlacement,
                                       int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
@@ -321,6 +326,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
                                              int selectedIndex, int x, int y, int w, int h) {
 
@@ -553,6 +559,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
 
     }
 
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
                                                 int selectedIndex, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER_EDGE) {
@@ -772,6 +779,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
                                               int selectedIndex, int x, int y, int w, int h) {
 
@@ -977,6 +985,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
                                                int selectedIndex, int x, int y, int w, int h) {
 
@@ -1181,6 +1190,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorder(Graphics g, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER) {
             return;

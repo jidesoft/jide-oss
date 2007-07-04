@@ -110,6 +110,7 @@ public class JideMenu extends JMenu implements Alignable {
      *
      * @return true if it's top level menu.
      */
+    @Override
     public boolean isTopLevelMenu() {
         return getParent() == null || !(getParent() instanceof JPopupMenu);//TopLevelMenuContainer || getParent() instanceof JMenuBar;
     }
@@ -189,6 +190,7 @@ public class JideMenu extends JMenu implements Alignable {
         _customizer = customizer;
     }
 
+    @Override
     protected Point getPopupMenuOrigin() {
         int x = 0;
         int y = 0;
@@ -362,6 +364,7 @@ public class JideMenu extends JMenu implements Alignable {
      *
      * @return false if it's top leve menu. Otherwise, it will return what super.isOpaque().
      */
+    @Override
     public boolean isOpaque() {
         if (isTopLevelMenu()) { // make top level menu opaque
             return false;
@@ -423,6 +426,7 @@ public class JideMenu extends JMenu implements Alignable {
     // use this flag to disable the hide timer as there are quite a few bugs on it that we don't know how to solve.
     private final static boolean DISABLE_TIMER = true;
 
+    @Override
     public void setPopupMenuVisible(boolean b) {
         if (b && getPopupMenu().getComponentCount() == 0) {
             return;

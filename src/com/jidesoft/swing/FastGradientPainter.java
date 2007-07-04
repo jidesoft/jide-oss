@@ -120,11 +120,13 @@ class GradientInfo {
         return (gi.gfxConfig.equals(gfxConfig) && gi.length == length && gi.startColor.equals(startColor) && gi.endColor.equals(endColor) && gi.isVertical == isVertical);
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof GradientInfo)) return false;
         return isEquivalent((GradientInfo) o);
     }
 
+    @Override
     public String toString() {
         return "Direction:" + (isVertical ? "ver" : "hor") + ", Length: " + Integer.toString(length) + ", Color1: " + Integer.toString(startColor.getRGB(), 16) + ", Color2: " + Integer.toString(endColor.getRGB(), 16);
     }

@@ -19,6 +19,7 @@ public class MetalRadioButtonMenuItemUI extends VsnetMenuItemUI {
         return new MetalRadioButtonMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "RadioButtonMenuItem";
     }

@@ -42,6 +42,7 @@ public class PartialGradientLineBorder extends AbstractBorder implements Partial
         _sides = sides;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Color oldColor = g.getColor();
         Graphics2D g2d = (Graphics2D) g;

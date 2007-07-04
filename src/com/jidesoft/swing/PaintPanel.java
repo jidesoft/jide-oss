@@ -104,6 +104,7 @@ public class PaintPanel extends JPanel {
      *
      * @param g
      */
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (getStartColor() != null && getEndColor() != null) {

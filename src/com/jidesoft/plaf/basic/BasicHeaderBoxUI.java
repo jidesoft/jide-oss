@@ -33,6 +33,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         return _headerBoxUI;
     }
 
+    @Override
     public void installUI(JComponent c) {
         HeaderBox p = (HeaderBox) c;
         super.installUI(p);
@@ -40,6 +41,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         installListeners(p);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         HeaderBox p = (HeaderBox) c;
         uninstallDefaults(p);
@@ -51,6 +53,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         private long lastPressedTimestamp = -1;
         private boolean shouldDiscardRelease = false;
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e)) {
                 AbstractButton b = (AbstractButton) e.getSource();
@@ -81,6 +84,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
             }
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e)) {
                 // Support for multiClickThreshhold
@@ -95,6 +99,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             AbstractButton b = (AbstractButton) e.getSource();
             ButtonModel model = b.getModel();
@@ -105,6 +110,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
                 model.setArmed(true);
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             AbstractButton b = (AbstractButton) e.getSource();
             ButtonModel model = b.getModel();
@@ -159,6 +165,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         _border = UIDefaultsLookup.getBorder("NestedTableHeader.cellBorder");
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         super.paint(g, c);
         paintBackground(g, c);

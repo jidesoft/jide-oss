@@ -48,6 +48,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
         setupPopupMenu();
     }
 
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -56,6 +57,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
         addPopupMenuListener(new ToolTipSwitchPopupMenuListener());
     }
 
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -70,6 +72,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
      * @param x       mouse X position on screen
      * @param y       mouse Y position on screen
      */
+    @Override
     public void show(Component invoker, int x, int y) {
         Point p = getPopupMenuOrigin(invoker, x, y);
         super.show(invoker, p.x, p.y);
@@ -117,6 +120,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
         return new Point(x, y);
     }
 
+    @Override
     public void setLocation(int x, int y) {
         // TODO: this is really a hack. Two classes will call this method. One is when the JPopupMenu is show. The other
         if (isVisible() && y <= 0) {

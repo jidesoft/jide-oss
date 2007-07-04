@@ -277,6 +277,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @return a <code>TabbedPaneUI</code> object
      * @see #setUI
      */
+    @Override
     public TabbedPaneUI getUI() {
         return (TabbedPaneUI) ui;
     }
@@ -287,6 +288,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @param ui the new UI object
      * @see UIDefaults#getUI
      */
+    @Override
     public void setUI(TabbedPaneUI ui) {
         super.setUI(ui);
     }
@@ -296,6 +298,7 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -312,6 +315,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -475,6 +479,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _suppressStateChangedEvents = false;
 
+    @Override
     protected void fireStateChanged() {
         if (!_suppressStateChangedEvents) {
             super.fireStateChanged();
@@ -484,6 +489,7 @@ public class JideTabbedPane extends JTabbedPane {
     // setSelectedIndex will be called during moving tab. So we use this flag to suppress it.
     private boolean _suppressSetSelectedIndex = false;
 
+    @Override
     public void setSelectedIndex(int index) {
         if (!_suppressSetSelectedIndex) {
             super.setSelectedIndex(index);
@@ -620,6 +626,7 @@ public class JideTabbedPane extends JTabbedPane {
 
 
     class IgnoreableSingleSelectionModel extends DefaultSingleSelectionModel {
+        @Override
         protected void fireStateChanged() {
             if (!_suppressStateChangedEvents) {
                 super.fireStateChanged();
@@ -933,6 +940,7 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
+    @Override
     public void removeTabAt(int index) {
 
         // There is a bug in JTabbedPane removeTabAt(int index) method,
@@ -974,6 +982,7 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
+    @Override
     public void setTitleAt(int index, String title) {
         boolean contains = false;
         if (_closableMap.containsKey(getTitleAt(index))) {
@@ -997,7 +1006,7 @@ public class JideTabbedPane extends JTabbedPane {
      *                                   (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
-        return !_closableMap.containsKey(new Integer(tabIndex));
+        return !_closableMap.containsKey(tabIndex);
     }
 
     /**
@@ -1015,10 +1024,10 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setTabClosableAt(int tabIndex, boolean closble) {
         if (closble) {
-            _closableMap.remove(new Integer(tabIndex));
+            _closableMap.remove(tabIndex);
         }
         else {
-            _closableMap.put(new Integer(tabIndex), Boolean.FALSE);
+            _closableMap.put(tabIndex, Boolean.FALSE);
         }
         firePropertyChange(TAB_CLOSABLE_PROPERTY, !closble, closble);
     }
@@ -1046,6 +1055,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Overridden to add a <code>PageLastFocusTracker</code> to each page, used to
      * update the page's last focused component.
      */
+    @Override
     public void insertTab(String title, Icon icon, Component component, String tip, int index) {
         super.insertTab(title, icon, component, tip, index);
 
@@ -1069,6 +1079,7 @@ public class JideTabbedPane extends JTabbedPane {
             return _lastFocusedComponent;
         }
 
+        @Override
         public void setHeighestComponent(Component compHeighest) {
             if (compHeighest == null) {
                 if (_lastFocusedListener != null) {
@@ -1079,6 +1090,7 @@ public class JideTabbedPane extends JTabbedPane {
             else {
                 if (_lastFocusedListener == null) {
                     _lastFocusedListener = new FocusAdapter() {
+                        @Override
                         public void focusGained(FocusEvent e) {
                             _lastFocusedComponent = e.getComponent();
                         }
@@ -1419,6 +1431,7 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
+    @Override
     public void addNotify() {
         super.addNotify();
         if (_focusChangeListener == null) {
@@ -1428,6 +1441,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     }
 
+    @Override
     public void removeNotify() {
         super.removeNotify();
         if (_focusChangeListener != null) {
@@ -1454,6 +1468,7 @@ public class JideTabbedPane extends JTabbedPane {
      * The default tab list cell renderer used to renderer the list in the popup when tab list button is pressed.
      */
     public static class TabListCellRenderer extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value instanceof JideTabbedPane) {
                 JideTabbedPane tabbedPane = (JideTabbedPane) value;

@@ -45,6 +45,7 @@ public class XertoPainter extends BasicPainter {
 //    }
 //
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color gradientBot = c.getBackground();
@@ -52,6 +53,7 @@ public class XertoPainter extends BasicPainter {
         JideSwingUtilities.fillGradient(g2d, rect, gradientTop, gradientBot, true);
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color gradientBot = XertoUtils.getEmBaseColor(c.getBackground());
@@ -59,10 +61,12 @@ public class XertoPainter extends BasicPainter {
         JideSwingUtilities.fillGradient(g2d, rect, gradientTop, gradientBot, true);
     }
 
+    @Override
     public void paintMenuItemBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
         super.paintMenuItemBackground(c, g, rect, orientation, state, showBorder);
     }
 
+    @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (state == STATE_DEFAULT) {
             super.paintButtonBackground(c, g, rect, orientation, state);
@@ -93,6 +97,7 @@ public class XertoPainter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (rect.width > 30) {
             orientation = SwingConstants.VERTICAL;
@@ -132,6 +137,7 @@ public class XertoPainter extends BasicPainter {
     }
 
 
+    @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         if (ThemePainter.STATE_SELECTED == state) {
@@ -144,18 +150,22 @@ public class XertoPainter extends BasicPainter {
         }
     }
 
+    @Override
     public Color getGripperForeground() {
         return XertoUtils.getControlLightShadowColor();
     }
 
+    @Override
     public Color getGripperForegroundLt() {
         return Color.WHITE;
     }
 
+    @Override
     public Color getSelectionSelectedDk() {
         return XertoUtils.getControlMidShadowColor();
     }
 
+    @Override
     public Color getSelectionSelectedLt() {
         return XertoUtils.getControlLightShadowColor();
     }

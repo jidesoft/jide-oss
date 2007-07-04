@@ -62,6 +62,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         table.addPropertyChangeListener("model", this);
     }
 
+    @Override
     public void uninstallListeners() {
         super.uninstallListeners();
         if (_component instanceof JTable) {
@@ -70,6 +71,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         _component.removePropertyChangeListener("model", this);
     }
 
+    @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         int majorIndex, minorIndex;
         JTable table = ((JTable) _component);
@@ -135,6 +137,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      *
      * @return the selected index.
      */
+    @Override
     protected int getSelectedIndex() {
         JTable table = ((JTable) _component);
         if (isColumnSelectionAllowed(table)) {
@@ -148,6 +151,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected Object getElementAt(int index) {
         TableModel model = ((JTable) _component).getModel();
         JTable table = ((JTable) _component);
@@ -173,6 +177,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected int getElementCount() {
         TableModel model = ((JTable) _component).getModel();
         JTable table = ((JTable) _component);
@@ -187,6 +192,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected String convertElementToString(Object item) {
         if (item != null) {
             return item.toString();
@@ -218,6 +224,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected boolean isFindNextKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
         JTable table = ((JTable) _component);
@@ -232,6 +239,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected boolean isFindPreviousKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
         JTable table = ((JTable) _component);
@@ -266,6 +274,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
+    @Override
     protected boolean isActivateKey(KeyEvent e) {
         boolean editable = isSelectedCellEditable();
         return !editable && super.isActivateKey(e);

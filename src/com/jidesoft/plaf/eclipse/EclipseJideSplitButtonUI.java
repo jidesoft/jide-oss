@@ -46,6 +46,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
     private final static String propertyPrefix = "JideSplitButton";
 
+    @Override
     protected String getPropertyPrefix() {
         return propertyPrefix;
     }
@@ -54,6 +55,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         return new EclipseJideSplitButtonUI();
     }
 
+    @Override
     protected void installDefaults() {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
         _shadowColor = UIDefaultsLookup.getColor("controlShadow");
@@ -64,6 +66,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         super.installDefaults();
     }
 
+    @Override
     protected void uninstallDefaults() {
         _painter = null;
         _shadowColor = null;
@@ -74,6 +77,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         if (_focusListener == null) {
@@ -90,6 +94,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         menuItem.addFocusListener(_focusListener);
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
         if (_focusListener != null) {
@@ -123,6 +128,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         return null;
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         AbstractButton b = menuItem;
@@ -135,6 +141,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         SwingUtilities.replaceUIInputMap(b, JComponent.WHEN_FOCUSED, km);
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         AbstractButton b = menuItem;
         SwingUtilities.replaceUIInputMap(b, JComponent.
@@ -144,10 +151,12 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         super.uninstallKeyboardActions();
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
 
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
         int menuWidth = 0;
@@ -408,6 +417,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMinimumSize(c);
@@ -425,6 +435,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         return d;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMaximumSize(c);
@@ -442,6 +453,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getPreferredSize(c);
@@ -564,6 +576,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender != null && (sender instanceof AbstractButton) &&
                     !((AbstractButton) sender).getModel().isEnabled()) {

@@ -12,6 +12,7 @@ import java.awt.*;
  * A list cell renderer for AbstractDialogPage.
  */
 class DialogPageListCellRenderer extends DefaultListCellRenderer {
+    @Override
     public Component getListCellRendererComponent(
             JList list,
             Object value,

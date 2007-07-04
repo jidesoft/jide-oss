@@ -91,6 +91,7 @@ public class RegistrationEvent extends EventObject {
         return _id;
     }
 
+    @Override
     public String toString() {
         String action;
         switch (getId()) {

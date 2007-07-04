@@ -43,6 +43,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
 
     protected PropertyChangeListener _propertyChangeListener;
 
+    @Override
     protected String getPropertyPrefix() {
         return "JideSplitButton";
     }
@@ -51,6 +52,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         return new MetalJideSplitButtonUI();
     }
 
+    @Override
     protected void installDefaults() {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
 
@@ -62,6 +64,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         super.installDefaults();
     }
 
+    @Override
     protected void uninstallDefaults() {
         _painter = null;
 
@@ -73,6 +76,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void installListeners() {
         if (_propertyChangeListener == null)
             _propertyChangeListener = createSplitButtonPropertyChangeListener(menuItem);
@@ -82,6 +86,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         super.installListeners();
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
         if (_propertyChangeListener != null)
@@ -121,6 +126,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         return null;
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         AbstractButton b = menuItem;
@@ -133,6 +139,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         SwingUtilities.replaceUIInputMap(b, JComponent.WHEN_FOCUSED, km);
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         AbstractButton b = menuItem;
         SwingUtilities.replaceUIInputMap(b, JComponent.
@@ -142,10 +149,12 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         super.uninstallKeyboardActions();
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
 
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
         int menuWidth = 0;
@@ -472,6 +481,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         g.setColor(old);
     }
 
+    @Override
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
         ButtonModel model = menuItem.getModel();
         FontMetrics fm = g.getFontMetrics();
@@ -688,6 +698,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMinimumSize(c);
@@ -708,6 +719,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getPreferredSize(c);
@@ -735,6 +747,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             return new Dimension(d.height, d.width); // swap width and height
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMaximumSize(c);
@@ -866,6 +879,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender != null && (sender instanceof AbstractButton) &&
                     !((AbstractButton) sender).getModel().isEnabled()) {

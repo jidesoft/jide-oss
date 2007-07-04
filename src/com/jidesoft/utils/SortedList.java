@@ -11,21 +11,21 @@ import java.util.*;
 /**
  * @author Patrick Gotthardt
  */
-public class SortedList implements List {
-    private Comparator comparator;
-    private List delegate;
+public class SortedList<E> implements List<E> {
+    private Comparator<E> comparator;
+    private List<E> delegate;
 
-    public SortedList(List delegate, Comparator comparator) {
+    public SortedList(List<E> delegate, Comparator comparator) {
         this.delegate = delegate;
         this.comparator = comparator;
     }
 
-    public void add(int index, Object element) {
+    public void add(int index, E element) {
         // no indexed insertion supported
         add(element);
     }
 
-    public boolean add(Object o) {
+    public boolean add(E o) {
         int size = delegate.size();
         for (int i = 0; i < size; i++) {
             if (comparator.compare(o, delegate.get(i)) > 0) {
@@ -37,11 +37,11 @@ public class SortedList implements List {
         return true;
     }
 
-    public boolean addAll(Collection c) {
+    public boolean addAll(Collection<? extends E> c) {
         return delegate.addAll(c);
     }
 
-    public boolean addAll(int index, Collection c) {
+    public boolean addAll(int index, Collection<? extends E> c) {
         return delegate.addAll(index, c);
     }
 
@@ -53,18 +53,20 @@ public class SortedList implements List {
         return delegate.contains(o);
     }
 
-    public boolean containsAll(Collection c) {
+    public boolean containsAll(Collection<?> c) {
         return delegate.containsAll(c);
     }
 
+    @Override
     public boolean equals(Object o) {
         return delegate.equals(o);
     }
 
-    public Object get(int index) {
+    public E get(int index) {
         return delegate.get(index);
     }
 
+    @Override
     public int hashCode() {
         return delegate.hashCode();
     }
@@ -77,7 +79,7 @@ public class SortedList implements List {
         return delegate.isEmpty();
     }
 
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         return delegate.iterator();
     }
 
@@ -85,15 +87,15 @@ public class SortedList implements List {
         return delegate.lastIndexOf(o);
     }
 
-    public ListIterator listIterator() {
+    public ListIterator<E> listIterator() {
         return delegate.listIterator();
     }
 
-    public ListIterator listIterator(int index) {
+    public ListIterator<E> listIterator(int index) {
         return delegate.listIterator(index);
     }
 
-    public Object remove(int index) {
+    public E remove(int index) {
         return delegate.remove(index);
     }
 
@@ -101,15 +103,15 @@ public class SortedList implements List {
         return delegate.remove(o);
     }
 
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         return delegate.removeAll(c);
     }
 
-    public boolean retainAll(Collection c) {
+    public boolean retainAll(Collection<?> c) {
         return delegate.retainAll(c);
     }
 
-    public Object set(int index, Object element) {
+    public E set(int index, E element) {
         return delegate.set(index, element);
     }
 
@@ -117,7 +119,7 @@ public class SortedList implements List {
         return delegate.size();
     }
 
-    public List subList(int fromIndex, int toIndex) {
+    public List<E> subList(int fromIndex, int toIndex) {
         return delegate.subList(fromIndex, toIndex);
     }
 
@@ -130,17 +132,17 @@ public class SortedList implements List {
     }
 
     public static void main(String[] args) {
-        List sortedList = new SortedList(new ArrayList(), new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((String) o2).compareTo((String) o1);
+        List<String> sortedList = new SortedList(new ArrayList(), new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return o2.compareTo(o1);
             }
         });
         sortedList.add("test");
         sortedList.add("aaa");
         sortedList.add("ddd");
         sortedList.add("ccc");
-        for (int i = 0; i < sortedList.size(); i++) {
-            String s = (String) sortedList.get(i);
+        for (String aSortedList : sortedList) {
+            String s = (String) aSortedList;
             System.out.println(s);
         }
     }

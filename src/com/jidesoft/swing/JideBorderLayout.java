@@ -420,7 +420,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
             Dimension dim = new Dimension(0, 0);
 
             boolean ltr = target.getComponentOrientation().isLeftToRight();
-            Component c = null;
+            Component c;
 
             if ((c = getChild(CENTER, ltr)) != null) {
                 Dimension d = c.getMinimumSize();
@@ -476,7 +476,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
             Dimension dim = new Dimension(0, 0);
 
             boolean ltr = target.getComponentOrientation().isLeftToRight();
-            Component c = null;
+            Component c;
 
             if ((c = getChild(CENTER, ltr)) != null) {
                 Dimension d = c.getPreferredSize();
@@ -676,6 +676,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      *
      * @return a string representation of this border layout.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
     }

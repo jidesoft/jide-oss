@@ -25,6 +25,7 @@ public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
         return new VsnetPopupMenuSeparatorUI();
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (!(c.getParent() instanceof JPopupMenu)) {
             super.paint(g, c);
@@ -66,6 +67,7 @@ public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return new Dimension(0, HEIGHT);
     }

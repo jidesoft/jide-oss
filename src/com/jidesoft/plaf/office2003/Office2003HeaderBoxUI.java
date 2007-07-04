@@ -25,9 +25,11 @@ public class Office2003HeaderBoxUI extends BasicHeaderBoxUI {
         return _headerBoxUI;
     }
 
+    @Override
     protected void paintBorder(Graphics g, JComponent c) {
     }
 
+    @Override
     public void paintBackground(Graphics g, JComponent c) {
         HeaderBox headerBox = (HeaderBox) c;
 

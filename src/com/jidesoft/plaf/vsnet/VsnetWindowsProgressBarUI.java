@@ -40,11 +40,13 @@ public class VsnetWindowsProgressBarUI extends WindowsProgressBarUI implements A
         return new VsnetWindowsProgressBarUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         initRepaintInterval(); //initialize repaint interval
     }
 
+    @Override
     protected void startAnimationTimer() {
         if (timer == null) {
             timer = new Timer(getRepaintInterval() / 20, this);
@@ -54,6 +56,7 @@ public class VsnetWindowsProgressBarUI extends WindowsProgressBarUI implements A
         timer.start();
     }
 
+    @Override
     protected void stopAnimationTimer() {
         if (timer != null) {
             timer.stop();
@@ -96,6 +99,7 @@ public class VsnetWindowsProgressBarUI extends WindowsProgressBarUI implements A
 
     private Rectangle boxRect;
 
+    @Override
     public void paintIndeterminate(Graphics g, JComponent c) {
         super.paintIndeterminate(g, c);
         Color startColor = progressBar.getForeground();

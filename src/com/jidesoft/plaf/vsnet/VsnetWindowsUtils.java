@@ -168,8 +168,8 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideButton.highlight", defaultLtHighlightColor,
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
-                "JideButton.textIconGap", new Integer(2),
-                "JideButton.textShiftOffset", new Integer(0),
+                "JideButton.textIconGap", 2,
+                "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released",
@@ -177,38 +177,38 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "released ENTER", "released"
         }),
 
-                "JideSplitPane.dividerSize", new Integer(3),
+                "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                 "JideSplitPaneDivider.background", defaultBackgroundColor,
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
 
-                "JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_VSNET),
-                "JideTabbedPane.defaultResizeMode", new Integer(JideTabbedPane.RESIZE_MODE_NONE),
-                "JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_VSNET),
+                "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_VSNET,
+                "JideTabbedPane.defaultResizeMode", JideTabbedPane.RESIZE_MODE_NONE,
+                "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_VSNET,
 
-                "JideTabbedPane.tabRectPadding", new Integer(2),
-                "JideTabbedPane.closeButtonMarginHorizonal", new Integer(3),
-                "JideTabbedPane.closeButtonMarginVertical", new Integer(3),
-                "JideTabbedPane.textMarginVertical", new Integer(4),
-                "JideTabbedPane.noIconMargin", new Integer(2),
-                "JideTabbedPane.iconMargin", new Integer(5),
-                "JideTabbedPane.textPadding", new Integer(6),
-                "JideTabbedPane.buttonSize", new Integer(18),
-                "JideTabbedPane.buttonMargin", new Integer(5),
-                "JideTabbedPane.fitStyleBoundSize", new Integer(8),
-                "JideTabbedPane.fitStyleFirstTabMargin", new Integer(4),
-                "JideTabbedPane.fitStyleIconMinWidth", new Integer(24),
-                "JideTabbedPane.fitStyleTextMinWidth", new Integer(16),
-                "JideTabbedPane.compressedStyleNoIconRectSize", new Integer(24),
-                "JideTabbedPane.compressedStyleIconMargin", new Integer(12),
-                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", new Integer(0),
-                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", new Integer(0),
-                "JideTabbedPane.fixedStyleRectSize", new Integer(60),
-                "JideTabbedPane.closeButtonMargin", new Integer(2),
-                "JideTabbedPane.gripLeftMargin", new Integer(4),
-                "JideTabbedPane.closeButtonMarginSize", new Integer(6),
-                "JideTabbedPane.closeButtonLeftMargin", new Integer(2),
-                "JideTabbedPane.closeButtonRightMargin", new Integer(2),
+                "JideTabbedPane.tabRectPadding", 2,
+                "JideTabbedPane.closeButtonMarginHorizonal", 3,
+                "JideTabbedPane.closeButtonMarginVertical", 3,
+                "JideTabbedPane.textMarginVertical", 4,
+                "JideTabbedPane.noIconMargin", 2,
+                "JideTabbedPane.iconMargin", 5,
+                "JideTabbedPane.textPadding", 6,
+                "JideTabbedPane.buttonSize", 18,
+                "JideTabbedPane.buttonMargin", 5,
+                "JideTabbedPane.fitStyleBoundSize", 8,
+                "JideTabbedPane.fitStyleFirstTabMargin", 4,
+                "JideTabbedPane.fitStyleIconMinWidth", 24,
+                "JideTabbedPane.fitStyleTextMinWidth", 16,
+                "JideTabbedPane.compressedStyleNoIconRectSize", 24,
+                "JideTabbedPane.compressedStyleIconMargin", 12,
+                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", 0,
+                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", 0,
+                "JideTabbedPane.fixedStyleRectSize", 60,
+                "JideTabbedPane.closeButtonMargin", 2,
+                "JideTabbedPane.gripLeftMargin", 4,
+                "JideTabbedPane.closeButtonMarginSize", 6,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 
@@ -225,16 +225,16 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", defaultFormBackground,
-                "JideTabbedPane.tabRunOverlay", new Integer(2),
+                "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
-                "JideTabbedPane.textIconGap", new Integer(4),
+                "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.FALSE,
-                "JideTabbedPane.closeButtonAlignment", new Integer(SwingConstants.TRAILING),
+                "JideTabbedPane.closeButtonAlignment", SwingConstants.TRAILING,
                 "JideTabbedPane.focusInputMap",
                 new UIDefaults.LazyInputMap(new Object[]{
                         "RIGHT", "navigateRight",
@@ -256,7 +256,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                         "ctrl KP_UP", "requestFocus",
                 }),
 
-                "Gripper.size", new Integer(8),
+                "Gripper.size", 8,
                 "Gripper.foreground", gripperForeground,
                 "Gripper.painter", gripperPainter,
 
@@ -266,15 +266,15 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
-                "ButtonPanel.buttonGap", new Integer(6),
-                "ButtonPanel.groupGap", new Integer(6),
-                "ButtonPanel.minButtonWidth", new Integer(75),
+                "ButtonPanel.buttonGap", 6,
+                "ButtonPanel.groupGap", 6,
+                "ButtonPanel.minButtonWidth", 75,
 
                 "JideSplitButton.font", controlFont,
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", new Integer(3),
+                "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
@@ -359,10 +359,10 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "Workspace.background", mdiBackgroundColor,
 
                     "SidePane.margin", new InsetsUIResource(2, 2, 0, 0),
-                    "SidePane.iconTextGap", new Integer(2),
-                    "SidePane.textBorderGap", new Integer(13),
-                    "SidePane.itemGap", new Integer(5),
-                    "SidePane.groupGap", new Integer(13),
+                    "SidePane.iconTextGap", 2,
+                    "SidePane.textBorderGap", 13,
+                    "SidePane.itemGap", 5,
+                    "SidePane.groupGap", 13,
                     "SidePane.foreground", defaultDarkShadowColor,
                     "SidePane.background", defaultFormBackground,
                     "SidePane.lineColor", defaultShadowColor,
@@ -370,13 +370,13 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "SidePane.selectedButtonBackground", selectedButtonColor,
                     "SidePane.selectedButtonForeground", defaultTextColor,
                     "SidePane.font", controlFont,
-                    "SidePane.orientation", new Integer(1),
+                    "SidePane.orientation", 1,
                     "SidePane.showSelectedTabText", Boolean.TRUE,
                     "SidePane.alwaysShowTabText", Boolean.FALSE,
 
                     "ContentContainer.background", defaultFormBackground,
-                    "ContentContainer.vgap", new Integer(1),
-                    "ContentContainer.hgap", new Integer(1),
+                    "ContentContainer.vgap", 1,
+                    "ContentContainer.hgap", 1,
                     "MainContainer.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
 
                     "DockableFrame.defaultIcon", JideIconsFactory.getImageIcon(JideIconsFactory.DockableFrame.BLANK),
@@ -411,14 +411,14 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
                     "DockableFrameTitlePane.alwaysShowAllButtons", Boolean.FALSE, // true if show all three buttons no matter if the buttons is available. false if only show buttons which is available
                     "DockableFrameTitlePane.use3dButtons", Boolean.TRUE,
-                    "DockableFrameTitlePane.buttonsAlignment", new Integer(SwingConstants.TRAILING), // trailing or leading
-                    "DockableFrameTitlePane.titleAlignment", new Integer(SwingConstants.LEADING), // trailing or leading or center
-                    "DockableFrameTitlePane.buttonGap", new Integer(4), // gap between buttons
+                    "DockableFrameTitlePane.buttonsAlignment", SwingConstants.TRAILING, // trailing or leading
+                    "DockableFrameTitlePane.titleAlignment", SwingConstants.LEADING, // trailing or leading or center
+                    "DockableFrameTitlePane.buttonGap", 4, // gap between buttons
                     "DockableFrameTitlePane.showIcon", Boolean.FALSE, // show icon or not
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 6), // gap
 
                     "Contour.color", new ColorUIResource(136, 136, 136),
-                    "Contour.thickness", new Integer(4),
+                    "Contour.thickness", 4,
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
 
@@ -434,7 +434,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
             uiDefaults = new Object[]{
                     // components
                     "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
-                    "CollapsiblePanes.gap", new Integer(15),
+                    "CollapsiblePanes.gap", 15,
 
                     "CollapsiblePane.background", Color.BLACK.equals(defaultBackgroundColor.createValue(table)) ? defaultLtHighlightColor : defaultBackgroundColor,
                     "CollapsiblePane.contentBackground", Color.BLACK.equals(defaultBackgroundColor.createValue(table)) ? defaultBackgroundColor : defaultLtHighlightColor,
@@ -454,7 +454,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "StatusBarItem.border", singleLineBorder,
 
                     "StatusBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)),
-                    "StatusBar.gap", new Integer(2),
+                    "StatusBar.gap", 2,
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
 
@@ -497,20 +497,20 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                             "RIGHT", "navigateRight",
                             "KP_RIGHT", "navigateRight"
                     }),
-                    "CommandBar.titleBarSize", new Integer(17),
-                    "CommandBar.titleBarButtonGap", new Integer(1),
+                    "CommandBar.titleBarSize", 17,
+                    "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", activeTitleBackgroundColor,
                     "CommandBar.titleBarForeground", activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
                     "CommandBar.minimumSize", new DimensionUIResource(20, 20),
 
-                    "CommandBar.separatorSize", new Integer(5),
+                    "CommandBar.separatorSize", 5,
 
                     // *** Separator
                     "CommandBarSeparator.background", new Color(219, 216, 209),
                     "CommandBarSeparator.foreground", new Color(166, 166, 166),
 
-                    "Chevron.size", new Integer(11),
+                    "Chevron.size", 11,
                     "Chevron.alwaysVisible", Boolean.FALSE,
             };
             table.putDefaults(uiDefaults);
@@ -614,7 +614,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "CheckBoxMenuItem.margin", new InsetsUIResource(3, 0, 3, 0),
                     "CheckBoxMenuItem.font", menuFont,
                     "CheckBoxMenuItem.acceleratorFont", menuFont,
-                    "CheckBoxMenuItem.textIconGap", new Integer(8),
+                    "CheckBoxMenuItem.textIconGap", 8,
 
                     "RadioButtonMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
                     "RadioButtonMenuItem.selectionBackground", menuSelectionBackground,
@@ -625,7 +625,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "RadioButtonMenuItem.margin", new InsetsUIResource(3, 0, 3, 0),
                     "RadioButtonMenuItem.font", menuFont,
                     "RadioButtonMenuItem.acceleratorFont", menuFont,
-                    "RadioButtonMenuItem.textIconGap", new Integer(8),
+                    "RadioButtonMenuItem.textIconGap", 8,
 
 
                     "MenuBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
@@ -636,11 +636,11 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "Menu.mouseHoverBorder", new BorderUIResource(BorderFactory.createLineBorder(new Color(10, 36, 106))),
                     "Menu.margin", new InsetsUIResource(3, 7, 2, 7),
                     "Menu.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
-                    "Menu.textIconGap", new Integer(2),
+                    "Menu.textIconGap", 2,
                     "Menu.font", menuFont,
                     "Menu.acceleratorFont", menuFont,
-                    "Menu.submenuPopupOffsetX", new Integer(0),
-                    "Menu.submenuPopupOffsetY", new Integer(0),
+                    "Menu.submenuPopupOffsetX", 0,
+                    "Menu.submenuPopupOffsetY", 0,
 
                     "MenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
                     "MenuItem.selectionBackground", menuSelectionBackground,
@@ -648,10 +648,10 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "MenuItem.acceleratorSelectionForeground", menuTextColor,
                     "MenuItem.background", menuBackground,
                     "MenuItem.selectionBorderColor", borderColor,
-                    "MenuItem.shadowWidth", new Integer(24),
+                    "MenuItem.shadowWidth", 24,
                     "MenuItem.shadowColor", defaultLightColor, // TODO: not exactly. The actual one a little bit brighter than it
-                    "MenuItem.textIconGap", new Integer(8),
-                    "MenuItem.accelEndGap", new Integer(18),
+                    "MenuItem.textIconGap", 8,
+                    "MenuItem.accelEndGap", 18,
                     "MenuItem.margin", new InsetsUIResource(3, 0, 3, 0),
                     "MenuItem.font", menuFont,
                     "MenuItem.acceleratorFont", menuFont,

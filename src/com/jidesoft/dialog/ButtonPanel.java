@@ -138,6 +138,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
 //        setFocusCycleRoot(true);
     }
 
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get("ButtonPanel.buttonGap") == null
                 && UIDefaultsLookup.get("ButtonPanel.order") == null
@@ -246,6 +247,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
         add(button, constraint, index);
     }
 
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         // TODO: if index is not 0, it could be a problem
         if (constraints == null) {
@@ -441,6 +443,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     private boolean _addNotify = false;
     private JButton _defaultButton;
 
+    @Override
     public void addNotify() {
         super.addNotify();
         if (_addNotify) {

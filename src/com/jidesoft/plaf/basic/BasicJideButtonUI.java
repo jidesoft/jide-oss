@@ -66,6 +66,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Install PLAF
     // ********************************
+    @Override
     public void installUI(JComponent c) {
         installDefaults((AbstractButton) c);
         installListeners((AbstractButton) c);
@@ -79,8 +80,8 @@ public class BasicJideButtonUI extends JideButtonUI {
 
         String pp = getPropertyPrefix();
         if (!defaults_initialized) {
-            defaultTextIconGap = ((Integer) UIDefaultsLookup.get(pp + "textIconGap")).intValue();
-            defaultTextShiftOffset = ((Integer) UIDefaultsLookup.get(pp + "textShiftOffset")).intValue();
+            defaultTextIconGap = (Integer) UIDefaultsLookup.get(pp + "textIconGap");
+            defaultTextShiftOffset = (Integer) UIDefaultsLookup.get(pp + "textShiftOffset");
 
             _focusColor = UIDefaultsLookup.getColor("Button.focus"); // use Button.focus since we didn't install JideButton.focus.
 
@@ -168,6 +169,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //         Uninstall PLAF
     // ********************************
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions((AbstractButton) c);
         uninstallListeners((AbstractButton) c);
@@ -235,6 +237,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     //          Paint Methods
     // ********************************
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         AbstractButton b = (AbstractButton) c;
         boolean isHorizontal = true;
@@ -657,6 +660,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Layout Methods
     // ********************************
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -669,6 +673,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         AbstractButton b = (AbstractButton) c;
 
@@ -681,6 +686,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         }
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);

@@ -19,7 +19,7 @@ public class RectangleConverter extends ArrayConverter {
         if (object instanceof Rectangle) {
             Rectangle rectangle = (Rectangle) object;
             return arrayToString(new Object[]{
-                    new Integer(rectangle.x), new Integer(rectangle.y), new Integer(rectangle.width), new Integer(rectangle.height)
+                    rectangle.x, rectangle.y, rectangle.width, rectangle.height
             }, context);
         }
         else {
@@ -38,16 +38,16 @@ public class RectangleConverter extends ArrayConverter {
         Object[] objects = arrayFromString(string, context);
         int x = 0, y = 0, w = 0, h = 0;
         if (objects.length >= 1 && objects[0] instanceof Integer) {
-            x = ((Integer) objects[0]).intValue();
+            x = (Integer) objects[0];
         }
         if (objects.length >= 2 && objects[1] instanceof Integer) {
-            y = ((Integer) objects[1]).intValue();
+            y = (Integer) objects[1];
         }
         if (objects.length >= 3 && objects[2] instanceof Integer) {
-            w = ((Integer) objects[2]).intValue();
+            w = (Integer) objects[2];
         }
         if (objects.length >= 4 && objects[3] instanceof Integer) {
-            h = ((Integer) objects[3]).intValue();
+            h = (Integer) objects[3];
         }
         return new Rectangle(x, y, w, h);
     }

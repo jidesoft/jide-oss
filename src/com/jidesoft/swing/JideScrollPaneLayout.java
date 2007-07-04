@@ -50,6 +50,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
      */
     protected Component _vBottom;
 
+    @Override
     public void syncWithScrollPane(JScrollPane sp) {
         super.syncWithScrollPane(sp);
         if (sp instanceof JideScrollPane) {
@@ -80,6 +81,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         }
     }
 
+    @Override
     public void addLayoutComponent(String s, Component c) {
         if (s.equals(ROW_FOOTER)) {
             _rowFoot = (JViewport) addSingletonComponent(_rowFoot, c);
@@ -104,6 +106,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         }
     }
 
+    @Override
     public void removeLayoutComponent(Component c) {
         if (c == _rowFoot) {
             _rowFoot = null;
@@ -190,6 +193,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
      * @see ViewportLayout
      * @see LayoutManager
      */
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.
@@ -353,6 +357,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
      * @param parent the <code>Container</code> that will be laid out
      * @return a <code>Dimension</code> object specifying the minimum size
      */
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.
@@ -497,6 +502,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
      *
      * @param parent the <code>Container</code> to lay out
      */
+    @Override
     public void layoutContainer(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.

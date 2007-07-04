@@ -24,7 +24,7 @@ public class ByteConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            return new Byte(getNumberFormat().parse(string).byteValue());
+            return getNumberFormat().parse(string).byteValue();
         }
         catch (ParseException e) {
             return null;

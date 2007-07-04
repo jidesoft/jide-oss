@@ -24,16 +24,19 @@ public class Office2003SeparatorUI extends VsnetSeparatorUI {
 
     private ThemePainter _painter;
 
+    @Override
     protected void installDefaults(JSeparator s) {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
         super.installDefaults(s);
     }
 
+    @Override
     protected void uninstallDefaults(JSeparator s) {
         _painter = null;
         super.uninstallDefaults(s);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (!(c.getParent() instanceof JPopupMenu)) {
             super.paint(g, c);
@@ -65,6 +68,7 @@ public class Office2003SeparatorUI extends VsnetSeparatorUI {
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return new Dimension(0, HEIGHT);
     }

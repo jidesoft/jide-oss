@@ -169,6 +169,7 @@ public class JideSplitPaneDivider extends JPanel
     /**
      * Returns dividerSize x dividerSize
      */
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(getDividerSize(), getDividerSize());
     }
@@ -176,6 +177,7 @@ public class JideSplitPaneDivider extends JPanel
     /**
      * Returns dividerSize x dividerSize
      */
+    @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
@@ -212,6 +214,7 @@ public class JideSplitPaneDivider extends JPanel
      * @see UIManager#getLookAndFeel
      * @see UIManager#getUI
      */
+    @Override
     public void updateUI() {
         super.updateUI();
         setBackground(UIDefaultsLookup.getColor("JideSplitPaneDivider.background"));
@@ -222,6 +225,7 @@ public class JideSplitPaneDivider extends JPanel
     /**
      * Paints the divider.
      */
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         // Paint the border.
@@ -340,6 +344,7 @@ public class JideSplitPaneDivider extends JPanel
          * Starts the dragging session by creating the appropriate instance
          * of DragController.
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             if ((e.getSource() == JideSplitPaneDivider.this/*||
                     e.getSource() == _jideSplitPane*/) && _dragger == null && _jideSplitPane.isEnabled()) {
@@ -367,6 +372,7 @@ public class JideSplitPaneDivider extends JPanel
         /**
          * If dragger is not null it is messaged with completeDrag.
          */
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (_dragger != null) {
                 if (e.getSource() == _jideSplitPane) {
@@ -389,6 +395,7 @@ public class JideSplitPaneDivider extends JPanel
         /**
          * If dragger is not null it is messaged with continueDrag.
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (_dragger != null) {
                 if (e.getSource() == _jideSplitPane) {
@@ -592,6 +599,7 @@ public class JideSplitPaneDivider extends JPanel
          * Returns the y argument, since this is used for vertical
          * splits.
          */
+        @Override
         protected int getNeededLocation(int x, int y) {
             int newY;
 
@@ -604,6 +612,7 @@ public class JideSplitPaneDivider extends JPanel
          * Returns the new position to put the divider at based on
          * the passed in MouseEvent.
          */
+        @Override
         protected int positionForMouseEvent(MouseEvent e) {
             int newY = (e.getSource() == JideSplitPaneDivider.this) ?
                     (e.getY() + getLocation().y) : e.getY();

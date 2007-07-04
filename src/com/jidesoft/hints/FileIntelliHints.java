@@ -101,6 +101,7 @@ public class FileIntelliHints extends AbstractListIntelliHints {
         }
     }
 
+    @Override
     public void acceptHint(Object selected) {
         if (selected == null)
             return;
@@ -131,6 +132,7 @@ public class FileIntelliHints extends AbstractListIntelliHints {
             _prefix = prefix;
         }
 
+        @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list, _prefix + value, index, isSelected, cellHasFocus);
         }

@@ -95,6 +95,7 @@ public class ResizablePanel extends JPanel implements ResizableSupport {
      * Overrides the updateUI method to set border to resizable border defined
      * in UIManagerLookup.getBorder("Resizable.resizeBorder")).
      */
+    @Override
     public void updateUI() {
         super.updateUI();
         setBorder(UIDefaultsLookup.getBorder("Resizable.resizeBorder"));

@@ -33,7 +33,7 @@ public class QuarterNameConverter implements ObjectConverter {
             return "";
         }
         else {
-            return MessageFormat.format(getQuarterNamePattern(), new Object[]{new Integer((((Integer) object).intValue() + 1))});
+            return MessageFormat.format(getQuarterNamePattern(), ((Integer) object + 1));
         }
     }
 
@@ -46,13 +46,13 @@ public class QuarterNameConverter implements ObjectConverter {
         try {
             Object[] values = new MessageFormat(quarterNamePattern).parse(string);
             if (values.length > 0) {
-                return new Integer(Integer.parseInt("" + values[0]));
+                return Integer.parseInt("" + values[0]);
             }
         }
         catch (ParseException e) {
-
+            // ignore
         }
-        return new Integer(0);
+        return 0;
     }
 
     public boolean supportFromString(String string, ConverterContext context) {

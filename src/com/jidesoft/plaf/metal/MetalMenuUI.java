@@ -51,6 +51,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         return new MetalMenuUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         updateDefaultBackgroundColor();
@@ -58,10 +59,12 @@ public class MetalMenuUI extends MetalMenuItemUI {
         crossMenuMnemonic = UIDefaultsLookup.getBoolean("Menu.crossMenuMnemonic");
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "Menu";
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
 
@@ -84,6 +87,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
             ((JMenu) menuItem).addMenuListener(menuListener);
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         updateMnemonicBinding();
@@ -117,6 +121,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         lastMnemonic = mnemonic;
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         super.uninstallKeyboardActions();
     }
@@ -125,6 +130,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
      * The ActionMap for BasicMenUI can not be shared, this is subclassed
      * to create a new one for each invocation.
      */
+    @Override
     ActionMap getActionMap() {
         return createActionMap();
     }
@@ -132,6 +138,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
     /**
      * Invoked to create the ActionMap.
      */
+    @Override
     ActionMap createActionMap() {
         ActionMap am = super.createActionMap();
         if (am != null) {
@@ -140,6 +147,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         return am;
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
@@ -156,6 +164,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         return new PropertyChangeHandler();
     }
 
+    @Override
     protected void uninstallDefaults() {
         menuItem.setArmed(false);
         menuItem.setSelected(false);
@@ -163,6 +172,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
 
@@ -180,14 +190,17 @@ public class MetalMenuUI extends MetalMenuItemUI {
         menuListener = null;
     }
 
+    @Override
     protected MenuDragMouseListener createMenuDragMouseListener(JComponent c) {
         return new MenuDragMouseHandler();
     }
 
+    @Override
     protected MenuKeyListener createMenuKeyListener(JComponent c) {
         return new MenuKeyHandler();
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (((JMenu) menuItem).isTopLevelMenu() == true) {
             Dimension d = c.getPreferredSize();
@@ -259,6 +272,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
             }
         }
 
+        @Override
         public boolean isEnabled() {
             return menu.getModel().isEnabled();
         }
@@ -691,6 +705,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         return isMouseOver;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension size = super.getPreferredSize(c);
         if (menuItem instanceof JMenu && ((JMenu) menuItem).isTopLevelMenu() &&
@@ -711,6 +726,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
      * @param bgColor  selection background color
      * @since 1.4
      */
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         if (!(menuItem instanceof JMenu) || !((JMenu) menuItem).isTopLevelMenu()) {
             super.paintBackground(g, menuItem, bgColor);

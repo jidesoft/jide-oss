@@ -44,12 +44,15 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
         setUndecorated(true);
 
         _resizablePanel = new ResizablePanel() {
+            @Override
             protected Resizable createResizable() {
                 return new Resizable(this) {
+                    @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
                         ResizableFrame.this.setBounds(newX, newY, newW, newH);
                     }
 
+                    @Override
                     public boolean isTopLevel() {
                         return true;
                     }
@@ -60,6 +63,7 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
 
         // make sure the content pane resized along with the window.
         addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 _resizablePanel.setSize(getSize());
             }

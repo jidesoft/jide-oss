@@ -47,13 +47,16 @@ public class LabeledTextField extends JPanel {
         _label = createLabel();
         if (_label != null) {
             _label.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent e) {
                 }
 
+                @Override
                 public void mousePressed(MouseEvent e) {
                     showMenu();
                 }
 
+                @Override
                 public void mouseReleased(MouseEvent e) {
                 }
 
@@ -107,6 +110,7 @@ public class LabeledTextField extends JPanel {
         return null;
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         setBorder(BorderFactory.createCompoundBorder(UIDefaultsLookup.getBorder("TextField.border"), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
@@ -232,6 +236,7 @@ public class LabeledTextField extends JPanel {
         return _textField;
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         if (enabled) {
@@ -260,13 +265,14 @@ public class LabeledTextField extends JPanel {
         }
     }
 
+    @Override
     public int getBaseline(int width, int height) {
         if (SystemInfo.isJdk6Above()) {
             try {
                 Method method = Component.class.getMethod("getBaseline", new Class[]{int.class, int.class});
-                Object value = method.invoke(_textField, new Object[]{new Integer(width), new Integer(height)});
+                Object value = method.invoke(_textField, width, height);
                 if (value instanceof Integer) {
-                    return ((Integer) value).intValue();
+                    return (Integer) value;
                 }
             }
             catch (NoSuchMethodException e) {

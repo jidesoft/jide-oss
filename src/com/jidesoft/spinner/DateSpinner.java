@@ -78,7 +78,7 @@ public class DateSpinner extends JSpinner {
      * Sets the date format string used by this DateSpinner. Please note, this method call
      * will receate the DateEditor used by DateSpinner.
      *
-     * @param format
+     * @param format the format
      */
     public void setFormat(String format) {
         _timeEditor = createDateEditor(format);
@@ -100,7 +100,7 @@ public class DateSpinner extends JSpinner {
     /**
      * Creates the DateEditor.
      *
-     * @param format
+     * @param format the format
      * @return the DateEditor.
      */
     protected DateEditor createDateEditor(String format) {
@@ -211,7 +211,9 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Tell whether date/time parsing is to be lenient.
+     * Tell whether date/time parsing is to be lenient. It is the same as {@link java.text.DateFormat#isLenient()}.
+     *
+     * @return true or false.
      */
     public boolean isLenient() {
         return _format.isLenient();

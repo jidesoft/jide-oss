@@ -63,6 +63,7 @@ public class Sticky {
         // MouseMotionListener:
         // NOTE: this is added to both the List and ComboBox
         //
+        @Override
         public void mouseMoved(MouseEvent anEvent) {
             if (anEvent.getSource() instanceof JList) {
                 JList list = (JList) anEvent.getSource();

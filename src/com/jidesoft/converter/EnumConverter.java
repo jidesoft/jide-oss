@@ -31,7 +31,7 @@ package com.jidesoft.converter;
 public class EnumConverter implements ObjectConverter {
     private String _name;
     private Object _default;
-    private Class _type;
+    private Class<?> _type;
     private Object[] _objects;
     private String[] _strings;
 
@@ -39,22 +39,22 @@ public class EnumConverter implements ObjectConverter {
         this(name, values[0].getClass(), values, strings);
     }
 
-    public EnumConverter(String name, Class type, Object[] values, String[] strings) {
+    public EnumConverter(String name, Class<?> type, Object[] values, String[] strings) {
         this(name, type, values, strings, null);
     }
 
     /**
      * Creates an EnumConverter.
      *
-     * @param name     the name of the converter. The name is used to create ConverterContext and later on the EditorContext.
-     * @param type     the type of the element in <code>objects</code> array.
-     * @param objects  the <code>objects</code> array. All elements in the <code>objects</code> array should have the same type.
-     * @param strings  the <code>strings</code> array. It contains the meanful names for the elements in <code>objects</code> array.
-     *                 They should one to one match with each other. The length of <code>strings</code>
-     *                 array should be the same as that of <code>objects</code> array. Otherwise IllegalArgumentExceptio will be thrown.
-     * @param aDefault
+     * @param name         the name of the converter. The name is used to create ConverterContext and later on the EditorContext.
+     * @param type         the type of the element in <code>objects</code> array.
+     * @param objects      the <code>objects</code> array. All elements in the <code>objects</code> array should have the same type.
+     * @param strings      the <code>strings</code> array. It contains the meanful names for the elements in <code>objects</code> array.
+     *                     They should one to one match with each other. The length of <code>strings</code>
+     *                     array should be the same as that of <code>objects</code> array. Otherwise IllegalArgumentExceptio will be thrown.
+     * @param defaultValue the default value
      */
-    public EnumConverter(String name, Class type, Object[] objects, String[] strings, Object aDefault) {
+    public EnumConverter(String name, Class<?> type, Object[] objects, String[] strings, Object defaultValue) {
         if (name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException("The \"name\" parameter cannot be null or empty. Please use a unique string to represent the name of the converter.");
         }
@@ -71,7 +71,7 @@ public class EnumConverter implements ObjectConverter {
         _type = type;
         _objects = objects;
         _strings = strings;
-        _default = aDefault;
+        _default = defaultValue;
     }
 
     transient private ConverterContext _conext;
@@ -93,8 +93,8 @@ public class EnumConverter implements ObjectConverter {
      * Converts the object to string. It will find the object from the <code>objects</code> array and find the matching string
      * from <code>strings</code> array.
      *
-     * @param object
-     * @param context
+     * @param object  the object to be converted.
+     * @param context the converter context.
      * @return the string for the object.
      */
     public String toString(Object object, ConverterContext context) {
@@ -116,8 +116,8 @@ public class EnumConverter implements ObjectConverter {
      * Converts the string to the object. It will find the string from the <code>strings</code> array and find the matching
      * object from <code>objects</code> array.
      *
-     * @param string
-     * @param context
+     * @param string  the string to be converted
+     * @param context the converter context.
      * @return the object of the string.
      */
     public Object fromString(String string, ConverterContext context) {
@@ -149,7 +149,7 @@ public class EnumConverter implements ObjectConverter {
      *
      * @return the type of the converter.
      */
-    public Class getType() {
+    public Class<?> getType() {
         return _type;
     }
 

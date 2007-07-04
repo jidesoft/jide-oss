@@ -242,7 +242,7 @@ public class UIDefaultsLookup {
      */
     public static int getInt(Object key) {
         Object value = get(key);
-        return (value instanceof Integer) ? ((Integer) value).intValue() : 0;
+        return (value instanceof Integer) ? (Integer) value : 0;
     }
 
 
@@ -259,7 +259,7 @@ public class UIDefaultsLookup {
      */
     public static int getInt(Object key, Locale l) {
         Object value = get(key, l);
-        return (value instanceof Integer) ? ((Integer) value).intValue() : 0;
+        return (value instanceof Integer) ? (Integer) value : 0;
     }
 
 
@@ -274,7 +274,7 @@ public class UIDefaultsLookup {
      */
     public static boolean getBoolean(Object key) {
         Object value = get(key);
-        return (value instanceof Boolean) ? ((Boolean) value).booleanValue() : false;
+        return (value instanceof Boolean) ? (Boolean) value : false;
     }
 
 
@@ -291,7 +291,7 @@ public class UIDefaultsLookup {
      */
     public static boolean getBoolean(Object key, Locale l) {
         Object value = get(key, l);
-        return (value instanceof Boolean) ? ((Boolean) value).booleanValue() : false;
+        return (value instanceof Boolean) ? (Boolean) value : false;
     }
 
 

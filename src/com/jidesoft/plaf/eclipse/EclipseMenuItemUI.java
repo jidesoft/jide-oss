@@ -79,6 +79,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         return new EclipseMenuItemUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         menuItem = (JMenuItem) c;
 
@@ -116,7 +117,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         LookAndFeel.installBorder(menuItem, prefix + ".border");
         oldBorderPainted = menuItem.isBorderPainted();
         Object value = UIDefaultsLookup.get(prefix + ".borderPainted");
-        menuItem.setBorderPainted(value instanceof Boolean ? ((Boolean) value).booleanValue() : false);
+        menuItem.setBorderPainted(value instanceof Boolean ? (Boolean) value : false);
         LookAndFeel.installColorsAndFont(menuItem,
                 prefix + ".background",
                 prefix + ".foreground",
@@ -199,6 +200,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         updateAcceleratorBinding();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         menuItem = (JMenuItem) c;
         uninstallDefaults();
@@ -332,6 +334,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         }
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -342,6 +345,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return getPreferredMenuItemSize(c,
                 checkIcon,
@@ -349,6 +353,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 defaultTextIconGap);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -442,21 +447,21 @@ public class EclipseMenuItemUI extends MenuItemUI {
             Integer maxTextWidth = (Integer) p.getClientProperty(EclipseMenuItemUI.MAX_TEXT_WIDTH);
             Integer maxAccWidth = (Integer) p.getClientProperty(EclipseMenuItemUI.MAX_ACC_WIDTH);
 
-            int maxTextValue = maxTextWidth != null ? maxTextWidth.intValue() : 0;
-            int maxAccValue = maxAccWidth != null ? maxAccWidth.intValue() : 0;
+            int maxTextValue = maxTextWidth != null ? maxTextWidth : 0;
+            int maxAccValue = maxAccWidth != null ? maxAccWidth : 0;
 
             //Compare the text widths, and adjust the r.width to the widest.
             if (r.width < maxTextValue) {
                 r.width = maxTextValue;
             }
             else {
-                p.putClientProperty(EclipseMenuItemUI.MAX_TEXT_WIDTH, new Integer(r.width));
+                p.putClientProperty(EclipseMenuItemUI.MAX_TEXT_WIDTH, r.width);
             }
 
             //Compare the accelarator widths.
             if (acceleratorRect.width > maxAccValue) {
                 maxAccValue = acceleratorRect.width;
-                p.putClientProperty(EclipseMenuItemUI.MAX_ACC_WIDTH, new Integer(acceleratorRect.width));
+                p.putClientProperty(EclipseMenuItemUI.MAX_ACC_WIDTH, acceleratorRect.width);
             }
 
             //Add on the widest accelerator
@@ -503,10 +508,12 @@ public class EclipseMenuItemUI extends MenuItemUI {
      * so override update (which fills the background of opaque
      * components by default) to just call paint().
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         paint(g, c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         paintMenuItem(g, c, checkIcon, arrowIcon,
                 selectionBackground, selectionForeground,
@@ -621,7 +628,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 JComponent p = (JComponent) parent;
                 Integer maxValueInt = (Integer) p.getClientProperty(EclipseMenuItemUI.MAX_ACC_WIDTH);
                 int maxValue = maxValueInt != null ?
-                        maxValueInt.intValue() : acceleratorRect.width;
+                        maxValueInt : acceleratorRect.width;
 
                 //Calculate the offset, with which the accelerator texts will be drawn with.
                 accOffset = maxValue - acceleratorRect.width;

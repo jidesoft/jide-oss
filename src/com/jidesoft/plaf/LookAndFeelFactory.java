@@ -439,7 +439,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
 
         _style = style;
-        uiDefaults.put(JIDE_STYLE_INSTALLED, new Integer(_style));
+        uiDefaults.put(JIDE_STYLE_INSTALLED, _style);
 
         _lookAndFeel = lnf;
 
@@ -495,8 +495,8 @@ public class LookAndFeelFactory implements ProductNames {
                     // set all grippers to Office2003 style gripper
                     uiDefaults.put("Gripper.painter", gripperPainter);
                     uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
-                    uiDefaults.put("JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_OFFICE2003));
-                    uiDefaults.put("JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_WINXP));
+                    uiDefaults.put("JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003);
+                    uiDefaults.put("JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_WINXP);
                     uiDefaults.put("JideTabbedPane.selectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.unselectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
@@ -517,7 +517,7 @@ public class LookAndFeelFactory implements ProductNames {
                         uiDefaults.put("DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.buttonGap", new Integer(4)); // gap between buttons
+                        uiDefaults.put("DockableFrameTitlePane.buttonGap", 4); // gap between buttons
                         uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 3, 0)));
                         uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
                         uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
@@ -633,9 +633,8 @@ public class LookAndFeelFactory implements ProductNames {
             try {
                 Class aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
                 aquaJideUtils.getMethod("initComponentDefaults", new Class[]{
-                        UIDefaults.class}).invoke(null, new Object[]{uiDefaults});
-                aquaJideUtils.getMethod("initClassDefaults", new Class[]{UIDefaults.class}).invoke(null, new Object[]{
-                        uiDefaults});
+                        UIDefaults.class}).invoke(null, uiDefaults);
+                aquaJideUtils.getMethod("initClassDefaults", new Class[]{UIDefaults.class}).invoke(null, uiDefaults);
             }
             catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

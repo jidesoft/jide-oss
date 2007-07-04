@@ -129,6 +129,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         _invokeCondition = invokeCondition;
     }
 
+    @Override
     public void invalidate() {
         if ((getInvokeCondition() & INVOKE_ON_VALIDATE) != 0) {
             initialize();
@@ -136,6 +137,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.invalidate();
     }
 
+    @Override
     public void revalidate() {
         if ((getInvokeCondition() & INVOKE_ON_VALIDATE) != 0) {
             initialize();
@@ -143,6 +145,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.revalidate();
     }
 
+    @Override
     public void paint(Graphics g) {
         if ((getInvokeCondition() & INVOKE_ON_PAINT) != 0) {
             initialize();
@@ -151,6 +154,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.paint(g);
     }
 
+    @Override
     public void paintAll(Graphics g) {
         if ((getInvokeCondition() & INVOKE_ON_PAINT) != 0) {
             initialize();
@@ -159,6 +163,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.paintAll(g);
     }
 
+    @Override
     public void paintComponents(Graphics g) {
         if ((getInvokeCondition() & INVOKE_ON_PAINT) != 0) {
             initialize();
@@ -167,6 +172,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.paintComponents(g);
     }
 
+    @Override
     public void repaint() {
         if ((getInvokeCondition() & INVOKE_ON_REPAINT) != 0) {
             initialize();
@@ -174,6 +180,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.repaint();
     }
 
+    @Override
     public void repaint(long l) {
         if ((getInvokeCondition() & INVOKE_ON_REPAINT) != 0) {
             initialize();
@@ -181,6 +188,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.repaint(l);
     }
 
+    @Override
     public void repaint(int i1, int i2, int i3, int i4) {
         if ((getInvokeCondition() & INVOKE_ON_REPAINT) != 0) {
             initialize();
@@ -188,6 +196,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.repaint(i1, i2, i3, i4);
     }
 
+    @Override
     public void repaint(long l, int i1, int i2, int i3, int i4) {
         if ((getInvokeCondition() & INVOKE_ON_REPAINT) != 0) {
             initialize();
@@ -196,6 +205,7 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         super.repaint(l, i1, i2, i3, i4);
     }
 
+    @Override
     public void update(Graphics g) {
         if ((getInvokeCondition() & INVOKE_ON_UPDATE) != 0) {
             initialize();

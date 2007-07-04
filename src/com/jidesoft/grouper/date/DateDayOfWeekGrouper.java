@@ -18,7 +18,7 @@ public class DateDayOfWeekGrouper extends DateGrouper {
             cal.set(Calendar.DAY_OF_WEEK, 0);
             _groups = new Object[cal.getMaximum(Calendar.DAY_OF_WEEK)];
             for (int i = 0; i < _groups.length; i++) {
-                _groups[i] = new Integer(i);
+                _groups[i] = i;
                 cal.roll(Calendar.DAY_OF_WEEK, 1);
             }
         }
@@ -27,8 +27,8 @@ public class DateDayOfWeekGrouper extends DateGrouper {
 
     public Object getValue(Object value) {
         Object field = getCalendarField(value, Calendar.DAY_OF_WEEK);
-        if (field instanceof Integer && ((Integer) field).intValue() >= 0 && ((Integer) field).intValue() < getAvailableGroups().length) {
-            return getAvailableGroups()[((Integer) field).intValue()];
+        if (field instanceof Integer && (Integer) field >= 0 && (Integer) field < getAvailableGroups().length) {
+            return getAvailableGroups()[((Integer) field)];
         }
         else {
             return null;

@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
  * Converts an array to a string and converts a string to an array.
  */
 public class DefaultArrayConverter extends ArrayConverter {
-    public DefaultArrayConverter(String separator, Class elementClass) {
+    public DefaultArrayConverter(String separator, Class<?> elementClass) {
         super(separator, -1, elementClass);
     }
 

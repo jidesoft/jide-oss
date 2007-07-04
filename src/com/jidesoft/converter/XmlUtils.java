@@ -33,7 +33,7 @@ public class XmlUtils {
         }
 
         NamedNodeMap map = element.getAttributes();
-        HashMap properties = new HashMap();
+        HashMap<String, String> properties = new HashMap<String, String>();
         for (int i = 0; i < map.getLength(); i++) {
             Node node = map.item(i);
             String name = node.getNodeName();
@@ -41,19 +41,19 @@ public class XmlUtils {
         }
 
         Method[] methods = object.getClass().getMethods();
-        for (int i = 0; i < methods.length; i++) {
+        for (Method method : methods) {
             Matcher matcher;
             int methodType = ANYOTHER;
-            Class type = null;
+            Class<?> type = null;
 
-            if (!Modifier.isPublic(methods[i].getModifiers()) || Modifier.isStatic(methods[i].getModifiers())) {
+            if (!Modifier.isPublic(method.getModifiers()) || Modifier.isStatic(method.getModifiers())) {
                 continue;
             }
 
-            if ((matcher = mutatorPattern.matcher(methods[i].getName())).matches()) {
-                if (methods[i].getReturnType() == void.class && methods[i].getParameterTypes().length == 1) {
+            if ((matcher = mutatorPattern.matcher(method.getName())).matches()) {
+                if (method.getReturnType() == void.class && method.getParameterTypes().length == 1) {
                     methodType = MUTATOR;
-                    type = methods[i].getParameterTypes()[0];
+                    type = method.getParameterTypes()[0];
                 }
             }
 
@@ -68,7 +68,7 @@ public class XmlUtils {
                 }
 
                 try {
-                    methods[i].invoke(object, new Object[]{ObjectConverterManager.fromString((String) value, type)});
+                    method.invoke(object, ObjectConverterManager.fromString((String) value, type));
                 }
                 catch (IllegalAccessException e) {
                     throw new RuntimeException(e);

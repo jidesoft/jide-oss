@@ -144,6 +144,7 @@ public class AutoResizingTextArea extends JTextArea {
      *
      * @param rows The number of rows to show
      */
+    @Override
     public void setRows(int rows) {
         int oldRow = super.getRows();
         int newRow = clipRowCount(rows);

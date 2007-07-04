@@ -59,6 +59,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
         _actualListRenderer = actualListRenderer;
     }
 
+    @Override
     public String getToolTipText(MouseEvent event) {
         if (_actualListRenderer instanceof JComponent) {
             Point p = event.getPoint();

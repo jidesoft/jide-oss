@@ -1,8 +1,6 @@
 package com.jidesoft.grouper.date;
 
 import com.jidesoft.converter.ConverterContext;
-import com.jidesoft.grouper.ObjectGrouper;
-import com.jidesoft.grouper.DefaultObjectGrouper;
 import com.jidesoft.grouper.AbstractObjectGrouper;
 
 import java.util.Calendar;
@@ -18,14 +16,14 @@ abstract public class DateGrouper extends AbstractObjectGrouper {
     public static Object getCalendarField(Object value, int field) {
         if (value instanceof Date) {
             INSTANCE.setTime(((Date) value));
-            return new Integer(INSTANCE.get(field));
+            return INSTANCE.get(field);
         }
         else if (value instanceof Long) {
-            INSTANCE.setTime(new Date(((Long) value).longValue()));
-            return new Integer(INSTANCE.get(field));
+            INSTANCE.setTime(new Date((Long) value));
+            return INSTANCE.get(field);
         }
         else if (value instanceof Calendar) {
-            return new Integer(((Calendar) value).get(field));
+            return ((Calendar) value).get(field);
         }
         else if (value == null) {
             return null;
@@ -41,7 +39,7 @@ abstract public class DateGrouper extends AbstractObjectGrouper {
             return INSTANCE.get(field);
         }
         else if (value instanceof Long) {
-            INSTANCE.setTime(new Date(((Long) value).longValue()));
+            INSTANCE.setTime(new Date((Long) value));
             return INSTANCE.get(field);
         }
         else if (value instanceof Calendar) {
@@ -55,10 +53,11 @@ abstract public class DateGrouper extends AbstractObjectGrouper {
         }
     }
 
-    public Class getType() {
+    public Class<?> getType() {
         return int.class;
     }
 
+    @Override
     public ConverterContext getConverterContext() {
         return null;
     }

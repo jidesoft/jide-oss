@@ -29,6 +29,7 @@ public class PointFormatter extends DefaultFormatter {
         super();
     }
 
+    @Override
     public Object stringToValue(String text) throws ParseException {
         text = text.trim();
         if (text.startsWith("(") && text.endsWith(")")) {
@@ -45,6 +46,7 @@ public class PointFormatter extends DefaultFormatter {
         }
     }
 
+    @Override
     public String valueToString(Object value) throws ParseException {
         if (value instanceof Point) {
             Point point = (Point) value;

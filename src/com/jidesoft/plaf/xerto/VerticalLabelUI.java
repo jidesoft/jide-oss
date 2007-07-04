@@ -24,6 +24,7 @@ public class VerticalLabelUI extends BasicLabelUI {
     }
 
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension dim = super.getPreferredSize(c);
         return new Dimension(dim.height, dim.width);
@@ -34,6 +35,7 @@ public class VerticalLabelUI extends BasicLabelUI {
     private static Rectangle s_oPaintViewRectangle = new Rectangle();
     private static Insets s_oPaintViewInsets = new Insets(0, 0, 0, 0);
 
+    @Override
     public void paint(Graphics i_oGraphics, JComponent i_oComponent) {
         JLabel oLabel = (JLabel) i_oComponent;
         String oText = oLabel.getText();

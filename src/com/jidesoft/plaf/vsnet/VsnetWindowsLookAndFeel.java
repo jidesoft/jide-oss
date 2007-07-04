@@ -18,31 +18,38 @@ import javax.swing.*;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class VsnetWindowsLookAndFeel extends WindowsLookAndFeel {
+    @Override
     public String getName() {
         return "Visual Studio .NET";
     }
 
+    @Override
     public String getDescription() {
         return "The Microsoft Visual Studio .NET Look And Feel";
     }
 
+    @Override
     public String getID() {
         return "Visual Studio .NET";
     }
 
+    @Override
     public boolean isSupportedLookAndFeel() {
         return isNativeLookAndFeel();
     }
 
+    @Override
     public boolean isNativeLookAndFeel() {
         return SystemInfo.isWindows();
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         VsnetWindowsUtils.initClassDefaultsWithMenu(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         VsnetWindowsUtils.initComponentDefaultsWithMenu(table);

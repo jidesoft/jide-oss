@@ -57,6 +57,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         comboBox.addPropertyChangeListener("model", this);
     }
 
+    @Override
     public void uninstallListeners() {
         super.uninstallListeners();
         if (_component instanceof JComboBox) {
@@ -103,6 +104,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         _showPopupDuringSearching = showPopupDuringSearching;
     }
 
+    @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         if (isShowPopupDuringSearching()) {
             try {
@@ -116,15 +118,18 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         }
     }
 
+    @Override
     protected int getSelectedIndex() {
         return ((JComboBox) _component).getSelectedIndex();
     }
 
+    @Override
     protected Object getElementAt(int index) {
         ComboBoxModel comboBoxModel = ((JComboBox) _component).getModel();
         return comboBoxModel.getElementAt(index);
     }
 
+    @Override
     protected int getElementCount() {
         ComboBoxModel comboBoxModel = ((JComboBox) _component).getModel();
         return comboBoxModel.getSize();
@@ -137,6 +142,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
      * @param object
      * @return the string representing the element in the JComboBox.
      */
+    @Override
     protected String convertElementToString(Object object) {
         if (object != null) {
             return object.toString();

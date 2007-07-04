@@ -60,7 +60,7 @@ public class JideBoxLayout implements LayoutManager2 {
      */
     public static final String VARY = "vary";
 
-    private final HashMap _sizes = new HashMap();
+    private final HashMap<Component, Object> _constraintMap = new HashMap<Component, Object>();
 
     /**
      * Specifies that components should be laid out left to right.
@@ -166,8 +166,8 @@ public class JideBoxLayout implements LayoutManager2 {
             }
             else {
                 int totalSize = 0;
-                for (int i = 0; i < _componentSizes.length; i++) {
-                    totalSize += _componentSizes[i];
+                for (int componentSize : _componentSizes) {
+                    totalSize += componentSize;
                 }
                 boolean containerResized = totalSize + getGapSize() != getSizeForPrimaryAxis(containerSize);
                 if (containerResized) {
@@ -210,7 +210,7 @@ public class JideBoxLayout implements LayoutManager2 {
             if (!comp.isVisible()) {
                 continue;
             }
-            Object constraint = _sizes.get(comp);
+            Object constraint = _constraintMap.get(comp);
             int minimumSize = getSizeForPrimaryAxis(comp.getMinimumSize());
             int preferredSize = getSizeForPrimaryAxis(getPreferredSizeOf(comp, i));
             if (FIX.equals(constraint)) {
@@ -239,7 +239,7 @@ public class JideBoxLayout implements LayoutManager2 {
         boolean expand = availableSizeExcludeFixed - varMinSize >= totalFlexSize;
 
         if (!hasVary || (hasVary && !expand)) {
-            double resizeRatio = 1.0;
+            double resizeRatio;
             if (expand) {
                 resizeRatio = totalFlexSize == 0 ? 0 : (double) (availableSizeExcludeFixed - varMinSize) / (double) totalFlexSize;
             }
@@ -253,7 +253,7 @@ public class JideBoxLayout implements LayoutManager2 {
                     setComponentSize(i, 0);
                 }
                 else {
-                    Object constraint = _sizes.get(comp);
+                    Object constraint = _constraintMap.get(comp);
                     int minimumSize = getSizeForPrimaryAxis(comp.getMinimumSize());
                     int preferredSize = getSizeForPrimaryAxis(getPreferredSizeOf(comp, i));
                     if (FIX.equals(constraint)) {
@@ -280,7 +280,7 @@ public class JideBoxLayout implements LayoutManager2 {
                     setComponentSize(i, 0);
                 }
                 else {
-                    Object constraint = _sizes.get(comp);
+                    Object constraint = _constraintMap.get(comp);
                     int minimumSize = getSizeForPrimaryAxis(comp.getMinimumSize());
                     int preferredSize = getSizeForPrimaryAxis(getPreferredSizeOf(comp, i));
                     if (FIX.equals(constraint)) {
@@ -298,8 +298,7 @@ public class JideBoxLayout implements LayoutManager2 {
 
         int totalActualSize = 0;
         for (int i = startIndex; i < endIndex; i++) {
-            int componentSize = _componentSizes[i];
-            totalActualSize += componentSize;
+            totalActualSize += _componentSizes[i];
         }
 
         if (totalActualSize != availableSize) {
@@ -350,7 +349,7 @@ public class JideBoxLayout implements LayoutManager2 {
                 if (!comp.isVisible()) {
                     continue;
                 }
-                Object constraint = _sizes.get(comp);
+                Object constraint = _constraintMap.get(comp);
                 Dimension minimumSize = comp.getMinimumSize();
                 if (FIX.equals(constraint)) {
                     minPrimary += getPreferredSizeOfComponent(comp);
@@ -442,7 +441,7 @@ public class JideBoxLayout implements LayoutManager2 {
      * @param comp the component to be removed
      */
     public void removeLayoutComponent(Component comp) {
-        _sizes.remove(comp);
+        _constraintMap.remove(comp);
 
         if (comp instanceof JideSplitPaneDivider)
             doReset = true;
@@ -462,9 +461,9 @@ public class JideBoxLayout implements LayoutManager2 {
      */
     public void addLayoutComponent(Component comp, Object constraints) {
         if (constraints == null)
-            _sizes.put(comp, FLEXIBLE);
+            _constraintMap.put(comp, FLEXIBLE);
         else
-            _sizes.put(comp, constraints);
+            _constraintMap.put(comp, constraints);
         doReset = true;
     }
 
@@ -507,8 +506,8 @@ public class JideBoxLayout implements LayoutManager2 {
             return true;
         }
         int oldLength = 0;
-        for (int i = 0; i < _componentSizes.length; i++) {
-            if (_componentSizes[i] > 0) {
+        for (int _componentSize : _componentSizes) {
+            if (_componentSize > 0) {
                 oldLength++;
             }
         }
@@ -707,8 +706,8 @@ public class JideBoxLayout implements LayoutManager2 {
      *
      * @return the map of constraints
      */
-    public HashMap getConstraintMap() {
-        return _sizes;
+    public HashMap<Component, Object> getConstraintMap() {
+        return _constraintMap;
     }
 
     /**

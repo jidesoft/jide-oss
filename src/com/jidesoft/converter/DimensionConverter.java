@@ -19,7 +19,7 @@ public class DimensionConverter extends ArrayConverter {
         if (object instanceof Dimension) {
             Dimension dim = (Dimension) object;
             return arrayToString(new Object[]{
-                    new Integer(dim.width), new Integer(dim.height)
+                    dim.width, dim.height
             }, context);
         }
         else {
@@ -38,10 +38,10 @@ public class DimensionConverter extends ArrayConverter {
         Object[] objects = arrayFromString(string, context);
         int x = 0, y = 0;
         if (objects.length >= 1 && objects[0] instanceof Integer) {
-            x = ((Integer) objects[0]).intValue();
+            x = (Integer) objects[0];
         }
         if (objects.length >= 2 && objects[1] instanceof Integer) {
-            y = ((Integer) objects[1]).intValue();
+            y = (Integer) objects[1];
         }
         return new Dimension(x, y);
     }

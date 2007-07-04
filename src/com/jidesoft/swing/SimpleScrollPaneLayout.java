@@ -19,6 +19,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
     protected AbstractButton _scrollLeft;
     protected AbstractButton _scrollRight;
 
+    @Override
     public void syncWithScrollPane(JScrollPane sp) {
         super.syncWithScrollPane(sp);
         if (sp instanceof SimpleScrollPane) {
@@ -29,6 +30,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
         }
     }
 
+    @Override
     public void addLayoutComponent(String s, Component c) {
         if (SimpleScrollPane.SCROLL_UP_BUTTON.equals(s)) {
             _scrollUp = (AbstractButton) addSingletonComponent(_scrollUp, c);
@@ -47,6 +49,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
         }
     }
 
+    @Override
     public void removeLayoutComponent(Component c) {
         if (c == _scrollUp) {
             _scrollUp = null;
@@ -80,6 +83,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
      * @see javax.swing.ViewportLayout
      * @see java.awt.LayoutManager
      */
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.
@@ -189,6 +193,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
      * @param parent the <code>Container</code> that will be laid out
      * @return a <code>Dimension</code> object specifying the minimum size
      */
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.
@@ -277,6 +282,7 @@ class SimpleScrollPaneLayout extends ScrollPaneLayout {
      *
      * @param parent the <code>Container</code> to lay out
      */
+    @Override
     public void layoutContainer(Container parent) {
         /* Sync the (now obsolete) policy fields with the
          * JScrollPane.

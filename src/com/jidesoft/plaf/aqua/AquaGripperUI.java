@@ -15,6 +15,7 @@ public class AquaGripperUI extends BasicGripperUI {
         return new AquaGripperUI();
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         Gripper gripper = (Gripper) c;
         paintBackground(g, gripper);

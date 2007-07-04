@@ -34,6 +34,7 @@ class BasicFileSystemTree extends JTree {
         addTreeWillExpandListener(treeListener);
         addTreeExpansionListener(treeListener);
         new TreeSearchable(this) {
+            @Override
             protected String convertElementToString(Object object) {
                 if (object instanceof TreePath) {
                     Object treeNode = ((TreePath) object).getLastPathComponent();
@@ -81,6 +82,7 @@ class BasicFileSystemTree extends JTree {
 
     }
 
+    @Override
     public String getToolTipText(MouseEvent event) {
         TreePath path = getPathForLocation(event.getX(), event.getY());
         if (path != null && path.getLastPathComponent() instanceof BasicFileSystemTreeNode) {

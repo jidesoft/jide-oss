@@ -121,7 +121,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "CheckBoxMenuItem.margin", new InsetsUIResource(3, 0, 3, 0),
                 "CheckBoxMenuItem.font", menuFont,
                 "CheckBoxMenuItem.acceleratorFont", menuFont,
-                "CheckBoxMenuItem.textIconGap", new Integer(8),
+                "CheckBoxMenuItem.textIconGap", 8,
 
                 "RadioButtonMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
                 "RadioButtonMenuItem.selectionBackground", menuSelectionBackground,
@@ -132,7 +132,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "RadioButtonMenuItem.margin", new InsetsUIResource(3, 0, 3, 0),
                 "RadioButtonMenuItem.font", menuFont,
                 "RadioButtonMenuItem.acceleratorFont", menuFont,
-                "RadioButtonMenuItem.textIconGap", new Integer(8),
+                "RadioButtonMenuItem.textIconGap", 8,
 
                 "MenuBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
 //            "MenuBar.border", new BorderUIResource(BorderFactory.createCompoundBorder(
@@ -145,11 +145,11 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "Menu.mouseHoverBorder", new BorderUIResource(BorderFactory.createLineBorder(new Color(10, 36, 106))),
                 "Menu.margin", new InsetsUIResource(2, 7, 1, 7),
                 "Menu.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
-                "Menu.textIconGap", new Integer(2),
+                "Menu.textIconGap", 2,
                 "Menu.font", menuFont,
                 "Menu.acceleratorFont", menuFont,
-                "Menu.submenuPopupOffsetX", new Integer(0),
-                "Menu.submenuPopupOffsetY", new Integer(0),
+                "Menu.submenuPopupOffsetX", 0,
+                "Menu.submenuPopupOffsetY", 0,
 
                 "PopupMenu.border", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(102, 102, 102)), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
 
@@ -159,10 +159,10 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "MenuItem.acceleratorSelectionForeground", menuTextColor,
                 "MenuItem.background", menuBackground,
                 "MenuItem.selectionBorderColor", selectionBackgroundColor,
-                "MenuItem.shadowWidth", new Integer(24),
+                "MenuItem.shadowWidth", 24,
                 "MenuItem.shadowColor", defaultHighlightColor, // TODO: not exactly. The actual one a little bit brighter than it
-                "MenuItem.textIconGap", new Integer(8),
-                "MenuItem.accelEndGap", new Integer(18),
+                "MenuItem.textIconGap", 8,
+                "MenuItem.accelEndGap", 18,
                 "MenuItem.margin", new InsetsUIResource(4, 0, 3, 0),
                 "MenuItem.font", menuFont,
                 "MenuItem.acceleratorFont", menuFont
@@ -294,8 +294,8 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "JideButton.highlight", defaultLtHighlightColor,
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
-                "JideButton.textIconGap", new Integer(2),
-                "JideButton.textShiftOffset", new Integer(0),
+                "JideButton.textIconGap", 2,
+                "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released",
@@ -303,38 +303,38 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "released ENTER", "released"   // no last two for metal
         }),
 
-                "JideSplitPane.dividerSize", new Integer(3),
+                "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                 "JideSplitPaneDivider.background", defaultBackgroundColor,
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
 
-                "JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_ROUNDED_VSNET),
-                "JideTabbedPane.defaultResizeMode", new Integer(JideTabbedPane.RESIZE_MODE_NONE),
-                "JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_OFFICE2003),
+                "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                "JideTabbedPane.defaultResizeMode", JideTabbedPane.RESIZE_MODE_NONE,
+                "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_OFFICE2003,
 
-                "JideTabbedPane.tabRectPadding", new Integer(2),
-                "JideTabbedPane.closeButtonMarginHorizonal", new Integer(3),
-                "JideTabbedPane.closeButtonMarginVertical", new Integer(3),
-                "JideTabbedPane.textMarginVertical", new Integer(4),
-                "JideTabbedPane.noIconMargin", new Integer(2),
-                "JideTabbedPane.iconMargin", new Integer(5),
-                "JideTabbedPane.textPadding", new Integer(6),
-                "JideTabbedPane.buttonSize", new Integer(18),
-                "JideTabbedPane.buttonMargin", new Integer(5),
-                "JideTabbedPane.fitStyleBoundSize", new Integer(8),
-                "JideTabbedPane.fitStyleFirstTabMargin", new Integer(4),
-                "JideTabbedPane.fitStyleIconMinWidth", new Integer(24),
-                "JideTabbedPane.fitStyleTextMinWidth", new Integer(16),
-                "JideTabbedPane.compressedStyleNoIconRectSize", new Integer(24),
-                "JideTabbedPane.compressedStyleIconMargin", new Integer(12),
-                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", new Integer(0),
-                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", new Integer(0),
-                "JideTabbedPane.fixedStyleRectSize", new Integer(60),
-                "JideTabbedPane.closeButtonMargin", new Integer(2),
-                "JideTabbedPane.gripLeftMargin", new Integer(4),
-                "JideTabbedPane.closeButtonMarginSize", new Integer(6),
-                "JideTabbedPane.closeButtonLeftMargin", new Integer(2),
-                "JideTabbedPane.closeButtonRightMargin", new Integer(2),
+                "JideTabbedPane.tabRectPadding", 2,
+                "JideTabbedPane.closeButtonMarginHorizonal", 3,
+                "JideTabbedPane.closeButtonMarginVertical", 3,
+                "JideTabbedPane.textMarginVertical", 4,
+                "JideTabbedPane.noIconMargin", 2,
+                "JideTabbedPane.iconMargin", 5,
+                "JideTabbedPane.textPadding", 6,
+                "JideTabbedPane.buttonSize", 18,
+                "JideTabbedPane.buttonMargin", 5,
+                "JideTabbedPane.fitStyleBoundSize", 8,
+                "JideTabbedPane.fitStyleFirstTabMargin", 4,
+                "JideTabbedPane.fitStyleIconMinWidth", 24,
+                "JideTabbedPane.fitStyleTextMinWidth", 16,
+                "JideTabbedPane.compressedStyleNoIconRectSize", 24,
+                "JideTabbedPane.compressedStyleIconMargin", 12,
+                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", 0,
+                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", 0,
+                "JideTabbedPane.fixedStyleRectSize", 60,
+                "JideTabbedPane.closeButtonMargin", 2,
+                "JideTabbedPane.gripLeftMargin", 4,
+                "JideTabbedPane.closeButtonMarginSize", 6,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 
@@ -351,16 +351,16 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", new ColorUIResource(XertoUtils.getApplicationFrameBackgroundColor()),
-                "JideTabbedPane.tabRunOverlay", new Integer(2),
+                "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", new ColorUIResource(XertoUtils.getTabForgroundColor()),
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTabForground,
                 "JideTabbedPane.selectedTabBackground", new ColorUIResource(XertoUtils.getSelectedTabBackgroundColor()),
-                "JideTabbedPane.textIconGap", new Integer(4),
+                "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.FALSE,
-                "JideTabbedPane.closeButtonAlignment", new Integer(SwingConstants.TRAILING),
+                "JideTabbedPane.closeButtonAlignment", SwingConstants.TRAILING,
                 "JideTabbedPane.focusInputMap",
                 new UIDefaults.LazyInputMap(new Object[]{
                         "RIGHT", "navigateRight",
@@ -387,15 +387,15 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
-                "ButtonPanel.buttonGap", new Integer(6),
-                "ButtonPanel.groupGap", new Integer(6),
-                "ButtonPanel.minButtonWidth", new Integer(75),
+                "ButtonPanel.buttonGap", 6,
+                "ButtonPanel.groupGap", 6,
+                "ButtonPanel.minButtonWidth", 75,
 
                 "JideSplitButton.font", controlFont,
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", new Integer(3),
+                "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
@@ -430,7 +430,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "Cursor.dragText", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.DROP_TEXT),
                 "Cursor.dragTextStop", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.NODROP_TEXT),
 
-                "Gripper.size", new Integer(8),
+                "Gripper.size", 8,
                 "Gripper.foreground", gripperForeground,
                 "Gripper.painter", gripperPainter,
 
@@ -521,10 +521,10 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "Workspace.background", mdiBackgroundColor,
 
                     "SidePane.margin", new InsetsUIResource(2, 2, 0, 0),
-                    "SidePane.iconTextGap", new Integer(2),
-                    "SidePane.textBorderGap", new Integer(13),
-                    "SidePane.itemGap", new Integer(5),
-                    "SidePane.groupGap", new Integer(13),
+                    "SidePane.iconTextGap", 2,
+                    "SidePane.textBorderGap", 13,
+                    "SidePane.itemGap", 5,
+                    "SidePane.groupGap", 13,
                     "SidePane.foreground", defaultDarkShadowColor,
                     "SidePane.background", new ColorUIResource(XertoUtils.getApplicationFrameBackgroundColor()),
                     "SidePane.lineColor", defaultShadowColor,
@@ -532,7 +532,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "SidePane.selectedButtonBackground", selectedButtonColor,
                     "SidePane.selectedButtonForeground", defaultTextColor,
                     "SidePane.font", controlFont,
-                    "SidePane.orientation", new Integer(1),
+                    "SidePane.orientation", 1,
                     "SidePane.showSelectedTabText", Boolean.TRUE,
                     "SidePane.alwaysShowTabText", Boolean.FALSE,
 
@@ -567,18 +567,18 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "DockableFrameTitlePane.titleBarComponent", Boolean.FALSE,
 
                     "DockableFrameTitlePane.alwaysShowAllButtons", Boolean.FALSE, // true if show all three buttons no matter if the buttons is available. false if only show buttons which is available
-                    "DockableFrameTitlePane.buttonsAlignment", new Integer(SwingConstants.TRAILING), // trailing or leading
-                    "DockableFrameTitlePane.titleAlignment", new Integer(SwingConstants.LEADING), // trailing or leading or center
-                    "DockableFrameTitlePane.buttonGap", new Integer(0), // gap between buttons
+                    "DockableFrameTitlePane.buttonsAlignment", SwingConstants.TRAILING, // trailing or leading
+                    "DockableFrameTitlePane.titleAlignment", SwingConstants.LEADING, // trailing or leading or center
+                    "DockableFrameTitlePane.buttonGap", 0, // gap between buttons
                     "DockableFrameTitlePane.showIcon", Boolean.TRUE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 3, 0, 3), // gap
 
                     "Contour.color", new ColorUIResource(136, 136, 136),
-                    "Contour.thickness", new Integer(4),
+                    "Contour.thickness", 4,
 
                     "ContentContainer.background", defaultFormBackground,
-                    "ContentContainer.vgap", new Integer(3),
-                    "ContentContainer.hgap", new Integer(3),
+                    "ContentContainer.vgap", 3,
+                    "ContentContainer.hgap", 3,
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
 
@@ -596,7 +596,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
             uiDefaults = new Object[]{
                     // components
                     "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
-                    "CollapsiblePanes.gap", new Integer(5),
+                    "CollapsiblePanes.gap", 5,
 
                     "CollapsiblePane.background", collapsiblePaneBackground,
                     "CollapsiblePane.contentBackground", defaultLtHighlightColor,
@@ -622,7 +622,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 1, 0, 1)),
 
                     "StatusBar.border", new StatusBarBorder(),
-                    "StatusBar.gap", new Integer(2),
+                    "StatusBar.gap", 2,
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
 
@@ -659,19 +659,19 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                             "RIGHT", "navigateRight",
                             "KP_RIGHT", "navigateRight"
                     }),
-                    "CommandBar.titleBarSize", new Integer(17),
-                    "CommandBar.titleBarButtonGap", new Integer(1),
+                    "CommandBar.titleBarSize", 17,
+                    "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", activeTitleBackgroundColor,
                     "CommandBar.titleBarForeground", activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
 
-                    "CommandBar.separatorSize", new Integer(5),
+                    "CommandBar.separatorSize", 5,
 
                     // *** Separator
                     "CommandBarSeparator.background", XertoUtils.getControlColor(),
                     "CommandBarSeparator.foreground", XertoUtils.getControlMidShadowColor(),
 
-                    "Chevron.size", new Integer(11),
+                    "Chevron.size", 11,
             };
             table.putDefaults(uiDefaults);
         }

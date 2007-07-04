@@ -15,18 +15,18 @@ import java.util.Date;
  */
 public class ObjectConverterManager {
 
-    private static CacheMap _cache = new CacheMap(ConverterContext.DEFAULT_CONTEXT);
+    private static CacheMap<ObjectConverter, ConverterContext> _cache = new CacheMap<ObjectConverter, ConverterContext>(ConverterContext.DEFAULT_CONTEXT);
 
     private static ObjectConverter _defaultConverter = new DefaultObjectConverter();
 
     /**
      * Registers a converter with the type specified as class and a converter context specified as context.
      *
-     * @param clazz     type
-     * @param converter converter to be registered
-     * @param context
+     * @param clazz     the type of which the converter will registered.
+     * @param converter the converter to be registered
+     * @param context   the converter context.
      */
-    public static void registerConverter(Class clazz, ObjectConverter converter, ConverterContext context) {
+    public static void registerConverter(Class<?> clazz, ObjectConverter converter, ConverterContext context) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter class cannot be null");
         }
@@ -38,22 +38,22 @@ public class ObjectConverterManager {
     }
 
     /**
-     * Registers a converter with type specified as clazz.
+     * Registers as the default converter with type specified as clazz.
      *
-     * @param clazz     type
-     * @param converter converter to be registered
+     * @param clazz     the type of which the converter will be registered.
+     * @param converter the converter to be registered
      */
-    public static void registerConverter(Class clazz, ObjectConverter converter) {
+    public static void registerConverter(Class<?> clazz, ObjectConverter converter) {
         registerConverter(clazz, converter, ConverterContext.DEFAULT_CONTEXT);
     }
 
     /**
      * Unregisters converter associated with clazz and context.
      *
-     * @param clazz
-     * @param context
+     * @param clazz   the type of which the converter will be unregistered.
+     * @param context the converter context.
      */
-    public static void unregisterConverter(Class clazz, ConverterContext context) {
+    public static void unregisterConverter(Class<?> clazz, ConverterContext context) {
         if (context == null) {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
@@ -63,9 +63,9 @@ public class ObjectConverterManager {
     /**
      * Unregisters converter associated with clazz.
      *
-     * @param clazz
+     * @param clazz the type of which the converter will be unregistered.
      */
-    public static void unregisterConverter(Class clazz) {
+    public static void unregisterConverter(Class<?> clazz) {
         unregisterConverter(clazz, ConverterContext.DEFAULT_CONTEXT);
     }
 
@@ -79,11 +79,11 @@ public class ObjectConverterManager {
     /**
      * Gets the registered converter associated with class and context.
      *
-     * @param clazz
-     * @param context
+     * @param clazz   the type of which the converter will be registered.
+     * @param context the converter context.
      * @return the registered converter.
      */
-    public static ObjectConverter getConverter(Class clazz, ConverterContext context) {
+    public static ObjectConverter getConverter(Class<?> clazz, ConverterContext context) {
         if (isAutoInit()) {
             initDefaultConverter();
         }
@@ -91,9 +91,9 @@ public class ObjectConverterManager {
         if (context == null) {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
-        Object object = _cache.getRegisteredObject(clazz, context);
-        if (object != null && object instanceof ObjectConverter) {
-            return (ObjectConverter) object;
+        ObjectConverter converter = _cache.getRegisteredObject(clazz, context);
+        if (converter != null) {
+            return converter;
         }
         else {
             return _defaultConverter;
@@ -106,7 +106,7 @@ public class ObjectConverterManager {
      * @param clazz type
      * @return the converter
      */
-    public static ObjectConverter getConverter(Class clazz) {
+    public static ObjectConverter getConverter(Class<?> clazz) {
         return getConverter(clazz, ConverterContext.DEFAULT_CONTEXT);
     }
 
@@ -130,7 +130,7 @@ public class ObjectConverterManager {
      * @param clazz  type of the object
      * @return the string
      */
-    public static String toString(Object object, Class clazz) {
+    public static String toString(Object object, Class<?> clazz) {
         return toString(object, clazz, ConverterContext.DEFAULT_CONTEXT);
     }
 
@@ -142,7 +142,7 @@ public class ObjectConverterManager {
      * @param context converter context
      * @return the string converted from object
      */
-    public static String toString(Object object, Class clazz, ConverterContext context) {
+    public static String toString(Object object, Class<?> clazz, ConverterContext context) {
         ObjectConverter converter = getConverter(clazz, context);
         if (converter != null && converter.supportToString(object, context)) {
             return converter.toString(object, context);
@@ -162,7 +162,7 @@ public class ObjectConverterManager {
      * @param clazz  the type to be converted to
      * @return the object of type class which is converted from string
      */
-    public static Object fromString(String string, Class clazz) {
+    public static Object fromString(String string, Class<?> clazz) {
         return fromString(string, clazz, ConverterContext.DEFAULT_CONTEXT);
     }
 
@@ -174,7 +174,7 @@ public class ObjectConverterManager {
      * @param context converter context to be used
      * @return the object of type class which is converted from string
      */
-    public static Object fromString(String string, Class clazz, ConverterContext context) {
+    public static Object fromString(String string, Class<?> clazz, ConverterContext context) {
         ObjectConverter converter = getConverter(clazz, context);
         if (converter != null && converter.supportFromString(string, context)) {
             return converter.fromString(string, context);
@@ -206,7 +206,7 @@ public class ObjectConverterManager {
      * default converters. In this case, instead of depending on autoInit to initialize default converters,
      * you should call {@link #initDefaultConverter()} first, then call registerConverter to add your own converters.
      *
-     * @param autoInit
+     * @param autoInit true or false.
      */
     public static void setAutoInit(boolean autoInit) {
         _autoInit = autoInit;
@@ -251,16 +251,8 @@ public class ObjectConverterManager {
      * @param clazz the class.
      * @return the available ConverterContexts.
      */
-    public static ConverterContext[] getConverterContexts(Class clazz) {
-        Object[] keys = _cache.getKeys(clazz);
-        ConverterContext[] contexts = new ConverterContext[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            Object key = keys[i];
-            if (key instanceof ConverterContext) {
-                contexts[i] = (ConverterContext) key;
-            }
-        }
-        return contexts;
+    public static ConverterContext[] getConverterContexts(Class<?> clazz) {
+        return _cache.getKeys(clazz, new ConverterContext[0]);
     }
 
     /**

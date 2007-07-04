@@ -15,27 +15,27 @@ import java.util.*;
  * {@link #register(Class,Object,Object)} is the method to register a new entry. {@link #getRegisteredObject(Class,Object)}
  * will allow you to look up the object by specifying the Class and the context.
  */
-public class CacheMap {
+public class CacheMap<T, K> {
 
-    private HashMap _cache = new HashMap();
+    private HashMap<Class<?>, Cache<K, T>> _cache = new HashMap<Class<?>, Cache<K, T>>();
 
-    private Object _defaultContext; // used for fallback lookup.
+    private K _defaultContext; // used for fallback lookup.
 
     /**
      * Constructs a <code>CacheMap</code>.
      *
      * @param defaultContext the default context.
      */
-    public CacheMap(Object defaultContext) {
+    public CacheMap(K defaultContext) {
         _defaultContext = defaultContext;
     }
 
-    static class Cache extends HashMap {
-        public Object getObject(Object context) {
+    static class Cache<K, T> extends HashMap<K, T> {
+        public T getObject(K context) {
             return get(context);
         }
 
-        public void setObject(Object context, Object object) {
+        public void setObject(K context, T object) {
             if (object == null) {
                 remove(context);
             }
@@ -45,40 +45,35 @@ public class CacheMap {
         }
     }
 
-    protected Cache getCache(Class clazz) {
+    protected Cache<K, T> getCache(Class<?> clazz) {
         if (clazz == null) {
             new IllegalArgumentException("Clazz cannot be null");
         }
-        return (Cache) _cache.get(clazz);
+        return _cache.get(clazz);
     }
 
     /**
      * Gets the secondary keys that are registered with the class in CacheMap.
      *
      * @param clazz the class
+     * @param a     the array to receive the keys.
      * @return the secondary keys.
      */
-    public Object[] getKeys(Class clazz) {
-        Cache cache = getCache(clazz);
-        Set set = cache.keySet();
-        Object[] keys = new Object[set.size()];
-        int i = 0;
-        for (Iterator iterator = set.iterator(); iterator.hasNext();) {
-            Object key = iterator.next();
-            keys[i++] = key;
-        }
-        return keys;
+    public K[] getKeys(Class<?> clazz, K[] a) {
+        Cache<K, T> cache = getCache(clazz);
+        Set<K> set = cache.keySet();
+        return set.toArray(a);
     }
 
-    protected Cache initCache(Class clazz) {
-        Object editors = getCache(clazz);
+    protected Cache<K, T> initCache(Class<?> clazz) {
+        Cache<K, T> editors = getCache(clazz);
         if (editors != null) {
-            return (Cache) editors;
+            return editors;
         }
         else {
             editors = new Cache();
             _cache.put(clazz, editors);
-            return (Cache) editors;
+            return editors;
         }
     }
 
@@ -89,12 +84,12 @@ public class CacheMap {
      * @param object  the object, or the value of the mapping
      * @param context the secondary key. It is used to register multiple objects to the same primary key (the clazz parameter in this case).
      */
-    public void register(Class clazz, Object object, Object context) {
+    public void register(Class<?> clazz, T object, K context) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz cannot be null");
         }
 
-        Cache cache = initCache(clazz);
+        Cache<K, T> cache = initCache(clazz);
         cache.setObject(context, object);
         fireRegistrationChanged(new RegistrationEvent(this, RegistrationEvent.REGISTRATION_ADDED, object, clazz, context));
     }
@@ -105,32 +100,13 @@ public class CacheMap {
      * @param clazz   the class
      * @param context the context
      */
-    public void unregister(Class clazz, Object context) {
-        Cache cache = getCache(clazz);
+    public void unregister(Class<?> clazz, K context) {
+        Cache<K, T> cache = getCache(clazz);
         if (cache != null) {
             Object object = cache.getObject(context);
             cache.setObject(context, null);
             fireRegistrationChanged(new RegistrationEvent(this, RegistrationEvent.REGISTRATION_REMOVED, object, clazz, context));
         }
-    }
-
-    // do a lookup through the interface graph (breath first recursion)
-    private Cache lookupInterfaces(Class clazz) {
-        Cache cache = null;
-
-        if (clazz != null) {
-            Class interfaces[] = clazz.getInterfaces();
-            for (int i = 0; cache == null && interfaces != null && i < interfaces.length; i++) {
-                cache = getCache(interfaces[i]);
-            }
-            if (cache == null) {
-                for (int i = 0; cache == null && interfaces != null && i < interfaces.length; i++) {
-                    // check inherited interfaces
-                    cache = lookupInterfaces(interfaces[i]);
-                }
-            }
-        }
-        return cache;
     }
 
     /**
@@ -145,31 +121,29 @@ public class CacheMap {
      * @param context the context which is used as the secondary key. This parameter could be null in which case the default context is used.
      * @return registered object the object associated with the class and the context.
      */
-    public Object getRegisteredObject(Class clazz, Object context) {
+    public T getRegisteredObject(Class<?> clazz, K context) {
         if (clazz == null) {
             return null;
         }
 
-        Cache cache = getCache(clazz);
+        Cache<K, T> cache = getCache(clazz);
 
         if (cache == null || !cache.containsKey(context)) {
-            List classesToSearch = new ArrayList();
+            List<Class<?>> classesToSearch = new ArrayList();
 
             // Direct superinterfaces, recursively
-            Class[] interfaces = clazz.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++) {
-                Class c = interfaces[i];
+            Class<?>[] interfaces = clazz.getInterfaces();
+            for (Class<?> c : interfaces) {
                 classesToSearch.add(c);
             }
 
             // Direct superclass, recursively
-            while (clazz != null && !clazz.isInterface()) {
+            while (!clazz.isInterface()) {
                 clazz = clazz.getSuperclass();
                 if (clazz != null) {
                     classesToSearch.add(clazz);
                     interfaces = clazz.getInterfaces();
-                    for (int i = 0; i < interfaces.length; i++) {
-                        Class c = interfaces[i];
+                    for (Class<?> c : interfaces) {
                         classesToSearch.add(c);
                     }
                 }
@@ -182,12 +156,11 @@ public class CacheMap {
                 classesToSearch.add(Object.class);  // use Object as default fallback.
             }
 
-            for (int i = 0; i < classesToSearch.size(); i++) {
-                Class c = (Class) classesToSearch.get(i);
+            for (Class<?> c : classesToSearch) {
                 cache = getCache(c);
 
                 if (cache != null) {
-                    Object object = cache.getObject(context);
+                    T object = cache.getObject(context);
                     if (object == null && !_defaultContext.equals(context)) {
                         return getRegisteredObject(c, _defaultContext);
                     }
@@ -198,7 +171,7 @@ public class CacheMap {
             }
         }
         else {
-            Object object = cache.getObject(context);
+            T object = cache.getObject(context);
             if (object == null && !_defaultContext.equals(context)) {
                 return getRegisteredObject(clazz, _defaultContext);
             }
@@ -210,18 +183,14 @@ public class CacheMap {
         return null;
     }
 
-    public List getValues() {
-        ArrayList list = new ArrayList();
-        Collection col = _cache.values();
-        for (Iterator iterator = col.iterator(); iterator.hasNext();) {
-            Object o = iterator.next();
-            if (o instanceof CacheMap.Cache) {
-                Collection col2 = ((CacheMap.Cache) o).values();
-                for (Iterator iterator2 = col2.iterator(); iterator2.hasNext();) {
-                    Object o2 = iterator2.next();
-                    if (!list.contains(o2)) {
-                        list.add(o2);
-                    }
+    public List<T> getValues() {
+        List<T> list = new ArrayList();
+        Collection<Cache<K, T>> col = _cache.values();
+        for (Cache<K, T> o : col) {
+            Collection<T> col2 = o.values();
+            for (T o2 : col2) {
+                if (!list.contains(o2)) {
+                    list.add(o2);
                 }
             }
         }
@@ -268,8 +237,7 @@ public class CacheMap {
      * @see #removeRegistrationListener
      */
     public RegistrationListener[] getRegistrationListeners() {
-        return (RegistrationListener[]) listenerList.getListeners(
-                RegistrationListener.class);
+        return listenerList.getListeners(RegistrationListener.class);
     }
 
     /**

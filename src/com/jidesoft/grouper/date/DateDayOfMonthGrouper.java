@@ -27,8 +27,8 @@ public class DateDayOfMonthGrouper extends DateGrouper {
 
     public Object getValue(Object value) {
         Object field = getCalendarField(value, Calendar.DAY_OF_MONTH);
-        if (field instanceof Integer && ((Integer) field).intValue() >= 1 && ((Integer) field).intValue() <= getAvailableGroups().length) {
-            return getAvailableGroups()[((Integer) field).intValue() - 1];
+        if (field instanceof Integer && (Integer) field >= 1 && (Integer) field <= getAvailableGroups().length) {
+            return getAvailableGroups()[(Integer) field - 1];
         }
         else {
             return null;

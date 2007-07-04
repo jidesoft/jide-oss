@@ -46,6 +46,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
     private List _styledTexts;
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         if (StyledLabel.PROPERTY_STYLE_RANGE.equals(e.getPropertyName())) {
@@ -62,6 +63,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
+    @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int textX, int textY) {
         View v = (l != null) ? (View) l.getClientProperty("html") : null;
         if (v != null) {
@@ -72,6 +74,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
+    @Override
     protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY) {
         View v = (l != null) ? (View) l.getClientProperty("html") : null;
         if (v != null) {
@@ -139,6 +142,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
+    @Override
     protected String layoutCL(JLabel label, FontMetrics fontMetrics, String text, Icon icon, Rectangle viewR, Rectangle iconR, Rectangle textR) {
         Dimension size = getPreferredSize((StyledLabel) label);
         textR.width = size.width;

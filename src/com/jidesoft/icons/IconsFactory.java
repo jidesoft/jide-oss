@@ -108,19 +108,22 @@ import java.util.StringTokenizer;
  */
 public class IconsFactory {
 
-    static Map icons = new HashMap();
-    static Map disableIcons = new HashMap();
-    static Map enhancedIcons = new HashMap();
+    static Map<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> disableIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> enhancedIcons = new HashMap<String, ImageIcon>();
 
     public static ImageIcon EMPTY_ICON = new ImageIcon() {
+        @Override
         public int getIconHeight() {
             return 16;
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         }
     };
@@ -135,13 +138,13 @@ public class IconsFactory {
      * If so, you can use {@link #findImageIcon(Class,String)} method. It will throw IOException
      * when image is not found.
      *
-     * @param clazz    the Class
+     * @param clazz    the Class<?>
      * @param fileName relative file name
      * @return the ImageIcon
      */
-    public static ImageIcon getImageIcon(Class clazz, String fileName) {
+    public static ImageIcon getImageIcon(Class<?> clazz, String fileName) {
         String id = clazz.getName() + ":" + fileName;
-        Object saved = icons.get(id);
+        Icon saved = icons.get(id);
         if (saved != null)
             return (ImageIcon) saved;
         else {
@@ -154,16 +157,16 @@ public class IconsFactory {
     /**
      * Gets ImageIcon by passing class and a relative image file path.
      *
-     * @param clazz    the Class
+     * @param clazz    the Class<?>
      * @param fileName relative file name
      * @return the ImageIcon
      * @throws IOException when image file is not found.
      */
-    public static ImageIcon findImageIcon(Class clazz, String fileName) throws IOException {
+    public static ImageIcon findImageIcon(Class<?> clazz, String fileName) throws IOException {
         String id = clazz.getName() + ":" + fileName;
-        Object saved = icons.get(id);
+        ImageIcon saved = icons.get(id);
         if (saved != null)
-            return (ImageIcon) saved;
+            return saved;
         else {
             ImageIcon icon = createImageIconWithException(clazz, fileName);
             icons.put(id, icon);
@@ -178,11 +181,11 @@ public class IconsFactory {
      * @param fileName
      * @return the ImageIcon
      */
-    public static ImageIcon getDisabledImageIcon(Class clazz, String fileName) {
+    public static ImageIcon getDisabledImageIcon(Class<?> clazz, String fileName) {
         String id = clazz.getName() + ":" + fileName;
-        Object saved = disableIcons.get(id);
+        ImageIcon saved = disableIcons.get(id);
         if (saved != null)
-            return (ImageIcon) saved;
+            return saved;
         else {
             ImageIcon icon = createGrayImage(getImageIcon(clazz, fileName));
             disableIcons.put(id, icon);
@@ -197,11 +200,11 @@ public class IconsFactory {
      * @param fileName
      * @return the ImageIcon
      */
-    public static ImageIcon getBrighterImageIcon(Class clazz, String fileName) {
+    public static ImageIcon getBrighterImageIcon(Class<?> clazz, String fileName) {
         String id = clazz.getName() + ":" + fileName;
-        Object saved = enhancedIcons.get(id);
+        ImageIcon saved = enhancedIcons.get(id);
         if (saved != null)
-            return (ImageIcon) saved;
+            return saved;
         else {
             ImageIcon icon = createBrighterImage(getImageIcon(clazz, fileName));
             enhancedIcons.put(id, icon);
@@ -344,7 +347,7 @@ public class IconsFactory {
         return new ImageIcon(MaskFilter.createNegativeImage(image));
     }
 
-    private final static void doPrivileged(final Runnable doRun) {
+    private static void doPrivileged(final Runnable doRun) {
         java.security.AccessController.doPrivileged(new java.security.PrivilegedAction() {
             public Object run() {
                 doRun.run();
@@ -353,14 +356,14 @@ public class IconsFactory {
         });
     }
 
-    private static Object makeImageIcon(final Class baseClass, final String gifFile) {
+    private static Object makeImageIcon(final Class<?> baseClass, final String gifFile) {
         return new UIDefaults.LazyValue() {
             public Object createValue(UIDefaults table) {
                 /* Copy resource into a byte array.  This is
                  * necessary because several browsers consider
-                 * Class.getResource a security risk because it
+                 * Class<?>.getResource a security risk because it
                  * can be used to load additional classes.
-                 * Class.getResourceAsStream just returns raw
+                 * Class<?>.getResourceAsStream just returns raw
                  * bytes, which we can convert to an image.
                  */
                 final byte[][] buffer = new byte[1][];
@@ -387,7 +390,6 @@ public class IconsFactory {
                         }
                         catch (IOException ioe) {
                             System.err.println(ioe.toString());
-                            return;
                         }
                     }
                 });
@@ -408,7 +410,7 @@ public class IconsFactory {
         };
     }
 
-    private static ImageIcon createImageIcon(final Class baseClass, final String file) {
+    private static ImageIcon createImageIcon(final Class<?> baseClass, final String file) {
         try {
             return createImageIconWithException(baseClass, file);
         }
@@ -418,7 +420,7 @@ public class IconsFactory {
         }
     }
 
-    private static ImageIcon createImageIconWithException(final Class baseClass, final String file) throws IOException {
+    private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
         InputStream resource =
                 baseClass.getResourceAsStream(file);
 
@@ -469,7 +471,7 @@ public class IconsFactory {
 //            at com.jidesoft.icons.IconsFactory.getImageIcon(Unknown Source)
 //            at com.jidesoft.plaf.vsnet.VsnetMetalUtils.initComponentDefaults(Unknown Source)
 
-//    private static ImageIcon createImageIconWithException(final Class baseClass, final String file) throws IOException {
+//    private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
 //        try {
 //            InputStream resource =
 //                    baseClass.getResourceAsStream(file);
@@ -490,7 +492,7 @@ public class IconsFactory {
      *
      * @param clazz the IconsFactory class
      */
-    public static void generateHTML(Class clazz) {
+    public static void generateHTML(Class<?> clazz) {
         String fullClassName = clazz.getName();
         String className = getClassName(fullClassName);
         File file = new File(fullClassName + ".html");
@@ -529,11 +531,11 @@ public class IconsFactory {
         return buffer.substring(0, buffer.length() - 1);
     }
 
-    private static void generate(Class aClass, FileWriter writer, String prefix) throws IOException {
-        Class[] classes = aClass.getDeclaredClasses();
+    private static void generate(Class<?> aClass, FileWriter writer, String prefix) throws IOException {
+        Class<?>[] classes = aClass.getDeclaredClasses();
         // don't know why but the order is exactly the reverse of the order of definitions.
         for (int i = classes.length - 1; i >= 0; i--) {
-            Class clazz = classes[i];
+            Class<?> clazz = classes[i];
             generate(clazz, writer, getClassName(clazz.getName()));
         }
 
@@ -546,8 +548,7 @@ public class IconsFactory {
         writer.write("<td width=\"32%\" align=\"center\"><b><font face=\"Verdana\" color=\"#003399\">File Name</font></b></td>\n");
         writer.write("<td width=\"31%\" align=\"center\"><b><font face=\"Verdana\" color=\"#003399\">Full Constant Name</font></b></td>\n");
         writer.write("</tr>\n");
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
+        for (Field field : fields) {
             try {
                 Object name = field.getName();
                 Object value = field.get(aClass);

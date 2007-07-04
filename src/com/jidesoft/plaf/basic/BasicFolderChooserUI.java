@@ -52,6 +52,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         return new BasicFolderChooserUI((FolderChooser) c);
     }
 
+    @Override
     public void installComponents(JFileChooser chooser) {
         _folderChooser = (FolderChooser) chooser;
 
@@ -97,10 +98,12 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         return buttonPanel;
     }
 
+    @Override
     public void rescanCurrentDirectory(JFileChooser fc) {
         super.rescanCurrentDirectory(fc);
     }
 
+    @Override
     public void ensureFileIsVisible(JFileChooser fc, File f) {
         super.ensureFileIsVisible(fc, f);
         ensureFileIsVisible(f, true);
@@ -122,7 +125,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
                 if (selection.size() > 1) {
                     text = MessageFormat.format(
-                            resourceBundle.getString("FolderChooser.delete.message2"), new Object[]{new Integer(selection.size())});
+                            resourceBundle.getString("FolderChooser.delete.message2"), selection.size());
                 }
                 else {
                     text = resourceBundle.getString("FolderChooser.delete.message1");
@@ -326,22 +329,26 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         }
     }
 
+    @Override
     public void uninstallComponents(JFileChooser chooser) {
         chooser.remove(_treeScrollPane);
         chooser.remove(_buttonPanel);
     }
 
+    @Override
     protected void installListeners(JFileChooser fc) {
         super.installListeners(fc);
         _selectionListener = new FolderChooserSelectionListener();
         _fileSystemTree.addTreeSelectionListener(_selectionListener);
     }
 
+    @Override
     protected void uninstallListeners(JFileChooser fc) {
         super.uninstallListeners(fc);
         _fileSystemTree.removeTreeSelectionListener(_selectionListener);
     }
 
+    @Override
     public PropertyChangeListener createPropertyChangeListener(JFileChooser fc) {
         return new FolderChooserPropertyChangeListener();
     }
@@ -507,6 +514,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         _folderChooser.setSelectedFiles((File[]) files.toArray(new File[files.size()]));
     }
 
+    @Override
     public Action getApproveSelectionAction() {
         return _approveSelectionAction;
     }

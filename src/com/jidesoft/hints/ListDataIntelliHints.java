@@ -8,7 +8,6 @@ package com.jidesoft.hints;
 import javax.swing.text.JTextComponent;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,9 +18,9 @@ import java.util.List;
 public class ListDataIntelliHints extends AbstractListIntelliHints {
 
     private boolean _caseSensitive = false;
-    private List _completionList;
+    private List<?> _completionList;
 
-    public ListDataIntelliHints(JTextComponent comp, List completionList) {
+    public ListDataIntelliHints(JTextComponent comp, List<?> completionList) {
         super(comp);
         setCompletionList(completionList);
     }
@@ -36,7 +35,7 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
      *
      * @return the list of hints.
      */
-    public List getCompletionList() {
+    public List<?> getCompletionList() {
         return _completionList;
     }
 
@@ -45,7 +44,7 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
      *
      * @param completionList
      */
-    public void setCompletionList(List completionList) {
+    public void setCompletionList(List<?> completionList) {
         _completionList = completionList;
     }
 
@@ -57,10 +56,12 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
     public void setCompletionList(String[] completionList) {
         final String[] list = completionList;
         _completionList = new AbstractList() {
+            @Override
             public Object get(int index) {
                 return list[index];
             }
 
+            @Override
             public int size() {
                 return list.length;
             }
@@ -78,10 +79,9 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
         }
 
 
-        List possibleStrings = new ArrayList();
-        Iterator iter = getCompletionList().iterator();
-        while (iter.hasNext()) {
-            String listEntry = (String) iter.next();
+        List<String> possibleStrings = new ArrayList<String>();
+        for (Object o : getCompletionList()) {
+            String listEntry = (String) o;
             if (substringLen > listEntry.length())
                 continue;
 

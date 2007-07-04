@@ -58,12 +58,12 @@ public class Eclipse3xWindowsUtils extends EclipseWindowsUtils {
 
     private static void initComponentDefaultsForEclipse3x(UIDefaults table) {
         Object uiDefaults[] = {
-                "JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_ECLIPSE3X),
-                "JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_WIN2K),
-                "JideTabbedPane.defaultResizeMode", new Integer(JideTabbedPane.RESIZE_MODE_NONE),
-                "JideTabbedPane.closeButtonMarginSize", new Integer(10),
-                "JideTabbedPane.iconMarginHorizon", new Integer(8),
-                "JideTabbedPane.iconMarginVertical", new Integer(6),
+                "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ECLIPSE3X,
+                "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_WIN2K,
+                "JideTabbedPane.defaultResizeMode", JideTabbedPane.RESIZE_MODE_NONE,
+                "JideTabbedPane.closeButtonMarginSize", 10,
+                "JideTabbedPane.iconMarginHorizon", 8,
+                "JideTabbedPane.iconMarginVertical", 6,
 
                 "JideTabbedPane.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                 "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),

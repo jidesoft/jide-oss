@@ -8,14 +8,11 @@ package com.jidesoft.dialog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
 class ButtonPanelLayout implements LayoutManager2, Serializable {
-
-    public static boolean DEBUG = false;
     /**
      * Specifies that components should be laid out left to right.
      */
@@ -47,16 +44,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     private transient SizeRequirements _xTotal;
     private transient SizeRequirements _yTotal;
 
-    private transient PrintStream dbg;
-
-    private List _affirmativeButtons = new Vector(13);
-    private List _cancelButtons = new Vector(13);
-    private List _helpButtons = new Vector(13);
-    private List _otherButtons = new Vector(13);
-
-    private int _totalButtonCount; // calculated value by checkRequests
-
-    private int _totalGroup; // calculated value by checkRequests
+    private List<Component> _affirmativeButtons = new Vector<Component>(13);
+    private List<Component> _cancelButtons = new Vector<Component>(13);
+    private List<Component> _helpButtons = new Vector<Component>(13);
+    private List<Component> _otherButtons = new Vector<Component>(13);
 
     int _minWidth; // calculated value by checkRequests
 
@@ -88,12 +79,12 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *                            <code>BoxLayout.Y_AXIS</code>,
      *                            <code>BoxLayout.LINE_AXIS</code> or
      *                            <code>BoxLayout.PAGE_AXIS</code>
-     * @param alignment
-     * @param sizeConstraint
-     * @param buttonOrder
-     * @param oppositeButtonOrder
-     * @param buttonGap
-     * @param groupGap
+     * @param alignment           the alignment
+     * @param sizeConstraint      the size constraint
+     * @param buttonOrder         the button order represented as string
+     * @param oppositeButtonOrder the button order on the opposite side represented as string
+     * @param buttonGap           the gap btween buttons
+     * @param groupGap            the gap btween button groups
      * @throws java.awt.AWTError if the value of <code>axis</code> is invalid
      */
     public ButtonPanelLayout(Container target, int axis, int alignment,
@@ -336,21 +327,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      */
     public void layoutContainer(Container target) {
         checkContainer(target);
-        int nChildren = target.getComponentCount();
-//        int[] xOffsets = new int[nChildren];
-//        int[] xSpans = new int[nChildren];
-//        int[] yOffsets = new int[nChildren];
-//        int[] ySpans = new int[nChildren];
 
         Dimension alloc = target.getSize();
         Insets in = target.getInsets();
         alloc.width -= in.left + in.right;
         alloc.height -= in.top + in.bottom;
-
-        if (DEBUG) {
-            System.out.println("Width:" + alloc.width);
-            System.out.println("Height:" + alloc.height);
-        }
 
         // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
         ComponentOrientation o = target.getComponentOrientation();
@@ -555,19 +536,9 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 }
             }
         }
-
-        if (dbg != null) {
-            for (int i = 0; i < nChildren; i++) {
-                Component c = target.getComponent(i);
-                dbg.println(c.toString());
-                dbg.println("X: " + _xChildren[i]);
-                dbg.println("Y: " + _yChildren[i]);
-            }
-        }
-
     }
 
-    private int layoutButtonsRightAlign(List buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsRightAlign(List<Component> buttons, int x, int y, Dimension alloc) {
         boolean containsVisibleButton = false;
         for (int i = _target.getComponentCount() - 1; i >= 0; i--) {
             Component component = _target.getComponent(i);
@@ -578,9 +549,6 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int prefWidth = component.getPreferredSize().width;
             int width = prefWidth > _minWidth || shouldKeepPreferredWidth(component) ? prefWidth : _minWidth;
             component.setBounds(x - width, y, width, alloc.height);
-            if (DEBUG) {
-                System.out.println("layout at x: " + (x - width) + " width: " + width);
-            }
             x -= width;
             if (i != 0) {
                 x -= _buttonGap;
@@ -589,14 +557,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         if (buttons.size() != 0 && containsVisibleButton) {
             x -= _groupGap;
         }
-        if (DEBUG) {
-            System.out.println("position: " + x);
-        }
         return x;
     }
 
-    private int layoutButtonsLeftAlign(List buttons, int x, int y, Dimension alloc) {
-        boolean containsVisibleButton = false;
+    private int layoutButtonsLeftAlign(List<Component> buttons, int x, int y, Dimension alloc) {
+        boolean containsVisibleButton;
         for (int i = 0; i < _target.getComponentCount(); i++) {
             Component component = _target.getComponent(i);
             if (!component.isVisible() || !buttons.contains(component)) {
@@ -606,9 +571,6 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int prefWidth = component.getPreferredSize().width;
             int width = prefWidth > _minWidth || shouldKeepPreferredWidth(component) ? prefWidth : _minWidth;
             component.setBounds(x, y, width, alloc.height);
-            if (DEBUG) {
-                System.out.println("layout at x: " + x + " width: " + width);
-            }
             x += width;
             if (i != buttons.size() - 1 && containsVisibleButton) {
                 x += _buttonGap;
@@ -617,13 +579,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         if (buttons.size() != 0) {
             x += _groupGap;
         }
-        if (DEBUG) {
-            System.out.println("position: " + x);
-        }
         return x;
     }
 
-    private int layoutButtonsBottomAlign(List buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsBottomAlign(List<Component> buttons, int x, int y, Dimension alloc) {
         boolean containsVisibleButton = false;
         for (int i = _target.getComponentCount() - 1; i >= 0; i--) {
             Component component = _target.getComponent(i);
@@ -635,9 +594,6 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int height = preferredSize.height;
             int prefWidth = preferredSize.width;
             component.setBounds(shouldKeepPreferredWidth(component) ? alloc.width - prefWidth + x : x, y - height, shouldKeepPreferredWidth(component) ? prefWidth : alloc.width, height);
-            if (DEBUG) {
-                System.out.println("layout at y: " + (y - height) + " height: " + height);
-            }
             y -= height;
             if (i != 0) {
                 y -= _buttonGap;
@@ -646,13 +602,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         if (buttons.size() != 0 && containsVisibleButton) {
             y -= _groupGap;
         }
-        if (DEBUG) {
-            System.out.println("position: " + y);
-        }
         return y;
     }
 
-    private int layoutButtonsTopAlign(List buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsTopAlign(List<Component> buttons, int x, int y, Dimension alloc) {
         boolean containsVisibleButton = false;
         for (int i = 0; i < _target.getComponentCount(); i++) {
             Component component = _target.getComponent(i);
@@ -664,9 +617,6 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int height = preferredSize.height;
             int prefWidth = preferredSize.width;
             component.setBounds(shouldKeepPreferredWidth(component) ? alloc.width - prefWidth + x : x, y, shouldKeepPreferredWidth(component) ? prefWidth : alloc.width, height);
-            if (DEBUG) {
-                System.out.println("layout at y: " + y + " height: " + height);
-            }
             y += height;
             if (i != buttons.size() - 1) {
                 y += _buttonGap;
@@ -675,19 +625,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         if (buttons.size() != 0 && containsVisibleButton) {
             y += _groupGap;
         }
-        if (DEBUG) {
-            System.out.println("position: " + y);
-        }
         return y;
     }
 
     private boolean shouldKeepPreferredWidth(Component component) {
-        if (component instanceof JComponent) {
-            return Boolean.TRUE.equals(((JComponent) component).getClientProperty(ButtonPanel.KEEP_PREFERRED_WIDTH));
-        }
-        else {
-            return false;
-        }
+        return component instanceof JComponent && Boolean.TRUE.equals(((JComponent) component).getClientProperty(ButtonPanel.KEEP_PREFERRED_WIDTH));
     }
 
     void checkContainer(Container target) {
@@ -699,11 +641,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         }
     }
 
-    int getButtonCountof(List buttons) {
+    int getButtonCountof(List<Component> buttons) {
         int count = 0;
-        for (int i = 0; i < buttons.size(); i++) {
-            JComponent component = (JComponent) buttons.get(i);
-            if (component.isVisible()) {
+        for (Component button : buttons) {
+            if (button.isVisible()) {
                 count++;
             }
         }
@@ -711,17 +652,15 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     void checkRequests() {
-        _totalGroup =
-                (getButtonCountof(_affirmativeButtons) == 0 ? 0 : 1)
-                        + (getButtonCountof(_otherButtons) == 0 ? 0 : 1)
-                        + (getButtonCountof(_cancelButtons) == 0 ? 0 : 1)
-                        + (getButtonCountof(_helpButtons) == 0 ? 0 : 1);
+        int totalGroup = (getButtonCountof(_affirmativeButtons) == 0 ? 0 : 1)
+                + (getButtonCountof(_otherButtons) == 0 ? 0 : 1)
+                + (getButtonCountof(_cancelButtons) == 0 ? 0 : 1)
+                + (getButtonCountof(_helpButtons) == 0 ? 0 : 1);
 
-        _totalButtonCount =
-                getButtonCountof(_affirmativeButtons)
-                        + getButtonCountof(_otherButtons)
-                        + getButtonCountof(_cancelButtons)
-                        + getButtonCountof(_helpButtons);
+        int totalButtonCount = getButtonCountof(_affirmativeButtons)
+                + getButtonCountof(_otherButtons)
+                + getButtonCountof(_cancelButtons)
+                + getButtonCountof(_helpButtons);
 
 
         if (_xChildren == null || _yChildren == null) {
@@ -791,8 +730,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     }
                 }
 
-                for (int i = 0; i < _xChildren.length; i++) {
-                    SizeRequirements sizeRequirements = _xChildren[i];
+                for (SizeRequirements sizeRequirements : _xChildren) {
                     if (sizeRequirements.preferred < _minWidth) {
                         sizeRequirements.preferred = _minWidth;
                     }
@@ -800,10 +738,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 _xTotal = SizeRequirements.getTiledSizeRequirements(_xChildren);
 
                 // add gap
-                _xTotal.preferred += (_totalGroup - 1) * _groupGap
-                        + (_totalButtonCount - _totalGroup) * _buttonGap;
-                _xTotal.minimum += (_totalGroup - 1) * _groupGap
-                        + (_totalButtonCount - _totalGroup) * _buttonGap;
+                _xTotal.preferred += (totalGroup - 1) * _groupGap
+                        + (totalButtonCount - totalGroup) * _buttonGap;
+                _xTotal.minimum += (totalGroup - 1) * _groupGap
+                        + (totalButtonCount - totalGroup) * _buttonGap;
 
             }
             else {
@@ -821,10 +759,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 _xTotal.preferred = (_maxWidth > _xTotal.maximum) ? _maxWidth : _xTotal.preferred;
 
                 // add gap
-                _yTotal.preferred += (_totalGroup - 1) * _groupGap
-                        + (_totalButtonCount - _totalGroup) * _buttonGap;
-                _yTotal.minimum += (_totalGroup - 1) * _groupGap
-                        + (_totalButtonCount - _totalGroup) * _buttonGap;
+                _yTotal.preferred += (totalGroup - 1) * _groupGap
+                        + (totalButtonCount - totalGroup) * _buttonGap;
+                _yTotal.minimum += (totalGroup - 1) * _groupGap
+                        + (totalButtonCount - totalGroup) * _buttonGap;
             }
         }
     }
@@ -936,20 +874,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     void resetBounds() {
-        for (int i = 0; i < _affirmativeButtons.size(); i++) {
-            Component component = (Component) _affirmativeButtons.get(i);
+        for (Component component : _affirmativeButtons) {
             component.setBounds(0, 0, 0, 0);
         }
-        for (int i = 0; i < _cancelButtons.size(); i++) {
-            Component component = (Component) _cancelButtons.get(i);
+        for (Component component : _cancelButtons) {
             component.setBounds(0, 0, 0, 0);
         }
-        for (int i = 0; i < _otherButtons.size(); i++) {
-            Component component = (Component) _otherButtons.get(i);
+        for (Component component : _otherButtons) {
             component.setBounds(0, 0, 0, 0);
         }
-        for (int i = 0; i < _helpButtons.size(); i++) {
-            Component component = (Component) _helpButtons.get(i);
+        for (Component component : _helpButtons) {
             component.setBounds(0, 0, 0, 0);
         }
     }

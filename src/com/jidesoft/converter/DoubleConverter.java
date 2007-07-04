@@ -22,7 +22,7 @@ public class DoubleConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            return new Double(getNumberFormat().parse(string).doubleValue());
+            return getNumberFormat().parse(string).doubleValue();
         }
         catch (ParseException e) {
             return null;

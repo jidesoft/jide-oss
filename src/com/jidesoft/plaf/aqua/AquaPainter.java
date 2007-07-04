@@ -41,10 +41,12 @@ public class AquaPainter extends BasicPainter {
     public AquaPainter() {
     }
 
+    @Override
     public Color getCommandBarTitleBarBackground() {
         return UIDefaultsLookup.getColor("JideButton.background");
     }
 
+    @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (state == STATE_DEFAULT) {
             super.paintButtonBackground(c, g, rect, orientation, state);
@@ -71,18 +73,22 @@ public class AquaPainter extends BasicPainter {
         }
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
     }
 
+    @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
     }
 
+    @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
     }
 
+    @Override
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
     }

@@ -99,7 +99,7 @@ public class MonthConverter implements ObjectConverter {
     /**
      * Sets DefaultFormat to format an calendar.
      *
-     * @param defaultFormat
+     * @param defaultFormat the default format to format a calendar.
      */
     public void setDefaultFormat(DateFormat defaultFormat) {
         _defaultFormat = defaultFormat;

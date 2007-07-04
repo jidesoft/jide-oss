@@ -69,6 +69,7 @@ public class RangeSlider extends JSlider {
      *
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -85,6 +86,7 @@ public class RangeSlider extends JSlider {
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }

@@ -33,6 +33,7 @@ public class MultilineLabel extends JTextArea {
      * the UI is <code>TextUI</code>.  <code>invalidate</code>
      * is called after setting the UI.
      */
+    @Override
     public void updateUI() {
         super.updateUI();
         adjustUI();
@@ -49,6 +50,7 @@ public class MultilineLabel extends JTextArea {
         setFocusable(false);
         setOpaque(false);
         setCaret(new DefaultCaret() {
+            @Override
             protected void adjustVisibility(Rectangle nloc) {
             }
         });
@@ -63,6 +65,7 @@ public class MultilineLabel extends JTextArea {
      *
      * @return the preferred size as minimum size.
      */
+    @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }

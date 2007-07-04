@@ -31,6 +31,7 @@ public class ContentContainer extends JPanel {
         updateUI();
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         if (UIDefaultsLookup.get("Theme.painter") == null) {
@@ -39,6 +40,7 @@ public class ContentContainer extends JPanel {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         if (_painter != null) {
             _painter.paintContentBackground(this, g, new Rectangle(0, 0, getWidth(), getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);

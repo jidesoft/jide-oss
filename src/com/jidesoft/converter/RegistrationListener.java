@@ -14,6 +14,8 @@ import java.util.EventListener;
 public interface RegistrationListener extends EventListener {
     /**
      * Called whenever the registration is changed.
+     *
+     * @param event the RegistrationEvent to be fired.
      */
     public void registrationChanged(RegistrationEvent event);
 }

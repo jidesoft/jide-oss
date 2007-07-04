@@ -106,11 +106,13 @@ public class PointSpinner extends JSpinner {
         }
     }
 
+    @Override
     public Object getNextValue() {
         updateField();
         return super.getNextValue();
     }
 
+    @Override
     public Object getPreviousValue() {
         updateField();
         return super.getPreviousValue();

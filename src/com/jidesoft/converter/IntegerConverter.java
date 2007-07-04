@@ -24,7 +24,7 @@ public class IntegerConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            return new Integer(getNumberFormat().parse(string).intValue());
+            return getNumberFormat().parse(string).intValue();
         }
         catch (ParseException e) {
             return null;

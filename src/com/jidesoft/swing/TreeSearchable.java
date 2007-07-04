@@ -44,7 +44,7 @@ import java.util.List;
 public class TreeSearchable extends Searchable implements TreeModelListener, PropertyChangeListener {
 
     private boolean _recursive = false;
-    private transient List _treePathes;
+    private transient List<TreePath> _treePathes;
 
     public TreeSearchable(JTree tree) {
         super(tree);
@@ -79,6 +79,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
         resetTreePathes();
     }
 
+    @Override
     public void uninstallListeners() {
         super.uninstallListeners();
         if (_component instanceof JTree) {
@@ -89,6 +90,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
         _component.removePropertyChangeListener(JTree.TREE_MODEL_PROPERTY, this);
     }
 
+    @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         if (!isRecursive()) {
             if (incremental) {
@@ -103,22 +105,21 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
             Object elementAt = getElementAt(index);
             if (elementAt instanceof TreePath) { // else case should never happen
                 TreePath path = (TreePath) elementAt;
-                if (path != null) {
-                    if (incremental) {
-                        ((JTree) _component).addSelectionPath(path);
-                    }
-                    else {
-                        ((JTree) _component).setSelectionPath(path);
-                    }
-                    ((JTree) _component).scrollPathToVisible(path);
+                if (incremental) {
+                    ((JTree) _component).addSelectionPath(path);
                 }
+                else {
+                    ((JTree) _component).setSelectionPath(path);
+                }
+                ((JTree) _component).scrollPathToVisible(path);
             }
         }
     }
 
+    @Override
     protected int getSelectedIndex() {
         if (!isRecursive()) {
-            int ai[] = (int[]) ((JTree) _component).getSelectionRows();
+            int ai[] = ((JTree) _component).getSelectionRows();
             return (ai != null && ai.length != 0) ? ai[0] : -1;
         }
         else {
@@ -131,6 +132,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
         }
     }
 
+    @Override
     protected Object getElementAt(int index) {
         if (index == -1) {
             return null;
@@ -143,6 +145,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
         }
     }
 
+    @Override
     protected int getElementCount() {
         if (!isRecursive()) {
             return ((JTree) _component).getRowCount();
@@ -165,7 +168,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
      * Tree pathes list is only used when recursive attriubute is true.
      */
     protected void populateTreePaths() {
-        _treePathes = new ArrayList();
+        _treePathes = new ArrayList<TreePath>();
         Object root = ((JTree) _component).getModel().getRoot();
         populateTreePaths0(root, new TreePath(root), ((JTree) _component).getModel());
     }
@@ -198,7 +201,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
      *
      * @return the tree pathes list.
      */
-    protected List getTreePathes() {
+    protected List<TreePath> getTreePathes() {
         if (_treePathes == null) {
             populateTreePaths();
         }
@@ -212,6 +215,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
      * @param object
      * @return the string representing the TreePath in the JTree.
      */
+    @Override
     protected String convertElementToString(Object object) {
         if (object instanceof TreePath) {
             Object treeNode = ((TreePath) object).getLastPathComponent();

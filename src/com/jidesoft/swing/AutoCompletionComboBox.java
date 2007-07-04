@@ -23,7 +23,7 @@ public class AutoCompletionComboBox extends JComboBox {
         initComponents();
     }
 
-    public AutoCompletionComboBox(Vector items) {
+    public AutoCompletionComboBox(Vector<?> items) {
         super(items);
         initComponents();
     }
@@ -66,7 +66,7 @@ public class AutoCompletionComboBox extends JComboBox {
      * that is not in the known item list. If false, user can type in whatever he/she wants. If the text
      * can match with a item in the known item list, it will still auto-complete.
      *
-     * @param strict
+     * @param strict true or false.
      */
     public void setStrict(boolean strict) {
         getAutoCompletion().setStrict(strict);

@@ -1185,7 +1185,7 @@ class XMLElement {
                 throw this.invalidValue(name, (String) key);
             }
         }
-        return result.intValue();
+        return result;
     }
 
 
@@ -1246,7 +1246,7 @@ class XMLElement {
         }
         else {
             try {
-                return Double.valueOf(value).doubleValue();
+                return Double.valueOf(value);
             }
             catch (NumberFormatException e) {
                 throw this.invalidValue(name, value);
@@ -1317,7 +1317,7 @@ class XMLElement {
                 throw this.invalidValue(name, (String) key);
             }
         }
-        return result.doubleValue();
+        return result;
     }
 
 
@@ -1959,6 +1959,7 @@ class XMLElement {
      *
      * @see XMLElement#write(java.io.Writer) write(Writer)
      */
+    @Override
     public String toString() {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();

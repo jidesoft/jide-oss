@@ -49,8 +49,8 @@ public class BooleanComparator implements Comparator {
 
         if (o1 instanceof Boolean) {
             if (o2 instanceof Boolean) {
-                final boolean b1 = ((Boolean) o1).booleanValue();
-                final boolean b2 = ((Boolean) o2).booleanValue();
+                final boolean b1 = (Boolean) o1;
+                final boolean b2 = (Boolean) o2;
 
                 if (b1 == b2)
                     return 0;

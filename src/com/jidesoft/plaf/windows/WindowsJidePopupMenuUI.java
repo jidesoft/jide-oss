@@ -20,6 +20,7 @@ public class WindowsJidePopupMenuUI extends WindowsPopupMenuUI {
         return new WindowsJidePopupMenuUI();
     }
 
+    @Override
     public Popup getPopup(JPopupMenu popupMenu, int x, int y) {
         PopupFactory popupFactory = PopupFactory.getSharedInstance();
         SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

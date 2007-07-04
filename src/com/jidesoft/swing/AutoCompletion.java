@@ -107,22 +107,27 @@ public class AutoCompletion {
         this(textComponent, new Searchable(new JLabel()) {
             int _selectIndex = -1;
 
+            @Override
             protected int getSelectedIndex() {
                 return _selectIndex;
             }
 
+            @Override
             protected void setSelectedIndex(int index, boolean incremental) {
                 _selectIndex = index;
             }
 
+            @Override
             protected int getElementCount() {
                 return list.size();
             }
 
+            @Override
             protected Object getElementAt(int index) {
                 return list.get(index);
             }
 
+            @Override
             protected String convertElementToString(Object element) {
                 return "" + element;
             }
@@ -133,22 +138,27 @@ public class AutoCompletion {
         this(textComponent, new Searchable(new JLabel()) {
             int _selectIndex = -1;
 
+            @Override
             protected int getSelectedIndex() {
                 return _selectIndex;
             }
 
+            @Override
             protected void setSelectedIndex(int index, boolean incremental) {
                 _selectIndex = index;
             }
 
+            @Override
             protected int getElementCount() {
                 return array.length;
             }
 
+            @Override
             protected Object getElementAt(int index) {
                 return array[index];
             }
 
+            @Override
             protected String convertElementToString(Object element) {
                 return "" + element;
             }
@@ -237,6 +247,7 @@ public class AutoCompletion {
             private boolean _deletePressed;
             private String _saveText;
 
+            @Override
             public void keyPressed(KeyEvent e) {
                 _hitBackspace = false;
                 switch (e.getKeyCode()) {
@@ -257,6 +268,7 @@ public class AutoCompletion {
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
 
@@ -285,10 +297,12 @@ public class AutoCompletion {
         _hidePopupOnFocusLoss = SystemInfo.isJdk15Above();
         // Highlight whole text when gaining focus
         _editorFocusListener = new FocusAdapter() {
+            @Override
             public void focusGained(FocusEvent e) {
                 highlightCompletedText(0);
             }
 
+            @Override
             public void focusLost(FocusEvent e) {
                 // Workaround for Bug 5100422 - Hide Popup on focus loss
 //                if (_hidePopupOnFocusLoss) comboBox.setPopupVisible(false);
@@ -329,6 +343,7 @@ public class AutoCompletion {
      * The document class used by <tt>AutoCompletion</tt>.
      */
     protected class AutoCompletionDocument extends PlainDocument {
+        @Override
         public void remove(int offs, int len) throws BadLocationException {
             // return immediately when _selecting an item
             if (_selecting) return;
@@ -349,6 +364,7 @@ public class AutoCompletion {
             }
         }
 
+        @Override
         public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
             // return immediately when _selecting an item
             if (_selecting)

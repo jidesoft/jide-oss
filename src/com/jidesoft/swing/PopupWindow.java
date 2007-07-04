@@ -177,14 +177,17 @@ public class PopupWindow {
 
     private void createListeners() {
         _windowListener = new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 hide();
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
                 hide();
             }
 
+            @Override
             public void windowIconified(WindowEvent e) {
                 hide();
             }
@@ -216,6 +219,7 @@ public class PopupWindow {
             }
         };
         _mouseListener = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 hide();
             }

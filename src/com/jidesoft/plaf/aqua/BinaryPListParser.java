@@ -174,6 +174,7 @@ class BinaryPListParser {
             return objectTable.get(objref[i]);
         }
 
+        @Override
         public String toString() {
             StringBuffer buf = new StringBuffer("Array{");
             for (int i = 0; i < objref.length; i++) {
@@ -209,6 +210,7 @@ class BinaryPListParser {
             return objectTable.get(objref[i]);
         }
 
+        @Override
         public String toString() {
             StringBuffer buf = new StringBuffer("BPLDict{");
             for (int i = 0; i < keyref.length; i++) {
@@ -678,7 +680,7 @@ class BinaryPListParser {
             }
             value = (value << 8) | b;
         }
-        objectTable.add(new Long(value));
+        objectTable.add(value);
     }
 
     /**
@@ -687,10 +689,10 @@ class BinaryPListParser {
     private void parseReal(DataInputStream in, int count) throws IOException {
         switch (count) {
             case 4:
-                objectTable.add(new Float(in.readFloat()));
+                objectTable.add(in.readFloat());
                 break;
             case 8:
-                objectTable.add(new Double(in.readDouble()));
+                objectTable.add(in.readDouble());
                 break;
             default:
                 throw new IOException("parseReal: unsupported byte count:" + count);

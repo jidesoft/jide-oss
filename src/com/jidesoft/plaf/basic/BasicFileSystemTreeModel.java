@@ -27,6 +27,7 @@ class BasicFileSystemTreeModel extends DefaultTreeModel {
         return _fileSystemView;
     }
 
+    @Override
     public Object getChild(Object parent, int index) {
         if (parent instanceof DefaultMutableTreeNode) {
             return ((DefaultMutableTreeNode) parent).getChildAt(index);

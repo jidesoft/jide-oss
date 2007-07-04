@@ -42,7 +42,6 @@ public class CheckBoxTree extends JTree {
     protected CheckBoxTreeCellRenderer _treeCellRenderer;
 
     private CheckBoxTreeSelectionModel _checkBoxTreeSelectionModel;
-    private Handler _handler;
 
     private boolean _checkBoxEnabled = true;
     private PropertyChangeListener _modelChangeListener;
@@ -56,12 +55,12 @@ public class CheckBoxTree extends JTree {
         init();
     }
 
-    public CheckBoxTree(Vector value) {
+    public CheckBoxTree(Vector<?> value) {
         super(value);
         init();
     }
 
-    public CheckBoxTree(Hashtable value) {
+    public CheckBoxTree(Hashtable<?, ?> value) {
         super(value);
         init();
     }
@@ -87,10 +86,10 @@ public class CheckBoxTree extends JTree {
     protected void init() {
         _checkBoxTreeSelectionModel = createCheckBoxTreeSelectionModel(getModel());
         _checkBoxTreeSelectionModel.setTree(this);
-        _handler = createHandler();
-        JideSwingUtilities.insertMouseListener(this, _handler, 0);
-        addKeyListener(_handler);
-        _checkBoxTreeSelectionModel.addTreeSelectionListener(_handler);
+        Handler handler = createHandler();
+        JideSwingUtilities.insertMouseListener(this, handler, 0);
+        addKeyListener(handler);
+        _checkBoxTreeSelectionModel.addTreeSelectionListener(handler);
 
         if (_modelChangeListener == null) {
             _modelChangeListener = new PropertyChangeListener() {
@@ -120,6 +119,7 @@ public class CheckBoxTree extends JTree {
         _checkBoxTreeSelectionModel.setRowMapper(getSelectionModel().getRowMapper());
     }
 
+    @Override
     public void setModel(TreeModel newModel) {
         super.setModel(newModel);
         if (_checkBoxTreeSelectionModel != null) {
@@ -133,6 +133,7 @@ public class CheckBoxTree extends JTree {
      * @return CheckBoxTree's own cell renderer which has the check box. The actual cell renderer
      *         you set by setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
      */
+    @Override
     public TreeCellRenderer getCellRenderer() {
         TreeCellRenderer cellRenderer = super.getCellRenderer();
         if (cellRenderer == null) {
@@ -325,13 +326,13 @@ public class CheckBoxTree extends JTree {
             if (treePaths == null) {
                 return;
             }
-            for (int i = 0; i < treePaths.length; i++) {
-                TreePath treePath = treePaths[i];
+            for (TreePath treePath : treePaths) {
                 toggleSelection(treePath);
             }
         }
     }
 
+    @Override
     public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
         return null;
     }

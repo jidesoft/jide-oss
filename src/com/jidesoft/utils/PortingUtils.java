@@ -216,12 +216,9 @@ public class PortingUtils {
             _virtualBounds = new Rectangle();
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] gs = ge.getScreenDevices();
-            for (int j = 0; j < gs.length; j++) {
-                GraphicsDevice gd = gs[j];
-                {
-                    GraphicsConfiguration gc = gd.getDefaultConfiguration();
-                    _virtualBounds = _virtualBounds.union(gc.getBounds());
-                }
+            for (GraphicsDevice gd : gs) {
+                GraphicsConfiguration gc = gd.getDefaultConfiguration();
+                _virtualBounds = _virtualBounds.union(gc.getBounds());
             }
         }
     }
@@ -273,6 +270,7 @@ public class PortingUtils {
     synchronized public static void initializeScreenArea() {
         if (_initalizationThread == null) {
             _initalizationThread = new Thread() {
+                @Override
                 public void run() {
                     SCREEN_AREA = new Area();
                     GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -462,5 +460,33 @@ public class PortingUtils {
     public static Area getScreenArea() {
         waitForInitialization();
         return SCREEN_AREA;
+    }
+
+    /**
+     * Notifies user something is wrong. We use Toolkit beep method by default.
+     */
+    public static void notifyUser() {
+        Toolkit.getDefaultToolkit().beep();
+    }
+
+    /**
+     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and exit.
+     */
+    public static void prerequisiteChecking() {
+        if (!SystemInfo.isJdk14Above()) {
+            PortingUtils.notifyUser();
+            JOptionPane.showMessageDialog(null, "J2SE 1.4 or above is required for this demo.", "JIDE Software, Inc.", JOptionPane.WARNING_MESSAGE);
+            java.lang.System.exit(0);
+        }
+
+        if (!SystemInfo.isJdk15Above()) {
+            PortingUtils.notifyUser();
+            JOptionPane.showMessageDialog(null, "J2SE 5.0 or above is recommended for this demo for the best experience of seamless integration with Windows XP.", "JIDE Software, Inc.", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (SystemInfo.isMacOSX()) { // set special properties for Mac OS X
+            java.lang.System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("apple.awt.brushMetalLook", "true");
+        }
     }
 }

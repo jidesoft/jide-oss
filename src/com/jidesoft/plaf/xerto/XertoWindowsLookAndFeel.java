@@ -18,31 +18,38 @@ import javax.swing.*;
  *             installJideExtension() or installJideExtension(int style) to add UIDefaults needed by JIDE products.
  */
 public class XertoWindowsLookAndFeel extends WindowsLookAndFeel {
+    @Override
     public String getName() {
         return "Xerto";
     }
 
+    @Override
     public String getDescription() {
         return "The Xerto Look And Feel";
     }
 
+    @Override
     public String getID() {
         return "Xerto";
     }
 
+    @Override
     public boolean isSupportedLookAndFeel() {
         return isNativeLookAndFeel();
     }
 
+    @Override
     public boolean isNativeLookAndFeel() {
         return SystemInfo.isWindows();
     }
 
+    @Override
     protected void initClassDefaults(UIDefaults table) {
         super.initClassDefaults(table);
         XertoWindowsUtils.initClassDefaultsWithMenu(table);
     }
 
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
         XertoWindowsUtils.initComponentDefaultsWithMenu(table);

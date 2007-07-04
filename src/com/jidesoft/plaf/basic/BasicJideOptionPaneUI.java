@@ -49,6 +49,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         return new BasicJideOptionPaneUI();
     }
 
+    @Override
     protected LayoutManager createLayoutManager() {
         return new JideBoxLayout(optionPane, JideBoxLayout.Y_AXIS);
     }
@@ -74,6 +75,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         _detailsVisible = detailsVisible;
     }
 
+    @Override
     protected void installComponents() {
         if (UIDefaultsLookup.get("OptionPane.showBanner") == null || UIDefaultsLookup.getBoolean("OptionPane.showBanner")) {
             optionPane.add(_bannerArea = createBannerArea(), JideBoxLayout.FIX);
@@ -123,6 +125,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         _detailsArea.setVisible(isDetailsVisible());
     }
 
+    @Override
     protected Container createMessageArea() {
         JPanel top = new JPanel();
         Border topBorder = (Border) UIDefaultsLookup.get("OptionPane.messageAreaBorder");
@@ -167,16 +170,19 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         return top;
     }
 
+    @Override
     protected Container createSeparator() {
         return new JSeparator();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         optionPane.setBorder(BorderFactory.createEmptyBorder());
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
     }
 
+    @Override
     protected void uninstallDefaults() {
         super.uninstallDefaults();
         _painter = null;
@@ -214,6 +220,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         }
     }
 
+    @Override
     protected Container createButtonArea() {
         int orientation = UIDefaultsLookup.getInt("OptionPane.buttonOrientation");
         orientation = orientation == 0 ? SwingConstants.CENTER : orientation;
@@ -232,6 +239,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         return buttonPanel;
     }
 
+    @Override
     protected void addButtonComponents(Container container, Object[] buttons,
                                        int initialIndex) {
         if (buttons != null && buttons.length > 0) {
@@ -343,6 +351,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * YES_NO_CANCEL_OPTION yesNoCancelOptions is returned, otherwise
      * defaultButtons are returned.
      */
+    @Override
     protected Object[] getButtons() {
         if (optionPane != null) {
             Object[] suppliedOptions = optionPane.getOptions();
@@ -502,6 +511,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         }
     }
 
+    @Override
     protected void addIcon(Container top) {
         Icon sideIcon = getIcon();
         if (sideIcon != null) {
@@ -513,6 +523,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
     protected Container createBannerArea() {
         PaintPanel bannerPanel = new PaintPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension preferredSize = super.getPreferredSize();
                 if (preferredSize.width < _detailsPreferredWidth) {

@@ -102,6 +102,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -118,6 +119,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -213,6 +215,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
         }
     }
 
+    @Override
     public Cursor getCursor() {
         if (getButtonStyle() == HYPERLINK_STYLE
                 && isRolloverEnabled() && getModel().isRollover()

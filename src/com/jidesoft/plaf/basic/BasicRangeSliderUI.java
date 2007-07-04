@@ -37,6 +37,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         return new BasicRangeSliderUI((JSlider) slider);
     }
 
+    @Override
     protected void installDefaults(JSlider slider) {
         super.installDefaults(slider);
         resetAllIcons();
@@ -51,6 +52,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         _middleIconV = UIDefaultsLookup.getIcon("RangeSlider.middleVIcon");
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
         _lowerIcon = null;
@@ -61,6 +63,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         _middleIconV = null;
     }
 
+    @Override
     protected void calculateTrackRect() {
         super.calculateTrackRect();
         if (slider.getOrientation() == JSlider.VERTICAL) {
@@ -71,6 +74,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         }
     }
 
+    @Override
     protected TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener();
     }
@@ -87,6 +91,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;
@@ -106,6 +111,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;
@@ -169,6 +175,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseReleased(MouseEvent e) {
             slider.getModel().setValueIsAdjusting(false);
         }
@@ -184,6 +191,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseMoved(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;
@@ -212,6 +220,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 slider.getModel().setValue(slider.getModel().getMinimum());
@@ -223,12 +232,14 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         /**
          * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseEntered(MouseEvent e) {
         }
 
         /**
          * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
          */
+        @Override
         public void mouseExited(MouseEvent e) {
             setCursor(Cursor.DEFAULT_CURSOR);
         }
@@ -289,6 +300,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         }
     }
 
+    @Override
     public void paintThumb(Graphics g) {
         Rectangle rect = trackRect;
 

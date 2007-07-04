@@ -52,6 +52,7 @@ public abstract class Flashable {
 
     private void install(JComponent component) {
         _animator = new Animator(component, 0, getInterval(), -1) {
+            @Override
             protected Timer createTimer(int delay, ActionListener listener) {
                 if (_synchonizedFlashTimer == null) {
                     _synchonizedFlashTimer = new FlashTimer(delay, listener);

@@ -48,12 +48,14 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         return new EclipseMenuUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         ((JMenu) menuItem).setDelay(200);
         crossMenuMnemonic = UIDefaultsLookup.getBoolean("Menu.crossMenuMnemonic");
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "Menu";
     }
@@ -66,6 +68,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
      * @param bgColor  selection background color
      * @since 1.4
      */
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         if (!(menuItem instanceof JMenu) || !((JMenu) menuItem).isTopLevelMenu()) {
             super.paintBackground(g, menuItem, bgColor);
@@ -139,6 +142,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         g.setColor(oldColor);
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
 
@@ -161,6 +165,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
             ((JMenu) menuItem).addMenuListener(menuListener);
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         updateMnemonicBinding();
@@ -194,6 +199,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         lastMnemonic = mnemonic;
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         super.uninstallKeyboardActions();
     }
@@ -202,6 +208,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
      * The ActionMap for BasicMenUI can not be shared, this is subclassed
      * to create a new one for each invocation.
      */
+    @Override
     ActionMap getActionMap() {
         return createActionMap();
     }
@@ -209,6 +216,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
     /**
      * Invoked to create the ActionMap.
      */
+    @Override
     ActionMap createActionMap() {
         ActionMap am = super.createActionMap();
         if (am != null) {
@@ -217,6 +225,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         return am;
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
@@ -233,6 +242,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         return new PropertyChangeHandler();
     }
 
+    @Override
     protected void uninstallDefaults() {
         menuItem.setArmed(false);
         menuItem.setSelected(false);
@@ -240,6 +250,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
 
@@ -257,14 +268,17 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         menuListener = null;
     }
 
+    @Override
     protected MenuDragMouseListener createMenuDragMouseListener(JComponent c) {
         return new MenuDragMouseHandler();
     }
 
+    @Override
     protected MenuKeyListener createMenuKeyListener(JComponent c) {
         return new MenuKeyHandler();
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (((JMenu) menuItem).isTopLevelMenu() == true) {
             Dimension d = c.getPreferredSize();
@@ -335,6 +349,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
             }
         }
 
+        @Override
         public boolean isEnabled() {
             return menu.getModel().isEnabled();
         }
@@ -752,6 +767,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
      * @param text     String to render
      * @since 1.4
      */
+    @Override
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
@@ -808,6 +824,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         return isMouseOver;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension size = super.getPreferredSize(c);
         if (menuItem instanceof JMenu && ((JMenu) menuItem).isTopLevelMenu() &&

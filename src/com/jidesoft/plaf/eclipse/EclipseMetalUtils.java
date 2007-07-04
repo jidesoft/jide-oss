@@ -111,44 +111,44 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideButton.highlight", defaultLtHighlightColor,
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
-                "JideButton.textIconGap", new Integer(4),
-                "JideButton.textShiftOffset", new Integer(0),
+                "JideButton.textIconGap", 4,
+                "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released"
         }),
 
-                "JideSplitPane.dividerSize", new Integer(3),
+                "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                 "JideSplitPaneDivider.background", defaultBackgroundColor,
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
 
-                "JideTabbedPane.defaultTabShape", new Integer(JideTabbedPane.SHAPE_ECLIPSE),
-                "JideTabbedPane.defaultTabColorTheme", new Integer(JideTabbedPane.COLOR_THEME_WIN2K),
+                "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ECLIPSE,
+                "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_WIN2K,
 
-                "JideTabbedPane.tabRectPadding", new Integer(2),
-                "JideTabbedPane.closeButtonMarginHorizonal", new Integer(3),
-                "JideTabbedPane.closeButtonMarginVertical", new Integer(3),
-                "JideTabbedPane.textMarginVertical", new Integer(4),
-                "JideTabbedPane.noIconMargin", new Integer(2),
-                "JideTabbedPane.iconMargin", new Integer(5),
-                "JideTabbedPane.textPadding", new Integer(6),
-                "JideTabbedPane.buttonSize", new Integer(18),
-                "JideTabbedPane.buttonMargin", new Integer(5),
-                "JideTabbedPane.fitStyleBoundSize", new Integer(8),
-                "JideTabbedPane.fitStyleFirstTabMargin", new Integer(4),
-                "JideTabbedPane.fitStyleIconMinWidth", new Integer(24),
-                "JideTabbedPane.fitStyleTextMinWidth", new Integer(16),
-                "JideTabbedPane.compressedStyleNoIconRectSize", new Integer(24),
-                "JideTabbedPane.compressedStyleIconMargin", new Integer(12),
-                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", new Integer(0),
-                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", new Integer(0),
-                "JideTabbedPane.fixedStyleRectSize", new Integer(60),
-                "JideTabbedPane.closeButtonMargin", new Integer(2),
-                "JideTabbedPane.gripLeftMargin", new Integer(4),
-                "JideTabbedPane.closeButtonMarginSize", new Integer(6),
-                "JideTabbedPane.closeButtonLeftMargin", new Integer(2),
-                "JideTabbedPane.closeButtonRightMargin", new Integer(2),
+                "JideTabbedPane.tabRectPadding", 2,
+                "JideTabbedPane.closeButtonMarginHorizonal", 3,
+                "JideTabbedPane.closeButtonMarginVertical", 3,
+                "JideTabbedPane.textMarginVertical", 4,
+                "JideTabbedPane.noIconMargin", 2,
+                "JideTabbedPane.iconMargin", 5,
+                "JideTabbedPane.textPadding", 6,
+                "JideTabbedPane.buttonSize", 18,
+                "JideTabbedPane.buttonMargin", 5,
+                "JideTabbedPane.fitStyleBoundSize", 8,
+                "JideTabbedPane.fitStyleFirstTabMargin", 4,
+                "JideTabbedPane.fitStyleIconMinWidth", 24,
+                "JideTabbedPane.fitStyleTextMinWidth", 16,
+                "JideTabbedPane.compressedStyleNoIconRectSize", 24,
+                "JideTabbedPane.compressedStyleIconMargin", 12,
+                "JideTabbedPane.compressedStyleCloseButtonMarginHorizontal", 0,
+                "JideTabbedPane.compressedStyleCloseButtonMarginVertical", 0,
+                "JideTabbedPane.fixedStyleRectSize", 60,
+                "JideTabbedPane.closeButtonMargin", 2,
+                "JideTabbedPane.gripLeftMargin", 4,
+                "JideTabbedPane.closeButtonMarginSize", 6,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 
@@ -165,16 +165,16 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(0, 0, 0, 0),
                 "JideTabbedPane.tabAreaBackground", defaultBackgroundColor,
-                "JideTabbedPane.tabRunOverlay", new Integer(2),
+                "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", activeTitleTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTitleTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
-                "JideTabbedPane.textIconGap", new Integer(4),
+                "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.FALSE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.TRUE,
-                "JideTabbedPane.closeButtonAlignment", new Integer(SwingConstants.TRAILING),
+                "JideTabbedPane.closeButtonAlignment", SwingConstants.TRAILING,
                 "JideTabbedPane.focusInputMap",
                 new UIDefaults.LazyInputMap(new Object[]{
                         "RIGHT", "navigateRight",
@@ -198,8 +198,8 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
 
                 "Resizable.resizeBorder", new BorderUIResource(shadowBorder),
 
-                "Gripper.size", new Integer(8),
-                "Gripper.size", new Integer(8),
+                "Gripper.size", 8,
+                "Gripper.size", 8,
                 "Gripper.painter", gripperPainter,
 
                 "MenuBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
@@ -209,7 +209,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", new Integer(3),
+                "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
                 "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
@@ -228,9 +228,9 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
-                "ButtonPanel.buttonGap", new Integer(5),
-                "ButtonPanel.groupGap", new Integer(5),
-                "ButtonPanel.minButtonWidth", new Integer(57),
+                "ButtonPanel.buttonGap", 5,
+                "ButtonPanel.groupGap", 5,
+                "ButtonPanel.minButtonWidth", 57,
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
@@ -263,16 +263,16 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "Workspace.background", mdiBackgroundColor,
 
                     "SidePane.margin", new InsetsUIResource(1, 1, 1, 1),
-                    "SidePane.iconTextGap", new Integer(2),
-                    "SidePane.textBorderGap", new Integer(13),
-                    "SidePane.itemGap", new Integer(4),
-                    "SidePane.groupGap", new Integer(3),
+                    "SidePane.iconTextGap", 2,
+                    "SidePane.textBorderGap", 13,
+                    "SidePane.itemGap", 4,
+                    "SidePane.groupGap", 3,
                     "SidePane.foreground", defaultDarkShadowColor,
                     "SidePane.background", defaultBackgroundColor,
                     "SidePane.lineColor", defaultShadowColor,
                     "SidePane.buttonBackground", defaultBackgroundColor,
                     "SidePane.font", controlFont,
-                    "SidePane.orientation", new Integer(1),
+                    "SidePane.orientation", 1,
                     "SidePane.showSelectedTabText", Boolean.FALSE,
                     "SidePane.alwaysShowTabText", Boolean.FALSE,
 
@@ -308,20 +308,20 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "DockableFrameTitlePane.titleBarComponent", Boolean.TRUE,
 
                     "DockableFrameTitlePane.alwaysShowAllButtons", Boolean.FALSE, // true if show all three buttons no matter if the buttons is available. false if only show buttons which is available
-                    "DockableFrameTitlePane.buttonsAlignment", new Integer(SwingConstants.TRAILING), // trailing or leading
-                    "DockableFrameTitlePane.titleAlignment", new Integer(SwingConstants.LEADING), // trailing or leading or center
-                    "DockableFrameTitlePane.buttonGap", new Integer(3), // gap between buttons
+                    "DockableFrameTitlePane.buttonsAlignment", SwingConstants.TRAILING, // trailing or leading
+                    "DockableFrameTitlePane.titleAlignment", SwingConstants.LEADING, // trailing or leading or center
+                    "DockableFrameTitlePane.buttonGap", 3, // gap between buttons
                     "DockableFrameTitlePane.showIcon", Boolean.TRUE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 6), // gap
 
                     "ContentContainer.background", defaultBackgroundColor,
-                    "ContentContainer.vgap", new Integer(1),
-                    "ContentContainer.hgap", new Integer(1),
+                    "ContentContainer.vgap", 1,
+                    "ContentContainer.hgap", 1,
                     "MainContainer.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
 
                     "DockingFramework.changeCursor", Boolean.TRUE,
                     "Contour.color", new ColorUIResource(136, 136, 136),
-                    "Contour.thickness", new Integer(2),
+                    "Contour.thickness", 2,
 
             };
             table.putDefaults(uiDefaults);
@@ -333,7 +333,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
 
             uiDefaults = new Object[]{
                     "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
-                    "CollapsiblePanes.gap", new Integer(15),
+                    "CollapsiblePanes.gap", 15,
 
                     "CollapsiblePane.background", defaultBackgroundColor,
                     "CollapsiblePane.contentBackground", defaultHighlightColor,
@@ -354,7 +354,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
 
                     "StatusBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)),
                     "StatusBar.margin", new Insets(2, 0, 0, 0),
-                    "StatusBar.gap", new Integer(3),
+                    "StatusBar.gap", 3,
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
 
@@ -379,7 +379,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor, 2),
                     BorderFactory.createEmptyBorder(1, 1, 1, 1))),
-                    "CommandBar.separatorSize", new Integer(3),
+                    "CommandBar.separatorSize", 3,
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -391,8 +391,8 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                             "RIGHT", "navigateRight",
                             "KP_RIGHT", "navigateRight"
                     }),
-                    "CommandBar.titleBarSize", new Integer(17),
-                    "CommandBar.titleBarButtonGap", new Integer(1),
+                    "CommandBar.titleBarSize", 17,
+                    "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", table.getColor("activeCaption"),
                     "CommandBar.titleBarForeground", table.getColor("activeCaptionText"),
                     "CommandBar.titleBarFont", boldFont,
@@ -404,7 +404,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "CommandBarSeparator.background", new Color(219, 216, 209),
                     "CommandBarSeparator.foreground", new Color(166, 166, 166),
 
-                    "Chevron.size", new Integer(11),
+                    "Chevron.size", 11,
                     "Chevron.alwaysVisible", Boolean.FALSE,
 
             };

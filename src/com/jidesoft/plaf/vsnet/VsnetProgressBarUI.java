@@ -40,11 +40,13 @@ public class VsnetProgressBarUI extends BasicProgressBarUI implements ActionList
         return new VsnetProgressBarUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         initRepaintInterval(); //initialize repaint interval
     }
 
+    @Override
     protected void startAnimationTimer() {
         if (timer == null) {
             timer = new Timer(getRepaintInterval() / 20, this);
@@ -54,6 +56,7 @@ public class VsnetProgressBarUI extends BasicProgressBarUI implements ActionList
         timer.start();
     }
 
+    @Override
     protected void stopAnimationTimer() {
         if (timer != null) {
             timer.stop();
@@ -96,6 +99,7 @@ public class VsnetProgressBarUI extends BasicProgressBarUI implements ActionList
 
     private Rectangle boxRect;
 
+    @Override
     public void paintIndeterminate(Graphics g, JComponent c) {
         if (!(g instanceof Graphics2D)) {
             return;

@@ -97,6 +97,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
         return this;
     }
 
+    @Override
     public String getToolTipText(MouseEvent event) {
         if (_actualTreeRenderer instanceof JComponent) {
             Point p = event.getPoint();

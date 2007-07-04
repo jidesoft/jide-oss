@@ -30,6 +30,7 @@ public class SplitButtonGroup extends ButtonGroup {
      *
      * @param b the button to be added
      */
+    @Override
     public void add(AbstractButton b) {
         if (b == null) {
             return;
@@ -65,6 +66,7 @@ public class SplitButtonGroup extends ButtonGroup {
      *
      * @param b the button to be removed
      */
+    @Override
     public void remove(AbstractButton b) {
         if (b == null) {
             return;
@@ -84,6 +86,7 @@ public class SplitButtonGroup extends ButtonGroup {
      * @param b <code>true</code> if this button is to be
      *          selected, otherwise <code>false</code>
      */
+    @Override
     public void setSelected(ButtonModel m, boolean b) {
         if (b && m != null && m != selection) {
             ButtonModel oldSelection = selection;
@@ -107,6 +110,7 @@ public class SplitButtonGroup extends ButtonGroup {
      * @return <code>true</code> if the button is selected,
      *         otherwise returns <code>false</code>
      */
+    @Override
     public boolean isSelected(ButtonModel m) {
         return (m == selection);
     }

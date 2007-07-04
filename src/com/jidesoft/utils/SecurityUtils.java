@@ -136,11 +136,11 @@ public class SecurityUtils {
         return null;
     }
 
-    private static Hashtable _safeProperties = null;
+    private static Hashtable<String, String> _safeProperties = null;
 
     private static Hashtable getSafeProperties() {
         if (_safeProperties == null) {
-            _safeProperties = new Hashtable(13);
+            _safeProperties = new Hashtable<String, String>(13);
             _safeProperties.put("java.version", "");
             _safeProperties.put("java.vendor", "");
             _safeProperties.put("java.vendor.url", "");
@@ -162,8 +162,6 @@ public class SecurityUtils {
         }
         return _safeProperties;
     }
-
-    ;
 
     /**
      * Gets the system property.

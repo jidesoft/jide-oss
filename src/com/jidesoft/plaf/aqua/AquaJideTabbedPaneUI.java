@@ -22,6 +22,7 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected void paintTabBackground(Graphics g, int tabPlacement,
                                       int tabIndex,
                                       int x, int y, int w, int h,
@@ -64,10 +65,12 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
 
+    @Override
     protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
         // no focus rect here
     }
 
+    @Override
     protected boolean isRoundedCorner() {
         return true;
     }
@@ -76,10 +79,12 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         return true;
     }
 
+    @Override
     protected Color getBorderEdgeColor() {
         return _shadow;
     }
 
+    @Override
     protected TabCloseButton createNoFocusButton(int type) {
         return new AquaTabCloseButton(type);
     }
@@ -96,6 +101,7 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
          *
          * @see JComponent#updateUI
          */
+        @Override
         public void updateUI() {
             super.updateUI();
             setMargin(new Insets(0, 0, 0, 0));
@@ -114,18 +120,22 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             setType(type);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(16, 16);
         }
 
+        @Override
         public Dimension getMinimumSize() {
             return new Dimension(5, 5);
         }
 
+        @Override
         public Dimension getMaximumSize() {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             if (!isEnabled()) {
                 setMouseOver(false);
@@ -266,11 +276,13 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             AquaJideUtils.antialiasShape(g, false);
         }
 
+        @Override
         public boolean isOpaque() {
             return false;
         }
     }
 
+    @Override
     protected void prepareEditor(TabEditor e, int tabIndex) {
         ((JTextField) e).setOpaque(true);
         super.prepareEditor(e, tabIndex);

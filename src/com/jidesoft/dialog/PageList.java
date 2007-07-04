@@ -113,8 +113,8 @@ public class PageList extends DefaultComboBoxModel {
      *
      * @return the vector which has all the page titles.
      */
-    public List getPageTitlesAsList() {
-        ArrayList list = new ArrayList();
+    public List<String> getPageTitlesAsList() {
+        List<String> list = new ArrayList<String>();
         for (int i = 0; i < getPageCount(); i++) {
             AbstractDialogPage page = getPage(i);
             list.add(page.getTitle());
@@ -134,7 +134,7 @@ public class PageList extends DefaultComboBoxModel {
     /**
      * Sets the current selected page.
      *
-     * @param page
+     * @param page the dialog page.
      */
     public void setCurrentPage(AbstractDialogPage page) {
         setSelectedItem(page);

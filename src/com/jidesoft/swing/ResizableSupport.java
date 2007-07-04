@@ -21,7 +21,7 @@ public interface ResizableSupport {
     /**
      * Sets the border of the component.
      *
-     * @param border
+     * @param border the border
      */
     void setBorder(Border border);
 

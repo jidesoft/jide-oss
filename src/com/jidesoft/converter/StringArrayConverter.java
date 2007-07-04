@@ -15,6 +15,8 @@ public class StringArrayConverter implements ObjectConverter {
      * Creates a StringArrayConverter with a specified separator. Please make sure the separator is not
      * used in the charactor set used in each string element. For example, you want to use space as separator, then
      * each string in the string arrray must not use space.
+     *
+     * @param separator the separator used to separate string to an array.
      */
     public StringArrayConverter(String separator) {
         _separator = separator;

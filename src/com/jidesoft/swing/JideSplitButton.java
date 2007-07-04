@@ -75,6 +75,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      *
      * @see #setUI
      */
+    @Override
     public ButtonUI getUI() {
         return (ButtonUI) ui;
     }
@@ -85,6 +86,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * @param ui the <code>JideSplitButtonUI</code> L&F object
      * @see javax.swing.UIDefaults#getUI
      */
+    @Override
     public void setUI(ButtonUI ui) {
         super.setUI(ui);
     }
@@ -96,6 +98,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      *
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -112,6 +115,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -211,6 +215,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
         }
     }
 
+    @Override
     public void setText(String text) {
         // this code is to fix a bug in JDK1.5's JMenuItem line 385. It should check hideActionText first
         Boolean hide = (Boolean) getClientProperty("hideActionText");
@@ -388,6 +393,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     /**
      * Clicks on the button part of the <code>JideSplitButton</code>.
      */
+    @Override
     public void doClick() {
         Action action = getActionMap().get("pressed");
         if (action != null) {

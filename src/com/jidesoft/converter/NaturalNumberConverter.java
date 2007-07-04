@@ -31,10 +31,10 @@ public class NaturalNumberConverter extends NumberConverter {
         try {
             int value = getNumberFormat().parse(string).intValue();
             if (value < 0) {
-                return new Integer(0);
+                return 0;
             }
             else {
-                return new Integer(Integer.parseInt(string));
+                return Integer.parseInt(string);
             }
         }
         catch (ParseException e) {

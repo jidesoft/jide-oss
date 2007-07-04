@@ -184,7 +184,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public int DISTANCE_TO_SCREEN_BORDER = 10;
 
-    private List _excludedComponents;
+    private List<Component> _excludedComponents;
 
     private int _gripperLocation = SwingConstants.NORTH;
 
@@ -199,7 +199,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Creates a Popup.
      */
     public JidePopup() {
-        _excludedComponents = new ArrayList();
+        _excludedComponents = new ArrayList<Component>();
         setRootPane(createRootPane());
         setLayout(new BorderLayout());
         setRootPaneCheckingEnabled(true);
@@ -251,6 +251,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -267,6 +268,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -317,6 +319,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         if (isRootPaneCheckingEnabled()) {
             getContentPane().add(comp, constraints, index);
@@ -332,6 +335,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param comp the component to be removed
      * @see #add
      */
+    @Override
     public void remove(Component comp) {
         int oldCount = getComponentCount();
         super.remove(comp);
@@ -358,6 +362,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if (isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -479,6 +484,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @return the <code>rootPane</code> property
      * @see javax.swing.RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -517,6 +523,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param visible true to make the component visible; false to
      *                make it invisible
      */
+    @Override
     public void setVisible(boolean visible) {
         boolean old = isVisible();
         if (visible != old) {
@@ -538,6 +545,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *         <code>Popup</code>
      * @see com.jidesoft.popup.JidePopup.AccessiblePopup
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessiblePopup();
@@ -561,6 +569,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          *         object does not have a name
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -577,6 +586,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          *         object
          * @see javax.accessibility.AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SWING_COMPONENT; // use a generic one since there is no specific one to choose
         }
@@ -589,6 +599,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -605,10 +616,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          */
         public Number getCurrentAccessibleValue() {
             if (isVisible()) {
-                return new Integer(1);
+                return 1;
             }
             else {
-                return new Integer(0);
+                return 0;
             }
         }
 
@@ -637,7 +648,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          *         have a minimum value
          */
         public Number getMinimumAccessibleValue() {
-            return new Integer(Integer.MIN_VALUE);
+            return Integer.MIN_VALUE;
         }
 
         /**
@@ -647,7 +658,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          *         have a maximum value
          */
         public Number getMaximumAccessibleValue() {
-            return new Integer(Integer.MAX_VALUE);
+            return Integer.MAX_VALUE;
         }
     }
 
@@ -1049,6 +1060,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
         });
         _componentListener = new ComponentAdapter() {
+            @Override
             public void componentHidden(ComponentEvent e) {
                 hidePopup();
             }
@@ -1063,6 +1075,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         _window.addComponentListener(_componentListener);
         _windowListener = new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 hidePopup();
             }
@@ -1071,10 +1084,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
         if (getOwner() != null) {
             _ownerComponentListener = new ComponentAdapter() {
+                @Override
                 public void componentHidden(ComponentEvent e) {
                     ancestorHidden();
                 }
 
+                @Override
                 public void componentMoved(ComponentEvent e) {
                     ancestorMoved();
                 }
@@ -1089,6 +1104,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         _popupResizeListener = new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 removeComponentListener(_popupResizeListener);
                 contentResized();
@@ -1485,7 +1501,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     private static boolean doUnpostPopupOnDeactivation() {
         if (!checkedUnpostPopup) {
-            Boolean b = (Boolean) java.security.AccessController.doPrivileged(
+            unpostPopup = (Boolean) java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
                         public Object run() {
                             String pKey = "sun.swing.unpostPopupsOnWindowDeactivation";
@@ -1494,7 +1510,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                         }
                     }
             );
-            unpostPopup = b.booleanValue();
             checkedUnpostPopup = true;
         }
         return unpostPopup;
@@ -2007,10 +2022,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @return all of the <code>PopupMenuListener</code>s added or an empty
      *         array if no listeners have been added
-     * @since 1.4
      */
     public PopupMenuListener[] getPopupMenuListeners() {
-        return (PopupMenuListener[]) listenerList.getListeners(PopupMenuListener.class);
+        return listenerList.getListeners(PopupMenuListener.class);
     }
 
     /**
@@ -2144,8 +2158,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     public boolean isExcludedComponent(Component component) {
         boolean contain = _excludedComponents.contains(component);
         if (!contain) {
-            for (int i = 0; i < _excludedComponents.size(); i++) {
-                Component c = (Component) _excludedComponents.get(i);
+            for (Component c : _excludedComponents) {
                 if (c instanceof Container) {
                     if (((Container) c).isAncestorOf(component)) {
                         return true;

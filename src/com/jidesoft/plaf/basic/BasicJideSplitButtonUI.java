@@ -53,10 +53,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         return new BasicJideSplitButtonUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return propertyPrefix;
     }
 
+    @Override
     protected void installDefaults() {
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
         _isFloatingIcon = UIDefaultsLookup.getBoolean("Icon.floating");
@@ -69,6 +71,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         super.installDefaults();
     }
 
+    @Override
     protected void uninstallDefaults() {
         _painter = null;
 
@@ -80,6 +83,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         super.uninstallDefaults();
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         if (_focusListener == null) {
@@ -96,6 +100,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         menuItem.addFocusListener(_focusListener);
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
         if (_focusListener != null) {
@@ -129,6 +134,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         return null;
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         AbstractButton b = menuItem;
@@ -141,6 +147,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         SwingUtilities.replaceUIInputMap(b, JComponent.WHEN_FOCUSED, km);
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         AbstractButton b = menuItem;
         SwingUtilities.replaceUIInputMap(b, JComponent.
@@ -150,10 +157,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         super.uninstallKeyboardActions();
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return new MouseInputHandler();
     }
 
+    @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
         int menuWidth = 0;
@@ -661,6 +670,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getPreferredSize(c);
@@ -688,6 +698,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             return new Dimension(d.height, d.width); // swap width and height
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMinimumSize(c);
@@ -705,6 +716,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         return d;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (!(c instanceof JMenu) || !((JMenu) c).isTopLevelMenu()) {
             return super.getMaximumSize(c);
@@ -722,6 +734,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         return d;
     }
 
+    @Override
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
@@ -785,6 +798,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         g.setColor(oldColor);
     }
 
+    @Override
     protected void paintIcon(JMenuItem b, Graphics g) {
         ButtonModel model = b.getModel();
 
@@ -832,10 +846,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
     }
 
+    @Override
     protected boolean isFloatingIcon() {
         return _isFloatingIcon;
     }
 
+    @Override
     protected Icon getIcon(AbstractButton b) {
         ButtonModel model = b.getModel();
         Icon icon = b.getIcon();
@@ -901,6 +917,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
     }
 
+    @Override
     protected int getRightMargin() {
         return _splitButtonMargin - 1;
     }
@@ -949,6 +966,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender != null && (sender instanceof AbstractButton) &&
                     !((AbstractButton) sender).getModel().isEnabled()) {

@@ -93,7 +93,7 @@ final public class SystemInfo {
         try {
             String osVersion = SecurityUtils.getProperty("os.version", "5.0");
             Float version = Float.valueOf(osVersion);
-            _isClassicWindows = version.floatValue() <= 4.0;
+            _isClassicWindows = version <= 4.0;
         }
         catch (NumberFormatException ex) {
             _isClassicWindows = false;

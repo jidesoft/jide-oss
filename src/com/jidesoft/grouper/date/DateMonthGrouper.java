@@ -28,8 +28,8 @@ public class DateMonthGrouper extends DateGrouper {
 
     public Object getValue(Object value) {
         Object field = getCalendarField(value, Calendar.MONTH);
-        if (field instanceof Integer && ((Integer) field).intValue() >= 0 && ((Integer) field).intValue() < getAvailableGroups().length) {
-            return getAvailableGroups()[((Integer) field).intValue()];
+        if (field instanceof Integer && (Integer) field >= 0 && (Integer) field < getAvailableGroups().length) {
+            return getAvailableGroups()[((Integer) field)];
         }
         else {
             return null;
@@ -41,6 +41,7 @@ public class DateMonthGrouper extends DateGrouper {
         return GroupResources.getResourceBundle(Locale.getDefault()).getString("Date.month");
     }
 
+    @Override
     public ConverterContext getConverterContext() {
         return MonthNameConverter.CONTEXT;
     }

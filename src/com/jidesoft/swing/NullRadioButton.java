@@ -79,6 +79,7 @@ public class NullRadioButton extends JRadioButton {
         super(text, icon, selected);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();

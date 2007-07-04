@@ -64,6 +64,7 @@ public class NullPanel extends JPanel {
         super(layout, isDoubleBuffered);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();

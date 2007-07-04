@@ -24,7 +24,7 @@ public class LongConverter extends NumberConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            return new Long(getNumberFormat().parse(string).longValue());
+            return getNumberFormat().parse(string).longValue();
         }
         catch (ParseException e) {
             return null;

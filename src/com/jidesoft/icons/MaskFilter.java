@@ -73,6 +73,7 @@ public class MaskFilter extends RGBImageFilter {
     /**
      * Overrides <code>RGBImageFilter.filterRGB</code>.
      */
+    @Override
     public int filterRGB(int x, int y, int rgb) {
         if (_newColor != null && _oldColor != null) {
             if (rgb == _oldColor.getRGB()) {

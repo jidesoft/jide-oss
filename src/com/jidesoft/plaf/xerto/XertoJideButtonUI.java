@@ -24,6 +24,7 @@ public class XertoJideButtonUI extends BasicJideButtonUI {
     // ********************************
     //          Install PLAF
     // ********************************
+    @Override
     public void installUI(JComponent c) {
         _buttonUI.installUI(c);
         if (c instanceof JButton) {
@@ -32,10 +33,12 @@ public class XertoJideButtonUI extends BasicJideButtonUI {
         }
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         _buttonUI.uninstallUI(c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         _buttonUI.paint(g, c);
     }

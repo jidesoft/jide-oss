@@ -17,11 +17,11 @@ import java.util.Comparator;
  */
 public class ObjectComparatorManager {
 
-    private final static CacheMap _cache = new CacheMap("");
+    private final static CacheMap<Comparator<?>, ComparatorContext> _cache = new CacheMap<Comparator<?>, ComparatorContext>(new ComparatorContext(""));
 
-    private final static Comparator _defaultComparator = new DefaultComparator();
+    private final static Comparator<Object> _defaultComparator = new DefaultComparator();
 
-    public static void registerComparator(Class clazz, Comparator comparator) {
+    public static void registerComparator(Class<?> clazz, Comparator comparator) {
         registerComparator(clazz, comparator, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -32,7 +32,7 @@ public class ObjectComparatorManager {
      * @param comparator the comparator to be registered.
      * @param context    the comparator context.
      */
-    public static void registerComparator(Class clazz, Comparator comparator, ComparatorContext context) {
+    public static void registerComparator(Class<?> clazz, Comparator comparator, ComparatorContext context) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz cannot be null");
         }
@@ -47,7 +47,7 @@ public class ObjectComparatorManager {
      *
      * @param clazz the data type.
      */
-    public static void unregisterComparator(Class clazz) {
+    public static void unregisterComparator(Class<?> clazz) {
         _cache.unregister(clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -57,7 +57,7 @@ public class ObjectComparatorManager {
      * @param clazz   the data type.
      * @param context the comparator context.
      */
-    public static void unregisterComparator(Class clazz, ComparatorContext context) {
+    public static void unregisterComparator(Class<?> clazz, ComparatorContext context) {
         if (context == null) {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
@@ -77,7 +77,7 @@ public class ObjectComparatorManager {
      * @param clazz the data type.
      * @return the registered comparator.
      */
-    public static Comparator getComparator(Class clazz) {
+    public static Comparator getComparator(Class<?> clazz) {
         return getComparator(clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -88,7 +88,7 @@ public class ObjectComparatorManager {
      * @param context the comparator context.
      * @return the comparator.
      */
-    public static Comparator getComparator(Class clazz, ComparatorContext context) {
+    public static Comparator getComparator(Class<?> clazz, ComparatorContext context) {
         if (isAutoInit()) {
             initDefaultComparator();
         }
@@ -96,9 +96,9 @@ public class ObjectComparatorManager {
         if (context == null) {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
-        Object object = _cache.getRegisteredObject(clazz, context);
-        if (object != null && object instanceof Comparator) {
-            return (Comparator) object;
+        Comparator object = _cache.getRegisteredObject(clazz, context);
+        if (object != null) {
+            return object;
         }
         else {
             return _defaultComparator;
@@ -141,9 +141,9 @@ public class ObjectComparatorManager {
 
         // both not null
 
-        Class clazz;
-        Class clazz1 = o1.getClass();
-        Class clazz2 = o2.getClass();
+        Class<?> clazz;
+        Class<?> clazz1 = o1.getClass();
+        Class<?> clazz2 = o2.getClass();
         if (clazz1 == clazz2) {
             clazz = clazz1;
         }
@@ -160,7 +160,7 @@ public class ObjectComparatorManager {
             clazz = Object.class;
         }
 
-        return compare(o1, o2, clazz, ComparatorContext.DEFAULT_CONTEXT);
+        return compare(o1, o2, clazz, context);
     }
 
     /**
@@ -175,7 +175,7 @@ public class ObjectComparatorManager {
      * @param clazz the data type of the two objects. If your two objects have the same type, you may just use {@link #compare(Object,Object)} methods.
      * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
      */
-    public static int compare(Object o1, Object o2, Class clazz) {
+    public static int compare(Object o1, Object o2, Class<?> clazz) {
         return compare(o1, o2, clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -190,7 +190,7 @@ public class ObjectComparatorManager {
      * @param context the comparator context
      * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
      */
-    public static int compare(Object o1, Object o2, Class clazz, ComparatorContext context) {
+    public static int compare(Object o1, Object o2, Class<?> clazz, ComparatorContext context) {
         Comparator comparator = getComparator(clazz, context);
         if (comparator != null) {
             return comparator.compare(o1, o2);
@@ -281,16 +281,8 @@ public class ObjectComparatorManager {
      * @param clazz the class.
      * @return the available ComparatorContext.
      */
-    public static ComparatorContext[] getComparatorContexts(Class clazz) {
-        Object[] keys = _cache.getKeys(clazz);
-        ComparatorContext[] contexts = new ComparatorContext[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            Object key = keys[i];
-            if (key instanceof ComparatorContext) {
-                contexts[i] = (ComparatorContext) key;
-            }
-        }
-        return contexts;
+    public static ComparatorContext[] getComparatorContexts(Class<?> clazz) {
+        return _cache.getKeys(clazz, new ComparatorContext[0]);
     }
 
     /**

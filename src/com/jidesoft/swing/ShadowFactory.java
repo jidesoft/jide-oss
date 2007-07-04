@@ -284,8 +284,8 @@ public class ShadowFactory {
         }
 
         changeSupport.firePropertyChange(OPACITY_CHANGED_PROPERTY,
-                new Float(oldOpacity),
-                new Float(this.opacity));
+                oldOpacity,
+                this.opacity);
     }
 
     /**

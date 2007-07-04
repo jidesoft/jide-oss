@@ -138,6 +138,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         /**
          * Checks if the button is selected.
          */
+        @Override
         public boolean isButtonSelected() {
 //              if(getGroup() != null) {
 //                  return getGroup().isSelected(this);
@@ -153,6 +154,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
          * @param b true selects the toggle button,
          *          false deselects the toggle button.
          */
+        @Override
         public void setButtonSelected(boolean b) {
             ButtonGroup group = getGroup();
             if (group != null) {
@@ -186,6 +188,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         /**
          * Sets the pressed state of the toggle button.
          */
+        @Override
         public void setPressed(boolean b) {
             if ((isPressed() == b) || !isEnabled()) {
                 return;
@@ -235,6 +238,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
      * @return an AccessibleJToggleButton that serves as the
      *         AccessibleContext of this JToggleButton
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJToggleButton();
@@ -289,6 +293,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
          * @return an instance of AccessibleRole describing the role of the
          *         object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TOGGLE_BUTTON;
         }

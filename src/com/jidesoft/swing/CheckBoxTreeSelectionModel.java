@@ -61,7 +61,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * will check all the children. Correspondingly, getSelectionPaths() will only return the
      * parent tree path. If not in dig-in mode, each tree node can be checked or unchecked independently
      *
-     * @param digIn
+     * @param digIn true to enable dig-in mode. False to disable it.
      */
     public void setDigIn(boolean digIn) {
         _digIn = digIn;
@@ -69,6 +69,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
 
     /**
      * Tests whether there is any unselected node in the subtree of given path.
+     *
+     * @param path check if the path is partially selected.
+     * @return true i fpartially. Otherwise false.
      */
     public boolean isPartiallySelected(TreePath path) {
         if (isPathSelected(path, true))
@@ -76,8 +79,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         TreePath[] selectionPaths = getSelectionPaths();
         if (selectionPaths == null)
             return false;
-        for (int j = 0; j < selectionPaths.length; j++) {
-            if (isDescendant(selectionPaths[j], path))
+        for (TreePath selectionPath : selectionPaths) {
+            if (isDescendant(selectionPath, path))
                 return true;
         }
         return false;
@@ -87,8 +90,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * Tells whether given path is selected. if dig is true,
      * then a path is assumed to be selected, if one of its ancestor is selected.
      *
-     * @param path
-     * @param digIn
+     * @param path  check if the path is selected.
+     * @param digIn whether we will check its descendants.
      * @return true if the path is selected.
      */
     public boolean isPathSelected(TreePath path, boolean digIn) {
@@ -103,6 +106,10 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
 
     /**
      * is path1 descendant of path2.
+     *
+     * @param path1 the first path
+     * @param path2 the second path
+     * @return true if the first path is the descendant of the second path.
      */
     private boolean isDescendant(TreePath path1, TreePath path2) {
         Object obj1[] = path1.getPath();
@@ -116,6 +123,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
 
     private boolean _fireEvent = true;
 
+    @SuppressWarnings({"RawUseOfParameterizedType"})
+    @Override
     protected void notifyPathChange(Vector changedPaths, TreePath oldLeadSelection) {
         if (_fireEvent) {
             super.notifyPathChange(changedPaths, oldLeadSelection);
@@ -127,6 +136,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      *
      * @param pPaths the tree paths to be selected.
      */
+    @Override
     public void setSelectionPaths(TreePath[] pPaths) {
         if (!isDigIn()) {
             super.setSelectionPaths(pPaths);
@@ -140,8 +150,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     /**
      * Overrides the method in DefaultTreeSelectionModel to consider digIn mode.
      *
-     * @param pPaths the tree paths to be added to selection paths.
+     * @param paths the tree paths to be added to selection paths.
      */
+    @Override
     public void addSelectionPaths(TreePath[] paths) {
         if (!isDigIn()) {
             super.addSelectionPaths(paths);
@@ -156,25 +167,23 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
 
         try {
             // unselect all descendants of paths[]
-            ArrayList toBeRemoved = new ArrayList();
-            for (int i = 0; i < paths.length; i++) {
-                TreePath path = paths[i];
+            List<TreePath> toBeRemoved = new ArrayList<TreePath>();
+            for (TreePath path : paths) {
                 TreePath[] selectionPaths = getSelectionPaths();
                 if (selectionPaths == null)
                     break;
-                for (int j = 0; j < selectionPaths.length; j++) {
-                    if (isDescendant(selectionPaths[j], path))
-                        toBeRemoved.add(selectionPaths[j]);
+                for (TreePath selectionPath : selectionPaths) {
+                    if (isDescendant(selectionPath, path))
+                        toBeRemoved.add(selectionPath);
                 }
             }
             if (toBeRemoved.size() > 0) {
-                delegateRemoveSelectionPaths((TreePath[]) toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
+                delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
             }
 
             // if all siblings are selected then unselect them and select parent recursively
             // otherwize just select that path.
-            for (int i = 0; i < paths.length; i++) {
-                TreePath path = paths[i];
+            for (TreePath path : paths) {
                 TreePath temp = null;
                 while (areSiblingsSelected(path)) {
                     temp = path;
@@ -209,7 +218,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     /**
      * tells whether all siblings of given path are selected.
      *
-     * @param path
+     * @param path the tree path
      * @return true if the siblings are all selected.
      */
     private boolean areSiblingsSelected(TreePath path) {
@@ -234,15 +243,15 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         return true;
     }
 
+    @Override
     public void removeSelectionPaths(TreePath[] paths) {
         if (!isDigIn()) {
             super.removeSelectionPaths(paths);
             return;
         }
 
-        List toBeRemoved = new ArrayList();
-        for (int i = 0; i < paths.length; i++) {
-            TreePath path = paths[i];
+        List<TreePath> toBeRemoved = new ArrayList<TreePath>();
+        for (TreePath path : paths) {
             if (path.getPathCount() == 1) {
                 toBeRemoved.add(path);
             }
@@ -251,7 +260,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             }
         }
         if (toBeRemoved.size() > 0) {
-            delegateRemoveSelectionPaths((TreePath[]) toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
+            delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
         }
     }
 
@@ -259,6 +268,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * If any ancestor node of given path is selected then unselect
      * it and selection all its descendants except given path and descendants.
      * Otherwise just unselect the given path
+     *
+     * @param path the tree path
      */
     private void toggleRemoveSelection(TreePath path) {
         boolean fireEventAtTheEnd = false;
@@ -268,7 +279,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         }
 
         try {
-            Stack stack = new Stack();
+            Stack<TreePath> stack = new Stack<TreePath>();
             TreePath parent = path.getParentPath();
             while (parent != null && !isPathSelected(parent)) {
                 stack.push(parent);
@@ -281,10 +292,10 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
                 return;
             }
 
-            List toBeAdded = new ArrayList();
+            List<TreePath> toBeAdded = new ArrayList<TreePath>();
             while (!stack.isEmpty()) {
-                TreePath temp = (TreePath) stack.pop();
-                TreePath peekPath = stack.isEmpty() ? path : (TreePath) stack.peek();
+                TreePath temp = stack.pop();
+                TreePath peekPath = stack.isEmpty() ? path : stack.peek();
                 Object node = temp.getLastPathComponent();
                 Object peekNode = peekPath.getLastPathComponent();
                 int childCount = _model.getChildCount(node);
@@ -299,7 +310,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
                 }
             }
             if (toBeAdded.size() > 0) {
-                delegateAddSelectionPaths((TreePath[]) toBeAdded.toArray(new TreePath[toBeAdded.size()]));
+                delegateAddSelectionPaths(toBeAdded.toArray(new TreePath[toBeAdded.size()]));
             }
             delegateRemoveSelectionPaths(new TreePath[]{parent});
         }
@@ -351,7 +362,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * <p/>
      * By default, singleEventMode is set to false to be compatible with the older versions that don't have this option.
      *
-     * @param singleEventMode
+     * @param singleEventMode true or false.
      */
     public void setSingleEventMode(boolean singleEventMode) {
         _singleEventMode = singleEventMode;
@@ -360,6 +371,10 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     /**
      * Notifies listeners of a change in path. changePaths should contain
      * instances of PathPlaceHolder.
+     *
+     * @param changedPaths     the paths that are changed.
+     * @param isNew            is it a new path.
+     * @param oldLeadSelection the old selection.
      */
     protected void notifyPathChange(TreePath[] changedPaths, boolean isNew, TreePath oldLeadSelection) {
         int cPathCount = changedPaths.length;
@@ -385,23 +400,22 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     public void setBatchMode(boolean batchMode) {
         _batchMode = batchMode;
         if (!_batchMode) {
-            super.addSelectionPaths((TreePath[]) _toBeAdded.toArray(new TreePath[_toBeAdded.size()]));
+            super.addSelectionPaths(_toBeAdded.toArray(new TreePath[_toBeAdded.size()]));
             _toBeAdded.clear();
-            super.removeSelectionPaths((TreePath[]) _toBeRemoved.toArray(new TreePath[_toBeRemoved.size()]));
+            super.removeSelectionPaths(_toBeRemoved.toArray(new TreePath[_toBeRemoved.size()]));
             _toBeRemoved.clear();
         }
     }
 
-    private List _toBeAdded = new ArrayList();
-    private List _toBeRemoved = new ArrayList();
+    private List<TreePath> _toBeAdded = new ArrayList();
+    private List<TreePath> _toBeRemoved = new ArrayList();
 
     private void delegateRemoveSelectionPaths(TreePath[] paths) {
         if (!isBatchMode()) {
             super.removeSelectionPaths(paths);
         }
         else {
-            for (int i = 0; i < paths.length; i++) {
-                TreePath path = paths[i];
+            for (TreePath path : paths) {
                 _toBeRemoved.add(path);
                 _toBeAdded.remove(path);
             }
@@ -424,8 +438,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             super.addSelectionPaths(paths);
         }
         else {
-            for (int i = 0; i < paths.length; i++) {
-                TreePath path = paths[i];
+            for (TreePath path : paths) {
                 _toBeAdded.add(path);
                 _toBeRemoved.remove(path);
             }

@@ -20,6 +20,7 @@ class MyComputerTreeNode extends LazyMutableTreeNode {
         _folderChooser = folderChooser;
     }
 
+    @Override
     protected void initChildren() {
         FileSystemView fsv = (FileSystemView) getUserObject();
         File[] roots = fsv.getRoots();
@@ -32,6 +33,7 @@ class MyComputerTreeNode extends LazyMutableTreeNode {
         }
     }
 
+    @Override
     public String toString() {
         return "/";
     }

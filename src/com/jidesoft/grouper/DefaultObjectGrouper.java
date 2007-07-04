@@ -1,7 +1,5 @@
 package com.jidesoft.grouper;
 
-import com.jidesoft.converter.ConverterContext;
-
 /**
  * Default implenmentation of <code>ObjectGrouper</code>.
  * Its getGroupValue simply returns the value directly.
@@ -21,7 +19,7 @@ public class DefaultObjectGrouper extends AbstractObjectGrouper {
         return value;
     }
 
-    public Class getType() {
+    public Class<?> getType() {
         return Object.class;
     }
 

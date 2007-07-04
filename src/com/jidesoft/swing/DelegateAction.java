@@ -78,6 +78,7 @@ abstract public class DelegateAction extends AbstractAction {
     abstract public boolean delegateActionPerformed(ActionEvent e);
 
     public static class PassthroughDelegateAction extends DelegateAction {
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             return false;
         }

@@ -55,7 +55,7 @@ public class MonthNameConverter implements ObjectConverter {
             return "";
         }
         else {
-            return _defaultFormat.format((getCalendarByMonth(((Integer) object).intValue()).getTime()));
+            return _defaultFormat.format((getCalendarByMonth((Integer) object).getTime()));
         }
     }
 
@@ -107,7 +107,7 @@ public class MonthNameConverter implements ObjectConverter {
                 }
             }
         }
-        return new Integer(calendar.get(Calendar.MONTH));
+        return calendar.get(Calendar.MONTH);
     }
 
     public boolean supportFromString(String string, ConverterContext context) {
@@ -126,7 +126,7 @@ public class MonthNameConverter implements ObjectConverter {
     /**
      * Sets default format to format a month. Default is {@link #MEDIUM_FORMAT}.
      *
-     * @param defaultFormat
+     * @param defaultFormat the default format to format the month.
      */
     public void setDefaultFormat(DateFormat defaultFormat) {
         _defaultFormat = defaultFormat;

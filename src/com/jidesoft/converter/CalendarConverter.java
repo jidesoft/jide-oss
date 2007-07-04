@@ -19,6 +19,7 @@ public class CalendarConverter extends DateConverter {
     public CalendarConverter() {
     }
 
+    @Override
     public String toString(Object object, ConverterContext context) {
         if (object == null || !(object instanceof Calendar)) {
             return "";
@@ -35,6 +36,7 @@ public class CalendarConverter extends DateConverter {
      * @param context the context. It could be DATETIME_CONTEXT, DATE_CONTEXT or TIME_CONTEXT.
      * @return the Calendar object. If the string is null or empty, null will be returned. If the string cannot be parsed as a date, the string itself will be returned.
      */
+    @Override
     public Object fromString(String string, ConverterContext context) {
         if (string == null || string.trim().length() == 0) {
             return null;

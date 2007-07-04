@@ -78,11 +78,13 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
      */
     protected JList createList() {
         return new JList() {
+            @Override
             public int getVisibleRowCount() {
                 int size = getModel().getSize();
                 return size < super.getVisibleRowCount() ? size : super.getVisibleRowCount();
             }
 
+            @Override
             public Dimension getPreferredScrollableViewportSize() {
                 if (getModel().getSize() == 0) {
                     return new Dimension(0, 0);
@@ -124,7 +126,7 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
      *
      * @param objects
      */
-    protected void setListData(Vector objects) {
+    protected void setListData(Vector<?> objects) {
         resetSelection();
         getList().setListData(objects);
         // update the view so that isViewSizeSet flag in JViewport is reset to false
@@ -143,6 +145,7 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
         return getList().getSelectedValue();
     }
 
+    @Override
     public JComponent getDelegateComponent() {
         return getList();
     }
@@ -154,6 +157,7 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
      *
      * @return the keystokes that will be delegated to the JList when hints popup is visible.
      */
+    @Override
     public KeyStroke[] getDelegateKeyStrokes() {
         if (_keyStrokes == null) {
             _keyStrokes = new KeyStroke[6];

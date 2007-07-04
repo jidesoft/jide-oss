@@ -95,6 +95,7 @@ public class PageEvent extends EventObject {
         return typeStr;
     }
 
+    @Override
     public String toString() {
         return "PageEvent{" +
                 "id=" + paramString() +

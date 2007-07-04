@@ -86,6 +86,7 @@ public class StyledLabel extends JLabel {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
@@ -102,6 +103,7 @@ public class StyledLabel extends JLabel {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }

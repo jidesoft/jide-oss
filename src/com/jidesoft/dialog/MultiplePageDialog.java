@@ -293,6 +293,7 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @return the BannerPanel
      */
+    @Override
     public JComponent createBannerPanel() {
         return null;
     }
@@ -305,6 +306,7 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @return the ContentPanel
      */
+    @Override
     public JComponent createContentPanel() {
         _indexPanel = createIndexPanel();
         _pagesPanel = createPagesPanel();
@@ -343,6 +345,7 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @return button panel
      */
+    @Override
     public ButtonPanel createButtonPanel() {
         ButtonPanel buttonPanel = new ButtonPanel();
         _okButton = new JButton();
@@ -975,6 +978,7 @@ public class MultiplePageDialog extends StandardDialog {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         final JScrollPane pane = new JScrollPane(buttonsPanel) {
+            @Override
             public Dimension getPreferredSize() {
                 if (buttonsPanel.getAlignment() == SwingConstants.TOP || buttonsPanel.getAlignment() == SwingConstants.BOTTOM)
                     return new Dimension(buttonsPanel.getPreferredSize().width + getVerticalScrollBar().getPreferredSize().width, 5);
@@ -982,6 +986,7 @@ public class MultiplePageDialog extends StandardDialog {
                     return new Dimension(5, buttonsPanel.getPreferredSize().height + getHorizontalScrollBar().getPreferredSize().height);
             }
 
+            @Override
             public Dimension getMinimumSize() {
                 return getPreferredSize();
             }

@@ -14,13 +14,13 @@ import java.util.HashMap;
  * reduce the speed of indexOf method from O(n) to O(1). However it will at least double
  * the memory used by ArrayList. So use it approriately.
  */
-public class CachedArrayList extends ArrayList {
+public class CachedArrayList<E> extends ArrayList<E> {
     private HashMap _indexCache;
 
     public CachedArrayList() {
     }
 
-    public CachedArrayList(Collection c) {
+    public CachedArrayList(Collection<? extends E> c) {
         super(c);
     }
 
@@ -28,52 +28,60 @@ public class CachedArrayList extends ArrayList {
         super(initialCapacity);
     }
 
+    @Override
     public int indexOf(Object elem) {
         if (_indexCache == null) {
             _indexCache = new HashMap();
         }
         Object o = _indexCache.get(elem);
         if (o != null && o instanceof Integer) {
-            return ((Integer) o).intValue();
+            return (Integer) o;
         }
         else {
             int i = super.indexOf(elem);
-            _indexCache.put(elem, new Integer(i));
+            _indexCache.put(elem, i);
             return i;
         }
     }
 
-    public boolean add(Object o) {
+    @Override
+    public boolean add(E o) {
         invalidateCache();
         return super.add(o);
     }
 
-    public void add(int index, Object element) {
+    @Override
+    public void add(int index, E element) {
         invalidateCache();
         super.add(index, element);
     }
 
-    public Object remove(int index) {
+    @Override
+    public E remove(int index) {
         invalidateCache();
         return super.remove(index);
     }
 
+    @Override
     public boolean remove(Object o) {
         invalidateCache();
         return super.remove(o);
     }
 
-    public boolean addAll(Collection c) {
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
         invalidateCache();
         return super.addAll(c);
     }
 
-    public boolean addAll(int index, Collection c) {
+    @Override
+    public boolean addAll(int index, Collection<? extends E> c) {
         invalidateCache();
         return super.addAll(index, c);
     }
 
-    public Object set(int index, Object element) {
+    @Override
+    public E set(int index, E element) {
         return super.set(index, element);
     }
 

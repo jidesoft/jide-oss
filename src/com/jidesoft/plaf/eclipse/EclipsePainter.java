@@ -42,6 +42,7 @@ public class EclipsePainter extends BasicPainter {
         _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
     }
 
+    @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Color oldColor = g.getColor();
         if (state == STATE_DEFAULT) {
@@ -102,9 +103,11 @@ public class EclipsePainter extends BasicPainter {
         g.setColor(oldColor);
     }
 
+    @Override
     public void paintSelectedMenu(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
     }
 
+    @Override
     public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int h = (orientation == SwingConstants.HORIZONTAL) ? rect.height : rect.width;
         h -= 4;
@@ -136,6 +139,7 @@ public class EclipsePainter extends BasicPainter {
         g.setColor(oldColor);
     }
 
+    @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int x = rect.x;
         int y = rect.y;

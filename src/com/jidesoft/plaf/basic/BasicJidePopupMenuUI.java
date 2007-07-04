@@ -20,6 +20,7 @@ public class BasicJidePopupMenuUI extends BasicPopupMenuUI {
         return new BasicJidePopupMenuUI();
     }
 
+    @Override
     public Popup getPopup(JPopupMenu popupMenu, int x, int y) {
         PopupFactory popupFactory = PopupFactory.getSharedInstance();
         SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

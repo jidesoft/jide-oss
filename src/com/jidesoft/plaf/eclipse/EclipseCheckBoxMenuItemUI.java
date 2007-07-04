@@ -20,6 +20,7 @@ public class EclipseCheckBoxMenuItemUI extends EclipseMenuItemUI {
         return new EclipseCheckBoxMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "CheckBoxMenuItem";
     }

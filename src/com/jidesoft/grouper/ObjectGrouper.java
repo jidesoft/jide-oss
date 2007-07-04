@@ -1,7 +1,7 @@
 package com.jidesoft.grouper;
 
-import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.comparator.ComparatorContext;
+import com.jidesoft.converter.ConverterContext;
 
 /**
  * An interface that can convert a object to a group so that the objects that has the same group can be grouped together.
@@ -24,7 +24,7 @@ public interface ObjectGrouper {
      *
      * @return the group value type.
      */
-    Class getType();
+    Class<?> getType();
 
     /**
      * Gets the name of this object grouper.

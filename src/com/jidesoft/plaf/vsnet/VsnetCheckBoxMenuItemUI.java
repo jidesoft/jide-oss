@@ -18,6 +18,7 @@ public class VsnetCheckBoxMenuItemUI extends VsnetMenuItemUI {
         return new VsnetCheckBoxMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "CheckBoxMenuItem";
     }

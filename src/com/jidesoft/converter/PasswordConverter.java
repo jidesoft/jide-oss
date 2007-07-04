@@ -30,6 +30,7 @@ public class PasswordConverter extends DefaultObjectConverter {
         _echoChar = echoChar;
     }
 
+    @Override
     public String toString(Object object, ConverterContext context) {
         if (object instanceof char[]) {
             int length = ((char[]) object).length;
@@ -56,10 +57,12 @@ public class PasswordConverter extends DefaultObjectConverter {
         _echoChar = echoChar;
     }
 
+    @Override
     public boolean supportFromString(String string, ConverterContext context) {
         return false;
     }
 
+    @Override
     public Object fromString(String string, ConverterContext context) {
         return null;
     }

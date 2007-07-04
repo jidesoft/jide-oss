@@ -18,6 +18,7 @@ public class MetalCheckBoxMenuItemUI extends MetalMenuItemUI {
         return new MetalCheckBoxMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "CheckBoxMenuItem";
     }

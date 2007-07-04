@@ -60,7 +60,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
      * @param listData the <code>Vector</code> to be loaded into the
      *                 data model
      */
-    public CheckBoxListWithSelectable(final Vector listData) {
+    public CheckBoxListWithSelectable(final Vector<?> listData) {
         super(wrap(listData));
         init();
     }
@@ -127,12 +127,11 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     /**
      * Sets the selected elements.
      *
-     * @param elements
+     * @param elements the elements to be selected
      */
     public void setSelectedObjects(Object[] elements) {
-        Map selected = new HashMap();
-        for (int i = 0; i < elements.length; i++) {
-            Object element = elements[i];
+        Map<Object, String> selected = new HashMap<Object, String>();
+        for (Object element : elements) {
             selected.put(element, "");
         }
         setSelectedObjects(selected);
@@ -141,17 +140,17 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     /**
      * Sets the selected objects.
      *
-     * @param objects
+     * @param objects the elements to be selected in a Vector.
      */
-    public void setSelectedObjects(Vector objects) {
-        Map selected = new HashMap();
-        for (int i = 0; i < objects.size(); i++) {
-            Object element = objects.get(i);
+    public void setSelectedObjects(Vector<?> objects) {
+        Map<Object, String> selected = new HashMap<Object, String>();
+        for (Object element : objects) {
             selected.put(element, "");
         }
         setSelectedObjects(selected);
     }
 
+    @Override
     public ListCellRenderer getCellRenderer() {
         if (_listCellRenderer != null) {
             _listCellRenderer.setActualListRenderer(super.getCellRenderer());
@@ -171,7 +170,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
         }
     }
 
-    private void setSelectedObjects(Map selected) {
+    private void setSelectedObjects(Map<Object, String> selected) {
         for (int i = 0; i < getModel().getSize(); i++) {
             Object elementAt = getModel().getElementAt(i);
             if (elementAt instanceof Selectable) {
@@ -220,12 +219,11 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
         }
     }
 
-    private static Vector wrap(Vector objects) {
-        Vector elements = new Vector();
-        for (int i = 0; i < objects.size(); i++) {
-            Object o = objects.get(i);
+    private static Vector<?> wrap(Vector<?> objects) {
+        Vector<Selectable> elements = new Vector<Selectable>();
+        for (Object o : objects) {
             if (o instanceof Selectable) {
-                elements.add(o);
+                elements.add((Selectable) o);
             }
             else {
                 elements.add(new DefaultSelectable(o));
@@ -300,8 +298,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
         protected void toggleSelections() {
             int[] indices = _list.getSelectedIndices();
             ListModel model = _list.getModel();
-            for (int i = 0; i < indices.length; i++) {
-                int index = indices[i];
+            for (int index : indices) {
                 Object element = model.getElementAt(index);
                 if (element instanceof Selectable && ((Selectable) element).isEnabled()) {
                     ((Selectable) element).invertSelected();
@@ -365,7 +362,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
      * @see #addItemListener
      */
     public ItemListener[] getItemListeners() {
-        return (ItemListener[]) listenerList.getListeners(ItemListener.class);
+        return listenerList.getListeners(ItemListener.class);
     }
 
     /**
@@ -404,7 +401,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
      * @return the selected objects.
      */
     public Object[] getSelectedObjects() {
-        Vector elements = new Vector();
+        Vector<Object> elements = new Vector<Object>();
         for (int i = 0; i < getModel().getSize(); i++) {
             Object elementAt = getModel().getElementAt(i);
             if (elementAt instanceof Selectable) {
@@ -456,14 +453,17 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
         repaint();
     }
 
-    public void setListData(Vector listData) {
+    @Override
+    public void setListData(Vector<?> listData) {
         super.setListData(wrap(listData));
     }
 
+    @Override
     public void setListData(Object[] listData) {
         super.setListData(wrap(listData));
     }
 
+    @Override
     public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
         return -1;
     }
@@ -484,7 +484,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
      * Checks if check box is visible. There is no setter for it. The only way is to override
      * this method to return true or false.
      *
-     * @param index
+     * @param index the row index.
      * @return true or false. If false, there is not check box on the particular row index.
      */
     public boolean isCheckBoxVisible(int index) {
@@ -494,7 +494,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     /**
      * Sets the value of property checkBoxEnabled.
      *
-     * @param checkBoxEnabled
+     * @param checkBoxEnabled true to enable all the check boxes. False to disable all of them.
      */
     public void setCheckBoxEnabled(boolean checkBoxEnabled) {
         if (checkBoxEnabled != _checkBoxEnabled) {

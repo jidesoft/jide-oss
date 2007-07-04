@@ -563,7 +563,7 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         boolean useSystemFontSettings = (systemFonts != null &&
-                Boolean.valueOf(systemFonts).booleanValue());
+                Boolean.valueOf(systemFonts));
 
         if (useSystemFontSettings) {
             Object value = UIDefaultsLookup.get("Application.useSystemFontSettings");
@@ -1415,7 +1415,7 @@ public class JideSwingUtilities implements SwingConstants {
         else if (component instanceof JComponent) {
             Integer value = (Integer) ((JComponent) component).getClientProperty(Alignable.PROPERTY_ORIENTATION);
             if (value != null)
-                return value.intValue();
+                return value;
         }
         return HORIZONTAL;
     }
@@ -1427,7 +1427,7 @@ public class JideSwingUtilities implements SwingConstants {
                 ((Alignable) component).setOrientation(orientation);
             }
             else if (component instanceof JComponent) {
-                ((JComponent) component).putClientProperty(Alignable.PROPERTY_ORIENTATION, new Integer(orientation));
+                ((JComponent) component).putClientProperty(Alignable.PROPERTY_ORIENTATION, orientation);
             }
         }
     }
@@ -1471,7 +1471,7 @@ public class JideSwingUtilities implements SwingConstants {
                 // Check if the component wants aa text
                 if (c instanceof JComponent) {
                     Boolean aaProperty = (Boolean) ((JComponent) c).getClientProperty(AA_TEXT_PROPERTY_KEY);
-                    return aaProperty != null ? aaProperty.booleanValue() : false;
+                    return aaProperty != null ? aaProperty : false;
                 }
                 else {
                     return false;
@@ -1939,7 +1939,7 @@ public class JideSwingUtilities implements SwingConstants {
                     Vector clone = new Vector();
                     for (int i = 0; i < v.size(); i++) {
                         if (i == 0) {
-                            clone.add(new Integer((int) (Math.random() * 10)));
+                            clone.add((int) (Math.random() * 10));
                         }
                         else {
                             clone.add("" + v.get(i));

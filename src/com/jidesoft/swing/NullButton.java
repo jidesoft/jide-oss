@@ -69,6 +69,7 @@ public class NullButton extends JButton {
         super(text, icon);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();

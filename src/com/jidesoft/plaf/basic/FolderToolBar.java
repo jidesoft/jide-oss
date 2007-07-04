@@ -29,9 +29,9 @@ class FolderToolBar extends JToolBar {
     private JButton _newFolderBtn;
     private JComboBox _recentFoldersList;
 
-    private List _listeners = new ArrayList(1);
+    private List<FolderToolBarListener> _listeners = new ArrayList(1);
 
-    public FolderToolBar(boolean showRecentFolders, List recentFoldersList) {
+    public FolderToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
         setFloatable(false);
         setupToolBar(showRecentFolders, recentFoldersList);
 
@@ -56,7 +56,7 @@ class FolderToolBar extends JToolBar {
     /**
      * Creates the toolbar buttons and dropdown
      */
-    private void setupToolBar(boolean showRecentFolders, List recentFoldersList) {
+    private void setupToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
 
         // add to toolbar
         if (showRecentFolders) {
@@ -177,41 +177,36 @@ class FolderToolBar extends JToolBar {
     }
 
     private void deleteFolderButtonClicked() {
-        for (int i = 0; i < _listeners.size(); i++) {
-            FolderToolBarListener listener = (FolderToolBarListener) _listeners.get(i);
+        for (FolderToolBarListener listener : _listeners) {
             listener.deleteFolderButtonClicked();
         }
     }
 
     private void newFolderButtonClicked() {
-        for (int i = 0; i < _listeners.size(); i++) {
-            FolderToolBarListener listener = (FolderToolBarListener) _listeners.get(i);
+        for (FolderToolBarListener listener : _listeners) {
             listener.newFolderButtonClicked();
         }
     }
 
     private void myDocumentsButtonClicked() {
-        for (int i = 0; i < _listeners.size(); i++) {
-            FolderToolBarListener listener = (FolderToolBarListener) _listeners.get(i);
+        for (FolderToolBarListener listener : _listeners) {
             listener.myDocumentsButtonClicked();
         }
     }
 
     private void desktopButtonClicked() {
-        for (int i = 0; i < _listeners.size(); i++) {
-            FolderToolBarListener listener = (FolderToolBarListener) _listeners.get(i);
+        for (FolderToolBarListener listener : _listeners) {
             listener.desktopButtonClicked();
         }
     }
 
     private void recentFolderSelected(File recentFolder) {
-        for (int i = 0; i < _listeners.size(); i++) {
-            FolderToolBarListener listener = (FolderToolBarListener) _listeners.get(i);
+        for (FolderToolBarListener listener : _listeners) {
             listener.recentFolderSelected(recentFolder);
         }
     }
 
-    public void setRecentList(List recentFoldersList) {
+    public void setRecentList(List<String> recentFoldersList) {
         _recentFoldersList.setModel(new DefaultComboBoxModel((recentFoldersList.toArray())));
     }
 

@@ -56,6 +56,7 @@ public class BasicJidePopupUI extends PopupUI {
         _popup = f;
     }
 
+    @Override
     public void installUI(JComponent c) {
 
         _popup = (JidePopup) c;
@@ -67,6 +68,7 @@ public class BasicJidePopupUI extends PopupUI {
         _popup.setOpaque(true);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         if (c != _popup)
             throw new IllegalComponentStateException(this + " was asked to deinstall() "
@@ -179,6 +181,7 @@ public class BasicJidePopupUI extends PopupUI {
 
     }
 
+    @Override
     public Component getGripper() {
         return _titlePane;
     }
@@ -192,12 +195,14 @@ public class BasicJidePopupUI extends PopupUI {
     }
 
 
+    @Override
     public Dimension getPreferredSize(JComponent x) {
         if (_popup == x && _popup.getLayout() != null)
             return _popup.getLayout().preferredLayoutSize(x);
         return new Dimension(100, 100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent x) {
         if (_popup == x) {
             return _popup.getLayout().minimumLayoutSize(x);
@@ -205,6 +210,7 @@ public class BasicJidePopupUI extends PopupUI {
         return new Dimension(0, 0);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent x) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }

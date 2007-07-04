@@ -152,6 +152,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         _standardDialogPane.setDefaultAction(defaultAction);
     }
 
+    @Override
     public void pack() {
         try {
             initialize();
@@ -166,6 +167,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
      * @deprecated As of JDK version 1.5, replaced by
      *             {@link Component#setVisible(boolean) Component.setVisible(boolean)}.
      */
+    @Override
     public void show() {
         try {
             initialize();
@@ -203,6 +205,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
         if (getInitFocusedComponent() != null) {
             addWindowListener(new WindowAdapter() {
+                @Override
                 public void windowActivated(WindowEvent e) {
                     getInitFocusedComponent().requestFocus();
                 }
@@ -313,14 +316,17 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     protected class DefaultStandardDialogPane extends StandardDialogPane {
+        @Override
         public JComponent createBannerPanel() {
             return StandardDialog.this.createBannerPanel();
         }
 
+        @Override
         public JComponent createContentPanel() {
             return StandardDialog.this.createContentPanel();
         }
 
+        @Override
         public ButtonPanel createButtonPanel() {
             return StandardDialog.this.createButtonPanel();
         }

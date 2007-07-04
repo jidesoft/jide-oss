@@ -32,13 +32,13 @@ public interface ConverterContextSupport {
      *
      * @return the class of the value.
      */
-    Class getType();
+    Class<?> getType();
 
     /**
      * Sets the class of the value.
      *
      * @param clazz
      */
-    void setType(Class clazz);
+    void setType(Class<?> clazz);
 
 }

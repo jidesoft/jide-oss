@@ -6,6 +6,8 @@
 
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.PortingUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -481,7 +483,7 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     protected void beep() {
-        Toolkit.getDefaultToolkit().beep();
+        PortingUtils.notifyUser();
     }
 
     private void negativePressed(StringBuffer buf) {

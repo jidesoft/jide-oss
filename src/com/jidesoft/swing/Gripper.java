@@ -84,11 +84,12 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
      *
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
         }
-        setUI((GripperUI) UIManager.getUI(this));
+        setUI(UIManager.getUI(this));
     }
 
 
@@ -99,6 +100,7 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -152,6 +154,7 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
      * @see #setCursor
      * @since JDK1.1
      */
+    @Override
     public Cursor getCursor() {
         if (isEnabled()) {
             return Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);

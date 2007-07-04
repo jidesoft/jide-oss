@@ -128,6 +128,7 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
         return (stateMask & BUTTON_ROLLOVER) != 0;
     }
 
+    @Override
     public void setRollover(boolean b) {
         super.setRollover(b);
         if (!b) {

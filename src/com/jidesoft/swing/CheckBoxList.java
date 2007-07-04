@@ -67,7 +67,7 @@ public class CheckBoxList extends JList {
      * @param listData the <code>Vector</code> to be loaded into the
      *                 data model
      */
-    public CheckBoxList(final Vector listData) {
+    public CheckBoxList(final Vector<?> listData) {
         super(listData);
         init();
     }
@@ -133,6 +133,7 @@ public class CheckBoxList extends JList {
         return new Handler(this);
     }
 
+    @Override
     public ListCellRenderer getCellRenderer() {
         if (_listCellRenderer != null) {
             _listCellRenderer.setActualListRenderer(super.getCellRenderer());
@@ -228,8 +229,7 @@ public class CheckBoxList extends JList {
             selectionModel.removeListSelectionListener(this);
             selectionModel.setValueIsAdjusting(true);
             try {
-                for (int i = 0; i < indices.length; i++) {
-                    int index = indices[i];
+                for (int index : indices) {
                     if (!_list.isCheckBoxEnabled(index)) {
                         continue;
                     }
@@ -280,6 +280,7 @@ public class CheckBoxList extends JList {
         }
     }
 
+    @Override
     public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
         return -1;
     }
@@ -436,9 +437,9 @@ public class CheckBoxList extends JList {
             sm.setValueIsAdjusting(true);
             sm.clearSelection();
             int size = getModel().getSize();
-            for (int i = 0; i < indices.length; i++) {
-                if (indices[i] >= 0 && indices[i] < size) {
-                    sm.addSelectionInterval(indices[i], indices[i]);
+            for (int indice : indices) {
+                if (indice >= 0 && indice < size) {
+                    sm.addSelectionInterval(indice, indice);
                 }
             }
         }
@@ -454,9 +455,8 @@ public class CheckBoxList extends JList {
      *                 All the rows that have the value in the array will be checked.
      */
     public void setSelectedObjects(Object[] elements) {
-        Map selected = new HashMap();
-        for (int i = 0; i < elements.length; i++) {
-            Object element = elements[i];
+        Map<Object, String> selected = new HashMap<Object, String>();
+        for (Object element : elements) {
             selected.put(element, "");
         }
         setSelectedObjects(selected);
@@ -468,16 +468,15 @@ public class CheckBoxList extends JList {
      * @param elements sets the select elements.
      *                 All the rows that have the value in the Vector will be checked.
      */
-    public void setSelectedObjects(Vector elements) {
-        Map selected = new HashMap();
-        for (int i = 0; i < elements.size(); i++) {
-            Object element = elements.get(i);
+    public void setSelectedObjects(Vector<?> elements) {
+        Map<Object, String> selected = new HashMap<Object, String>();
+        for (Object element : elements) {
             selected.put(element, "");
         }
         setSelectedObjects(selected);
     }
 
-    private void setSelectedObjects(Map selected) {
+    private void setSelectedObjects(Map<Object, String> selected) {
         int[] indices = new int[selected.size()];
         Arrays.fill(indices, -1);
         int index = 0;

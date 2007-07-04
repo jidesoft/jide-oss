@@ -19,6 +19,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
         super(b);
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
@@ -32,6 +33,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
             model.setArmed(true);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         String prop = e.getPropertyName();
@@ -58,11 +60,13 @@ public class BasicJideButtonListener extends BasicButtonListener {
     // when on JideButton on popup, mouseReleased is not triggered for some reason.
     // So listen to clicked event instead.
     // bug at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4991772
+    @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
         cancelMenuIfNecessary(e);
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
@@ -103,6 +107,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
         }
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
@@ -211,6 +216,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             return !(sender != null && (sender instanceof AbstractButton) &&
                     !((AbstractButton) sender).getModel().isEnabled());
@@ -228,6 +234,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
     }
 
 
+    @Override
     public void installKeyboardActions(JComponent c) {
         AbstractButton b = (AbstractButton) c;
         // Update the mnemonic binding.

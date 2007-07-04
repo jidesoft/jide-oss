@@ -71,6 +71,7 @@ public class NullLabel extends JLabel {
         super(image);
     }
 
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();
