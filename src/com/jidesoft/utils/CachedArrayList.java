@@ -15,7 +15,7 @@ import java.util.HashMap;
  * the memory used by ArrayList. So use it approriately.
  */
 public class CachedArrayList<E> extends ArrayList<E> {
-    private HashMap _indexCache;
+    private HashMap<Object, Integer> _indexCache;
 
     public CachedArrayList() {
     }
@@ -33,9 +33,9 @@ public class CachedArrayList<E> extends ArrayList<E> {
         if (_indexCache == null) {
             _indexCache = new HashMap();
         }
-        Object o = _indexCache.get(elem);
-        if (o != null && o instanceof Integer) {
-            return (Integer) o;
+        Integer o = _indexCache.get(elem);
+        if (o != null) {
+            return o;
         }
         else {
             int i = super.indexOf(elem);
