@@ -75,7 +75,6 @@ public class LabeledTextField extends JPanel {
         _button = createButton();
 
         _textField = createTextField();
-        _textField.setColumns(20);
 
         if (_label != null) {
             add(_label, BorderLayout.BEFORE_LINE_BEGINS);
@@ -98,6 +97,7 @@ public class LabeledTextField extends JPanel {
         JTextField textField = new JTextField();
         SelectAllUtils.install(textField);
         textField.setOpaque(false);
+        textField.setColumns(20);
         return textField;
     }
 
