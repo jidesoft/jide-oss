@@ -479,9 +479,9 @@ public class PortingUtils {
             java.lang.System.exit(0);
         }
 
-        if (!SystemInfo.isJdk15Above()) {
+        if (!SystemInfo.isJdk142Above()) {
             PortingUtils.notifyUser();
-            JOptionPane.showMessageDialog(null, "J2SE 5.0 or above is recommended for this demo for the best experience of seamless integration with Windows XP.", "JIDE Software, Inc.", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "J2SE 1.4.2 or above is recommended for this demo for the best experience of seamless integration with Windows XP.", "JIDE Software, Inc.", JOptionPane.WARNING_MESSAGE);
         }
 
         if (SystemInfo.isMacOSX()) { // set special properties for Mac OS X

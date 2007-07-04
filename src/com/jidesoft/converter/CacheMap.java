@@ -61,8 +61,13 @@ public class CacheMap<T, K> {
      */
     public K[] getKeys(Class<?> clazz, K[] a) {
         Cache<K, T> cache = getCache(clazz);
-        Set<K> set = cache.keySet();
-        return set.toArray(a);
+        if (cache != null) {
+            Set<K> set = cache.keySet();
+            return set.toArray(a);
+        }
+        else {
+            return a;
+        }
     }
 
     protected Cache<K, T> initCache(Class<?> clazz) {
