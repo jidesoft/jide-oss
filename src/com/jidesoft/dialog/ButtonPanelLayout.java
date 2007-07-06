@@ -538,21 +538,28 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private int layoutButtonsRightAlign(List<Component> buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsRightAlign(List buttons, int x, int y, Dimension alloc) {
         boolean containsVisibleButton = false;
         for (int i = _target.getComponentCount() - 1; i >= 0; i--) {
             Component component = _target.getComponent(i);
             if (!component.isVisible() || !buttons.contains(component)) {
                 continue;
             }
+
+            // TRACE FIX - only decrement the x if there are other buttons visible
+            if (containsVisibleButton) {
+                x -= _buttonGap;
+            }
+
             containsVisibleButton = true;
             int prefWidth = component.getPreferredSize().width;
             int width = prefWidth > _minWidth || shouldKeepPreferredWidth(component) ? prefWidth : _minWidth;
             component.setBounds(x - width, y, width, alloc.height);
             x -= width;
-            if (i != 0) {
-                x -= _buttonGap;
-            }
+            // TRACE FIX - see above, this was the original code
+//            if (i != 0) {
+//                x -= _buttonGap;
+//            }
         }
         if (buttons.size() != 0 && containsVisibleButton) {
             x -= _groupGap;
