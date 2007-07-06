@@ -256,10 +256,6 @@ public class PortingUtils {
 
     private static Thread _initalizationThread = null;
 
-    static {
-        initializeScreenArea();
-    }
-
     /**
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)}
      * or {@link #getScreenArea()} for the first time, it will take up to a few seconds to run because it needs to get device information.
@@ -268,6 +264,23 @@ public class PortingUtils {
      * Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
      */
     synchronized public static void initializeScreenArea() {
+        initializeScreenArea(Thread.NORM_PRIORITY);
+    }
+
+    /**
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)}
+     * or {@link #getScreenArea()} for the first time, it will take up to a few seconds to run because it needs to get device information.
+     * To avoid any slowness, you can call {@link #initializeScreenArea()} method in the class where you will use those three methods.
+     * This method will spawn a thread to retrieve device information thus it will return immediately.
+     * Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
+     *
+     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the priority of the thread. If you
+     *                 are waiting for the result before the next step, you should use normal priority (which is 5). If you just want to calcualte when app starts,
+     *                 you can use a lower priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't go beyond the screen.
+     *                 So when AbstractComboBox is used, we will kick off the thread at priority 3. If user clicks on the drop down after the thread finished,
+     *                 there will be no time delay.
+     */
+    synchronized public static void initializeScreenArea(int priority) {
         if (_initalizationThread == null) {
             _initalizationThread = new Thread() {
                 @Override
@@ -293,6 +306,7 @@ public class PortingUtils {
                     INSETS = (Insets[]) insetsList.toArray(new Insets[screensList.size()]);
                 }
             };
+            _initalizationThread.setPriority(priority);
             _initalizationThread.start();
         }
     }
