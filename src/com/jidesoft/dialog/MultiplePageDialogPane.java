@@ -783,9 +783,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
         });
 
         JComponent indexPanel = new JPanel(new BorderLayout(4, 4));
-        JScrollPane pane = new JScrollPane(list);
-        pane.setOpaque(false);
-        pane.getViewport().setOpaque(false);
         indexPanel.add(new JideScrollPane(list), BorderLayout.CENTER);
         indexPanel.setOpaque(false);
         return indexPanel;
@@ -919,7 +916,51 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * @return the ButtonPanel.
      */
     protected ButtonPanel createIconButtonPanel() {
-        return new ButtonPanel(SwingConstants.TOP, ButtonPanel.SAME_SIZE);
+        return new ScrollableButtonPanel(SwingConstants.TOP, ButtonPanel.SAME_SIZE);
+    }
+
+    private static class ScrollableButtonPanel extends ButtonPanel implements Scrollable {
+
+        public ScrollableButtonPanel() {
+        }
+
+        public ScrollableButtonPanel(int alignment) {
+            super(alignment);
+        }
+
+        public ScrollableButtonPanel(int alignment, int sizeContraint) {
+            super(alignment, sizeContraint);
+        }
+
+        public Dimension getPreferredScrollableViewportSize() {
+            return getPreferredSize();
+        }
+
+        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+            if (getComponentCount() > 0) {
+                Component c = getComponent(0);
+                if (orientation == SwingConstants.HORIZONTAL)
+                    return c.getWidth();
+                else
+                    return c.getHeight();
+            }
+            return 50;
+        }
+
+        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+            if (orientation == SwingConstants.HORIZONTAL)
+                return visibleRect.width;
+            else
+                return visibleRect.width;
+        }
+
+        public boolean getScrollableTracksViewportWidth() {
+            return false;
+        }
+
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
     }
 
     private JideButton addPage(int i, final ButtonGroup group, final ButtonPanel buttonsPanel) {
