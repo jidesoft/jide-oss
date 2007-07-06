@@ -52,6 +52,7 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
                 return new Resizable(this) {
                     @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
+                        ResizableWindow.this.getContentPane().setPreferredSize(new Dimension(newW, newH));
                         ResizableWindow.this.setBounds(newX, newY, newW, newH);
                     }
 
