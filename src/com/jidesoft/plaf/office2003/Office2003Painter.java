@@ -85,7 +85,7 @@ public class Office2003Painter extends BasicPainter {
     private static Office2003Theme _homeSteadTheme = new Office2003Theme(XPUtils.HOMESTEAD);
     private static Office2003Theme _metallicTheme = new Office2003Theme(XPUtils.METALLIC);
 
-    private static Map _themeCache = new TreeMap();
+    private static Map<String, Office2003Theme> _themeCache = new TreeMap();
 
     static {
         _themeCache.put(_defaultTheme.getThemeName(), _defaultTheme);
@@ -374,14 +374,14 @@ public class Office2003Painter extends BasicPainter {
     }
 
     public Office2003Theme getTheme(String themeName) {
-        return (Office2003Theme) _themeCache.get(themeName);
+        return _themeCache.get(themeName);
     }
 
     public void removeTheme(String themeName) {
         _themeCache.remove(themeName);
     }
 
-    public Collection getAvailableThemes() {
+    public Collection<Office2003Theme> getAvailableThemes() {
         return _themeCache.values();
     }
 
@@ -411,10 +411,10 @@ public class Office2003Painter extends BasicPainter {
 
     public Office2003Theme getCurrentTheme() {
         if (getColorName() == null || getColorName().trim().length() == 0 || _themeCache.get(getColorName()) == null) {
-            return (Office2003Theme) _themeCache.get(XPUtils.DEFAULT);
+            return _themeCache.get(XPUtils.DEFAULT);
         }
         else {
-            return (Office2003Theme) _themeCache.get(getColorName());
+            return _themeCache.get(getColorName());
         }
     }
 
