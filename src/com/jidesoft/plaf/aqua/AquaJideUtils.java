@@ -83,11 +83,11 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
         Object mdiBackgroundColor = table.get("Panel.background"); // AquaImageFactory.getWindowBackgroundColorUIResource();
 
-        Object controlFont = new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
+        Object controlFont = table.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
 
-        Object controlSmallFont = new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextSmallFont");
+        Object controlSmallFont = table.get("TabbedPane.smallFont"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextSmallFont");
 
-        Object boldFont = new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
+        Object boldFont = table.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
 
         Object resizeBorder = BorderFactory.createLineBorder(new Color(230, 230, 230), 2);
 
