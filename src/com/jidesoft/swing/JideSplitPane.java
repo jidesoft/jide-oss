@@ -634,7 +634,17 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         }
         double[] oldProportions = _proportions;
         _proportions = (proportions == null) ? null : (double[]) proportions.clone();
+
+        LayoutManager layoutManager = getLayout();
+        boolean reset = false;
+        if (layoutManager instanceof JideBoxLayout) {
+            reset = ((JideBoxLayout) layoutManager).isResetWhenInvalidate();
+            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(true);
+        }
         revalidate();
+        if (reset && layoutManager instanceof JideBoxLayout) {
+            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(reset);
+        }
         firePropertyChange(PROPORTIONS_PROPERTY, oldProportions, proportions);
     }
 
