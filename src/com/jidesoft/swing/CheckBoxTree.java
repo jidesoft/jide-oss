@@ -193,7 +193,7 @@ public class CheckBoxTree extends JTree {
     protected static class Handler implements MouseListener, KeyListener, TreeSelectionListener {
         protected CheckBoxTree _tree;
         int _hotspot = new JCheckBox().getPreferredSize().width;
-        private int _toggleCount;
+        private int _toggleCount = -1;
 
         public Handler(CheckBoxTree tree) {
             _tree = tree;
@@ -264,7 +264,9 @@ public class CheckBoxTree extends JTree {
             if (path != null) {
                 e.consume();
             }
-            _tree.setToggleClickCount(_toggleCount);
+            if (_toggleCount != -1) {
+                _tree.setToggleClickCount(_toggleCount);
+            }
         }
 
         public void mouseEntered(MouseEvent e) {
