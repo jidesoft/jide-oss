@@ -306,8 +306,8 @@ public class LookAndFeelFactory implements ProductNames {
         void initialize(UIDefaults defaults);
     }
 
-    private static List _uiDefaultsCustomizers = new Vector();
-    private static List _uiDefaultsInitializers = new Vector();
+    private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector();
+    private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector();
 
     protected LookAndFeelFactory() {
     }
@@ -321,7 +321,7 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static int getDefaultStyle() {
         if (_defaultStyle == -1) {
-            int suggestedStyle = -1;
+            int suggestedStyle;
             try {
                 if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
                     suggestedStyle = OFFICE2003_STYLE;
@@ -342,7 +342,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Sets the default style. If you call this method to set a default style, {@link #installJideExtension()} will
      * use it as the default style.
      *
-     * @param defaultStyle
+     * @param defaultStyle the default style.
      */
     public static void setDefaultStyle(int defaultStyle) {
         _defaultStyle = defaultStyle;
@@ -410,6 +410,8 @@ public class LookAndFeelFactory implements ProductNames {
      *  frame.getDockableBarManager().updateComponentTreeUI();
      *  frame.getDockingManager().updateComponentTreeUI();
      * </code></pre>
+     *
+     * @param style the style of the extension.
      */
     public static void installJideExtension(int style) {
         installJideExtension(UIManager.getLookAndFeelDefaults(), UIManager.getLookAndFeel(), style);
@@ -444,8 +446,7 @@ public class LookAndFeelFactory implements ProductNames {
         _lookAndFeel = lnf;
 
         UIDefaultsInitializer[] initializers = getUIDefaultsInitializers();
-        for (int i = 0; i < initializers.length; i++) {
-            UIDefaultsInitializer initializer = initializers[i];
+        for (UIDefaultsInitializer initializer : initializers) {
             if (initializer != null) {
                 initializer.initialize(uiDefaults);
             }
@@ -631,7 +632,7 @@ public class LookAndFeelFactory implements ProductNames {
                 || (lnf.getClass().getName().equals(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
-                Class aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
+                Class<?> aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
                 aquaJideUtils.getMethod("initComponentDefaults", new Class[]{
                         UIDefaults.class}).invoke(null, uiDefaults);
                 aquaJideUtils.getMethod("initClassDefaults", new Class[]{UIDefaults.class}).invoke(null, uiDefaults);
@@ -748,8 +749,7 @@ public class LookAndFeelFactory implements ProductNames {
         UIManager.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
 
         UIDefaultsCustomizer[] customizers = getUIDefaultsCustomizers();
-        for (int i = 0; i < customizers.length; i++) {
-            UIDefaultsCustomizer customizer = customizers[i];
+        for (UIDefaultsCustomizer customizer : customizers) {
             if (customizer != null) {
                 customizer.customize(uiDefaults);
             }
@@ -949,12 +949,13 @@ public class LookAndFeelFactory implements ProductNames {
     public static void installDefaultLookAndFeel() {
         try {
             String lnfName = SecurityUtils.getProperty("swing.defaultlaf", null);
-            Class lnfClass = null;
+            Class<?> lnfClass = null;
             if (lnfName != null) {
                 try {
                     lnfClass = getValidClassLoader().loadClass(lnfName);
                 }
-                catch (ClassNotFoundException e1) {
+                catch (ClassNotFoundException e) {
+                    // ignore
                 }
             }
 
@@ -1012,14 +1013,22 @@ public class LookAndFeelFactory implements ProductNames {
      * @return an array of UIDefaults customizers.
      */
     public static UIDefaultsCustomizer[] getUIDefaultsCustomizers() {
-        return (UIDefaultsCustomizer[]) _uiDefaultsCustomizers.toArray(new UIDefaultsCustomizer[_uiDefaultsCustomizers.size()]);
+        return _uiDefaultsCustomizers.toArray(new UIDefaultsCustomizer[_uiDefaultsCustomizers.size()]);
     }
 
     /**
      * Adds your own UIDefaults customizer. This customizer will be called
      * after installJideExtension() is called.
+     * <code><pre>
+     * For example, we use "JideButton.font" as the UIDefault for the JideButton font. If you want to use another font, you can do
+     * LookAndFeelFactory.addUIDefaultsCustomizer(new LookAndFeelFactory.UIDefaultsCustomizer() {
+     *     public void customize(UIDefaults defaults) {
+     *         defaults.put("JideButton.font", whateverFont);
+     *     }
+     * });
+     * </pre></code>
      *
-     * @param uiDefaultsCustomizer
+     * @param uiDefaultsCustomizer the UIDefaultsCustomizer
      */
     public static void addUIDefaultsCustomizer(UIDefaultsCustomizer uiDefaultsCustomizer) {
         if (!_uiDefaultsCustomizers.contains(uiDefaultsCustomizer)) {
@@ -1030,7 +1039,7 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Removes an existing UIDefaults customizer you added before.
      *
-     * @param uiDefaultsCustomizer
+     * @param uiDefaultsCustomizer the UIDefaultsCustomizer
      */
     public static void removeUIDefaultsCustomizer(UIDefaultsCustomizer uiDefaultsCustomizer) {
         _uiDefaultsCustomizers.remove(uiDefaultsCustomizer);
@@ -1042,14 +1051,28 @@ public class LookAndFeelFactory implements ProductNames {
      * @return an array of UIDefaults initializers.
      */
     public static UIDefaultsInitializer[] getUIDefaultsInitializers() {
-        return (UIDefaultsInitializer[]) _uiDefaultsInitializers.toArray(new UIDefaultsInitializer[_uiDefaultsInitializers.size()]);
+        return _uiDefaultsInitializers.toArray(new UIDefaultsInitializer[_uiDefaultsInitializers.size()]);
     }
 
     /**
      * Adds your own UIDefaults initializer. This initializer will be called
      * before installJideExtension() is called.
+     * <p/>
+     * Here is how you use it. For example, we use the color of UIDefault "activeCaption" to get the active title color
+     * which we will use for active title bar color in JIDE components. If the L&F you are using
+     * doesn't set this UIDefault, we might throw NPE later in the code.
+     * To avoid this, you call
+     * <code><pre>
+     * LookAndFeelFactory.addUIDefaultsInitializer(new LookAndFeelFactory.UIDefaultsInitializer() {
+     *     public void initialize(UIDefaults defaults) {
+     *         defaults.put("activeCaption", whateverColor);
+     *     }
+     * });
+     * UIManager.setLookAndFeel(...); // set whatever L&F
+     * LookAndFeelFactory.installJideExtension(); // install the UIDefaults needed by the JIDE components
+     * </pre></code>
      *
-     * @param uiDefaultsInitializer
+     * @param uiDefaultsInitializer the UIDefaultsInitializer.
      */
     public static void addUIDefaultsInitializer(UIDefaultsInitializer uiDefaultsInitializer) {
         if (!_uiDefaultsInitializers.contains(uiDefaultsInitializer)) {
@@ -1060,7 +1083,7 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Removes an existing UIDefaults initializer you added before.
      *
-     * @param uiDefaultsInitializer
+     * @param uiDefaultsInitializer the UIDefaultsInitializer
      */
     public static void removeUIDefaultsInitializer(UIDefaultsInitializer uiDefaultsInitializer) {
         _uiDefaultsInitializers.remove(uiDefaultsInitializer);
@@ -1142,18 +1165,18 @@ public class LookAndFeelFactory implements ProductNames {
      * the key, the new value will be ignored. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method.
      * You should use this method in {@link UIDefaultsInitializer} so that it fills in the UIDefault value only when it is missing.
      *
-     * @param table
-     * @param keyValueList
+     * @param table         the ui defaults table
+     * @param keyValueArray the key value array. It is in the format of a key followed by a value.
      */
-    public static void putDefaults(UIDefaults table, Object[] keyValueList) {
-        for (int i = 0, max = keyValueList.length; i < max; i += 2) {
-            Object value = keyValueList[i + 1];
+    public static void putDefaults(UIDefaults table, Object[] keyValueArray) {
+        for (int i = 0, max = keyValueArray.length; i < max; i += 2) {
+            Object value = keyValueArray[i + 1];
             if (value == null) {
-                table.remove(keyValueList[i]);
+                table.remove(keyValueArray[i]);
             }
             else {
-                if (table.get(keyValueList[i]) == null) {
-                    table.put(keyValueList[i], value);
+                if (table.get(keyValueArray[i]) == null) {
+                    table.put(keyValueArray[i], value);
                 }
             }
         }
@@ -1166,17 +1189,17 @@ public class LookAndFeelFactory implements ProductNames {
      * in even if the table already has a value for the key. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method.
      * You should use this method in {@link UIDefaultsCustomizer} because you always want to override the existing value using the new value.
      *
-     * @param table
-     * @param keyValueList
+     * @param table         the ui defaults table
+     * @param keyValueArray the key value array. It is in the format of a key followed by a value.
      */
-    public static void overwriteDefaults(UIDefaults table, Object[] keyValueList) {
-        for (int i = 0, max = keyValueList.length; i < max; i += 2) {
-            Object value = keyValueList[i + 1];
+    public static void overwriteDefaults(UIDefaults table, Object[] keyValueArray) {
+        for (int i = 0, max = keyValueArray.length; i < max; i += 2) {
+            Object value = keyValueArray[i + 1];
             if (value == null) {
-                table.remove(keyValueList[i]);
+                table.remove(keyValueArray[i]);
             }
             else {
-                table.put(keyValueList[i], value);
+                table.put(keyValueArray[i], value);
             }
         }
     }
@@ -1191,42 +1214,49 @@ public class LookAndFeelFactory implements ProductNames {
                 _productsUsed |= PRODUCT_DOCK;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.action.Product");
                 _productsUsed |= PRODUCT_ACTION;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.document.Product");
                 _productsUsed |= PRODUCT_COMPONENTS;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.grid.Product");
                 _productsUsed |= PRODUCT_GRIDS;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.wizard.Product");
                 _productsUsed |= PRODUCT_DIALOGS;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.pivot.Product");
                 _productsUsed |= PRODUCT_PIVOT;
             }
             catch (ClassNotFoundException e) {
+                //
             }
             try {
                 Class.forName("com.jidesoft.shortcut.Product");
                 _productsUsed |= PRODUCT_SHORTCUT;
             }
             catch (ClassNotFoundException e) {
+                //
             }
         }
         return _productsUsed;
