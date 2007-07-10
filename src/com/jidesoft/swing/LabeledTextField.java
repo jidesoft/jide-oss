@@ -265,7 +265,6 @@ public class LabeledTextField extends JPanel {
         }
     }
 
-    @Override
     public int getBaseline(int width, int height) {
         if (SystemInfo.isJdk6Above()) {
             try {

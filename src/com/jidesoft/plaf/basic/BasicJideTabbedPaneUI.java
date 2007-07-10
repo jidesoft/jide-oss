@@ -5878,7 +5878,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                         if (child instanceof ScrollableTabViewport) {
                             JViewport viewport = (JViewport) child;
-                            Rectangle viewRect = viewport.getViewRect();
+//                            Rectangle viewRect = viewport.getViewRect();
                             int vw = tw;
                             int vh = th;
                             int numberOfButtons;
@@ -5894,13 +5894,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         }
                                         // Allow space for scrollbuttons
                                         vh = Math.max(th - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
-                                        if (totalTabHeight - viewRect.y <= vh) {
-                                            // Scrolled to the end, so ensure the
-                                            // viewport size is
-                                            // such that the scroll offset aligns
-                                            // with a tab
-                                            vh = totalTabHeight - viewRect.y;
-                                        }
+//                                        if (totalTabHeight - viewRect.y <= vh) {
+//                                            // Scrolled to the end, so ensure the
+//                                            // viewport size is
+//                                            // such that the scroll offset aligns
+//                                            // with a tab
+//                                            vh = totalTabHeight - viewRect.y;
+//                                        }
                                     }
                                     else {
                                         numberOfButtons = 1;
@@ -5928,13 +5928,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         }
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
 
-                                        if (totalTabWidth - viewRect.x <= vw) {
-                                            // Scrolled to the end, so ensure the
-                                            // viewport size is
-                                            // such that the scroll offset aligns
-                                            // with a tab
-                                            vw = totalTabWidth - viewRect.x;
-                                        }
+//                                        if (totalTabWidth - viewRect.x <= vw) {
+//                                            // Scrolled to the end, so ensure the
+//                                            // viewport size is
+//                                            // such that the scroll offset aligns
+//                                            // with a tab
+//                                            vw = totalTabWidth - viewRect.x;
+//                                        }
                                     }
                                     else {
                                         numberOfButtons = 1;
