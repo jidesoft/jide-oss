@@ -42,7 +42,7 @@
     <target name="compile" depends="init" description="compile the source code">
         <delete dir="${output_dir}"/>
         <mkdir dir="${output_dir}"/>
-        <javac source="1.4" target="1.4" srcdir="${src_dir}"
+        <javac source="${source}" target="${target}" srcdir="${src_dir}"
                destdir="${output_dir}"
                fork="yes" memoryInitialSize="${initheapsize}" memoryMaximumSize="${maxheapsize}" verbose="no"
                debug="${debug}" deprecation="${deprecation}">
