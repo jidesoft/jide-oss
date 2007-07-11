@@ -19,15 +19,15 @@ public interface ProductNames {
     public final static String PRODUCT_NAME_PIVOT = "JIDE Pivot Grid";
     public final static String PRODUCT_NAME_CODE_EDITOR = "JIDE Code Editor";
     public final static String PRODUCT_NAME_FEEDREADER = "JIDE Feed Reader";
-    public final static String ALL_PRODUCTS =
-            PRODUCT_NAME_DOCK + ", " +
-                    PRODUCT_NAME_ACTION + ", " +
-                    PRODUCT_NAME_COMPONENTS + ", " +
-                    PRODUCT_NAME_GRIDS + ", " +
-                    PRODUCT_NAME_PIVOT + ", " +
-                    PRODUCT_NAME_DIALOGS + ", " +
-                    "and " +
-                    PRODUCT_NAME_SHORTCUT;
+    public final static String ALL_PRODUCTS = PRODUCT_NAME_DOCK + ", " +
+            PRODUCT_NAME_ACTION + ", " +
+            PRODUCT_NAME_COMPONENTS + ", " +
+            PRODUCT_NAME_GRIDS + ", " +
+            PRODUCT_NAME_DIALOGS + ", " +
+            PRODUCT_NAME_PIVOT + ", " +
+            PRODUCT_NAME_SHORTCUT + ", " +
+            "and " +
+            PRODUCT_NAME_CODE_EDITOR;
 
     public static final int PRODUCT_COMMON = 0;
     public static final int PRODUCT_DOCK = 0x1;
