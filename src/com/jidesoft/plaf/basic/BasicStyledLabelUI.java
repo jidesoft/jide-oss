@@ -254,6 +254,16 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
             int strWidth = fm2.stringWidth(s);
 
+            boolean stop = false;
+            int widthLeft = label.getWidth() - x;
+            if (widthLeft < strWidth) {
+                // use this method to clip string
+                s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, SwingConstants.CENTER, SwingConstants.LEFT,
+                        SwingConstants.CENTER, SwingConstants.LEFT, new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                strWidth = fm2.stringWidth(s);
+                stop = true;
+            }
+
             if (style != null && style.isSuperscript()) {
                 y -= fm.getHeight() - fm2.getHeight();
             }
@@ -314,6 +324,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     ((Graphics2D) g).setStroke(oldStroke);
                 }
             }
+
+            if (stop) {
+                break;
+            }
+
             x += strWidth;
         }
 
