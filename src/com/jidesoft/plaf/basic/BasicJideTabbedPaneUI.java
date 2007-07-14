@@ -5170,6 +5170,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     case RIGHT:
                         height = Math.max(height, (minimum ? 0 : calculateMaxTabHeight(tabPlacement)) + tabAreaInsets.top + tabAreaInsets.bottom);
                         tabExtent = calculateTabAreaHeight(tabPlacement, _runCount, _maxTabHeight);
+
+                        if (isTabLeadingComponentVisible()) {
+                            tabExtent = Math.max(_tabLeadingComponent.getSize().width, tabExtent);
+                        }
+                        if (isTabTrailingComponentVisible()) {
+                            tabExtent = Math.max(_tabTrailingComponent.getSize().width, tabExtent);
+                        }
+
                         width += tabExtent;
                         break;
                     case TOP:
@@ -5186,6 +5194,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                         if (_tabPane.isTabShown()) {
                             tabExtent = calculateTabAreaHeight(tabPlacement, _runCount, _maxTabHeight);
+
+                            if (isTabLeadingComponentVisible()) {
+                                tabExtent = Math.max(_tabLeadingComponent.getSize().height, tabExtent);
+                            }
+                            if (isTabTrailingComponentVisible()) {
+                                tabExtent = Math.max(_tabTrailingComponent.getSize().height, tabExtent);
+                            }
+
                             height += tabExtent;
                         }
                 }
