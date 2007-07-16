@@ -77,11 +77,16 @@ class FolderToolBar extends JToolBar {
                     if (e.getSource() instanceof JComboBox) {
                         JComboBox box = (JComboBox) e.getSource();
 
-                        File selectedFile = (File) box.getModel().getSelectedItem();
+                        Object selectedFile = box.getModel().getSelectedItem();
                         // if popup was not cancelled then select the folder
                         if (!m_wasCancelled && selectedFile != null) {
 //                            System.out.println("User selected file: " + selectedFile.getAbsolutePath());
-                            recentFolderSelected(selectedFile);
+                            if (selectedFile instanceof File) {
+                                recentFolderSelected((File) selectedFile);
+                            }
+                            else {
+                                recentFolderSelected(new File("" + selectedFile));
+                            }
                         }
                     }
                 }
@@ -150,12 +155,25 @@ class FolderToolBar extends JToolBar {
 
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel renderer = (JLabel) m_defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            File f = null;
             if (value instanceof File) {
-                File f = (File) value;
+                f = (File) value;
+            }
+            else if (value != null) {
+                f = new File(value.toString());
+            }
+
+            if (f != null && f.exists()) {
                 String text = _fsv.getSystemDisplayName(f);
                 Icon icon = _fsv.getSystemIcon(f);
                 renderer.setIcon(icon);
                 renderer.setText(text);
+                renderer.setToolTipText(f.getAbsolutePath());
+            }
+            else {
+                String filePath = value == null ? "" : value.toString();
+                renderer.setText(filePath);
+                renderer.setToolTipText(filePath);
             }
             return renderer;
         }
