@@ -5,8 +5,11 @@
  */
 package com.jidesoft.dialog;
 
+import com.jidesoft.swing.DelegateAction;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -108,8 +111,17 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
             }
 
             if (getDefaultCancelAction() != null) {
-                getRootPane().registerKeyboardAction(getDefaultCancelAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                        JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                getRootPane().registerKeyboardAction(new DelegateAction(getDefaultCancelAction()) {
+                    @Override
+                    public boolean delegateActionPerformed(ActionEvent e) {
+                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
+                        if (selectedPath != null && selectedPath.length > 0) {
+                            MenuSelectionManager.defaultManager().clearSelectedPath();
+                            return true;
+                        }
+                        return false;
+                    }
+                }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
             }
             if (getDefaultAction() != null) {
                 getRootPane().registerKeyboardAction(getDefaultAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),

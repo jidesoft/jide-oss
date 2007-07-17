@@ -5,10 +5,12 @@
 */
 package com.jidesoft.dialog;
 
+import com.jidesoft.swing.DelegateAction;
 import com.jidesoft.swing.JideSwingUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -301,10 +303,18 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     class StandardDialogPropertyChangeListener implements PropertyChangeListener {
         public void propertyChange(PropertyChangeEvent evt) {
             if (StandardDialogPane.PROPERTY_CANCEL_ACTION.equals(evt.getPropertyName())) {
-                getRootPane().unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
-                getRootPane().registerKeyboardAction(getDefaultCancelAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                        JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
+                DelegateAction delegateAction = new DelegateAction(getDefaultCancelAction()) {
+                    @Override
+                    public boolean delegateActionPerformed(ActionEvent e) {
+                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
+                        if (selectedPath != null && selectedPath.length > 0) {
+                            MenuSelectionManager.defaultManager().clearSelectedPath();
+                            return true;
+                        }
+                        return false;
+                    }
+                };
+                DelegateAction.replaceAction(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), delegateAction, false);
             }
             else if (StandardDialogPane.PROPERTY_DEFAULT_ACTION.equals(evt.getPropertyName())) {
                 getRootPane().unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
