@@ -37,7 +37,16 @@ abstract public class DelegateAction extends AbstractAction {
     private Action _action;
     private JComponent _target;
 
-    protected DelegateAction() {
+    public DelegateAction() {
+    }
+
+    public DelegateAction(Action action) {
+        _action = action;
+    }
+
+    public DelegateAction(Action action, JComponent target) {
+        _action = action;
+        _target = target;
     }
 
     final public void actionPerformed(ActionEvent e) {
