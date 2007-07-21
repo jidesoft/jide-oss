@@ -42,8 +42,17 @@ public class ScrollableButtonPanel extends ButtonPanel implements Scrollable {
             return visibleRect.width;
     }
 
+    /**
+     * Override this method to make sure the button panel expand all the way if the view port is small.
+     *
+     * @return true if parent is null or parent width is greater than preferred width
+     */
     public boolean getScrollableTracksViewportWidth() {
-        return true;
+        if (getParent() == null) {
+            return true;
+        }
+
+        return getParent().getSize().width > getPreferredSize().width;
     }
 
     public boolean getScrollableTracksViewportHeight() {
