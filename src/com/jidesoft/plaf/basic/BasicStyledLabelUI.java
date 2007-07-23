@@ -205,7 +205,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
-        int x = textX;
+        int x = label.getInsets().left;
         int y;
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
         if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
@@ -258,8 +258,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int widthLeft = label.getWidth() - x;
             if (widthLeft < strWidth) {
                 // use this method to clip string
-                s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, SwingConstants.CENTER, SwingConstants.LEFT,
-                        SwingConstants.CENTER, SwingConstants.LEFT, new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                        label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
                 strWidth = fm2.stringWidth(s);
                 stop = true;
             }
