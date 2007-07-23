@@ -2366,6 +2366,23 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Checks if the key listener is already registerd on the component.
+     *
+     * @param component the component
+     * @param l         the listener
+     * @return true if already registered. Otherwise false.
+     */
+    public static boolean isKeyListenerRegistered(Component component, KeyListener l) {
+        KeyListener[] listeners = component.getKeyListeners();
+        for (KeyListener listener : listeners) {
+            if (listener == l) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Inserts the key listener at the particular index in the listeners' chain.
      *
      * @param component
@@ -2374,8 +2391,7 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static void insertKeyListener(Component component, KeyListener l, int index) {
         KeyListener[] listeners = component.getKeyListeners();
-        for (int i = 0; i < listeners.length; i++) {
-            KeyListener listener = listeners[i];
+        for (KeyListener listener : listeners) {
             component.removeKeyListener(listener);
         }
         for (int i = 0; i < listeners.length; i++) {
@@ -2392,6 +2408,23 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Checks if the mouse listener is already registerd on the component.
+     *
+     * @param component the component
+     * @param l         the listener
+     * @return true if already registered. Otherwise false.
+     */
+    public static boolean isMouseListenerRegistered(Component component, MouseListener l) {
+        MouseListener[] listeners = component.getMouseListeners();
+        for (MouseListener listener : listeners) {
+            if (listener == l) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Inserts the mouse listener at the particular index in the listeners' chain.
      *
      * @param component
@@ -2400,8 +2433,7 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static void insertMouseListener(Component component, MouseListener l, int index) {
         MouseListener[] listeners = component.getMouseListeners();
-        for (int i = 0; i < listeners.length; i++) {
-            MouseListener listener = listeners[i];
+        for (MouseListener listener : listeners) {
             component.removeMouseListener(listener);
         }
         for (int i = 0; i < listeners.length; i++) {
@@ -2418,6 +2450,23 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Checks if the mouse motion listener is already registerd on the component.
+     *
+     * @param component the component
+     * @param l         the listener
+     * @return true if already registered. Otherwise false.
+     */
+    public static boolean isMouseMotionListenerRegistered(Component component, MouseMotionListener l) {
+        MouseMotionListener[] listeners = component.getMouseMotionListeners();
+        for (MouseMotionListener listener : listeners) {
+            if (listener == l) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Inserts the mouse motion listener at the particular index in the listeners' chain.
      *
      * @param component
@@ -2426,8 +2475,7 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static void insertMouseMotionListener(Component component, MouseMotionListener l, int index) {
         MouseMotionListener[] listeners = component.getMouseMotionListeners();
-        for (int i = 0; i < listeners.length; i++) {
-            MouseMotionListener listener = listeners[i];
+        for (MouseMotionListener listener : listeners) {
             component.removeMouseMotionListener(listener);
         }
         for (int i = 0; i < listeners.length; i++) {
