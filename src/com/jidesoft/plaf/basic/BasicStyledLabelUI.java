@@ -205,7 +205,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
-        int x = label.getInsets().left;
+        int x = textX < label.getInsets().left ? label.getInsets().left : textX;
         int y;
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
         if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
