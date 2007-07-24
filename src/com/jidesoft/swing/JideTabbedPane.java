@@ -1565,4 +1565,17 @@ public class JideTabbedPane extends JTabbedPane {
             firePropertyChange(PROPERTY_DRAG_OVER_DISABLED, old, dragOverDisabled);
         }
     }
+
+    /**
+     * Scroll the selected tab visible in case the tab is outside of the viewport.
+     *
+     * @param scrollLeft true to scroll the first tab visible first then scroll left to make
+     *                   the selected tab visible. This will get a more consistent result.
+     *                   If false, it will simple scroll the selected tab visible. Sometimes the
+     *                   tab will appear as the first visible tab or the last visible tab depending on
+     *                   the previous viewport position.
+     */
+    public void scrollSelectedTabToVisible(boolean scrollLeft) {
+        ((JideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(scrollLeft);
+    }
 }

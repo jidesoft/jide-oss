@@ -7841,7 +7841,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
-    private void ensureActiveTabIsVisible(boolean scrollLeft) {
+    public void ensureActiveTabIsVisible(boolean scrollLeft) {
         if (_tabPane == null || _tabPane.getWidth() == 0) {
             return;
         }
@@ -7949,7 +7949,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected boolean _isEditing;
 
-    protected int _editingTab;
+    protected int _editingTab = -1;
 
     protected String _oldValue;
 
