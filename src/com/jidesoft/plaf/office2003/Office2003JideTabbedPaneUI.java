@@ -136,7 +136,9 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
             }
 
-            if (getTabShape() != JideTabbedPane.SHAPE_BOX && _tabPane.getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {// the color set is office2003
+            super.paintBackground(g, c);
+
+            if (getTabShape() != JideTabbedPane.SHAPE_BOX) {// the color set is office2003
                 Rectangle rect = null;
                 if (_tabPane.getTabPlacement() == TOP) {
                     rect = new Rectangle(0, 0, width, h + 2);

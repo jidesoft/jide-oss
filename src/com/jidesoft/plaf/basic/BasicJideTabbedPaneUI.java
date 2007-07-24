@@ -879,7 +879,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
         if (_tabPane.isOpaque()) {
-            g.setColor(_tabBackground);
+            if (getTabShape() == JideTabbedPane.SHAPE_BOX) {
+                g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground"));
+            }
+            else {
+                g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
+            }
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
     }

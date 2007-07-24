@@ -272,8 +272,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
 
                 }
                 else if (getColorTheme() == JideTabbedPane.COLOR_THEME_VSNET) {
-                    g.setColor(_tabBackground);
-                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
+                    super.paintTabAreaBackground(g, rect, tabPlacement);
                 }
                 else {
                     g.setColor(UIDefaultsLookup.getColor("control"));
@@ -282,8 +281,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             }
             else {
                 g.setColor(UIDefaultsLookup.getColor("control"));
-                g.fillRect(rect.x, rect.y, rect.width,
-                        rect.height);
+                g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
         }
     }
