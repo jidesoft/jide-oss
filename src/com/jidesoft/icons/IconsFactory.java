@@ -249,6 +249,11 @@ public class IconsFactory {
     public static ImageIcon createGrayImage(Component c, Icon icon) {
         if (icon == null)
             return EMPTY_ICON;
+
+        int w = icon.getIconWidth(), h = icon.getIconHeight();
+        if ((w == 0) || (h == 0))
+            return EMPTY_ICON;
+        
         BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         icon.paintIcon(c, image.getGraphics(), 0, 0);
         return new ImageIcon(GrayFilter.createDisabledImage(image));

@@ -903,6 +903,10 @@ public class VsnetMenuItemUI extends MenuItemUI {
                                   Rectangle arrowIconRect,
                                   int textIconGap,
                                   int menuItemGap) {
+        if (icon != null)
+            if ((icon.getIconHeight() == 0) || (icon.getIconWidth() == 0)) 
+            	icon = null;	// An exception may occur in case of zero sized icons
+
         viewRect.width -= getRightMargin(); // this line is mainly for JideSplitButton
         String newText = SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment,
                 horizontalAlignment, verticalTextPosition,
