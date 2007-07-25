@@ -134,8 +134,14 @@ public class DefaultOffice2003Theme extends Office2003Theme {
         int products = LookAndFeelFactory.getProductsUsed();
 
         if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_default.png"); // 10 x 10 x 8
             final int SIZE = 20;
+            final int MASK_SIZE = 11;
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_default.png"); // 20 x 20
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_mask.png"); // 11 x 11
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
             uiDefaults = new Object[]{
                     "CollapsiblePane.contentBackground", controlLtHighlight,
                     "CollapsiblePanes.backgroundLt", control,
@@ -148,10 +154,10 @@ public class DefaultOffice2003Theme extends Office2003Theme {
                     "CollapsiblePaneTitlePane.backgroundDk.emphasized", controlDkShadow,
                     "CollapsiblePaneTitlePane.foreground.emphasized", controlLtHighlight,
                     "CollapsiblePaneTitlePane.foreground.focus.emphasized", controlLtHighlight,
-                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
 
             };
             putDefaults(uiDefaults);

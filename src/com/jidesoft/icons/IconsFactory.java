@@ -253,7 +253,7 @@ public class IconsFactory {
         int w = icon.getIconWidth(), h = icon.getIconHeight();
         if ((w == 0) || (h == 0))
             return EMPTY_ICON;
-        
+
         BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         icon.paintIcon(c, image.getGraphics(), 0, 0);
         return new ImageIcon(GrayFilter.createDisabledImage(image));
@@ -647,5 +647,102 @@ public class IconsFactory {
         BufferedImage image = new BufferedImage(destWidth, destHeight, imageType);
         image.getGraphics().drawImage(icon.getImage(), 0, 0, destWidth, destHeight, x, y, x + width, y + height, c);
         return new ImageIcon(image);
+    }
+
+    /**
+     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     *
+     * @param c           the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon        the original icon
+     * @param overlayIcon the overlay icon.
+     * @param location    the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @return the new icon.
+     */
+    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location) {
+        return getOverlayIcon(c, icon, overlayIcon, location, new Insets(0, 0, 0, 0));
+    }
+
+    /**
+     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     *
+     * @param c           the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon        the original icon
+     * @param overlayIcon the overlay icon.
+     * @param location    the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @param insets      the insets to the border. This parameter has no effect if the location is CENTER. For example, if the location is WEST, insets.left will be the gap of the left side of the
+     *                    original icon and the left side of the overlay icon.
+     * @return the new icon.
+     */
+    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location, Insets insets) {
+        int x = -1, y = -1;
+        int w = icon.getIconWidth();
+        int h = icon.getIconHeight();
+        int sw = overlayIcon.getIconWidth();
+        int sh = overlayIcon.getIconHeight();
+        switch (location) {
+            case SwingConstants.CENTER:
+                x = (w - sw) / 2;
+                y = (h - sh) / 2;
+                break;
+            case SwingConstants.NORTH:
+                x = (w - sw) / 2;
+                y = insets.top;
+                break;
+            case SwingConstants.SOUTH:
+                x = (w - sw) / 2;
+                y = h - insets.bottom - sh;
+                break;
+            case SwingConstants.WEST:
+                x = insets.left;
+                y = (h - sh) / 2;
+                break;
+            case SwingConstants.EAST:
+                x = w - insets.right - sw;
+                y = (h - sh) / 2;
+                break;
+            case SwingConstants.NORTH_EAST:
+                x = w - insets.top - sw;
+                y = insets.right;
+                break;
+            case SwingConstants.NORTH_WEST:
+                x = insets.top;
+                y = insets.left;
+                break;
+            case SwingConstants.SOUTH_WEST:
+                x = insets.left;
+                y = h - insets.bottom - sh;
+                break;
+            case SwingConstants.SOUTH_EAST:
+                x = w - insets.right - sw;
+                y = h - insets.bottom - sh;
+                break;
+        }
+        return getOverlayIcon(c, icon, overlayIcon, x, y);
+    }
+
+    /**
+     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     *
+     * @param c           the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon        the original icon
+     * @param overlayIcon the overlay icon.
+     * @param x           the x location relative to the original icon where the overlayIcon will be pained.
+     * @param y           the y location relative to the original icon where the overlayIcon will be pained.
+     * @return
+     */
+    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int x, int y) {
+        int w = icon.getIconWidth();
+        int h = icon.getIconHeight();
+        int sw = overlayIcon.getIconWidth();
+        int sh = overlayIcon.getIconHeight();
+        if (x != -1 && y != -1) {
+            BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            image.getGraphics().drawImage(icon.getImage(), 0, 0, w, h, c);
+            image.getGraphics().drawImage(overlayIcon.getImage(), x, y, sw, sh, c);
+            return new ImageIcon(image);
+        }
+        else {
+            return icon;
+        }
     }
 }

@@ -95,6 +95,7 @@ public class Office2003Painter extends BasicPainter {
         _themeCache.put(_metallicTheme.getThemeName(), _metallicTheme);
 
         final int SIZE = 20;
+        final int MASK_SIZE = 11;
 
         int products = LookAndFeelFactory.getProductsUsed();
 
@@ -142,7 +143,12 @@ public class Office2003Painter extends BasicPainter {
         _normalTheme.putDefaults(uiDefaultsNormal);
 
         if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_gray.png"); // 10 x 10 x 8
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_gray.png"); // 20 x 20
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_mask.png"); // 11 x 11
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
             uiDefaultsNormal = new Object[]{
                     "CollapsiblePane.contentBackground", new ColorUIResource(255, 255, 255),
                     "CollapsiblePanes.backgroundLt", new ColorUIResource(160, 160, 160),
@@ -155,10 +161,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(94, 94, 94),
                     "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
                     "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
-                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
             };
             _normalTheme.putDefaults(uiDefaultsNormal);
         }
@@ -207,7 +213,12 @@ public class Office2003Painter extends BasicPainter {
         _blueTheme.putDefaults(uiDefaultsBlue);
 
         if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_blue.png"); // 10 x 10 x 8
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_blue.png"); // 20 x 20
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_mask.png"); // 11 x 11
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
             uiDefaultsNormal = new Object[]{
                     "CollapsiblePane.contentBackground", new ColorUIResource(214, 223, 247),
                     "CollapsiblePanes.backgroundLt", new ColorUIResource(123, 162, 231),
@@ -221,10 +232,10 @@ public class Office2003Painter extends BasicPainter {
 
                     "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
                     "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(65, 142, 254),
-                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
 
             };
             _blueTheme.putDefaults(uiDefaultsNormal);
@@ -276,7 +287,12 @@ public class Office2003Painter extends BasicPainter {
         _homeSteadTheme.putDefaults(uiDefaultsHomeStead);
 
         if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_homestead.png"); // 10 x 10 x 8
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_homestead.png"); // 20 x 20
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_mask.png"); // 11 x 11
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
             uiDefaultsNormal = new Object[]{
                     "CollapsiblePane.contentBackground", new ColorUIResource(246, 246, 246),
                     "CollapsiblePanes.backgroundLt", new ColorUIResource(204, 217, 173),
@@ -289,10 +305,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePaneTitlePane.backgroundDk.emphasized", new ColorUIResource(150, 168, 103),
                     "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
                     "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(224, 231, 151),
-                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
 
             };
             _homeSteadTheme.putDefaults(uiDefaultsNormal);
@@ -342,7 +358,12 @@ public class Office2003Painter extends BasicPainter {
         _metallicTheme.putDefaults(uiDefaultsMetallic);
 
         if ((products & LookAndFeelFactory.PRODUCT_COMPONENTS) != 0) {
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_metallic.png"); // 10 x 10 x 8
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_metallic.png"); // 20 x 20
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/collapsible_pane_mask.png"); // 11 x 11
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
             uiDefaultsNormal = new Object[]{
                     "CollapsiblePane.contentBackground", new ColorUIResource(240, 241, 245),
                     "CollapsiblePanes.backgroundLt", new ColorUIResource(196, 200, 212),
@@ -356,10 +377,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePaneTitlePane.foreground.emphasized", new ColorUIResource(255, 255, 255),
                     "CollapsiblePaneTitlePane.foreground.focus.emphasized", new ColorUIResource(230, 230, 230),
 
-                    "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, SIZE, SIZE, SIZE),
-                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE),
-                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, SIZE, SIZE, SIZE),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
 
             };
             _metallicTheme.putDefaults(uiDefaultsNormal);
