@@ -611,12 +611,48 @@ public class JideSwingUtilities implements SwingConstants {
      * </pre>.
      */
     public interface Handler {
+        /**
+         * If true, it will call {@link #action(java.awt.Component)} on this component.
+         *
+         * @param c the component
+         * @return true or false.
+         */
         boolean condition(Component c);
 
+        /**
+         * The action you want to perform on this component. This method will only be called
+         * if {@link #condition(java.awt.Component)} returns true.
+         *
+         * @param c the component
+         */
         void action(Component c);
 
+        /**
+         * The actino you want to perform to any components. If action(c) is called, this action is after it.
+         *
+         * @param c the component.
+         */
         void postAction(Component c);
 
+    }
+
+    /**
+     * A simple handler used by setRecursively.
+     * <pre>
+     *  if ( condition() ) {
+     *      action();
+     *  }
+     *  postAction();
+     * </pre>.
+     */
+    public interface ConditionHandler extends Handler {
+        /**
+         * If this method returns true, the recursive call will stop at the component and will not call to its children.
+         *
+         * @param c the component
+         * @return true or false.
+         */
+        boolean stopCondition(Component c);
     }
 
     /**
@@ -626,10 +662,36 @@ public class JideSwingUtilities implements SwingConstants {
      *      return action();
      *  }
      * </pre></code>.
+     * Here is an example to get the first child of the specified type.
+     * <code><pre>
+     * public static Component getFirstChildOf(final Class clazz, Component c) {
+     *     return getRecursively(c, new GetHandler() {
+     *         public boolean condition(Component c) {
+     *             return clazz.isAssignableFrom(c.getClass());
+     *         }
+     *         public Component action(Component c) {
+     *             return c;
+     *         }
+     *     });
+     * }
+     * </pre></code>
      */
     public interface GetHandler {
+        /**
+         * If true, it will call {@link #action(java.awt.Component)} on this component.
+         *
+         * @param c the component
+         * @return true or false.
+         */
         boolean condition(Component c);
 
+        /**
+         * The action you want to perform on this component. This method will only be called
+         * if {@link #condition(java.awt.Component)} returns true.
+         *
+         * @param c the component
+         * @return the component that will be returned from {@link com.jidesoft.swing.JideSwingUtilities#getRecursively(java.awt.Component,com.jidesoft.swing.JideSwingUtilities.GetHandler)}.
+         */
         Component action(Component c);
     }
 
@@ -648,6 +710,11 @@ public class JideSwingUtilities implements SwingConstants {
         if (handler.condition(c)) {
             handler.action(c);
         }
+
+        if (handler instanceof ConditionHandler && ((ConditionHandler) handler).stopCondition(c)) {
+            return;
+        }
+
         Component[] children = null;
 
         if (c instanceof JMenu) {
@@ -664,8 +731,8 @@ public class JideSwingUtilities implements SwingConstants {
             children = ((Container) c).getComponents();
         }
         if (children != null) {
-            for (int i = 0; i < children.length; i++) {
-                setRecursively0(children[i], handler);
+            for (Component child : children) {
+                setRecursively0(child, handler);
             }
         }
     }
