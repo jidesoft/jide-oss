@@ -579,12 +579,12 @@ public class IconsFactory {
      * Gets part of the image from input image icon. It bascially takes a snapshot of the input image
      * at {x, y} location and the size is width x height.
      *
-     * @param c
-     * @param icon
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param c      the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon   the original icon. This is the larger icon where a sub-image will be created using this method.
+     * @param x      the x location of the sub-image, relative to the original icon.
+     * @param x      the y location of the sub-image, relative to the original icon.
+     * @param width  the width of the sub-image. It should be less than the width of the original icon.
+     * @param height the height of the sub-image. It should be less than the height of the original icon.
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height) {
@@ -595,14 +595,14 @@ public class IconsFactory {
      * Gets part of the image from input image icon. It bascially takes a snapshot of the input image
      * at {x, y} location and the size is width x height, then resize it to a size of destWidth x destHeight.
      *
-     * @param c
-     * @param icon
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param destWidth
-     * @param destHeight
+     * @param c          the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon       the original icon. This is the larger icon where a sub-image will be created using this method.
+     * @param x          the x location of the sub-image, relative to the original icon.
+     * @param x          the y location of the sub-image, relative to the original icon.
+     * @param width      the width of the sub-image. It should be less than the width of the original icon.
+     * @param height     the height of the sub-image. It should be less than the height of the original icon.
+     * @param destWidth  the width of the returned icon. The sub-image will be resize if the destWidth is not the same as the width.
+     * @param destHeight the height of the returned icon. The sub-image will be resize if the destHeight is not the same as the height.
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int destWidth, int destHeight) {
@@ -613,13 +613,13 @@ public class IconsFactory {
      * Gets part of the image from input image icon. It bascially takes a snapshot of the input image
      * at {x, y} location and the size is width x height.
      *
-     * @param c
-     * @param icon
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param imageType
+     * @param c         the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon      the original icon. This is the larger icon where a small icon will be created using this method.
+     * @param x         the x location of the smaller icon, relative to the original icon.
+     * @param x         the y location of the smaller icon, relative to the original icon.
+     * @param width     the width of the smaller icon. It should be less than the width of the original icon.
+     * @param height    the height of the smaller icon. It should be less than the height of the original icon.
+     * @param imageType image type is defined in {@link BufferedImage}, such as {@link BufferedImage#TYPE_INT_ARGB}, {@link BufferedImage#TYPE_INT_RGB} etc.
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int imageType) {
@@ -629,21 +629,23 @@ public class IconsFactory {
     /**
      * Gets part of the image from input image icon. It bascially takes a snapshot of the input image
      * at {x, y} location and the size is width x height, then resize it to a size of destWidth x destHeight.
+     * if the original icon is null or the specified location is outside the original icon, EMPTY_ICON will be returned.
      *
-     * @param c
-     * @param icon
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param c          the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
+     * @param icon       the original icon. This is the larger icon where a sub-image will be created using this method.
+     * @param x          the x location of the sub-image, relative to the original icon.
+     * @param x          the y location of the sub-image, relative to the original icon.
+     * @param width      the width of the sub-image. It should be less than the width of the original icon.
+     * @param height     the height of the sub-image. It should be less than the height of the original icon.
      * @param imageType  image type is defined in {@link BufferedImage}, such as {@link BufferedImage#TYPE_INT_ARGB}, {@link BufferedImage#TYPE_INT_RGB} etc.
-     * @param destWidth
-     * @param destHeight
+     * @param destWidth  the width of the returned icon. The sub-image will be resize if the destWidth is not the same as the width.
+     * @param destHeight the height of the returned icon. The sub-image will be resize if the destHeight is not the same as the height.
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int imageType, int destWidth, int destHeight) {
-        if (icon == null)
+        if (icon == null || x < 0 || x + width > icon.getIconWidth() || y < 0 || y + height > icon.getIconHeight()) { // outside the original icon.
             return EMPTY_ICON;
+        }
         BufferedImage image = new BufferedImage(destWidth, destHeight, imageType);
         image.getGraphics().drawImage(icon.getImage(), 0, 0, destWidth, destHeight, x, y, x + width, y + height, c);
         return new ImageIcon(image);
