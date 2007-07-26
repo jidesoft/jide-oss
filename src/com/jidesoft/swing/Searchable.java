@@ -972,7 +972,9 @@ public abstract class Searchable {
                     }
                     break;
             }
-            _popup.setLocation(componentLocation);
+            if (!isHeavyweightComponentEnabled()) {
+                _popup.setLocation(componentLocation);
+            }
             _popup.setSize(size);
             return componentLocation;
         }
