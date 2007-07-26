@@ -113,6 +113,22 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         return getCollapsiblePaneDownIcon();
     }
 
+    public ImageIcon getCollapsiblePaneTitleButtonBackground() {
+        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground");
+    }
+
+    public ImageIcon getCollapsiblePaneTitleButtonBackgroundEmphasized() {
+        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground.emphasized");
+    }
+
+    public ImageIcon getCollapsiblePaneUpMask() {
+        return getCollapsiblePaneUpIcon();
+    }
+
+    public ImageIcon getCollapsiblePaneDownMask() {
+        return getCollapsiblePaneDownIcon();
+    }
+
     public Color getBackgroundDk() {
         return UIDefaultsLookup.getColor("JideButton.background");
     }

@@ -165,6 +165,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
                     "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
                     "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upMask", upMark,
+                    "CollapsiblePane.downMask", downMark,
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
             };
             _normalTheme.putDefaults(uiDefaultsNormal);
         }
@@ -236,7 +240,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
                     "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
                     "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
-
+                    "CollapsiblePane.upMask", upMark,
+                    "CollapsiblePane.downMask", downMark,
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
             };
             _blueTheme.putDefaults(uiDefaultsNormal);
         }
@@ -309,7 +316,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
                     "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
                     "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
-
+                    "CollapsiblePane.upMask", upMark,
+                    "CollapsiblePane.downMask", downMark,
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
             };
             _homeSteadTheme.putDefaults(uiDefaultsNormal);
         }
@@ -381,7 +391,10 @@ public class Office2003Painter extends BasicPainter {
                     "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
                     "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
                     "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
-
+                    "CollapsiblePane.upMask", upMark,
+                    "CollapsiblePane.downMask", downMark,
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
             };
             _metallicTheme.putDefaults(uiDefaultsNormal);
         }
@@ -683,6 +696,26 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public ImageIcon getCollapsiblePaneDownIconEmphasized() {
         return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downIcon.emphasized");
+    }
+
+    @Override
+    public ImageIcon getCollapsiblePaneTitleButtonBackground() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.titleButtonBackground");
+    }
+
+    @Override
+    public ImageIcon getCollapsiblePaneTitleButtonBackgroundEmphasized() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.titleButtonBackground.emphasized");
+    }
+
+    @Override
+    public ImageIcon getCollapsiblePaneUpMask() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.upMask");
+    }
+
+    @Override
+    public ImageIcon getCollapsiblePaneDownMask() {
+        return (ImageIcon) getCurrentTheme().getIcon("CollapsiblePane.downMask");
     }
 
     @Override

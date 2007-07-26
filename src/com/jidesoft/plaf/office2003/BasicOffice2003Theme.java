@@ -112,6 +112,10 @@ public class BasicOffice2003Theme extends Office2003Theme {
                     "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
                     "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
                     "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upMask", upMark,
+                    "CollapsiblePane.downMask", downMark,
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
             };
             putDefaults(uiDefaults);
         }

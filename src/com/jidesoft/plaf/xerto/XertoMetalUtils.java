@@ -486,9 +486,14 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_COMPONENTS) != 0) {
             ColorUIResource collapsiblePaneBackground = new ColorUIResource(236, 234, 217);
-
-            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(XertoWindowsUtils.class, "icons/collapsible_pane_xerto.gif"); // 12 x 12 x 2
-            final int collapsiblePaneSize = 12;
+            final int SIZE = 12;
+            final int MASK_SIZE = 12;
+            ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(XertoMetalUtils.class, "icons/collapsible_pane_xerto.png"); // 12 x 12
+            ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(XertoMetalUtils.class, "icons/collapsible_pane_mask.png"); // 12 x 12
+            ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
+            ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
 
             uiDefaults = new Object[]{
                     // components
@@ -510,10 +515,12 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePane.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder()),
                     "CollapsiblePane.titleFont", boldFont,
 
-                    "CollapsiblePane.downIcon", IconsFactory.createBrighterImage(IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, collapsiblePaneSize, collapsiblePaneSize).getImage()),
-                    "CollapsiblePane.upIcon", IconsFactory.createBrighterImage(IconsFactory.getIcon(null, collapsiblePaneImage, 0, collapsiblePaneSize, collapsiblePaneSize, collapsiblePaneSize).getImage()),
-                    "CollapsiblePane.downRolloverIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, collapsiblePaneSize, collapsiblePaneSize),
-                    "CollapsiblePane.upRolloverIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, collapsiblePaneSize, collapsiblePaneSize, collapsiblePaneSize),
+                    "CollapsiblePane.downIcon", IconsFactory.getOverlayIcon(null, normalIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon", IconsFactory.getOverlayIcon(null, normalIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.downIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, downMark, SwingConstants.CENTER),
+                    "CollapsiblePane.upIcon.emphasized", IconsFactory.getOverlayIcon(null, emphasizedIcon, upMark, SwingConstants.CENTER),
+                    "CollapsiblePane.titleButtonBackground", normalIcon,
+                    "CollapsiblePane.titleButtonBackground.emphasized", emphasizedIcon,
 
                     "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 1, 0, 1)),
 

@@ -100,6 +100,14 @@ public interface ThemePainter {
 
     ImageIcon getCollapsiblePaneDownIconEmphasized();
 
+    ImageIcon getCollapsiblePaneTitleButtonBackground();
+
+    ImageIcon getCollapsiblePaneTitleButtonBackgroundEmphasized();
+
+    ImageIcon getCollapsiblePaneUpMask();
+
+    ImageIcon getCollapsiblePaneDownMask();
+
     Color getBackgroundDk();
 
     Color getBackgroundLt();
