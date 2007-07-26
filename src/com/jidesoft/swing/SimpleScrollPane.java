@@ -11,18 +11,21 @@ import com.jidesoft.icons.JideIconsFactory;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ScrollBarUI;
 import javax.swing.plaf.UIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 /**
  * <code>SimpleScrollPane</code> is a special scroll pane. There is no scroll bar.
  * It just uses four scroll buttons to do the scrolling.
  */
-public class SimpleScrollPane extends JScrollPane implements ChangeListener {
+public class SimpleScrollPane extends JScrollPane implements ChangeListener, MouseWheelListener {
 
     private AbstractButton _scrollUpButton;
     private AbstractButton _scrollDownButton;
@@ -91,6 +94,9 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener {
         if (!getComponentOrientation().isLeftToRight()) {
             viewport.setViewPosition(new Point(Integer.MAX_VALUE, 0));
         }
+        
+        if (this.isWheelScrollingEnabled())
+        	this.addMouseWheelListener(this);
     }
 
 
@@ -503,5 +509,52 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener {
             firePropertyChange("repeatDelay", old, _repeatDelay);
         }
     }
+
+
+	public void mouseWheelMoved(MouseWheelEvent e) {
+        if (this.isWheelScrollingEnabled() && e.getScrollAmount() != 0) {
+            boolean 	scrollingUp = (e.getWheelRotation() >= 0);
+            int			direction = SwingConstants.CENTER;
+                        
+            if (! this.isButtonVisible(scrollingUp)) 
+                    return;
+
+            direction = this.getScrollDirection(scrollingUp);
+            if (direction != SwingConstants.CENTER)
+            	this.scroll(this.getViewport(), direction);
+        }
+	}
+	
+	private boolean isButtonVisible(boolean scrollingUp) {
+		if (scrollingUp)
+			return ( ((_scrollUpButton != null) && _scrollUpButton.isVisible()) || 
+					 ((_scrollLeftButton != null) && _scrollLeftButton.isVisible()) );
+		else			
+			return ( ((_scrollDownButton != null) && _scrollDownButton.isVisible()) || 
+					 ((_scrollRightButton != null) && _scrollRightButton.isVisible()) );
+	}
+
+	private int getScrollDirection(boolean scrollingUp) {
+		if (scrollingUp)
+		{
+			if ((_scrollUpButton != null) && _scrollUpButton.isVisible()) return SwingConstants.SOUTH;
+			if ((_scrollLeftButton != null) && _scrollLeftButton.isVisible()) return SwingConstants.EAST;
+		}
+		else
+		{
+			if ((_scrollDownButton != null) && _scrollDownButton.isVisible()) return SwingConstants.NORTH; 
+			if ((_scrollRightButton != null) && _scrollRightButton.isVisible()) return SwingConstants.WEST;
+		}
+		
+		return SwingConstants.CENTER;
+	}
+	
+	public void setWheelScrollingEnabled(boolean handleWheel) {
+		if (handleWheel && !isWheelScrollingEnabled())
+	        this.addMouseWheelListener(this);
+		if (!handleWheel && isWheelScrollingEnabled())
+			this.removeMouseWheelListener(this);
+		super.setWheelScrollingEnabled(handleWheel);
+	}
 }
 
