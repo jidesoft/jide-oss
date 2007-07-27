@@ -370,13 +370,19 @@ public abstract class Searchable {
 
         private void updatePopupBounds() {
             if (_popup != null) {
+                _textField.invalidate();
                 try {
-                    _popup.setSize(_popup.getPreferredSize());
+                    if (!isHeavyweightComponentEnabled()) {
+                        _popup.setSize(_popup.getPreferredSize());
+                        _popup.validate();
+                    }
+                    else {
+                        _popup.packPopup();
+                    }
                 }
                 catch (Exception e) { // catch any potential exception
                     // see bug report at http://www.jidesoft.com/forum/viewtopic.php?p=8557#8557
                 }
-                _popup.validate();
             }
         }
     }
@@ -974,8 +980,11 @@ public abstract class Searchable {
             }
             if (!isHeavyweightComponentEnabled()) {
                 _popup.setLocation(componentLocation);
+                _popup.setSize(size);
             }
-            _popup.setSize(size);
+            else {
+                _popup.packPopup();
+            }
             return componentLocation;
         }
         else {
