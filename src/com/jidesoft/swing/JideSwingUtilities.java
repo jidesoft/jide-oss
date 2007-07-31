@@ -1507,6 +1507,91 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
+    /**
+     * Disables the double buffered flag of the component and its children. The return map contains
+     * the components that were double buffered. After this call, you can then restore the double buffered flag
+     * using {@link #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from
+     * this method.
+     *
+     * @param c the parent container.
+     * @return the map that contains all components that were double buffered.
+     */
+    public static Map<Component, Boolean> disableDoubleBuffered(final Component c) {
+        final Map<Component, Boolean> map = new HashMap();
+        if (c instanceof JComponent) {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+                public boolean condition(Component c) {
+                    return c instanceof JComponent && ((JComponent) c).isDoubleBuffered();
+                }
+
+                public void action(Component c) {
+                    map.put(c, Boolean.TRUE);
+                    ((JComponent) c).setDoubleBuffered(false);
+                }
+
+                public void postAction(Component c) {
+
+                }
+            });
+        }
+        return map;
+    }
+
+    /**
+     * Enables the double buffered flag of the component and its children. The return map contains
+     * the components that weren't double buffered. After this call, you can then restore the double buffered flag
+     * using {@link #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from
+     * this method.
+     *
+     * @param c the parent container.
+     * @return the map that contains all components that weren't double buffered.
+     */
+    public static Map<Component, Boolean> enableDoubleBuffered(final Component c) {
+        final Map<Component, Boolean> map = new HashMap();
+        if (c instanceof JComponent) {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+                public boolean condition(Component c) {
+                    return c instanceof JComponent && !c.isDoubleBuffered();
+                }
+
+                public void action(Component c) {
+                    map.put(c, Boolean.FALSE);
+                    ((JComponent) c).setDoubleBuffered(true);
+                }
+
+                public void postAction(Component c) {
+
+                }
+            });
+        }
+        return map;
+    }
+
+    /**
+     * Restores the double buffered flag of the component and its children. Only components that are in the map will be changed.
+     *
+     * @param c   the parent container.
+     * @param map a map maps from component to a boolean. If the boolean is true, it means the component was double buffered bore.
+     *            Otherwise, not double buffered.
+     */
+    public static void restoreDoubleBuffered(final Component c, final Map<Component, Boolean> map) {
+        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+            public boolean condition(Component c) {
+                return c instanceof JComponent;
+            }
+
+            public void action(Component c) {
+                Boolean value = map.get(c);
+                if (value != null) {
+                    ((JComponent) c).setDoubleBuffered(Boolean.TRUE.equals(value));
+                }
+            }
+
+            public void postAction(Component c) {
+            }
+        });
+    }
+
     public static void paintBackground(Graphics g, Rectangle rect, Color border, Color bk) {
         Color old = g.getColor();
         g.setColor(bk);
