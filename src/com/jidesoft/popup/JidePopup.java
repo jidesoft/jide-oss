@@ -1091,7 +1091,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
                 @Override
                 public void componentMoved(ComponentEvent e) {
-                    ancestorMoved();
+                    if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
+                        ancestorMoved();
+                    }
                 }
             };
             getOwner().addComponentListener(_ownerComponentListener);
@@ -1190,8 +1192,19 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void movePopup() {
-        if (!isDetached() && getOwner() != null) {
-            showPopup(_insets, _actualOwner);
+        if (isPopupVisible()) {
+            if (!isDetached() && _actualOwner != null) {
+                if (_insets != null) {
+                    showPopup(_insets, _actualOwner);
+                }
+                else if (_actualOwnerLocation != null) {
+                    Point newLocation = _actualOwner.getLocationOnScreen();
+                    Point p = _window.getLocationOnScreen();
+                    p.x += newLocation.x - _actualOwnerLocation.x;
+                    p.y += newLocation.y - _actualOwnerLocation.y;
+                    showPopup(p.x, p.y, _actualOwner);
+                }
+            }
         }
     }
 
