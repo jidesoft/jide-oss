@@ -230,4 +230,19 @@ public class ColorUtils {
         }
     }
 
+	/**
+	 * Simply calls new Color(color, hasalpha) for each color in colors and returns
+	 * all of them.
+	 *
+	 * @param hasalpha
+	 * @param colors
+	 * @return
+	 */
+	public static Color[] toColors(boolean hasalpha, int ... colors) {
+		Color[] result = new Color[colors.length];
+		for(int i = 0; i < colors.length; i++) {
+			result[i] = new Color(colors[i], hasalpha);
+		}
+		return result;
+	}
 }
