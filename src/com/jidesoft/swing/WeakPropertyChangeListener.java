@@ -63,15 +63,13 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
     }
 
     private void removeListener() {
-        if (_listenerRef.get() instanceof PropertyChangeListener) {
-            try {
-                Method method = _src.getClass().getMethod("removePropertyChangeListener"
-                        , new Class[]{PropertyChangeListener.class});
-                method.invoke(_src, new Object[]{this});
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            Method method = _src.getClass().getMethod("removePropertyChangeListener"
+                    , new Class[]{PropertyChangeListener.class});
+            method.invoke(_src, new Object[]{this});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
