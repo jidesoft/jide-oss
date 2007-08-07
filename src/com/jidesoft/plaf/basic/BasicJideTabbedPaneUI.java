@@ -8151,7 +8151,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public void startEditing(MouseEvent e) {
-        int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
+        Point p = SwingUtilities.convertPoint((Component) e.getSource(), e.getX(), e.getY(), _tabPane);
+        int tabIndex = tabForCoordinate(_tabPane, p.x, p.y);
 
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
