@@ -763,6 +763,11 @@ public class Office2003Painter extends BasicPainter {
         return getCurrentTheme().getColor("DockableFrameTitlePane.inactiveForeground");
     }
 
+    @Override
+    public Color getTitleBarBackground() {
+        return getCurrentTheme().getColor("DockableFrameTitlePane.backgroundDk");
+    }
+
     public Color getOptionPanebannerForeground() {
         return getCurrentTheme().getColor("OptionPane.bannerForeground");
     }
