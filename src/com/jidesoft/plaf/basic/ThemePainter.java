@@ -134,6 +134,8 @@ public interface ThemePainter {
 
     Color getDockableFrameTitleBarInactiveForeground();
 
+    Color getTitleBarBackground();
+
     Color getOptionPaneBannerDk();
 
     Color getOptionPaneBannerLt();

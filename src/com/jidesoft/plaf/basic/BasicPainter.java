@@ -173,6 +173,10 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         return UIDefaultsLookup.getColor("JideButton.shadow");
     }
 
+    public Color getTitleBarBackground() {
+        return UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
+    }
+
     public Color getDockableFrameTitleBarActiveForeground() {
         return UIDefaultsLookup.getColor("DockableFrame.activeTitleForeground");
     }
