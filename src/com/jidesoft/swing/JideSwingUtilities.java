@@ -1699,7 +1699,7 @@ public class JideSwingUtilities implements SwingConstants {
         else {
             savedHints.clear();
         }
-        if (hintsToSave.size() == 0) {
+        if (hintsToSave == null || hintsToSave.size() == 0) {
             return savedHints;
         }
         /* RenderingHints.keySet() returns Set*/
