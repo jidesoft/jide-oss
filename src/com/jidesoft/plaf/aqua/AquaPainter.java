@@ -15,6 +15,7 @@ import sun.java2d.SunGraphics2D;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
 
 /**
  * Painter for Aqua style L&F.
@@ -23,6 +24,8 @@ import java.awt.*;
  * Future version might break your build if you use it.
  */
 public class AquaPainter extends BasicPainter {
+    private static final Logger LOGGER = Logger.getLogger(AquaPainter.class.getName());
+
     private static AquaPainter _instance;
     private final static ImageIcon SELECTED = IconsFactory.getImageIcon(AquaPainter.class, "icons/selected.gif");
     private final static ImageIcon ROLLOVER = IconsFactory.getImageIcon(AquaPainter.class, "icons/rollover.gif");
@@ -75,22 +78,42 @@ public class AquaPainter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+        try {
+            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+        }
+        catch (Exception e) {
+            LOGGER.warning(e.getLocalizedMessage());
+        }
     }
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
+        try {
+            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
+        }
+        catch (Exception e) {
+            LOGGER.warning(e.getLocalizedMessage());
+        }
     }
 
     @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
+        try {
+            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
+        }
+        catch (Exception e) {
+            LOGGER.warning(e.getLocalizedMessage());
+        }
     }
 
     @Override
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+        try {
+            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+        }
+        catch (Exception e) {
+            LOGGER.warning(e.getLocalizedMessage());
+        }
     }
 }
 

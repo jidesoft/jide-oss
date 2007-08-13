@@ -157,7 +157,7 @@ public class CacheMap<T, K> {
                 }
             }
 
-            if (classesToSearch.isEmpty()) {
+            if (!classesToSearch.contains(Object.class)) {
                 classesToSearch.add(Object.class);  // use Object as default fallback.
             }
 

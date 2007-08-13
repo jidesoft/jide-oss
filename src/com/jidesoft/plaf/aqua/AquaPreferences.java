@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * Utility class for accessing Mac OS X System Preferences.
@@ -29,6 +30,8 @@ import java.util.Iterator;
  * @version 1.0 September 17, 2005 Created.
  */
 class AquaPreferences {
+    private static final Logger LOGGER = Logger.getLogger(AquaPreferences.class.getName());
+
     private static HashMap prefs;
 
     /**
@@ -94,8 +97,10 @@ class AquaPreferences {
             }
         }
         catch (IOException e) {
-            System.err.println("Warning: AquaPreferences failed to load Mac OS X global system preferences");
-            e.printStackTrace();
+            LOGGER.warning("AquaPreferences failed to load Mac OS X global system preferences - " + e.getLocalizedMessage());
+        }
+        catch (Exception e) {
+            LOGGER.warning("AquaPreferences failed to load Mac OS X global system preferences - " + e.getLocalizedMessage());
         }
     }
 
