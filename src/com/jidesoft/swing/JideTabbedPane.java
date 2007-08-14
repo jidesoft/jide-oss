@@ -1657,7 +1657,7 @@ public class JideTabbedPane extends JTabbedPane {
                     ((TabEditingListener) listeners[i + 1]).editingCanceled(tabEditingEvent);
                 }
                 else if (id == TabEditingEvent.TAB_EDITING_STOPPED) {
-                    ((TabEditingListener) listeners[i + 1]).editingStarted(tabEditingEvent);
+                    ((TabEditingListener) listeners[i + 1]).editingStopped(tabEditingEvent);
                 }
             }
         }
