@@ -23,6 +23,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * <code>JidetabbedPane</code> is an enhanced version of <code>JTabbedPane</code>.
@@ -225,6 +227,8 @@ public class JideTabbedPane extends JTabbedPane {
     private ListCellRenderer _tabListCellRenderer;
 
     private Insets _contentBorderInsets;
+
+    private static final Logger LOGGER_EVENT = Logger.getLogger(TabEditingEvent.class.getName());
 
     /**
      * Creates an empty <code>TabbedPane</code> with a default
@@ -1363,7 +1367,10 @@ public class JideTabbedPane extends JTabbedPane {
      * @param tabIndex
      */
     public void editTabAt(int tabIndex) {
-        ((JideTabbedPaneUI) getUI()).editTabAt(tabIndex);
+        boolean started = ((JideTabbedPaneUI) getUI()).editTabAt(tabIndex);
+        if (started) {
+            fireTabEditing(TabEditingEvent.TAB_EDITING_STARTED, tabIndex, getTitleAt(tabIndex), null);
+        }
     }
 
     /**
@@ -1376,11 +1383,21 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     public void stopTabEditing() {
-        ((JideTabbedPaneUI) getUI()).stopTabEditing();
+        int tabIndex = getEditingTabIndex();
+        if (tabIndex != -1) {
+            String oldTitle = getTitleAt(tabIndex);
+            ((JideTabbedPaneUI) getUI()).stopTabEditing();
+            String newTitle = getTitleAt(tabIndex);
+            fireTabEditing(TabEditingEvent.TAB_EDITING_STOPPED, tabIndex, oldTitle, newTitle);
+        }
     }
 
     public void cancelTabEditing() {
-        ((JideTabbedPaneUI) getUI()).cancelTabEditing();
+        int tabIndex = getEditingTabIndex();
+        if (tabIndex != -1) {
+            ((JideTabbedPaneUI) getUI()).cancelTabEditing();
+            fireTabEditing(TabEditingEvent.TAB_EDITING_STARTED, tabIndex, getTitleAt(tabIndex), getTitleAt(tabIndex));
+        }
     }
 
     public int getEditingTabIndex() {
@@ -1577,5 +1594,72 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void scrollSelectedTabToVisible(boolean scrollLeft) {
         ((JideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(scrollLeft);
+    }
+
+    /**
+     * Adds a <code>TabEditingListener</code> to this tabbedpane.
+     *
+     * @param l the <code>TabEditingListener</code> to add
+     * @see #fireTabEditing
+     * @see #removeTabEditingListener
+     */
+    public void addTabEditingListener(TabEditingListener l) {
+        listenerList.add(TabEditingListener.class, l);
+    }
+
+    /**
+     * Removes a <code>TabEditingListener</code> from this tabbedpane.
+     *
+     * @param l the <code>TabEditingListener</code> to remove
+     * @see #fireTabEditing
+     * @see #addTabEditingListener
+     */
+    public void removeTabEditingListener(TabEditingListener l) {
+        listenerList.remove(TabEditingListener.class, l);
+    }
+
+    /**
+     * Returns an array of all the <code>TabEditingListener</code>s added
+     * to this <code>JTabbedPane</code> with <code>addTabEditingListener</code>.
+     *
+     * @return all of the <code>TabEditingListener</code>s added or an empty
+     *         array if no listeners have been added
+     */
+    public TabEditingListener[] getTabEditingListeners() {
+        return listenerList.getListeners(TabEditingListener.class);
+    }
+
+    private TabEditingEvent tabEditingEvent;
+
+    protected void fireTabEditing(int id, int index, String oldTitle, String newTitle) {
+        if (LOGGER_EVENT.isLoggable(Level.FINE)) {
+            switch (id) {
+                case TabEditingEvent.TAB_EDITING_STARTED:
+                    LOGGER_EVENT.fine("TabEditing Started at tab \"" + index + "\"; the current title is " + oldTitle);
+                    break;
+                case TabEditingEvent.TAB_EDITING_STOPPED:
+                    LOGGER_EVENT.fine("TabEditing Stopped at tab \"" + index + "\"; the old title is " + oldTitle + "; the new title is " + newTitle);
+                    break;
+                case TabEditingEvent.TAB_EDITING_CANCELLED:
+                    LOGGER_EVENT.fine("TabEditing Cancelled at tab \"" + index + "\"; the current title remains " + oldTitle);
+                    break;
+            }
+        }
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TabEditingListener.class) {
+                if (tabEditingEvent == null)
+                    tabEditingEvent = new TabEditingEvent(this, id, index, oldTitle, newTitle);
+                if (id == TabEditingEvent.TAB_EDITING_STARTED) {
+                    ((TabEditingListener) listeners[i + 1]).editingStarted(tabEditingEvent);
+                }
+                else if (id == TabEditingEvent.TAB_EDITING_CANCELLED) {
+                    ((TabEditingListener) listeners[i + 1]).editingCanceled(tabEditingEvent);
+                }
+                else if (id == TabEditingEvent.TAB_EDITING_STOPPED) {
+                    ((TabEditingListener) listeners[i + 1]).editingStarted(tabEditingEvent);
+                }
+            }
+        }
     }
 }

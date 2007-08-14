@@ -7660,8 +7660,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 } // else nada!
             }
 
-            if (isTabEditing()) {
-                stopTabEditing();
+            if (_tabPane.isTabEditing()) {
+                _tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -7690,8 +7690,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             }
 
-            if (isTabEditing()) {
-                stopTabEditing();
+            if (_tabPane.isTabEditing()) {
+                _tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -7968,14 +7968,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         editor.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                if (_isEditing) {
-                    stopTabEditing();
+                if (_tabPane.isTabEditing()) {
+                    _tabPane.stopTabEditing();
                 }
             }
         });
         editor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                stopTabEditing();
+                _tabPane.stopTabEditing();
             }
         });
         editor.addKeyListener(new KeyAdapter() {
@@ -7985,7 +7985,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     if (_editingTab >= 0 && _editingTab < _tabPane.getTabCount()) {
                         _tabPane.setTitleAt(_editingTab, _oldValue);
                     }
-                    cancelTabEditing();
+                    _tabPane.cancelTabEditing();
                 }
             }
         });
@@ -8158,11 +8158,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 && _tabPane.isEnabledAt(tabIndex)
                 && _tabPane.isTabEditingAllowed() && (e.getClickCount() == 2)) {
             e.consume();
-            editTabAt(tabIndex);
+            _tabPane.editTabAt(tabIndex);
         }
         if (e.getClickCount() == 1) {
-            if (_isEditing) {
-                stopTabEditing();
+            if (_tabPane.isTabEditing()) {
+                _tabPane.stopTabEditing();
             }
         }
     }
