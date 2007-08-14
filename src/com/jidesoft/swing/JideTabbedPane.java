@@ -1629,8 +1629,6 @@ public class JideTabbedPane extends JTabbedPane {
         return listenerList.getListeners(TabEditingListener.class);
     }
 
-    private TabEditingEvent tabEditingEvent;
-
     protected void fireTabEditing(int id, int index, String oldTitle, String newTitle) {
         if (LOGGER_EVENT.isLoggable(Level.FINE)) {
             switch (id) {
@@ -1648,8 +1646,7 @@ public class JideTabbedPane extends JTabbedPane {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == TabEditingListener.class) {
-                if (tabEditingEvent == null)
-                    tabEditingEvent = new TabEditingEvent(this, id, index, oldTitle, newTitle);
+                TabEditingEvent tabEditingEvent = new TabEditingEvent(this, id, index, oldTitle, newTitle);
                 if (id == TabEditingEvent.TAB_EDITING_STARTED) {
                     ((TabEditingListener) listeners[i + 1]).editingStarted(tabEditingEvent);
                 }
