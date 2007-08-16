@@ -234,7 +234,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             if (childNode == node)
                 continue;
             TreePath childPath = parent.pathByAddingChild(childNode);
-            if (_tree != null && (!_tree.isCheckBoxVisible(childPath) || !_tree.isCheckBoxEnabled(childPath)))
+            if (_tree != null && !_tree.isCheckBoxVisible(childPath))
                 continue;
             if (!isPathSelected(childPath)) {
                 return false;
