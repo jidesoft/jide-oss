@@ -76,57 +76,31 @@ public class ClickThroughLabel extends JLabel implements MouseInputListener {
         removeMouseMotionListener(this);
     }
 
-    /*
-    * Dispatch an event clone, retargeted for the specified target.
-    */
-    private void retargetMouseEvent(int id, MouseEvent e,
-                                    Component target) {
-        if (target == null) {
-            return;
-        }
-        // fix for bug #4202966 -- hania
-        // When retargetting a mouse event, we need to translate
-        // the event's coordinates relative to the target.
-
-        Point p = SwingUtilities.convertPoint(this,
-                e.getX(), e.getY(),
-                target);
-        MouseEvent retargeted = new MouseEvent(target,
-                id,
-                e.getWhen(),
-                e.getModifiers(),
-                p.x,
-                p.y,
-                e.getClickCount(),
-                e.isPopupTrigger());
-        target.dispatchEvent(retargeted);
-    }
-
     public void mouseClicked(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mousePressed(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mouseReleased(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mouseEntered(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mouseExited(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mouseDragged(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 
     public void mouseMoved(MouseEvent e) {
-        retargetMouseEvent(e.getID(), e, getTarget());
+        JideSwingUtilities.retargetMouseEvent(e.getID(), e, getTarget());
     }
 }

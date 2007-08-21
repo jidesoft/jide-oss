@@ -9,6 +9,7 @@ import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 
@@ -2758,5 +2759,31 @@ public class JideSwingUtilities implements SwingConstants {
         if (!r.contains(rScrollTo) && rScrollTo.height != 0) {
             table.scrollRectToVisible(rScrollTo);
         }
+    }
+
+    public static void retargetMouseEvent(int id, MouseEvent e, Component target) {
+        if (target == null || target == e.getSource()) {
+            return;
+        }
+        if (e.isConsumed()) {
+            return;
+        }
+
+        // fix for bug #4202966 -- hania
+        // When retargetting a mouse event, we need to translate
+        // the event's coordinates relative to the target.
+
+        Point p = SwingUtilities.convertPoint((Component) e.getSource(),
+                e.getX(), e.getY(),
+                target);
+        MouseEvent retargeted = new MouseEvent(target,
+                id,
+                e.getWhen(),
+                PortingUtils.getMouseModifiers(e),
+                p.x,
+                p.y,
+                e.getClickCount(),
+                e.isPopupTrigger());
+        target.dispatchEvent(retargeted);
     }
 }
