@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
-    public static Comparator _comparator;
+    public static Comparator<StyleRange> _comparator;
 
     protected static BasicStyledLabelUI styledLabelUI = new BasicStyledLabelUI();
 
@@ -44,7 +44,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
-    private List _styledTexts;
+    private List<StyledText> _styledTexts;
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
@@ -94,19 +94,17 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
         StyleRange[] styleRanges = label.getStyleRanges();
         if (_comparator == null) {
-            _comparator = new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    if (o1 instanceof StyleRange && o2 instanceof StyleRange) {
-                        StyleRange r1 = (StyleRange) o1;
-                        StyleRange r2 = (StyleRange) o2;
-                        if (r1.getStart() < r2.getStart()) {
-                            return -1;
-                        }
-                        else if (r1.getStart() > r2.getStart()) {
-                            return 1;
-                        }
+            _comparator = new Comparator<StyleRange>() {
+                public int compare(StyleRange r1, StyleRange r2) {
+                    if (r1.getStart() < r2.getStart()) {
+                        return -1;
                     }
-                    return 0;
+                    else if (r1.getStart() > r2.getStart()) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
                 }
             };
         }
@@ -115,8 +113,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         String s = label.getText();
         if (s != null && s.length() > 0) { // do not do anything if the text is empty
             int index = 0;
-            for (int i = 0; i < styleRanges.length; i++) {
-                StyleRange styleRange = styleRanges[i];
+            for (StyleRange styleRange : styleRanges) {
                 if (styleRange.getStart() > index) { // fill in the gap
                     _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart())));
                     index = styleRange.getStart();
@@ -149,7 +146,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         textR.height = size.height;
 
         return layoutCompoundLabel(
-                (JComponent) label,
+                label,
                 fontMetrics,
                 text,
                 icon,
@@ -172,7 +169,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         FontMetrics fm2;
         int lineHeight = 0;
         for (int i = _styledTexts.size() - 1; i >= 0; i--) {
-            StyledText styledText = (StyledText) _styledTexts.get(i);
+            StyledText styledText = _styledTexts.get(i);
             StyleRange style = styledText.styleRange;
             float size = (style != null &&
                     (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
@@ -180,11 +177,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                 font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                 fm2 = label.getFontMetrics(font);
-                width += fm2.stringWidth(((StyledText) _styledTexts.get(i)).text);
+                width += fm2.stringWidth((_styledTexts.get(i)).text);
             }
             else {
                 fm2 = fm;
-                width += fm.stringWidth(((StyledText) _styledTexts.get(i)).text);
+                width += fm.stringWidth((_styledTexts.get(i)).text);
             }
 
             if (style != null) {
@@ -224,8 +221,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
 
-        for (int i = 0; i < _styledTexts.size(); i++) {
-            StyledText styledText = (StyledText) _styledTexts.get(i);
+        for (StyledText styledText : _styledTexts) {
             StyleRange style = styledText.styleRange;
 
             if (styledText.text.length() > mnemonicIndex - charDisplayed) {
