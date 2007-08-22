@@ -223,6 +223,12 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                 "Resizable.resizeBorder", resizeBorder,
 
+                "ButtonPanel.order", "CA",
+                "ButtonPanel.oppositeOrder", "HO",
+                "ButtonPanel.buttonGap", 6,
+                "ButtonPanel.groupGap", 12,
+                "ButtonPanel.minButtonWidth", 69,
+
                 "Contour.color", new ColorUIResource(136, 136, 136),
                 "Contour.thickness", 4,
 
@@ -372,12 +378,6 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
                     "DocumentPane.boldActiveTab", Boolean.TRUE,
-
-                    "ButtonPanel.order", "CA",
-                    "ButtonPanel.oppositeOrder", "HO",
-                    "ButtonPanel.buttonGap", 6,
-                    "ButtonPanel.groupGap", 12,
-                    "ButtonPanel.minButtonWidth", 69,
             };
             table.putDefaults(uiDefaults);
         }

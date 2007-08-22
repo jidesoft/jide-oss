@@ -260,8 +260,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 8, 0, 8, 9),
                 "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 16, 0, 6, 9),
 
-                "Button.margin", new InsetsUIResource(2, 11, 2, 11),
-
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
                 "ButtonPanel.buttonGap", 5,

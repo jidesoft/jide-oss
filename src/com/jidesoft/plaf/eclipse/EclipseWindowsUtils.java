@@ -251,8 +251,6 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
                 "Resizable.resizeBorder", new BorderUIResource(shadowBorder),
 
-                "Button.margin", new InsetsUIResource(2, 11, 2, 11),
-
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
                 "ButtonPanel.buttonGap", 6,
