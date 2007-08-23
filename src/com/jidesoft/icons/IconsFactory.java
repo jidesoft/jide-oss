@@ -733,13 +733,15 @@ public class IconsFactory {
      * @return
      */
     public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int x, int y) {
-        int w = icon.getIconWidth();
-        int h = icon.getIconHeight();
+        int w = icon == null ? overlayIcon.getIconWidth() : icon.getIconWidth();
+        int h = icon == null ? overlayIcon.getIconHeight() : icon.getIconHeight();
         int sw = overlayIcon.getIconWidth();
         int sh = overlayIcon.getIconHeight();
         if (x != -1 && y != -1) {
             BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            image.getGraphics().drawImage(icon.getImage(), 0, 0, w, h, c);
+            if (icon != null) {
+                image.getGraphics().drawImage(icon.getImage(), 0, 0, w, h, c);
+            }
             image.getGraphics().drawImage(overlayIcon.getImage(), x, y, sw, sh, c);
             return new ImageIcon(image);
         }
