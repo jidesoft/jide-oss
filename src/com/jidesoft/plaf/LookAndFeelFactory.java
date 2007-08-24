@@ -1258,6 +1258,20 @@ public class LookAndFeelFactory implements ProductNames {
             catch (ClassNotFoundException e) {
                 //
             }
+            try {
+                Class.forName("com.jidesoft.editor.Product");
+                _productsUsed |= PRODUCT_CODE_EDITOR;
+            }
+            catch (ClassNotFoundException e) {
+                //
+            }
+            try {
+                Class.forName("com.jidesoft.rss.Product");
+                _productsUsed |= PRODUCT_FEEDREADER;
+            }
+            catch (ClassNotFoundException e) {
+                //
+            }
         }
         return _productsUsed;
     }

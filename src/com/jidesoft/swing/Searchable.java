@@ -1292,10 +1292,9 @@ public abstract class Searchable {
      * @return all of the <code>SearchableListener</code>s added or an empty
      *         array if no listeners have been added
      * @see #addSearchableListener
-     * @since 1.4
      */
     public SearchableListener[] getSearchableListeners() {
-        return (SearchableListener[]) listenerList.getListeners(SearchableListener.class);
+        return listenerList.getListeners(SearchableListener.class);
     }
 
     /**
