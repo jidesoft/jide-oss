@@ -257,10 +257,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         _tabPane = (JideTabbedPane) c;
 
-        if (_tabPane.getTabLeadingComponent() != null) {
+        if (_tabPane.isTabShown() && _tabPane.getTabLeadingComponent() != null) {
             _tabLeadingComponent = _tabPane.getTabLeadingComponent();
         }
-        if (_tabPane.getTabTrailingComponent() != null) {
+        if (_tabPane.isTabShown() && _tabPane.getTabTrailingComponent() != null) {
             _tabTrailingComponent = _tabPane.getTabTrailingComponent();
         }
 
@@ -8469,11 +8469,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected boolean isTabLeadingComponentVisible() {
-        return _tabLeadingComponent != null && _tabLeadingComponent.isVisible();
+        return _tabPane.isTabShown() && _tabLeadingComponent != null && _tabLeadingComponent.isVisible();
     }
 
     protected boolean isTabTrailingComponentVisible() {
-        return _tabTrailingComponent != null && _tabTrailingComponent.isVisible();
+        return _tabPane.isTabShown() && _tabTrailingComponent != null && _tabTrailingComponent.isVisible();
     }
 
     protected boolean isTabTopVisible(int tabPlacement) {
