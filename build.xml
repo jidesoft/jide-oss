@@ -27,6 +27,11 @@
         <echo message="JavaDoc Dir: ${javadoc_dir}"/>
         <echo message="Source list: ${source_list}"/>
         <tstamp/>
+        <!-- modify the default excludes -->
+        <defaultexcludes add="**/_svn"/>
+        <defaultexcludes add="**/_svn/**"/>
+        <defaultexcludes add="**/.DS_Store"/>
+        <defaultexcludes add="**/*.iml"/>
     </target>
 
     <target name="clean" depends="init" description="clean the compile output folder">

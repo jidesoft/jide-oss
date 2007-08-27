@@ -745,6 +745,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
         if (viewport != null) {
             viewport.setBounds(availR);
+//            viewport.setViewSize(availR.getSize());  // to fix the strange scroll bar problem reported on http://www.jidesoft.com/forum/viewtopic.php?p=20526#20526
 
             if (sv != null) {
                 extentSize = viewport.toViewCoordinates(availR.getSize());

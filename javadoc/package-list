@@ -5,6 +5,7 @@ com.jidesoft.grouper
 com.jidesoft.grouper.date
 com.jidesoft.hints
 com.jidesoft.icons
+com.jidesoft.list
 com.jidesoft.plaf
 com.jidesoft.plaf.aqua
 com.jidesoft.plaf.basic
@@ -18,5 +19,6 @@ com.jidesoft.popup
 com.jidesoft.spinner
 com.jidesoft.swing
 com.jidesoft.swing.event
+com.jidesoft.tree
 com.jidesoft.utils
 com.jidesoft.validation
