@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,6 +111,7 @@ public class CheckBoxList extends JList {
         _checkBoxListSelectionModel.addListSelectionListener(_handler);
         JideSwingUtilities.insertMouseListener(this, _handler, 0);
         addKeyListener(_handler);
+        addPropertyChangeListener("model", _handler);
     }
 
     protected CheckBoxListSelectionModel createCheckBoxListSelectionModel(ListModel model) {
@@ -148,12 +151,19 @@ public class CheckBoxList extends JList {
         return super.getCellRenderer();
     }
 
-    protected static class Handler implements MouseListener, KeyListener, ListSelectionListener {
+    protected static class Handler implements MouseListener, KeyListener, ListSelectionListener, PropertyChangeListener {
         protected CheckBoxList _list;
         int _hotspot = new JCheckBox().getPreferredSize().width;
 
+
         public Handler(CheckBoxList list) {
             _list = list;
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getNewValue() instanceof ListModel) {
+                _list.getCheckBoxListSelectionModel().setModel((ListModel) evt.getNewValue());
+            }
         }
 
         protected boolean clicksInCheckBox(MouseEvent e) {

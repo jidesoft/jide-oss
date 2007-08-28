@@ -19,6 +19,17 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel {
     }
 
     public void setModel(ListModel model) {
+        int oldLength = 0;
+        int newLength = 0;
+        if (_model != null) {
+            oldLength = _model.getSize();
+        }
         _model = model;
+        if (_model != null) {
+            newLength = _model.getSize();
+        }
+        if (oldLength > newLength) {
+            removeIndexInterval(newLength, oldLength);
+        }
     }
 }
