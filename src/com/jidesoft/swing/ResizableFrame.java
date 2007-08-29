@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.SystemInfo;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -49,7 +51,10 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                 return new Resizable(this) {
                     @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
-                        ResizableFrame.this.getContentPane().setPreferredSize(new Dimension(newW, newH));
+                        Container container = ResizableFrame.this.getContentPane();
+                        if (SystemInfo.isJdk15Above() || container instanceof JComponent) {
+                            container.setPreferredSize(new Dimension(newW, newH));
+                        }
                         ResizableFrame.this.setBounds(newX, newY, newW, newH);
                     }
 

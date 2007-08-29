@@ -9,7 +9,6 @@ import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.ThemePainter;
-import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 
@@ -2779,7 +2778,7 @@ public class JideSwingUtilities implements SwingConstants {
         MouseEvent retargeted = new MouseEvent(target,
                 id,
                 e.getWhen(),
-                PortingUtils.getMouseModifiers(e),
+                e.getModifiersEx() | e.getModifiers(),
                 p.x,
                 p.y,
                 e.getClickCount(),

@@ -7854,9 +7854,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
+                _tabScroller.tabPanel.getParent().doLayout();
                 _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
             }
-//			_tabScroller.stateChanged(new ChangeEvent(_tabScroller.viewport));
             _tabPane.revalidate();
             _tabPane.repaint();
         }

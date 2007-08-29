@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.SystemInfo;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -85,7 +87,10 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
                 return new Resizable(this) {
                     @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
-                        ResizableDialog.this.getContentPane().setPreferredSize(new Dimension(newW, newH));
+                        Container container = ResizableDialog.this.getContentPane();
+                        if (SystemInfo.isJdk15Above() || container instanceof JComponent) {
+                            container.setPreferredSize(new Dimension(newW, newH));
+                        }
                         ResizableDialog.this.setBounds(newX, newY, newW, newH);
                     }
 
