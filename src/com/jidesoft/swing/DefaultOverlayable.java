@@ -22,28 +22,30 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
     private Insets _overlayLocationInsets = new Insets(0, 0, 0, 0);
     private List<JComponent> _overlayComponents;
     private Map<JComponent, Integer> _overlayLocations;
-    private JPanel _dummy;
 
-    public DefaultOverlayable(JComponent component) {
-        setActualComponent(component);
+    public DefaultOverlayable() {
         initComponents();
     }
 
-    public DefaultOverlayable(JComponent actualComponent, JComponent overlayComponent, int overlayLocation) {
-        setActualComponent(actualComponent);
+    public DefaultOverlayable(JComponent component) {
         initComponents();
+        setActualComponent(component);
+    }
+
+    public DefaultOverlayable(JComponent actualComponent, JComponent overlayComponent, int overlayLocation) {
+        initComponents();
+        setActualComponent(actualComponent);
         addOverlayComponent(overlayComponent, overlayLocation);
     }
 
     public DefaultOverlayable(JComponent actualComponent, JComponent overlayComponent) {
-        setActualComponent(actualComponent);
         initComponents();
+        setActualComponent(actualComponent);
         addOverlayComponent(overlayComponent, SwingConstants.CENTER);
     }
 
     private void initComponents() {
         setLayout(null);
-        add(_actualComponent);
         _overlayComponents = new Vector();
         _overlayLocations = new Hashtable();
     }
@@ -207,9 +209,19 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
         return _actualComponent;
     }
 
-    private void setActualComponent(JComponent actualComponent) {
+    public void setActualComponent(JComponent actualComponent) {
+        if (_actualComponent != null) {
+            remove(_actualComponent);
+            _actualComponent.putClientProperty(CLIENT_PROPERTY_OVERLAYABLE, null);
+        }
         _actualComponent = actualComponent;
         _actualComponent.putClientProperty(CLIENT_PROPERTY_OVERLAYABLE, this);
+        add(_actualComponent);
+        Container container = getParent();
+        if (container != null) {
+            invalidate();
+            container.validate();
+        }
     }
 
 
@@ -219,9 +231,9 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
 
     public void setOverlayLocationInsets(Insets overlayLocationInsets) {
         _overlayLocationInsets = overlayLocationInsets;
-        invalidate();
         Container container = getParent();
         if (container != null) {
+            invalidate();
             container.validate();
         }
     }
