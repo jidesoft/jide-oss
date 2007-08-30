@@ -17,6 +17,7 @@ import java.util.Set;
  */
 public class CachedArrayList<E> extends ArrayList<E> {
     private HashMap<Object, Integer> _indexCache;
+    private boolean _lazyCaching = false;
 
     public CachedArrayList() {
     }
@@ -38,7 +39,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
         }
         else {
             int i = super.indexOf(elem);
-            _indexCache.put(elem, i);
+            cacheIt(elem, i);
             return i;
         }
     }
@@ -61,12 +62,24 @@ public class CachedArrayList<E> extends ArrayList<E> {
         }
     }
 
+    /**
+     * Caches the index of the element.
+     *
+     * @param o     the element
+     * @param index the index.
+     */
+    public void cacheIt(Object o, int index) {
+        if (_indexCache != null && _indexCache.get(o) == null) {
+            _indexCache.put(o, index);
+        }
+    }
+
     @Override
     public boolean add(E o) {
         boolean added = super.add(o);
-        if (added) {
+        if (!isLazyCaching() && added) {
             initializeCache();
-            _indexCache.put(o, size() - 1);
+            cacheIt(o, size() - 1);
         }
         return added;
     }
@@ -74,9 +87,11 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public void add(int index, E element) {
         super.add(index, element);
-        adjustCache(index, 1);
-        initializeCache();
-        _indexCache.put(element, index);
+        if (!isLazyCaching()) {
+            adjustCache(index, 1);
+            initializeCache();
+            cacheIt(element, index);
+        }
     }
 
     private void initializeCache() {
@@ -88,7 +103,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public E remove(int index) {
         E element = super.remove(index);
-        if (element != null) {
+        if (!isLazyCaching() && element != null) {
             adjustCache(index, -1);
         }
         return element;
@@ -98,7 +113,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
     public boolean remove(Object o) {
         int oldIndex = indexOf(o);
         boolean removed = super.remove(o);
-        if (removed) {
+        if (!isLazyCaching() && removed) {
             adjustCache(oldIndex, -1);
         }
         return removed;
@@ -107,24 +122,31 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         boolean added = super.addAll(index, c);
-        initializeCache();
-        adjustCache(index, c.size());
-        for (E e : c) {
-            _indexCache.put(e, index++);
+        if (!isLazyCaching()) {
+            initializeCache();
+            adjustCache(index, c.size());
+            for (E e : c) {
+                cacheIt(e, index++);
+            }
         }
         return added;
     }
 
     @Override
     public E set(int index, E element) {
-        initializeCache();
-        Object old = _indexCache.get(get(index));
-        E e = super.set(index, element);
-        if (old != null) {
-            _indexCache.remove(old);
+        if (!isLazyCaching()) {
+            initializeCache();
+            Object old = _indexCache.get(get(index));
+            E e = super.set(index, element);
+            if (old != null) {
+                _indexCache.remove(old);
+            }
+            cacheIt(e, index);
+            return e;
         }
-        _indexCache.put(e, index);
-        return e;
+        else {
+            return super.set(index, element);
+        }
     }
 
     /**
@@ -132,5 +154,32 @@ public class CachedArrayList<E> extends ArrayList<E> {
      */
     public void invalidateCache() {
         _indexCache = null;
+    }
+
+    /**
+     * Cache all the element index.
+     */
+    public void cacheAll() {
+        _indexCache = new HashMap();
+        _indexCache = new HashMap();
+        Integer i = 0;
+        for (Object elem : this) {
+            _indexCache.put(elem, i);
+            i++;
+        }
+//        for (int i = 0; i < size(); i++) {
+//            _indexCache.put(get(i), i);
+//        }
+//        for (int i = size() - 1; i >= 0; i--) {
+//            _indexCache.put(get(i), i);
+//        }
+    }
+
+    public boolean isLazyCaching() {
+        return _lazyCaching;
+    }
+
+    public void setLazyCaching(boolean lazyCaching) {
+        _lazyCaching = lazyCaching;
     }
 }
