@@ -486,8 +486,21 @@ public class BasicJideButtonUI extends JideButtonUI {
     // Perhaps this class should be abstract?
     protected void paintBackground(Graphics g, AbstractButton b,
                                    Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {
+        boolean paintDefaultBorder = true;
+        boolean paintBackground;
+        Object o = b.getClientProperty("JideButton.paintDefaultBorder");
+        if (o instanceof Boolean) {
+            paintDefaultBorder = (Boolean) o;
+        }
+        o = b.getClientProperty("JideButton.alwaysPaintBackground");
+        if (o instanceof Boolean) {
+            paintBackground = (Boolean) o;
+        }
+        else {
+            paintBackground = b.isOpaque();
+        }
         Rectangle rect = new Rectangle(0, 0, b.getWidth(), b.getHeight());
-        if (b.isOpaque()) {
+        if (paintBackground) {
             g.setColor(b.getBackground());
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -500,7 +513,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     getPainter().paintButtonBackground(b, g, rect, 0, state);
                 }
                 else {
-                    if (b.isOpaque()) {
+                    if (paintBackground) {
                         getPainter().paintButtonBackground(b, g, rect, 0, state);
                         if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                             JideSwingUtilities.fillGradient(g, rect, SwingConstants.HORIZONTAL);
@@ -549,7 +562,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
                 }
                 else {
-                    if (b.isOpaque()) {
+                    if (paintBackground) {
                         getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
                     }
                 }
@@ -557,7 +570,7 @@ public class BasicJideButtonUI extends JideButtonUI {
             else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
                 if (b.getModel().isPressed()) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_PRESSED);
-                    if (!b.isOpaque()) {
+                    if (paintDefaultBorder) {
                         g.setColor(_darkShadowColor);    // inner 3D border
                         g.drawLine(0, 0, b.getWidth() - 2, 0);
                         g.drawLine(0, 0, 0, b.getHeight() - 2);
@@ -573,7 +586,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 }
                 else if (b.getModel().isSelected() && b.getModel().isRollover()) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_PRESSED);
-                    if (!b.isOpaque()) {
+                    if (paintDefaultBorder) {
                         g.setColor(_darkShadowColor);    // inner 3D border
                         g.drawLine(0, 0, b.getWidth() - 2, 0);
                         g.drawLine(0, 0, 0, b.getHeight() - 2);
@@ -589,7 +602,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 }
                 else if (b.getModel().isSelected()) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_SELECTED);
-                    if (!b.isOpaque()) {
+                    if (paintDefaultBorder) {
                         g.setColor(_darkShadowColor);    // inner 3D border
                         g.drawLine(0, 0, b.getWidth() - 2, 0);
                         g.drawLine(0, 0, 0, b.getHeight() - 2);
@@ -605,7 +618,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 }
                 else if (b.getModel().isRollover() || (b.hasFocus() && b.isFocusPainted())) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_ROLLOVER);
-                    if (!b.isOpaque()) {
+                    if (paintDefaultBorder) {
                         g.setColor(_lightHighlightColor);    // inner 3D border
                         g.drawLine(0, 0, b.getWidth() - 1, 0);
                         g.drawLine(0, 0, 0, b.getHeight() - 1);
@@ -620,7 +633,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
                 else {
-                    if (b.isOpaque()) {
+                    if (paintBackground) {
                         getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
                     }
                     else {
@@ -634,7 +647,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
 
-                if (b.isOpaque()) {
+                if (paintBackground) {
                     g.setColor(_lightHighlightColor);    // inner 3D border
                     g.drawLine(0, 0, b.getWidth() - 1, 0);
                     g.drawLine(0, 0, 0, b.getHeight() - 1);

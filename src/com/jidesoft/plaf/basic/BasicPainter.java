@@ -284,8 +284,15 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     protected void paintBackground(JComponent c, Graphics g, Rectangle rect, Color borderColor, Color background, int orientation) {
         Color oldColor = g.getColor();
         if (borderColor != null) {
-            g.setColor(borderColor);
-            g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+            boolean paintDefaultBorder = true;
+            Object o = c.getClientProperty("JideButton.paintDefaultBorder");
+            if (o instanceof Boolean) {
+                paintDefaultBorder = (Boolean) o;
+            }
+            if (paintDefaultBorder) {
+                g.setColor(borderColor);
+                g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+            }
             g.setColor(background);
             g.fillRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
         }

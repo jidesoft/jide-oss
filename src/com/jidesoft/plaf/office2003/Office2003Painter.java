@@ -522,10 +522,17 @@ public class Office2003Painter extends BasicPainter {
             if (startColor != null && endColor != null) {
                 JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 1, rect.y + 1, rect.width - 1, rect.height - 1), startColor, endColor, orientation == SwingConstants.HORIZONTAL);
             }
-            Color oldColor = g2d.getColor();
-            g2d.setColor(borderColor);
-            g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
-            g2d.setColor(oldColor);
+            boolean paintDefaultBorder = true;
+            Object o = c.getClientProperty("JideButton.paintDefaultBorder");
+            if (o instanceof Boolean) {
+                paintDefaultBorder = (Boolean) o;
+            }
+            if (paintDefaultBorder) {
+                Color oldColor = g2d.getColor();
+                g2d.setColor(borderColor);
+                g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                g2d.setColor(oldColor);
+            }
         }
         else {
             if (startColor != null && endColor != null) {
