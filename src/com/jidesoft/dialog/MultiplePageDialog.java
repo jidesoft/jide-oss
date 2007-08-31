@@ -1106,7 +1106,6 @@ public class MultiplePageDialog extends StandardDialog {
     protected JideButton createIconButton(String title, Icon icon) {
         final JideButton button = new JideButton(title, icon);
         button.setName(title);
-        button.setContentAreaFilled(false);
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
