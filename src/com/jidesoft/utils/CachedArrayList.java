@@ -24,6 +24,9 @@ public class CachedArrayList<E> extends ArrayList<E> {
 
     public CachedArrayList(Collection<? extends E> c) {
         super(c);
+        if (!isLazyCaching()) {
+            cacheAll();
+        }
     }
 
     public CachedArrayList(int initialCapacity) {
@@ -55,7 +58,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
             Set<Object> keys = _indexCache.keySet();
             for (Object key : keys) {
                 int value = _indexCache.get(key);
-                if (value > index) {
+                if (value >= index) {
                     _indexCache.put(key, value + increase);
                 }
             }
@@ -69,8 +72,19 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * @param index the index.
      */
     public void cacheIt(Object o, int index) {
-        if (_indexCache != null && _indexCache.get(o) == null) {
+        if (_indexCache != null && (_indexCache.get(o) == null || index < _indexCache.get(o))) {
             _indexCache.put(o, index);
+        }
+    }
+
+    /**
+     * Uncaches the index of the element.
+     *
+     * @param o the element
+     */
+    public void uncacheIt(Object o) {
+        if (_indexCache != null) {
+            _indexCache.remove(o);
         }
     }
 
@@ -87,9 +101,8 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public void add(int index, E element) {
         super.add(index, element);
-        if (!isLazyCaching()) {
+        if (_indexCache != null) {
             adjustCache(index, 1);
-            initializeCache();
             cacheIt(element, index);
         }
     }
@@ -103,7 +116,8 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public E remove(int index) {
         E element = super.remove(index);
-        if (!isLazyCaching() && element != null) {
+        if (element != null) {
+            uncacheIt(element);
             adjustCache(index, -1);
         }
         return element;
@@ -113,21 +127,33 @@ public class CachedArrayList<E> extends ArrayList<E> {
     public boolean remove(Object o) {
         int oldIndex = indexOf(o);
         boolean removed = super.remove(o);
-        if (!isLazyCaching() && removed) {
+        if (removed) {
+            uncacheIt(o);
             adjustCache(oldIndex, -1);
         }
         return removed;
     }
 
     @Override
+    public boolean removeAll(Collection<?> c) {
+        uncacheAll();
+        return super.removeAll(c);
+    }
+
+
+    @Override
+    public void clear() {
+        uncacheAll();
+        super.clear();
+    }
+
+    @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         boolean added = super.addAll(index, c);
-        if (!isLazyCaching()) {
-            initializeCache();
-            adjustCache(index, c.size());
-            for (E e : c) {
-                cacheIt(e, index++);
-            }
+        initializeCache();
+        adjustCache(index, c.size());
+        for (E e : c) {
+            cacheIt(e, index++);
         }
         return added;
     }
@@ -153,14 +179,23 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * Invalidated the whole cache.
      */
     public void invalidateCache() {
-        _indexCache = null;
+        uncacheAll();
+    }
+
+    /**
+     * Uncache the whole cache. It is the same as {@link #invalidateCache()}.
+     */
+    public void uncacheAll() {
+        if (_indexCache != null) {
+            _indexCache.clear();
+            _indexCache = null;
+        }
     }
 
     /**
      * Cache all the element index.
      */
     public void cacheAll() {
-        _indexCache = new HashMap();
         _indexCache = new HashMap();
         Integer i = 0;
         for (Object elem : this) {
