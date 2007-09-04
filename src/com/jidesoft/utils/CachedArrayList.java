@@ -42,7 +42,12 @@ public class CachedArrayList<E> extends ArrayList<E> {
         }
         else {
             int i = super.indexOf(elem);
-            cacheIt(elem, i);
+            if (i == -1) {
+                uncacheIt(elem);
+            }
+            else {
+                cacheIt(elem, i);
+            }
             return i;
         }
     }
