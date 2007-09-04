@@ -55,7 +55,7 @@ public class Office2003HeaderBoxUI extends BasicHeaderBoxUI {
             }
             else {
                 g.setColor(new Color(250, 248, 243));
-                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
+                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 2);
 
                 g.setColor(Color.LIGHT_GRAY);
                 g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
@@ -75,16 +75,16 @@ public class Office2003HeaderBoxUI extends BasicHeaderBoxUI {
             }
             else {
                 g.setColor(new Color(235, 234, 219));
-                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
+                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 2);
 
                 g.setColor(Color.LIGHT_GRAY);
-                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
+                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 4);
             }
 
             g.setColor(new Color(226, 222, 205));
             g.drawLine(1, c.getHeight() - 3, c.getWidth() - 2, c.getHeight() - 3);
             g.setColor(new Color(214, 210, 194));
-            g.drawLine(1, c.getHeight() - 2, c.getWidth() - 3, c.getHeight() - 2);
+            g.drawLine(1, c.getHeight() - 2, c.getWidth() - 2, c.getHeight() - 2);
 
             if (isCellEditor) {
                 g.setColor(new Color(198, 197, 178));
