@@ -152,6 +152,16 @@ public class CachedArrayList<E> extends ArrayList<E> {
         super.clear();
     }
 
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        boolean added = super.addAll(c);
+        if (added) {
+            cacheAll();
+        }
+        return added;
+    }
+
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         boolean added = super.addAll(index, c);
@@ -167,12 +177,8 @@ public class CachedArrayList<E> extends ArrayList<E> {
     public E set(int index, E element) {
         if (!isLazyCaching()) {
             initializeCache();
-            Object old = _indexCache.get(get(index));
             E e = super.set(index, element);
-            if (old != null) {
-                _indexCache.remove(old);
-            }
-            cacheIt(e, index);
+            cacheIt(element, index);
             return e;
         }
         else {
@@ -204,7 +210,9 @@ public class CachedArrayList<E> extends ArrayList<E> {
         _indexCache = new HashMap();
         Integer i = 0;
         for (Object elem : this) {
-            _indexCache.put(elem, i);
+            if (_indexCache.get(elem) == null) {
+                _indexCache.put(elem, i);
+            }
             i++;
         }
 //        for (int i = 0; i < size(); i++) {
@@ -221,5 +229,19 @@ public class CachedArrayList<E> extends ArrayList<E> {
 
     public void setLazyCaching(boolean lazyCaching) {
         _lazyCaching = lazyCaching;
+    }
+
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
+        if (fromIndex == toIndex) {
+            remove(fromIndex);
+        }
+        else {
+            super.removeRange(fromIndex, toIndex);
+            uncacheAll();
+            if (!isLazyCaching()) {
+                cacheAll();
+            }
+        }
     }
 }
