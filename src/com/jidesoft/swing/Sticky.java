@@ -112,7 +112,7 @@ public class Sticky {
             else
                 index = list.getModel() == null ? 0 : list.getModel().getSize() - 1;
         }
-        if (list.getSelectedIndex() != index) {
+        if (list.getSelectedIndex() != index && index >= 0 && index < list.getModel().getSize()) {
             list.setSelectedIndex(index);
             if (shouldScroll)
                 list.ensureIndexIsVisible(index);
