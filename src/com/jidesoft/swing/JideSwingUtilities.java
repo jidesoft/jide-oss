@@ -2785,4 +2785,27 @@ public class JideSwingUtilities implements SwingConstants {
                 e.isPopupTrigger());
         target.dispatchEvent(retargeted);
     }
+
+    /**
+     * If c is a JRootPane descendant return its outermost JRootPane ancestor.
+     * If c is a RootPaneContainer then return its JRootPane.
+     *
+     * @return the outermost JRootPane for Component c or {@code null}.
+     */
+    public static JRootPane getOutermostRootPane(Component c) {
+        if (c instanceof RootPaneContainer && c.getParent() == null) {
+            return ((RootPaneContainer) c).getRootPane();
+        }
+        JRootPane lastRootPane = null;
+        for (; c != null; c = SwingUtilities.getRootPane(c)) {
+            if (c instanceof JRootPane) {
+                lastRootPane = (JRootPane) c;
+                if (c.getParent().getParent() == null) {
+                    return lastRootPane;
+                }
+                c = c.getParent();
+            }
+        }
+        return null;
+    }
 }
