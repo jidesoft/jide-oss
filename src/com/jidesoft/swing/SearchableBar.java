@@ -28,14 +28,14 @@ import java.util.Locale;
  * <p/>
  * First of all, <code>SearchableBar</code> is a lot bigger than <code>Searchable</code>'s popup
  * and need more space on the screen. The component that installs <code>SearchableBar</code> should
- * be large enough. In comparision, <code>Searchable</code> can be installed on components of any size
+ * be large enough. In comparison, <code>Searchable</code> can be installed on components of any size
  * as it's a floating popup.
  * <p/>
  * Secondly, <code>SearchableBar</code> can be set visible all the time or can be set visible by a
  * keystroke and stay visible unless user explicitly hides it. If your user is not computer savvy,
  * <code>SearchableBar</code> is more appropriate because user can see searching feature very easily.
  * <code>SearchableBar</code> can also be a better replacement the traditional "Find" or "Search" dialog
- * because <code>SearchableBar</code> doesn't block user input like modal dialog. In comparision,
+ * because <code>SearchableBar</code> doesn't block user input like modal dialog. In comparison,
  * <code>Searchable</code>'s popup is very transient. Mouse clicks outside the popup will hide the popup.
  * For computer savvy it is very helpful but it could be hard for non-computer savvy to "understand" it.
  * A good example is IntelliJ IDEA heavily uses Searchable popup because the users are all Java developers. Firefox,
