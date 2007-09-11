@@ -461,7 +461,11 @@ public class JideTabbedPane extends JTabbedPane {
      * @param action the close action.
      */
     public void setCloseAction(Action action) {
-        _closeAction = action;
+        Action old = _closeAction;
+        if (old != action) {
+            _closeAction = action;
+            firePropertyChange("closeTabAction", old, _closeAction);
+        }
     }
 
     /**
@@ -478,7 +482,7 @@ public class JideTabbedPane extends JTabbedPane {
      * is to remove currently selected tab.
      */
     public void resetDefaultCloseAction() {
-        _closeAction = null;
+        setCloseAction(null);
     }
 
     private boolean _suppressStateChangedEvents = false;

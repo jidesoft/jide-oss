@@ -700,7 +700,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         map.put("scrollTabsForwardAction", new ScrollTabsForwardAction());
         map.put("scrollTabsBackwardAction", new ScrollTabsBackwardAction());
         map.put("scrollTabsListAction", new ScrollTabsListAction());
-        map.put("closeTabAction", new CloseTabAction());
+        Action action = _tabPane.getCloseAction();
+        map.put("closeTabAction", action != null ? action : new CloseTabAction());
         return map;
     }
 
@@ -7412,6 +7413,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             else if (name.equals("tabLayoutPolicy")) {
                 _tabPane.updateUI();
             }
+            else if (name.equals("closeTabAction")) {
+                ActionMap map = getActionMap();
+                Action action = _tabPane.getCloseAction();
+                map.put("closeTabAction", action != null ? action : new CloseTabAction());
+                ensureCloseButtonCreated();
+            }
             else if (name.equals(JideTabbedPane.PROPERTY_DRAG_OVER_DISABLED)) {
                 _tabPane.updateUI();
             }
@@ -7916,7 +7923,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (closeButton == null) {
                     closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
                     closeButton.setName("TabClose");
-                    closeButton.setToolTipText(Resource.getResourceBundle(Locale.getDefault()).getString("JideTabbedPane.close"));
                     _closeButtons[i] = closeButton;
                     closeButton.setBounds(0, 0, 0, 0);
                     closeButton.setAction(am.get("closeTabAction"));
