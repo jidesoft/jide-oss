@@ -45,6 +45,7 @@ public class BasicLookAndFeelExtension implements LookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             // grids
             table.put("JideTableUI", basicPackageName + "BasicJideTableUI");
+            table.put("NavigableTableUI", basicPackageName + "BasicNavigableTableUI");
             table.put("CellSpanTableUI", basicPackageName + "BasicCellSpanTableUI");
             table.put("HierarchicalTableUI", basicPackageName + "BasicHierarchicalTableUI");
             table.put("NestedTableHeaderUI", basicPackageName + "BasicNestedTableHeaderUI");
