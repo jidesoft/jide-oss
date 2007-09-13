@@ -6,6 +6,8 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.Position;
@@ -112,6 +114,10 @@ public class CheckBoxList extends JList {
         JideSwingUtilities.insertMouseListener(this, _handler, 0);
         addKeyListener(_handler);
         addPropertyChangeListener("model", _handler);
+        ListModel model = getModel();
+        if (model != null) {
+            model.addListDataListener(_handler);
+        }
     }
 
     protected CheckBoxListSelectionModel createCheckBoxListSelectionModel(ListModel model) {
@@ -151,7 +157,7 @@ public class CheckBoxList extends JList {
         return super.getCellRenderer();
     }
 
-    protected static class Handler implements MouseListener, KeyListener, ListSelectionListener, PropertyChangeListener {
+    protected static class Handler implements MouseListener, KeyListener, ListSelectionListener, PropertyChangeListener, ListDataListener {
         protected CheckBoxList _list;
         int _hotspot = new JCheckBox().getPreferredSize().width;
 
@@ -161,8 +167,12 @@ public class CheckBoxList extends JList {
         }
 
         public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getOldValue() instanceof ListModel) {
+                ((ListModel) evt.getOldValue()).removeListDataListener(this);
+            }
             if (evt.getNewValue() instanceof ListModel) {
                 _list.getCheckBoxListSelectionModel().setModel((ListModel) evt.getNewValue());
+                ((ListModel) evt.getNewValue()).addListDataListener(this);
             }
         }
 
@@ -287,6 +297,33 @@ public class CheckBoxList extends JList {
         protected void toggleSelection() {
             int index = _list.getSelectedIndex();
             toggleSelection(index);
+        }
+
+        public void intervalAdded(ListDataEvent e) {
+            int minIndex = Math.min(e.getIndex0(), e.getIndex1());
+            int maxIndex = Math.max(e.getIndex0(), e.getIndex1());
+
+            /* Sync the SelectionModel with the DataModel.
+             */
+
+            ListSelectionModel sm = _list.getCheckBoxListSelectionModel();
+            if (sm != null) {
+                sm.insertIndexInterval(minIndex, maxIndex - minIndex + 1, true);
+            }
+        }
+
+
+        public void intervalRemoved(ListDataEvent e) {
+            /* Sync the SelectionModel with the DataModel.
+             */
+            ListSelectionModel sm = _list.getCheckBoxListSelectionModel();
+            if (sm != null) {
+                sm.removeIndexInterval(e.getIndex0(), e.getIndex1());
+            }
+        }
+
+
+        public void contentsChanged(ListDataEvent e) {
         }
     }
 
