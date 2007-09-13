@@ -144,14 +144,10 @@ public class BasicRangeSliderUI extends BasicSliderUI {
             RangeSlider rangeSlider = (RangeSlider) slider;
             switch (handle) {
                 case MOUSE_HANDLE_MIN:
-                    if (newValue <= rangeSlider.getHighValue()) {
-                        rangeSlider.setLowValue(newValue);
-                    }
+                    rangeSlider.setLowValue(Math.min(newValue, rangeSlider.getHighValue()));
                     break;
                 case MOUSE_HANDLE_MAX:
-                    if (newValue >= rangeSlider.getLowValue()) {
-                        rangeSlider.setHighValue(newValue);
-                    }
+                    rangeSlider.setHighValue(Math.max(rangeSlider.getLowValue(), newValue));
                     break;
                 case MOUSE_HANDLE_MIDDLE:
                     int delta = (slider.getOrientation() == JSlider.VERTICAL) ?
