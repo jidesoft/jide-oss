@@ -11,7 +11,6 @@ import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.BasicPainter;
-import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.office2003.Office2003WindowsUtils;
 import com.jidesoft.plaf.vsnet.ConvertListener;
@@ -274,8 +273,8 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
         Object buttonBorder = new BasicBorders.MarginBorder();
 
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
+        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_horizontal.gif");
+        ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
                 "JideScrollPane.border", singleLineBorder,
@@ -403,12 +402,19 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "released DOWN", "downReleased",
         }),
 
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 0, 8, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 8, 0, 8, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 16, 0, 6, 9),
+                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 10),
+                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 10, 9, 10),
+                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 20, 9, 7),
+                "RangeSlider.lowerRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 0, 9, 10),
+                "RangeSlider.upperRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 10, 9, 10),
+                "RangeSlider.middleRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 20, 9, 7),
+
+                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 0, 10, 9),
+                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 10, 0, 10, 9),
+                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 20, 0, 7, 9),
+                "RangeSlider.lowerVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 9, 10, 9),
+                "RangeSlider.upperVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 10, 9, 10, 9),
+                "RangeSlider.middleVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 20, 9, 7, 9),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
