@@ -55,7 +55,9 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                         if (SystemInfo.isJdk15Above() || container instanceof JComponent) {
                             container.setPreferredSize(new Dimension(newW, newH));
                         }
-                        ResizableFrame.this.setBounds(newX, newY, newW, newH);
+                        if (!JFrame.isDefaultLookAndFeelDecorated()) {
+                            ResizableFrame.this.setBounds(newX, newY, newW, newH);
+                        }
                     }
 
                     @Override

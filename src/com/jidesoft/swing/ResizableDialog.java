@@ -91,7 +91,9 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
                         if (SystemInfo.isJdk15Above() || container instanceof JComponent) {
                             container.setPreferredSize(new Dimension(newW, newH));
                         }
-                        ResizableDialog.this.setBounds(newX, newY, newW, newH);
+                        if (!JDialog.isDefaultLookAndFeelDecorated()) {
+                            ResizableDialog.this.setBounds(newX, newY, newW, newH);
+                        }
                     }
 
                     @Override
