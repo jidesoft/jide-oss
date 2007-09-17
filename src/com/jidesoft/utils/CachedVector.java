@@ -1,37 +1,31 @@
-/*
- * @(#)CachedArrayList.java 10/5/2005
- *
- * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
- */
 package com.jidesoft.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Vector;
 
 /**
- * This is a fast access ArrayList that sacrifices memory for speed. It will
+ * This is a fast access Vector that sacrifices memory for speed. It will
  * reduce the speed of indexOf method from O(n) to O(1). However it will at least double
- * the memory used by ArrayList. So use it approriately.
- * <p><strong>Just like ArrayList, this implementation is not synchronized.</strong> If you want a thread safe
- * implementation, you can use {@link com.jidesoft.utils.CachedVector}.
+ * the memory used by Vector. So use it approriately.
+ * <p><strong>Just like Vector, this implementation is synchronized.</strong> In comparision, {@link CachedArrayList} is not synchronized.
  */
-public class CachedArrayList<E> extends ArrayList<E> {
+public class CachedVector<E> extends Vector<E> {
     private HashMap<Object, Integer> _indexCache;
     private boolean _lazyCaching = false;
 
-    public CachedArrayList() {
+    public CachedVector() {
     }
 
-    public CachedArrayList(Collection<? extends E> c) {
+    public CachedVector(Collection<? extends E> c) {
         super(c);
         if (!isLazyCaching()) {
             cacheAll();
         }
     }
 
-    public CachedArrayList(int initialCapacity) {
+    public CachedVector(int initialCapacity) {
         super(initialCapacity);
     }
 
@@ -60,7 +54,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * @param index    the index. All values above this index will be changed.
      * @param increase a positive number to increase or a negative number to decrease.
      */
-    protected void adjustCache(int index, int increase) {
+    protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
             Set<Object> keys = _indexCache.keySet();
             for (Object key : keys) {
@@ -78,7 +72,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * @param o     the element
      * @param index the index.
      */
-    public void cacheIt(Object o, int index) {
+    public synchronized void cacheIt(Object o, int index) {
         if (_indexCache != null && (_indexCache.get(o) == null || index < _indexCache.get(o))) {
             _indexCache.put(o, index);
         }
@@ -89,7 +83,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
      *
      * @param o the element
      */
-    public void uncacheIt(Object o) {
+    public synchronized void uncacheIt(Object o) {
         if (_indexCache != null) {
             _indexCache.remove(o);
         }
@@ -198,7 +192,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
     /**
      * Uncache the whole cache. It is the same as {@link #invalidateCache()}.
      */
-    public void uncacheAll() {
+    public synchronized void uncacheAll() {
         if (_indexCache != null) {
             _indexCache.clear();
             _indexCache = null;
@@ -208,7 +202,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
     /**
      * Cache all the element index.
      */
-    public void cacheAll() {
+    public synchronized void cacheAll() {
         _indexCache = new HashMap();
         Integer i = 0;
         for (Object elem : this) {
