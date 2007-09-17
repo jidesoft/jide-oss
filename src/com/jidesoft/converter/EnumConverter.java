@@ -179,4 +179,35 @@ public class EnumConverter implements ObjectConverter {
     public String[] getStrings() {
         return _strings;
     }
+
+    /**
+     * Converts an object array to a String array using ObjectConverterManager.
+     * <p/>
+     * This method can be used, for example, for Enum type, to provide a default string representation of the enum values.
+     * <code><pre>
+     * ObjectConverter converter = new EnumConverter("Rank", Rank.values(), EnumConverter.toStrings(Rank.values()));
+     * </pre></code>
+     * Of course, you can still define your own string array for the enum values if the default one doesn't work well.
+     *
+     * @param values the object array.
+     * @return the string array.
+     */
+    public static String[] toStrings(Object[] values) {
+        return toStrings(values, null);
+    }
+
+    /**
+     * Converts an object array to a String array using ObjectConverterManager.
+     *
+     * @param values           the object array.
+     * @param converterContext the converter context used when calling ObjectConverterManager.toString.
+     * @return the string array.
+     */
+    public static String[] toStrings(Object[] values, ConverterContext converterContext) {
+        String[] s = new String[values.length];
+        for (int i = 0; i < s.length; i++) {
+            s[i] = ObjectConverterManager.toString(values[i], values[i].getClass(), converterContext);
+        }
+        return s;
+    }
 }
