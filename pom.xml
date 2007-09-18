@@ -53,13 +53,13 @@
             <url>${m2-repo.java.net.url}</url>
         </repository>
     </distributionManagement>
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>aqua</groupId>-->
-    <!--<artifactId>aqua</artifactId>-->
-    <!--<version>5.0</version>-->
-    <!--<scope>system</scope>-->
-    <!--<systemPath>${basedir}/libs/laf.jar</systemPath>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
+    <dependencies>
+        <dependency>
+            <groupId>aqua</groupId>
+            <artifactId>aqua</artifactId>
+            <version>5.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/laf.jar</systemPath>
+        </dependency>
+    </dependencies>
 </project>
