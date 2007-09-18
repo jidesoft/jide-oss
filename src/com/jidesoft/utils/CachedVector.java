@@ -90,11 +90,11 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public boolean add(E o) {
-        boolean added = super.add(o);
+    public boolean add(E element) {
+        boolean added = super.add(element);
         if (!isLazyCaching() && added) {
             initializeCache();
-            cacheIt(o, size() - 1);
+            cacheIt(element, size() - 1);
         }
         return added;
     }
