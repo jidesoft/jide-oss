@@ -1115,6 +1115,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
         };
         panel.setVisible(false);
+        panel.setOpaque(false);
         panel.setLayout(new BorderLayout());
         panel.add(this);
         return panel;
@@ -1175,10 +1176,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        if (_popupType == LIGHT_WEIGHT_POPUP) {
-            _panel.addComponentListener(_componentListener);
-        }
-        else if (_popupType == HEAVY_WEIGHT_POPUP) {
+        if (_popupType == HEAVY_WEIGHT_POPUP) {
             _window.addComponentListener(_componentListener);
             _windowListener = new WindowAdapter() {
                 @Override
@@ -1520,13 +1518,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         return rect.contains(newPoint);
     }
 
-    static boolean isAncestorOf(Component component, Object ancester) {
+    static boolean isAncestorOf(Component component, Object ancestor) {
         if (component == null) {
             return false;
         }
 
         for (Component p = component; p != null; p = p.getParent()) {
-            if (p == ancester) {
+            if (p == ancestor) {
                 return true;
             }
         }
@@ -1642,15 +1640,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     };
 
     protected void handleMousePressed(MouseEvent e) {
-        Object source = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
-        Component component = (Component) source;
-        if (getPopupType() == HEAVY_WEIGHT_POPUP && !isAncestorOf(component, _window)) {
-            if (isExcludedComponent(component)) {
-                return;
-            }
-            ancestorHidden();
-        }
-        else if (getPopupType() == LIGHT_WEIGHT_POPUP && !isAncestorOf(component, _panel)) {
+        Component component = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
+        if (!isClickOnPopup(e)) {
             if (isExcludedComponent(component)) {
                 return;
             }
@@ -1660,6 +1651,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             Point point = SwingUtilities.convertPoint(component, e.getPoint(), this);
 
             Rectangle startingBounds = null;
+
             if (_popupType == LIGHT_WEIGHT_POPUP) {
                 startingBounds = _panel.getBounds();
             }
@@ -1675,7 +1667,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 convertPointToScreen(screenPoint, component, true);
 
                 // drag on gripper
-                if (source == getUI().getGripper()) {
+                if (isAncestorOf(component, getUI().getGripper())) {
                     beginDragging(this, screenPoint.x, screenPoint.y, _relativeX, _relativeY);
                     e.consume();
                 }
@@ -1867,7 +1859,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             firePopupMenuWillBecomeInvisible();
         }
         if (_panel != null) {
-            _panel.removeComponentListener(_componentListener);
             _panel.remove(this);
             if (cancelled) {
                 firePopupMenuCanceled(); // will cause hidePopupImmediately called again.
@@ -2454,5 +2445,18 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             throw new IllegalArgumentException("invalid popup type. It must be JidePopup.HEAVY_WEIGHT_POPUP or JidePopup.LIGHT_WEIGHT_POPUP.");
         }
         _popupType = popupType;
+    }
+
+    /**
+     * Checks if the mouse event is on the popup. By default, we will check if popup is an ancestor of the clicked component.
+     * If it returns true, the popup will not be hidden. If false, the popup will be hidden as we consider the mouse click is outside
+     * the popup.
+     *
+     * @param e
+     * @return true or false.
+     */
+    public boolean isClickOnPopup(MouseEvent e) {
+        Component component = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
+        return isAncestorOf(component, this);
     }
 }
