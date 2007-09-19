@@ -5,10 +5,7 @@
  */
 package com.jidesoft.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This is a fast access ArrayList that sacrifices memory for speed. It will
@@ -18,7 +15,7 @@ import java.util.Set;
  * implementation, you can use {@link com.jidesoft.utils.CachedVector}.
  */
 public class CachedArrayList<E> extends ArrayList<E> {
-    private HashMap<Object, Integer> _indexCache;
+    private Map<Object, Integer> _indexCache;
     private boolean _lazyCaching = false;
 
     public CachedArrayList() {
@@ -60,17 +57,27 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * @param index    the index. All values above this index will be changed.
      * @param increase a positive number to increase or a negative number to decrease.
      */
-    protected void adjustCache(int index, int increase) {
+    protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
+            Map<Object, Integer> newCache = createCache();
             Set<Object> keys = _indexCache.keySet();
             for (Object key : keys) {
                 int value = _indexCache.get(key);
                 if (value >= index) {
-                    _indexCache.put(key, value + increase);
+                    newCache.put(key, value + increase);
+                }
+                else {
+                    newCache.put(key, value);
                 }
             }
+            _indexCache = newCache;
         }
     }
+
+    protected Map<Object, Integer> createCache() {
+        return new IdentityHashMap();
+    }
+
 
     /**
      * Caches the index of the element.
@@ -116,7 +123,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
 
     private void initializeCache() {
         if (_indexCache == null) {
-            _indexCache = new HashMap();
+            _indexCache = createCache();
         }
     }
 
@@ -209,7 +216,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * Cache all the element index.
      */
     public void cacheAll() {
-        _indexCache = new HashMap();
+        _indexCache = createCache();
         Integer i = 0;
         for (Object elem : this) {
             if (_indexCache.get(elem) == null) {

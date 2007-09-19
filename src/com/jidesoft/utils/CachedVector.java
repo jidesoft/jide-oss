@@ -1,9 +1,6 @@
 package com.jidesoft.utils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * This is a fast access Vector that sacrifices memory for speed. It will
@@ -12,7 +9,7 @@ import java.util.Vector;
  * <p><strong>Just like Vector, this implementation is synchronized.</strong> In comparision, {@link CachedArrayList} is not synchronized.
  */
 public class CachedVector<E> extends Vector<E> {
-    private HashMap<Object, Integer> _indexCache;
+    private Map<Object, Integer> _indexCache;
     private boolean _lazyCaching = false;
 
     public CachedVector() {
@@ -56,14 +53,23 @@ public class CachedVector<E> extends Vector<E> {
      */
     protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
+            Map<Object, Integer> newCache = createCache();
             Set<Object> keys = _indexCache.keySet();
             for (Object key : keys) {
                 int value = _indexCache.get(key);
                 if (value >= index) {
-                    _indexCache.put(key, value + increase);
+                    newCache.put(key, value + increase);
+                }
+                else {
+                    newCache.put(key, value);
                 }
             }
+            _indexCache = newCache;
         }
+    }
+
+    protected Map<Object, Integer> createCache() {
+        return new IdentityHashMap();
     }
 
     /**
@@ -110,7 +116,7 @@ public class CachedVector<E> extends Vector<E> {
 
     private void initializeCache() {
         if (_indexCache == null) {
-            _indexCache = new HashMap();
+            _indexCache = createCache();
         }
     }
 
@@ -203,7 +209,7 @@ public class CachedVector<E> extends Vector<E> {
      * Cache all the element index.
      */
     public synchronized void cacheAll() {
-        _indexCache = new HashMap();
+        _indexCache = createCache();
         Integer i = 0;
         for (Object elem : this) {
             if (_indexCache.get(elem) == null) {
