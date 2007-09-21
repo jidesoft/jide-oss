@@ -938,7 +938,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (isShowCloseButton() && isShowCloseButtonOnTab() && _tabPane.isTabClosableAt(tabIndex)
                 && (!_tabPane.isShowCloseButtonOnSelectedTab() || isSelected)) {
             if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                int buttonWidth = _closeButtons[tabIndex].getPreferredSize().width + _closeButtonMargin;
+                int buttonWidth = _closeButtons[tabIndex].getPreferredSize().width + _closeButtonLeftMargin + _closeButtonRightMargin;
                 if (_closeButtonAlignment == SwingConstants.LEADING) {
                     tempTabRect.x += buttonWidth;
                     tempTabRect.width -= buttonWidth;
@@ -948,7 +948,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             }
             else {
-                int buttonHeight = _closeButtons[tabIndex].getPreferredSize().height + _closeButtonMargin;
+                int buttonHeight = _closeButtons[tabIndex].getPreferredSize().height + _closeButtonLeftMargin + _closeButtonRightMargin;
                 if (_closeButtonAlignment == SwingConstants.LEADING) {
                     tempTabRect.y += buttonHeight;
                     tempTabRect.height -= buttonHeight;
@@ -4015,23 +4015,24 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 Rectangle bounds = null;
                 if (_closeButtonAlignment == SwingConstants.TRAILING) {
                     if (_tabPane.getTabPlacement() == JideTabbedPane.TOP || _tabPane.getTabPlacement() == JideTabbedPane.BOTTOM) {
-                        bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - 6, _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
+                        bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - _closeButtonRightMargin,
+                                _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
                         bounds.x -= getTabGap();
                     }
                     else /*if (_tabPane.getTabPlacement() == JideTabbedPane.LEFT || _tabPane.getTabPlacement() == JideTabbedPane.RIGHT)*/ {
-                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2, _rects[i].y + _rects[i].height - size.height - 6, size.width, size.height);
+                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2, _rects[i].y + _rects[i].height - size.height - _closeButtonRightMargin, size.width, size.height);
                         bounds.y -= getTabGap();
                     }
                 }
                 else {
                     if (_tabPane.getTabPlacement() == JideTabbedPane.TOP || _tabPane.getTabPlacement() == JideTabbedPane.BOTTOM) {
-                        bounds = new Rectangle(_rects[i].x + 4, _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
+                        bounds = new Rectangle(_rects[i].x + _closeButtonLeftMargin, _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
                     }
                     else if (_tabPane.getTabPlacement() == JideTabbedPane.LEFT) {
-                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2, _rects[i].y + 4, size.width, size.height);
+                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2, _rects[i].y + _closeButtonLeftMargin, size.width, size.height);
                     }
                     else /*if (_tabPane.getTabPlacement() == JideTabbedPane.RIGHT)*/ {
-                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2 - 2, _rects[i].y + 4, size.width, size.height);
+                        bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2 - 2, _rects[i].y + _closeButtonLeftMargin, size.width, size.height);
                     }
                 }
                 _closeButtons[i].setIndex(i);
@@ -4369,11 +4370,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (scrollableTabLayoutEnabled() && isShowCloseButton() && isShowCloseButtonOnTab() && _tabPane.isTabClosableAt(tabIndex)) {
                 if (_tabPane.isShowCloseButtonOnSelectedTab()) {
                     if (_tabPane.getSelectedIndex() == tabIndex) {
-                        height += _closeButtons[tabIndex].getPreferredSize().height + 2;
+                        height += _closeButtons[tabIndex].getPreferredSize().height + _closeButtonRightMargin + _closeButtonLeftMargin;
                     }
                 }
                 else {
-                    height += _closeButtons[tabIndex].getPreferredSize().height + 2;
+                    height += _closeButtons[tabIndex].getPreferredSize().height + _closeButtonRightMargin + _closeButtonLeftMargin;
                 }
             }
 
@@ -4421,11 +4422,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (scrollableTabLayoutEnabled() && isShowCloseButton() && isShowCloseButtonOnTab() && _tabPane.isTabClosableAt(tabIndex)) {
                 if (_tabPane.isShowCloseButtonOnSelectedTab()) {
                     if (_tabPane.getSelectedIndex() == tabIndex) {
-                        width += _closeButtons[tabIndex].getPreferredSize().width + 2;
+                        width += _closeButtons[tabIndex].getPreferredSize().width + _closeButtonRightMargin + _closeButtonLeftMargin;
                     }
                 }
                 else {
-                    width += _closeButtons[tabIndex].getPreferredSize().width + 2;
+                    width += _closeButtons[tabIndex].getPreferredSize().width + _closeButtonRightMargin + _closeButtonLeftMargin;
                 }
             }
 

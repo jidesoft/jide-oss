@@ -121,7 +121,7 @@ public class ObjectGrouperManager {
      */
     public static Object getGroupValue(Object object) {
         if (object != null)
-            return getValue(object, object.getClass(), GrouperContext.DEFAULT_CONTEXT);
+            return getGroupValue(object, object.getClass(), GrouperContext.DEFAULT_CONTEXT);
         else
             return null;
     }
@@ -134,7 +134,14 @@ public class ObjectGrouperManager {
      * @return the string
      */
     public static Object getGroupValue(Object object, Class<?> clazz) {
-        return getValue(object, clazz, GrouperContext.DEFAULT_CONTEXT);
+        return getGroupValue(object, clazz, GrouperContext.DEFAULT_CONTEXT);
+    }
+
+    /**
+     * @deprecated the method is changed to {@link #getGroupValue(Object,Class,GrouperContext)}.
+     */
+    public static Object getValue(Object object, Class<?> clazz, GrouperContext context) {
+        return getGroupValue(object, clazz, context);
     }
 
     /**
@@ -145,7 +152,7 @@ public class ObjectGrouperManager {
      * @param context group context
      * @return the string converted from object
      */
-    public static Object getValue(Object object, Class<?> clazz, GrouperContext context) {
+    public static Object getGroupValue(Object object, Class<?> clazz, GrouperContext context) {
         ObjectGrouper grouper = getGrouper(clazz, context);
         if (grouper != null) {
             return grouper.getValue(object);
