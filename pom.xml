@@ -42,8 +42,8 @@
                 </configuration>
             </plugin>
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-source-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -64,6 +64,7 @@
             <version>5.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/laf.jar</systemPath>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
