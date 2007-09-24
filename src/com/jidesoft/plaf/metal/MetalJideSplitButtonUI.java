@@ -955,4 +955,9 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
     }
 
+    @Override
+    protected int getRightMargin() {
+        return _splitButtonMargin - 1;
+    }
+
 }

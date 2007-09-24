@@ -904,8 +904,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
                                   int textIconGap,
                                   int menuItemGap) {
         if (icon != null)
-            if ((icon.getIconHeight() == 0) || (icon.getIconWidth() == 0)) 
-            	icon = null;	// An exception may occur in case of zero sized icons
+            if ((icon.getIconHeight() == 0) || (icon.getIconWidth() == 0))
+                icon = null;    // An exception may occur in case of zero sized icons
 
         viewRect.width -= getRightMargin(); // this line is mainly for JideSplitButton
         String newText = SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment,
@@ -934,6 +934,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         // in the middle of setOrientation, the height and width are swapped.
         if (viewRect.height > viewRect.width) {
             int old = viewRect.height;
+            //noinspection SuspiciousNameCombination
             viewRect.height = viewRect.width;
             viewRect.width = old;
         }

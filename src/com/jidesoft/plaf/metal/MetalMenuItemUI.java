@@ -802,14 +802,24 @@ public class MetalMenuItemUI extends MenuItemUI {
                                   Rectangle arrowIconRect,
                                   int textIconGap,
                                   int menuItemGap) {
+        if (icon != null)
+            if ((icon.getIconHeight() == 0) || (icon.getIconWidth() == 0))
+                icon = null;    // An exception may occur in case of zero sized icons
 
-        SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment,
+        viewRect.width -= getRightMargin(); // this line is mainly for JideSplitButton
+        String newText = SwingUtilities.layoutCompoundLabel(menuItem, fm, text, icon, verticalAlignment,
                 horizontalAlignment, verticalTextPosition,
                 horizontalTextPosition, viewRect, iconRect, textRect,
                 textIconGap);
 
-        /* Initialize the acceelratorText bounds rectangle textRect.  If a null 
-         * or and empty String was specified we substitute "" here 
+        // only do it for split menu
+        if (getRightMargin() > 0) {
+            text = newText;
+        }
+        viewRect.width += getRightMargin(); // this line is mainly for JideSplitButton
+
+        /* Initialize the acceelratorText bounds rectangle textRect.  If a null
+         * or and empty String was specified we substitute "" here
          * and use 0,0,0,0 for acceleratorTextRect.
          */
         if ((acceleratorText == null) || acceleratorText.equals("")) {
@@ -847,14 +857,16 @@ public class MetalMenuItemUI extends MenuItemUI {
 
         Rectangle labelRect = iconRect.union(textRect);
         if (menuItem.getComponentOrientation().isLeftToRight()) {
-            textRect.x += menuItemGap;
-            iconRect.x += menuItemGap;
+            if (getRightMargin() == 0) {
+                textRect.x += menuItemGap;
+                iconRect.x += menuItemGap;
+            }
 
             // Position the Accelerator text rect
             acceleratorRect.x = viewRect.x + viewRect.width - arrowIconRect.width
                     - menuItemGap - acceleratorRect.width;
 
-            // Position the Check and Arrow Icons 
+            // Position the Check and Arrow Icons
             if (useCheckAndArrow()) {
                 checkIconRect.x = viewRect.x + menuItemGap;
                 textRect.x += menuItemGap + checkIconRect.width;
@@ -864,13 +876,15 @@ public class MetalMenuItemUI extends MenuItemUI {
             }
         }
         else {
-            textRect.x -= menuItemGap;
-            iconRect.x -= menuItemGap;
+            if (getRightMargin() == 0) {
+                textRect.x -= menuItemGap;
+                iconRect.x -= menuItemGap;
+            }
 
             // Position the Accelerator text rect
             acceleratorRect.x = viewRect.x + arrowIconRect.width + menuItemGap;
 
-            // Position the Check and Arrow Icons 
+            // Position the Check and Arrow Icons
             if (useCheckAndArrow()) {
                 checkIconRect.x = viewRect.x + viewRect.width - menuItemGap
                         - checkIconRect.width;
@@ -881,7 +895,7 @@ public class MetalMenuItemUI extends MenuItemUI {
         }
 
         // Align the accelertor text and the check and arrow icons vertically
-        // with the center of the label rect.  
+        // with the center of the label rect.
         acceleratorRect.y = labelRect.y + (labelRect.height / 2) - (acceleratorRect.height / 2);
         if (useCheckAndArrow()) {
             arrowIconRect.y = labelRect.y + (labelRect.height / 2) - (arrowIconRect.height / 2);
@@ -1199,5 +1213,9 @@ public class MetalMenuItemUI extends MenuItemUI {
         else {
             return true;
         }
+    }
+
+    protected int getRightMargin() {
+        return 0;
     }
 }
