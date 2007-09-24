@@ -597,8 +597,8 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
             ImageIcon collapsiblePaneMask = IconsFactory.getImageIcon(XertoWindowsUtils.class, "icons/collapsible_pane_mask.png"); // 12 x 12
             ImageIcon normalIcon = IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, SIZE, SIZE);
             ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
-            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
-            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
+            ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
+            ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
 
             ColorUIResource collapsiblePaneBackground = new ColorUIResource(172, 168, 153);
 
