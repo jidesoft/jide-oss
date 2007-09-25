@@ -39,6 +39,11 @@ public class ObjectComparatorManager {
         if (context == null) {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_initing) {
+            initDefaultComparator();
+        }
+
         _cache.register(clazz, comparator, context);
     }
 
@@ -214,6 +219,7 @@ public class ObjectComparatorManager {
     }
 
     private static boolean _inited = false;
+    private static boolean _initing = false;
     private static boolean _autoInit = true;
 
     /**
@@ -294,20 +300,27 @@ public class ObjectComparatorManager {
             return;
         }
 
-        registerComparator(Boolean.class, new BooleanComparator());
-        registerComparator(Calendar.class, new CalendarComparator());
-        NumberComparator numberComparator = new NumberComparator();
-        registerComparator(Number.class, numberComparator);
-        registerComparator(double.class, numberComparator);
-        registerComparator(float.class, numberComparator);
-        registerComparator(long.class, numberComparator);
-        registerComparator(int.class, numberComparator);
-        registerComparator(short.class, numberComparator);
-        registerComparator(Comparable.class, new FastComparableComparator());
-        registerComparator(Object.class, new DefaultComparator());
-        registerComparator(String.class, Collator.getInstance());
+        _initing = true;
 
-        _inited = true;
+        try {
+            registerComparator(Boolean.class, new BooleanComparator());
+            registerComparator(Calendar.class, new CalendarComparator());
+            NumberComparator numberComparator = new NumberComparator();
+            registerComparator(Number.class, numberComparator);
+            registerComparator(double.class, numberComparator);
+            registerComparator(float.class, numberComparator);
+            registerComparator(long.class, numberComparator);
+            registerComparator(int.class, numberComparator);
+            registerComparator(short.class, numberComparator);
+            registerComparator(Comparable.class, new FastComparableComparator());
+            registerComparator(Object.class, new DefaultComparator());
+            registerComparator(String.class, Collator.getInstance());
+        }
+        finally {
+            _initing = false;
+            _inited = true;
+        }
+
     }
 
     /**

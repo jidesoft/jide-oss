@@ -37,6 +37,11 @@ public class ObjectGrouperManager {
         if (context == null) {
             context = GrouperContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_initing) {
+            initDefaultGrouper();
+        }
+
         _cache.register(clazz, grouper, context);
     }
 
@@ -161,6 +166,7 @@ public class ObjectGrouperManager {
     }
 
     private static boolean _inited = false;
+    private static boolean _initing = false;
     private static boolean _autoInit = true;
 
     /**
@@ -250,17 +256,24 @@ public class ObjectGrouperManager {
             return;
         }
 
-        DateYearGrouper dateYearGrouper = new DateYearGrouper();
-        registerGrouper(Date.class, dateYearGrouper, DateYearGrouper.CONTEXT);
-        registerGrouper(Calendar.class, dateYearGrouper, DateYearGrouper.CONTEXT);
-        registerGrouper(Long.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+        _initing = true;
 
-        DateMonthGrouper dateMonthGrouper = new DateMonthGrouper();
-        registerGrouper(Date.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
-        registerGrouper(Calendar.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
-        registerGrouper(Long.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+        try {
+            DateYearGrouper dateYearGrouper = new DateYearGrouper();
+            registerGrouper(Date.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+            registerGrouper(Calendar.class, dateYearGrouper, DateYearGrouper.CONTEXT);
+            registerGrouper(Long.class, dateYearGrouper, DateYearGrouper.CONTEXT);
 
-        _inited = true;
+            DateMonthGrouper dateMonthGrouper = new DateMonthGrouper();
+            registerGrouper(Date.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+            registerGrouper(Calendar.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+            registerGrouper(Long.class, dateMonthGrouper, DateMonthGrouper.CONTEXT);
+        }
+        finally {
+            _initing = false;
+            _inited = true;
+        }
+
     }
 
     /**

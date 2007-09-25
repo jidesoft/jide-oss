@@ -34,6 +34,11 @@ public class ObjectConverterManager {
         if (context == null) {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_initing) {
+            initDefaultConverter();
+        }
+
         _cache.register(clazz, converter, context);
     }
 
@@ -57,6 +62,11 @@ public class ObjectConverterManager {
         if (context == null) {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_initing) {
+            initDefaultConverter();
+        }
+
         _cache.unregister(clazz, context);
     }
 
@@ -91,6 +101,7 @@ public class ObjectConverterManager {
         if (context == null) {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
+
         ObjectConverter converter = _cache.getRegisteredObject(clazz, context);
         if (converter != null) {
             return converter;
@@ -185,6 +196,7 @@ public class ObjectConverterManager {
     }
 
     private static boolean _inited = false;
+    private static boolean _initing = false;
     private static boolean _autoInit = true;
 
     /**
@@ -293,96 +305,103 @@ public class ObjectConverterManager {
             return;
         }
 
-        registerConverter(String.class, new DefaultObjectConverter());
-        registerConverter(char[].class, new PasswordConverter(), PasswordConverter.CONTEXT);
+        _initing = true;
 
-        IntegerConverter integerConverter = new IntegerConverter();
-        registerConverter(Integer.class, integerConverter);
-        registerConverter(int.class, integerConverter);
+        try {
+            registerConverter(String.class, new DefaultObjectConverter());
+            registerConverter(char[].class, new PasswordConverter(), PasswordConverter.CONTEXT);
 
-        NaturalNumberConverter naturalNumberConverter = new NaturalNumberConverter();
-        registerConverter(Integer.class, naturalNumberConverter, NaturalNumberConverter.CONTEXT);
-        registerConverter(int.class, naturalNumberConverter, NaturalNumberConverter.CONTEXT);
+            IntegerConverter integerConverter = new IntegerConverter();
+            registerConverter(Integer.class, integerConverter);
+            registerConverter(int.class, integerConverter);
 
-        LongConverter longConverter = new LongConverter();
-        registerConverter(Long.class, longConverter);
-        registerConverter(long.class, longConverter);
+            NaturalNumberConverter naturalNumberConverter = new NaturalNumberConverter();
+            registerConverter(Integer.class, naturalNumberConverter, NaturalNumberConverter.CONTEXT);
+            registerConverter(int.class, naturalNumberConverter, NaturalNumberConverter.CONTEXT);
 
-        DoubleConverter doubleConverter = new DoubleConverter();
-        registerConverter(Double.class, doubleConverter);
-        registerConverter(double.class, doubleConverter);
+            LongConverter longConverter = new LongConverter();
+            registerConverter(Long.class, longConverter);
+            registerConverter(long.class, longConverter);
 
-        FloatConverter floatConverter = new FloatConverter();
-        registerConverter(Float.class, floatConverter);
-        registerConverter(float.class, floatConverter);
+            DoubleConverter doubleConverter = new DoubleConverter();
+            registerConverter(Double.class, doubleConverter);
+            registerConverter(double.class, doubleConverter);
 
-        ShortConverter shortConverter = new ShortConverter();
-        registerConverter(Short.class, shortConverter);
-        registerConverter(short.class, shortConverter);
+            FloatConverter floatConverter = new FloatConverter();
+            registerConverter(Float.class, floatConverter);
+            registerConverter(float.class, floatConverter);
 
-        ByteConverter byteConverter = new ByteConverter();
-        registerConverter(Byte.class, byteConverter);
-        registerConverter(byte.class, byteConverter);
+            ShortConverter shortConverter = new ShortConverter();
+            registerConverter(Short.class, shortConverter);
+            registerConverter(short.class, shortConverter);
 
-        registerConverter(Rectangle.class, new RectangleConverter());
-        registerConverter(Point.class, new PointConverter());
-        registerConverter(Insets.class, new InsetsConverter());
-        registerConverter(Dimension.class, new DimensionConverter());
+            ByteConverter byteConverter = new ByteConverter();
+            registerConverter(Byte.class, byteConverter);
+            registerConverter(byte.class, byteConverter);
 
-        BooleanConverter booleanConverter = new BooleanConverter();
-        registerConverter(Boolean.class, booleanConverter);
-        registerConverter(boolean.class, booleanConverter);
+            registerConverter(Rectangle.class, new RectangleConverter());
+            registerConverter(Point.class, new PointConverter());
+            registerConverter(Insets.class, new InsetsConverter());
+            registerConverter(Dimension.class, new DimensionConverter());
 
-        registerConverter(File.class, new FileConverter());
-        registerConverter(String.class, new FontNameConverter(), FontNameConverter.CONTEXT);
+            BooleanConverter booleanConverter = new BooleanConverter();
+            registerConverter(Boolean.class, booleanConverter);
+            registerConverter(boolean.class, booleanConverter);
 
-        DateConverter dateConverter = new DateConverter();
-        registerConverter(Date.class, dateConverter);
-        registerConverter(Date.class, dateConverter, DateConverter.DATETIME_CONTEXT);
-        registerConverter(Date.class, dateConverter, DateConverter.TIME_CONTEXT);
+            registerConverter(File.class, new FileConverter());
+            registerConverter(String.class, new FontNameConverter(), FontNameConverter.CONTEXT);
 
-        CalendarConverter calendarConverter = new CalendarConverter();
-        registerConverter(Calendar.class, calendarConverter);
-        registerConverter(Calendar.class, calendarConverter, DateConverter.DATETIME_CONTEXT);
-        registerConverter(Calendar.class, calendarConverter, DateConverter.TIME_CONTEXT);
+            DateConverter dateConverter = new DateConverter();
+            registerConverter(Date.class, dateConverter);
+            registerConverter(Date.class, dateConverter, DateConverter.DATETIME_CONTEXT);
+            registerConverter(Date.class, dateConverter, DateConverter.TIME_CONTEXT);
 
-        registerConverter(Calendar.class, new MonthConverter(), MonthConverter.CONTEXT_MONTH);
-        registerConverter(Color.class, new RgbColorConverter());
-        registerConverter(Color.class, new HexColorConverter(), ColorConverter.CONTEXT_HEX);
+            CalendarConverter calendarConverter = new CalendarConverter();
+            registerConverter(Calendar.class, calendarConverter);
+            registerConverter(Calendar.class, calendarConverter, DateConverter.DATETIME_CONTEXT);
+            registerConverter(Calendar.class, calendarConverter, DateConverter.TIME_CONTEXT);
 
-        registerConverter(String[].class, new StringArrayConverter());
+            registerConverter(Calendar.class, new MonthConverter(), MonthConverter.CONTEXT_MONTH);
+            registerConverter(Color.class, new RgbColorConverter());
+            registerConverter(Color.class, new HexColorConverter(), ColorConverter.CONTEXT_HEX);
 
-        QuarterNameConverter quarterNameConverter = new QuarterNameConverter();
-        registerConverter(int.class, quarterNameConverter, QuarterNameConverter.CONTEXT);
-        registerConverter(Integer.class, quarterNameConverter, QuarterNameConverter.CONTEXT);
+            registerConverter(String[].class, new StringArrayConverter());
 
-        registerConverter(Font.class, new FontConverter());
+            QuarterNameConverter quarterNameConverter = new QuarterNameConverter();
+            registerConverter(int.class, quarterNameConverter, QuarterNameConverter.CONTEXT);
+            registerConverter(Integer.class, quarterNameConverter, QuarterNameConverter.CONTEXT);
 
-        CurrencyConverter currencyConverter = new CurrencyConverter();
-        registerConverter(Float.class, currencyConverter, CurrencyConverter.CONTEXT);
-        registerConverter(float.class, currencyConverter, CurrencyConverter.CONTEXT);
-        registerConverter(Double.class, currencyConverter, CurrencyConverter.CONTEXT);
-        registerConverter(double.class, currencyConverter, CurrencyConverter.CONTEXT);
+            registerConverter(Font.class, new FontConverter());
 
-        PercentConverter percentConverter = new PercentConverter();
-        registerConverter(Float.class, percentConverter, PercentConverter.CONTEXT);
-        registerConverter(float.class, percentConverter, PercentConverter.CONTEXT);
-        registerConverter(Double.class, percentConverter, PercentConverter.CONTEXT);
-        registerConverter(double.class, percentConverter, PercentConverter.CONTEXT);
+            CurrencyConverter currencyConverter = new CurrencyConverter();
+            registerConverter(Float.class, currencyConverter, CurrencyConverter.CONTEXT);
+            registerConverter(float.class, currencyConverter, CurrencyConverter.CONTEXT);
+            registerConverter(Double.class, currencyConverter, CurrencyConverter.CONTEXT);
+            registerConverter(double.class, currencyConverter, CurrencyConverter.CONTEXT);
 
-        MonthNameConverter monthNameConverter = new MonthNameConverter();
-        registerConverter(Integer.class, monthNameConverter, MonthNameConverter.CONTEXT);
-        registerConverter(int.class, monthNameConverter, MonthNameConverter.CONTEXT);
+            PercentConverter percentConverter = new PercentConverter();
+            registerConverter(Float.class, percentConverter, PercentConverter.CONTEXT);
+            registerConverter(float.class, percentConverter, PercentConverter.CONTEXT);
+            registerConverter(Double.class, percentConverter, PercentConverter.CONTEXT);
+            registerConverter(double.class, percentConverter, PercentConverter.CONTEXT);
 
-        YearNameConverter yearNameConverter = new YearNameConverter();
-        registerConverter(Integer.class, yearNameConverter, YearNameConverter.CONTEXT);
-        registerConverter(int.class, yearNameConverter, YearNameConverter.CONTEXT);
+            MonthNameConverter monthNameConverter = new MonthNameConverter();
+            registerConverter(Integer.class, monthNameConverter, MonthNameConverter.CONTEXT);
+            registerConverter(int.class, monthNameConverter, MonthNameConverter.CONTEXT);
 
-        ObjectConverterManager.registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
-        registerConverter(Object[].class, new DefaultArrayConverter("; ", Object.class));
-        registerConverter(String[].class, new DefaultArrayConverter("; ", String.class));
+            YearNameConverter yearNameConverter = new YearNameConverter();
+            registerConverter(Integer.class, yearNameConverter, YearNameConverter.CONTEXT);
+            registerConverter(int.class, yearNameConverter, YearNameConverter.CONTEXT);
 
-        _inited = true;
+            ObjectConverterManager.registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
+            registerConverter(Object[].class, new DefaultArrayConverter("; ", Object.class));
+            registerConverter(String[].class, new DefaultArrayConverter("; ", String.class));
+        }
+        finally {
+            _initing = false;
+            _inited = true;
+        }
+
     }
 
     /**
