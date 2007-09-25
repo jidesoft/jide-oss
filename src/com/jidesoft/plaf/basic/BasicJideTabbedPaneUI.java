@@ -700,8 +700,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         map.put("scrollTabsForwardAction", new ScrollTabsForwardAction());
         map.put("scrollTabsBackwardAction", new ScrollTabsBackwardAction());
         map.put("scrollTabsListAction", new ScrollTabsListAction());
-        Action action = _tabPane.getCloseAction();
-        map.put("closeTabAction", action != null ? action : new CloseTabAction());
+        map.put("closeTabAction", new CloseTabAction());
         return map;
     }
 
@@ -7415,10 +7414,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 _tabPane.updateUI();
             }
             else if (name.equals("closeTabAction")) {
-                ActionMap map = getActionMap();
-                Action action = _tabPane.getCloseAction();
-                map.put("closeTabAction", action != null ? action : new CloseTabAction());
-                ensureCloseButtonCreated();
+                syncCloseAction();
             }
             else if (name.equals(JideTabbedPane.PROPERTY_DRAG_OVER_DISABLED)) {
                 _tabPane.updateUI();
@@ -7482,6 +7478,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 _tabPane.updateUI();
             }
         }
+    }
+
+    protected void syncCloseAction() {
+        Action action = _tabPane.getCloseAction();
+        ActionMap map = getActionMap();
+        Action closeAction = map.get("closeTabAction");
+        closeAction.putValue(Action.SHORT_DESCRIPTION, action.getValue(Action.SHORT_DESCRIPTION));
+        closeAction.putValue(Action.LONG_DESCRIPTION, action.getValue(Action.LONG_DESCRIPTION));
+        closeAction.putValue(Action.SMALL_ICON, action.getValue(Action.SMALL_ICON));
+        closeAction.setEnabled(action.isEnabled());
     }
 
     /**
