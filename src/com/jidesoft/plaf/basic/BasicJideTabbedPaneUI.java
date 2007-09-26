@@ -6797,6 +6797,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     int index = list.getSelectedIndex();
                     if (index != -1 && _tabPane.isEnabledAt(index)) {
                         _tabPane.setSelectedIndex(index);
+                        ensureActiveTabIsVisible(false);
                         _popup.hidePopupImmediately();
                         _popup = null;
                     }
@@ -7868,8 +7869,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
+                if (index == 0) {
+                    _tabScroller.viewport.setViewPosition(new Point(0, 0));
+                }
+                else {
+                    _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
+                }
                 _tabScroller.tabPanel.getParent().doLayout();
-                _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
             }
             _tabPane.revalidate();
             _tabPane.repaint();
