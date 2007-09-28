@@ -2457,6 +2457,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public boolean isClickOnPopup(MouseEvent e) {
         Component component = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
-        return isAncestorOf(component, this);
+        return getPopupType() == HEAVY_WEIGHT_POPUP ? isAncestorOf(component, _window) : isAncestorOf(component, _panel);
     }
 }
