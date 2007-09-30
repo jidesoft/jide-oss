@@ -635,7 +635,7 @@ public class CheckBoxList extends JList {
     /**
      * Selects the specified object from the list and keep all previous selections.
      *
-     * @param anObject     the object to select
+     * @param anObject     the object to be selected
      * @param shouldScroll true if the list should scroll to display
      *                     the selected object, if one exists; otherwise false
      */
@@ -651,6 +651,32 @@ public class CheckBoxList extends JList {
                     repaint();  /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
                     return;
                 }
+        }
+    }
+
+    /**
+     * Selects the specified objects from the list and keep all previous selections.
+     *
+     * @param objects the objects to be selected
+     */
+    public void addCheckBoxListSelectedValues(Object[] objects) {
+        if (objects != null) {
+            Map<Object, String> map = new HashMap();
+            for (Object o : objects) {
+                map.put(o, "");
+            }
+            int i, c;
+            ListModel dm = getModel();
+            boolean changed = false;
+            for (i = 0, c = dm.getSize(); i < c; i++)
+                if (map.get(dm.getElementAt(i)) != null) {
+                    addCheckBoxListSelectedIndex(i);
+                    changed = true;
+                }
+            if (changed) {
+                repaint();
+            }
+            map.clear();
         }
     }
 
