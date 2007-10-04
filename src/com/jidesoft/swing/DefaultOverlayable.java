@@ -198,6 +198,7 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
         if (_overlayComponents.contains(component)) {
             _overlayComponents.remove(component);
             _overlayLocations.remove(component);
+            remove(component);
         }
     }
 
