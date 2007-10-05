@@ -266,6 +266,14 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "ButtonPanel.groupGap", 5,
                 "ButtonPanel.minButtonWidth", 57,
 
+                "MeterProgressBar.border", new BorderUIResource(BorderFactory.createLineBorder(Color.BLACK)),
+                "MeterProgressBar.background", new ColorUIResource(Color.BLACK),
+                "MeterProgressBar.foreground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellForeground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellBackground", new ColorUIResource(0x008000),
+                "MeterProgressBar.cellLength", 2,
+                "MeterProgressBar.cellSpacing", 2,
+
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
 

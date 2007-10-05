@@ -223,6 +223,14 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                 "Resizable.resizeBorder", resizeBorder,
 
+                "MeterProgressBar.border", new BorderUIResource(BorderFactory.createLineBorder(Color.BLACK)),
+                "MeterProgressBar.background", new ColorUIResource(Color.BLACK),
+                "MeterProgressBar.foreground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellForeground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellBackground", new ColorUIResource(0x008000),
+                "MeterProgressBar.cellLength", 2,
+                "MeterProgressBar.cellSpacing", 2,
+
                 "ButtonPanel.order", "CA",
                 "ButtonPanel.oppositeOrder", "HO",
                 "ButtonPanel.buttonGap", 6,

@@ -289,6 +289,14 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 8, 0, 8, 9),
                 "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 16, 0, 6, 9),
 
+                "MeterProgressBar.border", new BorderUIResource(BorderFactory.createLineBorder(Color.BLACK)),
+                "MeterProgressBar.background", new ColorUIResource(Color.BLACK),
+                "MeterProgressBar.foreground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellForeground", new ColorUIResource(Color.GREEN),
+                "MeterProgressBar.cellBackground", new ColorUIResource(0x008000),
+                "MeterProgressBar.cellLength", 2,
+                "MeterProgressBar.cellSpacing", 2,
+
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
 
