@@ -37,7 +37,7 @@ public class LabeledTextField extends JPanel {
     }
 
     public LabeledTextField(Icon icon, String labelText) {
-        super(new BorderLayout(3, 3));
+        super();
         _icon = icon;
         _labelText = labelText;
         initComponent();
@@ -71,20 +71,29 @@ public class LabeledTextField extends JPanel {
                 }
             });
         }
-
         _button = createButton();
-
         _textField = createTextField();
-
-        if (_label != null) {
-            add(_label, BorderLayout.BEFORE_LINE_BEGINS);
-        }
-        add(_textField);
-        if (_button != null) {
-            add(_button, BorderLayout.AFTER_LINE_ENDS);
-        }
-
+        initLayout(_label, _textField, _button);
         updateUI();
+    }
+
+    /**
+     * Setup the layout of the components. By default, we used a border layout
+     * with label first, field in the center and button last.
+     *
+     * @param label  the label
+     * @param field  the text field.
+     * @param button the button
+     */
+    protected void initLayout(JLabel label, JTextField field, AbstractButton button) {
+        setLayout(new BorderLayout(3, 3));
+        if (label != null) {
+            add(label, BorderLayout.BEFORE_LINE_BEGINS);
+        }
+        add(field);
+        if (button != null) {
+            add(button, BorderLayout.AFTER_LINE_ENDS);
+        }
     }
 
     /**
