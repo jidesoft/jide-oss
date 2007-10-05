@@ -169,7 +169,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
      * @param selectedIndex the tab index of the selected component
      */
     @Override
-    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
+    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex, Component c) {
 
         if (!PAINT_TABAREA) {
             return;
@@ -295,7 +295,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             }
         }
         else {
-            super.paintTabArea(g, tabPlacement, selectedIndex);
+            super.paintTabArea(g, tabPlacement, selectedIndex,c);
         }
     }
 

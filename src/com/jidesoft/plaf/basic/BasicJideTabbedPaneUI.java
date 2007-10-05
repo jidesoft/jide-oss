@@ -810,7 +810,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         // painted by the scrollable tab panel instead.
         //
         if (!scrollableTabLayoutEnabled()) { // WRAP_TAB_LAYOUT
-            paintTabArea(g, tabPlacement, selectedIndex);
+            paintTabArea(g, tabPlacement, selectedIndex, c);
         }
 
         // Paint content border
@@ -842,7 +842,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * @param tabPlacement  the placement for the tabs within the JTabbedPane
      * @param selectedIndex the tab index of the selected component
      */
-    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
+    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex, Component c) {
 
         if (!PAINT_TABAREA) {
             return;
@@ -852,7 +852,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         Rectangle iconRect = new Rectangle(),
                 textRect = new Rectangle();
-        Rectangle clipRect = g.getClipBounds();
+
+        // getClip bounds sometime fails, it is safer to go against the components width and height
+        Rectangle tempR= g.getClipBounds();
+        Rectangle clipRect = new Rectangle (tempR.x,tempR.y, c.getWidth(), c.getHeight()); 
 
         paintTabAreaBackground(g, clipRect, tabPlacement);
 
@@ -7044,7 +7047,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
 
-            paintTabArea(g, _tabPane.getTabPlacement(), _tabPane.getSelectedIndex());
+            paintTabArea(g, _tabPane.getTabPlacement(), _tabPane.getSelectedIndex(), this);
         }
 
         // workaround for swing bug

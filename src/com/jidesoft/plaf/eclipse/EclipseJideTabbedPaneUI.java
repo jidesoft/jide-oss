@@ -199,7 +199,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     @Override
-    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
+    protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex, Component c) {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             int tabCount = _tabPane.getTabCount();
 
@@ -231,7 +231,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             }
         }
         else {
-            super.paintTabArea(g, tabPlacement, selectedIndex);
+            super.paintTabArea(g, tabPlacement, selectedIndex, c);
         }
     }
 
