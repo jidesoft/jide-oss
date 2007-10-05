@@ -1071,6 +1071,8 @@ public class JideTabbedPane extends JTabbedPane {
             // JTabbedPane allows a null component, but doesn't really support it.
             _pageLastFocusTrackers.put(component, new PageLastFocusTracker(component));
         }
+
+        fireStateChanged();
     }
 
     protected class PageLastFocusTracker extends JideFocusTracker {
