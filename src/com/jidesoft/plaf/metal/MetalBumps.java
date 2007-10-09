@@ -23,8 +23,9 @@ import java.util.Vector;
  * @version 1.22 12/03/01
  */
 
+class MetalBumps implements Icon {
 
-public class MetalBumps implements Icon {
+    static final Color ALPHA = new Color(0, 0, 0, 0);
 
     protected int xBumps;
     protected int yBumps;
@@ -45,6 +46,11 @@ public class MetalBumps implements Icon {
                 MetalLookAndFeel.getPrimaryControlShadow());
     }
 
+    /**
+     * Creates MetalBumps of the specified size with the specified colors.
+     * If <code>newBackColor</code> is null, the background will be
+     * transparent.
+     */
     public MetalBumps(int width, int height,
                       Color newTopColor, Color newShadowColor, Color newBackColor) {
         setBumpArea(width, height);
@@ -81,14 +87,19 @@ public class MetalBumps implements Icon {
     }
 
     public void setBumpArea(int width, int height) {
-        xBumps = width >> 1;
-        yBumps = height >> 1;
+        xBumps = width / 2;
+        yBumps = height / 2;
     }
 
     public void setBumpColors(Color newTopColor, Color newShadowColor, Color newBackColor) {
         topColor = newTopColor;
         shadowColor = newShadowColor;
-        backColor = newBackColor;
+        if (newBackColor == null) {
+            backColor = ALPHA;
+        }
+        else {
+            backColor = newBackColor;
+        }
     }
 
     public void paintIcon(Component c, Graphics g, int x, int y) {
@@ -120,13 +131,14 @@ public class MetalBumps implements Icon {
     }
 
     public int getIconWidth() {
-        return xBumps << 1;
+        return xBumps * 2;
     }
 
     public int getIconHeight() {
-        return yBumps << 1;
+        return yBumps * 2;
     }
 }
+
 
 class BumpBuffer {
 
@@ -160,9 +172,12 @@ class BumpBuffer {
         else if (gc != null) {
             return false;
         }
-        return topColor.equals(aTopColor) &&
-                shadowColor.equals(aShadowColor) &&
-                backColor.equals(aBackColor);
+
+        if (backColor != null ? !backColor.equals(aBackColor) : aBackColor != null) return false;
+        if (shadowColor != null ? !shadowColor.equals(aShadowColor) : aShadowColor != null) return false;
+        if (topColor != null ? !topColor.equals(aTopColor) : aTopColor != null) return false;
+
+        return true;
     }
 
     /**
@@ -210,16 +225,18 @@ class BumpBuffer {
      */
     private void createImage() {
         if (gc != null) {
-            image = gc.createCompatibleImage(IMAGE_SIZE, IMAGE_SIZE);
+            image = gc.createCompatibleImage(IMAGE_SIZE, IMAGE_SIZE,
+                    (backColor != MetalBumps.ALPHA) ? Transparency.OPAQUE :
+                            Transparency.BITMASK);
         }
         else {
             int cmap[] = {backColor.getRGB(), topColor.getRGB(),
                     shadowColor.getRGB()};
-            IndexColorModel icm = new IndexColorModel(8, 3, cmap, 0, false, -1,
+            IndexColorModel icm = new IndexColorModel(8, 3, cmap, 0, false,
+                    (backColor == MetalBumps.ALPHA) ? 0 : -1,
                     DataBuffer.TYPE_BYTE);
             image = new BufferedImage(IMAGE_SIZE, IMAGE_SIZE,
                     BufferedImage.TYPE_BYTE_INDEXED, icm);
         }
     }
 }
-
