@@ -1640,7 +1640,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     };
 
     protected void handleMousePressed(MouseEvent e) {
-        Component component = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
+        Component c = e.getComponent();
+        if (c == null) {
+            return;
+        }
+        Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
         if (!isClickOnPopup(e)) {
             if (isExcludedComponent(component)) {
                 return;
@@ -2456,7 +2460,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @return true or false.
      */
     public boolean isClickOnPopup(MouseEvent e) {
-        Component component = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
+        Component c = e.getComponent();
+        if (c == null) {
+            return false;
+        }
+        Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
         return getPopupType() == HEAVY_WEIGHT_POPUP ? isAncestorOf(component, _window) : isAncestorOf(component, _panel);
     }
 }
