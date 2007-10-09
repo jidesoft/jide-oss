@@ -35,6 +35,8 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE) {
             Color old = g.getColor();
 
+            boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
+
             switch (tabPlacement) {
                 case LEFT:
                     if (isSelected) {
@@ -125,23 +127,46 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     }
                     else {  // not selected
                         g.setColor(_shadow);
-                        if (tabIndex > _tabPane.getSelectedIndex()) {
-                            if (tabIndex == _tabPane.getTabCount() - 1) {
-                                g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
-                            }
-                            else {
-                                g.drawLine(x + w - 1, y + h / 2, x + w - 1, y + h); // right shadow
-                            }
-                        }
-                        else if (tabIndex < _tabPane.getSelectedIndex()) {
-                            if (tabIndex != 0) {
-                                g.drawLine(x, y + h / 2, x, y + h); // right shadow
-                            }
-                            else {
-                                if (isTabLeadingComponentVisible()) {
-                                    g.drawLine(x, y, x, y + h); // right shadow
+                        if (leftToRight) {
+                            if (tabIndex > _tabPane.getSelectedIndex()) {
+                                if (tabIndex == _tabPane.getTabCount() - 1) {
+                                    g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
+                                }
+                                else {
+                                    g.drawLine(x + w - 1, y + h / 2, x + w - 1, y + h); // right shadow
                                 }
                             }
+                            else if (tabIndex < _tabPane.getSelectedIndex()) {
+                                if (tabIndex != 0) {
+                                    g.drawLine(x, y + h / 2, x, y + h); // right shadow
+                                }
+                                else {
+                                    if (isTabLeadingComponentVisible()) {
+                                        g.drawLine(x, y, x, y + h); // right shadow
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (tabIndex > _tabPane.getSelectedIndex()) {
+                                if (tabIndex == _tabPane.getTabCount() - 1) {
+                                    g.drawLine(x, y, x, y + h); // right shadow
+                                }
+                                else {
+                                    g.drawLine(x, y + h / 2, x, y + h); // right shadow
+                                }
+                            }
+                            else if (tabIndex < _tabPane.getSelectedIndex()) {
+                                if (tabIndex != 0) {
+                                    g.drawLine(x + w - 1, y + h / 2, x + w - 1, y + h); // right shadow
+                                }
+                                else {
+                                    if (isTabLeadingComponentVisible()) {
+                                        g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
+                                    }
+                                }
+                            }
+
                         }
                     }
 
@@ -164,21 +189,43 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     }
                     else {
                         g.setColor(_shadow);
-                        if (tabIndex > _tabPane.getSelectedIndex()) {
-                            if (tabIndex == _tabPane.getTabCount() - 1) {
-                                g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
+                        if (leftToRight) {
+                            if (tabIndex > _tabPane.getSelectedIndex()) {
+                                if (tabIndex == _tabPane.getTabCount() - 1) {
+                                    g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
+                                }
+                                else {
+                                    g.drawLine(x + w - 1, y, x + w - 1, y + h / 2); // right shadow
+                                }
                             }
-                            else {
-                                g.drawLine(x + w - 1, y, x + w - 1, y + h / 2); // right shadow
+                            else if (tabIndex < _tabPane.getSelectedIndex()) {
+                                if (tabIndex != 0) {
+                                    g.drawLine(x, y, x, y + h / 2); // right shadow
+                                }
+                                else {
+                                    if (isTabLeadingComponentVisible()) {
+                                        g.drawLine(x, y, x, y + h); // right shadow
+                                    }
+                                }
                             }
                         }
-                        else if (tabIndex < _tabPane.getSelectedIndex()) {
-                            if (tabIndex != 0) {
-                                g.drawLine(x, y, x, y + h / 2); // right shadow
-                            }
-                            else {
-                                if (isTabLeadingComponentVisible()) {
+                        else {
+                            if (tabIndex > _tabPane.getSelectedIndex()) {
+                                if (tabIndex == _tabPane.getTabCount() - 1) {
                                     g.drawLine(x, y, x, y + h); // right shadow
+                                }
+                                else {
+                                    g.drawLine(x, y, x, y + h / 2); // right shadow
+                                }
+                            }
+                            else if (tabIndex < _tabPane.getSelectedIndex()) {
+                                if (tabIndex != 0) {
+                                    g.drawLine(x + w - 1, y, x + w - 1, y + h / 2); // right shadow
+                                }
+                                else {
+                                    if (isTabLeadingComponentVisible()) {
+                                        g.drawLine(x + w - 1, y, x + w - 1, y + h); // right shadow
+                                    }
                                 }
                             }
                         }

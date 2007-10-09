@@ -294,7 +294,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             case JideTabbedPane.SHAPE_VSNET:
                 _selectColor1 = _shadow;
                 _selectColor2 = _shadow;
-                _unselectColor1 = getPainter().getControlShadow();
+                _unselectColor1 = _selectColor1;
                 break;
             case JideTabbedPane.SHAPE_ROUNDED_VSNET:
                 _selectColor1 = _shadow;
@@ -854,8 +854,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 textRect = new Rectangle();
 
         // getClip bounds sometime fails, it is safer to go against the components width and height
-        Rectangle tempR= g.getClipBounds();
-        Rectangle clipRect = new Rectangle (tempR.x,tempR.y, c.getWidth(), c.getHeight()); 
+        Rectangle tempR = g.getClipBounds();
+        Rectangle clipRect = new Rectangle(tempR.x, tempR.y, c.getWidth(), c.getHeight());
 
         paintTabAreaBackground(g, clipRect, tabPlacement);
 
@@ -1357,6 +1357,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintOffice2003TabBorder(Graphics g, int tabPlacement, int tabIndex,
                                             int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
+
         switch (tabPlacement) {
             case LEFT:// when the tab on the left
                 y += 2;
@@ -1391,7 +1393,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
 
                         g.drawLine(x, y + 3, x, y + h - 5);// left
@@ -1494,7 +1496,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
 
                         g.drawLine(x + w - 1, y + 5, x + w - 1, y + h - 3);// right
@@ -1608,7 +1610,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
 
                         g.drawLine(x + w - 1, y + h - 3, x + w - 1, y);// right
@@ -1729,7 +1731,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
 
                         g.drawLine(x + 3, y + 1, x + 4, y + 1);// left arc
@@ -1811,6 +1813,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintExcelTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                        int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
         switch (tabPlacement) {
             case LEFT:
                 if (isSelected) {
@@ -2072,7 +2075,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y + h - 1, x + w - 5, y + h - 1);// bottom
                         for (int i = 0, j = 0; i < h / 2 + 1; i++, j += 2) {// left
@@ -2098,7 +2101,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             }
                         }
                     }
-                    else if (tabIndex == _tabPane.getSelectedIndex() - 1) {
+                    else if (tabIndex == _tabPane.getSelectedIndex() + (leftToRight ? -1 : 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y + h - 1, x + w - 6, y + h - 1);// bottom
                         for (int i = 0, j = 0; i < 5; i++, j += 2) {// left
@@ -2123,7 +2126,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             }
                         }
                     }
-                    else if (tabIndex != _tabPane.getSelectedIndex() - 1) {
+                    else if (tabIndex != _tabPane.getSelectedIndex() + (leftToRight ? -1 : 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y + h - 1, x + w - 6, y + h - 1);// bottom
                         for (int i = 0, j = 0; i < 5; i++, j += 2) {// left
@@ -2180,7 +2183,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
                 else {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y, x + w - 5, y);// top
                         for (int i = 0, j = 0; i < h / 2 + 1; i++, j += 2) {// left
@@ -2204,7 +2207,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             }
                         }
                     }
-                    else if (tabIndex == _tabPane.getSelectedIndex() - 1) {
+                    else if (tabIndex == _tabPane.getSelectedIndex() + (leftToRight ? -1 : 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y, x + w - 5, y);// top
                         for (int i = 0, j = 0; i < 5; i++, j += 2) {// left
@@ -2229,7 +2232,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             }
                         }
                     }
-                    else if (tabIndex != _tabPane.getSelectedIndex() - 1) {
+                    else if (tabIndex != _tabPane.getSelectedIndex() + (leftToRight ? -1 : 1)) {
                         g.setColor(_unselectColor1);
                         g.drawLine(x + 5, y, x + w - 5, y);// top
                         for (int i = 0, j = 0; i < 5; i++, j += 2) {// left
@@ -2823,6 +2826,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintVsnetTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                        int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
         switch (tabPlacement) {
             case LEFT:
                 if (isSelected) {
@@ -2873,11 +2877,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                    if (leftToRight) {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
                     }
-                    else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
-                        g.drawLine(x, y + 2, x, y + h - 2); // right
+                    else {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != _tabPane.getTabCount() - 1) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
                     }
                 }
                 break;
@@ -2893,11 +2907,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        g.drawLine(x + w - 1, y + 2, x + w - 1, y + h - 2); // right
+                    if (leftToRight) {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
                     }
-                    else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
-                        g.drawLine(x + 1, y + 2, x + 1, y + h - 2); // right
+                    else {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != _tabPane.getTabCount() - 1) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
                     }
                 }
         }
@@ -2906,6 +2930,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintRoundedVsnetTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                               int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
         switch (tabPlacement) {
             case LEFT:
                 if (isSelected) {
@@ -2956,11 +2981,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        g.drawLine(x + w - 2, y + 1, x + w - 2, y + h - 2); // right
+                    if (leftToRight) {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
                     }
-                    else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
-                        g.drawLine(x + 1, y + 1, x + 1, y + h - 2); // right
+                    else {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != _tabPane.getTabCount() - 1) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
                     }
                 }
                 break;
@@ -2976,11 +3011,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                    if (leftToRight) {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
                     }
-                    else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != 0) {
-                        g.drawLine(x + 1, y + 2, x + 1, y + h - 2); // right
+                    else {
+                        if (tabIndex > _tabPane.getSelectedIndex()) {
+                            g.drawLine(x, y + 2, x, y + h - 2); // left
+                        }
+                        else if (tabIndex < _tabPane.getSelectedIndex() && tabIndex != _tabPane.getTabCount() - 1) {
+                            g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 2); // right
+                        }
                     }
                 }
         }
@@ -3037,17 +3082,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        if (tabIndex == _tabPane.getTabCount() - 1) {
-                            g.drawRect(x, y - 1, w - 1, h);
-                        }
-                        else {
-                            g.drawRect(x, y - 1, w, h);
-                        }
-                    }
-                    else if (tabIndex < _tabPane.getSelectedIndex()) {
-                        g.drawRect(x, y - 1, w, h);
-                    }
+                    g.drawRect(x, y - 1, w, h);
                 }
                 break;
             case TOP:
@@ -3058,17 +3093,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {
                     g.setColor(_unselectColor1);
-                    if (tabIndex > _tabPane.getSelectedIndex()) {
-                        if (tabIndex == _tabPane.getTabCount() - 1) {
-                            g.drawRect(x, y, w - 1, h);
-                        }
-                        else {
-                            g.drawRect(x, y, w, h);
-                        }
-                    }
-                    else if (tabIndex < _tabPane.getSelectedIndex()) {
-                        g.drawRect(x, y, w, h);
-                    }
+                    g.drawRect(x, y, w, h);
                 }
         }
     }
@@ -3291,6 +3316,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintBoxTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                      int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
+
         if (isSelected) {
             g.setColor(_selectColor1);
             g.drawLine(x, y, x + w - 2, y);// top
@@ -3314,11 +3341,20 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     case BOTTOM:
                     case TOP:
                     default:
-                        g.setColor(_unselectColor1);
-                        g.drawLine(x + w, y + 2, x + w, y + h - 2);// right
+                        if (leftToRight) {
+                            g.setColor(_unselectColor1);
+                            g.drawLine(x + w, y + 2, x + w, y + h - 2);// right
 
-                        g.setColor(_unselectColor2);
-                        g.drawLine(x + w + 1, y + 2, x + w + 1, y + h - 2);// right
+                            g.setColor(_unselectColor2);
+                            g.drawLine(x + w + 1, y + 2, x + w + 1, y + h - 2);// right
+                        }
+                        else {
+                            g.setColor(_unselectColor1);
+                            g.drawLine(x, y + 2, x, y + h - 2);// right
+
+                            g.setColor(_unselectColor2);
+                            g.drawLine(x + 1, y + 2, x + 1, y + h - 2);// right
+                        }
                 }
             }
         }
@@ -3361,12 +3397,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintOffice2003TabBackground(Graphics g, int tabPlacement,
                                                 int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-
-
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
         switch (tabPlacement) {
             case LEFT:
                 if (!isSelected) {// the tab is not selected
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x + w, x + 2, x, x, x + 3, x + w};
                         int yp[] = {y - w + 2 + 2, y + 2, y + 5, y + h - 5, y + h - 2, y + h - 2};
                         int np = yp.length;
@@ -3391,7 +3426,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 break;
             case RIGHT:
                 if (!isSelected) {// the tab is not selected
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x, x + w - 3, x + w - 1, x + w - 1, x + w - 3, x};
                         int yp[] = {y - w + 2 + 2, y + 2, y + 5, y + h - 5, y + h - 2, y + h - 2};
                         int np = yp.length;
@@ -3413,7 +3448,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 break;
             case BOTTOM:
                 if (!isSelected) {// the tab is not selected
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x - h + 5, x, x + 4, x + w - 3, x + w - 1, x + w - 1};
                         int yp[] = {y, y + h - 5, y + h - 1, y + h - 1, y + h - 5, y};
                         int np = yp.length;
@@ -3437,7 +3472,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             case TOP:
             default:
                 if (!isSelected) {// the tab is not selected
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x - h + 5, x, x + 4, x + w - 3, x + w - 1, x + w - 1};
                         int yp[] = {y + h, y + 3, y + 1, y + 1, y + 3, y + h};
                         int np = yp.length;
@@ -3463,10 +3498,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void paintExcelTabBackground(Graphics g, int tabPlacement,
                                            int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+        boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
         switch (tabPlacement) {
             case LEFT:
                 if (!isSelected) {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x + w, x, x, x + w};
                         int yp[] = {y - 5, y + 5, y + h - 5, y + h + 6};
                         int np = yp.length;
@@ -3488,7 +3524,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 break;
             case RIGHT:
                 if (!isSelected) {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x, x + w - 1, x + w - 1, x};
                         int yp[] = {y - 5, y + 5, y + h - 5, y + h + 6};
                         int np = yp.length;
@@ -3511,7 +3547,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 break;
             case BOTTOM:
                 if (!isSelected) {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x - 5, x + 5, x + w - 5, x + w + 5};
                         int yp[] = {y, y + h - 1, y + h - 1, y};
                         int np = yp.length;
@@ -3534,7 +3570,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             case TOP:
             default:
                 if (!isSelected) {
-                    if (tabIndex == 0) {
+                    if ((leftToRight && tabIndex == 0) || (!leftToRight && tabIndex == _tabPane.getTabCount() - 1)) {
                         int xp[] = {x - 6, x + 5, x + w - 5, x + w + 5};
                         int yp[] = {y + h, y, y, y + h};
                         int np = yp.length;
@@ -5706,6 +5742,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Insets insets = _tabPane.getInsets();
             int selectedIndex = _tabPane.getSelectedIndex();
             Component visibleComponent = getVisibleComponent();
+            boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
 
             calculateLayoutInfo();
 
@@ -5749,7 +5786,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 if (isTabTrailingComponentVisible()) {
                     tsize = _tabTrailingComponent.getSize();
-
                 }
 
                 if (numChildren > 0) {
@@ -5823,21 +5859,42 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             tx = insets.left;
                             ty = bounds.height - insets.bottom - th;
 
-                            if (isTabLeadingComponentVisible()) {
-                                tx += lsize.width;
-                                tw -= lsize.width;
+                            if (leftToRight) {
+                                if (isTabLeadingComponentVisible()) {
+                                    tx += lsize.width;
+                                    tw -= lsize.width;
 
-                                if (lsize.height > th) {
-                                    th = lsize.height;
-                                    ty = bounds.height - insets.bottom - th;
+                                    if (lsize.height > th) {
+                                        th = lsize.height;
+                                        ty = bounds.height - insets.bottom - th;
+                                    }
+                                }
+                                if (isTabTrailingComponentVisible()) {
+                                    tw -= tsize.width;
+
+                                    if (tsize.height > th) {
+                                        th = tsize.height;
+                                        ty = bounds.height - insets.bottom - th;
+                                    }
                                 }
                             }
-                            if (isTabTrailingComponentVisible()) {
-                                tw -= tsize.width;
+                            else {
+                                if (isTabTrailingComponentVisible()) {
+                                    tx += tsize.width;
+                                    tw -= tsize.width;
 
-                                if (tsize.height > th) {
-                                    th = tsize.height;
-                                    ty = bounds.height - insets.bottom - th;
+                                    if (tsize.height > th) {
+                                        th = tsize.height;
+                                        ty = bounds.height - insets.bottom - th;
+                                    }
+                                }
+                                if (isTabLeadingComponentVisible()) {
+                                    tw -= lsize.width;
+
+                                    if (lsize.height > th) {
+                                        th = lsize.height;
+                                        ty = bounds.height - insets.bottom - th;
+                                    }
                                 }
                             }
 
@@ -5857,19 +5914,38 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             tx = insets.left;
                             ty = insets.top;
 
-                            if (isTabLeadingComponentVisible()) {
-                                tx += lsize.width;
-                                tw -= lsize.width;
+                            if (leftToRight) {
+                                if (isTabLeadingComponentVisible()) {
+                                    tx += lsize.width;
+                                    tw -= lsize.width;
 
-                                if (lsize.height > th) {
-                                    th = lsize.height;
+                                    if (lsize.height > th) {
+                                        th = lsize.height;
+                                    }
+                                }
+                                if (isTabTrailingComponentVisible()) {
+                                    tw -= tsize.width;
+
+                                    if (tsize.height > th) {
+                                        th = tsize.height;
+                                    }
                                 }
                             }
-                            if (isTabTrailingComponentVisible()) {
-                                tw -= tsize.width;
+                            else {
+                                if (isTabTrailingComponentVisible()) {
+                                    tx += tsize.width;
+                                    tw -= tsize.width;
 
-                                if (tsize.height > th) {
-                                    th = tsize.height;
+                                    if (tsize.height > th) {
+                                        th = tsize.height;
+                                    }
+                                }
+                                if (isTabLeadingComponentVisible()) {
+                                    tw -= lsize.width;
+
+                                    if (lsize.height > th) {
+                                        th = lsize.height;
+                                    }
                                 }
                             }
 
@@ -6157,42 +6233,81 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
 
-                    if (isTabLeadingComponentVisible()) {
-                        switch (_tabPane.getTabPlacement()) {
-                            case LEFT:
-                                _tabLeadingComponent.setBounds(tx + tw - lsize.width, ty - lsize.height, lsize.width, lsize.height);
-                                break;
-                            case RIGHT:
-                                _tabLeadingComponent.setBounds(tx, ty - lsize.height, lsize.width, lsize.height);
-                                break;
-                            case BOTTOM:
-                                _tabLeadingComponent.setBounds(tx - lsize.width, ty, lsize.width, lsize.height);
-                                break;
-                            case TOP:
-                            default:
-                                _tabLeadingComponent.setBounds(tx - lsize.width, ty + th - lsize.height, lsize.width, lsize.height);
-                                break;
+                    if (leftToRight) {
+                        if (isTabLeadingComponentVisible()) {
+                            switch (_tabPane.getTabPlacement()) {
+                                case LEFT:
+                                    _tabLeadingComponent.setBounds(tx + tw - lsize.width, ty - lsize.height, lsize.width, lsize.height);
+                                    break;
+                                case RIGHT:
+                                    _tabLeadingComponent.setBounds(tx, ty - lsize.height, lsize.width, lsize.height);
+                                    break;
+                                case BOTTOM:
+                                    _tabLeadingComponent.setBounds(tx - lsize.width, ty, lsize.width, lsize.height);
+                                    break;
+                                case TOP:
+                                default:
+                                    _tabLeadingComponent.setBounds(tx - lsize.width, ty + th - lsize.height, lsize.width, lsize.height);
+                                    break;
+                            }
+
                         }
 
+                        if (isTabTrailingComponentVisible()) {
+                            switch (_tabPane.getTabPlacement()) {
+                                case LEFT:
+                                    _tabTrailingComponent.setBounds(tx + tw - tsize.width, ty + th, tsize.width, tsize.height);
+                                    break;
+                                case RIGHT:
+                                    _tabTrailingComponent.setBounds(tx, ty + th, tsize.width, tsize.height);
+                                    break;
+                                case BOTTOM:
+                                    _tabTrailingComponent.setBounds(tx + tw, ty, tsize.width, tsize.height);
+                                    break;
+                                case TOP:
+                                default:
+                                    _tabTrailingComponent.setBounds(tx + tw, ty + th - tsize.height, tsize.width, tsize.height);
+                                    break;
+                            }
+                        }
                     }
+                    else {
+                        if (isTabTrailingComponentVisible()) {
+                            switch (_tabPane.getTabPlacement()) {
+                                case LEFT:
+                                    _tabTrailingComponent.setBounds(tx + tw - tsize.width, ty - tsize.height, tsize.width, tsize.height);
+                                    break;
+                                case RIGHT:
+                                    _tabTrailingComponent.setBounds(tx, ty - tsize.height, tsize.width, tsize.height);
+                                    break;
+                                case BOTTOM:
+                                    _tabTrailingComponent.setBounds(tx - tsize.width, ty, tsize.width, tsize.height);
+                                    break;
+                                case TOP:
+                                default:
+                                    _tabTrailingComponent.setBounds(tx - tsize.width, ty + th - tsize.height, tsize.width, tsize.height);
+                                    break;
+                            }
 
-                    if (isTabTrailingComponentVisible()) {
-                        switch (_tabPane.getTabPlacement()) {
-                            case LEFT:
-                                _tabTrailingComponent.setBounds(tx + tw - tsize.width, ty + th, tsize.width, tsize.height);
-                                break;
-                            case RIGHT:
-                                _tabTrailingComponent.setBounds(tx, ty + th, tsize.width, tsize.height);
-                                break;
-                            case BOTTOM:
-                                _tabTrailingComponent.setBounds(tx + tw, ty, tsize.width, tsize.height);
-                                break;
-                            case TOP:
-                            default:
-                                _tabTrailingComponent.setBounds(tx + tw, ty + th - tsize.height, tsize.width, tsize.height);
-                                break;
                         }
 
+                        if (isTabLeadingComponentVisible()) {
+                            switch (_tabPane.getTabPlacement()) {
+                                case LEFT:
+                                    _tabLeadingComponent.setBounds(tx + tw - lsize.width, ty + th, lsize.width, lsize.height);
+                                    break;
+                                case RIGHT:
+                                    _tabLeadingComponent.setBounds(tx, ty + th, lsize.width, lsize.height);
+                                    break;
+                                case BOTTOM:
+                                    _tabLeadingComponent.setBounds(tx + tw, ty, lsize.width, lsize.height);
+                                    break;
+                                case TOP:
+                                default:
+                                    _tabLeadingComponent.setBounds(tx + tw, ty + th - lsize.height, lsize.width, lsize.height);
+                                    break;
+                            }
+                        }
                     }
 
                     if (shouldChangeFocus) {
@@ -6385,8 +6500,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (!leftToRight && !verticalTabRuns) {
                 int rightMargin = size.width
                         - (insets.right + tabAreaInsets.right);
+                if (isTabLeadingComponentVisible()) {
+                    rightMargin -= _tabLeadingComponent.getPreferredSize().width;
+                }
+                int offset = 0;
+                if (isTabTrailingComponentVisible()) {
+                    offset += _tabTrailingComponent.getPreferredSize().width;
+                }
                 for (int i = 0; i < tabCount; i++) {
-                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width;
+                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width - offset + getLeftMargin();
+//                    if(i == tabCount - 1) {
+//                        _rects[i].width += getLeftMargin();
+//                        _rects[i].x -= getLeftMargin();
+//                    }
                 }
             }
 
@@ -6396,7 +6522,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
 
-    protected void ensureCurrentRects(int style, int tabCount) {
+    protected void ensureCurrentRects(int leftMargin, int tabCount) {
         Dimension size = _tabPane.getSize();
         Insets insets = _tabPane.getInsets();
         int totalWidth = 0;
@@ -6443,7 +6569,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 int availHeight;
                 if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
                     availHeight = (int) size.getHeight() - _fitStyleBoundSize
-                            - insets.top - insets.bottom - style - getTabRightPadding();// give the first tab extra space
+                            - insets.top - insets.bottom - leftMargin - getTabRightPadding();// give the first tab extra space
                 }
                 else {
                     availHeight = (int) size.getHeight() - _fitStyleBoundSize
@@ -6475,7 +6601,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         _rects[k].height = tabHeight;
                         Rectangle tabRect = _rects[k];
                         if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
-                            tabRect.y = totalHeight + style;// give the first tab extra space
+                            tabRect.y = totalHeight + leftMargin;// give the first tab extra space
                         }
                         else {
                             tabRect.y = totalHeight;
@@ -6489,7 +6615,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 int availWidth;
                 if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
                     availWidth = (int) size.getWidth() - _fitStyleBoundSize
-                            - insets.left - insets.right - style - getTabRightPadding();
+                            - insets.left - insets.right - leftMargin - getTabRightPadding();
                 }
                 else {
                     availWidth = (int) size.getWidth() - _fitStyleBoundSize
@@ -6534,7 +6660,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 for (int k = 0; k < tabCount; k++) {
                     Rectangle tabRect = _rects[k];
                     if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
-                        tabRect.x = totalWidth + style;// give the first tab extra space when the style is not box style
+                        tabRect.x = totalWidth + leftMargin;// give the first tab extra space when the style is not box style
                     }
                     else {
                         tabRect.x = totalWidth;

@@ -295,7 +295,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             }
         }
         else {
-            super.paintTabArea(g, tabPlacement, selectedIndex,c);
+            super.paintTabArea(g, tabPlacement, selectedIndex, c);
         }
     }
 
@@ -404,6 +404,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
             g.setColor(_lightHighlight);
+            boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
             switch (tabPlacement) {
                 case LEFT:
                     if (!isTabLeadingComponentVisible())
@@ -562,7 +563,12 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     // not selected
                     if (tabIndex > _tabPane.getSelectedIndex()) {
                         g.setColor(_shadow);
-                        g.drawLine((x + w) - 2, y - 1, (x + w) - 2, y + h);// right
+                        if (leftToRight) {
+                            g.drawLine(x + w - 2, y - 1, x + w - 2, y + h);// right
+                        }
+                        else {
+                            g.drawLine(x, y - 1, x, y + h);// right
+                        }
                         break;
                     }
 
@@ -570,7 +576,12 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         break;
 
                     g.setColor(_shadow);
-                    g.drawLine(x, y - 1, x, y + h);// left
+                    if (leftToRight) {
+                        g.drawLine(x, y - 1, x, y + h);// left
+                    }
+                    else {
+                        g.drawLine(x + w - 2, y - 1, x + w - 2, y + h);// left
+                    }
                     break;
                 case TOP:
                 default:
@@ -615,14 +626,25 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
                     if (tabIndex > _tabPane.getSelectedIndex()) {
                         g.setColor(_shadow);
-                        g.drawLine((x + w) - 2, y, (x + w) - 2, y + (h - 1));// right
+                        if (leftToRight) {
+                            g.drawLine(x + w - 2, y, x + w - 2, y + (h - 1));// right
+                        }
+                        else {
+                            g.drawLine(x, y, x, y + (h - 1));// left
+                        }
                         break;
                     }
 
                     if (tabIndex >= _tabPane.getSelectedIndex() || tabIndex == 0)
                         break;
                     g.setColor(_shadow);
-                    g.drawLine(x, y, x, y + (h - 1));// left
+
+                    if (leftToRight) {
+                        g.drawLine(x, y, x, y + (h - 1));// left
+                    }
+                    else {
+                        g.drawLine(x + w - 2, y, x + w - 2, y + (h - 1));// left
+                    }
                     break;
             }
         }
