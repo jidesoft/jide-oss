@@ -8,6 +8,8 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,12 @@ import java.util.Vector;
  * <code>DefaultOverlayable</code> is the default implementation of <code>Overlayable</code> using JPanel as
  * the base component.
  */
-public class DefaultOverlayable extends JPanel implements Overlayable {
+public class DefaultOverlayable extends JPanel implements Overlayable, ComponentListener {
     private JComponent _actualComponent;
     private Insets _overlayLocationInsets = new Insets(0, 0, 0, 0);
     private List<JComponent> _overlayComponents;
     private Map<JComponent, Integer> _overlayLocations;
+//    private Map<JComponent, Component> _overlayRelativeComponent;
 
     public DefaultOverlayable() {
         initComponents();
@@ -48,6 +51,7 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
         setLayout(null);
         _overlayComponents = new Vector();
         _overlayLocations = new Hashtable();
+//        _overlayRelativeComponent = new Hashtable();
     }
 
     /**
@@ -95,9 +99,17 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
     }
 
     private Rectangle getOverlayComponentBounds(JComponent component) {
-        Rectangle bounds = getActualComponent().getBounds();
+//        Component relativeComponent = getOverlayRelativeComponent(component);
+//        if (relativeComponent == null) {
+//            relativeComponent = getActualComponent();
+//        }
+        Component relativeComponent = getActualComponent();
 
-        Rectangle overlayBounds = getActualComponent().getBounds();
+        Rectangle bounds = relativeComponent.getBounds();
+        if (relativeComponent != getActualComponent()) {
+            bounds = SwingUtilities.convertRectangle(relativeComponent.getParent(), bounds, getActualComponent());
+        }
+        Rectangle overlayBounds = new Rectangle(bounds);
         Insets insets = getOverlayLocationInsets();
         overlayBounds.x -= insets.left;
         overlayBounds.y -= insets.top;
@@ -163,10 +175,36 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
         }
     }
 
+//    public Component getOverlayRelativeComponent(JComponent component) {
+//        Component c = _overlayRelativeComponent.get(component);
+//        if (c != null) {
+//            return c;
+//        }
+//        else {
+//            return null;
+//        }
+//    }
+
     public void setOverlayLocation(JComponent component, int location) {
+        setOverlayLocation(component, null, location);
+    }
+
+    private void setOverlayLocation(JComponent component, Component relativeComponent, int location) {
+        boolean updated = false;
         int old = getOverlayLocation(component);
         if (old != location) {
             _overlayLocations.put(component, location);
+            updated = true;
+        }
+//        Component oldComponent = getOverlayRelativeComponent(component);
+//        if (oldComponent != relativeComponent) {
+//            _overlayRelativeComponent.put(component, relativeComponent);
+//            if(!JideSwingUtilities.isListenerRegistered(component, ComponentListener.class, this)) {
+//                component.addComponentListener(this);
+//            }
+//            updated = true;
+//        }
+        if (updated) {
             updateLocation();
         }
     }
@@ -180,6 +218,10 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
     }
 
     public void addOverlayComponent(JComponent component, int location, int index) {
+        addOverlayComponent(component, null, location, index);
+    }
+
+    private void addOverlayComponent(JComponent component, Component relativeComponent, int location, int index) {
         if (_overlayComponents.contains(component)) {
             _overlayComponents.remove(component);
         }
@@ -191,13 +233,14 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
             _overlayComponents.add(index, component);
             add(component, index);
         }
-        _overlayLocations.put(component, location);
+        setOverlayLocation(component, relativeComponent, location);
     }
 
     public void removeOverlayComponent(JComponent component) {
         if (_overlayComponents.contains(component)) {
             _overlayComponents.remove(component);
             _overlayLocations.remove(component);
+//            _overlayRelativeComponent.remove(component);
             remove(component);
         }
     }
@@ -245,5 +288,21 @@ public class DefaultOverlayable extends JPanel implements Overlayable {
         for (JComponent component : components) {
             component.setVisible(visible);
         }
+    }
+
+    public void componentResized(ComponentEvent e) {
+        updateLocation();
+    }
+
+    public void componentMoved(ComponentEvent e) {
+        updateLocation();
+    }
+
+    public void componentShown(ComponentEvent e) {
+        updateLocation();
+    }
+
+    public void componentHidden(ComponentEvent e) {
+        updateLocation();
     }
 }
