@@ -32,4 +32,28 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel {
             removeIndexInterval(newLength, oldLength);
         }
     }
+
+    /**
+     * Overrides so that inserting a row will not be selected automatically if the row after it is selected.
+     *
+     * @param index  the index where the rows will be inserted.
+     * @param length the number of the rows that will be inserted.
+     * @param before it's before or after the index.
+     */
+    @Override
+    public void insertIndexInterval(int index, int length, boolean before) {
+        if (before) {
+            boolean old = isSelectedIndex(index);
+            if (old) {
+                removeSelectionInterval(index, index);
+            }
+            super.insertIndexInterval(index, length, before);
+            if (old) {
+                addSelectionInterval(index + length, index + length);
+            }
+        }
+        else {
+            super.insertIndexInterval(index, length, before);
+        }
+    }
 }
