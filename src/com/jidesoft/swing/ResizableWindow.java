@@ -55,8 +55,11 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
                     @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
                         Container container = ResizableWindow.this.getContentPane();
-                        if (SystemInfo.isJdk15Above() || container instanceof JComponent) {
+                        if (SystemInfo.isJdk15Above()) {
                             container.setPreferredSize(new Dimension(newW, newH));
+                        }
+                        else if (container instanceof JComponent) {
+                            ((JComponent) container).setPreferredSize(new Dimension(newW, newH));
                         }
                         ResizableWindow.this.setBounds(newX, newY, newW, newH);
                     }

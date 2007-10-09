@@ -239,7 +239,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         installComponents();
 
         int found = _searchable.findFromCursor(getSearchingText());
-        select(found, initialText, false);
+        if (initialText.length() != 0 || found == -1) {
+            select(found, initialText, false);
+        }
     }
 
     /**
