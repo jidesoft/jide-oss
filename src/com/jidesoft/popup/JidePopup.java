@@ -1647,7 +1647,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
             ancestorHidden();
         }
-        else {
+        else if (isPopupVisible()) {
             Point point = SwingUtilities.convertPoint(component, e.getPoint(), this);
 
             Rectangle startingBounds = null;
