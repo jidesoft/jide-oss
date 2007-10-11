@@ -486,14 +486,14 @@ public class VsnetMenuItemUI extends MenuItemUI {
         Insets insets = b.getInsets();
 
         if (useCheckAndArrow()) {
-            insets.left = 0;
-            insets.right = 0;
+//            insets.left = 0;
+//            insets.right = 0;
             r.width += 5;
         }
 
         if (isDownArrowVisible(parent)) {
-            insets.left = 0;
-            insets.right = 0;
+//            insets.left = 0;
+//            insets.right = 0;
             r.width += 7;
         }
 
@@ -569,13 +569,11 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
         viewRect.setBounds(0, 0, menuWidth, menuHeight);
 
+        viewRect.x += i.left;
+        viewRect.width -= (i.right + viewRect.x);
         if (isDownArrowVisible(b.getParent())) {
             viewRect.x += 3;
             viewRect.width -= 7;
-        }
-        else {
-            viewRect.x += i.left;
-            viewRect.width -= (i.right + viewRect.x);
         }
         viewRect.y += i.top;
         viewRect.height -= (i.bottom + viewRect.y);
@@ -918,17 +916,19 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
         viewRect.width += getRightMargin(); // this line is mainly for JideSplitButton
 
+        Insets insets = menuItem.getInsets();
         // get viewRect which is the bounds of menuitem
-        viewRect.x = viewRect.y = 0;
+        viewRect.x = insets.left;
+        viewRect.y = insets.top;
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             //   Dimension size = b.getSize();
-            viewRect.height = menuItem.getHeight();
-            viewRect.width = menuItem.getWidth();
+            viewRect.height = menuItem.getHeight() - insets.top - insets.bottom;
+            viewRect.width = menuItem.getWidth() - insets.left - insets.right;
         }
         else {
             //   Dimension size = b.getSize();
-            viewRect.height = menuItem.getWidth();
-            viewRect.width = menuItem.getHeight();
+            viewRect.height = menuItem.getWidth() - insets.left - insets.right;
+            viewRect.width = menuItem.getHeight() - insets.top - insets.bottom;
         }
 
         // in the middle of setOrientation, the height and width are swapped.
@@ -999,9 +999,9 @@ public class VsnetMenuItemUI extends MenuItemUI {
         if (menuItem.getComponentOrientation().isLeftToRight()) {
             // left a shadow for non-top level menu
             if (useCheckAndArrow()) {
-                iconRect.x = (defaultShadowWidth - iconRect.width) >> 1;
+                iconRect.x = viewRect.x + (defaultShadowWidth - iconRect.width) >> 1;
                 if (text != null && !text.equals("")) {
-                    textRect.x = defaultShadowWidth + textIconGap;
+                    textRect.x = viewRect.x + defaultShadowWidth + textIconGap;
                 }
             }
             else {
@@ -1034,7 +1034,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
             // Position the Check and Arrow Icons
             if (useCheckAndArrow()) {
-                checkIconRect.x = (defaultShadowWidth - checkIconRect.width) >> 1;
+                checkIconRect.x = viewRect.x + (defaultShadowWidth - checkIconRect.width) >> 1;
                 arrowIconRect.x = viewRect.x + viewRect.width - menuItemGap - 5
                         - arrowIconRect.width;
             }
@@ -1059,9 +1059,9 @@ public class VsnetMenuItemUI extends MenuItemUI {
         if (verticalTextPosition == SwingConstants.CENTER) {
             // put it in the middle
             if (text != null && !text.equals("")) {
-                textRect.y = ((viewRect.height - textRect.height) >> 1);
+                textRect.y = viewRect.y + ((viewRect.height - textRect.height) >> 1);
             }
-            iconRect.y = ((viewRect.height - iconRect.height) >> 1);
+            iconRect.y = viewRect.y + ((viewRect.height - iconRect.height) >> 1);
         }
 
         Rectangle labelRect = iconRect.union(textRect);
@@ -1071,8 +1071,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
         acceleratorRect.y = labelRect.y + (labelRect.height >> 1) - (acceleratorRect.height >> 1);
 
         if (useCheckAndArrow()) {
-            arrowIconRect.y = ((viewRect.height - arrowIconRect.height) >> 1);//
-            checkIconRect.y = ((viewRect.height - checkIconRect.height) >> 1);//labelRect.y + (labelRect.height / 2) - (checkIconRect.height / 2);
+            arrowIconRect.y = viewRect.y + ((viewRect.height - arrowIconRect.height) >> 1);//
+            checkIconRect.y = viewRect.y + ((viewRect.height - checkIconRect.height) >> 1);//labelRect.y + (labelRect.height / 2) - (checkIconRect.height / 2);
         }
 //
 

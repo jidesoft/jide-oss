@@ -686,11 +686,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         // JDK PORTING HINT
         // JDK1.3: No getIconTextGap, use defaultTextIconGap
         Dimension d = BasicGraphicsUtils.getPreferredButtonSize(b, defaultTextIconGap);
-//        d.width += b.getMargin().left + b.getMargin().right;
-//        d.height += b.getMargin().bottom + b.getMargin().top;
 
-        int size = ((JMenu) menuItem).isTopLevelMenu() ? _splitButtonMargin : _splitButtonMarginOnMenu;
-        d.width += size;
+        d.width += getRightMargin();
+
+        if (isDownArrowVisible(b.getParent())) {
+            d.width += 7;
+        }
 
         if (isHorizontal)
             return d;
