@@ -114,6 +114,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     private boolean isDescendant(TreePath path1, TreePath path2) {
         Object obj1[] = path1.getPath();
         Object obj2[] = path2.getPath();
+        if (obj1.length < obj2.length)
+            return false;
         for (int i = 0; i < obj2.length; i++) {
             if (obj1[i] != obj2[i])
                 return false;
