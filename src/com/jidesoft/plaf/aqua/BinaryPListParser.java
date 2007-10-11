@@ -36,7 +36,7 @@ import java.util.HashMap;
  * <p/>
  * "A property list is a data representation used by Mac OS X Cocoa and Core
  * Foundation as a convenient way to store, organize, and access standard object
- * types. Frequently called a Òplist,Ó a property list is an object of one of
+ * types. Frequently called a plist a property list is an object of one of
  * several certain Cocoa or Core Foundation types, including  arrays,
  * dictionaries, strings, binary data, numbers, dates, and Boolean values. If
  * the object is a container (an array or dictionary), all objects contained
