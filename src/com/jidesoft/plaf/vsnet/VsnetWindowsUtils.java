@@ -282,6 +282,11 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "DOWN", "downPressed",
                 "released DOWN", "downReleased"
         }),
+                "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
+                "TAB", "selectNextGroup",
+                "shift TAB", "selectPreviousGroup",
+                    
+        }),
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
                 "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
                 "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
