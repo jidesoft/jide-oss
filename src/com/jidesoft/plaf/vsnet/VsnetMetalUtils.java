@@ -457,6 +457,11 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
             uiDefaults = new Object[]{
                     "AbstractComboBox.useJButton", Boolean.TRUE,
                     "NestedTableHeader.cellBorder", table.getBorder("TableHeader.cellBorder"),
+
+                    "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }

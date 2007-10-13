@@ -687,10 +687,15 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
             table.putDefaults(uiDefaults);
         }
 
-        if ((products & PRODUCT_DOCK) != 0) {
+        if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
                     // grid
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
+
+                    "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }

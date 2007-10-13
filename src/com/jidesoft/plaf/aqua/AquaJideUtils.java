@@ -437,6 +437,11 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
                     "AbstractComboBox.useJButton", Boolean.FALSE,
+
+                    "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }
