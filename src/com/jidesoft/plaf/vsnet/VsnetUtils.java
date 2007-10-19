@@ -97,9 +97,9 @@ class VsnetUtils {
         return backIDE;
     }
 
-    private static double RATIO1 = 0.755; // 0.502;
-    private static double RATIO2 = 0.78f; // 0.78;
-    private static double RATIO3 = 0.86f; //0.86;
+    private static double RATIO1 = 0.80;
+    private static double RATIO2 = 0.92f; 
+    private static double RATIO3 = 0.86f;
 
     /**
      * Adjusts the ratio we used to derive different colors from a base color.
