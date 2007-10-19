@@ -143,7 +143,7 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Class name of A03 L&F.
      */
-    public static final String A03_LNF = "apprising.api.swing.plaf.a03.A03LookAndFeel";
+    public static final String A03_LNF = "a03.swing.plaf.A03LookAndFeel";
 
     /**
      * Class name of Pgs L&F.

@@ -7798,7 +7798,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             ensureCloseButtonCreated();
-            ensureActiveTabIsVisible(true);
+//            ensureActiveTabIsVisible(true);
         }
 
         public void componentRemoved(ContainerEvent e) {
@@ -7828,7 +7828,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             ensureCloseButtonCreated();
-            ensureActiveTabIsVisible(true);
+//            ensureActiveTabIsVisible(true);
         }
     }
 
