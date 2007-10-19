@@ -414,6 +414,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     @Override
     public void updateUI() {
         super.updateUI();
+        setLayout(new JideScrollPaneLayout.UIResource());
         LookAndFeel.installBorder(this, "JideScrollPane.border");
     }
 
