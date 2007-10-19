@@ -1497,7 +1497,7 @@ public class JideTabbedPane extends JTabbedPane {
                 JideTabbedPane tabbedPane = (JideTabbedPane) value;
                 String title = tabbedPane.getTitleAt(index);
                 String tooltip = tabbedPane.getToolTipTextAt(index);
-                Icon icon = tabbedPane.getIconAt(index);
+                Icon icon = tabbedPane.getIconForTab(index);
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
                 label.setToolTipText(tooltip);
                 label.setIcon(icon);
@@ -1663,6 +1663,31 @@ public class JideTabbedPane extends JTabbedPane {
                     ((TabEditingListener) listeners[i + 1]).editingStopped(tabEditingEvent);
                 }
             }
+        }
+    }
+
+    /**
+     * Gets the icon for the tab after looking at the UIDefault "JideTabbedPane.showIconOnTab" and {@link #isShowIconsOnTab()}.
+     * Note that getIconAt method will always return the tab even though the icon is not displayed because the two flags above.
+     *
+     * @param tabIndex the tab index.
+     * @return the icon for the tab at the specified index.
+     */
+    public Icon getIconForTab(int tabIndex) {
+        boolean _showIconOnTab = UIDefaultsLookup.getBoolean("JideTabbedPane.showIconOnTab");
+        if (isUseDefaultShowIconsOnTab()) {
+            if (_showIconOnTab) {
+                return (!isEnabled() || !isEnabledAt(tabIndex)) ? getDisabledIconAt(tabIndex) : getIconAt(tabIndex);
+            }
+            else {
+                return null;
+            }
+        }
+        else if (isShowIconsOnTab()) {
+            return (!isEnabled() || !isEnabledAt(tabIndex)) ? getDisabledIconAt(tabIndex) : getIconAt(tabIndex);
+        }
+        else {
+            return null;
         }
     }
 }

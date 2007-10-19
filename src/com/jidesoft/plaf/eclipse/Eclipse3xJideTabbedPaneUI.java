@@ -1198,7 +1198,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         Rectangle iconRect = new Rectangle(), textRect = new Rectangle();
 
         String title = _tabPane.getDisplayTitleAt(tabIndex);
-        Icon icon = getIconForTab(tabIndex);
+        Icon icon = _tabPane.getIconForTab(tabIndex);
 
         SwingUtilities.layoutCompoundLabel(_tabPane, _tabPane.getGraphics()
                 .getFontMetrics(_tabPane.getFont()), title, icon,

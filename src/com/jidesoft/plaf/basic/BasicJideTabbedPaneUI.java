@@ -919,7 +919,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 tabRect.width, tabRect.height, isSelected);
         JideSwingUtilities.restoreShapeAntialiasing(g, savedHints);
 
-        Icon icon = getIconForTab(tabIndex);
+        Icon icon = _tabPane.getIconForTab(tabIndex);
 
         Rectangle tempTabRect = new Rectangle(tabRect);
 
@@ -4328,23 +4328,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return true;
     }
 
-    protected Icon getIconForTab(int tabIndex) {
-        if (_tabPane.isUseDefaultShowIconsOnTab()) {
-            if (_showIconOnTab) {
-                return (!_tabPane.isEnabled() || !_tabPane.isEnabledAt(tabIndex)) ? _tabPane.getDisabledIconAt(tabIndex) : _tabPane.getIconAt(tabIndex);
-            }
-            else {
-                return null;
-            }
-        }
-        else if (_tabPane.isShowIconsOnTab()) {
-            return (!_tabPane.isEnabled() || !_tabPane.isEnabledAt(tabIndex)) ? _tabPane.getDisabledIconAt(tabIndex) : _tabPane.getIconAt(tabIndex);
-        }
-        else {
-            return null;
-        }
-    }
-
     /**
      * Returns the text View object required to render stylized text (HTML) for
      * the specified tab or null if no specialized text rendering is needed
@@ -4373,7 +4356,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 // plain text
                 height += metrics.getHeight();
             }
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
 
             if (icon != null) {
@@ -4382,7 +4365,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             height += tabInsets.top + tabInsets.bottom + 2;
         }
         else {
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
             height = tabInsets.top + tabInsets.bottom + 3;
 
@@ -4434,7 +4417,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
         int width = 0;
         if (tabPlacement == JideTabbedPane.TOP || tabPlacement == JideTabbedPane.BOTTOM) {
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
             width = tabInsets.left + tabInsets.right + 3 + getTabGap();
 
@@ -4480,7 +4463,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 // plain text
                 width += metrics.getHeight();
             }
-            Icon icon = getIconForTab(tabIndex);
+            Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
 
             if (icon != null) {
@@ -6713,7 +6696,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             _rects[k].height = _compressedStyleNoIconRectSize;
                         }
                         else {
-                            Icon icon = getIconForTab(k);
+                            Icon icon = _tabPane.getIconForTab(k);
                             _rects[k].height = icon.getIconHeight() + _compressedStyleIconMargin;
                         }
 
@@ -6739,7 +6722,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             _rects[k].width = _compressedStyleNoIconRectSize;
                         }
                         else {
-                            Icon icon = getIconForTab(k);
+                            Icon icon = _tabPane.getIconForTab(k);
                             _rects[k].width = icon.getIconWidth() + _compressedStyleIconMargin;
                         }
 
@@ -6839,7 +6822,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             for (int i = 0; i < totalCount; i++) {
                 if (_tabPane.isEnabledAt(i)) {
                     JMenuItem item;
-                    popup.add(item = new JCheckBoxMenuItem(new ActivateTabAction(_tabPane.getTitleAt(i), getIconForTab(i), i)));
+                    popup.add(item = new JCheckBoxMenuItem(new ActivateTabAction(_tabPane.getTitleAt(i), _tabPane.getIconForTab(i), i)));
                     item.setToolTipText(_tabPane.getToolTipTextAt(i));
                     item.setSelected(selectedIndex == i);
                     item.setHorizontalTextPosition(JMenuItem.RIGHT);
@@ -8246,7 +8229,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (title == null || title.length() < 4) {
             title = "    ";
         }
-        Icon icon = getIconForTab(tabIndex);
+        Icon icon = _tabPane.getIconForTab(tabIndex);
 
         Font font = _tabPane.getFont();
         if (tabIndex == _tabPane.getSelectedIndex() && _tabPane.isBoldActiveTab()) {
