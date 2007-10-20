@@ -226,17 +226,22 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             int prevIndex = 2 * index;
             int nextIndex = 2 * index + 2;
             for (int i = prevIndex; i >= 0; i--) {
-                if (_target.getComponent(i).isVisible()) {
+                if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
                     break;
                 }
                 prevIndex--;
             }
             for (int i = nextIndex; i < _target.getComponentCount(); i++) {
-                if (_target.getComponent(i).isVisible()) {
+                if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
                     break;
                 }
                 nextIndex++;
             }
+
+            if (prevIndex < 0 || nextIndex > _componentSizes.length) {
+                return;
+            }
+
             _componentSizes[prevIndex] += location - oldLocation;
             _componentSizes[nextIndex] -= location - oldLocation;
             Component comp1 = _target.getComponent(prevIndex);
