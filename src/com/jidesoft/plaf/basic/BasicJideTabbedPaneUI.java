@@ -7096,8 +7096,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
             }
 
-            _tabPane.setComponentZOrder(_tabScroller.scrollForwardButton, 0);
-            _tabPane.setComponentZOrder(_tabScroller.scrollBackwardButton, 0);
+            if (SystemInfo.isJdk15Above()) {
+                _tabPane.setComponentZOrder(_tabScroller.scrollForwardButton, 0);
+                _tabPane.setComponentZOrder(_tabScroller.scrollBackwardButton, 0);
+            }
             _tabScroller.scrollForwardButton.repaint();
             _tabScroller.scrollBackwardButton.repaint();
 
