@@ -9,6 +9,8 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.popup.JidePopup;
 import com.jidesoft.swing.event.SearchableEvent;
 import com.jidesoft.swing.event.SearchableListener;
+import com.jidesoft.utils.DefaultWildcardSupport;
+import com.jidesoft.utils.WildcardSupport;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -96,9 +98,11 @@ public abstract class Searchable {
     private String _searchText;
     private String _previousSearchText;
 
+    private boolean _fromStart = false;
     private boolean _caseSensitive = false;
     private boolean _repeats = false;
     private boolean _wildcardEnabled = true;
+    private WildcardSupport _wildcardSupport = null;
     private Color _mismatchForeground;
     private Color _foreground = null;
     private Color _background = null;
@@ -563,45 +567,23 @@ public abstract class Searchable {
     protected boolean compare(String text, String searchingText) {
         if (!isWildcardEnabled()) {
             return searchingText != null &&
-                    (searchingText.equals(text) || searchingText.length() > 0 && text.startsWith(searchingText));
+                    (searchingText.equals(text) || searchingText.length() > 0 && (isFromStart() ? text.startsWith(searchingText) : text.indexOf(searchingText) != -1));
         }
         else {
-            // if it doesn't have the two special characters we support, we don't need to use regular expression.
-            int posAny = searchingText.indexOf('*');
-            int posOne = searchingText.indexOf('?');
-            // 
-            if ((posAny == -1/* || posAny == searchingText.length() - 1*/) && (posOne == -1/* || posOne == searchingText.length() - 1*/)) {
-                return text.startsWith(searchingText);
-            }
-
             // use the prvious pattern since nothing changed.
             if (_searchText != null && _searchText.equals(searchingText) && _pattern != null) {
                 return _pattern.matcher(text).find();
             }
 
-            _searchText = searchingText;
-            StringBuffer buffer = new StringBuffer();
-            int length = searchingText.length();
-            buffer.append('^');
-            for (int i = 0; i < length; i++) {
-                char c = searchingText.charAt(i);
-                // replace '?' with '.'
-                if (c == '?') {
-                    buffer.append(".");
-                }
-                else if (c == '*') {
-                    buffer.append(".*");
-                }
-                else if ("(){}[].^$\\".indexOf(c) != -1) { // escape all other special characters
-                    buffer.append('\\');
-                    buffer.append(c);
-                }
-                else {
-                    buffer.append(c);
-                }
+            WildcardSupport wildcardSupport = getWildcardSupport();
+            String s = wildcardSupport.convert(searchingText);
+            if (searchingText.equals(s)) {
+                return isFromStart() ? text.startsWith(searchingText) : text.indexOf(searchingText) != -1;
             }
+            _searchText = searchingText;
+
             try {
-                _pattern = Pattern.compile(buffer.toString(), isCaseSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
+                _pattern = Pattern.compile(isFromStart() ? s : ".*" + s, isCaseSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
                 return _pattern.matcher(text).find();
             }
             catch (PatternSyntaxException e) {
@@ -1247,6 +1229,28 @@ public abstract class Searchable {
     }
 
     /**
+     * Gets the WildcardSupport. If user never sets it, {@link DefaultWildcardSupport} will be used.
+     *
+     * @return the WildcardSupport.
+     */
+    public WildcardSupport getWildcardSupport() {
+        if (_wildcardSupport == null) {
+            _wildcardSupport = new DefaultWildcardSupport();
+        }
+        return _wildcardSupport;
+    }
+
+    /**
+     * Sets the WildcardSupport. This class allows you to define what wildcards to use and how to convert
+     * the wildcard strings to a regular expression string which is eventually used to search.
+     *
+     * @param wildcardSupport the new WildCardSupport.
+     */
+    public void setWildcardSupport(WildcardSupport wildcardSupport) {
+        _wildcardSupport = wildcardSupport;
+    }
+
+    /**
      * Gets the current text that appears in the search popup. By default it is "Search for: ".
      *
      * @return the text that appears in the search popup.
@@ -1496,5 +1500,26 @@ public abstract class Searchable {
      */
     public void setPopupLocationRelativeTo(Component popupLocationRelativeTo) {
         _popupLocationRelativeTo = popupLocationRelativeTo;
+    }
+
+    /**
+     * This is a property of how to compare searching text with the data. If it is true, it will use {@link String#startsWith(String)}
+     * to do the comparison. Otherwise, it will use {@link String#indexOf(String)} to do the comparison.
+     *
+     * @return true or false.
+     */
+    public boolean isFromStart() {
+        return _fromStart;
+    }
+
+    /**
+     * Sets the fromStart property.
+     *
+     * @param fromStart true if the comparison matches from the start of the text only. Otherwise false. The difference is
+     *                  if true, it will use String's <code>startWith</code> method to match. If false, it will use <code>indedxOf</code> method.
+     */
+    public void setFromStart(boolean fromStart) {
+        hidePopup();
+        _fromStart = fromStart;
     }
 }
