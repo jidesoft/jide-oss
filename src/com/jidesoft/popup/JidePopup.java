@@ -877,7 +877,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         setDetached(true);
         Rectangle screenDim = getDisplayScreenBounds(owner);
         // Get the bounds of the splash window
-        Dimension size = getPreferredSize();
+        Dimension actualSize = getSize();
+        Dimension size = actualSize.width == 0 ? getPreferredSize() : actualSize;
         Point displayLocation = getDisplayStartLocation(screenDim, size, location);
         internalShowPopup(displayLocation.x, displayLocation.y, owner);
     }
