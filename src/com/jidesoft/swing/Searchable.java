@@ -98,7 +98,7 @@ public abstract class Searchable {
     private String _searchText;
     private String _previousSearchText;
 
-    private boolean _fromStart = false;
+    private boolean _fromStart = true;
     private boolean _caseSensitive = false;
     private boolean _repeats = false;
     private boolean _wildcardEnabled = true;
