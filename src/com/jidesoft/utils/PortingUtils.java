@@ -226,8 +226,8 @@ public class PortingUtils {
     /**
      * Makes the point parameter is within the screen bounds. If not, it will be modified to make sure it is in.
      *
-     * @param invoker
-     * @param point
+     * @param invoker we will use this the invoker component to find out the current screen.
+     * @param point   the point
      * @deprecated Please use {@link #ensureOnScreen(java.awt.Rectangle)} instead.
      */
     public static void withinScreen(Component invoker, Point point) {
@@ -254,7 +254,7 @@ public class PortingUtils {
     private static Rectangle[] SCREENS;
     private static Insets[] INSETS;
 
-    private static Thread _initalizationThread = null;
+    private static Thread _initializationThread = null;
 
     /**
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)}
@@ -281,20 +281,18 @@ public class PortingUtils {
      *                 there will be no time delay.
      */
     synchronized public static void initializeScreenArea(int priority) {
-        if (_initalizationThread == null) {
-            _initalizationThread = new Thread() {
+        if (_initializationThread == null) {
+            _initializationThread = new Thread() {
                 @Override
                 public void run() {
                     SCREEN_AREA = new Area();
                     GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    List screensList = new ArrayList();
-                    List insetsList = new ArrayList();
+                    List<Rectangle> screensList = new ArrayList();
+                    List<Insets> insetsList = new ArrayList();
                     GraphicsDevice[] screenDevices = environment.getScreenDevices();
-                    for (int i = 0; i < screenDevices.length; i++) {
-                        GraphicsDevice device = screenDevices[i];
+                    for (GraphicsDevice device : screenDevices) {
                         GraphicsConfiguration[] configurations = device.getConfigurations();
-                        for (int j = 0; j < configurations.length; j++) {
-                            GraphicsConfiguration graphicsConfiguration = configurations[j];
+                        for (GraphicsConfiguration graphicsConfiguration : configurations) {
                             Rectangle screenBounds = graphicsConfiguration.getBounds();
                             Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(graphicsConfiguration);
                             screensList.add(screenBounds);
@@ -302,31 +300,39 @@ public class PortingUtils {
                             SCREEN_AREA.add(new Area(screenBounds));
                         }
                     }
-                    SCREENS = (Rectangle[]) screensList.toArray(new Rectangle[screensList.size()]);
-                    INSETS = (Insets[]) insetsList.toArray(new Insets[screensList.size()]);
+                    SCREENS = screensList.toArray(new Rectangle[screensList.size()]);
+                    INSETS = insetsList.toArray(new Insets[screensList.size()]);
                 }
             };
-            _initalizationThread.setPriority(priority);
-            _initalizationThread.start();
+            _initializationThread.setPriority(priority);
+            if (INITIALIZE_SCREEN_AREA_USING_THREAD) {
+                _initializationThread.start();
+            }
+            else {
+                _initializationThread.run();
+            }
         }
     }
 
-    public static boolean isInitalizationThreadAlive() {
-        return _initalizationThread != null && _initalizationThread.isAlive();
+    public static boolean INITIALIZE_SCREEN_AREA_USING_THREAD = true;
+
+    public static boolean isInitializationThreadAlive() {
+        return _initializationThread != null && _initializationThread.isAlive();
     }
 
     public static boolean isInitalizationThreadStarted() {
-        return _initalizationThread != null;
+        return _initializationThread != null;
     }
 
     private static void waitForInitialization() {
         initializeScreenArea();
 
-        while (_initalizationThread.isAlive()) {
+        while (_initializationThread.isAlive()) {
             try {
                 Thread.sleep(100);
             }
             catch (InterruptedException e) {
+                // ignore
             }
         }
     }
@@ -372,16 +378,14 @@ public class PortingUtils {
         // see if the top left is on any of the screens
         Rectangle containgScreen = null;
         Point rectPos = rect.getLocation();
-        for (int i = 0; i < SCREENS.length; i++) {
-            Rectangle screenBounds = SCREENS[i];
+        for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.contains(rectPos)) {
                 containgScreen = screenBounds;
                 break;
             }
         }
         // if not see if rect partialy on any screen
-        for (int i = 0; i < SCREENS.length; i++) {
-            Rectangle screenBounds = SCREENS[i];
+        for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.intersects(rect)) {
                 containgScreen = screenBounds;
                 break;
@@ -418,7 +422,7 @@ public class PortingUtils {
     /**
      * Gets the screen bounds that contains the rect. The screen bounds consider the screen insets if any.
      *
-     * @param rect
+     * @param rect           the rect of the component.
      * @param considerInsets if consider the insets. The insets is for thing like Windows Task Bar.
      * @return the screen bounds that contains the rect.
      */
