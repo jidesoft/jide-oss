@@ -42,8 +42,8 @@ import javax.swing.ListModel;
 
 public class SortFontGroupListDemo extends AbstractDemo {
 
-    private FontModel model;
-    private SortableGroupableListModel sortableListModel;
+    private FontModel _model;
+    private SortableGroupableListModel _sortableListModel;
 
     public SortFontGroupListDemo() {
     }
@@ -84,7 +84,7 @@ public class SortFontGroupListDemo extends AbstractDemo {
         ascending.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sortableListModel.setSortOrder(SortableListModel.SORT_ASCENDING);
+                    _sortableListModel.setSortOrder(SortableListModel.SORT_ASCENDING);
                 }
             }
         });
@@ -93,7 +93,7 @@ public class SortFontGroupListDemo extends AbstractDemo {
         descending.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sortableListModel.setSortOrder(SortableListModel.SORT_DESCENDING);
+                    _sortableListModel.setSortOrder(SortableListModel.SORT_DESCENDING);
                 }
             }
         });
@@ -101,7 +101,7 @@ public class SortFontGroupListDemo extends AbstractDemo {
         unsorted.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sortableListModel.setSortOrder(SortableListModel.UNSORTED);
+                    _sortableListModel.setSortOrder(SortableListModel.UNSORTED);
                 }
             }
         });
@@ -115,7 +115,7 @@ public class SortFontGroupListDemo extends AbstractDemo {
         shuffle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 unsorted.setSelected(true);
-                model.shuffle();
+                _model.shuffle();
             }
         });
 
@@ -129,14 +129,14 @@ public class SortFontGroupListDemo extends AbstractDemo {
     public JComponent getDemoPanel() {
         JPanel panel = new JPanel(new BorderLayout(6, 6));
 
-        model = new FontModel();
-        model.shuffle();
-        model.putFont((Font) model.getElementAt(2));
-        model.putFont((Font) model.getElementAt(model.getSize() - 1));
+        _model = new FontModel();
+        _model.shuffle();
+        _model.putFont((Font) _model.getElementAt(2));
+        _model.putFont((Font) _model.getElementAt(_model.getSize() - 1));
 
-        sortableListModel = new SortableGroupableListModel(model);
-        sortableListModel.setComparator(FontComparator.INSTANCE);
-        final GroupList list = new GroupList(sortableListModel);
+        _sortableListModel = new SortableGroupableListModel(_model);
+        _sortableListModel.setComparator(FontComparator.INSTANCE);
+        final GroupList list = new GroupList(_sortableListModel);
         SearchableUtils.installSearchable(list);
         list.addMouseListener(new MouseAdapter() {
             @Override
@@ -146,7 +146,7 @@ public class SortFontGroupListDemo extends AbstractDemo {
                     Object element = list.getModel().getElementAt(selectedIndex);
                     if(element instanceof Font) {
                         Font font = (Font) element;
-                        model.putFont(font);
+                        _model.putFont(font);
                     }
                 }
             }
