@@ -565,6 +565,10 @@ public abstract class Searchable {
      * @return true if matches.
      */
     protected boolean compare(String text, String searchingText) {
+        if (searchingText == null || searchingText.trim().length() == 0) {
+            return true;
+        }
+
         if (!isWildcardEnabled()) {
             return searchingText != null &&
                     (searchingText.equals(text) || searchingText.length() > 0 && (isFromStart() ? text.startsWith(searchingText) : text.indexOf(searchingText) != -1));
