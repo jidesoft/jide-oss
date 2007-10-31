@@ -140,7 +140,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      */
     @Override
     public void setSelectionPaths(TreePath[] pPaths) {
-        if (!isDigIn()) {
+        if (!isDigIn() || selectionMode == TreeSelectionModel.SINGLE_TREE_SELECTION) {
             super.setSelectionPaths(pPaths);
         }
         else {
