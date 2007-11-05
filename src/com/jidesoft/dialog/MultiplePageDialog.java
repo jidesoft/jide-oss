@@ -852,7 +852,7 @@ public class MultiplePageDialog extends StandardDialog {
                 if (list.getSelectedValue() == getCurrentPage()) {
                     return;
                 }
-                if (e.getValueIsAdjusting()) {
+                if (!e.getValueIsAdjusting()) {
                     AbstractDialogPage page = (AbstractDialogPage) list.getSelectedValue();
                     if (page != null) {
                         setCurrentPage(page, list);
