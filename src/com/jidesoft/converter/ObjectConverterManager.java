@@ -12,6 +12,11 @@ import java.util.Date;
 
 /**
  * A global object that can register converter with a type and a ConverterContext.
+ * <p/>
+ * <code>ObjectConverterManager</code> is used in many places in JIDE products. It is
+ * especially used at JIDE Grids where <code>ContextSensitiveTableModel</code> adds cellClass and converterContext
+ * to each cell in a table model. We use both values as the key to look up for the <code>ObjectConverter</code>
+ * from <code>ObjectConverterManager</code>.
  */
 public class ObjectConverterManager {
 
