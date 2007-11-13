@@ -437,7 +437,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will
+     * Checks if the two objects equal. If both are the same instance, they are equal.
+     * If both are null, they are equal. If o1 and o2 both are Comparable, we will
      * use compareTo method to see if it equals 0. If considerArray is true and o1 and o2 are both array, we will compare each element in the array.
      * At last, we will use <code>o1.equals(o2)</code> to compare.
      * If none of the above conditions match, we return false.
@@ -448,7 +449,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @return true if the two objects are equal. Otherwise false.
      */
     public static boolean equals(Object o1, Object o2, boolean considerArray) {
-        if (o1 == null && o2 == null) {
+        if (o1 == o2) {
             return true;
         }
         else if (o1 != null && o2 == null) {
@@ -457,12 +458,10 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
         else {
