@@ -94,7 +94,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
         Dimension size = this.getSize();
 
         if (size.width == 0) {
-            size = this.getPreferredSize();
+            size = getPreferredScrollableViewportSize();
         }
 
         Point p = new Point(x, y);
