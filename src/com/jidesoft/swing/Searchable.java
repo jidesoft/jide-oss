@@ -106,13 +106,11 @@ public abstract class Searchable {
     private Color _mismatchForeground;
     private Color _foreground = null;
     private Color _background = null;
-    protected ComponentAdapter _componentListener;
+    protected ComponentListener _componentListener;
+    protected KeyListener _keyListener;
+    protected FocusListener _focusListener;
 
     public final static String PROPERTY_SEARCH_TEXT = "searchText";
-
-    private KeyAdapter _keyListener;
-
-    private FocusAdapter _focusListener;
 
     private int _cursor = -1;
 
@@ -425,34 +423,7 @@ public abstract class Searchable {
      */
     public void installListeners() {
         if (_componentListener == null) {
-            _componentListener = new ComponentAdapter() {
-                @Override
-                public void componentHidden(ComponentEvent e) {
-                    super.componentHidden(e);
-                    boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
-                    if (passive) {
-                        hidePopup();
-                    }
-                }
-
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    super.componentResized(e);
-                    boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
-                    if (passive) {
-                        updateSizeAndLocation();
-                    }
-                }
-
-                @Override
-                public void componentMoved(ComponentEvent e) {
-                    super.componentMoved(e);
-                    boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
-                    if (passive) {
-                        updateSizeAndLocation();
-                    }
-                }
-            };
+            _componentListener = createComponentListener();
         }
         _component.addComponentListener(_componentListener);
         Component scrollPane = JideSwingUtilities.getScrollPane(_component);
@@ -460,7 +431,60 @@ public abstract class Searchable {
             scrollPane.addComponentListener(_componentListener);
         }
 
-        _keyListener = new KeyAdapter() {
+        if (_keyListener == null) {
+            _keyListener = createKeyListener();
+        }
+        JideSwingUtilities.insertKeyListener(getComponent(), _keyListener, 0);
+
+        if (_focusListener == null) {
+            _focusListener = createFocusListener();
+        }
+        getComponent().addFocusListener(_focusListener);
+    }
+
+    /**
+     * Creates a component listener that updates the popup when component is hidden, moved or resized.
+     *
+     * @return a ComponentListener.
+     */
+    protected ComponentListener createComponentListener() {
+        return new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                super.componentHidden(e);
+                boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
+                if (passive) {
+                    hidePopup();
+                }
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
+                if (passive) {
+                    updateSizeAndLocation();
+                }
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                super.componentMoved(e);
+                boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
+                if (passive) {
+                    updateSizeAndLocation();
+                }
+            }
+        };
+    }
+
+    /**
+     * Creates the KeyListener and listen to key typed in the component.
+     *
+     * @return the KeyListener.
+     */
+    protected KeyListener createKeyListener() {
+        return new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
@@ -477,9 +501,15 @@ public abstract class Searchable {
                 }
             }
         };
-        JideSwingUtilities.insertKeyListener(getComponent(), _keyListener, 0);
+    }
 
-        _focusListener = new FocusAdapter() {
+    /**
+     * Creates a FocusListener. We use it to hide the popup when the component losts focus.
+     *
+     * @return a FocusListener.
+     */
+    protected FocusListener createFocusListener() {
+        return new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent focusevent) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
@@ -488,7 +518,6 @@ public abstract class Searchable {
                 }
             }
         };
-        getComponent().addFocusListener(_focusListener);
     }
 
     /**
