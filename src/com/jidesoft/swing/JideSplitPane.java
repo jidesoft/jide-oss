@@ -411,6 +411,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         if (oldSize != newSize) {
             _dividerSize = newSize;
             firePropertyChange(DIVIDER_SIZE_PROPERTY, oldSize, newSize);
+            invalidate();
         }
     }
 
