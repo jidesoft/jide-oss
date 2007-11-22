@@ -451,30 +451,4 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
             }
         }
     }
-
-
-    @Override
-    protected JViewport createViewport() {
-        return new JViewport() {
-            @Override
-            public Dimension getViewSize() {
-                Dimension viewSize = super.getViewSize();
-                if (getView() == JideScrollPane.this.getViewport().getView()) {
-                    if (rowHeader != null) {
-                        Dimension headerSize = rowHeader.getViewSize();
-                        if (viewSize.height < headerSize.height) {
-                            viewSize.height = headerSize.height;
-                        }
-                    }
-                    else if (columnHeader != null) {
-                        Dimension headerSize = columnHeader.getViewSize();
-                        if (viewSize.width < headerSize.width) {
-                            viewSize.width = headerSize.width;
-                        }
-                    }
-                }
-                return viewSize;
-            }
-        };
-    }
 }
