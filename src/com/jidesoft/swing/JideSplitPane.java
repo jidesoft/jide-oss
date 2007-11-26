@@ -238,7 +238,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 nextIndex++;
             }
 
-            if (prevIndex < 0 || nextIndex > _componentSizes.length) {
+            if (prevIndex < 0 || nextIndex >= _componentSizes.length) {
                 return;
             }
 
