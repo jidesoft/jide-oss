@@ -14,7 +14,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.*;
 import javax.swing.tree.TreePath;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -59,7 +61,7 @@ public class AutoCompletion {
     private boolean _hitBackspaceOnSelection;
 
     private KeyListener _editorKeyListener;
-    private FocusListener _editorFocusListener;
+//    private FocusListener _editorFocusListener;
 
     private boolean _strict = true;
     private boolean _strictCompletion = true;
@@ -223,7 +225,7 @@ public class AutoCompletion {
 
         if (getTextComponent() != null) {
             getTextComponent().removeKeyListener(_editorKeyListener);
-            getTextComponent().removeFocusListener(_editorFocusListener);
+//            getTextComponent().removeFocusListener(_editorFocusListener);
             String text = getTextComponent().getText();
             if (_oldDocument != null) {
                 getTextComponent().setDocument(_oldDocument);
@@ -295,19 +297,19 @@ public class AutoCompletion {
         };
         // Bug 5100422 on Java 1.5: Editable JComboBox won't hide popup when tabbing out
         _hidePopupOnFocusLoss = SystemInfo.isJdk15Above();
-        // Highlight whole text when gaining focus
-        _editorFocusListener = new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                highlightCompletedText(0);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                // Workaround for Bug 5100422 - Hide Popup on focus loss
-//                if (_hidePopupOnFocusLoss) comboBox.setPopupVisible(false);
-            }
-        };
+//        // Highlight whole text when gaining focus
+//        _editorFocusListener = new FocusAdapter() {
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//                highlightCompletedText(0);
+//            }
+//
+//            @Override
+//            public void focusLost(FocusEvent e) {
+//                // Workaround for Bug 5100422 - Hide Popup on focus loss
+////                if (_hidePopupOnFocusLoss) comboBox.setPopupVisible(false);
+//            }
+//        };
 
         _document = createDocument();
         configureEditor(getTextComponent());
@@ -325,13 +327,13 @@ public class AutoCompletion {
     private void configureEditor(JTextComponent textComponent) {
         if (getTextComponent() != null) {
             getTextComponent().removeKeyListener(_editorKeyListener);
-            getTextComponent().removeFocusListener(_editorFocusListener);
+//            getTextComponent().removeFocusListener(_editorFocusListener);
         }
 
         if (textComponent != null) {
             _textComponent = textComponent;
             getTextComponent().addKeyListener(_editorKeyListener);
-            getTextComponent().addFocusListener(_editorFocusListener);
+//            getTextComponent().addFocusListener(_editorFocusListener);
             String text = getTextComponent().getText();
             _oldDocument = getTextComponent().getDocument();
             getTextComponent().setDocument(_document);
