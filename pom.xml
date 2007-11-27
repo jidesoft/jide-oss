@@ -1,61 +1,62 @@
-<?xml version="1.0"?><project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jidesoft</groupId>
-  <artifactId>jide-oss</artifactId>
-  <name>JIDE Common Layer</name>
-  <version>2.2.1.04</version> 
-  <description>JIDE Common Layer (Professional Swing Components)</description>
-  <url>https://jide-oss.dev.java.net</url>
-  <licenses>
-    <license>
-      <name>GPL with classpath exception</name>
-      <url>http://www.gnu.org/licenses/gpl.txt</url>
-      <distribution>repo</distribution>
-    </license>
-    <license>
-      <name>Free commercial license</name>
-      <url>http://www.jidesoft.com/purchase/SLA.htm</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <connection>https://jide-oss.dev.java.net/svn/jide-oss/trunk</connection>
-    <url>https://jide-oss.dev.java.net/svn/jide-oss/trunk</url>
-  </scm>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.gif</include>
-          <include>**/*.jpg</include>
-          <include>**/*.png</include>
-        </includes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-      <profiles>
-      <profile>
-          <activation>
-               <os>
+<?xml version="1.0"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.jidesoft</groupId>
+    <artifactId>jide-oss</artifactId>
+    <name>JIDE Common Layer</name>
+    <version>2.2.1.04</version>
+    <description>JIDE Common Layer (Professional Swing Components)</description>
+    <url>https://jide-oss.dev.java.net</url>
+    <licenses>
+        <license>
+            <name>GPL with classpath exception</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>Free commercial license</name>
+            <url>http://www.jidesoft.com/purchase/SLA.htm</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>https://jide-oss.dev.java.net/svn/jide-oss/trunk</connection>
+        <url>https://jide-oss.dev.java.net/svn/jide-oss/trunk</url>
+    </scm>
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.gif</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.png</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <activation>
+                <os>
                     <family>mac</family>
                 </os>
-          </activation>
-          <dependencies>
+            </activation>
+            <dependencies>
                 <dependency>
                     <groupId>aqua</groupId>
                     <artifactId>aqua</artifactId>
@@ -66,11 +67,10 @@
             </dependencies>
         </profile>
     </profiles>
-  <distributionManagement>
-    <repository>
-      <id>local-repository</id>
-      <url>${m2-repo.java.net.url}</url>
-    </repository>
-    <status>deployed</status>
-  </distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>local-repository</id>
+            <url>${m2-repo.java.net.url}</url>
+        </repository>
+    </distributionManagement>
 </project>
