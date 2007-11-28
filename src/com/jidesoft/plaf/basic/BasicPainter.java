@@ -244,7 +244,6 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         Color background = null;
         switch (state) {
             case STATE_DEFAULT:
-
                 background = c.getBackground();
                 if (background == null || background instanceof UIResource) {
                     background = _bk0;
@@ -258,7 +257,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (background == null || background instanceof UIResource) {
                     background = _bk1;
                 }
-                paintBackground(c, g, rect, _borderColor, background, orientation);
+                paintBackground(c, g, rect, showBorder ? _borderColor : null, background, orientation);
                 break;
             case STATE_SELECTED:
                 if (c instanceof ComponentStateSupport) {
@@ -267,7 +266,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (background == null || background instanceof UIResource) {
                     background = _bk2;
                 }
-                paintBackground(c, g, rect, _borderColor, background, orientation);
+                paintBackground(c, g, rect, showBorder ? _borderColor : null, background, orientation);
                 break;
             case STATE_PRESSED:
                 if (c instanceof ComponentStateSupport) {
@@ -276,7 +275,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (background == null || background instanceof UIResource) {
                     background = _bk3;
                 }
-                paintBackground(c, g, rect, _borderColor, background, orientation);
+                paintBackground(c, g, rect, showBorder ? _borderColor : null, background, orientation);
                 break;
         }
     }

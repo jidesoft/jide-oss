@@ -17,7 +17,6 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
@@ -256,8 +255,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
+        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -337,8 +335,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
+        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -532,15 +529,30 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             }
 
             boolean clickOnDropDown = false;
-            int size = ((JMenu) menuItem).isTopLevelMenu() ? _splitButtonMargin : _splitButtonMarginOnMenu;
-            if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
-                if (e.getPoint().getX() < menu.getWidth() - size) {
-                    clickOnDropDown = true;
+            if (BasicJideButtonUI.shouldWrapText(menuItem)) {
+                int size = 27;
+                if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
+                    if (e.getPoint().getY() < menu.getHeight() - size) {
+                        clickOnDropDown = true;
+                    }
+                }
+                else {
+                    if (e.getPoint().getY() < menu.getHeight() - size) {
+                        clickOnDropDown = true;
+                    }
                 }
             }
             else {
-                if (e.getPoint().getY() < menu.getHeight() - size) {
-                    clickOnDropDown = true;
+                int size = ((JMenu) menuItem).isTopLevelMenu() ? _splitButtonMargin : _splitButtonMarginOnMenu;
+                if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
+                    if (e.getPoint().getX() < menu.getWidth() - size) {
+                        clickOnDropDown = true;
+                    }
+                }
+                else {
+                    if (e.getPoint().getY() < menu.getHeight() - size) {
+                        clickOnDropDown = true;
+                    }
                 }
             }
             return clickOnDropDown;
@@ -667,6 +679,18 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         public void mouseMoved(MouseEvent e) {
+            JMenu menu = (JMenu) menuItem;
+            if (!menu.isEnabled())
+                return;
+
+            if (menuItem instanceof JideSplitButton) {
+                if (isClickOnButton(e, ((JMenu) menuItem))) {
+                    ((SplitButtonModel) ((JideSplitButton) menuItem).getModel()).setButtonRollover(true);
+                }
+                else {
+                    ((SplitButtonModel) ((JideSplitButton) menuItem).getModel()).setButtonRollover(false);
+                }
+            }
         }
     }
 
@@ -678,19 +702,21 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
         AbstractButton b = (AbstractButton) c;
 
-        boolean isHorizontal = true;
-        if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.VERTICAL) {
-            isHorizontal = false;
+        boolean isHorizontal = JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL;
+
+        Dimension d = JideSwingUtilities.getPreferredButtonSize(b, defaultTextIconGap, true); // TODO: we should use isHorizontal when JideSwingUtilities.getPreferredButtonSize supports it
+
+        if (BasicJideButtonUI.shouldWrapText(c)) {
+            if (c instanceof JideSplitButton) {
+                d.width += getAdjustExtaWidth(b, b.getText(), 8);
+            }
         }
+        else {
+            d.width += getRightMargin();
 
-        // JDK PORTING HINT
-        // JDK1.3: No getIconTextGap, use defaultTextIconGap
-        Dimension d = BasicGraphicsUtils.getPreferredButtonSize(b, defaultTextIconGap);
-
-        d.width += getRightMargin();
-
-        if (isDownArrowVisible(b.getParent())) {
-            d.width += 7;
+            if (isDownArrowVisible(b.getParent())) {
+                d.width += 7;
+            }
         }
 
         if (isHorizontal)
@@ -766,13 +792,13 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
             // JDK PORTING HINT
             // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
-            JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
+            drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
                     textRect.x, textRect.y + fm.getAscent());
             g.setColor(menuItem.getBackground().darker());
 
             // JDK PORTING HINT
             // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
-            JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
+            drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
                     textRect.x - 1, textRect.y + fm.getAscent() - 1);
         }
         else {
@@ -791,12 +817,17 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
                 g.setColor(foreground);
             }
-            JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text,
+            drawStringUnderlineCharAt(menuItem, g, text,
                     mnemonicIndex,
                     textRect.x,
                     textRect.y + fm.getAscent());
         }
         g.setColor(oldColor);
+    }
+
+    protected void drawStringUnderlineCharAt(JComponent c, Graphics g, String text,
+                                             int underlinedIndex, int x, int y) {
+        JideSwingUtilities.drawStringUnderlineCharAt(c, g, text, underlinedIndex, x, y);
     }
 
     @Override
@@ -1036,6 +1067,84 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 setupPostTimer(menu);
             }
         }
+    }
+
+
+    /**
+     * @param c
+     * @param text
+     * @param extraWidth
+     * @return
+     */
+    public static int getAdjustExtaWidth(Component c, String text, int extraWidth) {
+        String[] lines = getWrappedText(text);
+        Font font = c.getFont();
+        FontMetrics fm = c.getFontMetrics(font);
+        int line1Width = fm.stringWidth(lines[0]);
+        int line2Width = lines.length <= 1 ? 0 : fm.stringWidth(lines[1]);
+        int oldMaxWidth = Math.max(line1Width, line2Width);
+        line2Width += extraWidth;
+        int maxWidth = Math.max(line1Width, line2Width);
+        return maxWidth - oldMaxWidth;
+    }
+
+    public static String getMaxLengthWord(String text) {
+        if (text.indexOf(' ') == -1) {
+            return text;
+        }
+        else {
+            int minDiff = text.length();
+            int minPos = -1;
+            int mid = text.length() / 2;
+
+            int pos = -1;
+            while (true) {
+                pos = text.indexOf(' ', pos + 1);
+                if (pos == -1) {
+                    break;
+                }
+                int diff = Math.abs(pos - mid);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    minPos = pos;
+                }
+            }
+            return minPos >= mid ? text.substring(0, minPos) : text.substring(minPos + 1);
+        }
+    }
+
+    /**
+     * Gets the text after wrapping. Please note, it will only wrap text into two lines thus
+     * it is not designed for general usage.
+     *
+     * @param text
+     * @return the two lines.
+     */
+    public static String[] getWrappedText(String text) {
+        String[] words = text.split(" ");
+        if (words.length <= 2) {
+            return words; // no line break
+        }
+        else if (words.length >= 3) {
+            int minDiff = text.length();
+            int minPos = -1;
+            int pos = -1;
+            int mid = text.length() / 2;
+            while (true) {
+                pos = text.indexOf(' ', pos + 1);
+                if (pos == -1) {
+                    break;
+                }
+                int diff = Math.abs(pos - mid);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    minPos = pos;
+                }
+            }
+            return new String[]{text.substring(0, minPos), text.substring(minPos + 1)};
+        }
+
+        return words;
     }
 }
 

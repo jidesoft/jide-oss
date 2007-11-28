@@ -41,6 +41,7 @@ public class BasicLookAndFeelExtension implements LookAndFeelExtension {
         table.put("JideTabbedPaneUI", basicPackageName + "BasicJideTabbedPaneUI");
         table.put("JideButtonUI", basicPackageName + "BasicJideButtonUI");
         table.put("JideSplitButtonUI", basicPackageName + "BasicJideSplitButtonUI");
+        table.put("JideComboBoxUI", basicPackageName + "BasicJideComboBoxUI");
         table.put("MeterProgressBarUI", basicPackageName + "MeterProgressBarUI");
 
         if ((products & PRODUCT_GRIDS) != 0) {

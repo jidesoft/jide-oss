@@ -80,8 +80,8 @@ public class BasicJideButtonUI extends JideButtonUI {
 
         String pp = getPropertyPrefix();
         if (!defaults_initialized) {
-            defaultTextIconGap = (Integer) UIDefaultsLookup.get(pp + "textIconGap");
-            defaultTextShiftOffset = (Integer) UIDefaultsLookup.get(pp + "textShiftOffset");
+            defaultTextIconGap = UIDefaultsLookup.getInt(pp + "textIconGap");
+            defaultTextShiftOffset = UIDefaultsLookup.getInt(pp + "textShiftOffset");
 
             _focusColor = UIDefaultsLookup.getColor("Button.focus"); // use Button.focus since we didn't install JideButton.focus.
 
@@ -107,9 +107,7 @@ public class BasicJideButtonUI extends JideButtonUI {
 //            b.setOpaque(false);
 //        }
 
-        if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
-            b.setMargin(UIDefaultsLookup.getInsets(pp + "margin"));
-        }
+        updateMargin(b);
 
         // *** begin optimized defaults install ***
 
@@ -713,5 +711,34 @@ public class BasicJideButtonUI extends JideButtonUI {
 
     public ThemePainter getPainter() {
         return _painter;
+    }
+
+    protected void updateMargin(AbstractButton b) {
+        String pp = getPropertyPrefix();
+        if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
+            if (shouldWrapText(b)) {
+                b.setMargin(UIDefaultsLookup.getInsets(pp + "margin.vertical"));
+            }
+            else {
+                b.setMargin(UIDefaultsLookup.getInsets(pp + "margin"));
+            }
+        }
+    }
+
+    /**
+     * Checks if we should wrap text on a button. If the vertical text position is bottom and horizontal text position is center,
+     * we will wrap the text.
+     *
+     * @param c
+     * @return true or false.
+     */
+    public static boolean shouldWrapText(Component c) {
+        boolean wrapText = false;
+        if (c instanceof AbstractButton) {
+            if (((AbstractButton) c).getVerticalTextPosition() == SwingConstants.BOTTOM && ((AbstractButton) c).getHorizontalTextPosition() == SwingConstants.CENTER) {
+                wrapText = true;
+            }
+        }
+        return wrapText;
     }
 }
