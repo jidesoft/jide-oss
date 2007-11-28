@@ -279,11 +279,16 @@ public class AutoCompletion {
                     String text = getTextComponent().getText();
                     int index = getSearchable().findFirst(text);
                     if (index != -1) {
-                        Object item = getSearchable().getElementAt(index);
-                        setSelectedItem(item);
-                        getTextComponent().setText(getSearchable().convertElementToString(item)); // this is what auto complete is
-                        // select the completed part
-                        highlightCompletedText(text.length());
+                        if (text.length() == 0) {
+                            setSelectedItem(null);
+                        }
+                        else {
+                            Object item = getSearchable().getElementAt(index);
+                            setSelectedItem(item);
+                            getTextComponent().setText(getSearchable().convertElementToString(item)); // this is what auto complete is
+                            // select the completed part
+                            highlightCompletedText(text.length());
+                        }
                     }
                     else { // didn't find a matching one
                         if (isStrict()) {
@@ -376,7 +381,7 @@ public class AutoCompletion {
             // lookup and select a matching item
             final String text = getText(0, getLength());
             int index = getSearchable().findFromCursor(text);
-            Object item = null;
+            Object item;
             if (index != -1) {
                 item = getSearchable().getElementAt(index);
                 setSelectedItem(item);
