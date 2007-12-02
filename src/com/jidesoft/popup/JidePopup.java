@@ -955,7 +955,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     protected void internalShowPopup(int x, int y, Component owner) {
         _actualOwner = owner != null ? owner : getOwner();
         if (_actualOwner != null) {
-            _actualOwnerLocation = _actualOwner.getLocationOnScreen();
+            try {
+                _actualOwnerLocation = _actualOwner.getLocationOnScreen();
+            }
+            catch (IllegalComponentStateException e) {
+                return;
+            }
         }
         createWindow(_actualOwner, x, y);
         showPopupImmediately();
