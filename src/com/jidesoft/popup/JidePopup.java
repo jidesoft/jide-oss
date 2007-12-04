@@ -191,8 +191,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     private ComponentAdapter _popupResizeListener;
 
     protected Dimension _previousSize;
-    private Component _actualOwner;
-    private Point _actualOwnerLocation;
+    protected Component _actualOwner;
+    protected Point _actualOwnerLocation;
 
     /**
      * Key used to indicate a light weight popup should be used.
