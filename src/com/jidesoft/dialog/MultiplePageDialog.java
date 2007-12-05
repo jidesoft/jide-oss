@@ -1038,50 +1038,6 @@ public class MultiplePageDialog extends StandardDialog {
         return new ScrollableButtonPanel(SwingConstants.TOP, ButtonPanel.SAME_SIZE);
     }
 
-    protected static class ScrollableButtonPanel extends ButtonPanel implements Scrollable {
-
-        public ScrollableButtonPanel() {
-        }
-
-        public ScrollableButtonPanel(int alignment) {
-            super(alignment);
-        }
-
-        public ScrollableButtonPanel(int alignment, int sizeContraint) {
-            super(alignment, sizeContraint);
-        }
-
-        public Dimension getPreferredScrollableViewportSize() {
-            return getPreferredSize();
-        }
-
-        public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-            if (getComponentCount() > 0) {
-                Component c = getComponent(0);
-                if (orientation == SwingConstants.HORIZONTAL)
-                    return c.getWidth();
-                else
-                    return c.getHeight();
-            }
-            return 50;
-        }
-
-        public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-            if (orientation == SwingConstants.HORIZONTAL)
-                return visibleRect.width;
-            else
-                return visibleRect.width;
-        }
-
-        public boolean getScrollableTracksViewportWidth() {
-            return false;
-        }
-
-        public boolean getScrollableTracksViewportHeight() {
-            return false;
-        }
-    }
-
     private JideButton addPage(int i, final ButtonGroup group, final ButtonPanel buttonsPanel) {
         AbstractDialogPage optionsPanel = _pageList.getPage(i);
         final JideButton button = createIconButton(optionsPanel.getTitle(), optionsPanel.getIcon());

@@ -911,7 +911,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
     }
 
     /**
-     * Creates the ButtonPanel used by IconPanel. By default, we create it using <code>new ButtonPanel(SwingConstants.TOP, ButtonPanel.SAME_SIZE)</code>.
+     * Creates the ButtonPanel used by IconPanel. By default, we create it using <code>new ScrollableButtonPanel(SwingConstants.TOP, ButtonPanel.SAME_SIZE)</code>.
      *
      * @return the ButtonPanel.
      */
