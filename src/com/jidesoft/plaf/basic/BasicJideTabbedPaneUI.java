@@ -530,30 +530,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabFocusListener = createFocusListener();
             _tabPane.addFocusListener(_tabFocusListener);
         }
+
         if (_mouseListener == null) {
             _mouseListener = createMouseListener();
-            if (scrollableTabLayoutEnabled()) {
-                _tabScroller.tabPanel.addMouseListener(_mouseListener);
-                // woraround for swing bug
-                // http://developer.java.sun.com/developer/bugParade/bugs/4668865.html
-                ToolTipManager.sharedInstance().registerComponent(_tabScroller.tabPanel);
-            }
-            else { // WRAP_TAB_LAYOUT
-                _tabPane.addMouseListener(_mouseListener);
-            }
+            _tabPane.addMouseListener(_mouseListener);
         }
 
         if (_mousemotionListener == null) {
             _mousemotionListener = createMouseMotionListener();
-            if (scrollableTabLayoutEnabled()) {
-                _tabScroller.tabPanel.addMouseMotionListener(_mousemotionListener);
-                // woraround for swing bug
-                // http://developer.java.sun.com/developer/bugParade/bugs/4668865.html
-                ToolTipManager.sharedInstance().registerComponent(_tabScroller.tabPanel);
-            }
-            else { // WRAP_TAB_LAYOUT
-                _tabPane.addMouseMotionListener(_mousemotionListener);
-            }
+            _tabPane.addMouseMotionListener(_mousemotionListener);
         }
 
         // PENDING(api) : See comment for ContainerHandler
@@ -582,16 +567,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void uninstallListeners() {
-        if (_mouseListener != null) {
-            if (scrollableTabLayoutEnabled()) { // SCROLL_TAB_LAYOUT
-                _tabScroller.tabPanel.removeMouseListener(_mouseListener);
-            }
-            else { // WRAP_TAB_LAYOUT
-                _tabPane.removeMouseListener(_mouseListener);
-            }
-            _mouseListener = null;
-        }
-
         // PENDING(api): See comment for ContainerHandler
         if (_containerListener != null) {
             _tabPane.removeContainerListener(_containerListener);
@@ -615,6 +590,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (_tabFocusListener != null) {
             _tabPane.removeFocusListener(_tabFocusListener);
             _tabFocusListener = null;
+        }
+
+        if (_mouseListener != null) {
+            _tabPane.removeMouseListener(_mouseListener);
+            _mouseListener = null;
+        }
+
+        if (_mousemotionListener != null) {
+            _tabPane.removeMouseMotionListener(_mousemotionListener);
+            _mousemotionListener = null;
         }
 
         if (_propertyChangeListener != null) {
@@ -5074,8 +5059,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 pane = (JideTabbedPane) ((TabCloseButton) src).getParent();
                 closeSelected = true;
             }
-            else
-            if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof ScrollableTabPanel) {
+            else if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof ScrollableTabPanel) {
                 pane = (JideTabbedPane) SwingUtilities.getAncestorOfClass(JideTabbedPane.class, (TabCloseButton) src);
                 closeSelected = false;
             }
@@ -6204,8 +6188,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 scrollbutton.setBounds(0, 0, 0, 0);
                             }
                         }
-                        else
-                        if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
+                        else if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
                             if (_tabPane.isShowTabContent()) {
                                 // All content children...
                                 child.setBounds(cx, cy, cw, ch);
@@ -7664,7 +7647,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (SwingUtilities.isLeftMouseButton(e) || _tabPane.isRightClickSelect()) {
-                int tabIndex = getTabAtLocation(e.getX(), e.getY());
+                int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isRequestFocusEnabled()) {
@@ -8290,8 +8273,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public void startEditing(MouseEvent e) {
-        Point p = SwingUtilities.convertPoint((Component) e.getSource(), e.getX(), e.getY(), _tabPane);
-        int tabIndex = tabForCoordinate(_tabPane, p.x, p.y);
+        int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
 
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
@@ -8496,8 +8478,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         else if (tabShape == JideTabbedPane.SHAPE_ECLIPSE3X) {
             return 15;
         }
-        else
-        if (_tabPane.getTabShape() == JideTabbedPane.SHAPE_FLAT || _tabPane.getTabShape() == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else if (_tabPane.getTabShape() == JideTabbedPane.SHAPE_FLAT || _tabPane.getTabShape() == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             return 2;
         }
         else if (tabShape == JideTabbedPane.SHAPE_WINDOWS
@@ -8578,7 +8559,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         @Override
         public void mouseMoved(MouseEvent e) {
             super.mouseMoved(e);
-            int tabIndex = getTabAtLocation(e.getX(), e.getY());
+            int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
             if (tabIndex != _indexMouseOver) {
                 _indexMouseOver = tabIndex;
                 _tabPane.repaint();
@@ -8592,7 +8573,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         @Override
         public void mouseEntered(MouseEvent e) {
             super.mouseEntered(e);
-            int tabIndex = getTabAtLocation(e.getX(), e.getY());
+            int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
             _mouseEnter = true;
             _indexMouseOver = tabIndex;
             _tabPane.repaint();
