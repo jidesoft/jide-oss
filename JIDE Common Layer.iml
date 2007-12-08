@@ -19,6 +19,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" exported="" name="jxlayer" level="project" />
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
