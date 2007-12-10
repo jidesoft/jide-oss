@@ -712,7 +712,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             hsbNeeded = false;
         }
         else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
-            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView().getPreferredSize().width > extentSize.width));
+            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView() != null && colHead.getView().getPreferredSize().width > extentSize.width));
         }
 
         if ((hsb != null) && hsbNeeded) {
