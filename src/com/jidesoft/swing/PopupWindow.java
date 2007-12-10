@@ -113,7 +113,7 @@ public class PopupWindow {
             p.y = screenSize.y;
         }
         if (bottom > screenSize.height) {
-            p.y -= size.height + relative.getHeight();
+            p.y = screenSize.height - size.height;
         }
 
 //        Point location = relative.getLocationOnScreen();
