@@ -772,43 +772,47 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     public void setupResizeCorner(int corner) {
         switch (corner) {
             case Resizable.UPPER_RIGHT:
-                _resizableSupport.getResizable().setResizableCorners(Resizable.UPPER_RIGHT);
-                JideSwingUtilities.setRecursively(this, new JideSwingUtilities.Handler() {
-                    public boolean condition(Component c) {
-                        return c instanceof JideScrollPane;
-                    }
+                if (_resizableSupport != null) {
+                    _resizableSupport.getResizable().setResizableCorners(Resizable.UPPER_RIGHT);
+                    JideSwingUtilities.setRecursively(this, new JideSwingUtilities.Handler() {
+                        public boolean condition(Component c) {
+                            return c instanceof JideScrollPane;
+                        }
 
-                    public void action(Component c) {
-                        Resizable.ResizeCorner corner = new Resizable.ResizeCorner(Resizable.UPPER_RIGHT);
-                        corner.addMouseListener(_resizableSupport.getResizable().getMouseInputAdapter());
-                        corner.addMouseMotionListener(_resizableSupport.getResizable().getMouseInputAdapter());
-                        ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_TOP, corner);
-                        ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_BOTTOM, null);
-                    }
+                        public void action(Component c) {
+                            Resizable.ResizeCorner corner = new Resizable.ResizeCorner(Resizable.UPPER_RIGHT);
+                            corner.addMouseListener(_resizableSupport.getResizable().getMouseInputAdapter());
+                            corner.addMouseMotionListener(_resizableSupport.getResizable().getMouseInputAdapter());
+                            ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_TOP, corner);
+                            ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_BOTTOM, null);
+                        }
 
-                    public void postAction(Component c) {
+                        public void postAction(Component c) {
 
-                    }
-                });
+                        }
+                    });
+                }
                 break;
             case Resizable.LOWER_RIGHT:
-                _resizableSupport.getResizable().setResizableCorners(Resizable.LOWER_RIGHT);
-                JideSwingUtilities.setRecursively(this, new JideSwingUtilities.Handler() {
-                    public boolean condition(Component c) {
-                        return c instanceof JideScrollPane;
-                    }
+                if (_resizableSupport != null) {
+                    _resizableSupport.getResizable().setResizableCorners(Resizable.LOWER_RIGHT);
+                    JideSwingUtilities.setRecursively(this, new JideSwingUtilities.Handler() {
+                        public boolean condition(Component c) {
+                            return c instanceof JideScrollPane;
+                        }
 
-                    public void action(Component c) {
-                        Resizable.ResizeCorner corner = new Resizable.ResizeCorner(Resizable.LOWER_RIGHT);
-                        corner.addMouseListener(_resizableSupport.getResizable().getMouseInputAdapter());
-                        corner.addMouseMotionListener(_resizableSupport.getResizable().getMouseInputAdapter());
-                        ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_BOTTOM, corner);
-                        ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_TOP, null);
-                    }
+                        public void action(Component c) {
+                            Resizable.ResizeCorner corner = new Resizable.ResizeCorner(Resizable.LOWER_RIGHT);
+                            corner.addMouseListener(_resizableSupport.getResizable().getMouseInputAdapter());
+                            corner.addMouseMotionListener(_resizableSupport.getResizable().getMouseInputAdapter());
+                            ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_BOTTOM, corner);
+                            ((JideScrollPane) c).setScrollBarCorner(JideScrollPane.VERTICAL_TOP, null);
+                        }
 
-                    public void postAction(Component c) {
-                    }
-                });
+                        public void postAction(Component c) {
+                        }
+                    });
+                }
                 break;
             default:
                 _resizableSupport.getResizable().setResizableCorners(corner);
