@@ -815,7 +815,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
                 break;
             default:
-                _resizableSupport.getResizable().setResizableCorners(corner);
+                if (_resizableSupport != null) {
+                    _resizableSupport.getResizable().setResizableCorners(corner);
+                }
                 break;
         }
     }
