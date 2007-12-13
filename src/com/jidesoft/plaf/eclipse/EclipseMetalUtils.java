@@ -171,6 +171,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.selectedTabTextForeground", activeTitleTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTitleTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
+                "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.FALSE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.TRUE,

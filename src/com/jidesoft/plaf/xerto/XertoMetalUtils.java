@@ -298,6 +298,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.selectedTabTextForeground", new ColorUIResource(XertoUtils.getTabForgroundColor()),
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTabForground,
                 "JideTabbedPane.selectedTabBackground", new ColorUIResource(XertoUtils.getSelectedTabBackgroundColor()),
+                "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.FALSE,

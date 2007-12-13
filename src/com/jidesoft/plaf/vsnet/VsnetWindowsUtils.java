@@ -231,6 +231,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.selectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
+                "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
                 "JideTabbedPane.showCloseButtonOnTab", Boolean.FALSE,

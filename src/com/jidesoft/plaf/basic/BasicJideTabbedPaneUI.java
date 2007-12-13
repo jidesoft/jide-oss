@@ -109,6 +109,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected Color _inactiveTabForeground;
     protected Color _activeTabForeground;
+    protected Color _tabListBackground;
 
     protected Color _selectedColor;
 
@@ -453,6 +454,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _activeTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabTextForeground");
             _selectedColor = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground");
         }
+
+        _tabListBackground = UIDefaultsLookup.getColor("JideTabbedPane.tabListBackground");
 
         _textIconGap = UIDefaultsLookup.getInt("JideTabbedPane.textIconGap");
         _tabInsets = UIDefaultsLookup.getInsets("JideTabbedPane.tabInsets");
@@ -6851,14 +6854,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             };
             new Sticky(list);
-            list.setBackground(new Color(255, 255, 225));
+            list.setBackground(_tabListBackground);
             JScrollPane scroller = new JScrollPane(list);
             scroller.setBorder(BorderFactory.createEmptyBorder());
             scroller.getViewport().setOpaque(false);
             scroller.setOpaque(false);
 
             JPanel panel = new JPanel(new BorderLayout());
-            panel.setBackground(new Color(255, 255, 225));
+            panel.setBackground(_tabListBackground);
             panel.setOpaque(true);
             panel.add(scroller);
             panel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
