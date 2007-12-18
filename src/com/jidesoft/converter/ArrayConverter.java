@@ -71,17 +71,16 @@ abstract public class ArrayConverter implements ObjectConverter {
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < objects.length; i++) {
             Object o = objects[i];
-            if (_elementClass != null) {
-                buffer.append(ObjectConverterManager.toString(o, _elementClass, context));
-            }
-            else {
-                buffer.append(ObjectConverterManager.toString(o, _elementClasses[i], context));
-            }
+            buffer.append(toString(i, o, context));
             if (i != objects.length - 1) {
                 buffer.append(_separator);
             }
         }
         return new String(buffer);
+    }
+
+    protected String toString(int i, Object o, ConverterContext context) {
+        return _elementClass != null ? ObjectConverterManager.toString(o, _elementClass, context) : ObjectConverterManager.toString(o, _elementClasses[i], context);
     }
 
     /**
@@ -99,14 +98,13 @@ abstract public class ArrayConverter implements ObjectConverter {
         Object[] objects = new Object[_size != -1 ? _size : token.countTokens()];
         for (int i = 0; i < objects.length && token.hasMoreTokens(); i++) {
             String s = token.nextToken().trim();
-            if (_elementClass != null) {
-                objects[i] = ObjectConverterManager.fromString(s, _elementClass, context);
-            }
-            else {
-                objects[i] = ObjectConverterManager.fromString(s, _elementClasses[i], context);
-            }
+            objects[i] = fromString(i, s, context);
         }
         return objects;
+    }
+
+    protected Object fromString(int i, String s, ConverterContext context) {
+        return _elementClass != null ? ObjectConverterManager.fromString(s, _elementClass, context) : ObjectConverterManager.fromString(s, _elementClasses[i], context);
     }
 
     /**
