@@ -1183,8 +1183,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hidePopupImmediately(true);
-                if (getOwner() != null) {
-                    getOwner().requestFocus();
+                Component owner = getActualOwner();
+                if (owner != null) {
+                    owner.requestFocus();
                 }
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -1199,7 +1200,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _window.addWindowListener(_windowListener);
         }
 
-        if (getOwner() != null) {
+        Component owner = getActualOwner();
+        if (owner != null) {
             _ownerComponentListener = new ComponentAdapter() {
                 @Override
                 public void componentHidden(ComponentEvent e) {
@@ -1213,13 +1215,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     }
                 }
             };
-            getOwner().addComponentListener(_ownerComponentListener);
+            owner.addComponentListener(_ownerComponentListener);
             _hierarchyListener = new HierarchyListener() {
                 public void hierarchyChanged(HierarchyEvent e) {
                     ancestorHidden();
                 }
             };
-            getOwner().addHierarchyListener(_hierarchyListener);
+            owner.addHierarchyListener(_hierarchyListener);
         }
 
         _popupResizeListener = new ComponentAdapter() {
@@ -1397,12 +1399,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         _relativeX = relativeX;
         _relativeY = relativeY;
 
+        Component owner = getActualOwner();
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             _currentPanel = _panel;
             _isDragging = true;
-            if (isDetached() && getOwner() != null) {
-                _startPoint = getOwner().getLocationOnScreen();
-                _startPoint.y += getOwner().getHeight();
+            if (isDetached() && owner != null) {
+                _startPoint = owner.getLocationOnScreen();
+                _startPoint.y += owner.getHeight();
             }
             else {
                 _startPoint = _currentPanel.getLocationOnScreen();
@@ -1424,9 +1427,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             _isDragging = true;
-            if (isDetached() && getOwner() != null) {
-                _startPoint = getOwner().getLocationOnScreen();
-                _startPoint.y += getOwner().getHeight();
+            if (isDetached() && owner != null) {
+                _startPoint = owner.getLocationOnScreen();
+                _startPoint.y += owner.getHeight();
             }
             else {
                 _startPoint = _currentWindow.getLocationOnScreen();
@@ -1757,7 +1760,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void handleWindowEvent(WindowEvent e) {
-        if (e.getSource() != getTopLevelAncestor() && isAncestorOf(getOwner(), e.getWindow())) { // check if it's embeded in browser
+        Component owner = getActualOwner();
+        if (e.getSource() != getTopLevelAncestor() && isAncestorOf(owner, e.getWindow())) { // check if it's embeded in browser
             if (e.getID() == WindowEvent.WINDOW_CLOSING || e.getID() == WindowEvent.WINDOW_ICONIFIED) {
                 hidePopup(true);
             }
@@ -1789,10 +1793,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param e the ComponentEvent.
      */
     protected void handleComponentEvent(ComponentEvent e) {
-        if (e.getID() == ComponentEvent.COMPONENT_HIDDEN && isAncestorOf(getOwner(), e.getSource())) {
+        Component owner = getActualOwner();
+        if (e.getID() == ComponentEvent.COMPONENT_HIDDEN && isAncestorOf(owner, e.getSource())) {
             ancestorHidden();
         }
-        else if (e.getID() == ComponentEvent.COMPONENT_MOVED && isAncestorOf(getOwner(), e.getSource())) {
+        else if (e.getID() == ComponentEvent.COMPONENT_MOVED && isAncestorOf(owner, e.getSource())) {
             // this line is for Linux because the jframe moves when combobox is shown inside JidePopup
 //            System.out.println("_actualOwnerLocation " + _actualOwnerLocation + " _actualOwner " + _actualOwner + " _actualOwner.getLocationOnScreen() " + (_actualOwner != null ? _actualOwner.getLocationOnScreen() : null));
             if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
@@ -1861,9 +1866,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     public void hidePopupImmediately(boolean cancelled) {
-        if (getOwner() != null) {
-            getOwner().removeHierarchyListener(_hierarchyListener);
-            getOwner().removeComponentListener(_ownerComponentListener);
+        Component owner = getActualOwner();
+        if (owner != null) {
+            owner.removeHierarchyListener(_hierarchyListener);
+            owner.removeComponentListener(_ownerComponentListener);
         }
         if (_window != null) {
             _window.removeWindowListener(_windowListener);
@@ -1899,6 +1905,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
             _panel = null;
         }
+
+        _actualOwner = null;
 //<syd_0034>
 //David: There are synchronous events which can result in a call to
 //  hidePopupImmediately. Because I made the call to addMouseEventHandler
@@ -1917,8 +1925,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 //</syd_0034>
 
 // comment out because bug report on http://www.jidesoft.com/forum/viewtopic.php?p=10333#10333.
-        if (getOwner() != null && getOwner().isShowing()) {
-            Component owner = getOwner();
+        if (owner != null && owner.isShowing()) {
             for (Container p = owner.getParent(); p != null; p = p.getParent()) {
                 if (p instanceof JPopupMenu) break;
                 if (p instanceof Window) {
@@ -2478,5 +2485,20 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
         return getPopupType() == HEAVY_WEIGHT_POPUP ? isAncestorOf(component, _window) : isAncestorOf(component, _panel);
+    }
+
+    /**
+     * Gets the actual owner. User can set owner using {@link #setOwner(java.awt.Component)} method. But when one of the showPopup methods with owner parameter is called,
+     * the actual owner will be changed to this component.
+     *
+     * @return the actual owner.
+     */
+    protected Component getActualOwner() {
+        if (_actualOwner != null) {
+            return _actualOwner;
+        }
+        else {
+            return getOwner();
+        }
     }
 }
