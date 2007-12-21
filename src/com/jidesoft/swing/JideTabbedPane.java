@@ -1402,7 +1402,7 @@ public class JideTabbedPane extends JTabbedPane {
         int tabIndex = getEditingTabIndex();
         if (tabIndex != -1) {
             ((JideTabbedPaneUI) getUI()).cancelTabEditing();
-            fireTabEditing(TabEditingEvent.TAB_EDITING_STARTED, tabIndex, getTitleAt(tabIndex), getTitleAt(tabIndex));
+            fireTabEditing(TabEditingEvent.TAB_EDITING_CANCELLED, tabIndex, getTitleAt(tabIndex), getTitleAt(tabIndex));
         }
     }
 
