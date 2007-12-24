@@ -29,6 +29,11 @@ final public class SystemInfo {
     private static boolean _isWindowsXP = false;
 
     /**
+     * Variable for whether or not we're on Windows Vista.
+     */
+    private static boolean _isWindowsVista = false;
+
+    /**
      * Variable for whether or not we're on Windows 2003.
      */
     private static boolean _isWindows2003 = false;
@@ -103,6 +108,9 @@ final public class SystemInfo {
         }
         if (os.indexOf("Windows XP") != -1) {
             _isWindowsXP = true;
+        }
+        if (os.indexOf("Windows Vista") != -1) {
+            _isWindowsVista = true;
         }
         if (os.indexOf("Windows 2003") != -1) {
             _isWindows2003 = true;
@@ -250,6 +258,16 @@ final public class SystemInfo {
      */
     public static boolean isWindowsXP() {
         return _isWindowsXP;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Windows Vista.
+     *
+     * @return <tt>true</tt> if the application is running on Windows Vista,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isWindowsVista() {
+        return _isWindowsVista;
     }
 
     /**
