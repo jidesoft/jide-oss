@@ -44,7 +44,7 @@ public class ConverterContext extends AbstractContext {
      * @return true or false.
      */
     public static boolean isArrayConverterContext(ConverterContext context) {
-        return context.getName() != null && context.getName().endsWith("[]");
+        return context != null && context.getName() != null && context.getName().endsWith("[]");
     }
 
     /**
