@@ -8008,7 +8008,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     _tabScroller.viewport.setViewPosition(new Point(0, 0));
                 }
                 else {
-                    _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
+                    if (index == _rects.length - 1) { // last one, scroll to the end
+                        Rectangle lastRect = _rects[index];
+                        lastRect.width = _tabScroller.tabPanel.getWidth() - lastRect.x;
+                        _tabScroller.tabPanel.scrollRectToVisible(lastRect);
+                    }
+                    else if (index == 0) { // first one, scroll to the front
+                        Rectangle firstRect = _rects[index];
+                        firstRect.x = 0;
+                        _tabScroller.tabPanel.scrollRectToVisible(firstRect);
+                    }
+                    else {
+                        _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
+                    }
                 }
                 _tabScroller.tabPanel.getParent().doLayout();
             }
