@@ -160,6 +160,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected MouseMotionListener _mousemotionListener;
 
+    protected MouseWheelListener _mouseWheelListener;
+
     // PENDING(api): See comment for ContainerHandler
     private ContainerListener _containerListener;
 
@@ -544,6 +546,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabPane.addMouseMotionListener(_mousemotionListener);
         }
 
+        if (_mouseWheelListener == null) {
+            _mouseWheelListener = createMouseWheelListener();
+            _tabPane.addMouseWheelListener(_mouseWheelListener);
+        }
+
         // PENDING(api) : See comment for ContainerHandler
         if (_containerListener == null) {
             _containerListener = new ContainerHandler();
@@ -603,6 +610,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (_mousemotionListener != null) {
             _tabPane.removeMouseMotionListener(_mousemotionListener);
             _mousemotionListener = null;
+        }
+
+        if (_mouseWheelListener != null) {
+            _tabPane.removeMouseWheelListener(_mouseWheelListener);
+            _mouseWheelListener = null;
         }
 
         if (_propertyChangeListener != null) {
@@ -7706,6 +7718,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     }
 
+    public class MouseWheelHandler implements MouseWheelListener {
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if (scrollableTabLayoutEnabled() && e.getWheelRotation() != 0) {
+                if (e.getWheelRotation() > 0) {
+                    for (int i = 0; i < e.getScrollAmount(); i++) {
+                        _tabScroller.scrollForward(_tabPane.getTabPlacement());
+                    }
+                }
+                else if (e.getWheelRotation() < 0) {
+                    for (int i = 0; i < e.getScrollAmount(); i++) {
+                        _tabScroller.scrollBackward(_tabPane.getTabPlacement());
+                    }
+                }
+            }
+        }
+    }
+
     private class ComponentHandler implements ComponentListener {
         public void componentResized(ComponentEvent e) {
             if (scrollableTabLayoutEnabled()) {
@@ -8509,6 +8538,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         else {
             return new MouseHandler();
         }
+    }
+
+    protected MouseWheelListener createMouseWheelListener() {
+        return new MouseWheelHandler();
     }
 
     protected MouseMotionListener createMouseMotionListener() {
