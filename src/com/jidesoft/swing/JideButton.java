@@ -16,7 +16,7 @@ import java.awt.*;
  * JideButton is a replacement for JButton when it is used on toolbar
  * (or command bar in the case of JIDE Action Framework).
  */
-public class JideButton extends JButton implements Alignable, ButtonStyle, ComponentStateSupport {
+public class JideButton extends JButton implements Alignable, ButtonStyle, ComponentStateSupport, AlignmentSupport {
 
     private static final String uiClassID = "JideButtonUI";
 
