@@ -2856,7 +2856,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static void retargetMouseEvent(int id, MouseEvent e, Component target) {
-        if (target == null || target == e.getSource()) {
+        if (target == null || (target == e.getSource() && id == e.getID())) {
             return;
         }
         if (e.isConsumed()) {
