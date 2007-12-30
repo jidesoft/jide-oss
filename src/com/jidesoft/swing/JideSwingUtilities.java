@@ -2906,4 +2906,42 @@ public class JideSwingUtilities implements SwingConstants {
         }
         return null;
     }
+
+    /**
+     * Checks if the font specified by the font name is fixed width font. Fixed width font means all chars have the exact same width.
+     *
+     * @param fontName  the font name
+     * @param component the component where the font will be displayed.
+     * @return ture if the font is fixed width. Otherwise false.
+     */
+    public static boolean isFixedWidthFont(String fontName, Component component) {
+        if (fontName.endsWith(" Bold") || fontName.endsWith(" ITC") || fontName.endsWith(" MT") || fontName.endsWith(" LET")
+                || fontName.endsWith(".bold") || fontName.endsWith(".italic"))
+            return false;
+        try {
+            Font font = new Font(fontName, 0, 12);
+            if (!font.canDisplay('W'))
+                return false;
+            Font boldFont = font.deriveFont(Font.BOLD);
+            FontMetrics fm = component.getFontMetrics(font);
+            FontMetrics fmBold = component.getFontMetrics(boldFont);
+            int l1 = fm.charWidth('l');
+            int l2 = fmBold.charWidth('l');
+            if (l1 == l2) {
+                int w1 = fm.charWidth('W');
+                int w2 = fmBold.charWidth('W');
+                if (w1 == w2 && l1 == w1) {
+                    int s1 = fm.charWidth(' ');
+                    int s2 = fmBold.charWidth(' ');
+                    if (s1 == s2) {
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (Throwable throwable) {
+            // ignore it and return false
+        }
+        return false;
+    }
 }
