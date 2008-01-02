@@ -32,6 +32,28 @@ public class DelayUndoManager extends UndoManager {
         _delay = delay;
     }
 
+    /**
+     * Commits the cached edit.
+     */
+    public synchronized void commitCache() {
+        if (_cache != null) {
+            _cache.end();
+            DelayUndoManager.super.addEdit(_cache);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.info("Commit cache: " + _cache);
+            }
+            _cache = null;
+        }
+    }
+
+    public synchronized void discardCache() {
+        _cache = null;
+        if (_timer != null) {
+            _timer.stop();
+            _timer = null;
+        }
+    }
+
     @Override
     public synchronized boolean addEdit(UndoableEdit anEdit) {
         if (_cache == null) {
@@ -59,20 +81,6 @@ public class DelayUndoManager extends UndoManager {
                 _timer.restart();
             }
             return _cache.addEdit(anEdit);
-        }
-    }
-
-    /**
-     * Commits the cached edit.
-     */
-    protected void commitCache() {
-        if (_cache != null) {
-            _cache.end();
-            DelayUndoManager.super.addEdit(_cache);
-            if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.info("Commit cache: " + _cache);
-            }
-            _cache = null;
         }
     }
 
@@ -125,10 +133,6 @@ public class DelayUndoManager extends UndoManager {
     @Override
     public synchronized void discardAllEdits() {
         super.discardAllEdits();
-        _cache = null;
-        if (_timer != null) {
-            _timer.stop();
-            _timer = null;
-        }
+        discardCache();
     }
 }
