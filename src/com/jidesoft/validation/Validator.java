@@ -20,7 +20,8 @@ public interface Validator extends EventListener {
      * value is valid. If the value is valid, simply return ValidationResult.OK.
      * Otherwise, constructs a ValidationResult and provide the id and message.
      *
-     * @param e
+     * @param vo the ValidationObject
+     * @return ValidationResult
      */
-    ValidationResult validating(ValidationObject e);
+    ValidationResult validating(ValidationObject vo);
 }
