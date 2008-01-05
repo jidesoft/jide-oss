@@ -17,9 +17,12 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.UIResource;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.View;
 import java.awt.*;
@@ -2651,6 +2654,36 @@ public class JideSwingUtilities implements SwingConstants {
         // inex is too large, add to the end.
         if (index > listeners.length - 1) {
             component.addKeyListener(l);
+        }
+    }
+
+    /**
+     * Inserts the table model listener at the particular index in the listeners' chain.
+     * The listeners are fired in reverse order. So the listener at index 0 will be fired at last.
+     *
+     * @param model the AbstractTableModel
+     * @param l     the TableModelListener to be inserted
+     * @param index the index.
+     */
+    public static void insertTableModelListener(TableModel model, TableModelListener l, int index) {
+        if (!(model instanceof AbstractTableModel)) {
+            model.addTableModelListener(l);
+            return;
+        }
+        TableModelListener[] listeners = ((AbstractTableModel) model).getTableModelListeners();
+        for (TableModelListener listener : listeners) {
+            model.removeTableModelListener(listener);
+        }
+        for (int i = 0; i < listeners.length; i++) {
+            TableModelListener listener = listeners[i];
+            if (index == i) {
+                model.addTableModelListener(l);
+            }
+            model.addTableModelListener(listener);
+        }
+        // inex is too large, add to the end.
+        if (index > listeners.length - 1) {
+            model.addTableModelListener(l);
         }
     }
 
