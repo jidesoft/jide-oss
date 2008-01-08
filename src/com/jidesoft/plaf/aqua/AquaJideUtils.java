@@ -345,6 +345,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
 
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(0, 0, 0, 0),
+
                     "ContentContainer.background", defaultFormBackground,
                     "ContentContainer.vgap", 1,
                     "ContentContainer.hgap", 1,
