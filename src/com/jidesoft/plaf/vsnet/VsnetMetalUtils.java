@@ -362,10 +362,13 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "ContentContainer.hgap", 1,
                     "MainContainer.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
 
-                    "DockingFramework.changeCursor", Boolean.FALSE,
-
                     "Contour.color", new ColorUIResource(136, 136, 136),
                     "Contour.thickness", 4,
+
+                    "DockingFramework.changeCursor", Boolean.FALSE,
+
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
+
             };
             table.putDefaults(uiDefaults);
         }

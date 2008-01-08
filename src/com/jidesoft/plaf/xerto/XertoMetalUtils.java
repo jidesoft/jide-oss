@@ -486,6 +486,8 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "ContentContainer.hgap", 3,
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
+
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(0, 0, 0, 0),
             };
             table.putDefaults(uiDefaults);
         }
