@@ -6,7 +6,6 @@
 package com.jidesoft.converter;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 
 
 /**
@@ -21,12 +20,8 @@ public class FloatConverter extends NumberConverter {
     }
 
     public Object fromString(String string, ConverterContext context) {
-        try {
-            return getNumberFormat().parse(string).floatValue();
-        }
-        catch (ParseException e) {
-            return null;
-        }
+        Number number = parseNumber(string);
+        return number != null ? number.floatValue() : null;
     }
 
     public boolean supportFromString(String string, ConverterContext context) {

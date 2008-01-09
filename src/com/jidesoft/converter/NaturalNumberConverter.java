@@ -7,7 +7,6 @@ package com.jidesoft.converter;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 
 
 /**
@@ -28,18 +27,8 @@ public class NaturalNumberConverter extends NumberConverter {
     }
 
     public Object fromString(String string, ConverterContext context) {
-        try {
-            int value = getNumberFormat().parse(string).intValue();
-            if (value < 0) {
-                return 0;
-            }
-            else {
-                return Integer.parseInt(string);
-            }
-        }
-        catch (ParseException e) {
-            return null;
-        }
+        Number number = parseNumber(string);
+        return number != null ? (number.intValue() < 0 ? 0 : number.intValue()) : null;
     }
 
     public boolean supportFromString(String string, ConverterContext context) {

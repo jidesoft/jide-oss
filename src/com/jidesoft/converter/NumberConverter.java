@@ -7,6 +7,8 @@ package com.jidesoft.converter;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Converter which converts Number to String and converts it back. You can pass in
@@ -55,10 +57,46 @@ abstract public class NumberConverter implements ObjectConverter {
         _numberFormat = numberFormat;
     }
 
+    /**
+     * Gets the NumberFormat. Of setNumberFormat is never called, it will return DecimalFormat.getInstance().
+     *
+     * @return the NumberFormat.
+     */
     protected NumberFormat getNumberFormat() {
         if (_numberFormat == null) {
             _numberFormat = DecimalFormat.getInstance();
         }
         return _numberFormat;
+    }
+
+    /**
+     * Gets the NumberFormat for Locale.US.
+     *
+     * @return the NumberFormat for Locale.US.
+     */
+    protected NumberFormat getDefaultNumberFormat() {
+        return DecimalFormat.getInstance(Locale.US);
+    }
+
+    /**
+     * Parse the string as number. It will try using getNumberFormat first then try getDefaultNumberFormat which is the US locale number format.
+     *
+     * @param string the string
+     * @return the Number. Null if the string is not a number.
+     */
+    protected Number parseNumber(String string) {
+        Number number;
+        try {
+            number = getNumberFormat().parse(string);
+        }
+        catch (ParseException e) {
+            try {
+                number = getDefaultNumberFormat().parse(string);
+            }
+            catch (ParseException e1) {
+                number = null;
+            }
+        }
+        return number;
     }
 }

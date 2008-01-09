@@ -7,7 +7,6 @@
 package com.jidesoft.converter;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 
 /**
  * Converter which converts currency to String and converts it back.
@@ -18,12 +17,7 @@ abstract public class NumberFormatConverter extends NumberConverter {
     }
 
     public Object fromString(String string, ConverterContext context) {
-        try {
-            return getNumberFormat().parse(string);
-        }
-        catch (ParseException e) {
-            return null;
-        }
+        return parseNumber(string);
     }
 
     public boolean supportFromString(String string, ConverterContext context) {
