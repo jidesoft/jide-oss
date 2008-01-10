@@ -78,6 +78,12 @@ import java.util.regex.PatternSyntaxException;
  * By default we will use lightweight popup for the sake of performance. But if you use heavyweight component
  * which could obscure the lightweight popup, you can call {@link #setHeavyweightComponentEnabled(boolean)} to true
  * so that heavyweight popup will be used.
+ * <p/>
+ * When a <code>Searchable</code> is installed on a component, component.getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE)
+ * will give you the Searchable instance. You can use static method {@link #getSearchable(javax.swing.JComponent)} to get it too.
+ * <p/>
+ * Last but not the least, only one Searchable is allowed on a component. If you install another one, it will remove the first one and
+ * then install the new one.
  */
 public abstract class Searchable {
 
@@ -135,6 +141,12 @@ public abstract class Searchable {
     private Component _popupLocationRelativeTo;
 
     /**
+     * The client property for Searchable instance.
+     * When Searchable is installed on a component, this client property has the Searchable.
+     */
+    public final static String CLIENT_PROPERTY_SEARCHABLE = "Searchable";
+
+    /**
      * Creates a Searchable.
      *
      * @param component component where the Searchable will be installed.
@@ -143,18 +155,21 @@ public abstract class Searchable {
         _previousSearchText = null;
         _component = component;
         installListeners();
+        updateClientProperty(_component, this);
     }
 
     /**
      * Creates a Searchable.
      *
-     * @param component component where the Searchable will be installed.
+     * @param component          component where the Searchable will be installed.
+     * @param searchableProvider the Searchable Provider.
      */
     public Searchable(JComponent component, SearchableProvider searchableProvider) {
         _searchableProvider = searchableProvider;
         _previousSearchText = null;
         _component = component;
         installListeners();
+        updateClientProperty(_component, this);
     }
 
     /**
@@ -1554,5 +1569,31 @@ public abstract class Searchable {
     public void setFromStart(boolean fromStart) {
         hidePopup();
         _fromStart = fromStart;
+    }
+
+    /**
+     * Gets the Searchable installed on the component. Null is no Searchable was installed.
+     *
+     * @param component the component
+     * @return the Searchable installed. Null is no Searchable was installed.
+     */
+    public static Searchable getSearchable(JComponent component) {
+        Object clientProperty = component.getClientProperty(CLIENT_PROPERTY_SEARCHABLE);
+        if (clientProperty instanceof Searchable) {
+            return ((Searchable) clientProperty);
+        }
+        else {
+            return null;
+        }
+    }
+
+    private void updateClientProperty(JComponent component, Searchable searchable) {
+        if (component != null) {
+            Object clientProperty = _component.getClientProperty(CLIENT_PROPERTY_SEARCHABLE);
+            if (clientProperty instanceof Searchable) {
+                ((Searchable) clientProperty).uninstallListeners();
+            }
+            component.putClientProperty(CLIENT_PROPERTY_SEARCHABLE, searchable);
+        }
     }
 }
