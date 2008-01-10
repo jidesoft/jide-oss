@@ -582,7 +582,7 @@ public class IconsFactory {
      * @param c      the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
      * @param icon   the original icon. This is the larger icon where a sub-image will be created using this method.
      * @param x      the x location of the sub-image, relative to the original icon.
-     * @param x      the y location of the sub-image, relative to the original icon.
+     * @param y      the y location of the sub-image, relative to the original icon.
      * @param width  the width of the sub-image. It should be less than the width of the original icon.
      * @param height the height of the sub-image. It should be less than the height of the original icon.
      * @return an new image icon that was part of the input image icon.
@@ -598,7 +598,7 @@ public class IconsFactory {
      * @param c          the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
      * @param icon       the original icon. This is the larger icon where a sub-image will be created using this method.
      * @param x          the x location of the sub-image, relative to the original icon.
-     * @param x          the y location of the sub-image, relative to the original icon.
+     * @param y          the y location of the sub-image, relative to the original icon.
      * @param width      the width of the sub-image. It should be less than the width of the original icon.
      * @param height     the height of the sub-image. It should be less than the height of the original icon.
      * @param destWidth  the width of the returned icon. The sub-image will be resize if the destWidth is not the same as the width.
@@ -616,7 +616,7 @@ public class IconsFactory {
      * @param c         the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
      * @param icon      the original icon. This is the larger icon where a small icon will be created using this method.
      * @param x         the x location of the smaller icon, relative to the original icon.
-     * @param x         the y location of the smaller icon, relative to the original icon.
+     * @param y         the y location of the smaller icon, relative to the original icon.
      * @param width     the width of the smaller icon. It should be less than the width of the original icon.
      * @param height    the height of the smaller icon. It should be less than the height of the original icon.
      * @param imageType image type is defined in {@link BufferedImage}, such as {@link BufferedImage#TYPE_INT_ARGB}, {@link BufferedImage#TYPE_INT_RGB} etc.
@@ -634,7 +634,7 @@ public class IconsFactory {
      * @param c          the component where the returned icon will be used. The component is used as the ImageObserver. It could be null.
      * @param icon       the original icon. This is the larger icon where a sub-image will be created using this method.
      * @param x          the x location of the sub-image, relative to the original icon.
-     * @param x          the y location of the sub-image, relative to the original icon.
+     * @param y          the y location of the sub-image, relative to the original icon.
      * @param width      the width of the sub-image. It should be less than the width of the original icon.
      * @param height     the height of the sub-image. It should be less than the height of the original icon.
      * @param imageType  image type is defined in {@link BufferedImage}, such as {@link BufferedImage#TYPE_INT_ARGB}, {@link BufferedImage#TYPE_INT_RGB} etc.
@@ -703,12 +703,12 @@ public class IconsFactory {
                 y = (h - sh) / 2;
                 break;
             case SwingConstants.NORTH_EAST:
-                x = w - insets.top - sw;
-                y = insets.right;
+                x = w - insets.right - sw;
+                y = insets.top;
                 break;
             case SwingConstants.NORTH_WEST:
-                x = insets.top;
-                y = insets.left;
+                x = insets.left;
+                y = insets.top;
                 break;
             case SwingConstants.SOUTH_WEST:
                 x = insets.left;
@@ -730,7 +730,7 @@ public class IconsFactory {
      * @param overlayIcon the overlay icon.
      * @param x           the x location relative to the original icon where the overlayIcon will be pained.
      * @param y           the y location relative to the original icon where the overlayIcon will be pained.
-     * @return
+     * @return the overlay icon
      */
     public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int x, int y) {
         int w = icon == null ? overlayIcon.getIconWidth() : icon.getIconWidth();
