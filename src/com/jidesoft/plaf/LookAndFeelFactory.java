@@ -539,7 +539,7 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
             }
         }
-        else if (lnf.getClass().equals(MetalLookAndFeel.class.getName())) {
+        else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
                 case OFFICE2003_STYLE:
                 case VSNET_STYLE:
@@ -633,9 +633,8 @@ public class LookAndFeelFactory implements ProductNames {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
                 Class<?> aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
-                aquaJideUtils.getMethod("initComponentDefaults", new Class[]{
-                        UIDefaults.class}).invoke(null, uiDefaults);
-                aquaJideUtils.getMethod("initClassDefaults", new Class[]{UIDefaults.class}).invoke(null, uiDefaults);
+                aquaJideUtils.getMethod("initComponentDefaults", UIDefaults.class).invoke(null, uiDefaults);
+                aquaJideUtils.getMethod("initClassDefaults", UIDefaults.class).invoke(null, uiDefaults);
             }
             catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

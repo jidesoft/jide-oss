@@ -51,7 +51,7 @@ public abstract class UIAction implements Action {
     }
 
     public Object getValue(String key) {
-        if (key == NAME) {
+        if (name.equals(key)) {
             return name;
         }
         return null;
@@ -77,6 +77,7 @@ public abstract class UIAction implements Action {
      * override this. Be aware that <code>sender</code> may be null.
      *
      * @param sender Widget enabled state is being asked for, may be null.
+     * @return true.
      */
     public boolean isEnabled(Object sender) {
         return true;

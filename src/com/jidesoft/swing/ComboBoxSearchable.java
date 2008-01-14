@@ -70,26 +70,6 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
      * Checks if the popup is showing during searching.
      *
      * @return true if popup is visible during searching.
-     * @deprecated misspelled. Use {@link #isShowPopupDuringSearching()}.
-     */
-    public boolean isShowPopupDuringSeaching() {
-        return _showPopupDuringSearching;
-    }
-
-    /**
-     * Sets the property which determines if the popup should be shown during searching.
-     *
-     * @param showPopupDuringSeaching
-     * @deprecated misspelled. Use {@link #setShowPopupDuringSearching(boolean)}
-     */
-    public void setShowPopupDuringSeaching(boolean showPopupDuringSeaching) {
-        _showPopupDuringSearching = showPopupDuringSeaching;
-    }
-
-    /**
-     * Checks if the popup is showing during searching.
-     *
-     * @return true if popup is visible during searching.
      */
     public boolean isShowPopupDuringSearching() {
         return _showPopupDuringSearching;
@@ -108,7 +88,9 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     protected void setSelectedIndex(int index, boolean incremental) {
         if (isShowPopupDuringSearching()) {
             try {
-                ((JComboBox) _component).showPopup();
+                if (!((JComboBox) _component).isPopupVisible()) {
+                    ((JComboBox) _component).showPopup();
+                }
             }
             catch (IllegalComponentStateException e) {
             }

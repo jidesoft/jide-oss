@@ -47,7 +47,7 @@ public class CacheMap<T, K> {
 
     protected Cache<K, T> getCache(Class<?> clazz) {
         if (clazz == null) {
-            new IllegalArgumentException("Clazz cannot be null");
+            throw new IllegalArgumentException("Clazz cannot be null");
         }
         return _cache.get(clazz);
     }

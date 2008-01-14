@@ -107,7 +107,7 @@ class CachedLookAndFeel extends LookAndFeel {
 
         }
         catch (Exception e) {
-            //
+            // ignore
         }
 
         currentLoader = newLoader;
