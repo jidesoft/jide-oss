@@ -95,13 +95,41 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * @return true if the path is selected.
      */
     public boolean isPathSelected(TreePath path, boolean digIn) {
+        if (path == null) {
+            return false;
+        }
+
         if (!digIn)
             return super.isPathSelected(path);
 
-        while (path != null && !super.isPathSelected(path)) {
-            path = path.getParentPath();
+        TreePath parent = path;
+        while (parent != null && !super.isPathSelected(parent)) {
+            parent = parent.getParentPath();
         }
-        return path != null;
+
+        if (parent != null) {
+            return true;
+        }
+
+        Object node = path.getLastPathComponent();
+        if (_model.getChildCount(node) == 0) {
+            return false;
+        }
+
+        // find out if all children are selected
+        boolean allChildrenSelected = true;
+        for (int i = 0; i < _model.getChildCount(node); i++) {
+            Object childNode = _model.getChild(node, i);
+            if (!isPathSelected(path.pathByAddingChild(childNode), true)) {
+                allChildrenSelected = false;
+                break;
+            }
+        }
+        // if all children are selected, let's select the parent path only
+        if (allChildrenSelected) {
+            addSelectionPaths(new TreePath[]{path});
+        }
+        return allChildrenSelected;
     }
 
     /**
