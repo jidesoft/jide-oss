@@ -32,9 +32,9 @@ class CachedLookAndFeel extends LookAndFeel {
     public static void install() {
         try {
             // lafState = UIManager.getLAFState() method
-            Method method = UIManager.class.getDeclaredMethod("getLAFState", null);
+            Method method = UIManager.class.getDeclaredMethod("getLAFState", new Class[]{null});
             method.setAccessible(true); // turn off checking for private method
-            Object lafState = method.invoke(null, null);
+            Object lafState = method.invoke(null, new Object[]{null});
 
             // lafState.multiLookAndFeel = new CacheCleanerLookAndFeel()
             Field field = lafState.getClass().getDeclaredField("multiLookAndFeel");
