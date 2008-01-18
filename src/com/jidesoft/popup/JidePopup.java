@@ -1006,6 +1006,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             Point p = new Point(x, y);
             SwingUtilities.convertPointFromScreen(p, layeredPane);
             layeredPane.add(_panel, JLayeredPane.PALETTE_LAYER);
+            layeredPane.setComponentZOrder(_panel, 0);
 
             _panel.setLocation(p.x, p.y);
         }
@@ -1673,9 +1674,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
             if (_popupType == LIGHT_WEIGHT_POPUP) {
                 startingBounds = _panel.getBounds();
+                Container parent = _panel.getParent();
+                parent.setComponentZOrder(_panel, 0);
+                parent.repaint();
             }
             else if (_popupType == HEAVY_WEIGHT_POPUP) {
                 startingBounds = _window.getBounds();
+                _window.toFront();
             }
 
             if (startingBounds != null) {
