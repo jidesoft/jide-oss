@@ -9,7 +9,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -362,60 +365,6 @@ public class IconsFactory {
         });
     }
 
-    private static Object makeImageIcon(final Class<?> baseClass, final String gifFile) {
-        return new UIDefaults.LazyValue() {
-            public Object createValue(UIDefaults table) {
-                /* Copy resource into a byte array.  This is
-                 * necessary because several browsers consider
-                 * Class<?>.getResource a security risk because it
-                 * can be used to load additional classes.
-                 * Class<?>.getResourceAsStream just returns raw
-                 * bytes, which we can convert to an image.
-                 */
-                final byte[][] buffer = new byte[1][];
-                doPrivileged(new Runnable() {
-                    public void run() {
-                        try {
-                            InputStream resource =
-                                    baseClass.getResourceAsStream(gifFile);
-                            if (resource == null) {
-                                return;
-                            }
-                            BufferedInputStream in =
-                                    new BufferedInputStream(resource);
-                            ByteArrayOutputStream out =
-                                    new ByteArrayOutputStream(1024);
-                            buffer[0] = new byte[1024];
-                            int n;
-                            while ((n = in.read(buffer[0])) > 0) {
-                                out.write(buffer[0], 0, n);
-                            }
-                            in.close();
-                            out.flush();
-                            buffer[0] = out.toByteArray();
-                        }
-                        catch (IOException ioe) {
-                            System.err.println(ioe.toString());
-                        }
-                    }
-                });
-
-                if (buffer[0] == null) {
-                    System.err.println(baseClass.getName() + "/" +
-                            gifFile + " not found.");
-                    return null;
-                }
-                if (buffer[0].length == 0) {
-                    System.err.println("Warning: " + gifFile +
-                            " is zero-length");
-                    return null;
-                }
-
-                return new ImageIcon(Toolkit.getDefaultToolkit().createImage(buffer[0]));
-            }
-        };
-    }
-
     private static ImageIcon createImageIcon(final Class<?> baseClass, final String file) {
         try {
             return createImageIconWithException(baseClass, file);
@@ -430,33 +379,6 @@ public class IconsFactory {
         InputStream resource = baseClass.getResourceAsStream(file);
         return new ImageIcon(ImageIO.read(resource));
     }
-
-// Using ImageIO approach results in exception like this.
-//    Exception in thread "main" java.lang.NullPointerException
-//            at com.ctreber.aclib.image.ico.ICOReader.getICOEntry(ICOReader.java:120)
-//            at com.ctreber.aclib.image.ico.ICOReader.read(ICOReader.java:89)
-//            at javax.imageio.ImageIO.read(ImageIO.java:1400)
-//            at javax.imageio.ImageIO.read(ImageIO.java:1322)
-//            at com.jidesoft.icons.IconsFactory.b(Unknown Source)
-//            at com.jidesoft.icons.IconsFactory.a(Unknown Source)
-//            at com.jidesoft.icons.IconsFactory.getImageIcon(Unknown Source)
-//            at com.jidesoft.plaf.vsnet.VsnetMetalUtils.initComponentDefaults(Unknown Source)
-
-//    private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
-//        try {
-//            InputStream resource =
-//                    baseClass.getResourceAsStream(file);
-//            if (resource == null) {
-//                throw new IOException("File " + file + " not found");
-//            }
-//            BufferedInputStream in =
-//                    new BufferedInputStream(resource);
-//            return new ImageIcon(ImageIO.read(in));
-//        }
-//        catch (IOException ioe) {
-//            throw ioe;
-//        }
-//    }
 
     /**
      * Generates HTML that lists all icons in IconsFactory.
