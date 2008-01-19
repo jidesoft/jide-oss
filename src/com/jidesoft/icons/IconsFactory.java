@@ -5,6 +5,7 @@
  */
 package com.jidesoft.icons;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -426,43 +427,8 @@ public class IconsFactory {
     }
 
     private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
-        InputStream resource =
-                baseClass.getResourceAsStream(file);
-
-        final byte[][] buffer = new byte[1][];
-        try {
-            if (resource == null) {
-                throw new IOException("File " + file + " not found");
-            }
-            BufferedInputStream in =
-                    new BufferedInputStream(resource);
-            ByteArrayOutputStream out =
-                    new ByteArrayOutputStream(1024);
-
-            buffer[0] = new byte[1024];
-            int n;
-            while ((n = in.read(buffer[0])) > 0) {
-
-                out.write(buffer[0], 0, n);
-            }
-            in.close();
-            out.flush();
-            buffer[0] = out.toByteArray();
-        }
-        catch (IOException ioe) {
-            throw ioe;
-        }
-
-        if (buffer[0] == null) {
-            throw new IOException(baseClass.getName() + "/" +
-                    file + " not found.");
-        }
-        if (buffer[0].length == 0) {
-            throw new IOException("Warning: " + file +
-                    " is zero-length");
-        }
-
-        return new ImageIcon(Toolkit.getDefaultToolkit().createImage(buffer[0]));
+        InputStream resource = baseClass.getResourceAsStream(file);
+        return new ImageIcon(ImageIO.read(resource));
     }
 
 // Using ImageIO approach results in exception like this.
