@@ -198,22 +198,25 @@ public class ObjectComparatorManager {
     public static int compare(Object o1, Object o2, Class<?> clazz, ComparatorContext context) {
         Comparator comparator = getComparator(clazz, context);
         if (comparator != null) {
-            return comparator.compare(o1, o2);
+            try {
+                return comparator.compare(o1, o2);
+            }
+            catch (Exception e) {
+                // ignore and let the code below handles it.
+            }
+        }
+        if (o1 == o2) {
+            return 0;
         }
         else {
-            if (o1 == o2) {
-                return 0;
+            if (o1 == null) {
+                return -1;
             }
-            else {
-                if (o1 == null) {
-                    return -1;
-                }
-                else if (o2 == null) {
-                    return 1;
-                }
-                else { // otherwise, compare as string
-                    return o1.toString().compareTo(o2.toString());
-                }
+            else if (o2 == null) {
+                return 1;
+            }
+            else { // otherwise, compare as string
+                return o1.toString().compareTo(o2.toString());
             }
         }
     }
