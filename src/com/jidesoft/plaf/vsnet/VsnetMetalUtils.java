@@ -196,7 +196,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.shadow", defaultShadowColor,
                 "JideTabbedPane.darkShadow", defaultTextColor,
                 "JideTabbedPane.tabInsets", new InsetsUIResource(1, 4, 1, 4),
-                "JideTabbedPane.contentBorderInsets", new InsetsUIResource(3, 0, 0, 0),
+                "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", defaultFormBackgroundColor,
