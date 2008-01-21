@@ -288,6 +288,6 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected boolean isSelectedCellEditable() {
         int selectedRow = ((JTable) _component).getSelectionModel().getLeadSelectionIndex();
         int selectedColumn = ((JTable) _component).getColumnModel().getSelectionModel().getLeadSelectionIndex();
-        return ((JTable) _component).isCellEditable(selectedRow, selectedColumn);
+        return selectedRow != -1 && selectedColumn != -1 && ((JTable) _component).isCellEditable(selectedRow, selectedColumn);
     }
 }
