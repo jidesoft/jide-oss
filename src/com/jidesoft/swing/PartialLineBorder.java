@@ -46,7 +46,7 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
                 if (!roundedCorners)
                     g.drawRect(x + i, y + i, width - i - i - 1, height - i - i - 1);
                 else
-                    g.drawRoundRect(x + i, y + i, width - i - i - 1, height - i - i - 1, 5, 5);
+                    g.drawRoundRect(x + i, y + i, width - i - i - 1, height - i - i - 1, thickness, thickness);
             }
 
             else {
