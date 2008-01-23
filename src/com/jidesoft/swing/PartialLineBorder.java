@@ -4,11 +4,12 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * This is a better version of LineBorder which allows you to show line only at one side or several sides.
+ * This is a better version of LineBorder which allows you to show line only at one side or several sides and supports rounded corner.
  */
 public class PartialLineBorder extends LineBorder implements PartialSide {
 
     private int _sides = ALL;
+    private int _roundedCornerSize = 5;
 
     public PartialLineBorder(Color color) {
         super(color);
@@ -20,6 +21,11 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
 
     public PartialLineBorder(Color color, int thickness, boolean roundedCorners) {
         super(color, thickness, roundedCorners);
+    }
+
+    public PartialLineBorder(Color color, int thickness, boolean roundedCorners, int roundedCornerSize) {
+        super(color, thickness, roundedCorners);
+        _roundedCornerSize = roundedCornerSize;
     }
 
     public PartialLineBorder(Color color, int thickness, int side) {
@@ -35,6 +41,14 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
         _sides = sides;
     }
 
+    public int getRoundedCornerSize() {
+        return _roundedCornerSize;
+    }
+
+    public void setRoundedCornerSize(int roundedCornerSize) {
+        _roundedCornerSize = roundedCornerSize;
+    }
+
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Color oldColor = g.getColor();
@@ -45,8 +59,11 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
             if (_sides == ALL) {
                 if (!roundedCorners)
                     g.drawRect(x + i, y + i, width - i - i - 1, height - i - i - 1);
-                else
-                    g.drawRoundRect(x + i, y + i, width - i - i - 1, height - i - i - 1, thickness, thickness);
+                else {
+                    Object o = JideSwingUtilities.setupShapeAntialiasing(g);
+                    g.drawRoundRect(x + i, y + i, width - i - i - 1, height - i - i - 1, _roundedCornerSize, _roundedCornerSize);
+                    JideSwingUtilities.restoreShapeAntialiasing(g, o);
+                }
             }
 
             else {

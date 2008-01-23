@@ -26,9 +26,9 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
     /**
      * The checkbox that is used to paint the check box in cell renderer
      */
-    protected TristateCheckBox _checkBox = new NullTristateCheckBox();
-    protected JCheckBox PROTOTYPE = new TristateCheckBox();
-    protected JLabel _label = new NullLabel();
+    protected TristateCheckBox _checkBox = null;
+    protected JComponent _emptyBox = null;
+    protected JCheckBox _protoType;
 
     /**
      * The label which appears after the check box.
@@ -47,11 +47,17 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
         if (noFocusBorder == null) {
             noFocusBorder = new EmptyBorder(1, 1, 1, 1);
         }
+        _protoType = new TristateCheckBox();
+        _checkBox = createCheckBox();
+        _emptyBox = (JComponent) Box.createHorizontalStrut(_protoType.getPreferredSize().width);
         _checkBox.setOpaque(false);
         setBorder(noFocusBorder);
         setLayout(new BorderLayout(0, 0));
-        add(_checkBox, BorderLayout.BEFORE_LINE_BEGINS);
         _actualTreeRenderer = renderer;
+    }
+
+    private TristateCheckBox createCheckBox() {
+        return new NullTristateCheckBox();
     }
 
     public TreeCellRenderer getActualTreeRenderer() {
@@ -63,7 +69,8 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
     }
 
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        _checkBox.setPreferredSize(new Dimension(PROTOTYPE.getPreferredSize().width, 0));
+        _checkBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
+        _emptyBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
         setComponentOrientation(tree.getComponentOrientation());
 
         TreePath path = tree.getPathForRow(row);
@@ -80,16 +87,16 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
 
         if (_actualTreeRenderer != null) {
             JComponent treeCellRendererComponent = (JComponent) _actualTreeRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
-            if (path != null && tree instanceof CheckBoxTree) {
-                if (!((CheckBoxTree) tree).isCheckBoxVisible(path)) {
-                    return treeCellRendererComponent;
-                }
-            }
             Border border = treeCellRendererComponent.getBorder();
             setBorder(border);
             treeCellRendererComponent.setBorder(BorderFactory.createEmptyBorder());
-            if (getComponentCount() == 2) {
-                remove(1);
+            if (path == null || !(tree instanceof CheckBoxTree) || ((CheckBoxTree) tree).isCheckBoxVisible(path)) {
+                remove(_emptyBox);
+                add(_checkBox, BorderLayout.BEFORE_LINE_BEGINS);
+            }
+            else {
+                remove(_checkBox);
+                add(_emptyBox, BorderLayout.AFTER_LINE_ENDS); // expand the tree node size to be the same as the one with check box.
             }
             add(treeCellRendererComponent);
         }
