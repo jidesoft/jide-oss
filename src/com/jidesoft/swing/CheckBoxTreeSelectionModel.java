@@ -111,6 +111,10 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             return true;
         }
 
+        if (_model == null) {
+            return true;
+        }
+
         Object node = path.getLastPathComponent();
         if (_model.getChildCount(node) == 0) {
             return false;
