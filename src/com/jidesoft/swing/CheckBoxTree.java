@@ -21,17 +21,16 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 /**
- * CheckBoxTree is a special JTree which uses JCheckBox as the tree renderer.
- * In addition to regular JTree's features, it also allows you select any number
- * of tree nodes in the tree by selecting the check boxes.
- * <p>To select an element, user can mouse click on the check box, or
- * select one or several tree nodes and press SPACE key to toggle the
- * check box selection for all selected tree nodes.
+ * CheckBoxTree is a special JTree which uses JCheckBox as the tree renderer. In addition to regular
+ * JTree's features, it also allows you select any number of tree nodes in the tree by selecting the
+ * check boxes. <p>To select an element, user can mouse click on the check box, or select one or
+ * several tree nodes and press SPACE key to toggle the check box selection for all selected tree
+ * nodes.
  * <p/>
- * In order to retrieve which tree paths are selected, you need to call {@link #getCheckBoxTreeSelectionModel()}.
- * It will return the selection model that keeps track of which tree paths have been checked. For example
- * {@link CheckBoxTreeSelectionModel#getSelectionPaths()} will give the list of paths which have
- * been checked.
+ * In order to retrieve which tree paths are selected, you need to call {@link
+ * #getCheckBoxTreeSelectionModel()}. It will return the selection model that keeps track of which
+ * tree paths have been checked. For example {@link CheckBoxTreeSelectionModel#getSelectionPaths()}
+ * will give the list of paths which have been checked.
  */
 public class CheckBoxTree extends JTree {
 
@@ -94,11 +93,17 @@ public class CheckBoxTree extends JTree {
         if (_modelChangeListener == null) {
             _modelChangeListener = new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent evt) {
-                    updateRowMapper();
+                    if (JTree.SELECTION_MODEL_PROPERTY.equals(evt.getPropertyName())) {
+                        updateRowMapper();
+                    }
+                    if ("model".equals(evt.getPropertyName()) && evt.getNewValue() instanceof TreeModel) {
+                        _checkBoxTreeSelectionModel.setModel((TreeModel) evt.getNewValue());
+                    }
                 }
             };
         }
         addPropertyChangeListener(JTree.SELECTION_MODEL_PROPERTY, _modelChangeListener);
+        addPropertyChangeListener("model", _modelChangeListener);
         updateRowMapper();
     }
 
@@ -106,6 +111,7 @@ public class CheckBoxTree extends JTree {
      * Creates the CheckBoxTreeSelectionModel.
      *
      * @param model the tree model.
+     *
      * @return the CheckBoxTreeSelectionModel.
      */
     protected CheckBoxTreeSelectionModel createCheckBoxTreeSelectionModel(TreeModel model) {
@@ -119,19 +125,12 @@ public class CheckBoxTree extends JTree {
         _checkBoxTreeSelectionModel.setRowMapper(getSelectionModel().getRowMapper());
     }
 
-    @Override
-    public void setModel(TreeModel newModel) {
-        super.setModel(newModel);
-        if (_checkBoxTreeSelectionModel != null) {
-            _checkBoxTreeSelectionModel.setModel(getModel());
-        }
-    }
-
     /**
      * Gets the cell renderer with check box.
      *
      * @return CheckBoxTree's own cell renderer which has the check box. The actual cell renderer
-     *         you set by setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
+     *         you set by setCellRenderer() can be accessed by using {@link
+     *         #getActualCellRenderer()}.
      */
     @Override
     public TreeCellRenderer getCellRenderer() {
@@ -149,9 +148,9 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Gets the actual cell renderer. Since CheckBoxTree has its own check box cell renderer, this method
-     * will give you access to the actual cell renderer which is either the default tree cell renderer or
-     * the cell renderer you set using {@link #setCellRenderer(javax.swing.tree.TreeCellRenderer)}.
+     * Gets the actual cell renderer. Since CheckBoxTree has its own check box cell renderer, this
+     * method will give you access to the actual cell renderer which is either the default tree cell
+     * renderer or the cell renderer you set using {@link #setCellRenderer(javax.swing.tree.TreeCellRenderer)}.
      *
      * @return the actual cell renderer
      */
@@ -167,8 +166,9 @@ public class CheckBoxTree extends JTree {
     /**
      * Creates the cell renderer.
      *
-     * @param renderer the actual renderer for the tree node. This method will
-     *                 return a cell renderer that use a check box and put the actual renderer inside it.
+     * @param renderer the actual renderer for the tree node. This method will return a cell
+     *                 renderer that use a check box and put the actual renderer inside it.
+     *
      * @return the cell renderer.
      */
     protected CheckBoxTreeCellRenderer createCellRenderer(TreeCellRenderer renderer) {
@@ -340,7 +340,8 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Gets the selection model for the check boxes. To retrieve the state of check boxes, you should use this selection model.
+     * Gets the selection model for the check boxes. To retrieve the state of check boxes, you
+     * should use this selection model.
      *
      * @return the selection model for the check boxes.
      */
@@ -349,10 +350,9 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Gets the value of property checkBoxEnabled. If true, user can
-     * click on check boxes on each tree node to select and unselect.
-     * If false, user can't click but you as developer can programatically
-     * call API to select/unselect it.
+     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each
+     * tree node to select and unselect. If false, user can't click but you as developer can
+     * programatically call API to select/unselect it.
      *
      * @return the value of property checkBoxEnabled.
      */
@@ -363,8 +363,9 @@ public class CheckBoxTree extends JTree {
     /**
      * Sets the value of property checkBoxEnabled.
      *
-     * @param checkBoxEnabled true to allow to check the check box. False to disable it
-     *                        which means user can see whether a row is checked or not but they cannot change it.
+     * @param checkBoxEnabled true to allow to check the check box. False to disable it which means
+     *                        user can see whether a row is checked or not but they cannot change
+     *                        it.
      */
     public void setCheckBoxEnabled(boolean checkBoxEnabled) {
         if (checkBoxEnabled != _checkBoxEnabled) {
@@ -377,10 +378,11 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Checks if check box is enabled. There is no setter for it. The only way is to override
-     * this method to return true or false.
+     * Checks if check box is enabled. There is no setter for it. The only way is to override this
+     * method to return true or false.
      *
      * @param path the tree path.
+     *
      * @return true or false. If false, the check box on the particular tree path will be disabled.
      */
     public boolean isCheckBoxEnabled(TreePath path) {
@@ -388,10 +390,11 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Checks if check box is visible. There is no setter for it. The only way is to override
-     * this method to return true or false.
+     * Checks if check box is visible. There is no setter for it. The only way is to override this
+     * method to return true or false.
      *
      * @param path the tree path.
+     *
      * @return true or false. If false, the check box on the particular tree path will be disabled.
      */
     public boolean isCheckBoxVisible(TreePath path) {
@@ -399,9 +402,9 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node
-     * will check all the children. Correspondingly, getSelectionPaths() will only return the
-     * parent tree path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
+     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
+     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
      *
      * @return true or false.
      */
@@ -410,9 +413,9 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node
-     * will check all the children. Correspondingly, getSelectionPaths() will only return the
-     * parent tree path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
+     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
+     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
      *
      * @param digIn the new digIn mode.
      */
