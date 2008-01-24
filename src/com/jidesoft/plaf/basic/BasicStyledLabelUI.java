@@ -5,6 +5,7 @@
  */
 package com.jidesoft.plaf.basic;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
@@ -269,8 +270,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
             }
 
-            Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null)
-                    ? style.getFontColor() : label.getForeground();
+            Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
+            if (!label.isEnabled()) {
+                textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
+            }
             g.setColor(textColor);
 
             if (displayMnemonic) {
@@ -312,8 +315,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (style.isWaved()) {
                     int waveY = y + 1;
                     for (int waveX = x; waveX < x + strWidth; waveX += 4) {
-                        if (waveX + 2 <= x + strWidth - 1) g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
-                        if (waveX + 4 <= x + strWidth - 1) g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
+                        if (waveX + 2 <= x + strWidth - 1)
+                            g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
+                        if (waveX + 4 <= x + strWidth - 1)
+                            g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
                     }
                 }
                 if (style.getLineStroke() != null) {
@@ -332,12 +337,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * The JComponents orientation (LEADING/TRAILING) will also be taken
-     * into account and translated into LEFT/RIGHT values accordingly.
+     * Compute and return the location of the icons origin, the location of origin of the text
+     * baseline, and a possibly clipped version of the compound labels string.  Locations are
+     * computed relative to the viewR rectangle. The JComponents orientation (LEADING/TRAILING) will
+     * also be taken into account and translated into LEFT/RIGHT values accordingly.
      */
     public static String layoutCompoundLabel(JComponent c,
                                              FontMetrics fm,
@@ -398,14 +401,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * This layoutCompoundLabel() does not know how to handle LEADING/TRAILING
-     * values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER).
-     * Use the other version of layoutCompoundLabel() instead.
+     * Compute and return the location of the icons origin, the location of origin of the text
+     * baseline, and a possibly clipped version of the compound labels string.  Locations are
+     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
+     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
+     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * layoutCompoundLabel() instead.
      */
     public static String layoutCompoundLabel(
             FontMetrics fm,
@@ -428,14 +429,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewR rectangle.
-     * This layoutCompoundLabel() does not know how to handle LEADING/TRAILING
-     * values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER).
-     * Use the other version of layoutCompoundLabel() instead.
+     * Compute and return the location of the icons origin, the location of origin of the text
+     * baseline, and a possibly clipped version of the compound labels string.  Locations are
+     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
+     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
+     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * layoutCompoundLabel() instead.
      */
     private static String layoutCompoundLabelImpl(
             JComponent c,
