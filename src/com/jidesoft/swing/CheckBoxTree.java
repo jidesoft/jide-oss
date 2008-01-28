@@ -380,6 +380,10 @@ public class CheckBoxTree extends JTree {
     /**
      * Checks if check box is enabled. There is no setter for it. The only way is to override this
      * method to return true or false.
+     * <p/>
+     * However, in digIn mode, user can still select the disabled node by selecting all children
+     * nodes of that node. Also if user selects the parent node, the disabled children nodes will be
+     * selected too.
      *
      * @param path the tree path.
      *

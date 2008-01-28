@@ -11,8 +11,9 @@ import java.util.Stack;
 import java.util.Vector;
 
 /**
- * <code>CheckBoxTreeSelectionModel</code> is a selection _model based on {@link DefaultTreeSelectionModel} and use
- * in {@link CheckBoxTree} to keep track of the checked tree paths.
+ * <code>CheckBoxTreeSelectionModel</code> is a selection _model based on {@link
+ * DefaultTreeSelectionModel} and use in {@link CheckBoxTree} to keep track of the checked tree
+ * paths.
  *
  * @author Santhosh Kumar T
  */
@@ -46,9 +47,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node
-     * will check all the children. Correspondingly, getSelectionPaths() will only return the
-     * parent tree path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
+     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
+     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
      *
      * @return true or false.
      */
@@ -57,9 +58,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node
-     * will check all the children. Correspondingly, getSelectionPaths() will only return the
-     * parent tree path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
+     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
+     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
      *
      * @param digIn true to enable dig-in mode. False to disable it.
      */
@@ -71,6 +72,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * Tests whether there is any unselected node in the subtree of given path.
      *
      * @param path check if the path is partially selected.
+     *
      * @return true i fpartially. Otherwise false.
      */
     public boolean isPartiallySelected(TreePath path) {
@@ -87,11 +89,12 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Tells whether given path is selected. if dig is true,
-     * then a path is assumed to be selected, if one of its ancestor is selected.
+     * Tells whether given path is selected. if dig is true, then a path is assumed to be selected,
+     * if one of its ancestor is selected.
      *
      * @param path  check if the path is selected.
      * @param digIn whether we will check its descendants.
+     *
      * @return true if the path is selected.
      */
     public boolean isPathSelected(TreePath path, boolean digIn) {
@@ -130,7 +133,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             }
         }
         // if all children are selected, let's select the parent path only
-        if (allChildrenSelected) {
+        if (_tree.isCheckBoxVisible(path) && allChildrenSelected) {
             addSelectionPaths(new TreePath[]{path});
         }
         return allChildrenSelected;
@@ -141,6 +144,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      *
      * @param path1 the first path
      * @param path2 the second path
+     *
      * @return true if the first path is the descendant of the second path.
      */
     private boolean isDescendant(TreePath path1, TreePath path2) {
@@ -253,6 +257,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * tells whether all siblings of given path are selected.
      *
      * @param path the tree path
+     *
      * @return true if the siblings are all selected.
      */
     private boolean areSiblingsSelected(TreePath path) {
@@ -268,8 +273,12 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             if (childNode == node)
                 continue;
             TreePath childPath = parent.pathByAddingChild(childNode);
-            if (_tree != null && !_tree.isCheckBoxVisible(childPath))
-                continue;
+            if (_tree != null && !_tree.isCheckBoxVisible(childPath)) {
+                // if the checkbox is not visible, we check its children
+                if (!isPathSelected(childPath, true)) {
+                    return false;
+                }
+            }
             if (!isPathSelected(childPath)) {
                 return false;
             }
@@ -299,9 +308,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * If any ancestor node of given path is selected then unselect
-     * it and selection all its descendants except given path and descendants.
-     * Otherwise just unselect the given path
+     * If any ancestor node of given path is selected then unselect it and selection all its
+     * descendants except given path and descendants. Otherwise just unselect the given path
      *
      * @param path the tree path
      */
@@ -337,9 +345,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
                     Object childNode = _model.getChild(node, i);
                     if (childNode != peekNode) {
                         TreePath treePath = temp.pathByAddingChild(childNode);
-                        if (_tree.isCheckBoxVisible(treePath) && _tree.isCheckBoxEnabled(treePath)) {
-                            toBeAdded.add(treePath);
-                        }
+                        toBeAdded.add(treePath);
                     }
                 }
             }
@@ -361,7 +367,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Single event mode is a mode that always fires only one event when you select or unselect a tree node.
+     * Single event mode is a mode that always fires only one event when you select or unselect a
+     * tree node.
      * <p/>
      * Taking this tree as an example,
      * <p/>
@@ -370,31 +377,26 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      *   |- b
      *   |- c
      * </code></pre>
-     * Case 1: Assuming b and c are selected at this point, you click on a.
-     * <br>
-     * <ul>
-     * <li>In non-single event mode, you will get select-A, deselect-b and deselect-c three events
-     * <li>In single event mode, you will only get select-a.
-     * </ul>
+     * Case 1: Assuming b and c are selected at this point, you click on a. <br> <ul> <li>In
+     * non-single event mode, you will get select-A, deselect-b and deselect-c three events <li>In
+     * single event mode, you will only get select-a. </ul>
      * <p/>
-     * Case 2: Assuming none of the nodes are selected, you click on A. In this case, both modes result in the same behavior.
-     * <ul>
-     * <li>In non-single event mode, you will get only select-A event.
-     * <li>In single event mode, you will only get select-A too.
-     * </ul>
-     * Case 3: Assuming b and c are selected and now you click on A.
-     * <ul>
-     * <li>In non-single event mode, you will get select-A event as well as deselect-b and deselect-c event.
-     * <li>In single event mode, you will only get select-A.
-     * </ul>
-     * As you can see, single event mode will always fire the event on the nodes you select. However it doesn't reflect
-     * what really happened inside the selection model. So if you want to get
-     * a complete picture of the selection state inside selection model, you should use {@link #getSelectionPaths()} to find out.
-     * In non-single event mode, the events reflect what happened inside the selection model. So you can get a complete picture
-     * of the exact state without asking the selection model. The downside is it will generate too many events. With this option, you
-     * can decide which mode you want to use that is the best for your case.
+     * Case 2: Assuming none of the nodes are selected, you click on A. In this case, both modes
+     * result in the same behavior. <ul> <li>In non-single event mode, you will get only select-A
+     * event. <li>In single event mode, you will only get select-A too. </ul> Case 3: Assuming b and
+     * c are selected and now you click on A. <ul> <li>In non-single event mode, you will get
+     * select-A event as well as deselect-b and deselect-c event. <li>In single event mode, you will
+     * only get select-A. </ul> As you can see, single event mode will always fire the event on the
+     * nodes you select. However it doesn't reflect what really happened inside the selection model.
+     * So if you want to get a complete picture of the selection state inside selection model, you
+     * should use {@link #getSelectionPaths()} to find out. In non-single event mode, the events
+     * reflect what happened inside the selection model. So you can get a complete picture of the
+     * exact state without asking the selection model. The downside is it will generate too many
+     * events. With this option, you can decide which mode you want to use that is the best for your
+     * case.
      * <p/>
-     * By default, singleEventMode is set to false to be compatible with the older versions that don't have this option.
+     * By default, singleEventMode is set to false to be compatible with the older versions that
+     * don't have this option.
      *
      * @param singleEventMode true or false.
      */
@@ -403,8 +405,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Notifies listeners of a change in path. changePaths should contain
-     * instances of PathPlaceHolder.
+     * Notifies listeners of a change in path. changePaths should contain instances of
+     * PathPlaceHolder.
      *
      * @param changedPaths     the paths that are changed.
      * @param isNew            is it a new path.
