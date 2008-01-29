@@ -36,8 +36,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
     protected TreeCellRenderer _actualTreeRenderer;
 
     /**
-     * Constructs a default renderer object for an item
-     * in a list.
+     * Constructs a default renderer object for an item in a list.
      */
     public CheckBoxTreeCellRenderer() {
         this(null);
@@ -77,7 +76,13 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
         if (path != null && tree instanceof CheckBoxTree) {
             CheckBoxTreeSelectionModel selectionModel = ((CheckBoxTree) tree).getCheckBoxTreeSelectionModel();
             if (selectionModel != null) {
-                _checkBox.setEnabled(((CheckBoxTree) tree).isCheckBoxEnabled() && ((CheckBoxTree) tree).isCheckBoxEnabled(path));
+                boolean enabled = tree.isEnabled() && ((CheckBoxTree) tree).isCheckBoxEnabled() && ((CheckBoxTree) tree).isCheckBoxEnabled(path);
+                if (!enabled && !selected) {
+                    if (getBackground() != null) {
+                        setForeground(getBackground().darker());
+                    }
+                }
+                _checkBox.setEnabled(enabled);
                 if (selectionModel.isPathSelected(path, selectionModel.isDigIn()))
                     _checkBox.setState(TristateCheckBox.SELECTED);
                 else
