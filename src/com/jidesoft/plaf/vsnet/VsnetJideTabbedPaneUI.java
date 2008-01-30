@@ -207,61 +207,6 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
     }
 
     @Override
-    public void paintBackground(Graphics g, Component c) {
-        if (_tabPane.isOpaque()) {
-            int width = c.getWidth();
-            int height = c.getHeight();
-            int h = 0;
-            int w = 0;
-
-            if (_tabPane.getTabCount() > 0) {
-                h = _tabPane.getBoundsAt(0).height;
-                w = _tabPane.getBoundsAt(0).width;
-            }
-            else {
-                return;
-            }
-
-            int temp1 = -1;
-            int temp2 = -1;
-            if (isTabLeadingComponentVisible()) {
-                if (h < _tabLeadingComponent.getSize().height) {
-                    h = _tabLeadingComponent.getSize().height;
-                    temp1 = _tabLeadingComponent.getSize().height;
-                }
-                if (w < _tabLeadingComponent.getSize().width) {
-                    w = _tabLeadingComponent.getSize().width;
-                    temp2 = _tabLeadingComponent.getSize().width;
-                }
-            }
-
-            if (isTabTrailingComponentVisible()) {
-                if (h < _tabTrailingComponent.getSize().height && temp1 < _tabTrailingComponent.getSize().height) {
-                    h = _tabTrailingComponent.getSize().height;
-                }
-                if (w < _tabTrailingComponent.getSize().width && temp2 < _tabTrailingComponent.getSize().width) {
-                    w = _tabTrailingComponent.getSize().width;
-                }
-            }
-
-            if (getTabShape() == JideTabbedPane.SHAPE_BOX) {
-                g.setColor(UIDefaultsLookup.getColor("control"));
-                g.fillRect(0, 0, width, height);
-            }
-            else {
-                if (getColorTheme() == JideTabbedPane.COLOR_THEME_VSNET) {
-                    g.setColor(_background);
-                    g.fillRect(0, 0, width, height);
-                }
-                else {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
-                    g.fillRect(0, 0, width, height);
-                }
-            }
-        }
-    }
-
-    @Override
     protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
         if (_tabPane.isOpaque()) {
             int tabShape = getTabShape();
@@ -529,7 +474,8 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             g.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1);// right
             g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
         }
-        else if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else
+        if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             g.setColor(_shadow);
 
             if (contentInsets.left > 0) {
@@ -958,7 +904,8 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
                 g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
             }
         }
-        else if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else
+        if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             g.setColor(_shadow);
             if (contentInsets.top > 0) {
                 g.drawLine(x, y, x + w - 1, y);// top
