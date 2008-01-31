@@ -25,65 +25,64 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
- * JList, JTable and JTree are three data-rich components. They can be used
- * to display a huge amount of data so searching function will be very a useful feature in those components.
- * <code>Searchable</code> is such a class that can make JList, JTable and JTree searchable.
- * User can simply type in any string they want to search for and use arrow keys to navigate
- * to next or previous occurrence.
+ * JList, JTable and JTree are three data-rich components. They can be used to display a huge amount
+ * of data so searching function will be very a useful feature in those components.
+ * <code>Searchable</code> is such a class that can make JList, JTable and JTree searchable. User
+ * can simply type in any string they want to search for and use arrow keys to navigate to next or
+ * previous occurrence.
  * <p/>
- * <code>Searchable</code> is a base abstract class. <code>ListSearchable</code>, <code>TableSearchable</code> and <code>TreeSearchable</code>
- * are implementations to make JList, JTable and JTree searchable respectively. For each implementation, there are
- * five methods need to be implemented.
- * <ul>
- * <li><code>protected abstract int getSelectedIndex()</code>
+ * <code>Searchable</code> is a base abstract class. <code>ListSearchable</code>,
+ * <code>TableSearchable</code> and <code>TreeSearchable</code> are implementations to make JList,
+ * JTable and JTree searchable respectively. For each implementation, there are five methods need to
+ * be implemented. <ul> <li><code>protected abstract int getSelectedIndex()</code>
  * <li><code>protected abstract void setSelectedIndex(int index, boolean incremental)</code>
- * <li><code>protected abstract int getElementCount()</code>
- * <li><code>protected abstract Object getElementAt(int index)</code>
- * <li><code>protected abstract String convertElementToString(Object element)</code>
- * </ul>
+ * <li><code>protected abstract int getElementCount()</code> <li><code>protected abstract Object
+ * getElementAt(int index)</code> <li><code>protected abstract String convertElementToString(Object
+ * element)</code> </ul>
  * <p/>
  * Please look at the javadoc of each method to learn more details.
  * <p/>
- * The keys used by this class are fully customizable. Subclass can override the methods such as {@link #isActivateKey(java.awt.event.KeyEvent)},
- * {@link #isDeactivateKey(java.awt.event.KeyEvent)}, {@link #isFindFirstKey(java.awt.event.KeyEvent)},{@link #isFindLastKey(java.awt.event.KeyEvent)},
- * {@link #isFindNextKey(java.awt.event.KeyEvent)}, {@link #isFindPreviousKey(java.awt.event.KeyEvent)} to provide its own set of keys.
+ * The keys used by this class are fully customizable. Subclass can override the methods such as
+ * {@link #isActivateKey(java.awt.event.KeyEvent)}, {@link #isDeactivateKey(java.awt.event.KeyEvent)},
+ * {@link #isFindFirstKey(java.awt.event.KeyEvent)},{@link #isFindLastKey(java.awt.event.KeyEvent)},
+ * {@link #isFindNextKey(java.awt.event.KeyEvent)}, {@link #isFindPreviousKey(java.awt.event.KeyEvent)}
+ * to provide its own set of keys.
  * <p/>
- * In addition to press up/down arrow to find next occurrence or previous occurrence of
- * particular string, there are several other features that are very handy.
+ * In addition to press up/down arrow to find next occurrence or previous occurrence of particular
+ * string, there are several other features that are very handy.
  * <p/>
  * Multiple selection feature - If you press CTRL key and hold it while pressing up and down arrow,
- * it will find next/previous occurence while keeping existing selections.
- * <br>
- * Select all feature - If you type in a searching text and press CTRL+A, all the occurrences of
- * that searching string will be selected. This is a very handy feature.
- * For example you want to delete all rows in a table whose name column begins with "old".
- * So you can type in "old" and press CTRL+A, now all rows begining with "old" will
- * be selected. Pressing delete will delete all of them.
- * <br>
- * Basic regular expression support - It allows '?' to match any letter or digit,
- * or '*' to match several letters or digits.
- * Even though it's possible to implement full regular expression support, we don't want to do that.
- * The reason is the regular expression is very complex, it's probably not a good idea to let user
- * type in such a complex expression in a small popup window. However if your user is very familiar
- * with regular expression, you can add the feature to <code>Searchable</code>. All you need to do
- * is to override {@link #compare(String,String)} method
+ * it will find next/previous occurence while keeping existing selections. <br> Select all feature -
+ * If you type in a searching text and press CTRL+A, all the occurrences of that searching string
+ * will be selected. This is a very handy feature. For example you want to delete all rows in a
+ * table whose name column begins with "old". So you can type in "old" and press CTRL+A, now all
+ * rows begining with "old" will be selected. Pressing delete will delete all of them. <br> Basic
+ * regular expression support - It allows '?' to match any letter or digit, or '*' to match several
+ * letters or digits. Even though it's possible to implement full regular expression support, we
+ * don't want to do that. The reason is the regular expression is very complex, it's probably not a
+ * good idea to let user type in such a complex expression in a small popup window. However if your
+ * user is very familiar with regular expression, you can add the feature to
+ * <code>Searchable</code>. All you need to do is to override {@link #compare(String,String)} method
  * and implement by yourself.
  * <p/>
- * As this is an abstract class, please refer to to javadoc of {@link ListSearchable},{@link TreeSearchable}, and {@link TableSearchable} to find out
- * how to use it with JList, JTree and JTable respectively.
+ * As this is an abstract class, please refer to to javadoc of {@link ListSearchable},{@link
+ * TreeSearchable}, and {@link TableSearchable} to find out how to use it with JList, JTree and
+ * JTable respectively.
  * <p/>
- * This component has a timer. If user types very fast, it will accumulate them together and generate only one searching action.
- * The timer can be controlled by {@link #setSearchingDelay(int)}.
+ * This component has a timer. If user types very fast, it will accumulate them together and
+ * generate only one searching action. The timer can be controlled by {@link
+ * #setSearchingDelay(int)}.
  * <p/>
- * By default we will use lightweight popup for the sake of performance. But if you use heavyweight component
- * which could obscure the lightweight popup, you can call {@link #setHeavyweightComponentEnabled(boolean)} to true
- * so that heavyweight popup will be used.
+ * By default we will use lightweight popup for the sake of performance. But if you use heavyweight
+ * component which could obscure the lightweight popup, you can call {@link
+ * #setHeavyweightComponentEnabled(boolean)} to true so that heavyweight popup will be used.
  * <p/>
  * When a <code>Searchable</code> is installed on a component, component.getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE)
- * will give you the Searchable instance. You can use static method {@link #getSearchable(javax.swing.JComponent)} to get it too.
+ * will give you the Searchable instance. You can use static method {@link
+ * #getSearchable(javax.swing.JComponent)} to get it too.
  * <p/>
- * Last but not the least, only one Searchable is allowed on a component. If you install another one, it will remove the first one and
- * then install the new one.
+ * Last but not the least, only one Searchable is allowed on a component. If you install another
+ * one, it will remove the first one and then install the new one.
  */
 public abstract class Searchable {
 
@@ -141,8 +140,8 @@ public abstract class Searchable {
     private Component _popupLocationRelativeTo;
 
     /**
-     * The client property for Searchable instance.
-     * When Searchable is installed on a component, this client property has the Searchable.
+     * The client property for Searchable instance. When Searchable is installed on a component,
+     * this client property has the Searchable.
      */
     public final static String CLIENT_PROPERTY_SEARCHABLE = "Searchable";
 
@@ -173,36 +172,36 @@ public abstract class Searchable {
     }
 
     /**
-     * Gets the selected index in the component. The concrete implementation
-     * should call methods on the component to retrieve the current selected index.
-     * If the component supports multiple selection,
-     * it's OK just return the index of the first selection.
-     * <p>Here are some examples. In the case of JList, the index is the row index.
-     * In the case of JTree, the index is the row index too. In the case of JTable, depending on the seleection mode,
-     * the index could be row index (in row selection mode), could be column index (in column selection mode)
-     * or could the cell index (in cell selection mode).
+     * Gets the selected index in the component. The concrete implementation should call methods on
+     * the component to retrieve the current selected index. If the component supports multiple
+     * selection, it's OK just return the index of the first selection. <p>Here are some examples.
+     * In the case of JList, the index is the row index. In the case of JTree, the index is the row
+     * index too. In the case of JTable, depending on the seleection mode, the index could be row
+     * index (in row selection mode), could be column index (in column selection mode) or could the
+     * cell index (in cell selection mode).
      *
      * @return the selected index.
      */
     protected abstract int getSelectedIndex();
 
     /**
-     * Sets the selected index. The concrete implementation should call methods on the component to select
-     * the element at the specified index. The incremental flag is used to do multiple select. If the flag is true,
-     * the element at the index should be added to current selection. If false, you should clear previous
-     * selection and then select the element.
+     * Sets the selected index. The concrete implementation should call methods on the component to
+     * select the element at the specified index. The incremental flag is used to do multiple
+     * select. If the flag is true, the element at the index should be added to current selection.
+     * If false, you should clear previous selection and then select the element.
      *
      * @param index       the index to be selected
-     * @param incremental a flag to enable multiple selection. If the flag is true,
-     *                    the element at the index should be added to current selection. If false, you should clear previous
-     *                    selection and then select the element.
+     * @param incremental a flag to enable multiple selection. If the flag is true, the element at
+     *                    the index should be added to current selection. If false, you should clear
+     *                    previous selection and then select the element.
      */
     protected abstract void setSelectedIndex(int index, boolean incremental);
 
     /**
-     * Gets the total element count in the component. Different concrete implementation could have different interpretation of
-     * the count. This is totally OK as long as it's consistent in all the methods. For example, the index parameter in other methods
-     * should be always a valid value within the total count.
+     * Gets the total element count in the component. Different concrete implementation could have
+     * different interpretation of the count. This is totally OK as long as it's consistent in all
+     * the methods. For example, the index parameter in other methods should be always a valid value
+     * within the total count.
      *
      * @return the total element count.
      */
@@ -210,10 +209,11 @@ public abstract class Searchable {
 
     /**
      * Gets the element at the specified index. The element could be any data structure that
-     * internally used in the component. The convertElementToString method will give you a chance
-     * to convert the element to string which is used to compare with the string that user types in.
+     * internally used in the component. The convertElementToString method will give you a chance to
+     * convert the element to string which is used to compare with the string that user types in.
      *
      * @param index the index
+     *
      * @return the element at the specified index.
      */
     protected abstract Object getElementAt(int index);
@@ -222,6 +222,7 @@ public abstract class Searchable {
      * Converts the element that returns from getElementAt() to string.
      *
      * @param element
+     *
      * @return the string representing the element in the component.
      */
     protected abstract String convertElementToString(Object element);
@@ -434,7 +435,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Installs necessary listeners to the component. This method will be called automatically when Searchable is created.
+     * Installs necessary listeners to the component. This method will be called automatically when
+     * Searchable is created.
      */
     public void installListeners() {
         if (_componentListener == null) {
@@ -458,7 +460,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Creates a component listener that updates the popup when component is hidden, moved or resized.
+     * Creates a component listener that updates the popup when component is hidden, moved or
+     * resized.
      *
      * @return a ComponentListener.
      */
@@ -536,9 +539,9 @@ public abstract class Searchable {
     }
 
     /**
-     * Uninstall the listeners that installed before. This method is never called because
-     * we don't have the control of the life cyle of the component. However you can call this
-     * method if you don't want the searchable component not searchable.
+     * Uninstall the listeners that installed before. This method is never called because we don't
+     * have the control of the life cyle of the component. However you can call this method if you
+     * don't want the searchable component not searchable.
      */
     public void uninstallListeners() {
         if (_componentListener != null) {
@@ -562,8 +565,9 @@ public abstract class Searchable {
     }
 
     /**
-     * Adds the property change listener. The only property change event that will be fired is the "searchText"
-     * property which will be fired when user types in a different search text in the popup.
+     * Adds the property change listener. The only property change event that will be fired is the
+     * "searchText" property which will be fired when user types in a different search text in the
+     * popup.
      *
      * @param propertychangelistener
      */
@@ -593,6 +597,7 @@ public abstract class Searchable {
      *
      * @param element
      * @param searchingText
+     *
      * @return true if matches.
      */
     protected boolean compare(Object element, String searchingText) {
@@ -601,11 +606,13 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks if the element string matches the searching text. Different from {@link #compare(Object,String)},
-     * this method is after the element has been converted to string using {@link #convertElementToString(Object)}.
+     * Checks if the element string matches the searching text. Different from {@link
+     * #compare(Object,String)}, this method is after the element has been converted to string using
+     * {@link #convertElementToString(Object)}.
      *
      * @param text
      * @param searchingText
+     *
      * @return true if matches.
      */
     protected boolean compare(String text, String searchingText) {
@@ -642,8 +649,8 @@ public abstract class Searchable {
 
 
     /**
-     * Gets the cursor which is the index of current location when searching. The value will be
-     * used in findNext and findPrevious.
+     * Gets the cursor which is the index of current location when searching. The value will be used
+     * in findNext and findPrevious.
      *
      * @return the current position of the cursor.
      */
@@ -652,8 +659,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the cursor which is the index of current location when searching. The value will be
-     * used in findNext and findPrevious.
+     * Sets the cursor which is the index of current location when searching. The value will be used
+     * in findNext and findPrevious.
      *
      * @param cursor the new position of the cursor.
      */
@@ -665,6 +672,7 @@ public abstract class Searchable {
      * Finds the next matching index from the cursor.
      *
      * @param s
+     *
      * @return the next index that the element matches the searching text.
      */
     public int findNext(String s) {
@@ -694,6 +702,7 @@ public abstract class Searchable {
      * Finds the previous matching index from the cursor.
      *
      * @param s
+     *
      * @return the previous index that the element matches the searching text.
      */
     public int findPrevious(String s) {
@@ -719,11 +728,12 @@ public abstract class Searchable {
     }
 
     /**
-     * Finds the next matching index from the cursor. If it reaches the end, it will restart from the beginning.
-     * However is the reverseOrder flag is true, it will finds the previous matching index from the cursor. If it reaches
-     * the beginning, it will restart from the end.
+     * Finds the next matching index from the cursor. If it reaches the end, it will restart from
+     * the beginning. However is the reverseOrder flag is true, it will finds the previous matching
+     * index from the cursor. If it reaches the beginning, it will restart from the end.
      *
      * @param s
+     *
      * @return the next index that the element matches the searching text.
      */
     public int findFromCursor(String s) {
@@ -757,9 +767,11 @@ public abstract class Searchable {
     }
 
     /**
-     * Finds the previous matching index from the cursor. If it reaches the beginning, it will restart from the end.
+     * Finds the previous matching index from the cursor. If it reaches the beginning, it will
+     * restart from the end.
      *
      * @param s
+     *
      * @return the next index that the element matches the searching text.
      */
     public int reverseFindFromCursor(String s) {
@@ -796,6 +808,7 @@ public abstract class Searchable {
      * Finds the first element that matches the searching text.
      *
      * @param s
+     *
      * @return the first element that matches with the searching text.
      */
     public int findFirst(String s) {
@@ -818,6 +831,7 @@ public abstract class Searchable {
      * Finds the last element that matches the searching text.
      *
      * @param s
+     *
      * @return the last element that matches the searching text.
      */
     public int findLast(String s) {
@@ -868,10 +882,10 @@ public abstract class Searchable {
     }
 
     /**
-     * Shows the search popup. By default, the search popup will be visible
-     * automatically when user types in the first key (in the case of JList, JTree, JTable)
-     * or types in designated keystroke (in the case of JTextComponent). So this method is only
-     * used when you want to show the popup manually.
+     * Shows the search popup. By default, the search popup will be visible automatically when user
+     * types in the first key (in the case of JList, JTree, JTable) or types in designated keystroke
+     * (in the case of JTextComponent). So this method is only used when you want to show the popup
+     * manually.
      *
      * @param searchingText
      */
@@ -901,6 +915,7 @@ public abstract class Searchable {
      * Creates the popup to hold the searching text.
      *
      * @param searchingText
+     *
      * @return the searching popup.
      */
     protected SearchPopup createSearchPopup(String searchingText) {
@@ -980,31 +995,31 @@ public abstract class Searchable {
                     try {
                         componentLocation = component.getLocationOnScreen();
                         componentLocation.y += component.getHeight();
+                        if (!isHeavyweightComponentEnabled()) {
+                            SwingUtilities.convertPointFromScreen(componentLocation, _layeredPane);
+                            if ((componentLocation.y + size.height > _layeredPane.getHeight())) {
+                                componentLocation.y = _layeredPane.getHeight() - size.height;
+                            }
+                        }
                     }
                     catch (IllegalComponentStateException e) {
                         return null; // can't get the location so just return.
-                    }
-                    if (!isHeavyweightComponentEnabled()) {
-                        SwingUtilities.convertPointFromScreen(componentLocation, _layeredPane);
-                        if ((componentLocation.y + size.height > _layeredPane.getHeight())) {
-                            componentLocation.y = _layeredPane.getHeight() - size.height;
-                        }
                     }
                     break;
                 case SwingConstants.TOP:
                 default:
                     try {
                         componentLocation = component.getLocationOnScreen();
+                        if (!isHeavyweightComponentEnabled()) {
+                            SwingUtilities.convertPointFromScreen(componentLocation, _layeredPane);
+                        }
+                        componentLocation.y -= size.height;
+                        if ((componentLocation.y < 0)) {
+                            componentLocation.y = 0;
+                        }
                     }
                     catch (IllegalComponentStateException e) {
                         return null; // can't get the location so just return.
-                    }
-                    if (!isHeavyweightComponentEnabled()) {
-                        SwingUtilities.convertPointFromScreen(componentLocation, _layeredPane);
-                    }
-                    componentLocation.y -= size.height;
-                    if ((componentLocation.y < 0)) {
-                        componentLocation.y = 0;
                     }
                     break;
             }
@@ -1026,7 +1041,9 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the first occurence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the first occurence. By default, home key is used.
+     *
+     * @return true if the key in KeyEvent is a key to find the first occurence. By default, home
+     *         key is used.
      */
     protected boolean isFindFirstKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_HOME;
@@ -1036,7 +1053,9 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the last occurence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the last occurence. By default, end key is used.
+     *
+     * @return true if the key in KeyEvent is a key to find the last occurence. By default, end key
+     *         is used.
      */
     protected boolean isFindLastKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_END;
@@ -1046,7 +1065,9 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the previous occurence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the previous occurence. By default, up arrow key is used.
+     *
+     * @return true if the key in KeyEvent is a key to find the previous occurence. By default, up
+     *         arrow key is used.
      */
     protected boolean isFindPreviousKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_UP;
@@ -1056,7 +1077,9 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the next occurence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the next occurence. By default, down arrow key is used.
+     *
+     * @return true if the key in KeyEvent is a key to find the next occurence. By default, down
+     *         arrow key is used.
      */
     protected boolean isFindNextKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_DOWN;
@@ -1067,6 +1090,7 @@ public abstract class Searchable {
      * navigate to other occurences of the searching string.
      *
      * @param e
+     *
      * @return true if the key in KeyEvent is a navigation key.
      */
     protected boolean isNavigationKey(KeyEvent e) {
@@ -1077,6 +1101,7 @@ public abstract class Searchable {
      * Checks if the key in KeyEvent should activate the search popup.
      *
      * @param e
+     *
      * @return true if the keyChar is a letter or a digit or '*' or '?'.
      */
     protected boolean isActivateKey(KeyEvent e) {
@@ -1086,11 +1111,13 @@ public abstract class Searchable {
 
     /**
      * Checks if the key in KeyEvent should hide the search popup. If this method return true and
-     * the key is not used for navigation purpose ({@link #isNavigationKey(java.awt.event.KeyEvent)} return false), the popup will be hidden.
+     * the key is not used for navigation purpose ({@link #isNavigationKey(java.awt.event.KeyEvent)}
+     * return false), the popup will be hidden.
      *
      * @param e
-     * @return true if the keyCode in the KeyEvent is escape key, enter key,
-     *         or any of the arrow keys such as page up, page down, home, end, left, right, up and down.
+     *
+     * @return true if the keyCode in the KeyEvent is escape key, enter key, or any of the arrow
+     *         keys such as page up, page down, home, end, left, right, up and down.
      */
     protected boolean isDeactivateKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -1105,6 +1132,7 @@ public abstract class Searchable {
      * Checks if the key will trigger selecting all.
      *
      * @param e
+     *
      * @return true if the key in KeyEvent is a key to trigger selecting all.
      */
     protected boolean isSelectAllKey(KeyEvent e) {
@@ -1115,17 +1143,20 @@ public abstract class Searchable {
      * Checks if the key will trigger incremental selection.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to trigger incremental selection. By default, ctrl down key is used.
+     *
+     * @return true if the key in KeyEvent is a key to trigger incremental selection. By default,
+     *         ctrl down key is used.
      */
     protected boolean isIncrementalSelectKey(KeyEvent e) {
         return (e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
     }
 
     /**
-     * Gets the foreground color when the searching text doesn't match with any of the elements in the component.
+     * Gets the foreground color when the searching text doesn't match with any of the elements in
+     * the component.
      *
-     * @return the forground color for mismatch. If you never call
-     *         {@link #setMismatchForeground(java.awt.Color)}. red color will be used.
+     * @return the forground color for mismatch. If you never call {@link
+     *         #setMismatchForeground(java.awt.Color)}. red color will be used.
      */
     public Color getMismatchForeground() {
         if (_mismatchForeground == null) {
@@ -1164,11 +1195,10 @@ public abstract class Searchable {
     }
 
     /**
-     * If it returns a positive number, it will wait for that many ms
-     * before doing the search. When the searching is complex, this
-     * flag will be useful to make the searching efficient. In the other words,
-     * if user types in several keys very quickly, there will be only one search.
-     * If it returns 0 or negative number, each key will generate a search.
+     * If it returns a positive number, it will wait for that many ms before doing the search. When
+     * the searching is complex, this flag will be useful to make the searching efficient. In the
+     * other words, if user types in several keys very quickly, there will be only one search. If it
+     * returns 0 or negative number, each key will generate a search.
      *
      * @return the number of ms delay before searching starts.
      */
@@ -1177,11 +1207,11 @@ public abstract class Searchable {
     }
 
     /**
-     * If this flag is set to a positive number, it will wait for that many ms
-     * before doing the search. When the searching is complex, this
-     * flag will be useful to make the searching efficient. In the other words,
-     * if user types in several keys very quickly, there will be only one search.
-     * If this flag is set to 0 or a negative number, each key will generate a search with no delay.
+     * If this flag is set to a positive number, it will wait for that many ms before doing the
+     * search. When the searching is complex, this flag will be useful to make the searching
+     * efficient. In the other words, if user types in several keys very quickly, there will be only
+     * one search. If this flag is set to 0 or a negative number, each key will generate a search
+     * with no delay.
      *
      * @param searchingDelay the number of ms delay before searching start.
      */
@@ -1190,8 +1220,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks if restart from the beginning when searching reaches the end
-     * or restart from the end when reaches beginning. Default is false.
+     * Checks if restart from the beginning when searching reaches the end or restart from the end
+     * when reaches beginning. Default is false.
      *
      * @return true or false.
      */
@@ -1200,8 +1230,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the repeat flag. By default, it's false meaning it will stop searching
-     * when reaching the end or reaching the beginning.
+     * Sets the repeat flag. By default, it's false meaning it will stop searching when reaching the
+     * end or reaching the beginning.
      *
      * @param repeats
      */
@@ -1256,9 +1286,9 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks if it supports wildcard in searching text. By default it is true which means user can type
-     * in "*" or "?" to match with any charactors or any charactor. If it's false, it will treat "*" or "?"
-     * as a regular charactor.
+     * Checks if it supports wildcard in searching text. By default it is true which means user can
+     * type in "*" or "?" to match with any charactors or any charactor. If it's false, it will
+     * treat "*" or "?" as a regular charactor.
      *
      * @return true if it supports wildcard.
      */
@@ -1270,6 +1300,7 @@ public abstract class Searchable {
      * Enable or disable the usage of wildcard.
      *
      * @param wildcardEnabled
+     *
      * @see #isWildcardEnabled()
      */
     public void setWildcardEnabled(boolean wildcardEnabled) {
@@ -1277,7 +1308,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Gets the WildcardSupport. If user never sets it, {@link DefaultWildcardSupport} will be used.
+     * Gets the WildcardSupport. If user never sets it, {@link DefaultWildcardSupport} will be
+     * used.
      *
      * @return the WildcardSupport.
      */
@@ -1289,8 +1321,9 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the WildcardSupport. This class allows you to define what wildcards to use and how to convert
-     * the wildcard strings to a regular expression string which is eventually used to search.
+     * Sets the WildcardSupport. This class allows you to define what wildcards to use and how to
+     * convert the wildcard strings to a regular expression string which is eventually used to
+     * search.
      *
      * @param wildcardSupport the new WildCardSupport.
      */
@@ -1317,8 +1350,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Adds the specified listener to receive searchable events from this
-     * searchable.
+     * Adds the specified listener to receive searchable events from this searchable.
      *
      * @param l the searchable listener
      */
@@ -1327,8 +1359,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Removes the specified searchable listener so that it no longer
-     * receives searchable events.
+     * Removes the specified searchable listener so that it no longer receives searchable events.
      *
      * @param l the searchable listener
      */
@@ -1337,12 +1368,12 @@ public abstract class Searchable {
     }
 
     /**
-     * Returns an array of all the <code>SearchableListener</code>s added
-     * to this <code>SearchableGroup</code> with
-     * <code>addSearchableListener</code>.
+     * Returns an array of all the <code>SearchableListener</code>s added to this
+     * <code>SearchableGroup</code> with <code>addSearchableListener</code>.
      *
-     * @return all of the <code>SearchableListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return all of the <code>SearchableListener</code>s added or an empty array if no listeners
+     *         have been added
+     *
      * @see #addSearchableListener
      */
     public SearchableListener[] getSearchableListeners() {
@@ -1373,7 +1404,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Gets the popup location. It could be either {@link SwingConstants#TOP} or {@link SwingConstants#BOTTOM}.
+     * Gets the popup location. It could be either {@link SwingConstants#TOP} or {@link
+     * SwingConstants#BOTTOM}.
      *
      * @return the popup location.
      */
@@ -1384,7 +1416,8 @@ public abstract class Searchable {
     /**
      * Sets the popup location.
      *
-     * @param popupLocation the popup location. The valid values are either {@link SwingConstants#TOP} or {@link SwingConstants#BOTTOM}.
+     * @param popupLocation the popup location. The valid values are either {@link
+     *                      SwingConstants#TOP} or {@link SwingConstants#BOTTOM}.
      */
     public void setPopupLocation(int popupLocation) {
         _popupLocation = popupLocation;
@@ -1482,8 +1515,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks the searching order. By default the searchable starts searching from top to bottom. If this flag
-     * is false, it searchs from bottom to top.
+     * Checks the searching order. By default the searchable starts searching from top to bottom. If
+     * this flag is false, it searchs from bottom to top.
      *
      * @return the reverseOrder flag.
      */
@@ -1492,8 +1525,8 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the searching order. By default the searchable starts searching from top to bottom. If this flag
-     * is false, it searchs from bottom to top.
+     * Sets the searching order. By default the searchable starts searching from top to bottom. If
+     * this flag is false, it searchs from bottom to top.
      *
      * @param reverseOrder
      */
@@ -1502,10 +1535,11 @@ public abstract class Searchable {
     }
 
     /**
-     * Gets the localized string from resource bundle. Subclass can override it to provide its own string.
-     * Available keys are defined in swing.properties that begin with "Searchable.".
+     * Gets the localized string from resource bundle. Subclass can override it to provide its own
+     * string. Available keys are defined in swing.properties that begin with "Searchable.".
      *
      * @param key
+     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
@@ -1540,9 +1574,9 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the location of the popup relative to the specified component. Then based on the value of
-     * {@link #getPopupLocation()}. If you never set, we will use the searchable component or its scroll pane (if exists)
-     * as the popupLocationRelativeTo component.
+     * Sets the location of the popup relative to the specified component. Then based on the value
+     * of {@link #getPopupLocation()}. If you never set, we will use the searchable component or its
+     * scroll pane (if exists) as the popupLocationRelativeTo component.
      *
      * @param popupLocationRelativeTo
      */
@@ -1551,8 +1585,9 @@ public abstract class Searchable {
     }
 
     /**
-     * This is a property of how to compare searching text with the data. If it is true, it will use {@link String#startsWith(String)}
-     * to do the comparison. Otherwise, it will use {@link String#indexOf(String)} to do the comparison.
+     * This is a property of how to compare searching text with the data. If it is true, it will use
+     * {@link String#startsWith(String)} to do the comparison. Otherwise, it will use {@link
+     * String#indexOf(String)} to do the comparison.
      *
      * @return true or false.
      */
@@ -1563,8 +1598,10 @@ public abstract class Searchable {
     /**
      * Sets the fromStart property.
      *
-     * @param fromStart true if the comparison matches from the start of the text only. Otherwise false. The difference is
-     *                  if true, it will use String's <code>startWith</code> method to match. If false, it will use <code>indedxOf</code> method.
+     * @param fromStart true if the comparison matches from the start of the text only. Otherwise
+     *                  false. The difference is if true, it will use String's
+     *                  <code>startWith</code> method to match. If false, it will use
+     *                  <code>indedxOf</code> method.
      */
     public void setFromStart(boolean fromStart) {
         hidePopup();
@@ -1575,6 +1612,7 @@ public abstract class Searchable {
      * Gets the Searchable installed on the component. Null is no Searchable was installed.
      *
      * @param component the component
+     *
      * @return the Searchable installed. Null is no Searchable was installed.
      */
     public static Searchable getSearchable(JComponent component) {
