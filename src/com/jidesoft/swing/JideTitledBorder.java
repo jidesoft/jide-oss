@@ -16,8 +16,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * The source code is the same as TitledBorder in JDK 1.4.2 except
- * field TEXT_INSET_H is 0 instead of 5.
+ * The source code is the same as TitledBorder in JDK 1.4.2 except field TEXT_INSET_H is 0 instead
+ * of 5.
  */
 public class JideTitledBorder extends AbstractBorder {
 
@@ -76,15 +76,13 @@ public class JideTitledBorder extends AbstractBorder {
      */
     static public final int RIGHT = 3;
     /**
-     * Position title text at the left side of the border line
-     * for left to right orientation, at the right side of the
-     * border line for right to left orientation.
+     * Position title text at the left side of the border line for left to right orientation, at the
+     * right side of the border line for right to left orientation.
      */
     static public final int LEADING = 4;
     /**
-     * Position title text at the right side of the border line
-     * for left to right orientation, at the left side of the
-     * border line for right to left orientation.
+     * Position title text at the right side of the border line for left to right orientation, at
+     * the left side of the border line for right to left orientation.
      */
     static public final int TRAILING = 5;
 
@@ -109,8 +107,7 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border
-     * and an empty title.
+     * Creates a JideTitledBorder instance with the specified border and an empty title.
      *
      * @param border the border
      */
@@ -119,8 +116,7 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border
-     * and title.
+     * Creates a JideTitledBorder instance with the specified border and title.
      *
      * @param border the border
      * @param title  the title the border should display
@@ -130,8 +126,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border,
-     * title, title-justification, and title-position.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
+     * and title-position.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -147,8 +143,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border,
-     * title, title-justification, title-position, and title-font.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
+     * title-position, and title-font.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -166,9 +162,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border,
-     * title, title-justification, title-position, title-font, and
-     * title-color.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
+     * title-position, title-font, and title-color.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -193,8 +188,7 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Paints the border for the specified component with the
-     * specified position and size.
+     * Paints the border for the specified component with the specified position and size.
      *
      * @param c      the component for which this border is being painted
      * @param g      the paint graphics
@@ -420,10 +414,10 @@ public class JideTitledBorder extends AbstractBorder {
             insets.left = insets.top = insets.right = insets.bottom = 0;
         }
 
-        insets.left += EDGE_SPACING + TEXT_SPACING;
-        insets.right += EDGE_SPACING + TEXT_SPACING;
-        insets.top += EDGE_SPACING + TEXT_SPACING;
-        insets.bottom += EDGE_SPACING + TEXT_SPACING;
+        insets.left += EDGE_SPACING + (insets.left > 0 ? TEXT_SPACING : 0);
+        insets.right += EDGE_SPACING + (insets.right > 0 ? TEXT_SPACING : 0);
+        insets.top += EDGE_SPACING + (insets.top > 0 ? TEXT_SPACING : 0);
+        insets.bottom += EDGE_SPACING + (insets.bottom > 0 ? TEXT_SPACING : 0);
 
         if (c == null || getTitle() == null || getTitle().equals("")) {
             return insets;
@@ -527,8 +521,7 @@ public class JideTitledBorder extends AbstractBorder {
     // REMIND(aim): remove all or some of these set methods?
 
     /**
-     * Sets the title of the titled border.
-     * param title the title for the border
+     * Sets the title of the titled border. param title the title for the border
      */
     public void setTitle(String title) {
         this.title = title;
@@ -605,8 +598,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Returns the minimum dimensions this border requires
-     * in order to fully display the border and title.
+     * Returns the minimum dimensions this border requires in order to fully display the border and
+     * title.
      *
      * @param c the component where this border will be drawn
      */

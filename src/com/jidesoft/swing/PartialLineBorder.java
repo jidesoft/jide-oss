@@ -4,7 +4,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * This is a better version of LineBorder which allows you to show line only at one side or several sides and supports rounded corner.
+ * This is a better version of LineBorder which allows you to show line only at one side or several
+ * sides and supports rounded corner.
  */
 public class PartialLineBorder extends LineBorder implements PartialSide {
 
@@ -83,5 +84,41 @@ public class PartialLineBorder extends LineBorder implements PartialSide {
 
         }
         g.setColor(oldColor);
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c) {
+        Insets borderInsets = super.getBorderInsets(c);
+        if ((_sides & NORTH) == 0) {
+            borderInsets.top = 0;
+        }
+        if ((_sides & SOUTH) == 0) {
+            borderInsets.bottom = 0;
+        }
+        if ((_sides & WEST) == 0) {
+            borderInsets.left = 0;
+        }
+        if ((_sides & EAST) == 0) {
+            borderInsets.right = 0;
+        }
+        return borderInsets;
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c, Insets insets) {
+        Insets borderInsets = super.getBorderInsets(c, insets);
+        if ((_sides & NORTH) == 0) {
+            borderInsets.top = 0;
+        }
+        if ((_sides & SOUTH) == 0) {
+            borderInsets.bottom = 0;
+        }
+        if ((_sides & WEST) == 0) {
+            borderInsets.left = 0;
+        }
+        if ((_sides & EAST) == 0) {
+            borderInsets.right = 0;
+        }
+        return borderInsets;
     }
 }

@@ -93,4 +93,40 @@ public class PartialEtchedBorder extends EtchedBorder implements PartialSide {
         }
         g.translate(-x, -y);
     }
+
+    @Override
+    public Insets getBorderInsets(Component c) {
+        Insets borderInsets = super.getBorderInsets(c);
+        if ((_sides & NORTH) == 0) {
+            borderInsets.top = 0;
+        }
+        if ((_sides & SOUTH) == 0) {
+            borderInsets.bottom = 0;
+        }
+        if ((_sides & WEST) == 0) {
+            borderInsets.left = 0;
+        }
+        if ((_sides & EAST) == 0) {
+            borderInsets.right = 0;
+        }
+        return borderInsets;
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c, Insets insets) {
+        Insets borderInsets = super.getBorderInsets(c, insets);
+        if ((_sides & NORTH) == 0) {
+            borderInsets.top = 0;
+        }
+        if ((_sides & SOUTH) == 0) {
+            borderInsets.bottom = 0;
+        }
+        if ((_sides & WEST) == 0) {
+            borderInsets.left = 0;
+        }
+        if ((_sides & EAST) == 0) {
+            borderInsets.right = 0;
+        }
+        return borderInsets;
+    }
 }
