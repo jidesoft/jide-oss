@@ -325,7 +325,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "DockableFrameTitlePane.showIcon", Boolean.FALSE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 10, 0, 3), // gap
 
-                    "SidePane.margin", new InsetsUIResource(2, 2, 0, 0),
+                    "SidePane.margin", new InsetsUIResource(1, 1, 1, 1),
                     "SidePane.iconTextGap", 2,
                     "SidePane.textBorderGap", 13,
                     "SidePane.itemGap", 5,

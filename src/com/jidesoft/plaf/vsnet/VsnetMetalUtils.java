@@ -24,7 +24,8 @@ import java.awt.*;
 import java.beans.Beans;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for MetalLookAndFeel.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for
+ * MetalLookAndFeel.
  */
 public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
@@ -306,7 +307,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     // dock
                     "Workspace.background", mdiBackgroundColor,
 
-                    "SidePane.margin", new InsetsUIResource(2, 2, 2, 0),
+                    "SidePane.margin", new InsetsUIResource(1, 1, 1, 1),
                     "SidePane.iconTextGap", 2,
                     "SidePane.textBorderGap", 13,
                     "SidePane.itemGap", 5,

@@ -29,8 +29,8 @@ import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for WindowsLookAndFeel.
- * Xerto Style is designed by Xerto at http://www.xerto.com.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for
+ * WindowsLookAndFeel. Xerto Style is designed by Xerto at http://www.xerto.com.
  */
 public class XertoWindowsUtils extends Office2003WindowsUtils {
 
@@ -524,7 +524,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     // dock
                     "Workspace.background", mdiBackgroundColor,
 
-                    "SidePane.margin", new InsetsUIResource(2, 2, 0, 0),
+                    "SidePane.margin", new InsetsUIResource(1, 1, 1, 1),
                     "SidePane.iconTextGap", 2,
                     "SidePane.textBorderGap", 13,
                     "SidePane.itemGap", 5,
