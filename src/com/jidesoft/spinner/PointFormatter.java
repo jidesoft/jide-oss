@@ -37,11 +37,9 @@ public class PointFormatter extends DefaultFormatter {
         }
         try {
             String[] splition = text.split(",");
-            return new Point(Integer.parseInt(splition[0].trim()),
-                    Integer.parseInt(splition[1].trim()));
+            return new Point(Integer.parseInt(splition[0].trim()), Integer.parseInt(splition[1].trim()));
         }
         catch (Exception e) {
-            e.printStackTrace();
             return super.stringToValue(text);
         }
     }
