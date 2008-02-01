@@ -382,6 +382,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "SidePane.orientation", 1,
                     "SidePane.showSelectedTabText", Boolean.TRUE,
                     "SidePane.alwaysShowTabText", Boolean.FALSE,
+                    "SidePane.highlighSelectedTab", Boolean.FALSE,
 
                     "ContentContainer.background", defaultFormBackground,
                     "ContentContainer.vgap", 1,
