@@ -24,8 +24,8 @@ import java.util.TreeMap;
 /**
  * Painter for Office2003 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
- * Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes
+ * only. Future version might break your build if you use it.
  */
 public class Office2003Painter extends BasicPainter {
 
@@ -948,8 +948,17 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
-        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
-        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
+        Color background = c.getBackground();
+        Color colorLt;
+        Color colorDk;
+        if (!(background instanceof UIResource)) {
+            colorLt = ColorUtils.getDerivedColor(background, 0.6f);
+            colorDk = ColorUtils.getDerivedColor(background, 0.5f);
+        }
+        else {
+            colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
+            colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
+        }
         Color old = g.getColor();
         g.setColor(colorLt);
         g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
@@ -968,8 +977,17 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
-        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
-        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
+        Color background = c.getBackground();
+        Color colorLt;
+        Color colorDk;
+        if (!(background instanceof UIResource)) {
+            colorLt = ColorUtils.getDerivedColor(background, 0.5f);
+            colorDk = ColorUtils.getDerivedColor(background, 0.4f);
+        }
+        else {
+            colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
+            colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
+        }
         g.setColor(colorLt);
         g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
         g.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);

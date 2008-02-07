@@ -13,8 +13,8 @@ import java.awt.*;
 /**
  * Painter for JIDE styles.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
- * Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes
+ * only. Future version might break your build if you use it.
  */
 public class BasicPainter implements SwingConstants, ThemePainter {
     private static BasicPainter _instance;
@@ -389,8 +389,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        int startX = 0;
-        int startY = 0;
+        int startX;
+        int startY;
         if (orientation == SwingConstants.HORIZONTAL) {
             startX = rect.x + 3;
             startY = rect.y + rect.height - 7;
@@ -403,10 +403,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintFloatingChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        int startX = 0;
-        int startY = 0;
-        startX = rect.width / 2 - 4;
-        startY = rect.height / 2 - 2;
+        int startX = rect.width / 2 - 4;
+        int startY = rect.height / 2 - 2;
         if (state == STATE_ROLLOVER) {
             JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 9, orientation);
         }
@@ -466,7 +464,12 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.emphasizedBackground"));
+        if (!(c.getBackground() instanceof UIResource)) {
+            g.setColor(c.getBackground());
+        }
+        else {
+            g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.emphasizedBackground"));
+        }
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
