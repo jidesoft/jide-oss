@@ -127,8 +127,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
     }
 
     /**
-     * Returns the ButtonListener for the passed in Button, or null if one
-     * could not be found.
+     * Returns the ButtonListener for the passed in Button, or null if one could not be found.
      */
     private RolloverMouseInputAdapter getMouseListener(HeaderBox b) {
         MouseMotionListener[] listeners = b.getMouseMotionListeners();
@@ -179,6 +178,48 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
     }
 
     protected void paintBackground(Graphics g, JComponent c) {
+        HeaderBox headerBox = (HeaderBox) c;
+
+        boolean isCellEditor = Boolean.TRUE.equals(headerBox.getClientProperty(HeaderBox.CLIENT_PROPERTY_TABLE_CELL_EDITOR));
+
+        if (headerBox.getModel().isPressed() || headerBox.getModel().isSelected()) {
+            if (isCellEditor) {
+                g.setColor(new Color(222, 223, 216));
+                g.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+            else {
+                g.setColor(new Color(222, 223, 216));
+                g.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 6, 6);
+
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
+            }
+        }
+        else {
+            if (isCellEditor) {
+                g.setColor(new Color(235, 234, 219));
+                g.fillRect(0, 0, c.getWidth() - 1, c.getHeight() - 1);
+            }
+            else {
+                g.setColor(new Color(235, 234, 219));
+                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 2);
+
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 4);
+            }
+
+            g.setColor(new Color(226, 222, 205));
+            g.drawLine(1, c.getHeight() - 3, c.getWidth() - 2, c.getHeight() - 3);
+            g.setColor(new Color(214, 210, 194));
+            g.drawLine(1, c.getHeight() - 2, c.getWidth() - 2, c.getHeight() - 2);
+
+            if (isCellEditor) {
+                g.setColor(new Color(198, 197, 178));
+                g.drawLine(c.getWidth() - 3, 4, c.getWidth() - 3, c.getHeight() - 7);
+                g.setColor(Color.WHITE);
+                g.drawLine(c.getWidth() - 2, 4, c.getWidth() - 2, c.getHeight() - 7);
+            }
+        }
     }
 
     protected void uninstallDefaults(HeaderBox p) {
