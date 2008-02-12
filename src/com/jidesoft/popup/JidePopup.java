@@ -205,6 +205,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     public static final int HEAVY_WEIGHT_POPUP = 2;
 
     private int _popupType = HEAVY_WEIGHT_POPUP;
+    private ActionListener _escapeActionListener;
 
     /**
      * Creates a Popup.
@@ -508,6 +509,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     protected void setRootPane(JRootPane root) {
         if (rootPane != null) {
+            rootPane.removeAll();
             remove(rootPane);
         }
         JRootPane oldValue = getRootPane();
@@ -1168,7 +1170,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 hidePopup();
             }
         };
-        registerKeyboardAction(new ActionListener() {
+        _escapeActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hidePopupImmediately(true);
                 Component owner = getActualOwner();
@@ -1176,7 +1178,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     owner.requestFocus();
                 }
             }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        };
+        registerKeyboardAction(_escapeActionListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         if (_popupType == HEAVY_WEIGHT_POPUP) {
             _window.addComponentListener(_componentListener);
             _windowListener = new WindowAdapter() {
@@ -1612,40 +1615,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 //        }
 //    };
 
-    private AWTEventListener _awtEventListener = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            if ("sun.awt.UngrabEvent".equals(event.getClass().getName())) {
-                // this is really a hack so that it can detect event when closing the windows in Eclise RCP env.
-                // Popup should be canceled in case of ungrab event
-                hidePopupImmediately(true);
-                return;
-            }
-
-            if (event instanceof MouseEvent) {
-                if (event.getID() == MouseEvent.MOUSE_PRESSED) {
-                    handleMousePressed((MouseEvent) event);
-                }
-                else if (event.getID() == MouseEvent.MOUSE_DRAGGED) {
-                    handleMouseDragged((MouseEvent) event);
-                }
-                else if (event.getID() == MouseEvent.MOUSE_RELEASED) {
-                    handleMouseReleased((MouseEvent) event);
-                }
-                else if (event.getID() == MouseEvent.MOUSE_ENTERED) {
-                    handleMouseEntered((MouseEvent) event);
-                }
-                else if (event.getID() == MouseEvent.MOUSE_EXITED) {
-                    handleMouseExited((MouseEvent) event);
-                }
-            }
-            else if (event instanceof WindowEvent) {
-                handleWindowEvent((WindowEvent) event);
-            }
-            else if (event instanceof ComponentEvent) {
-                handleComponentEvent((ComponentEvent) event);
-            }
-        }
-    };
+    private AWTEventListener _awtEventListener;
 
     protected void handleMousePressed(MouseEvent e) {
         Component c = e.getComponent();
@@ -1870,11 +1840,19 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         Component owner = getActualOwner();
         if (owner != null) {
             owner.removeHierarchyListener(_hierarchyListener);
+            _hierarchyListener = null;
             owner.removeComponentListener(_ownerComponentListener);
+            _ownerComponentListener = null;
+        }
+        if (_escapeActionListener != null) {
+            unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+            _escapeActionListener = null;
         }
         if (_window != null) {
             _window.removeWindowListener(_windowListener);
+            _windowListener = null;
             _window.removeComponentListener(_componentListener);
+            _componentListener = null;
             _window.getContentPane().remove(this);
             if (cancelled) {
                 firePopupMenuCanceled(); // will cause hidePopupImmediately called again.
@@ -1897,9 +1875,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _previousSize = _window.getSize();
             _window.setVisible(false);
             firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
+            _window.removeAll();
             _window.dispose();
             _window = null;
         }
+
+        setRootPane(null);
+
         if (_panel != null) {
             _previousSize = _panel.getSize();
             _panel.setVisible(false);
@@ -1941,6 +1923,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
         }
 
+        _resizableSupport = null;
+        _owner = null;
         _actualOwner = null;
         _actualOwnerLocation = null;
     }
@@ -1961,6 +1945,42 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             return;
         }
 
+        if (_awtEventListener == null) {
+            _awtEventListener = new AWTEventListener() {
+                public void eventDispatched(AWTEvent event) {
+                    if ("sun.awt.UngrabEvent".equals(event.getClass().getName())) {
+                        // this is really a hack so that it can detect event when closing the windows in Eclise RCP env.
+                        // Popup should be canceled in case of ungrab event
+                        hidePopupImmediately(true);
+                        return;
+                    }
+
+                    if (event instanceof MouseEvent) {
+                        if (event.getID() == MouseEvent.MOUSE_PRESSED) {
+                            handleMousePressed((MouseEvent) event);
+                        }
+                        else if (event.getID() == MouseEvent.MOUSE_DRAGGED) {
+                            handleMouseDragged((MouseEvent) event);
+                        }
+                        else if (event.getID() == MouseEvent.MOUSE_RELEASED) {
+                            handleMouseReleased((MouseEvent) event);
+                        }
+                        else if (event.getID() == MouseEvent.MOUSE_ENTERED) {
+                            handleMouseEntered((MouseEvent) event);
+                        }
+                        else if (event.getID() == MouseEvent.MOUSE_EXITED) {
+                            handleMouseExited((MouseEvent) event);
+                        }
+                    }
+                    else if (event instanceof WindowEvent) {
+                        handleWindowEvent((WindowEvent) event);
+                    }
+                    else if (event instanceof ComponentEvent) {
+                        handleComponentEvent((ComponentEvent) event);
+                    }
+                }
+            };
+        }
         try {
             java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
@@ -1990,6 +2010,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     new java.security.PrivilegedAction() {
                         public Object run() {
                             Toolkit.getDefaultToolkit().removeAWTEventListener(_awtEventListener);
+                            _awtEventListener = null;
                             return null;
                         }
                     }
@@ -2419,6 +2440,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public void removeExcludedComponent(Component component) {
         _excludedComponents.remove(component);
+    }
+
+    /**
+     * Removes all excluded components that were added before.
+     */
+    public void removeAllExcludedComponents() {
+        _excludedComponents.clear();
     }
 
     /**
