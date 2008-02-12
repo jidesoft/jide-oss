@@ -3,10 +3,10 @@ package com.jidesoft.utils;
 import java.util.*;
 
 /**
- * This is a fast access Vector that sacrifices memory for speed. It will
- * reduce the speed of indexOf method from O(n) to O(1). However it will at least double
- * the memory used by Vector. So use it approriately.
- * <p><strong>Just like Vector, this implementation is synchronized.</strong> In comparision, {@link CachedArrayList} is not synchronized.
+ * This is a fast access Vector that sacrifices memory for speed. It will reduce the speed of
+ * indexOf method from O(n) to O(1). However it will at least double the memory used by Vector. So
+ * use it approriately. <p><strong>Just like Vector, this implementation is synchronized.</strong>
+ * In comparision, {@link CachedArrayList} is not synchronized.
  */
 public class CachedVector<E> extends Vector<E> {
     private Map<Object, Integer> _indexCache;
@@ -46,7 +46,8 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     /**
-     * Adjusts the cache so that all values that are greater than index will increase by the value specified by the increase parameter.
+     * Adjusts the cache so that all values that are greater than index will increase by the value
+     * specified by the increase parameter.
      *
      * @param index    the index. All values above this index will be changed.
      * @param increase a positive number to increase or a negative number to decrease.
@@ -180,6 +181,7 @@ public class CachedVector<E> extends Vector<E> {
         if (!isLazyCaching()) {
             initializeCache();
             E e = super.set(index, element);
+            uncacheIt(e);
             cacheIt(element, index);
             return e;
         }
