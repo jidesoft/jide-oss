@@ -227,7 +227,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @see javax.swing.JRootPane
      */
     protected JRootPane createRootPane() {
-        return new JRootPane();
+        JRootPane pane = new JRootPane();
+        // by default, the subclass BorderLayout cause memory leak if isPopupVolatile in AbstractComboBox.
+        pane.getContentPane().setLayout(new BorderLayout());
+        return pane;
     }
 
     /**
