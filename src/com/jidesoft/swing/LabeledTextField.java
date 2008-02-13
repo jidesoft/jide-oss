@@ -9,15 +9,19 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * <code>LabeledTextField</code> is a combo component which includes text field and
- * an optional JLabel in the front and another optionial AbstractButton at the end.
+ * <code>LabeledTextField</code> is a combo component which includes text field and an optional
+ * JLabel in the front and another optionial AbstractButton at the end.
  */
 public class LabeledTextField extends JPanel {
 
@@ -27,6 +31,8 @@ public class LabeledTextField extends JPanel {
 
     protected String _labelText;
     protected Icon _icon;
+    protected String _hintText;
+    protected JLabel _hintLabel;
 
     public LabeledTextField() {
         this(null, null);
@@ -78,32 +84,79 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Setup the layout of the components. By default, we used a border layout
-     * with label first, field in the center and button last.
+     * Setup the layout of the components. By default, we used a border layout with label first,
+     * field in the center and button last.
      *
      * @param label  the label
      * @param field  the text field.
      * @param button the button
      */
-    protected void initLayout(JLabel label, JTextField field, AbstractButton button) {
+    protected void initLayout(final JLabel label, final JTextField field, final AbstractButton button) {
         setLayout(new BorderLayout(3, 3));
         if (label != null) {
             add(label, BorderLayout.BEFORE_LINE_BEGINS);
         }
-        add(field);
+        _hintLabel = new JLabel(getHintText());
+        _hintLabel.setOpaque(false);
+        Color foreground = UIDefaultsLookup.getColor("Label.disabledForeground");
+        if (foreground == null) {
+            foreground = Color.GRAY;
+        }
+        _hintLabel.setForeground(foreground);
+        final DefaultOverlayable overlayable = new DefaultOverlayable(field, _hintLabel, DefaultOverlayable.WEST);
+        overlayable.setOpaque(false);
+        field.addFocusListener(new FocusListener() {
+            public void focusLost(FocusEvent e) {
+                adjustOverlay(field, overlayable);
+            }
+
+            public void focusGained(FocusEvent e) {
+                adjustOverlay(field, overlayable);
+            }
+        });
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                adjustOverlay(field, overlayable);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                adjustOverlay(field, overlayable);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                adjustOverlay(field, overlayable);
+            }
+        });
+        add(overlayable);
         if (button != null) {
             add(button, BorderLayout.AFTER_LINE_ENDS);
         }
     }
 
+    private void adjustOverlay(JTextField field, DefaultOverlayable overlayable) {
+        if (field.hasFocus()) {
+            overlayable.setOverlayVisible(false);
+        }
+        else {
+            String text = field.getText();
+            if (text != null && text.length() != 0) {
+                overlayable.setOverlayVisible(false);
+            }
+            else {
+                overlayable.setOverlayVisible(true);
+            }
+        }
+    }
+
     /**
-     * Creates a text field. By default it will return a JTextField with opaque set to false. Subclass
-     * can override this method to create their own text field such as JFormattedTextField.
+     * Creates a text field. By default it will return a JTextField with opaque set to false.
+     * Subclass can override this method to create their own text field such as
+     * JFormattedTextField.
      *
      * @return a text field.
      */
     protected JTextField createTextField() {
-        JTextField textField = new JTextField();
+        JTextField textField = new OverlayTextField();
         SelectAllUtils.install(textField);
         textField.setOpaque(false);
         textField.setColumns(20);
@@ -135,8 +188,9 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Creates the button that appears after the text field. By default it returns null so there is no button. Subclass can
-     * override it to create their own button. A typical usage of this is to create a browse button to browse a file or directory.
+     * Creates the button that appears after the text field. By default it returns null so there is
+     * no button. Subclass can override it to create their own button. A typical usage of this is to
+     * create a browse button to browse a file or directory.
      *
      * @return the button.
      */
@@ -284,15 +338,36 @@ public class LabeledTextField extends JPanel {
                 }
             }
             catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                // ignore
             }
             catch (IllegalAccessException e) {
-                e.printStackTrace();
+                // ignore
             }
             catch (InvocationTargetException e) {
-                e.printStackTrace();
+                // ignore
             }
         }
         return -1;
+    }
+
+    /**
+     * Gets the hint text when the field is empty and not focused.
+     *
+     * @return the hint text.
+     */
+    public String getHintText() {
+        return _hintText;
+    }
+
+    /**
+     * Sets the hint text.
+     *
+     * @param hintText the new hint text.
+     */
+    public void setHintText(String hintText) {
+        _hintText = hintText;
+        if (_hintLabel != null) {
+            _hintLabel.setText(_hintText);
+        }
     }
 }
