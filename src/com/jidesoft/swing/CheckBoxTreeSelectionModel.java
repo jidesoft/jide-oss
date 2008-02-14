@@ -88,6 +88,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         return false;
     }
 
+    @Override
+    public boolean isRowSelected(int row) {
+        return isPathSelected(_tree.getPathForRow(row), _tree.isDigIn());
+    }
+
     /**
      * Tells whether given path is selected. if dig is true, then a path is assumed to be selected,
      * if one of its ancestor is selected.
