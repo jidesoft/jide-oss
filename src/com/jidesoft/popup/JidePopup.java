@@ -12,6 +12,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.*;
 import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
 import sun.awt.EmbeddedFrame;
 
 import javax.accessibility.Accessible;
@@ -993,7 +994,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             Point p = new Point(x, y);
             SwingUtilities.convertPointFromScreen(p, layeredPane);
             layeredPane.add(_panel, JLayeredPane.PALETTE_LAYER);
-            layeredPane.setComponentZOrder(_panel, 0);
+            if (SystemInfo.isJdk15Above()) {
+                layeredPane.setComponentZOrder(_panel, 0);
+            }
 
             _panel.setLocation(p.x, p.y);
         }
@@ -1640,9 +1643,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (_popupType == LIGHT_WEIGHT_POPUP) {
                 startingBounds = _panel.getBounds();
                 Container parent = _panel.getParent();
-                if (parent.getComponentZOrder(_panel) != 0) {
-                    parent.setComponentZOrder(_panel, 0);
-                    parent.repaint();
+                if (SystemInfo.isJdk15Above()) {
+                    if (parent.getComponentZOrder(_panel) != 0) {
+                        parent.setComponentZOrder(_panel, 0);
+                        parent.repaint();
+                    }
                 }
             }
             else if (_popupType == HEAVY_WEIGHT_POPUP) {
