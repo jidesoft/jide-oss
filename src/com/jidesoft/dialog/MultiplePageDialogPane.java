@@ -313,7 +313,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      */
     protected JComponent createPagesPanel() {
         if (_style == TAB_STYLE) {
-            _tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+            _tabbedPane = createTabbedPane();
             _tabbedPane.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     Component selectedComponent = _tabbedPane.getSelectedComponent();
@@ -422,6 +422,15 @@ public class MultiplePageDialogPane extends StandardDialogPane {
             });
             return pagesPanel;
         }
+    }
+
+    /**
+     * Creates the JTabbedPane used by TAB_STYLE dialog.
+     *
+     * @return a JTabbedPane
+     */
+    protected JTabbedPane createTabbedPane() {
+        return new JTabbedPane(JTabbedPane.TOP);
     }
 
     /**
@@ -615,7 +624,8 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * <p/>
      *         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)
      * tree.getSelectionPath().getLastPathComponent();
-     *         // comment this while block if you want the parent page shows its own page instead of
+     *         // comment this while block if you want the parent page shows its own page instead
+     * of
      * showing its first child page.
      *         while (!treeNode.isLeaf()) {
      *             final DefaultMutableTreeNode tn = treeNode;

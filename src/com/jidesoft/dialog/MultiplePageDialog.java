@@ -415,7 +415,7 @@ public class MultiplePageDialog extends StandardDialog {
      */
     protected JComponent createPagesPanel() {
         if (_style == TAB_STYLE) {
-            _tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+            _tabbedPane = createTabbedPane();
             _tabbedPane.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     Component selectedComponent = _tabbedPane.getSelectedComponent();
@@ -528,6 +528,15 @@ public class MultiplePageDialog extends StandardDialog {
             });
             return pagesPanel;
         }
+    }
+
+    /**
+     * Creates the JTabbedPane used by TAB_STYLE dialog.
+     *
+     * @returna a JTabbedPane
+     */
+    protected JTabbedPane createTabbedPane() {
+        return new JTabbedPane(JTabbedPane.TOP);
     }
 
     /**
