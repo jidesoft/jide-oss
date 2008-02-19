@@ -1097,6 +1097,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             Frame frame = getFrame(owner);
             container = new ResizableWindow(frame);
         }
+        ((Component) container).setName("JidePopup");
         container.getContentPane().add(this);
         return container;
     }
@@ -1887,8 +1888,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _window.dispose();
             _window = null;
         }
-
-        setRootPane(null);
 
         if (_panel != null) {
             _previousSize = _panel.getSize();
