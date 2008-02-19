@@ -20,10 +20,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * <code>TextComponentSearchable</code> is an concrete implementation of {@link Searchable}
- * that enables the search function in JTextComponent.
- * <p>It's very simple to use it. Assuming you have a JTextComponent, all you need to do is to
- * call
+ * <code>TextComponentSearchable</code> is an concrete implementation of {@link Searchable} that
+ * enables the search function in JTextComponent. <p>It's very simple to use it. Assuming you have a
+ * JTextComponent, all you need to do is to call
  * <code><pre>
  * JTextComponent textComponent = ....;
  * TextComponentSearchable searchable = new TextComponentSearchable(textComponent);
@@ -31,8 +30,9 @@ import java.util.Iterator;
  * Now the JTextComponent will have the search function.
  * <p/>
  * There is very little customization you need to do to ListSearchable. The only thing you might
- * need is when the element in the JTextComponent needs a special conversion to convert to string. If so, you can overide
- * convertElementToString() to provide you own algorithm to do the conversion.
+ * need is when the element in the JTextComponent needs a special conversion to convert to string.
+ * If so, you can overide convertElementToString() to provide you own algorithm to do the
+ * conversion.
  * <code><pre>
  * JTextComponent textComponent = ....;
  * TextComponentSearchable searchable = new ListSearchable(textComponent) {
@@ -41,18 +41,20 @@ import java.util.Iterator;
  *      }
  * <p/>
  *      protected boolean isActivateKey(KeyEvent e) { // change to a different activation key
- *          return (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F && (KeyEvent.CTRL_MASK & e.getModifiers()) != 0);
+ *          return (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F &&
+ * (KeyEvent.CTRL_MASK & e.getModifiers()) != 0);
  *      }
  * };
  * </pre></code>
  * <p/>
- * Additional customization can be done on the base Searchable class such as background and foreground color, keystrokes,
- * case sensitivity. TextComponentSearchable also has a special attribute called highlightColor. You can change it using {@link #setHighlightColor(java.awt.Color)}.
+ * Additional customization can be done on the base Searchable class such as background and
+ * foreground color, keystrokes, case sensitivity. TextComponentSearchable also has a special
+ * attribute called highlightColor. You can change it using {@link #setHighlightColor(java.awt.Color)}.
  * <p/>
- * Due to the special case of JTextComponent, the searching doesn't
- * support wild card '*' or '?' as in other Searchables. The other difference is JTextComponent
- * will keep the highlights after search popup hides. If you want to hide the highlights, just press
- * ESC again (the first ESC will hide popup; the second ESC will hide all highlights if any).
+ * Due to the special case of JTextComponent, the searching doesn't support wild card '*' or '?' as
+ * in other Searchables. The other difference is JTextComponent will keep the highlights after
+ * search popup hides. If you want to hide the highlights, just press ESC again (the first ESC will
+ * hide popup; the second ESC will hide all highlights if any).
  */
 public class TextComponentSearchable extends Searchable implements DocumentListener, PropertyChangeListener {
     private Highlighter.HighlightPainter _highlightPainter;
@@ -134,6 +136,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
      * @param index       the index of the text to be highlighted
      * @param text        the text to be highlighted
      * @param incremental if this is an incremental adding highlight
+     *
      * @throws BadLocationException
      */
     protected void addHighlight(int index, String text, boolean incremental) throws BadLocationException {
@@ -233,6 +236,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
      * <code>toString()</code> of whatever element that returned from <code>list.getModel().getElementAt(i)</code>.
      *
      * @param object
+     *
      * @return the string representing the element in the JTextComponent.
      */
     @Override
@@ -518,5 +522,10 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         public void removeAllHighlights() {
             clear();
         }
+    }
+
+    public void hidePopup() {
+        super.hidePopup();
+        _selectedIndex = -1;
     }
 }
