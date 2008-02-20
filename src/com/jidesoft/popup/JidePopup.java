@@ -1652,9 +1652,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
             }
             else if (_popupType == HEAVY_WEIGHT_POPUP) {
-                startingBounds = _window.getBounds();
-                if (KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() != _window && isPopupAncestorOf(this, (Component) e.getSource())) {
-                    _window.toFront();
+                final Window sourceWindow = SwingUtilities.getWindowAncestor(component);
+                if (sourceWindow == _window) {
+                    startingBounds = _window.getBounds();
+                    if (KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() != _window) {
+                        _window.toFront();
+                    }
                 }
             }
 
