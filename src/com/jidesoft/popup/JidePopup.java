@@ -1645,7 +1645,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 startingBounds = _panel.getBounds();
                 Container parent = _panel.getParent();
                 if (SystemInfo.isJdk15Above()) {
-                    if (parent.getComponentZOrder(_panel) != 0) {
+                    if (_panel.isAncestorOf((Component) e.getSource()) && parent.getComponentZOrder(_panel) != 0) {
                         parent.setComponentZOrder(_panel, 0);
                         parent.repaint();
                     }
@@ -1653,7 +1653,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
             else if (_popupType == HEAVY_WEIGHT_POPUP) {
                 startingBounds = _window.getBounds();
-                if (KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() != _window) {
+                if (KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow() != _window && isPopupAncestorOf(this, (Component) e.getSource())) {
                     _window.toFront();
                 }
             }
@@ -2540,4 +2540,22 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             return getOwner();
         }
     }
+
+    public static boolean isPopupAncestorOf(JidePopup popup, Component c) {
+        Container p;
+        if (c == null || ((p = c.getParent()) == null)) {
+            return false;
+        }
+        while (p != null) {
+            if (p == popup) {
+                return true;
+            }
+            if (p instanceof JidePopup) { // found another popup
+                return false;
+            }
+            p = p.getParent();
+        }
+        return false;
+    }
+
 }
