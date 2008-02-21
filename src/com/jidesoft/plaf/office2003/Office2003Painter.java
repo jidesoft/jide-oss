@@ -520,7 +520,7 @@ public class Office2003Painter extends BasicPainter {
     protected void paintBackground(JComponent c, Graphics2D g2d, Rectangle rect, Color borderColor, Color startColor, Color endColor, int orientation) {
         if (borderColor != null) {
             if (startColor != null && endColor != null) {
-                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 1, rect.y + 1, rect.width - 1, rect.height - 1), startColor, endColor, orientation == SwingConstants.HORIZONTAL);
+                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, orientation == SwingConstants.HORIZONTAL);
             }
             boolean paintDefaultBorder = true;
             Object o = c.getClientProperty("JideButton.paintDefaultBorder");
