@@ -923,8 +923,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
         else {
             //   Dimension size = b.getSize();
-            viewRect.height = menuItem.getWidth() - insets.left - insets.right;
-            viewRect.width = menuItem.getHeight() - insets.top - insets.bottom;
+            viewRect.height = menuItem.getWidth() - insets.top - insets.bottom;
+            viewRect.width = menuItem.getHeight() - insets.left - insets.right;
         }
 
         /* Initialize the acceelratorText bounds rectangle textRect.  If a null
