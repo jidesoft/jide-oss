@@ -128,7 +128,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     }
 
     public boolean isRollOver() {
-        return _rollOver || editor.hasFocus();
+        return _rollOver || (editor != null ? editor.hasFocus() : hasFocus);
     }
 
     public void setRollOver(boolean rollOver) {
