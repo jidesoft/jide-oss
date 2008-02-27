@@ -12,11 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * <code>Flashable</code> is a basic interface to enable flashing in any component.
- * Internally it uses {@link Animator} to create the flashing effect.
+ * <code>Flashable</code> is a basic interface to enable flashing in any component. Internally it
+ * uses {@link Animator} to create the flashing effect.
  * <p/>
- * Whenever a Flashable is installed to a JComponent, you can always use {@link #isFlashableInstalled(javax.swing.JComponent)}
- * to check if it is installed.
+ * Whenever a Flashable is installed to a JComponent, you can always use {@link
+ * #isFlashableInstalled(javax.swing.JComponent)} to check if it is installed.
  */
 public abstract class Flashable {
     public final static String CLIENT_PROPERTY_FLASHABLE = "jide.flashable";
@@ -27,8 +27,8 @@ public abstract class Flashable {
     protected Animator _animator;
     protected Timer _timer = null;
 
-    private static boolean _synchonizedFlashFlag;
-    private static Timer _synchonizedFlashTimer;
+    private static boolean _synchronizedFlashFlag;
+    private static Timer _synchronizedFlashTimer;
 
     public Flashable(JComponent component) {
         _component = component;
@@ -42,23 +42,23 @@ public abstract class Flashable {
         }
 
         public void actionPerformed(ActionEvent e) {
-            _synchonizedFlashFlag = !_synchonizedFlashFlag;
+            _synchronizedFlashFlag = !_synchronizedFlashFlag;
         }
     }
 
-    public boolean getSynchonizedFlashFlag() {
-        return _synchonizedFlashFlag;
+    public boolean getSynchronizedFlashFlag() {
+        return _synchronizedFlashFlag;
     }
 
     private void install(JComponent component) {
         _animator = new Animator(component, 0, getInterval(), -1) {
             @Override
             protected Timer createTimer(int delay, ActionListener listener) {
-                if (_synchonizedFlashTimer == null) {
-                    _synchonizedFlashTimer = new FlashTimer(delay, listener);
+                if (_synchronizedFlashTimer == null) {
+                    _synchronizedFlashTimer = new FlashTimer(delay, listener);
                 }
-                _synchonizedFlashTimer.addActionListener(listener);
-                return _synchonizedFlashTimer;
+                _synchronizedFlashTimer.addActionListener(listener);
+                return _synchronizedFlashTimer;
             }
         };
         _animator.setAnimatorListener(new AnimatorListener() {
@@ -110,7 +110,8 @@ public abstract class Flashable {
     }
 
     /**
-     * Sets the inteveral, in ms. If the flashing is running, the new interval will take effect immediately. By default, it is 300 ms.
+     * Sets the inteveral, in ms. If the flashing is running, the new interval will take effect
+     * immediately. By default, it is 300 ms.
      *
      * @param interval the new interval.
      */
@@ -124,12 +125,14 @@ public abstract class Flashable {
 
 
     /**
-     * This method actually does the flashing. This method is called in the actionPerformed of the timer.
+     * This method actually does the flashing. This method is called in the actionPerformed of the
+     * timer.
      */
     abstract public void flash();
 
     /**
-     * Clears any flashing effect. This method will be called in {@link #startFlashing()} and {@link #stopFlashing()}.
+     * Clears any flashing effect. This method will be called in {@link #startFlashing()} and {@link
+     * #stopFlashing()}.
      */
     abstract public void clearFlashing();
 
@@ -154,9 +157,9 @@ public abstract class Flashable {
     }
 
     /**
-     * Unstalls the <code>Flashable</code> from the component. Once uninstalled,
-     * you have to create a new Flashable in order to use the flahsing feature again. If you just want to stop flashing,
-     * you should use {@link #stopFlashing()}.
+     * Unstalls the <code>Flashable</code> from the component. Once uninstalled, you have to create
+     * a new Flashable in order to use the flahsing feature again. If you just want to stop
+     * flashing, you should use {@link #stopFlashing()}.
      */
     public void uninstall() {
         stopFlashing();
@@ -178,6 +181,7 @@ public abstract class Flashable {
      * Checks if there is a Flashable installed on the component.
      *
      * @param component the component.
+     *
      * @return true if installed.
      */
     public static boolean isFlashableInstalled(JComponent component) {
@@ -189,6 +193,7 @@ public abstract class Flashable {
      * Gets the TableFlashable installed on the table, if any.
      *
      * @param component the component.
+     *
      * @return whether a Flashable is installed.
      */
     public static Flashable getFlashable(JComponent component) {
