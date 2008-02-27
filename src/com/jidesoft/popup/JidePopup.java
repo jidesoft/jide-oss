@@ -1049,14 +1049,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         internalShowPopup(x, y, owner);
     }
 
-    /**
-     * @deprecated use {@link #createHeavyweightPopupContainer(java.awt.Component)} instead.
-     */
-    protected ResizableWindow createPopupContainer() {
-        //noinspection deprecation
-        return createPopupContainer(null);
-    }
-
     protected static Frame getFrame(Component c) {
         Component w = c;
 

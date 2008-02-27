@@ -4129,7 +4129,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     /**
      * Returns the bounds of the specified tab in the coordinate space of the JTabbedPane component.
-     *  This is required because the tab rects are by default defined in the coordinate space of the
+     * This is required because the tab rects are by default defined in the coordinate space of the
      * component where they are rendered, which could be the JTabbedPane (for WRAP_TAB_LAYOUT) or a
      * ScrollableTabPanel (SCROLL_TAB_LAYOUT). This method should be used whenever the tab rectangle
      * must be relative to the JTabbedPane itself and the result should be placed in a designated
@@ -7676,7 +7676,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     else {
                         _tabPane.setSelectedIndex(tabIndex);
                         final Component comp = _tabPane.getComponentAt(tabIndex);
-                        if (!comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk16Above()) {
+                        if (!comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
                             comp.addComponentListener(new ComponentAdapter() {
                                 @Override
                                 public void componentShown(ComponentEvent e) {

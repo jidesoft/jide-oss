@@ -43,7 +43,8 @@ import java.util.Vector;
  * LookAndFeelFactory.installJideExtension(...) methods. Bascially, you set L&F using UIManager
  * first just like before, then call installJideExtension. See code below for an example.
  * <code><pre>
- * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the exceptions
+ * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
+ * exceptions
  * on this call.
  * LookAndFeelFactory.installJideExtension();
  * </pre></code>
@@ -213,7 +214,8 @@ public class LookAndFeelFactory implements ProductNames {
      * <p/>
      * Here is the code to set to any L&F with Eclipse style extension.
      * <code><pre>
-     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the exceptions
+     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the
+     * exceptions
      * on this call.
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE_STYLE);
      * </pre></code>
@@ -285,7 +287,8 @@ public class LookAndFeelFactory implements ProductNames {
      * Eclipse 3x style works for almost all L&Fs and on any operating systems, although it looks
      * the best on Windows. For any other OS's we suggest you to use XERTO_STYLE or VSNET_STYLE.
      * <code><pre>
-     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the exceptions
+     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the
+     * exceptions
      * on this call.
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE3X_STYLE);
      * </pre></code>
@@ -311,14 +314,6 @@ public class LookAndFeelFactory implements ProductNames {
      * VSNET_STYLE.
      */
     public final static String JIDE_STYLE_INSTALLED = "jidesoft.extendsionStyle";
-
-    /**
-     * @deprecated JIDE_STYLE name is confusing because people think this is a special style such as
-     *             VSNET_STYLE or OFFICE2003_STYLE. So we decided to rename it to  {@link
-     *             #JIDE_STYLE_INSTALLED}. If you used this before, please change it to use
-     *             JIDE_STYLE_INSTALLED instead.
-     */
-    public final static String JIDE_STYLE = JIDE_STYLE_INSTALLED;
 
     /**
      * An interface to make the customization of UIDefaults easier. This customizer will be called

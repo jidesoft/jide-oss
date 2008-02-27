@@ -17,7 +17,7 @@ public class ColorFilter extends RGBImageFilter {
     private boolean brighter;
     private int percent;
 
-    private static ColorFilter _colorFilter = new ColorFilter(false, 0);
+    private static ColorFilter _colorFilter = ColorFilter.getInstance(false, 0);
 
     public static ColorFilter getInstance(boolean brighter, int percent) {
         _colorFilter.setBrighter(brighter);
@@ -34,44 +34,38 @@ public class ColorFilter extends RGBImageFilter {
     }
 
     /**
-     * Creates a dimmed image
-     *
-     * @deprecated the name is wrong. Replaced by createBrighterImage().
-     */
-    public static Image createDimmedImage(Image i) {
-        ColorFilter filter = ColorFilter.getInstance(true, 30); // 30 percent brighter
-        ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
-        Image image = Toolkit.getDefaultToolkit().createImage(prod);
-        return image;
-    }
-
-    /**
      * Creates a brighter image
+     *
+     * @param i the original image
+     *
+     * @return a brighter image
      */
     public static Image createBrighterImage(Image i) {
         ColorFilter filter = ColorFilter.getInstance(true, 30); // 30 percent brighter
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
-        Image image = Toolkit.getDefaultToolkit().createImage(prod);
-        return image;
+        return Toolkit.getDefaultToolkit().createImage(prod);
     }
 
     /**
-     * Creates a dimmed image
+     * Creates a darker image.
+     *
+     * @param i the original image
+     *
+     * @return a darker image.
      */
     public static Image createDarkerImage(Image i) {
         ColorFilter filter = ColorFilter.getInstance(false, 30); // 30 percent brighter
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
-        Image image = Toolkit.getDefaultToolkit().createImage(prod);
-        return image;
+        return Toolkit.getDefaultToolkit().createImage(prod);
     }
 
     /**
-     * Constructs a ColorFilter object that filters a color image to a
-     * brighter or a darker image.
+     * Constructs a ColorFilter object that filters a color image to a brighter or a darker image.
      *
      * @param b a boolean -- true if the pixels should be brightened
-     * @param p an int in the range 0..100 that determines the percentage
-     *          of gray, where 100 is the darkest gray, and 0 is the lightest
+     * @param p an int in the range 0..100 that determines the percentage of gray, where 100 is the
+     *          darkest gray, and 0 is the lightest
+     *
      * @deprecated use getInstance instead to reuse the same instance
      */
     public ColorFilter(boolean b, int p) {
@@ -89,7 +83,7 @@ public class ColorFilter extends RGBImageFilter {
         int g = (rgb >> 8) & 0xff;
         int b = rgb & 0xff;
 
-        return (rgb & 0xff000000) | (convert(r) << 16) | (convert(g) << 8) | (convert(b) << 0);
+        return rgb & 0xff000000 | convert(r) << 16 | convert(g) << 8 | convert(b);
     }
 
     private int convert(int color) {

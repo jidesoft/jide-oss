@@ -32,7 +32,7 @@ import java.util.Vector;
  * styles.
  * <p/>
  * All the methods on JLabel still work as before. The methods added in StyledLabel are several
- * methods for StyleRange, such as {@link #setStyleRange(StyleRange)}, {@link
+ * methods for StyleRange, such as {@link #addStyleRange(StyleRange)}, {@link
  * #setStyleRanges(StyleRange[])}, {@link #clearStyleRange(StyleRange)}, and {@link
  * #clearStyleRanges()}.
  * <p/>
@@ -128,15 +128,6 @@ public class StyledLabel extends JLabel {
         }
         internalGetStyleRanges().add(styleRange);
         firePropertyChange(PROPERTY_STYLE_RANGE, null, styleRange);
-    }
-
-    /**
-     * @deprecated use {@link #addStyleRange(StyleRange)} instead. The method name "set" usually
-     *             means clear all previous style range and set this as the new one, which is not
-     *             correct. So using method name "add" makes more sense.
-     */
-    public void setStyleRange(StyleRange styleRange) {
-        addStyleRange(styleRange);
     }
 
     /**
