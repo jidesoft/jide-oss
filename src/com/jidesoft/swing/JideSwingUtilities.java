@@ -2831,9 +2831,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     private static boolean isListenerRegistered(Object[] objects, Class t, EventListener l) {
-        for (int i = 0; i < objects.length; i++) {
-            Object listener = objects[i];
-            if (t.isAssignableFrom(listener.getClass()) && listener == l) {
+        for (int i = objects.length - 2; i >= 0; i -= 2) {
+            if ((objects[i] == t) && (objects[i + 1].equals(l))) {
                 return true;
             }
         }
@@ -2843,12 +2842,12 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Gets the first child of the component that is the specified type.
      *
-     * @param clazz
-     * @param c
+     * @param clazz the type of the component to look for
+     * @param c     the component
      *
      * @return the first child of the component that is the specified type.
      */
-    public static Component getFirstChildOf(final Class clazz, Component c) {
+    public static Component getFirstChildOf(final Class<?> clazz, Component c) {
         return getRecursively(c, new GetHandler() {
             public boolean condition(Component c) {
                 return clazz.isAssignableFrom(c.getClass());
