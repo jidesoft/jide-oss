@@ -46,7 +46,13 @@ public abstract class Flashable {
         }
     }
 
-    public boolean getSynchronizedFlashFlag() {
+    /**
+     * Gets the flash flag. We have an internal timer which sets this flag value. All Flashables
+     * will use the same flash flag so that they are all in sync when flashing.
+     *
+     * @return true or false. True means the flash is on and false means flash is off.
+     */
+    public static boolean getSynchronizedFlashFlag() {
         return _synchronizedFlashFlag;
     }
 
