@@ -388,8 +388,8 @@ public class IconsFactory {
             angle = 90.0;
         }
 
-        double originalRadian = originalAngle * Math.PI / 180.0;
-        double radian = angle * Math.PI / 180.0;
+        double originalRadian = Math.toRadians(originalAngle);
+        double radian = Math.toRadians(angle);
 
         int iw = icon.getIconWidth();
         int ih = icon.getIconHeight();
