@@ -388,13 +388,13 @@ public class IconsFactory {
             angle = 90.0;
         }
 
-        double originalRadian = Math.toRadians(originalAngle);
         double radian = Math.toRadians(angle);
 
         int iw = icon.getIconWidth();
         int ih = icon.getIconHeight();
         int w;
         int h;
+
         if ((originalAngle >= 0 && originalAngle <= 90) || (originalAngle > 180 && originalAngle <= 270)) {
             w = (int) (iw * Math.sin(DEGREE_90 - radian) + ih * Math.sin(radian));
             h = (int) (iw * Math.sin(radian) + ih * Math.sin(DEGREE_90 - radian));
@@ -406,20 +406,20 @@ public class IconsFactory {
         BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         Graphics2D g2d = (Graphics2D) g.create();
-        if (originalAngle >= 0 && originalAngle <= 90) {
-            g2d.translate(ih * Math.sin(radian), 0);
-        }
-        else if (originalAngle > 90 && originalAngle <= 180) {
-            g2d.translate(w, ih * Math.sin(radian));
-        }
-        else if (originalAngle > 180 && originalAngle <= 270) {
-            g2d.translate(iw * Math.sin(DEGREE_90 - radian), h);
-        }
-        else {
-            g2d.translate(0, iw * Math.sin(DEGREE_90 - radian));
-        }
-        g2d.rotate(originalRadian);
-        icon.paintIcon(c, g2d, 0, 0);
+
+        // calculate the center of the icon.
+        int cx = iw / 2;
+        int cy = ih / 2;
+
+        // move the graphics center point to the center of the icon.
+        g2d.translate(w / 2, h / 2);
+
+        // rotate the graphcis about the center point of the icon
+        g2d.rotate(Math.toRadians(originalAngle));
+
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        icon.paintIcon(c, g2d, -cx, -cy);
+
         g2d.dispose();
         return new ImageIcon(image);
     }
