@@ -16,30 +16,33 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * <code>TableSearchable</code> is an concrete implementation of {@link Searchable}
- * that enables the search function in JTable.
- * <p>It's very simple to use it. Assuming you have a JTable, all you need to do is to
- * call
+ * <code>TableSearchable</code> is an concrete implementation of {@link Searchable} that enables the
+ * search function in JTable. <p>It's very simple to use it. Assuming you have a JTable, all you
+ * need to do is to call
  * <code><pre>
  * JTable table = ....;
  * TableSearchable searchable = new TableSearchable(table);
  * </pre></code>
  * Now the JTable will have the search function.
  * <p/>
- * As JTable is a two dimension data, the search is a little different from JList and JTree which both have
- * one dimension data. So there is a little work you need to do in order to convert from two dimension data
- * to one dimension data. We use the selection mode to determine how to convert. There is a special property
- * called mainIndex. You can set it using setMainIndex(). If the JTable is in row selection mode, mainIndex will
- * be the column that you want search at. Please note you can change mainIndex at any time.
+ * As JTable is a two dimension data, the search is a little different from JList and JTree which
+ * both have one dimension data. So there is a little work you need to do in order to convert from
+ * two dimension data to one dimension data. We use the selection mode to determine how to convert.
+ * There is a special property called mainIndex. You can set it using setMainIndex(). If the JTable
+ * is in row selection mode, mainIndex will be the column that you want search at. Please note you
+ * can change mainIndex at any time.
  * <p/>
- * On the other hand, if the JTable is in column selection mode, mainIndex will be the row that you want search at.
- * There is one more case when cell selection is enabled. In this case, mainIndex will be ignore; all cells will be searched.
+ * On the other hand, if the JTable is in column selection mode, mainIndex will be the row that you
+ * want search at. There is one more case when cell selection is enabled. In this case, mainIndex
+ * will be ignore; all cells will be searched.
  * <p/>
- * In three cases above, the keys for find next and find previous are different too. In row selection mode, up/down arrow are the keys.
- * In column selection mode, left/right arrow are keys. In cell selection mode, both up and left arrow are keys to
- * find previous occurence, both down and right arrow are keys to find next occurence.
+ * In three cases above, the keys for find next and find previous are different too. In row
+ * selection mode, up/down arrow are the keys. In column selection mode, left/right arrow are keys.
+ * In cell selection mode, both up and left arrow are keys to find previous occurence, both down and
+ * right arrow are keys to find next occurence.
  * <p/>
- * In addition, you might need to override convertElementToString() to provide you own algorithm to do the conversion.
+ * In addition, you might need to override convertElementToString() to provide you own algorithm to
+ * do the conversion.
  * <code><pre>
  * JTable table = ....;
  * TableSearchable searchable = new TableSearchable(table) {
@@ -49,8 +52,8 @@ import java.beans.PropertyChangeListener;
  * };
  * </pre></code>
  * <p/>
- * Additional customization can be done on the base Searchable class such as background and foreground color, keystrokes,
- * case sensitivity,
+ * Additional customization can be done on the base Searchable class such as background and
+ * foreground color, keystrokes, case sensitivity,
  */
 public class TableSearchable extends Searchable implements TableModelListener, PropertyChangeListener {
 
@@ -58,8 +61,15 @@ public class TableSearchable extends Searchable implements TableModelListener, P
 
     public TableSearchable(JTable table) {
         super(table);
-        table.getModel().addTableModelListener(this);
-        table.addPropertyChangeListener("model", this);
+    }
+
+    @Override
+    public void installListeners() {
+        super.installListeners();
+        if (_component instanceof JTable) {
+            ((JTable) _component).getModel().addTableModelListener(this);
+            _component.addPropertyChangeListener("model", this);
+        }
     }
 
     @Override
@@ -67,8 +77,8 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         super.uninstallListeners();
         if (_component instanceof JTable) {
             ((JTable) _component).getModel().removeTableModelListener(this);
+            _component.removePropertyChangeListener("model", this);
         }
-        _component.removePropertyChangeListener("model", this);
     }
 
     @Override
@@ -86,22 +96,23 @@ public class TableSearchable extends Searchable implements TableModelListener, P
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else { // cell selection allowed
-            majorIndex = index / table.getColumnModel().getColumnCount();
-            minorIndex = index % table.getColumnModel().getColumnCount();
+            majorIndex = index / table.getColumnCount();
+            minorIndex = index % table.getColumnCount();
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
     }
 
     /**
-     * Selects the cell at the specified row and column index. If incremental is true, the previous selection will not be cleared.
-     * This method will use {@link JTable#changeSelection(int,int,boolean,boolean)} method to select the cell
-     * if the row and column index is in the range and the cell was not selected. The last two parameters of changeSelection
-     * is true and false respectively.
+     * Selects the cell at the specified row and column index. If incremental is true, the previous
+     * selection will not be cleared. This method will use {@link JTable#changeSelection(int,int,boolean,boolean)}
+     * method to select the cell if the row and column index is in the range and the cell was not
+     * selected. The last two parameters of changeSelection is true and false respectively.
      *
      * @param table       the table
      * @param rowIndex    the row index of the cell.
      * @param columnIndex the column index of the cell
-     * @param incremental false to clear all previous selection. True to keep the previous selection.
+     * @param incremental false to clear all previous selection. True to keep the previous
+     *                    selection.
      */
     protected void addTableSelection(JTable table, int rowIndex, int columnIndex, boolean incremental) {
         if (!incremental)
@@ -116,6 +127,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * Is the column selection allowed?
      *
      * @param table the table.
+     *
      * @return true if the table is the column selection.
      */
     protected boolean isColumnSelectionAllowed(JTable table) {
@@ -126,6 +138,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * Is the row selection allowed?
      *
      * @param table the table.
+     *
      * @return true if the table is the row selection.
      */
     protected boolean isRowSelectionAllowed(JTable table) {
@@ -139,38 +152,37 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      */
     @Override
     protected int getSelectedIndex() {
-        JTable table = ((JTable) _component);
+        JTable table = (JTable) _component;
         if (isColumnSelectionAllowed(table)) {
-            return table.getColumnModel().getSelectionModel().getLeadSelectionIndex();
+            return table.getSelectedColumn();
         }
         else if (isRowSelectionAllowed(table)) {
-            return table.getSelectionModel().getLeadSelectionIndex();
+            return table.getSelectedRow();
         }
         else { // cell selection allowed
-            return table.getSelectionModel().getLeadSelectionIndex() * table.getColumnCount() + table.getColumnModel().getSelectionModel().getLeadSelectionIndex();
+            return table.getSelectedRow() * table.getColumnCount() + table.getSelectedColumn();
         }
     }
 
     @Override
     protected Object getElementAt(int index) {
-        TableModel model = ((JTable) _component).getModel();
-        JTable table = ((JTable) _component);
+        JTable table = (JTable) _component;
         if (isColumnSelectionAllowed(table)) { // column selection mode
-            return getValueAt(model, getMainIndex(), table.convertColumnIndexToModel(index));
+            return getValueAt(table, getMainIndex(), index);
         }
         else if (isRowSelectionAllowed(table)) { // row selection mode
-            return getValueAt(model, index, table.convertColumnIndexToModel(getMainIndex()));
+            return getValueAt(table, index, getMainIndex());
         }
         else { // cell selection allowed
-            int columnIndex = index % table.getColumnModel().getColumnCount();
-            int rowIndex = index / table.getColumnModel().getColumnCount();
-            return getValueAt(model, rowIndex, table.convertColumnIndexToModel(columnIndex));
+            int columnIndex = index % table.getColumnCount();
+            int rowIndex = index / table.getColumnCount();
+            return getValueAt(table, rowIndex, columnIndex);
         }
     }
 
-    private Object getValueAt(TableModel model, int rowIndex, int columnIndex) {
-        if (rowIndex >= 0 && rowIndex < model.getRowCount() && columnIndex >= 0 && columnIndex < model.getColumnCount()) {
-            return model.getValueAt(rowIndex, columnIndex);
+    private Object getValueAt(JTable table, int rowIndex, int columnIndex) {
+        if (rowIndex >= 0 && rowIndex < table.getRowCount() && columnIndex >= 0 && columnIndex < table.getColumnCount()) {
+            return table.getValueAt(rowIndex, columnIndex);
         }
         else {
             return null;
@@ -179,16 +191,15 @@ public class TableSearchable extends Searchable implements TableModelListener, P
 
     @Override
     protected int getElementCount() {
-        TableModel model = ((JTable) _component).getModel();
         JTable table = ((JTable) _component);
         if (isColumnSelectionAllowed(table)) {
-            return table.getColumnModel().getColumnCount();
+            return table.getColumnCount();
         }
         else if (isRowSelectionAllowed(table)) {
-            return model.getRowCount();
+            return table.getRowCount();
         }
         else { // cell selection allowed
-            return table.getColumnModel().getColumnCount() * model.getRowCount();
+            return table.getColumnCount() * table.getRowCount();
         }
     }
 
@@ -214,7 +225,8 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     /**
      * Sets the main index. Main index is the column index which you want to be searched.
      *
-     * @param mainIndex the index of the column to be searched. If -1, all columns will be searched.
+     * @param mainIndex the index of the column to be searched. If -1, all columns will be
+     *                  searched.
      */
     public void setMainIndex(int mainIndex) {
         int old = _mainIndex;
@@ -281,13 +293,14 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     /**
-     * Checks if the selected cell is editable. If yes, we will not activate Searchable when key is typed.
+     * Checks if the selected cell is editable. If yes, we will not activate Searchable when key is
+     * typed.
      *
      * @return true if the selected cell is editable.
      */
     protected boolean isSelectedCellEditable() {
-        int selectedRow = ((JTable) _component).getSelectionModel().getLeadSelectionIndex();
-        int selectedColumn = ((JTable) _component).getColumnModel().getSelectionModel().getLeadSelectionIndex();
+        int selectedRow = ((JTable) _component).getSelectedRow();
+        int selectedColumn = ((JTable) _component).getSelectedColumn();
         return selectedRow != -1 && selectedColumn != -1 && ((JTable) _component).isCellEditable(selectedRow, selectedColumn);
     }
 }

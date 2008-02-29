@@ -2791,6 +2791,9 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static Component getScrollPane(Component innerComponent) {
         Component component = innerComponent;
+        if (innerComponent instanceof JScrollPane) {
+            return innerComponent;
+        }
         if (component.getParent() != null && component.getParent().getParent() != null && component.getParent().getParent() instanceof JScrollPane) {
             component = (JComponent) component.getParent().getParent();
             return component;
