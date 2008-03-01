@@ -57,17 +57,12 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * A Comparator that compares Comparable objects.
- * Throws ClassCastExceptions if the objects are not
- * Comparable, or if they are null.
- * Throws ClassCastException if the compareTo of both
- * objects do not provide an inverse result of each other
- * as per the Comparable javadoc.  This Comparator is useful, for example,
- * for enforcing the natural order in custom implementations
- * of SortedSet and SortedMap.
- * <br>
- * If both objects are null, they will be treated as equal. If one is null and the other
- * is not, the null value will be treated as smaller then non-null value.
+ * A Comparator that compares Comparable objects. Throws ClassCastExceptions if the objects are not
+ * Comparable, or if they are null. Throws ClassCastException if the compareTo of both objects do
+ * not provide an inverse result of each other as per the Comparable javadoc.  This Comparator is
+ * useful, for example, for enforcing the natural order in custom implementations of SortedSet and
+ * SortedMap. <br> If both objects are null, they will be treated as equal. If one is null and the
+ * other is not, the null value will be treated as smaller then non-null value.
  *
  * @author bayard@generationjava.com
  * @author JIDE Software
@@ -78,10 +73,9 @@ public class ComparableComparator implements Comparator, Serializable {
             new ComparableComparator();
 
     /**
-     * Return a shared instance of a ComparableComparator.  Developers are
-     * encouraged to use the comparator returned from this method instead of
-     * constructing a new instance to reduce allocation and GC overhead when
-     * multiple comparable comparators may be used in the same VM.
+     * Return a shared instance of a ComparableComparator.  Developers are encouraged to use the
+     * comparator returned from this method instead of constructing a new instance to reduce
+     * allocation and GC overhead when multiple comparable comparators may be used in the same VM.
      *
      * @return an instance of ComparableComparator.
      */
@@ -110,8 +104,8 @@ public class ComparableComparator implements Comparator, Serializable {
 
         if (o1 instanceof Comparable) {
             if (o2 instanceof Comparable) {
-                int result1 = 0;
-                int result2 = 0;
+                int result1;
+                int result2;
                 try {
                     result1 = ((Comparable) o1).compareTo(o2);
                     result2 = ((Comparable) o2).compareTo(o1);
@@ -124,10 +118,12 @@ public class ComparableComparator implements Comparator, Serializable {
                 if (result1 == 0 && result2 == 0) {
                     return 0;
                 }
-                else if (result1 < 0 && result2 > 0) { // to make sure the two results are consistent
+                else
+                if (result1 < 0 && result2 > 0) { // to make sure the two results are consistent
                     return result1;
                 }
-                else if (result1 > 0 && result2 < 0) { // to make sure the two results are consistent
+                else
+                if (result1 > 0 && result2 < 0) { // to make sure the two results are consistent
                     return result1;
                 }
                 else {
