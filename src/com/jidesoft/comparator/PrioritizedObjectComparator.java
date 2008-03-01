@@ -18,7 +18,7 @@ public class PrioritizedObjectComparator implements Comparator {
     /**
      * Gets an instance of <code>PrioritizedObjectComparator</code>.
      *
-     * @return an instance of <code>PrioritizedObjectComparator</code>.
+     * @return an instance Cof <code>PrioritizedObjectComparator</code>.
      */
     public static PrioritizedObjectComparator getInstance() {
         if (singleton == null) {
