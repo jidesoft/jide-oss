@@ -4018,6 +4018,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected void ensureCurrentLayout() {
         // this line cause layout when repaint. It looks like tabbed pane is always not valid.
+        // but without this line, it causes the viewport sometimes not resized correctly.
+        // such as the bug report at http://www.jidesoft.com/forum/viewtopic.php?p=25050#25050
+        if (!_tabPane.isValid()) {
+            _tabPane.validate();
+        }
 
         /* If tabPane doesn't have a peer yet, the validate() call will
          * silently fail.  We handle that by forcing a layout if tabPane
@@ -5963,19 +5968,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                            Rectangle viewRect = viewport.getViewRect();
                             int vw = tw;
                             int vh = th;
-                            int numberOfButtons;
+                            int numberOfButtons = getNumberOfTabButtons();
                             switch (tabPlacement) {
                                 case LEFT:
                                 case RIGHT:
-                                    int totalTabHeight = _rects[tabCount - 1].y
-                                            + _rects[tabCount - 1].height;
+                                    int totalTabHeight = _rects[tabCount - 1].y + _rects[tabCount - 1].height;
                                     if (totalTabHeight > th || isShowTabButtons()) {
-                                        numberOfButtons = isShrinkTabs() ? 1 : 4;
-                                        if (!isShowCloseButton()) {
-                                            numberOfButtons--;
-                                        }
+                                        numberOfButtons += 3;
                                         // Allow space for scrollbuttons
-                                        vh = Math.max(th - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
+                                        vh = Math.max(th - _buttonSize * numberOfButtons, 0);
 //                                        if (totalTabHeight - viewRect.y <= vh) {
 //                                            // Scrolled to the end, so ensure the
 //                                            // viewport size is
@@ -5985,12 +5986,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                                        }
                                     }
                                     else {
-                                        numberOfButtons = 1;
-                                        if (!isShowCloseButton()) {
-                                            numberOfButtons--;
-                                        }
                                         // Allow space for scrollbuttons
-                                        vh = Math.max(th - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
+                                        vh = Math.max(th - _buttonSize * numberOfButtons, 0);
                                     }
 
                                     if (vh + getLayoutSize() < th - _buttonSize * numberOfButtons) {
@@ -6003,12 +6000,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     int totalTabWidth = _rects[tabCount - 1].x
                                             + _rects[tabCount - 1].width;
                                     if (isShowTabButtons() || totalTabWidth > tw) {
+                                        numberOfButtons += 3;
                                         // Need to allow space for scrollbuttons
-                                        numberOfButtons = isShrinkTabs() ? 1 : 4;
-                                        if (!isShowCloseButton()) {
-                                            numberOfButtons--;
-                                        }
-                                        vw = Math.max(tw - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
+                                        vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
 
 //                                        if (totalTabWidth - viewRect.x <= vw) {
 //                                            // Scrolled to the end, so ensure the
@@ -6019,12 +6013,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                                        }
                                     }
                                     else {
-                                        numberOfButtons = 1;
-                                        if (!isShowCloseButton()) {
-                                            numberOfButtons--;
-                                        }
                                         // Allow space for scrollbuttons
-                                        vw = Math.max(tw - _buttonSize * numberOfButtons, _buttonSize * numberOfButtons);
+                                        vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
                                     }
                                     if (vw + getLayoutSize() < tw - _buttonSize * numberOfButtons) {
                                         vw += getLayoutSize();
@@ -6568,10 +6558,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     availHeight = availHeight - tsize.height;
                 }
 
-                if (isShowTabButtons()) {
-                    int numberOfButtons = isShrinkTabs() ? 1 : 4;
-                    availHeight -= _buttonSize * numberOfButtons;
-                }
+                int numberOfButtons = getNumberOfTabButtons();
+                availHeight -= _buttonSize * numberOfButtons;
                 if (totalHeight > availHeight) { // shrink is necessary
                     // calculate each tab width
                     int tabHeight = availHeight / tabCount;
@@ -6614,10 +6602,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     availWidth -= tsize.width;
                 }
 
-                if (isShowTabButtons()) {
-                    int numberOfButtons = isShrinkTabs() ? 1 : 4;
-                    availWidth -= _buttonSize * numberOfButtons;
-                }
+                int numberOfButtons = getNumberOfTabButtons();
+                availWidth -= _buttonSize * numberOfButtons;
                 if (totalWidth > availWidth) { // shrink is necessary
                     // calculate each tab width
                     int tabWidth = availWidth / tabCount;
@@ -8663,5 +8649,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected boolean showFocusIndicator() {
         return _tabPane.hasFocusComponent() && _showFocusIndicator;
+    }
+
+    private int getNumberOfTabButtons() {
+        int numberOfButtons = (!isShowTabButtons() || isShrinkTabs()) ? 1 : 4;
+        if (!isShowCloseButton() || isShowCloseButtonOnTab()) {
+            numberOfButtons--;
+        }
+        return numberOfButtons;
     }
 }
