@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Converter which converts Date to String and converts it back.
@@ -46,12 +47,13 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Converts the object to String. The object can be a Calendar, a Date or a Number. As long as the DateFormat
-     * can format it correctly, it will be converted to a String. If the object is already a String, we will
-     * return it directly as it is.
+     * Converts the object to String. The object can be a Calendar, a Date or a Number. As long as
+     * the DateFormat can format it correctly, it will be converted to a String. If the object is
+     * already a String, we will return it directly as it is.
      *
-     * @param object
-     * @param context
+     * @param object  the object to be converted
+     * @param context the converter context.
+     *
      * @return the string
      */
     public String toString(Object object, ConverterContext context) {
@@ -59,8 +61,18 @@ public class DateConverter implements ObjectConverter {
             return "";
         }
         else {
+            TimeZone timeZone;
             if (object instanceof Calendar) {
+                timeZone = ((Calendar) object).getTimeZone();
                 object = ((Calendar) object).getTime();
+            }
+            else if (object instanceof Date) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(((Date) object));
+                timeZone = cal.getTimeZone();
+            }
+            else {
+                timeZone = TimeZone.getDefault();
             }
 
             if (object instanceof Date || object instanceof Number) {
@@ -68,12 +80,15 @@ public class DateConverter implements ObjectConverter {
                     return ((DateFormat) context.getUserObject()).format(object);
                 }
                 else if (DATETIME_CONTEXT.equals(context)) {
+                    _defaultDatetimeFormat.setTimeZone(timeZone);
                     return _defaultDatetimeFormat.format(object);
                 }
                 else if (TIME_CONTEXT.equals(context)) {
+                    _defaultTimeFormat.setTimeZone(timeZone);
                     return _defaultTimeFormat.format(object);
                 }
                 else {
+                    _defaultFormat.setTimeZone(timeZone);
                     return _defaultFormat.format(object);
                 }
             }
@@ -95,7 +110,9 @@ public class DateConverter implements ObjectConverter {
      *
      * @param string  the string to be converted.
      * @param context the context. It could be DATETIME_CONTEXT, DATE_CONTEXT or TIME_CONTEXT.
-     * @return the Date. If the string is null or empty, null will be returned. If the string cannot be parsed as a date, the string itself will be returned.
+     *
+     * @return the Date. If the string is null or empty, null will be returned. If the string cannot
+     *         be parsed as a date, the string itself will be returned.
      */
     public Object fromString(String string, ConverterContext context) {
         if (string == null || string.trim().length() == 0) {
@@ -191,15 +208,15 @@ public class DateConverter implements ObjectConverter {
     /**
      * Sets DefaultFormat to format an calendar.
      *
-     * @param defaultFormat
+     * @param defaultFormat the new default date format
      */
     public void setDefaultFormat(DateFormat defaultFormat) {
         _defaultFormat = defaultFormat;
     }
 
     /**
-     * Gets DefaultTimeFormat to format an calendar. This is used
-     * only when context is {@link #TIME_CONTEXT}.
+     * Gets DefaultTimeFormat to format an calendar. This is used only when context is {@link
+     * #TIME_CONTEXT}.
      *
      * @return DefaultTimeFormat
      */
@@ -208,18 +225,18 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Sets DefaultTimeFormat to format an calendar. This is used
-     * only when context is {@link #TIME_CONTEXT}.
+     * Sets DefaultTimeFormat to format an calendar. This is used only when context is {@link
+     * #TIME_CONTEXT}.
      *
-     * @param defaultTimeFormat
+     * @param defaultTimeFormat the new default time format
      */
     public void setDefaultTimeFormat(DateFormat defaultTimeFormat) {
         _defaultTimeFormat = defaultTimeFormat;
     }
 
     /**
-     * Gets DefaultDatetimeFormat to format an calendar. This is used
-     * only when context is {@link #DATETIME_CONTEXT}.
+     * Gets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link
+     * #DATETIME_CONTEXT}.
      *
      * @return DefaultDatetimeFormat
      */
@@ -228,10 +245,10 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Sets DefaultDatetimeFormat to format an calendar. This is used
-     * only when context is {@link #DATETIME_CONTEXT}.
+     * Sets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link
+     * #DATETIME_CONTEXT}.
      *
-     * @param defaultDatetimeFormat
+     * @param defaultDatetimeFormat the new defeault datetime format
      */
     public void setDefaultDatetimeFormat(DateFormat defaultDatetimeFormat) {
         _defaultDatetimeFormat = defaultDatetimeFormat;

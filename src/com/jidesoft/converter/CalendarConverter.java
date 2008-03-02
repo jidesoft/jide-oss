@@ -25,7 +25,7 @@ public class CalendarConverter extends DateConverter {
             return "";
         }
         else {
-            return super.toString(((Calendar) object).getTime(), context);
+            return super.toString(object, context);
         }
     }
 
@@ -34,7 +34,9 @@ public class CalendarConverter extends DateConverter {
      *
      * @param string  the string to be converted.
      * @param context the context. It could be DATETIME_CONTEXT, DATE_CONTEXT or TIME_CONTEXT.
-     * @return the Calendar object. If the string is null or empty, null will be returned. If the string cannot be parsed as a date, the string itself will be returned.
+     *
+     * @return the Calendar object. If the string is null or empty, null will be returned. If the
+     *         string cannot be parsed as a date, the string itself will be returned.
      */
     @Override
     public Object fromString(String string, ConverterContext context) {
