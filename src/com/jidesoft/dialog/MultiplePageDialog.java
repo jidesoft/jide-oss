@@ -524,6 +524,12 @@ public class MultiplePageDialog extends StandardDialog {
                 }
 
                 public void contentsChanged(ListDataEvent e) {
+                    if (e.getSource() instanceof PageList) {
+                        Object o = ((PageList) e.getSource()).getSelectedItem();
+                        if (o instanceof AbstractDialogPage) {
+                            setCurrentPage((AbstractDialogPage) o);
+                        }
+                    }
                 }
             });
             return pagesPanel;
