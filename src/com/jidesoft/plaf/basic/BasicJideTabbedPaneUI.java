@@ -1265,9 +1265,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {// draw string from top to bottom
                     AffineTransform old = g2d.getTransform();
-                    g2d.rotate(Math.PI / 2);
-                    g2d.translate(0, -textRect.x - textRect.width);
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.y,
+                    g2d.translate(textRect.x, textRect.y);
+                    if (tabPlacement == RIGHT) {
+                        g2d.rotate(Math.PI / 2);
+                        g2d.translate(0, -textRect.width);
+                    }
+                    else {
+                        g2d.rotate(-Math.PI / 2);
+                        g2d.translate(-textRect.height + 7, 0); // no idea why i need 7 here
+                    }
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, 0,
                             ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
                     g2d.setTransform(old);
                 }
@@ -1281,14 +1288,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 else {// draw string from top to bottom
                     AffineTransform old = g2d.getTransform();
-                    g2d.rotate(Math.PI / 2);
-                    g2d.translate(0, 0 - textRect.x - textRect.width);
+                    g2d.translate(textRect.x, textRect.y);
+                    if (tabPlacement == RIGHT) {
+                        g2d.rotate(Math.PI / 2);
+                        g2d.translate(0, -textRect.width);
+                    }
+                    else {
+                        g2d.rotate(-Math.PI / 2);
+                        g2d.translate(-textRect.height + 7, 0); // no idea why i need 7 here
+                    }
                     g.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
                     JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex,
-                            textRect.y, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
+                            0, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
                     g.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
                     JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex,
-                            textRect.y - 1, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent() - 1);
+                            tabPlacement == RIGHT ? -1 : 1, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent() - 1);
                     g2d.setTransform(old);
                 }
             }
