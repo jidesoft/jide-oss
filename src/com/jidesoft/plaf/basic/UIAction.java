@@ -10,8 +10,8 @@ import javax.swing.*;
 import java.beans.PropertyChangeListener;
 
 /**
- * UIAction is the basis of all of basic's action classes that are used in
- * an ActionMap. Subclasses need to override <code>actionPerformed</code>.
+ * UIAction is the basis of all of basic's action classes that are used in an ActionMap. Subclasses
+ * need to override <code>actionPerformed</code>.
  * <p/>
  * A typical subclass will look like:
  * <pre>
@@ -32,8 +32,8 @@ import java.beans.PropertyChangeListener;
  * </pre>
  * <p/>
  * Subclasses that wish to conditionalize the enabled state should override
- * <code>isEnabled(Component)</code>, and be aware that the passed in
- * <code>Component</code> may be null.
+ * <code>isEnabled(Component)</code>, and be aware that the passed in <code>Component</code> may be
+ * null.
  *
  * @author Scott Violet
  * @version 1.4 11/17/05
@@ -51,7 +51,7 @@ public abstract class UIAction implements Action {
     }
 
     public Object getValue(String key) {
-        if (name.equals(key)) {
+        if (NAME.equals(key)) {
             return name;
         }
         return null;
@@ -73,10 +73,11 @@ public abstract class UIAction implements Action {
     }
 
     /**
-     * Subclasses that need to conditionalize the enabled state should
-     * override this. Be aware that <code>sender</code> may be null.
+     * Subclasses that need to conditionalize the enabled state should override this. Be aware that
+     * <code>sender</code> may be null.
      *
      * @param sender Widget enabled state is being asked for, may be null.
+     *
      * @return true.
      */
     public boolean isEnabled(Object sender) {
