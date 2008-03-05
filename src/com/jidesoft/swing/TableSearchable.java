@@ -57,7 +57,7 @@ import java.beans.PropertyChangeListener;
  */
 public class TableSearchable extends Searchable implements TableModelListener, PropertyChangeListener {
 
-    private int _mainIndex = 0;
+    private int[] _mainIndex = {0};
 
     public TableSearchable(JTable table) {
         super(table);
@@ -87,12 +87,12 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         JTable table = ((JTable) _component);
         if (isColumnSelectionAllowed(table)) {
             majorIndex = index;
-            minorIndex = getMainIndex();
+            minorIndex = getMainIndexes()[0];
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else if (isRowSelectionAllowed(table)) {
             majorIndex = index;
-            minorIndex = getMainIndex();
+            minorIndex = getMainIndexes()[0];
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else { // cell selection allowed
@@ -131,7 +131,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * @return true if the table is the column selection.
      */
     protected boolean isColumnSelectionAllowed(JTable table) {
-        return getMainIndex() != -1 && (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed());
+        return getMainIndexes().length == 1 && (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed());
     }
 
     /**
@@ -142,7 +142,16 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * @return true if the table is the row selection.
      */
     protected boolean isRowSelectionAllowed(JTable table) {
-        return getMainIndex() != -1 && (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed());
+        return getMainIndexes().length == 1 && (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed());
+    }
+
+    /**
+     * Are we trying to search on multicolumns (but NOT all columns)?
+     *
+     * @return true if the search is set to look at multicolumns (but NOT all columns).
+     */
+    protected boolean isSearchSelectedRows() {
+        return getMainIndexes().length > 1;
     }
 
     /**
@@ -168,10 +177,26 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected Object getElementAt(int index) {
         JTable table = (JTable) _component;
         if (isColumnSelectionAllowed(table)) { // column selection mode
-            return getValueAt(table, getMainIndex(), index);
+            return getValueAt(table, getMainIndexes()[0], index);
         }
         else if (isRowSelectionAllowed(table)) { // row selection mode
-            return getValueAt(table, index, getMainIndex());
+            return getValueAt(table, index, getMainIndexes()[0]);
+        }
+        else if (isSearchSelectedRows()) { // search on multi columns
+            int columnIndex = index % table.getColumnCount();
+            boolean doNotSearch = true;
+            for (int i : getMainIndexes()) {
+                if (i == columnIndex) {
+                    doNotSearch = false;
+                }
+            }
+
+            if (doNotSearch) {
+                return null;
+            }
+
+            int rowIndex = index / table.getColumnCount();
+            return getValueAt(table, rowIndex, columnIndex);
         }
         else { // cell selection allowed
             int columnIndex = index % table.getColumnCount();
@@ -214,12 +239,43 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     /**
+     * Gets the indexes of the column to be searched.
+     *
+     * @return the indexes of the column to be searched.
+     */
+    public int[] getMainIndexes() {
+        return _mainIndex;
+    }
+
+    /**
      * Gets the index of the column to be searched.
      *
      * @return the index of the column to be searched.
      */
     public int getMainIndex() {
-        return _mainIndex;
+        if (_mainIndex.length == 0) {
+            return -1;
+        }
+
+        return _mainIndex[0];
+    }
+
+    /**
+     * Sets the main indexes. Main indexes are the columns index which you want to be searched.
+     *
+     * @param mainIndex the index of the column to be searched. If empty, all columns will be
+     *                  searched.
+     */
+    public void setMainIndex(int[] mainIndex) {
+        if (mainIndex == null) {
+            mainIndex = new int[0];
+        }
+
+        int[] old = _mainIndex;
+        if (JideSwingUtilities.equals(old, mainIndex, true)) {
+            _mainIndex = mainIndex;
+            hidePopup();
+        }
     }
 
     /**
@@ -229,9 +285,13 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      *                  searched.
      */
     public void setMainIndex(int mainIndex) {
-        int old = _mainIndex;
-        if (old != mainIndex) {
-            _mainIndex = mainIndex;
+        int[] temp = {mainIndex};
+        if (mainIndex < 0) {
+            temp = new int[0];
+        }
+        int[] old = _mainIndex;
+        if (old != temp) {
+            _mainIndex = temp;
             hidePopup();
         }
     }
