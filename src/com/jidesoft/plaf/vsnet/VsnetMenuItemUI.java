@@ -1161,49 +1161,54 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 return;
             }
 
-            MenuSelectionManager manager =
-                    MenuSelectionManager.defaultManager();
-            Point p = e.getPoint();
-            if (p.x >= 0 && p.x < menuItem.getWidth() &&
-                    p.y >= 0 && p.y < menuItem.getHeight()) {
-                doClick(manager);
-            }
-            else {
-                manager.processMouseEvent(e);
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+                Point p = e.getPoint();
+                if (p.x >= 0 && p.x < menuItem.getWidth() &&
+                        p.y >= 0 && p.y < menuItem.getHeight()) {
+                    doClick(manager);
+                }
+                else {
+                    manager.processMouseEvent(e);
+                }
             }
         }
 
         public void mouseEntered(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-            int modifiers = e.getModifiers();
-            // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
-            if ((modifiers & (InputEvent.BUTTON1_MASK |
-                    InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
-                MenuSelectionManager.defaultManager().processMouseEvent(e);
-            }
-            else {
-                manager.setSelectedPath(getPath());
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+                int modifiers = e.getModifiers();
+                // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+                if ((modifiers & (InputEvent.BUTTON1_MASK |
+                        InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
+                    MenuSelectionManager.defaultManager().processMouseEvent(e);
+                }
+                else {
+                    manager.setSelectedPath(getPath());
+                }
             }
         }
 
         public void mouseExited(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
 
-            int modifiers = e.getModifiers();
-            // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
-            if ((modifiers & (InputEvent.BUTTON1_MASK |
-                    InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
-                MenuSelectionManager.defaultManager().processMouseEvent(e);
-            }
-            else {
+                int modifiers = e.getModifiers();
+                // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+                if ((modifiers & (InputEvent.BUTTON1_MASK |
+                        InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
+                    MenuSelectionManager.defaultManager().processMouseEvent(e);
+                }
+                else {
 
-                MenuElement path[] = manager.getSelectedPath();
-                if (path.length > 1) {
-                    MenuElement newPath[] = new MenuElement[path.length - 1];
-                    int i, c;
-                    for (i = 0, c = path.length - 1; i < c; i++)
-                        newPath[i] = path[i];
-                    manager.setSelectedPath(newPath);
+                    MenuElement path[] = manager.getSelectedPath();
+                    if (path.length > 1) {
+                        MenuElement newPath[] = new MenuElement[path.length - 1];
+                        int i, c;
+                        for (i = 0, c = path.length - 1; i < c; i++)
+                            newPath[i] = path[i];
+                        manager.setSelectedPath(newPath);
+                    }
                 }
             }
         }
@@ -1222,23 +1227,27 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
 
         public void menuDragMouseDragged(MenuDragMouseEvent e) {
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            MenuElement path[] = e.getPath();
-            manager.setSelectedPath(path);
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = e.getMenuSelectionManager();
+                MenuElement path[] = e.getPath();
+                manager.setSelectedPath(path);
+            }
         }
 
         public void menuDragMouseExited(MenuDragMouseEvent e) {
         }
 
         public void menuDragMouseReleased(MenuDragMouseEvent e) {
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            Point p = e.getPoint();
-            if (p.x >= 0 && p.x < menuItem.getWidth() &&
-                    p.y >= 0 && p.y < menuItem.getHeight()) {
-                doClick(manager);
-            }
-            else {
-                manager.clearSelectedPath();
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = e.getMenuSelectionManager();
+                Point p = e.getPoint();
+                if (p.x >= 0 && p.x < menuItem.getWidth() &&
+                        p.y >= 0 && p.y < menuItem.getHeight()) {
+                    doClick(manager);
+                }
+                else {
+                    manager.clearSelectedPath();
+                }
             }
         }
     }
@@ -1254,24 +1263,20 @@ public class VsnetMenuItemUI extends MenuItemUI {
          * MenuSelectionManager.processKeyEvent(). See 4670831.
          */
         public void menuKeyTyped(MenuKeyEvent e) {
-            if (DEBUG) {
-                System.out.println("in VsnetMenuItemUI.menuKeyTyped for " + menuItem.getText());
-            }
-            int key = menuItem.getMnemonic();
-            if (key == 0 || e.getPath().length != 2) // Hack! Only proceed if in a JPopupMenu
-                return;
-            if (lower((char) key) == lower(e.getKeyChar())) {
-                MenuSelectionManager manager =
-                        e.getMenuSelectionManager();
-                doClick(manager);
-                e.consume();
+            if (menuItem != null && menuItem.isEnabled()) {
+                int key = menuItem.getMnemonic();
+                if (key == 0 || e.getPath().length != 2) // Hack! Only proceed if in a JPopupMenu
+                    return;
+                if (lower((char) key) == lower(e.getKeyChar())) {
+                    MenuSelectionManager manager =
+                            e.getMenuSelectionManager();
+                    doClick(manager);
+                    e.consume();
+                }
             }
         }
 
         public void menuKeyPressed(MenuKeyEvent e) {
-            if (DEBUG) {
-                System.out.println("in VsnetMenuItemUI.menuKeyPressed for " + menuItem.getText());
-            }
         }
 
         public void menuKeyReleased(MenuKeyEvent e) {

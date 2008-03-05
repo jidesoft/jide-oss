@@ -502,9 +502,8 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * We draw the background in paintMenuItem()
-     * so override update (which fills the background of opaque
-     * components by default) to just call paint().
+     * We draw the background in paintMenuItem() so override update (which fills the background of
+     * opaque components by default) to just call paint().
      */
     @Override
     public void update(Graphics g, JComponent c) {
@@ -709,6 +708,7 @@ public class MetalMenuItemUI extends MenuItemUI {
      * @param g        the paint graphics
      * @param menuItem menu item to be painted
      * @param bgColor  selection background color
+     *
      * @since 1.4
      */
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
@@ -738,6 +738,7 @@ public class MetalMenuItemUI extends MenuItemUI {
      * @param menuItem menu item to render
      * @param textRect bounding rectangle for rendering the text
      * @param text     string to render
+     *
      * @since 1.4
      */
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
@@ -777,10 +778,9 @@ public class MetalMenuItemUI extends MenuItemUI {
 
 
     /**
-     * Compute and return the location of the icons origin, the
-     * location of origin of the text baseline, and a possibly clipped
-     * version of the compound labels string.  Locations are computed
-     * relative to the viewRect rectangle.
+     * Compute and return the location of the icons origin, the location of origin of the text
+     * baseline, and a possibly clipped version of the compound labels string.  Locations are
+     * computed relative to the viewRect rectangle.
      */
 
     private String layoutMenuItem(FontMetrics fm,
@@ -993,49 +993,58 @@ public class MetalMenuItemUI extends MenuItemUI {
         }
 
         public void mouseReleased(MouseEvent e) {
-            MenuSelectionManager manager =
-                    MenuSelectionManager.defaultManager();
-            Point p = e.getPoint();
-            if (p.x >= 0 && p.x < menuItem.getWidth() &&
-                    p.y >= 0 && p.y < menuItem.getHeight()) {
-                doClick(manager);
+            if (!SwingUtilities.isLeftMouseButton(e)) {
+                return;
             }
-            else {
-                manager.processMouseEvent(e);
+
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+                Point p = e.getPoint();
+                if (p.x >= 0 && p.x < menuItem.getWidth() &&
+                        p.y >= 0 && p.y < menuItem.getHeight()) {
+                    doClick(manager);
+                }
+                else {
+                    manager.processMouseEvent(e);
+                }
             }
         }
 
         public void mouseEntered(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-            int modifiers = e.getModifiers();
-            // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
-            if ((modifiers & (InputEvent.BUTTON1_MASK |
-                    InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
-                MenuSelectionManager.defaultManager().processMouseEvent(e);
-            }
-            else {
-                manager.setSelectedPath(getPath());
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+                int modifiers = e.getModifiers();
+                // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+                if ((modifiers & (InputEvent.BUTTON1_MASK |
+                        InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
+                    MenuSelectionManager.defaultManager().processMouseEvent(e);
+                }
+                else {
+                    manager.setSelectedPath(getPath());
+                }
             }
         }
 
         public void mouseExited(MouseEvent e) {
-            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
 
-            int modifiers = e.getModifiers();
-            // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
-            if ((modifiers & (InputEvent.BUTTON1_MASK |
-                    InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
-                MenuSelectionManager.defaultManager().processMouseEvent(e);
-            }
-            else {
+                int modifiers = e.getModifiers();
+                // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+                if ((modifiers & (InputEvent.BUTTON1_MASK |
+                        InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) != 0) {
+                    MenuSelectionManager.defaultManager().processMouseEvent(e);
+                }
+                else {
 
-                MenuElement path[] = manager.getSelectedPath();
-                if (path.length > 1) {
-                    MenuElement newPath[] = new MenuElement[path.length - 1];
-                    int i, c;
-                    for (i = 0, c = path.length - 1; i < c; i++)
-                        newPath[i] = path[i];
-                    manager.setSelectedPath(newPath);
+                    MenuElement path[] = manager.getSelectedPath();
+                    if (path.length > 1) {
+                        MenuElement newPath[] = new MenuElement[path.length - 1];
+                        int i, c;
+                        for (i = 0, c = path.length - 1; i < c; i++)
+                            newPath[i] = path[i];
+                        manager.setSelectedPath(newPath);
+                    }
                 }
             }
         }
@@ -1051,30 +1060,30 @@ public class MetalMenuItemUI extends MenuItemUI {
 
     private class MenuDragMouseHandler implements MenuDragMouseListener {
         public void menuDragMouseEntered(MenuDragMouseEvent e) {
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            MenuElement path[] = e.getPath();
-            manager.setSelectedPath(path);
         }
 
         public void menuDragMouseDragged(MenuDragMouseEvent e) {
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            MenuElement path[] = e.getPath();
-            manager.setSelectedPath(path);
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = e.getMenuSelectionManager();
+                MenuElement path[] = e.getPath();
+                manager.setSelectedPath(path);
+            }
         }
 
         public void menuDragMouseExited(MenuDragMouseEvent e) {
         }
 
         public void menuDragMouseReleased(MenuDragMouseEvent e) {
-            MenuSelectionManager manager = e.getMenuSelectionManager();
-            MenuElement path[] = e.getPath();
-            Point p = e.getPoint();
-            if (p.x >= 0 && p.x < menuItem.getWidth() &&
-                    p.y >= 0 && p.y < menuItem.getHeight()) {
-                doClick(manager);
-            }
-            else {
-                manager.clearSelectedPath();
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = e.getMenuSelectionManager();
+                Point p = e.getPoint();
+                if (p.x >= 0 && p.x < menuItem.getWidth() &&
+                        p.y >= 0 && p.y < menuItem.getHeight()) {
+                    doClick(manager);
+                }
+                else {
+                    manager.clearSelectedPath();
+                }
             }
         }
     }
@@ -1082,33 +1091,28 @@ public class MetalMenuItemUI extends MenuItemUI {
     private class MenuKeyHandler implements MenuKeyListener {
 
         /**
-         * Handles the mnemonic key typed in the MenuItem if this menuItem is in
-         * a standalone popup menu. This invocation normally
-         * handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed. Ideally, the
-         * MenuKeyHandlers for both BasicMenuItemUI and BasicMenuUI can be consolidated
-         * into BasicPopupMenuUI but that would require an semantic change. This
-         * would result in a performance win since we can shortcut a lot of the needless
-         * processing from MenuSelectionManager.processKeyEvent(). See 4670831.
+         * Handles the mnemonic key typed in the MenuItem if this menuItem is in a standalone popup
+         * menu. This invocation normally handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed.
+         * Ideally, the MenuKeyHandlers for both BasicMenuItemUI and BasicMenuUI can be consolidated
+         * into BasicPopupMenuUI but that would require an semantic change. This would result in a
+         * performance win since we can shortcut a lot of the needless processing from
+         * MenuSelectionManager.processKeyEvent(). See 4670831.
          */
         public void menuKeyTyped(MenuKeyEvent e) {
-            if (DEBUG) {
-                System.out.println("in BasicMenuItemUI.menuKeyTyped for " + menuItem.getText());
-            }
-            int key = menuItem.getMnemonic();
-            if (key == 0 || e.getPath().length != 2) // Hack! Only proceed if in a JPopupMenu
-                return;
-            if (lower((char) key) == lower(e.getKeyChar())) {
-                MenuSelectionManager manager =
-                        e.getMenuSelectionManager();
-                doClick(manager);
-                e.consume();
+            if (menuItem != null && menuItem.isEnabled()) {
+                int key = menuItem.getMnemonic();
+                if (key == 0 || e.getPath().length != 2) // Hack! Only proceed if in a JPopupMenu
+                    return;
+                if (lower((char) key) == lower(e.getKeyChar())) {
+                    MenuSelectionManager manager =
+                            e.getMenuSelectionManager();
+                    doClick(manager);
+                    e.consume();
+                }
             }
         }
 
         public void menuKeyPressed(MenuKeyEvent e) {
-            if (DEBUG) {
-                System.out.println("in BasicMenuItemUI.menuKeyPressed for " + menuItem.getText());
-            }
         }
 
         public void menuKeyReleased(MenuKeyEvent e) {
@@ -1148,17 +1152,14 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * Call this method when a menu item is to be activated.
-     * This method handles some of the details of menu item activation
-     * such as clearing the selected path and messaging the
-     * JMenuItem's doClick() method.
+     * Call this method when a menu item is to be activated. This method handles some of the details
+     * of menu item activation such as clearing the selected path and messaging the JMenuItem's
+     * doClick() method.
      *
-     * @param msm A MenuSelectionManager. The visual feedback and
-     *            internal bookkeeping tasks are delegated to
-     *            this MenuSelectionManager. If <code>null</code> is
-     *            passed as this argument, the
-     *            <code>MenuSelectionManager.defaultManager</code> is
-     *            used.
+     * @param msm A MenuSelectionManager. The visual feedback and internal bookkeeping tasks are
+     *            delegated to this MenuSelectionManager. If <code>null</code> is passed as this
+     *            argument, the <code>MenuSelectionManager.defaultManager</code> is used.
+     *
      * @see javax.swing.MenuSelectionManager
      * @see javax.swing.JMenuItem#doClick(int)
      * @since 1.4
@@ -1173,12 +1174,9 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * This is to see if the menu item in question is part of the
-     * system menu on an internal frame.
-     * The Strings that are being checked can be found in
-     * MetalInternalFrameTitlePaneUI.java,
-     * WindowsInternalFrameTitlePaneUI.java, and
-     * MotifInternalFrameTitlePaneUI.java.
+     * This is to see if the menu item in question is part of the system menu on an internal frame.
+     * The Strings that are being checked can be found in MetalInternalFrameTitlePaneUI.java,
+     * WindowsInternalFrameTitlePaneUI.java, and MotifInternalFrameTitlePaneUI.java.
      *
      * @since 1.4
      */
