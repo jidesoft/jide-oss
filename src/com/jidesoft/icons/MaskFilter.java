@@ -11,8 +11,7 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 
 /**
- * An image filter that will replace one color in an image
- * with another color.
+ * An image filter that will replace one color in an image with another color.
  */
 public class MaskFilter extends RGBImageFilter {
     private Color _newColor;
@@ -50,19 +49,20 @@ public class MaskFilter extends RGBImageFilter {
     }
 
     /**
-     * Creates an image as negative of an existing one. It will
-     * basically replace the black color with white color.
+     * Creates an image as negative of an existing one. It will basically replace the black color
+     * with white color.
      */
     public static Image createNegativeImage(Image i) {
         return createImage(i, Color.black, Color.white);
     }
 
     /**
-     * Constructs a MaskFilter object that filters color of image to another color
+     * Constructs a MaskFilter object that filters color of image to another color Please note, you
+     * can also use {@link #getInstance(java.awt.Color,java.awt.Color)} to reuse the same instance
+     * of MaskFilter.
      *
      * @param oldColor old color in exist image that needs to be replaced by new color
      * @param newColor new color to replace the old color
-     * @deprecated use getInstance instead to reuse the same instance
      */
     public MaskFilter(Color oldColor, Color newColor) {
         _newColor = newColor;

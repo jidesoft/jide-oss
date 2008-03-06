@@ -17,11 +17,16 @@ public class ColorFilter extends RGBImageFilter {
     private boolean brighter;
     private int percent;
 
-    private static ColorFilter _colorFilter = ColorFilter.getInstance(false, 0);
+    private static ColorFilter _colorFilter;
 
     public static ColorFilter getInstance(boolean brighter, int percent) {
-        _colorFilter.setBrighter(brighter);
-        _colorFilter.setPercent(percent);
+        if (_colorFilter == null) {
+            _colorFilter = new ColorFilter(brighter, percent);
+        }
+        else {
+            _colorFilter.setBrighter(brighter);
+            _colorFilter.setPercent(percent);
+        }
         return _colorFilter;
     }
 
@@ -61,12 +66,12 @@ public class ColorFilter extends RGBImageFilter {
 
     /**
      * Constructs a ColorFilter object that filters a color image to a brighter or a darker image.
+     * Please note, you can also use {@link #getInstance(boolean,int)} to reuse the same instance of
+     * ColorFilter.
      *
      * @param b a boolean -- true if the pixels should be brightened
      * @param p an int in the range 0..100 that determines the percentage of gray, where 100 is the
      *          darkest gray, and 0 is the lightest
-     *
-     * @deprecated use getInstance instead to reuse the same instance
      */
     public ColorFilter(boolean b, int p) {
         brighter = b;
