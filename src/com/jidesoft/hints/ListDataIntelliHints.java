@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>ListDataIntelliHints</code> is a concrete implementation of {@link com.jidesoft.hints.IntelliHints}.
- * It provides hints from a known list of data. It is similar to auto complete text
- * field except the list will be filtered depending on what user types in so far.
+ * <code>ListDataIntelliHints</code> is a concrete implementation of {@link
+ * com.jidesoft.hints.IntelliHints}. It provides hints from a known list of data. It is similar to
+ * auto complete text field except the list will be filtered depending on what user types in so
+ * far.
  */
 public class ListDataIntelliHints extends AbstractListIntelliHints {
 
@@ -74,11 +75,6 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
         }
         String s = context.toString();
         int substringLen = s.length();
-        if (substringLen == 0) {
-            return false;
-        }
-
-
         List<String> possibleStrings = new ArrayList<String>();
         for (Object o : getCompletionList()) {
             String listEntry = (String) o;
