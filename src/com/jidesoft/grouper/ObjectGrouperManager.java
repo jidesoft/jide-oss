@@ -23,7 +23,8 @@ public class ObjectGrouperManager {
     private static ObjectGrouper _defaultGrouper = null;
 
     /**
-     * Registers a grouper with the type specified as class and a grouper context specified as context.
+     * Registers a grouper with the type specified as class and a grouper context specified as
+     * context.
      *
      * @param clazz   type
      * @param grouper group to be registered
@@ -89,7 +90,9 @@ public class ObjectGrouperManager {
      *
      * @param clazz   the data type.
      * @param context the grouper context.
-     * @return the registered grouper. It could return null if there is no grouper for the type and the context.
+     *
+     * @return the registered grouper. It could return null if there is no grouper for the type and
+     *         the context.
      */
     public static ObjectGrouper getGrouper(Class<?> clazz, GrouperContext context) {
         if (isAutoInit()) {
@@ -112,6 +115,7 @@ public class ObjectGrouperManager {
      * Gets the grouper associated with the type.
      *
      * @param clazz the data type.
+     *
      * @return the grouper. It could return null if there is no grouper for the type.
      */
     public static ObjectGrouper getGrouper(Class<?> clazz) {
@@ -122,6 +126,7 @@ public class ObjectGrouperManager {
      * Converts an object to string using default grouper context.
      *
      * @param object object to be converted.
+     *
      * @return the string
      */
     public static Object getGroupValue(Object object) {
@@ -136,6 +141,7 @@ public class ObjectGrouperManager {
      *
      * @param object object to be converted.
      * @param clazz  type of the object
+     *
      * @return the string
      */
     public static Object getGroupValue(Object object, Class<?> clazz) {
@@ -145,6 +151,7 @@ public class ObjectGrouperManager {
     /**
      * @deprecated the method is changed to {@link #getGroupValue(Object,Class,GrouperContext)}.
      */
+    @Deprecated
     public static Object getValue(Object object, Class<?> clazz, GrouperContext context) {
         return getGroupValue(object, clazz, context);
     }
@@ -155,6 +162,7 @@ public class ObjectGrouperManager {
      * @param object  object to be converted.
      * @param clazz   type of the object
      * @param context group context
+     *
      * @return the string converted from object
      */
     public static Object getGroupValue(Object object, Class<?> clazz, GrouperContext context) {
@@ -173,6 +181,7 @@ public class ObjectGrouperManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
+     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -180,23 +189,25 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods getValue,
-     * {@link #initDefaultGrouper()} will be called if it has never be called. By default, autoInit is true.
+     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods
+     * getValue, {@link #initDefaultGrouper()} will be called if it has never be called. By default,
+     * autoInit is true.
      * <p/>
      * This might affect the behavior if users provide their own groupers and want to overwrite
-     * default groupers. In this case, instead of depending on autoInit to initialize default groupers,
-     * you should call {@link #initDefaultGrouper()} first, then call registerGrouper to add your own groupers.
+     * default groupers. In this case, instead of depending on autoInit to initialize default
+     * groupers, you should call {@link #initDefaultGrouper()} first, then call registerGrouper to
+     * add your own groupers.
      *
-     * @param autoInit false if you want to disable autoInit which means you either don't
-     *                 want those default comparators registered or you will call {@link #initDefaultGrouper()} yourself.
+     * @param autoInit false if you want to disable autoInit which means you either don't want those
+     *                 default comparators registered or you will call {@link #initDefaultGrouper()}
+     *                 yourself.
      */
     public static void setAutoInit(boolean autoInit) {
         _autoInit = autoInit;
     }
 
     /**
-     * Adds a listener to the list that's notified each time a change
-     * to the manager occurs.
+     * Adds a listener to the list that's notified each time a change to the manager occurs.
      *
      * @param l the RegistrationListener
      */
@@ -205,8 +216,7 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * Removes a listener from the list that's notified each time a
-     * change to the manager occurs.
+     * Removes a listener from the list that's notified each time a change to the manager occurs.
      *
      * @param l the RegistrationListener
      */
@@ -215,11 +225,11 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * Returns an array of all the registration listeners
-     * registered on this manager.
+     * Returns an array of all the registration listeners registered on this manager.
      *
-     * @return all of this registration's <code>RegistrationListener</code>s
-     *         or an empty array if no registration listeners are currently registered
+     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no
+     *         registration listeners are currently registered
+     *
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -231,6 +241,7 @@ public class ObjectGrouperManager {
      * Gets the available GrouperContexts registered with the class.
      *
      * @param clazz the class.
+     *
      * @return the available GrouperContexts.
      */
     public static GrouperContext[] getGrouperContexts(Class<?> clazz) {
@@ -238,8 +249,8 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * Initialize default groupers. Please make sure you call this method before you use any
-     * group related classes. By default we register following groupers.
+     * Initialize default groupers. Please make sure you call this method before you use any group
+     * related classes. By default we register following groupers.
      * <code><pre>
      *   DateYearGrouper dateYearGrouper = new DateYearGrouper();
      *   registerGrouper(Date.class, dateYearGrouper, DateYearGrouper.CONTEXT);
@@ -277,9 +288,10 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * If {@link #initDefaultGrouper()} is called once, calling it again will have no effect because an internal flag is set.
-     * This method will reset the internal flag so that you can call  {@link #initDefaultGrouper()} in case you unresgister all
-     * groupers using {@link #unregisterAllGroupers()}.
+     * If {@link #initDefaultGrouper()} is called once, calling it again will have no effect because
+     * an internal flag is set. This method will reset the internal flag so that you can call
+     * {@link #initDefaultGrouper()} in case you unresgister all groupers using {@link
+     * #unregisterAllGroupers()}.
      */
     public static void resetInit() {
         _inited = false;

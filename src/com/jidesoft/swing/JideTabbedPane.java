@@ -27,17 +27,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * <code>JidetabbedPane</code> is an enhanced version of <code>JTabbedPane</code>.
- * Different from <code>JTabbedPane</code>, it
- * <ul>
- * <li> has an option to hide tab area if there is only one
- * component in tabbed pane.
- * <li> has an option to resize tab width so that all tabs
- * can be fitted in one row.
- * <li> has an option to show a close button along with scroll left
- * and scroll right buttons in tab area.
- * </ul>
- * Except methods to set additional options specified above, the uage of
+ * <code>JidetabbedPane</code> is an enhanced version of <code>JTabbedPane</code>. Different from
+ * <code>JTabbedPane</code>, it <ul> <li> has an option to hide tab area if there is only one
+ * component in tabbed pane. <li> has an option to resize tab width so that all tabs can be fitted
+ * in one row. <li> has an option to show a close button along with scroll left and scroll right
+ * buttons in tab area. </ul> Except methods to set additional options specified above, the uage of
  * <code>JideTabbedPane</code> is the same as <code>JTabbedPane</code>.
  */
 public class JideTabbedPane extends JTabbedPane {
@@ -144,7 +138,8 @@ public class JideTabbedPane extends JTabbedPane {
     private static final String uiClassID = "JideTabbedPaneUI";
 
     /**
-     * If the gripper should be shown. Gripper is something on divider to indicate it can be dragged.
+     * If the gripper should be shown. Gripper is something on divider to indicate it can be
+     * dragged.
      */
     private boolean _showGripper = false;
 
@@ -162,29 +157,35 @@ public class JideTabbedPane extends JTabbedPane {
     private Font _selectedTabFont;
 
     /**
-     * A tab resize mode. The default resize mode means it will use the resize mode of {@link #getDefaultTabResizeMode()} which is defined
-     * in UIDefault "JideTabbedPane.defaultResizeMode". You can change this in UIDefault. It will affect the resize mode of all <code>JideTabbedPane</code>s.
+     * A tab resize mode. The default resize mode means it will use the resize mode of {@link
+     * #getDefaultTabResizeMode()} which is defined in UIDefault "JideTabbedPane.defaultResizeMode".
+     * You can change this in UIDefault. It will affect the resize mode of all
+     * <code>JideTabbedPane</code>s.
      */
     public final static int RESIZE_MODE_DEFAULT = 0;
 
     /**
-     * A tab resize mode. The none resize mode means the tab will not resize when tabbed pane width changes.
+     * A tab resize mode. The none resize mode means the tab will not resize when tabbed pane width
+     * changes.
      */
     public final static int RESIZE_MODE_NONE = 1;
 
     /**
-     * A tab resize mode. The fit resize mode means the tabs will shrink if the tabbed pane width shinks so there is no way to display the full contents of the tabs.
+     * A tab resize mode. The fit resize mode means the tabs will shrink if the tabbed pane width
+     * shinks so there is no way to display the full contents of the tabs.
      */
     public final static int RESIZE_MODE_FIT = 2;
 
     /**
-     * A tab resize mode. All tabs will be at a fixed width. The fixed width is defined as UIDefault "JideTabbedPane.fixedStyleRectSize" which is an integer.
+     * A tab resize mode. All tabs will be at a fixed width. The fixed width is defined as UIDefault
+     * "JideTabbedPane.fixedStyleRectSize" which is an integer.
      */
     public final static int RESIZE_MODE_FIXED = 3;
 
     /**
-     * A tab resize mode. In this mode, the select tab will have full tab width. Non-selected tab will only display the icon. The actual width of non-selected tab is determined by
-     * UIDefault "JideTabbedPane.compressedStyleNoIconRectSize" which is an integer.
+     * A tab resize mode. In this mode, the select tab will have full tab width. Non-selected tab
+     * will only display the icon. The actual width of non-selected tab is determined by UIDefault
+     * "JideTabbedPane.compressedStyleNoIconRectSize" which is an integer.
      */
     public final static int RESIZE_MODE_COMPRESSED = 4;
 
@@ -231,8 +232,8 @@ public class JideTabbedPane extends JTabbedPane {
     private static final Logger LOGGER_EVENT = Logger.getLogger(TabEditingEvent.class.getName());
 
     /**
-     * Creates an empty <code>TabbedPane</code> with a default
-     * tab placement of <code>JTabbedPane.TOP</code>.
+     * Creates an empty <code>TabbedPane</code> with a default tab placement of
+     * <code>JTabbedPane.TOP</code>.
      *
      * @see #addTab
      */
@@ -241,11 +242,12 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Creates an empty <code>TabbedPane</code> with the specified tab placement
-     * of either: <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
+     * Creates an empty <code>TabbedPane</code> with the specified tab placement of either:
+     * <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>, <code>JTabbedPane.LEFT</code>,
+     * or <code>JTabbedPane.RIGHT</code>.
      *
      * @param tabPlacement the placement for the tabs relative to the content
+     *
      * @see #addTab
      */
     public JideTabbedPane(int tabPlacement) {
@@ -253,18 +255,19 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Creates an empty <code>JideTabbedPane</code> with the specified tab placement
-     * and tab layout policy.  Tab placement may be either:
-     * <code>JTabbedPane.TOP</code> or <code>JTabbedPane.BOTTOM</code>
-     * Tab layout policy should always be <code>JTabbedPane.SCROLL_TAB_LAYOUT</code>.
-     * <code>JTabbedPane</code> also supports <code>JTabbedPane.WRAP_TAB_LAYOUT</code>. However the style of
-     * tabs in <code>JideTabbedPane</code> doesn't match with <code>JTabbedPane.WRAP_TAB_LAYOUT</code>
-     * very well, so we decided not to support it.
+     * Creates an empty <code>JideTabbedPane</code> with the specified tab placement and tab layout
+     * policy.  Tab placement may be either: <code>JTabbedPane.TOP</code> or
+     * <code>JTabbedPane.BOTTOM</code> Tab layout policy should always be
+     * <code>JTabbedPane.SCROLL_TAB_LAYOUT</code>. <code>JTabbedPane</code> also supports
+     * <code>JTabbedPane.WRAP_TAB_LAYOUT</code>. However the style of tabs in
+     * <code>JideTabbedPane</code> doesn't match with <code>JTabbedPane.WRAP_TAB_LAYOUT</code> very
+     * well, so we decided not to support it.
      *
      * @param tabPlacement    the placement for the tabs relative to the content
      * @param tabLayoutPolicy the policy for laying out tabs when all tabs will not fit on one run
-     * @throws IllegalArgumentException if tab placement or tab layout policy are not
-     *                                  one of the above supported values
+     *
+     * @throws IllegalArgumentException if tab placement or tab layout policy are not one of the
+     *                                  above supported values
      * @see #addTab
      */
     public JideTabbedPane(int tabPlacement, int tabLayoutPolicy) {
@@ -279,6 +282,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the UI object which implements the L&F for this component.
      *
      * @return a <code>TabbedPaneUI</code> object
+     *
      * @see #setUI
      */
     @Override
@@ -290,6 +294,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the UI object which implements the L&F for this component.
      *
      * @param ui the new UI object
+     *
      * @see UIDefaults#getUI
      */
     @Override
@@ -312,10 +317,10 @@ public class JideTabbedPane extends JTabbedPane {
 
 
     /**
-     * Returns the name of the UI class that implements the
-     * L&F for this component.
+     * Returns the name of the UI class that implements the L&F for this component.
      *
      * @return the string "TabbedPaneUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -328,10 +333,12 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns if tabs are shrinked when avaliable space is not enough to hold all tabs.
      *
      * @return true if tab shrink is true; false otherwise
-     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those.
-     *             You can call {@link #getTabResizeMode()}. If the value is {@link #RESIZE_MODE_FIT}, it means
-     *             shrinkTabs is true. Otherwise, it's false.
+     *
+     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those. You can
+     *             call {@link #getTabResizeMode()}. If the value is {@link #RESIZE_MODE_FIT}, it
+     *             means shrinkTabs is true. Otherwise, it's false.
      */
+    @Deprecated
     public boolean isShrinkTabs() {
         return getTabResizeMode() == RESIZE_MODE_FIT;
     }
@@ -341,10 +348,13 @@ public class JideTabbedPane extends JTabbedPane {
      * PropertyChangeEvent of SHRINK_TAB_PROPERTY will be fired.
      *
      * @param shrinkTab true to shrink tabs; false otherwise.
-     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those.
-     *             You can call {@link #setTabResizeMode(int)} and set to {@link #RESIZE_MODE_FIT} which is equavilent
-     *             to setShrinkTabs(true). {@link #RESIZE_MODE_NONE} is equavilent to setShrinkTabs(false).
+     *
+     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those. You can
+     *             call {@link #setTabResizeMode(int)} and set to {@link #RESIZE_MODE_FIT} which is
+     *             equavilent to setShrinkTabs(true). {@link #RESIZE_MODE_NONE} is equavilent to
+     *             setShrinkTabs(false).
      */
+    @Deprecated
     public void setShrinkTabs(boolean shrinkTab) {
         boolean oldValue = isShrinkTabs();
 
@@ -357,11 +367,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Checks if tab area will be hidden if there is only one tab.
-     * <br>
-     * If the showTabButtons option is true, isHideOneTab will
-     * always return false so that there
-     * is a place to place those tab buttons.
+     * Checks if tab area will be hidden if there is only one tab. <br> If the showTabButtons option
+     * is true, isHideOneTab will always return false so that there is a place to place those tab
+     * buttons.
      *
      * @return true if tab areas will be hidden if there is only one tab; false otherwise.
      */
@@ -370,11 +378,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the value if tab area will be hidden if there is only one tab.
-     * PropertyChangeEvent of HIDE_IF_ONE_TAB_PROPERTY will be fired.
-     * <br>
-     * If the showTabButtons option is true, no matter what option you pass to setHideOneTab,
-     * isHideOneTab will always return false.
+     * Sets the value if tab area will be hidden if there is only one tab. PropertyChangeEvent of
+     * HIDE_IF_ONE_TAB_PROPERTY will be fired. <br> If the showTabButtons option is true, no matter
+     * what option you pass to setHideOneTab, isHideOneTab will always return false.
      *
      * @param hideOne true to hide tab areas if there is only one tab; false otherwise.
      */
@@ -397,11 +403,10 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Checks if tab buttons are always visible. Tab buttons are scroll left button,
-     * scroll right button and close button which appear to the right of tabs in tab area.
-     * <br>
-     * If the showTabButtons is set to true, isHideOneTab will
-     * always return false so that there is a place to place those tab buttons.
+     * Checks if tab buttons are always visible. Tab buttons are scroll left button, scroll right
+     * button and close button which appear to the right of tabs in tab area. <br> If the
+     * showTabButtons is set to true, isHideOneTab will always return false so that there is a place
+     * to place those tab buttons.
      *
      * @return true if tab buttons are always visible; false otherwise.
      */
@@ -410,8 +415,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the value if tab buttons are always visible.
-     * PropertyChangeEvent of SHOW_TAB_BUTTONS_PROPERTY will be fired.
+     * Sets the value if tab buttons are always visible. PropertyChangeEvent of
+     * SHOW_TAB_BUTTONS_PROPERTY will be fired.
      *
      * @param showButtons true to always show tab buttons; false otherwise.
      */
@@ -428,22 +433,26 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks if tabs are displayed as box style.
      *
      * @return true if tab is box style; false otherwise
-     * @deprecated As JideTabbedPane can now support many different style, box style is just one of them.
-     *             So this is method is replaced by {@link #getTabShape()} method. If the return value is STYLE_BOX,
-     *             it is a box style tab.
+     *
+     * @deprecated As JideTabbedPane can now support many different style, box style is just one of
+     *             them. So this is method is replaced by {@link #getTabShape()} method. If the
+     *             return value is STYLE_BOX, it is a box style tab.
      */
+    @Deprecated
     public boolean isBoxStyleTab() {
         return getTabShape() == SHAPE_BOX;
     }
 
     /**
-     * Sets the value if tabs are box style.
-     * PropertyChangeEvent of BOX_STYLE_PROPERTY will be fired.
+     * Sets the value if tabs are box style. PropertyChangeEvent of BOX_STYLE_PROPERTY will be
+     * fired.
      *
      * @param boxStyleTab true to show tab as box style; false otherwise.
-     * @deprecated As JideTabbedPane can now support many different style, box style is just one of them.
-     *             So a better way is to change style using {@link #setTabShape(int)} method.
+     *
+     * @deprecated As JideTabbedPane can now support many different style, box style is just one of
+     *             them. So a better way is to change style using {@link #setTabShape(int)} method.
      */
+    @Deprecated
     public void setBoxStyleTab(boolean boxStyleTab) {
         boolean oldValue = isBoxStyleTab();
 
@@ -478,8 +487,7 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Resets close action to default. Default action
-     * is to remove currently selected tab.
+     * Resets close action to default. Default action is to remove currently selected tab.
      */
     public void resetDefaultCloseAction() {
         setCloseAction(null);
@@ -507,8 +515,8 @@ public class JideTabbedPane extends JTabbedPane {
     private boolean _autoRequestFocus = true;
 
     /**
-     * Checks if the UI should automatically request focus on selecte dcomponent when doing the layout.
-     * This method is only used internally when the tab is being moved.
+     * Checks if the UI should automatically request focus on selecte dcomponent when doing the
+     * layout. This method is only used internally when the tab is being moved.
      *
      * @return true or false. Default is true.
      */
@@ -718,8 +726,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets to true if the icon will be shown on tab. The value set to this
-     * method will be used only when isUseDefaultShowIconsOnTab() returns false.
+     * Sets to true if the icon will be shown on tab. The value set to this method will be used only
+     * when isUseDefaultShowIconsOnTab() returns false.
      *
      * @param showIconsOnTab true or false.
      */
@@ -763,9 +771,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets to true if the close button will be shown on tab. The value set to this
-     * method will be used only when isUseDefaultShowCloseButtonOnTab() returns false.
-     * You also need to setShowCloseButton(true) if you want to setShowCloseButtonOnTab(true).
+     * Sets to true if the close button will be shown on tab. The value set to this method will be
+     * used only when isUseDefaultShowCloseButtonOnTab() returns false. You also need to
+     * setShowCloseButton(true) if you want to setShowCloseButtonOnTab(true).
      *
      * @param showCloseButtonOnTab true or false.
      */
@@ -803,8 +811,8 @@ public class JideTabbedPane extends JTabbedPane {
     transient protected boolean _tabEditingAllowed = false;
 
     /**
-     * Sets the value if the tab editing is allowed. Tab editing allows user to edit
-     * the tab title directly by double clicking on the tab.
+     * Sets the value if the tab editing is allowed. Tab editing allows user to edit the tab title
+     * directly by double clicking on the tab.
      *
      * @param allowed true or false.
      */
@@ -831,9 +839,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets if the close button is visible. Close button can be either
-     * side by side with scroll buttons, or on each tab. If you call setShowCloseButton(false), it will
-     * hide close buttons for both cases.
+     * Sets if the close button is visible. Close button can be either side by side with scroll
+     * buttons, or on each tab. If you call setShowCloseButton(false), it will hide close buttons
+     * for both cases.
      *
      * @param showCloseButton true or false.
      */
@@ -855,9 +863,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets if the tab area is visible. If not visible, you can programatically
-     * call setSelectedIndex to change ta. User will not be able to do it by clicking on
-     * tabs since they are not visible.
+     * Sets if the tab area is visible. If not visible, you can programatically call
+     * setSelectedIndex to change ta. User will not be able to do it by clicking on tabs since they
+     * are not visible.
      *
      * @param showTabArea true or false.
      */
@@ -911,10 +919,11 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Gets the display title. Display title is result of using string converter that converts from
-     * the title to a display title. There is no setter for display title. You control the value by using
-     * a different string converter.
+     * the title to a display title. There is no setter for display title. You control the value by
+     * using a different string converter.
      *
      * @param index
+     *
      * @return the display title.
      */
     public String getDisplayTitleAt(int index) {
@@ -1003,32 +1012,33 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Checks if the tab at tabIndex should show the close button.
-     * This is only a valid if showCloseButtonOnTab attribute is true.
+     * Checks if the tab at tabIndex should show the close button. This is only a valid if
+     * showCloseButtonOnTab attribute is true.
      * <p/>
-     * By default, this method always return true. Subclass can override
-     * this method to return a different value.
+     * By default, this method always return true. Subclass can override this method to return a
+     * different value.
      *
      * @param tabIndex
-     * @throws IndexOutOfBoundsException if index is out of range
-     *                                   (index < 0 || index >= tab count)
+     *
+     * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
         return !_closableMap.containsKey(tabIndex);
     }
 
     /**
-     * Checks if the tab at tabIndex should show the close button.
-     * This is only a valid if showCloseButtonOnTab attribute is true.
+     * Checks if the tab at tabIndex should show the close button. This is only a valid if
+     * showCloseButtonOnTab attribute is true.
      * <p/>
-     * By default, this method always return true. Subclass can override
-     * this method to return a different value.
+     * By default, this method always return true. Subclass can override this method to return a
+     * different value.
      * <p/>
-     * Please note, this attribute has effect only when {@link #isShowCloseButtonOnTab()} return true.
+     * Please note, this attribute has effect only when {@link #isShowCloseButtonOnTab()} return
+     * true.
      *
      * @param tabIndex
-     * @throws IndexOutOfBoundsException if index is out of range
-     *                                   (index < 0 || index >= tab count)
+     *
+     * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public void setTabClosableAt(int tabIndex, boolean closble) {
         if (closble) {
@@ -1048,6 +1058,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Gets the last focused component of a particular page.
      *
      * @param pageComponent
+     *
      * @return the last focused component of a particular page.
      */
     public Component getLastFocusedComponent(Component pageComponent) {
@@ -1060,8 +1071,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Overridden to add a <code>PageLastFocusTracker</code> to each page, used to
-     * update the page's last focused component.
+     * Overridden to add a <code>PageLastFocusTracker</code> to each page, used to update the page's
+     * last focused component.
      */
     @Override
     public void insertTab(String title, Icon icon, Component component, String tip, int index) {
@@ -1161,8 +1172,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab resize mode. There are five resize modes. - {@link #RESIZE_MODE_DEFAULT},
-     * {@link #RESIZE_MODE_NONE}, {@link #RESIZE_MODE_FIT}, {@link #RESIZE_MODE_FIXED} and {@link #RESIZE_MODE_COMPRESSED}.
+     * Sets the tab resize mode. There are five resize modes. - {@link #RESIZE_MODE_DEFAULT}, {@link
+     * #RESIZE_MODE_NONE}, {@link #RESIZE_MODE_FIT}, {@link #RESIZE_MODE_FIXED} and {@link
+     * #RESIZE_MODE_COMPRESSED}.
      *
      * @param resizeMode the new resize mode.
      */
@@ -1201,10 +1213,12 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab leading component. The tab leading component will appear before the tabs in the tab area.
-     * Please note, you must implement UIResource for the component you want to use as tab leading component.
+     * Sets the tab leading component. The tab leading component will appear before the tabs in the
+     * tab area. Please note, you must implement UIResource for the component you want to use as tab
+     * leading component.
      *
      * @param component
+     *
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabLeadingComponent(Component component) {
@@ -1225,10 +1239,12 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab trailing component. The tab trailing component will appear after the tabs in the tab area.
-     * Please note, you must implement UIResource for the component you want to use as tab trailing component.
+     * Sets the tab trailing component. The tab trailing component will appear after the tabs in the
+     * tab area. Please note, you must implement UIResource for the component you want to use as tab
+     * trailing component.
      *
      * @param component
+     *
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabTrailingComponent(Component component) {
@@ -1253,8 +1269,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Shows the close button on the selected tab only.
-     * You also need to setShowCloseButtonOnTab(true) and setShowCloseButton(true) if you want to setShowCloseButtonOnSelectedTab(true).
+     * Shows the close button on the selected tab only. You also need to
+     * setShowCloseButtonOnTab(true) and setShowCloseButton(true) if you want to
+     * setShowCloseButtonOnSelectedTab(true).
      *
      * @param i
      */
@@ -1273,6 +1290,7 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the tab background for the tab at the specified index.
          *
          * @param tabIndex
+         *
          * @return the tab background for the tab at the specified index.
          */
         Color getBackgroundAt(int tabIndex);
@@ -1281,32 +1299,35 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the tab foreground for the tab at the specified index.
          *
          * @param tabIndex
+         *
          * @return the tab foreground for the tab at the specified index.
          */
         Color getForegroudAt(int tabIndex);
 
         /**
-         * Gets the gradient ratio. We will use this ratio to provide
-         * another color in order to paint gradient.
+         * Gets the gradient ratio. We will use this ratio to provide another color in order to
+         * paint gradient.
          *
          * @param tabIndex
-         * @return the gradient ratio. The value should be between 0 and 1.
-         *         0 will produce the darkest and color and 1 will produce the lighest color.
-         *         0.5 will provide the same color.
+         *
+         * @return the gradient ratio. The value should be between 0 and 1. 0 will produce the
+         *         darkest and color and 1 will produce the lighest color. 0.5 will provide the same
+         *         color.
          */
         float getGradientRatio(int tabIndex);
     }
 
     /**
-     * A ColorProvider that can supports gradient tab background.
-     * The ColorProvider can also do gradient but the other color has to be be a lighter
-     * or darker version of the color of getBackgroundAt. GradientColorProvider
-     * allows you to specify an indenpendent color as the start color.
+     * A ColorProvider that can supports gradient tab background. The ColorProvider can also do
+     * gradient but the other color has to be be a lighter or darker version of the color of
+     * getBackgroundAt. GradientColorProvider allows you to specify an indenpendent color as the
+     * start color.
      */
     public static interface GradientColorProvider extends ColorProvider {
         /**
-         * Gets the tab background at the top (or other direction depending on the tab placement) of the tab.
-         * The JideTabbedPaneUI will paint a gradient using this color and the color of getBackgroundAt.
+         * Gets the tab background at the top (or other direction depending on the tab placement) of
+         * the tab. The JideTabbedPaneUI will paint a gradient using this color and the color of
+         * getBackgroundAt.
          *
          * @return the top background color.
          */
@@ -1353,8 +1374,8 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the tab color provider.It allows you to set the background color of each tab. The reason
      * to use this way instead of {@link #setBackgroundAt(int,java.awt.Color)} method is because
      * this way queries the color. So it can support unlimited number of tabs. When you don't know
-     * exactly how many tabs it will be, this way can still handle it very well.
-     * There is {@link #ONENOTE_COLOR_PROVIDER} which provides the tab color as you see in Microsoft OneNote 2003.
+     * exactly how many tabs it will be, this way can still handle it very well. There is {@link
+     * #ONENOTE_COLOR_PROVIDER} which provides the tab color as you see in Microsoft OneNote 2003.
      * You can also define your own ColorProvider to fit your application color theme.
      *
      * @param tabColorProvider
@@ -1368,7 +1389,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Starts tab editing. This works only when {@link #setTabEditingAllowed(boolean)} is set to true.
+     * Starts tab editing. This works only when {@link #setTabEditingAllowed(boolean)} is set to
+     * true.
      *
      * @param tabIndex
      */
@@ -1425,7 +1447,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Repaints the tab area and the content border if any. This is mainly for the focus border in JideTabbedPane Office2003 and Eclipse3x style.
+     * Repaints the tab area and the content border if any. This is mainly for the focus border in
+     * JideTabbedPane Office2003 and Eclipse3x style.
      */
     public void repaintTabAreaAndContentBorder() {
         int delay = 200;
@@ -1474,7 +1497,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Gets the tab list cell renderer. This renderer is used to render the list in the popup when tab list button is pressed.
+     * Gets the tab list cell renderer. This renderer is used to render the list in the popup when
+     * tab list button is pressed.
      *
      * @return the tab list cell renderer.
      */
@@ -1488,7 +1512,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * The default tab list cell renderer used to renderer the list in the popup when tab list button is pressed.
+     * The default tab list cell renderer used to renderer the list in the popup when tab list
+     * button is pressed.
      */
     public static class TabListCellRenderer extends DefaultListCellRenderer {
         @Override
@@ -1511,27 +1536,32 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab list cell renderer. This renderer is used to render the list in the popup when tab list button is pressed.
-     * In this list cell renderer, the value will always be the JideTabbedPane. The index will tell you which tab it is.
-     * See below for the default cell renderer we used.
+     * Sets the tab list cell renderer. This renderer is used to render the list in the popup when
+     * tab list button is pressed. In this list cell renderer, the value will always be the
+     * JideTabbedPane. The index will tell you which tab it is. See below for the default cell
+     * renderer we used.
      * <code><pre>
      * public static class TabListCellRenderer extends DefaultListCellRenderer {
-     *     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+     *     public Component getListCellRendererComponent(JList list, Object value, int index,
+     * boolean isSelected, boolean cellHasFocus) {
      *         if (value instanceof JideTabbedPane) { // will always be true
      *             JideTabbedPane tabbedPane = (JideTabbedPane) value;
      *             String title = tabbedPane.getTitleAt(index);
      *             Icon icon = tabbedPane.getIconAt(index);
-     *             JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
+     *             JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index,
+     * isSelected, cellHasFocus);
      *             label.setIcon(icon);
      *             return label;
      *         }
      *         else {
-     *             return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+     *             return super.getListCellRendererComponent(list, value, index, isSelected,
+     * cellHasFocus);
      *         }
      *     }
      * }
      * </code></pre>
-     * You can create your own cell renderer either extending {@link TabListCellRenderer} or starting from scratch.
+     * You can create your own cell renderer either extending {@link TabListCellRenderer} or
+     * starting from scratch.
      *
      * @param tabListCellRenderer
      */
@@ -1540,8 +1570,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Checks if the JideTabbedPane has the focus component. If true, in some styles such as Office2003 style, we will
-     * paint a background on the insets to indicate the tabbed pane has focus.
+     * Checks if the JideTabbedPane has the focus component. If true, in some styles such as
+     * Office2003 style, we will paint a background on the insets to indicate the tabbed pane has
+     * focus.
      *
      * @return true if the JideTabbedPane has the focus component. Otherwise false.
      */
@@ -1554,8 +1585,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the content border insets. It's the inserts around the JideTabbedPane's content. The direction of the insets
-     * is when the tabs are on top. We will rotate it automatically when the tabs are on other direcitons.
+     * Sets the content border insets. It's the inserts around the JideTabbedPane's content. The
+     * direction of the insets is when the tabs are on top. We will rotate it automatically when the
+     * tabs are on other direcitons.
      *
      * @param contentBorderInsets
      */
@@ -1569,6 +1601,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks the dragOverDisabled property. By default it is false.
      *
      * @return true or false.
+     *
      * @see #setDragOverDisabled(boolean)
      */
     public boolean isDragOverDisabled() {
@@ -1576,8 +1609,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the dragOverDisabled property. Default is false. It means when you drag something over an unselected tab, the tab will be selected
-     * automatically. You may want to set it to true if you want to add your own drop listener to the tabs.
+     * Sets the dragOverDisabled property. Default is false. It means when you drag something over
+     * an unselected tab, the tab will be selected automatically. You may want to set it to true if
+     * you want to add your own drop listener to the tabs.
      *
      * @param dragOverDisabled
      */
@@ -1592,11 +1626,11 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Scroll the selected tab visible in case the tab is outside of the viewport.
      *
-     * @param scrollLeft true to scroll the first tab visible first then scroll left to make
-     *                   the selected tab visible. This will get a more consistent result.
-     *                   If false, it will simple scroll the selected tab visible. Sometimes the
-     *                   tab will appear as the first visible tab or the last visible tab depending on
-     *                   the previous viewport position.
+     * @param scrollLeft true to scroll the first tab visible first then scroll left to make the
+     *                   selected tab visible. This will get a more consistent result. If false, it
+     *                   will simple scroll the selected tab visible. Sometimes the tab will appear
+     *                   as the first visible tab or the last visible tab depending on the previous
+     *                   viewport position.
      */
     public void scrollSelectedTabToVisible(boolean scrollLeft) {
         ((JideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(scrollLeft);
@@ -1606,6 +1640,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Adds a <code>TabEditingListener</code> to this tabbedpane.
      *
      * @param l the <code>TabEditingListener</code> to add
+     *
      * @see #fireTabEditing
      * @see #removeTabEditingListener
      */
@@ -1617,6 +1652,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Removes a <code>TabEditingListener</code> from this tabbedpane.
      *
      * @param l the <code>TabEditingListener</code> to remove
+     *
      * @see #fireTabEditing
      * @see #addTabEditingListener
      */
@@ -1625,11 +1661,11 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Returns an array of all the <code>TabEditingListener</code>s added
-     * to this <code>JTabbedPane</code> with <code>addTabEditingListener</code>.
+     * Returns an array of all the <code>TabEditingListener</code>s added to this
+     * <code>JTabbedPane</code> with <code>addTabEditingListener</code>.
      *
-     * @return all of the <code>TabEditingListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return all of the <code>TabEditingListener</code>s added or an empty array if no listeners
+     *         have been added
      */
     public TabEditingListener[] getTabEditingListeners() {
         return listenerList.getListeners(TabEditingListener.class);
@@ -1667,10 +1703,12 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Gets the icon for the tab after looking at the UIDefault "JideTabbedPane.showIconOnTab" and {@link #isShowIconsOnTab()}.
-     * Note that getIconAt method will always return the tab even though the icon is not displayed because the two flags above.
+     * Gets the icon for the tab after looking at the UIDefault "JideTabbedPane.showIconOnTab" and
+     * {@link #isShowIconsOnTab()}. Note that getIconAt method will always return the tab even
+     * though the icon is not displayed because the two flags above.
      *
      * @param tabIndex the tab index.
+     *
      * @return the icon for the tab at the specified index.
      */
     public Icon getIconForTab(int tabIndex) {

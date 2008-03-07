@@ -551,6 +551,7 @@ public class CheckBoxList extends JList {
      *             instead. Or you can use {@link #getCheckBoxListSelectionModel()} to get the
      *             selection model and get the selected indices from there.
      */
+    @Deprecated
     public Object[] getSelectedObjects() {
         return getCheckBoxListSelectedValues();
     }

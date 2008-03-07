@@ -2598,6 +2598,7 @@ public class JideSwingUtilities implements SwingConstants {
      *             parentComponent is null. You can refer to {@link javax.swing.JOptionPane#getRootFrame()}
      *             for more information.
      */
+    @Deprecated
     public static Window getWindow(Component component) {
         if (component == null) return null;
 

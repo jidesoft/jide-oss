@@ -119,6 +119,7 @@ public class JideMenu extends JMenu implements Alignable {
      *             public API we have to deprecated this one and ask users to use {@link
      *             PopupMenuCustomizer} instead.
      */
+    @Deprecated
     public interface MenuCreator {
         void createMenu();
     }
@@ -138,6 +139,7 @@ public class JideMenu extends JMenu implements Alignable {
      *
      * @deprecated use{@link PopupMenuCustomizer} and {@link #getPopupMenuCustomizer()} instead.
      */
+    @Deprecated
     public MenuCreator getMenuCreator() {
         return _menuCreator;
     }
@@ -151,6 +153,7 @@ public class JideMenu extends JMenu implements Alignable {
      * @deprecated use{@link PopupMenuCustomizer} and {@link #setPopupMenuCustomizer(com.jidesoft.swing.JideMenu.PopupMenuCustomizer)}
      *             instead.
      */
+    @Deprecated
     public void setMenuCreator(MenuCreator menuCreator) {
         _menuCreator = menuCreator;
     }

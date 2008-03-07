@@ -1066,6 +1066,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @deprecated use {@link #createHeavyweightPopupContainer(java.awt.Component)} instead.
      */
+    @Deprecated
     protected ResizableWindow createPopupContainer(Component owner) {
         return createHeavyweightPopupContainer(owner);
     }
