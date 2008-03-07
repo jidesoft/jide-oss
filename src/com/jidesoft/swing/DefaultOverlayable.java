@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * <code>DefaultOverlayable</code> is the default implementation of <code>Overlayable</code> using JPanel as
- * the base component.
+ * <code>DefaultOverlayable</code> is the default implementation of <code>Overlayable</code> using
+ * JPanel as the base component.
  */
 public class DefaultOverlayable extends JPanel implements Overlayable, ComponentListener {
     private JComponent _actualComponent;
@@ -55,18 +55,20 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     }
 
     /**
-     * Override to consider the overlayLocationInsets. If the overlayLocationInsets's edges are positive number,
-     * we will increase the preferred size so that the overlayout component can be shown. If they are negative, we will
-     * still keep the super.getPreferredSize.
+     * Override to consider the overlayLocationInsets. If the overlayLocationInsets's edges are
+     * positive number, we will increase the preferred size so that the overlayout component can be
+     * shown. If they are negative, we will still keep the super.getPreferredSize.
      *
-     * @return
+     * @return the preferred size of the DefaultOverlayable.
      */
     @Override
     public Dimension getPreferredSize() {
-        Dimension size = getActualComponent().getPreferredSize();
+        Dimension size = getActualComponent() == null ? new Dimension(0, 0) : getActualComponent().getPreferredSize();
         Insets insets = getOverlayLocationInsets();
-        size.width += Math.max(0, insets.left) + Math.max(0, insets.right);
-        size.height += Math.max(0, insets.top) + Math.max(0, insets.bottom);
+        if (insets != null) {
+            size.width += Math.max(0, insets.left) + Math.max(0, insets.right);
+            size.height += Math.max(0, insets.top) + Math.max(0, insets.bottom);
+        }
         return size;
     }
 
