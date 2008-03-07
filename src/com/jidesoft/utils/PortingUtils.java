@@ -19,10 +19,11 @@ public class PortingUtils {
     private static Rectangle _virtualBounds = null;
 
     /**
-     * Gets current focused components. If 1.3, just uses event's source;
-     * 1.4, used keyboard focus manager to get the correct focused component.
+     * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus
+     * manager to get the correct focused component.
      *
      * @param event
+     *
      * @return current focused component
      */
     public static Component getCurrentFocusComponent(AWTEvent event) {
@@ -33,6 +34,7 @@ public class PortingUtils {
      * Gets frame's state. In 1.3, used getState; in 1.4, uses getExtendedState.
      *
      * @param frame
+     *
      * @return frame's state
      */
     public static int getFrameState(Frame frame) {
@@ -53,6 +55,7 @@ public class PortingUtils {
      * Gets mouse modifiers. If 1.3, uses getModifiers; 1.4, getModifiersEx.
      *
      * @param e
+     *
      * @return mouse modifiers
      */
     public static int getMouseModifiers(MouseEvent e) {
@@ -85,6 +88,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
+     *
      * @return the rectange that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
@@ -110,6 +114,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
+     *
      * @return the rectange that has overlap with the screen bounds.
      */
     public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
@@ -131,9 +136,11 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
+     * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows
+     * OS.
      *
      * @param invoker
+     *
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
@@ -153,9 +160,11 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
+     * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows
+     * OS.
      *
      * @param invoker
+     *
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
@@ -177,9 +186,11 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS.
+     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows
+     * OS.
      *
      * @param invoker
+     *
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
@@ -224,12 +235,15 @@ public class PortingUtils {
     }
 
     /**
-     * Makes the point parameter is within the screen bounds. If not, it will be modified to make sure it is in.
+     * Makes the point parameter is within the screen bounds. If not, it will be modified to make
+     * sure it is in.
      *
      * @param invoker we will use this the invoker component to find out the current screen.
      * @param point   the point
+     *
      * @deprecated Please use {@link #ensureOnScreen(java.awt.Rectangle)} instead.
      */
+    @Deprecated
     public static void withinScreen(Component invoker, Point point) {
         if (invoker != null && !(invoker instanceof JApplet)) {
             GraphicsConfiguration gc = invoker.getGraphicsConfiguration();
@@ -257,28 +271,35 @@ public class PortingUtils {
     private static Thread _initializationThread = null;
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)}
-     * or {@link #getScreenArea()} for the first time, it will take up to a few seconds to run because it needs to get device information.
-     * To avoid any slowness, you can call {@link #initializeScreenArea()} method in the class where you will use those three methods.
-     * This method will spawn a thread to retrieve device information thus it will return immediately.
-     * Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
+     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the
+     * first time, it will take up to a few seconds to run because it needs to get device
+     * information. To avoid any slowness, you can call {@link #initializeScreenArea()} method in
+     * the class where you will use those three methods. This method will spawn a thread to retrieve
+     * device information thus it will return immediately. Hopefully, when you use the three
+     * methods, the thread is done so user will not notice any slowness.
      */
     synchronized public static void initializeScreenArea() {
         initializeScreenArea(Thread.NORM_PRIORITY);
     }
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)}
-     * or {@link #getScreenArea()} for the first time, it will take up to a few seconds to run because it needs to get device information.
-     * To avoid any slowness, you can call {@link #initializeScreenArea()} method in the class where you will use those three methods.
-     * This method will spawn a thread to retrieve device information thus it will return immediately.
-     * Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
+     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the
+     * first time, it will take up to a few seconds to run because it needs to get device
+     * information. To avoid any slowness, you can call {@link #initializeScreenArea()} method in
+     * the class where you will use those three methods. This method will spawn a thread to retrieve
+     * device information thus it will return immediately. Hopefully, when you use the three
+     * methods, the thread is done so user will not notice any slowness.
      *
-     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the priority of the thread. If you
-     *                 are waiting for the result before the next step, you should use normal priority (which is 5). If you just want to calcualte when app starts,
-     *                 you can use a lower priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't go beyond the screen.
-     *                 So when AbstractComboBox is used, we will kick off the thread at priority 3. If user clicks on the drop down after the thread finished,
-     *                 there will be no time delay.
+     * @param priority as we will use a thread to calculate the screen area, you can use this
+     *                 parameter to control the priority of the thread. If you are waiting for the
+     *                 result before the next step, you should use normal priority (which is 5). If
+     *                 you just want to calcualte when app starts, you can use a lower priority
+     *                 (such as 3). For example, AbstractComboBox needs screen size so that the
+     *                 popup doesn't go beyond the screen. So when AbstractComboBox is used, we will
+     *                 kick off the thread at priority 3. If user clicks on the drop down after the
+     *                 thread finished, there will be no time delay.
      */
     synchronized public static void initializeScreenArea(int priority) {
         if (_initializationThread == null) {
@@ -342,6 +363,7 @@ public class PortingUtils {
      *
      * @param invoker the invoking component
      * @param bounds  the input bounds
+     *
      * @return the modified bounds.
      */
     public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
@@ -362,6 +384,7 @@ public class PortingUtils {
      * Modifies the position of rect so that it is completly on screen if that is possible.
      *
      * @param rect The rectange to move onto a single screen
+     *
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
@@ -420,10 +443,12 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen bounds that contains the rect. The screen bounds consider the screen insets if any.
+     * Gets the screen bounds that contains the rect. The screen bounds consider the screen insets
+     * if any.
      *
      * @param rect           the rect of the component.
      * @param considerInsets if consider the insets. The insets is for thing like Windows Task Bar.
+     *
      * @return the screen bounds that contains the rect.
      */
     public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
@@ -488,7 +513,8 @@ public class PortingUtils {
     }
 
     /**
-     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and exit.
+     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will
+     * prompt a message box and exit.
      */
     public static void prerequisiteChecking() {
         if (!SystemInfo.isJdk14Above()) {
