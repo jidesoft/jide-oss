@@ -17,35 +17,38 @@ import java.awt.event.*;
 import java.util.Locale;
 
 /**
- * <code>SearchableBar</code> is a convenient component to enable searching feature
- * for components. As long as the component support <code>Searchable</code> feature,
- * it can work with <code>SearchableBar</code>.
+ * <code>SearchableBar</code> is a convenient component to enable searching feature for components.
+ * As long as the component support <code>Searchable</code> feature, it can work with
+ * <code>SearchableBar</code>.
  * <p/>
- * Different from <code>Searchable</code> feature which uses a small popup window to
- * allow user typing in the searching text, <code>SearchableBar</code> provides a full-size panel.
- * Although they both pretty provide the same set of features, they should be used in
- * different cases to achieve the most desirable result.
+ * Different from <code>Searchable</code> feature which uses a small popup window to allow user
+ * typing in the searching text, <code>SearchableBar</code> provides a full-size panel. Although
+ * they both pretty provide the same set of features, they should be used in different cases to
+ * achieve the most desirable result.
  * <p/>
- * First of all, <code>SearchableBar</code> is a lot bigger than <code>Searchable</code>'s popup
- * and need more space on the screen. The component that installs <code>SearchableBar</code> should
- * be large enough. In comparison, <code>Searchable</code> can be installed on components of any size
+ * First of all, <code>SearchableBar</code> is a lot bigger than <code>Searchable</code>'s popup and
+ * need more space on the screen. The component that installs <code>SearchableBar</code> should be
+ * large enough. In comparison, <code>Searchable</code> can be installed on components of any size
  * as it's a floating popup.
  * <p/>
  * Secondly, <code>SearchableBar</code> can be set visible all the time or can be set visible by a
  * keystroke and stay visible unless user explicitly hides it. If your user is not computer savvy,
- * <code>SearchableBar</code> is more appropriate because user can see searching feature very easily.
- * <code>SearchableBar</code> can also be a better replacement the traditional "Find" or "Search" dialog
- * because <code>SearchableBar</code> doesn't block user input like modal dialog. In comparison,
- * <code>Searchable</code>'s popup is very transient. Mouse clicks outside the popup will hide the popup.
- * For computer savvy it is very helpful but it could be hard for non-computer savvy to "understand" it.
- * A good example is IntelliJ IDEA heavily uses Searchable popup because the users are all Java developers. Firefox,
- * on the other hand, uses SearchableBar because the users are just regular computer users.
+ * <code>SearchableBar</code> is more appropriate because user can see searching feature very
+ * easily. <code>SearchableBar</code> can also be a better replacement the traditional "Find" or
+ * "Search" dialog because <code>SearchableBar</code> doesn't block user input like modal dialog. In
+ * comparison, <code>Searchable</code>'s popup is very transient. Mouse clicks outside the popup
+ * will hide the popup. For computer savvy it is very helpful but it could be hard for non-computer
+ * savvy to "understand" it. A good example is IntelliJ IDEA heavily uses Searchable popup because
+ * the users are all Java developers. Firefox, on the other hand, uses SearchableBar because the
+ * users are just regular computer users.
  * <p/>
- * Although appearence wise, these two are very different, they both based on {@link Searchable} interface. So as developer,
- * both are almost the same. <code>SearchableBar</code> based on <code>Searchable</code>. So if you have an interface of
- * <code>Searchable</code>, all you need is to call
+ * Although appearence wise, these two are very different, they both based on {@link Searchable}
+ * interface. So as developer, both are almost the same. <code>SearchableBar</code> based on
+ * <code>Searchable</code>. So if you have an interface of <code>Searchable</code>, all you need is
+ * to call
  * <code><pre>
- * SearchableBar.install(searchable, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK), new SearchableBar.Installer() {
+ * SearchableBar.install(searchable, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK),
+ * new SearchableBar.Installer() {
  *     public void openSearchBar(SearchableBar searchableBar) {
  *        // add code to show search bar
  *     }
@@ -58,9 +61,10 @@ import java.util.Locale;
  * Or if you want fully control the SearchableBar, you can create one using one of its constructors
  * and add to wherever you want.
  * <p/>
- * There are a few options you can set on <code>SearchableBar</code>. You can set compact or full mode. Compact mode
- * will only use icon for buttons v.s. full mode will use both icon and text for buttons. All buttons on the <code>SearchableBar</code>
- * can be shown/hidden by using {@link #setVisibleButtons(int)} method. You can also set the text field background for mismatch by using
+ * There are a few options you can set on <code>SearchableBar</code>. You can set compact or full
+ * mode. Compact mode will only use icon for buttons v.s. full mode will use both icon and text for
+ * buttons. All buttons on the <code>SearchableBar</code> can be shown/hidden by using {@link
+ * #setVisibleButtons(int)} method. You can also set the text field background for mismatch by using
  * {@link #setMismatchForeground(java.awt.Color)}.
  * <p/>
  */
@@ -266,6 +270,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the close button. Subclass can override it to create your own close button.
      *
      * @param closeAction
+     *
      * @return the close button.
      */
     protected AbstractButton createCloseButton(AbstractAction closeAction) {
@@ -284,6 +289,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the find next button. Subclass can override it to create your own find next button.
      *
      * @param findNextAction
+     *
      * @return the find next button.
      */
     protected AbstractButton createFindNextButton(AbstractAction findNextAction) {
@@ -304,6 +310,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the find prev button. Subclass can override it to create your own find prev button.
      *
      * @param findPrevAction
+     *
      * @return the find prev button.
      */
     protected AbstractButton createFindPrevButton(AbstractAction findPrevAction) {
@@ -349,9 +356,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Creates the repeat button. By default it will return a JCheckBox.
-     * Subclass class can override it to return your own button or customize
-     * the button created by default as long as it can set underlying Searchable's repeats property.
+     * Creates the repeat button. By default it will return a JCheckBox. Subclass class can override
+     * it to return your own button or customize the button created by default as long as it can set
+     * underlying Searchable's repeats property.
      *
      * @return the repeat button.
      */
@@ -372,9 +379,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Creates the match case button. By default it will return a JCheckBox.
-     * Subclass class can override it to return your own button or customize
-     * the button created by default as long as it can set underlying Searchable's caseSensitive property.
+     * Creates the match case button. By default it will return a JCheckBox. Subclass class can
+     * override it to return your own button or customize the button created by default as long as
+     * it can set underlying Searchable's caseSensitive property.
      *
      * @return the match case button.
      */
@@ -396,7 +403,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Adds the buttons to the SearchableBar. Subclass can override this method to rearrange the layout of those buttons.
+     * Adds the buttons to the SearchableBar. Subclass can override this method to rearrange the
+     * layout of those buttons.
      */
     protected void installComponents() {
         setBorder(BorderFactory.createEtchedBorder());
@@ -580,10 +588,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Gets the background color when the searching text doesn't match with any of the elements in the component.
+     * Gets the background color when the searching text doesn't match with any of the elements in
+     * the component.
      *
-     * @return the forground color for mismatch. If you never call
-     *         {@link #setMismatchForeground(java.awt.Color)}. red color will be used.
+     * @return the forground color for mismatch. If you never call {@link
+     *         #setMismatchForeground(java.awt.Color)}. red color will be used.
      */
     public Color getMismatchBackground() {
         if (_mismatchBackground == null) {
@@ -603,9 +612,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         /**
          * Called to show the SearchableBar so that user can see it.
          * <p/>
-         * For example, if you want to add a SearchableBar to the south of a JTextArea,
-         * you should add JTextArea to the CENTER of a BorderLayout panel. In this method,
-         * you add the SearchableBar to the SOUTH of the same BorderLayout panel.
+         * For example, if you want to add a SearchableBar to the south of a JTextArea, you should
+         * add JTextArea to the CENTER of a BorderLayout panel. In this method, you add the
+         * SearchableBar to the SOUTH of the same BorderLayout panel.
          *
          * @param searchableBar
          */
@@ -624,7 +633,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Sets the installer. Installer is responsible for the installation and uninstallation of SearchableBar.
+     * Sets the installer. Installer is responsible for the installation and uninstallation of
+     * SearchableBar.
      *
      * @param installer
      */
@@ -633,8 +643,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Installs a SearchableBar on a component. This is just a convenient method for you, you can install it in your own code.
-     * See below for the actual code we used in this method.
+     * Installs a SearchableBar on a component. This is just a convenient method for you, you can
+     * install it in your own code. See below for the actual code we used in this method.
      * <p/>
      * <code><pre>
      * final SearchableBar searchableBar = new SearchableBar(searchable);
@@ -651,6 +661,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * @param searchable
      * @param keyStroke
      * @param installer
+     *
      * @return the SearchableBar that is created.
      */
     public static SearchableBar install(Searchable searchable, KeyStroke keyStroke, Installer installer) {
@@ -661,7 +672,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 searchableBar.getInstaller().openSearchBar(searchableBar);
                 searchableBar.focusSearchField();
             }
-        }, keyStroke, JComponent.WHEN_FOCUSED);
+        }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         return searchableBar;
     }
 
@@ -676,18 +687,15 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     /**
      * Sets visible buttons on <code>SearchableBar</code>.
      *
-     * @param visibleButtons bit-wise all of several constants. Valid constants are
-     *                       <ul>
-     *                       <li> {@link #SHOW_CLOSE} - the close button
-     *                       <li> {@link #SHOW_NAVIGATION} - the find next and find previous buttons
-     *                       <li> {@link #SHOW_HIGHLIGHTS} - highlights all button
-     *                       <li> {@link #SHOW_MATCHCASE} - match case button
-     *                       <li> {@link #SHOW_REPEATS} - repeats button
-     *                       <li> {@link #SHOW_STATUS} - status area
-     *                       <li> {@link #SHOW_ALL} - all buttons
-     *                       </ul>
-     *                       For example, if you want to show only close and highlighs all button, call
-     *                       <code>setVisibleButtons(SearchableBar.SHOW_CLOSE | SearchableBar.SHOW_HIGHLIGHTS)</code>.
+     * @param visibleButtons bit-wise all of several constants. Valid constants are <ul> <li> {@link
+     *                       #SHOW_CLOSE} - the close button <li> {@link #SHOW_NAVIGATION} - the
+     *                       find next and find previous buttons <li> {@link #SHOW_HIGHLIGHTS} -
+     *                       highlights all button <li> {@link #SHOW_MATCHCASE} - match case button
+     *                       <li> {@link #SHOW_REPEATS} - repeats button <li> {@link #SHOW_STATUS} -
+     *                       status area <li> {@link #SHOW_ALL} - all buttons </ul> For example, if
+     *                       you want to show only close and highlighs all button, call
+     *                       <code>setVisibleButtons(SearchableBar.SHOW_CLOSE |
+     *                       SearchableBar.SHOW_HIGHLIGHTS)</code>.
      */
     public void setVisibleButtons(int visibleButtons) {
         _visibleButtons = visibleButtons;
@@ -707,8 +715,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Sets the <code>SearchableBar</code> to compact or full mode. In compact mode
-     * will only use icon for buttons v.s. full mode will use both icon and text for buttons.
+     * Sets the <code>SearchableBar</code> to compact or full mode. In compact mode will only use
+     * icon for buttons v.s. full mode will use both icon and text for buttons.
      *
      * @param compact
      */
@@ -720,9 +728,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Gets the icons from SearchableBarIconsFactory. Subclass can override this method if they want to provide their own icon.
+     * Gets the icons from SearchableBarIconsFactory. Subclass can override this method if they want
+     * to provide their own icon.
      *
      * @param name
+     *
      * @return the icon of the specified name.
      */
     protected ImageIcon getImageIcon(String name) {
@@ -730,10 +740,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
-     * Gets the localized string from resource bundle. Subclass can override it to provide its own string.
-     * Available keys are defined in swing.properties that begin with "SearchableBar.".
+     * Gets the localized string from resource bundle. Subclass can override it to provide its own
+     * string. Available keys are defined in swing.properties that begin with "SearchableBar.".
      *
      * @param key
+     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
