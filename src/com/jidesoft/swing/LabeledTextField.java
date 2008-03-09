@@ -33,6 +33,15 @@ public class LabeledTextField extends JPanel {
     protected Icon _icon;
     protected String _hintText;
     protected JLabel _hintLabel;
+    protected PopupMenuCustomizer _customizer;
+
+    /**
+     * The PopupMenuCustomizer for the context menu when clicking on the label/icon before the text
+     * field.
+     */
+    public static interface PopupMenuCustomizer {
+        void customize(LabeledTextField field, JPopupMenu menu);
+    }
 
     public LabeledTextField() {
         this(null, null);
@@ -68,7 +77,11 @@ public class LabeledTextField extends JPanel {
 
                 protected void showMenu() {
                     if (isEnabled()) {
-                        JidePopupMenu menu = createContextMenu();
+                        JPopupMenu menu = createContextMenu();
+                        PopupMenuCustomizer customizer = getPopupMenuCustomizer();
+                        if (customizer != null && menu != null) {
+                            customizer.customize(LabeledTextField.this, menu);
+                        }
                         if (menu != null && menu.getComponentCount() > 0) {
                             Point location = _label.getLocation();
                             menu.show(LabeledTextField.this, location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
@@ -169,7 +182,7 @@ public class LabeledTextField extends JPanel {
      * @return a context menu.
      */
     protected JidePopupMenu createContextMenu() {
-        return null;
+        return new JidePopupMenu();
     }
 
     @Override
@@ -369,5 +382,38 @@ public class LabeledTextField extends JPanel {
         if (_hintLabel != null) {
             _hintLabel.setText(_hintText);
         }
+    }
+
+    /**
+     * Gets the PopupMenuCustomizer.
+     *
+     * @return the PopupMenuCustomizer.
+     */
+    public PopupMenuCustomizer getPopupMenuCustomizer() {
+        return _customizer;
+    }
+
+    /**
+     * Sets the PopupMenuCustomizer. PopupMenuCustomizer can be used to do customize the popup menu
+     * for the <code>LabeledTextField</code>.
+     * <p/>
+     * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in.
+     * You can add/remove/change the menu items in customize method. For example,
+     * <code><pre>
+     * field.setPopupMenuCustomzier(new LabeledTextField.PopupMenuCustomizer() {
+     *     void customize(LabledTextField field, JPopupMenu menu) {
+     *         menu.removeAll();
+     *         menu.add(new JMenuItem("..."));
+     *         menu.add(new JMenuItem("..."));
+     *     }
+     * }
+     * </pre></code>
+     * If the menu is never used, the two add methods will never be called thus improve the
+     * performance.
+     *
+     * @param customizer the PopupMenuCustomizer
+     */
+    public void setPopupMenuCustomizer(PopupMenuCustomizer customizer) {
+        _customizer = customizer;
     }
 }
