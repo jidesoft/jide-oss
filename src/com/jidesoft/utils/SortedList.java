@@ -28,7 +28,7 @@ public class SortedList<E> implements List<E> {
     public boolean add(E o) {
         int size = delegate.size();
         for (int i = 0; i < size; i++) {
-            if (comparator.compare(o, delegate.get(i)) > 0) {
+            if (comparator.compare(delegate.get(i), o) > 0) {
                 delegate.add(i, o);
                 return true;
             }
@@ -134,7 +134,7 @@ public class SortedList<E> implements List<E> {
     public static void main(String[] args) {
         List<String> sortedList = new SortedList(new ArrayList(), new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return o2.compareTo(o1);
+                return o1.compareTo(o2);
             }
         });
         sortedList.add("test");
