@@ -5988,7 +5988,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 case RIGHT:
                                     int totalTabHeight = _rects[tabCount - 1].y + _rects[tabCount - 1].height;
                                     if (totalTabHeight > th || isShowTabButtons()) {
-                                        numberOfButtons += 3;
+                                        if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Allow space for scrollbuttons
                                         vh = Math.max(th - _buttonSize * numberOfButtons, 0);
 //                                        if (totalTabHeight - viewRect.y <= vh) {
@@ -6014,7 +6014,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     int totalTabWidth = _rects[tabCount - 1].x
                                             + _rects[tabCount - 1].width;
                                     if (isShowTabButtons() || totalTabWidth > tw) {
-                                        numberOfButtons += 3;
+                                        if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Need to allow space for scrollbuttons
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
 
