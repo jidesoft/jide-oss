@@ -119,9 +119,7 @@ public abstract class Searchable {
 
     private int _cursor = -1;
 
-    private String _searchLabel = getResourceString("Searchable.searchFor");
-
-    private String _noMatchLabel = getResourceString("Searchable.noMatch");
+    private String _searchLabel = null;
 
     /**
      * The popup location
@@ -280,7 +278,7 @@ public abstract class Searchable {
             final Color background = Searchable.this.getBackground();
 
             // setup the label
-            _label = new JLabel(_searchLabel);
+            _label = new JLabel(getSearchLabel());
             _label.setForeground(foreground);
             _label.setVerticalAlignment(JLabel.BOTTOM);
 
@@ -373,7 +371,7 @@ public abstract class Searchable {
             }
             else {
                 _textField.setForeground(getMismatchForeground());
-                _noMatch.setText(_noMatchLabel);
+                _noMatch.setText(getResourceString("Searchable.noMatch"));
             }
             updatePopupBounds();
             firePropertyChangeEvent(searchingText);
@@ -1337,7 +1335,12 @@ public abstract class Searchable {
      * @return the text that appears in the search popup.
      */
     public String getSearchLabel() {
-        return _searchLabel;
+        if (_searchLabel == null) {
+            return getResourceString("Searchable.searchFor");
+        }
+        else {
+            return _searchLabel;
+        }
     }
 
     /**
@@ -1543,7 +1546,7 @@ public abstract class Searchable {
      * @return the localized string.
      */
     protected String getResourceString(String key) {
-        return Resource.getResourceBundle(Locale.getDefault()).getString(key);
+        return Resource.getResourceBundle(_component != null ? _component.getLocale() : Locale.getDefault()).getString(key);
     }
 
     /**
