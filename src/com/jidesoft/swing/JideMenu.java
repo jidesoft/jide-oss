@@ -49,8 +49,10 @@ public class JideMenu extends JMenu implements Alignable {
     private MenuCreator _menuCreator;
 
     private PopupMenuCustomizer _customizer;
+	
+	private PopupMenuOriginCalculator _originCalculator;
 
-    public static int DELAY = 400;
+	public static int DELAY = 400;
 
     private int _orientation;
 
@@ -132,7 +134,28 @@ public class JideMenu extends JMenu implements Alignable {
         void customize(JPopupMenu menu);
     }
 
-    /**
+	/**
+	 * Calculates the origin of the popup menu if specified.
+	 */
+	public interface PopupMenuOriginCalculator {
+		Point getPopupMenuOrigin(JideMenu menu);
+	}
+
+	/**
+	 * Gets the PopupMenuOriginCalculator or <code>null</code>, if none has been specified.
+	 */
+	public PopupMenuOriginCalculator getOriginCalculator() {
+		return _originCalculator;
+	}
+
+	/**
+	 * Sets the PopupMenuOriginCalculator that will be used to determine the popup menu origin.
+	 */
+	public void setOriginCalculator(PopupMenuOriginCalculator originCalculator) {
+		this._originCalculator = originCalculator;
+	}
+
+	/**
      * Gets the MenuCreator.
      *
      * @return the MenuCreator.
@@ -200,7 +223,10 @@ public class JideMenu extends JMenu implements Alignable {
 
     @Override
     protected Point getPopupMenuOrigin() {
-        int x = 0;
+		if(_originCalculator != null) {
+			return _originCalculator.getPopupMenuOrigin(this);
+		}
+		int x = 0;
         int y = 0;
         JPopupMenu pm = getPopupMenu();
 
