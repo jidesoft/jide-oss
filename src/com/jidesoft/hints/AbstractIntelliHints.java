@@ -21,21 +21,15 @@ import java.awt.event.*;
 
 
 /**
- * <code>AbstractIntelliHints</code> is an abstract implementation of {@link com.jidesoft.hints.IntelliHints}. It covers
- * functions such as showing the hint popup at the correct position, delegating keystrokes,
- * updating and selecting hint. The only thing that is left out to subclasses
- * is the creation of the hint popup.
+ * <code>AbstractIntelliHints</code> is an abstract implementation of {@link
+ * com.jidesoft.hints.IntelliHints}. It covers functions such as showing the hint popup at the
+ * correct position, delegating keystrokes, updating and selecting hint. The only thing that is left
+ * out to subclasses is the creation of the hint popup.
  *
  * @author Santhosh Kumar T
  * @author JIDE Software, Inc.
  */
 public abstract class AbstractIntelliHints implements IntelliHints {
-
-    /**
-     * The key of a client property. If a component has intellihints registered, you can use this client
-     * property to get the IntelliHints instance.
-     */
-    public static final String CLIENT_PROPERTY_INTELLI_HINTS = "INTELLI_HINTS"; //NOI18N
 
     private JidePopup _popup;
     private JTextComponent _textComponent;
@@ -140,13 +134,14 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
 
     /**
-     * After user has selected a item in the hints popup, this method will update JTextComponent accordingly
-     * to accept the hint.
+     * After user has selected a item in the hints popup, this method will update JTextComponent
+     * accordingly to accept the hint.
      * <p/>
      * For JTextArea, the default implementation will insert the hint into current caret position.
-     * For JTextField, by default it will replace the whole content with the item user selected. Subclass can
-     * always choose to override it to accept the hint in a different way. For example, {@link com.jidesoft.hints.FileIntelliHints}
-     * will append the selected item at the end of the existing text in order to complete a full file path.
+     * For JTextField, by default it will replace the whole content with the item user selected.
+     * Subclass can always choose to override it to accept the hint in a different way. For example,
+     * {@link com.jidesoft.hints.FileIntelliHints} will append the selected item at the end of the
+     * existing text in order to complete a full file path.
      */
     public void acceptHint(Object selected) {
         if (selected == null)
@@ -172,9 +167,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Shows the hints popup which contains the hints.
-     * It will call {@link #updateHints(Object)}. Only if it returns true,
-     * the popup will be shown.
+     * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object)}.
+     * Only if it returns true, the popup will be shown.
      */
     protected void showHintsPopup() {
         if (getTextComponent().isEnabled() && getTextComponent().hasFocus() && updateHints(getContext())) {
@@ -206,16 +200,22 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Gets the caret rectangle where caret is displayed. The popup will be show around the area so that the returned rectangle area
-     * is always visible. This method will be called twice.
+     * Gets the caret rectangle where caret is displayed. The popup will be show around the area so
+     * that the returned rectangle area is always visible. This method will be called twice.
      *
      * @param caretPosition the caret position.
-     * @return the popup position relative to the text component. <br>Please note, this position is actually a rectangle area. The reason is the popup could be
-     *         shown below or above the rectangle. Usually, the popup will be shown below the rectangle. In this case, the x and y of the rectangle will
-     *         be the top-left corner of the popup. However if there isn't enough space for the popup because it's close to screen bottom border, we will
-     *         show the popup above the rectangle. In this case, the bottom-left corner of the popup will be at x and (y - height). Simply speaking,
-     *         the popup will never cover the area specified by the rectangle (either below it or above it).
-     * @throws BadLocationException if the given position does not represent a valid location in the associated document.
+     *
+     * @return the popup position relative to the text component. <br>Please note, this position is
+     *         actually a rectangle area. The reason is the popup could be shown below or above the
+     *         rectangle. Usually, the popup will be shown below the rectangle. In this case, the x
+     *         and y of the rectangle will be the top-left corner of the popup. However if there
+     *         isn't enough space for the popup because it's close to screen bottom border, we will
+     *         show the popup above the rectangle. In this case, the bottom-left corner of the popup
+     *         will be at x and (y - height). Simply speaking, the popup will never cover the area
+     *         specified by the rectangle (either below it or above it).
+     *
+     * @throws BadLocationException if the given position does not represent a valid location in the
+     *                              associated document.
      */
     protected Rectangle getCaretRectangleForPopup(int caretPosition) throws BadLocationException {
         return getTextComponent().getUI().modelToView(getTextComponent(), caretPosition);
@@ -223,10 +223,10 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
 
     /**
-     * Gets the caret position which is used as the anchor point to display the popup.
-     * By default, it {@link #isFollowCaret()} is true, it will return caret position.
-     * Otherwise it will return the caret position at the beginning of the caret line.
-     * Subclass can override to return any caret position.
+     * Gets the caret position which is used as the anchor point to display the popup. By default,
+     * it {@link #isFollowCaret()} is true, it will return caret position. Otherwise it will return
+     * the caret position at the beginning of the caret line. Subclass can override to return any
+     * caret position.
      *
      * @return the caret position which is used as the anchor point to display the popup.
      */
@@ -248,14 +248,13 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Gets the context for hints. The context is the information that IntelliHints needs
-     * in order to generate a list of  hints. For example, for code-completion, the context is
-     * current word the cursor is on. for file completion, the context is the full string starting from
-     * the file system root.
-     * <p>We provide a default context in AbstractIntelliHints. If it's a JTextArea,
-     * the context will be the string at the caret line from line beginning to the caret position. If it's a JTextField,
-     * the context will be whatever string in the text field. Subclass can always
-     * override it to return the context that is appropriate.
+     * Gets the context for hints. The context is the information that IntelliHints needs in order
+     * to generate a list of  hints. For example, for code-completion, the context is current word
+     * the cursor is on. for file completion, the context is the full string starting from the file
+     * system root. <p>We provide a default context in AbstractIntelliHints. If it's a JTextArea,
+     * the context will be the string at the caret line from line beginning to the caret position.
+     * If it's a JTextField, the context will be whatever string in the text field. Subclass can
+     * always override it to return the context that is appropriate.
      *
      * @return the context.
      */
@@ -315,18 +314,18 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     /**
      * Should the hints popup follows the caret.
      *
-     * @return true if the popup shows up right below the caret. False if the popup always shows
-     *         at the bottom-left corner (or top-left if there isn't enough on the bottom of the screen)
-     *         of the JTextComponent.
+     * @return true if the popup shows up right below the caret. False if the popup always shows at
+     *         the bottom-left corner (or top-left if there isn't enough on the bottom of the
+     *         screen) of the JTextComponent.
      */
     public boolean isFollowCaret() {
         return _followCaret;
     }
 
     /**
-     * Sets the position of the hints popup. If followCaret is true, the popup
-     * shows up right below the caret. Otherwise, it will stay at the bottom-left corner
-     * (or top-left if there isn't enough on the bottom of the screen) of JTextComponent.
+     * Sets the position of the hints popup. If followCaret is true, the popup shows up right below
+     * the caret. Otherwise, it will stay at the bottom-left corner (or top-left if there isn't
+     * enough on the bottom of the screen) of JTextComponent.
      *
      * @param followCaret true or false.
      */
@@ -335,22 +334,20 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Returns whether the hints popup is automatically displayed. Default is
-     * true
+     * Returns whether the hints popup is automatically displayed. Default is true
      *
-     * @return true if the popup should be automatically displayed. False will
-     *         never show it automatically and then need the user to manually activate
-     *         it via the getShowHintsKeyStroke() key binding.
+     * @return true if the popup should be automatically displayed. False will never show it
+     *         automatically and then need the user to manually activate it via the
+     *         getShowHintsKeyStroke() key binding.
      */
     public boolean isAutoPopup() {
         return _autoPopup;
     }
 
     /**
-     * Sets whether the popup should be displayed automatically. If autoPopup
-     * is true then is the popup automatically displayed whenever updateHints()
-     * return true. If autoPopup is false it's not automatically displayed and
-     * will need the user to activate the key binding defined by
+     * Sets whether the popup should be displayed automatically. If autoPopup is true then is the
+     * popup automatically displayed whenever updateHints() return true. If autoPopup is false it's
+     * not automatically displayed and will need the user to activate the key binding defined by
      * getShowHintsKeyStroke().
      *
      * @param autoPopup true or false
@@ -362,13 +359,14 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     /**
      * Gets the delegate keystrokes.
      * <p/>
-     * When hint popup is visible, the keyboard focus never leaves the text component.
-     * However the hint popup usually contains a component that user will try to use navigation key to
-     * select an item. For example, use UP and DOWN key to navigate the list.
-     * Those keystrokes, if the popup is visible, will be delegated
-     * to the the component that returns from {@link #getDelegateComponent()}.
+     * When hint popup is visible, the keyboard focus never leaves the text component. However the
+     * hint popup usually contains a component that user will try to use navigation key to select an
+     * item. For example, use UP and DOWN key to navigate the list. Those keystrokes, if the popup
+     * is visible, will be delegated to the the component that returns from {@link
+     * #getDelegateComponent()}.
      *
-     * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when hint popup is shown.
+     * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when
+     *         hint popup is shown.
      */
     abstract protected KeyStroke[] getDelegateKeyStrokes();
 
@@ -380,9 +378,9 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     abstract protected JComponent getDelegateComponent();
 
     /**
-     * Gets the keystroke that will trigger the hint popup. Usually the hints popup
-     * will be shown automatically when user types. Only when the hint popup is hidden
-     * accidentally, this keystroke will show the popup again.
+     * Gets the keystroke that will trigger the hint popup. Usually the hints popup will be shown
+     * automatically when user types. Only when the hint popup is hidden accidentally, this
+     * keystroke will show the popup again.
      * <p/>
      * By default, it's the DOWN key for JTextField and CTRL+SPACE for JTextArea.
      *
@@ -401,13 +399,14 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
-            AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
-            if (hints != null) {
-                hints.hideHintsPopup();
-                if (hints.getSelectedHint() != null) {
-                    hints.setHintsEnabled(false);
-                    hints.acceptHint(hints.getSelectedHint());
-                    hints.setHintsEnabled(true);
+            IntelliHints hints = getIntelliHints(tf);
+            if (hints instanceof AbstractIntelliHints) {
+                AbstractIntelliHints aih = (AbstractIntelliHints) hints;
+                aih.hideHintsPopup();
+                if (aih.getSelectedHint() != null) {
+                    aih.setHintsEnabled(false);
+                    aih.acceptHint(hints.getSelectedHint());
+                    aih.setHintsEnabled(true);
                     return true;
                 }
                 else if (getTextComponent().getRootPane() != null) {
@@ -426,10 +425,13 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
-            AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
-            if (hints != null && tf.isEnabled() && !hints.isHintsPopupVisible()) {
-                hints.showHintsPopup();
-                return true;
+            IntelliHints hints = getIntelliHints(tf);
+            if (hints instanceof AbstractIntelliHints) {
+                AbstractIntelliHints aih = (AbstractIntelliHints) hints;
+                if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
+                    aih.showHintsPopup();
+                    return true;
+                }
             }
             return false;
         }
@@ -503,21 +505,35 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
-            AbstractIntelliHints hints = (AbstractIntelliHints) tf.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
-            if (hints != null && tf.isEnabled()) {
-                if (hints.isHintsPopupVisible()) {
-                    Object key = hints.getDelegateComponent().getInputMap().get(_keyStroke);
-                    key = key == null ? hints.getTextComponent().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).get(_keyStroke) : key;
-                    if (key != null) {
-                        Object action = hints.getDelegateComponent().getActionMap().get(key);
-                        if (action instanceof Action) {
-                            ((Action) action).actionPerformed(new ActionEvent(hints.getDelegateComponent(), 0, "" + key));
-                            return true;
+            IntelliHints hints = getIntelliHints(tf);
+            if (hints instanceof AbstractIntelliHints) {
+                AbstractIntelliHints aih = (AbstractIntelliHints) hints;
+                if (tf.isEnabled()) {
+                    if (aih.isHintsPopupVisible()) {
+                        Object key = aih.getDelegateComponent().getInputMap().get(_keyStroke);
+                        key = key == null ? aih.getTextComponent().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).get(_keyStroke) : key;
+                        if (key != null) {
+                            Object action = aih.getDelegateComponent().getActionMap().get(key);
+                            if (action instanceof Action) {
+                                ((Action) action).actionPerformed(new ActionEvent(aih.getDelegateComponent(), 0, "" + key));
+                                return true;
+                            }
                         }
                     }
                 }
             }
             return false;
         }
+    }
+
+    /**
+     * Gets the IntelliHints object if it was installed on the component before.
+     *
+     * @param component the component that has IntelliHints installed
+     *
+     * @return the IntelliHints.
+     */
+    public static IntelliHints getIntelliHints(JComponent component) {
+        return (IntelliHints) component.getClientProperty(CLIENT_PROPERTY_INTELLI_HINTS);
     }
 }
