@@ -88,8 +88,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, getShowHintsKeyStroke(), showAction);
 
         KeyStroke[] keyStrokes = getDelegateKeyStrokes();
-        for (int i = 0; i < keyStrokes.length; i++) {
-            KeyStroke keyStroke = keyStrokes[i];
+        for (KeyStroke keyStroke : keyStrokes) {
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, keyStroke, new LazyDelegateAction(keyStroke));
         }
 
@@ -167,11 +166,23 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object)}.
-     * Only if it returns true, the popup will be shown.
+     * This method will call {@link #showHints()} if and only if the text component is enabled and
+     * has focus.
      */
     protected void showHintsPopup() {
-        if (getTextComponent().isEnabled() && getTextComponent().hasFocus() && updateHints(getContext())) {
+        if (!getTextComponent().isEnabled() || !getTextComponent().hasFocus()) {
+            return;
+        }
+        showHints();
+    }
+
+    /**
+     * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object)}.
+     * Only if it returns true, the popup will be shown. You can call this method to fore the hints
+     * to be displayed.
+     */
+    public void showHints() {
+        if (updateHints(getContext())) {
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), hideAction);
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), acceptAction, true);
 
@@ -188,7 +199,6 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             }
             catch (BadLocationException e) {
                 // this should never happen!!!
-                e.printStackTrace();
             }
 
             _popup.setOwner(getTextComponent());
