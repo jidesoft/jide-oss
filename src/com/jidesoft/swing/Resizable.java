@@ -38,7 +38,8 @@ public class Resizable {
     public static final String PROPERTY_RESIZE_CORNER_SIZE = "resizeCornerSize";
 
     protected final JComponent _component;
-    private MouseInputListener _mouseInputAdapter;
+	private Insets _resizeInsets;
+	private MouseInputListener _mouseInputAdapter;
 
 
     private boolean _topLevel;
@@ -221,7 +222,27 @@ public class Resizable {
         return _component;
     }
 
-    public static class ResizeCorner extends JComponent {
+	/**
+	 * Returns the insets that should be used to calculate the resize area.
+	 * Unless you have used setResizeInsets or overriden this method, it'll return the insets of the component.
+	 * @return the insets that should be used to calculate the resize area.
+	 */
+	public Insets getResizeInsets() {
+		if(_resizeInsets != null) {
+			return _resizeInsets;
+		}
+		return getComponent().getInsets();
+	}
+
+	/**
+	 * Sets the insets the be used to calculate the resize area.
+	 * @param resizeInsets
+	 */
+	public void setResizeInsets(Insets resizeInsets) {
+		_resizeInsets = resizeInsets;
+	}
+
+	public static class ResizeCorner extends JComponent {
         final static int SIZE = 16;
         private int _corner = LOWER_RIGHT;
 

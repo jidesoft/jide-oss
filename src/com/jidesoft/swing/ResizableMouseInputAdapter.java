@@ -71,7 +71,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
         }
         // resize component
         else if (e.getSource() == _resizable.getComponent()) {
-            Insets i = _resizable.getComponent().getInsets();
+            Insets i = _resizable.getResizeInsets();
             if (e.getX() <= i.left) {
                 if (i.top > 0 && e.getY() < _resizable.getResizeCornerSize() + i.top) {
                     _resizeCorner = Resizable.UPPER_LEFT;
@@ -419,7 +419,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
             }
         }
         else if (e.getSource() == _resizable.getComponent()) {
-            Insets i = _resizable.getComponent().getInsets();
+            Insets i = _resizable.getResizeInsets();
             if (e.getX() <= i.left) {
                 if (isResizable(Resizable.UPPER_LEFT) && i.top > 0 && e.getY() < _resizable.getResizeCornerSize() + i.top)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
