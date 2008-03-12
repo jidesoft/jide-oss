@@ -1,14 +1,13 @@
 package com.jidesoft.dialog;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
- * AbstractDialogPage is an abstract base class extends AbstractPage.
- * In addition to AbstractPage, this class has some new properties so
- * that it can be used in dialog.
- * <BR>
- * For example, it can support ButtonEvent which is used by ButtonPanel.
- * In addition, it has title, icon, description and parent attribute.
+ * AbstractDialogPage is an abstract base class extends AbstractPage. In addition to AbstractPage,
+ * this class has some new properties so that it can be used in dialog. <BR> For example, it can
+ * support ButtonEvent which is used by ButtonPanel. In addition, it has title, icon, description
+ * and parent attribute.
  */
 public abstract class AbstractDialogPage extends AbstractPage {
 
@@ -24,6 +23,8 @@ public abstract class AbstractDialogPage extends AbstractPage {
     public static final String DESCRIPTION_PROPERTY = "description";
     public static final String ICON_PROPERTY = "icon";
     public static final String PROPERTY_PAGE_ENABLED = "enabled";
+
+    private Component _defaultFocusComponent;
 
     /**
      * Creates an AbstractDialogPage.
@@ -76,8 +77,7 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * /**
-     * Creates an AbstractDialogPage with title, icon, description and its parent.
+     * /** Creates an AbstractDialogPage with title, icon, description and its parent.
      *
      * @param title       the title of the page
      * @param icon        the icon of the page
@@ -110,12 +110,12 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Returns an array of all the <code>ButtonListener</code>s added
-     * to this <code>Page</code> with
+     * Returns an array of all the <code>ButtonListener</code>s added to this <code>Page</code> with
      * <code>ButtonListener</code>.
      *
-     * @return all of the <code>ButtonListener</code>s added, or an empty
-     *         array if no listeners have been added
+     * @return all of the <code>ButtonListener</code>s added, or an empty array if no listeners have
+     *         been added
+     *
      * @since 1.4
      */
     public ButtonListener[] getButtonListeners() {
@@ -208,9 +208,9 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Sets page enabled or disabled. The only place this flag is used
-     * right now is in MultiplePageDialog ICON_STYLE and TAB_STYLE. Disabled page
-     * will have a disabled icon or tab as indicator.
+     * Sets page enabled or disabled. The only place this flag is used right now is in
+     * MultiplePageDialog ICON_STYLE and TAB_STYLE. Disabled page will have a disabled icon or tab
+     * as indicator.
      *
      * @param pageEnabled
      */
@@ -262,8 +262,8 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Gets the full title. It is basically a concat of the titles
-     * of all its parent with "." in between.
+     * Gets the full title. It is basically a concat of the titles of all its parent with "." in
+     * between.
      *
      * @return the full qualified title
      */
@@ -277,6 +277,43 @@ public abstract class AbstractDialogPage extends AbstractPage {
             page = parent;
         }
         return new String(buffer);
+    }
+
+    /**
+     * Gets the default focus component. The default focus component will gain focus when page is
+     * shown.
+     *
+     * @return the default focus component.
+     */
+    public Component getDefaultFocusComponent() {
+        return _defaultFocusComponent;
+    }
+
+    /**
+     * Sets the default focus component. The default focus component will gain focus when page is
+     * shown.
+     *
+     * @param defaultFocusComponent a component inside the page.
+     */
+    public void setDefaultFocusComponent(Component defaultFocusComponent) {
+        _defaultFocusComponent = defaultFocusComponent;
+    }
+
+    /**
+     * Focus the default focus component if not null.
+     */
+    public void focusDefaultFocusComponent() {
+        final Component focusComponent = getDefaultFocusComponent();
+        if (focusComponent != null) {
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    if (focusComponent != null) {
+                        focusComponent.requestFocusInWindow();
+                    }
+                }
+            };
+            SwingUtilities.invokeLater(runnable);
+        }
     }
 }
 

@@ -528,6 +528,9 @@ public class MultiplePageDialogPane extends StandardDialogPane {
         else {
             _cardLayout.show(_pagesPanel, currentPage.getFullTitle());
         }
+        if (currentPage != null) {
+            currentPage.focusDefaultFocusComponent();
+        }
     }
 
     private JComponent createTreePanel() {
