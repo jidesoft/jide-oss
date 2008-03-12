@@ -9,6 +9,7 @@ import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
@@ -68,18 +69,18 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        WindowsDesktopProperty defaultTextColor = new WindowsDesktopProperty("win.button.textColor", table.get("controlText"), toolkit);
-        WindowsDesktopProperty defaultBackgroundColor = new WindowsDesktopProperty("win.3d.backgroundColor", table.get("control"), toolkit);
-        WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.lightColor", table.get("controlHighlight"), toolkit);
-        WindowsDesktopProperty defaultLtHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", table.get("controlLtHighlight"), toolkit);
-        WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
-        WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", table.get("controlDkShadow"), toolkit);
-        WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", table.get("activeCaptionText"), toolkit);
-        WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", table.get("activeCaption"), toolkit);
-        WindowsDesktopProperty activeTitleBarGradientColor = new WindowsDesktopProperty("win.frame.activeCaptionGradientColor", table.get("activeCaption"), toolkit);
-        WindowsDesktopProperty inactiveTitleTextColor = new WindowsDesktopProperty("win.frame.inactiveCaptionTextColor", table.get("controlText"), toolkit);
-        WindowsDesktopProperty inactiveTitleBackgroundColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
-        WindowsDesktopProperty mdiBackgroundColor = new WindowsDesktopProperty("win.mdi.backgroundColor", table.get("controlShadow"), toolkit);
+        WindowsDesktopProperty defaultTextColor = new WindowsDesktopProperty("win.button.textColor", UIDefaultsLookup.get("controlText"), toolkit);
+        WindowsDesktopProperty defaultBackgroundColor = new WindowsDesktopProperty("win.3d.backgroundColor", UIDefaultsLookup.get("control"), toolkit);
+        WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.lightColor", UIDefaultsLookup.get("controlHighlight"), toolkit);
+        WindowsDesktopProperty defaultLtHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", UIDefaultsLookup.get("controlLtHighlight"), toolkit);
+        WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", UIDefaultsLookup.get("controlShadow"), toolkit);
+        WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", UIDefaultsLookup.get("controlDkShadow"), toolkit);
+        WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", UIDefaultsLookup.get("activeCaptionText"), toolkit);
+        WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", UIDefaultsLookup.get("activeCaption"), toolkit);
+        WindowsDesktopProperty activeTitleBarGradientColor = new WindowsDesktopProperty("win.frame.activeCaptionGradientColor", UIDefaultsLookup.get("activeCaption"), toolkit);
+        WindowsDesktopProperty inactiveTitleTextColor = new WindowsDesktopProperty("win.frame.inactiveCaptionTextColor", UIDefaultsLookup.get("controlText"), toolkit);
+        WindowsDesktopProperty inactiveTitleBackgroundColor = new WindowsDesktopProperty("win.3d.shadowColor", UIDefaultsLookup.get("controlShadow"), toolkit);
+        WindowsDesktopProperty mdiBackgroundColor = new WindowsDesktopProperty("win.mdi.backgroundColor", UIDefaultsLookup.get("controlShadow"), toolkit);
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
@@ -93,7 +94,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 BorderFactory.createLineBorder(Color.gray));*/
 
         Object sunkenBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new SunkenBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                         new Insets(1, 1, 2, 1));
@@ -101,32 +102,32 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         });
 
         Object inactiveTabForground = new ExtWindowsDesktopProperty(// Not exactly right
-                new String[]{"win.3d.shadowColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+                new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return ((Color) obj[0]).darker();
             }
         });
 
-        Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(EclipseUtils.getFocusedButtonColor((Color) obj[0]));
             }
         });
 
-        Object selectedAndFocusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object selectedAndFocusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(EclipseUtils.getSelectedAndFocusedButtonColor((Color) obj[0]));
             }
         });
 
-        Object selectedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object selectedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(EclipseUtils.getSelectedButtonColor((Color) obj[0]));
             }
         });
 
-        WindowsDesktopProperty selectionBackgroundColor = new WindowsDesktopProperty("win.item.highlightColor", table.get("controlShadow"), toolkit);
-        WindowsDesktopProperty selectionTextColor = new WindowsDesktopProperty("win.item.highlightTextColor", table.get("textHighlightText"), toolkit);
+        WindowsDesktopProperty selectionBackgroundColor = new WindowsDesktopProperty("win.item.highlightColor", UIDefaultsLookup.get("controlShadow"), toolkit);
+        WindowsDesktopProperty selectionTextColor = new WindowsDesktopProperty("win.item.highlightTextColor", UIDefaultsLookup.get("textHighlightText"), toolkit);
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -264,7 +265,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.borderPainted", Boolean.FALSE,
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
-                "JideSplitButton.selectionForeground", table.get("controlText"),
+                "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released",
@@ -312,7 +313,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
         if ((products & PRODUCT_DOCK) != 0) {
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 4, 0, 0));
@@ -320,7 +321,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 0, 0, 4));
@@ -328,7 +329,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 0, 4, 0));
@@ -336,7 +337,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(4, 0, 0, 0));
@@ -463,7 +464,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "CommandBar.highlight", defaultLtHighlightColor,
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
-                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(table.getColor("activeCaption"), 2),
+                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor.createValue(table), 2),
                     BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.separatorSize", 3,
                     "CommandBar.ancestorInputMap",
@@ -479,8 +480,8 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     }),
                     "CommandBar.titleBarSize", 17,
                     "CommandBar.titleBarButtonGap", 1,
-                    "CommandBar.titleBarBackground", table.getColor("activeCaption"),
-                    "CommandBar.titleBarForeground", table.getColor("activeCaptionText"),
+                    "CommandBar.titleBarBackground", activeTitleBackgroundColor,
+                    "CommandBar.titleBarForeground", activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
                     "CommandBar.minimumSize", new DimensionUIResource(20, 20),
 
@@ -537,15 +538,15 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         initComponentDefaults(table);
 
         if (!Beans.isDesignTime()) {
-            WindowsDesktopProperty defaultLightColor = new WindowsDesktopProperty("win.3d.lightColor", table.get("controlHighlight"), toolkit);
-            WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", table.get("controlLtHighlight"), toolkit);
-            WindowsDesktopProperty selectionTextColor = new WindowsDesktopProperty("win.item.highlightTextColor", table.get("textHighlightText"), toolkit);
-            WindowsDesktopProperty selectionBackgroundColor = new WindowsDesktopProperty("win.item.highlightColor", table.get("controlShadow"), toolkit);
+            WindowsDesktopProperty defaultLightColor = new WindowsDesktopProperty("win.3d.lightColor", UIDefaultsLookup.get("controlHighlight"), toolkit);
+            WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", UIDefaultsLookup.get("controlLtHighlight"), toolkit);
+            WindowsDesktopProperty selectionTextColor = new WindowsDesktopProperty("win.item.highlightTextColor", UIDefaultsLookup.get("textHighlightText"), toolkit);
+            WindowsDesktopProperty selectionBackgroundColor = new WindowsDesktopProperty("win.item.highlightColor", UIDefaultsLookup.get("controlShadow"), toolkit);
 
-            WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
+            WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", UIDefaultsLookup.get("controlShadow"), toolkit);
 
             Object menuBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new RaisedBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(2, 2, 2, 2));

@@ -66,6 +66,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
      * @param g        the paint graphics
      * @param menuItem menu item to be painted
      * @param bgColor  selection background color
+     *
      * @since 1.4
      */
     @Override
@@ -88,11 +89,10 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
             menuHeight = menuItem.getWidth();
         }
 
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Color darkShadow = table.getColor("controlDkShadow");
-        Color mouseHoverBackground = table.getColor("Menu.mouseHoverBackground");
-        Border mouseHoverBorder = table.getBorder("Menu.mouseHoverBorder");
-        Border mouseSelectedBorder = table.getBorder("Menu.mouseSelectedBorder");
+        Color darkShadow = UIDefaultsLookup.getColor("controlDkShadow");
+        Color mouseHoverBackground = UIDefaultsLookup.getColor("Menu.mouseHoverBackground");
+        Border mouseHoverBorder = UIDefaultsLookup.getBorder("Menu.mouseHoverBorder");
+        Border mouseSelectedBorder = UIDefaultsLookup.getBorder("Menu.mouseSelectedBorder");
 
         if (menuItem.isOpaque()) {
             if (menuItem.getParent() != null) {
@@ -205,8 +205,8 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
     }
 
     /**
-     * The ActionMap for BasicMenUI can not be shared, this is subclassed
-     * to create a new one for each invocation.
+     * The ActionMap for BasicMenUI can not be shared, this is subclassed to create a new one for
+     * each invocation.
      */
     @Override
     ActionMap getActionMap() {
@@ -366,14 +366,13 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
     }
 
     /**
-     * Instantiated and used by a menu item to handle the current menu selection
-     * from mouse events. A MouseInputHandler processes and forwards all mouse events
-     * to a shared instance of the MenuSelectionManager.
+     * Instantiated and used by a menu item to handle the current menu selection from mouse events.
+     * A MouseInputHandler processes and forwards all mouse events to a shared instance of the
+     * MenuSelectionManager.
      * <p/>
-     * This class is protected so that it can be subclassed by other look and
-     * feels to implement their own mouse handling behavior. All overridden
-     * methods should call the parent methods so that the menu selection
-     * is correct.
+     * This class is protected so that it can be subclassed by other look and feels to implement
+     * their own mouse handling behavior. All overridden methods should call the parent methods so
+     * that the menu selection is correct.
      *
      * @see MenuSelectionManager
      * @since 1.4
@@ -383,9 +382,8 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
-         * MenuSelectionManager.
+         * Invoked when the mouse has been clicked on the menu. This method clears or sets the
+         * selection path of the MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -437,8 +435,8 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse has been released on the menu. Delegates the mouse event to the
+         * MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -458,10 +456,9 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         }
 
         /**
-         * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * Invoked when the cursor enters the menu. This method sets the selected path for the
+         * MenuSelectionManager and handles the case in which a menu item is used to pop up an
+         * additional menu, as in a hierarchical menu system.
          *
          * @param e the mouse event; not used
          */
@@ -512,10 +509,11 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when a mouse button is pressed on the menu and then dragged. Delegates the mouse
+         * event to the MenuSelectionManager.
          *
          * @param e the mouse event
+         *
          * @see MouseMotionListener#mouseDragged
          */
         public void mouseDragged(MouseEvent e) {
@@ -549,8 +547,8 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
     }
 
     /**
-     * As of Java 2 platform 1.4, this previously undocumented class
-     * is now obsolete. KeyBindings are now managed by the popup menu.
+     * As of Java 2 platform 1.4, this previously undocumented class is now obsolete. KeyBindings
+     * are now managed by the popup menu.
      */
     public class ChangeHandler implements ChangeListener {
         public JMenu menu;
@@ -667,8 +665,8 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         }
 
         /**
-         * Handles the mnemonics for the menu items. Will also handle duplicate mnemonics.
-         * Perhaps this should be moved into BasicPopupMenuUI. See 4670831
+         * Handles the mnemonics for the menu items. Will also handle duplicate mnemonics. Perhaps
+         * this should be moved into BasicPopupMenuUI. See 4670831
          */
         public void menuKeyPressed(MenuKeyEvent e) {
 //            if (DEBUG) {
@@ -765,6 +763,7 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
      * @param menuItem Current menu item to render
      * @param textRect Bounding rectangle to render the text.
      * @param text     String to render
+     *
      * @since 1.4
      */
     @Override

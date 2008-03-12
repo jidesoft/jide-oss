@@ -8,6 +8,7 @@ package com.jidesoft.plaf.xerto;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
@@ -77,18 +78,18 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        Object defaultHighlightColor = table.get("controlHighlight");
-        Object selectionBackgroundColor = table.get("controlShadow");
-        Object menuTextColor = table.get("control");
+        Object defaultHighlightColor = UIDefaultsLookup.get("controlHighlight");
+        Object selectionBackgroundColor = UIDefaultsLookup.get("controlShadow");
+        Object menuTextColor = UIDefaultsLookup.get("control");
 
         Object menuFont = JideSwingUtilities.getMenuFont(toolkit, table);
 
 
-        Object menuSelectionBackground = new ColorUIResource(XertoUtils.getMenuSelectionColor(table.getColor("controlShadow")));
+        Object menuSelectionBackground = new ColorUIResource(XertoUtils.getMenuSelectionColor(UIDefaultsLookup.getColor("controlShadow")));
 
-        Object menuBackground = new ColorUIResource(XertoUtils.getMenuBackgroundColor(table.getColor("control")));
+        Object menuBackground = new ColorUIResource(XertoUtils.getMenuBackgroundColor(UIDefaultsLookup.getColor("control")));
 
-        Object separatorColor = new ColorUIResource(table.getColor("controlShadow").brighter());
+        Object separatorColor = new ColorUIResource(UIDefaultsLookup.getColor("controlShadow").brighter());
 
         Object[] uiDefaults = {
                 "PopupMenuSeparator.foreground", separatorColor,
@@ -155,7 +156,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         table.put("Theme.painter", XertoPainter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) table.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
         table.put("PopupMenu.border", popupMenuBorder);
     }
 
@@ -170,19 +171,19 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        Object defaultBackgroundColor = table.get("control");
-        Object defaultTextColor = table.get("controlText");
-        Object defaultShadowColor = table.get("controlShadow");
-        Object defaultDarkShadowColor = table.get("controlDkShadow");
-        Object defaultHighlightColor = table.get("controlHighlight");
-        Object defaultLtHighlightColor = table.get("controlLtHighlight");
-        Object activeTitleBackgroundColor = table.get("activeCaption");
-        Object activeTitleTextColor = table.get("activeCaptionText");
+        Object defaultBackgroundColor = UIDefaultsLookup.get("control");
+        Object defaultTextColor = UIDefaultsLookup.get("controlText");
+        Object defaultShadowColor = UIDefaultsLookup.get("controlShadow");
+        Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
+        Object defaultHighlightColor = UIDefaultsLookup.get("controlHighlight");
+        Object defaultLtHighlightColor = UIDefaultsLookup.get("controlLtHighlight");
+        Object activeTitleBackgroundColor = UIDefaultsLookup.get("activeCaption");
+        Object activeTitleTextColor = UIDefaultsLookup.get("activeCaptionText");
         Object selectionBackgroundColor = defaultShadowColor;
         Object mdiBackgroundColor = defaultShadowColor;
         Object menuTextColor = defaultTextColor;
 
-        Object singleLineBorder = new BorderUIResource(BorderFactory.createLineBorder(table.getColor("controlShadow")));
+        Object singleLineBorder = new BorderUIResource(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlShadow")));
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
@@ -191,21 +192,21 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         Object resizeBorder = new XertoFrameBorder(new Insets(4, 4, 4, 4));
 
 
-        Object defaultFormBackground = XertoUtils.getDefaultBackgroundColor(table.getColor("control"));
+        Object defaultFormBackground = XertoUtils.getDefaultBackgroundColor(UIDefaultsLookup.getColor("control"));
 
-        Object inactiveTabForground = (table.getColor("controlShadow")).darker();
+        Object inactiveTabForground = (UIDefaultsLookup.getColor("controlShadow")).darker();
 
-        Object focusedButtonColor = new ColorUIResource(XertoUtils.getFocusedButtonColor(table.getColor("textHighlight")));
-
-
-        Object selectedAndFocusedButtonColor = new ColorUIResource(XertoUtils.getSelectedAndFocusedButtonColor(table.getColor("textHighlight")));
-
-        Object selectedButtonColor = new ColorUIResource(XertoUtils.getSelectedButtonColor(table.getColor("textHighlight")));
+        Object focusedButtonColor = new ColorUIResource(XertoUtils.getFocusedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
 
 
-        Object gripperForeground = new ColorUIResource(XertoUtils.getGripperForegroundColor(table.getColor("control")));
+        Object selectedAndFocusedButtonColor = new ColorUIResource(XertoUtils.getSelectedAndFocusedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
 
-        Object commandBarBackground = new ColorUIResource(XertoUtils.getToolBarBackgroundColor(table.getColor("control")));
+        Object selectedButtonColor = new ColorUIResource(XertoUtils.getSelectedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
+
+
+        Object gripperForeground = new ColorUIResource(XertoUtils.getGripperForegroundColor(UIDefaultsLookup.getColor("control")));
+
+        Object commandBarBackground = new ColorUIResource(XertoUtils.getToolBarBackgroundColor(UIDefaultsLookup.getColor("control")));
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -397,28 +398,28 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
             boolean useShadowBorder = "true".equals(SecurityUtils.getProperty("jide.shadeSlidingBorder", "false"));
 
-            Object slidingEastFrameBorder = new SlidingFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingEastFrameBorder = new SlidingFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(1, SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0));
 
-            Object slidingWestFrameBorder = new SlidingFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingWestFrameBorder = new SlidingFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(1, 0, 1, SlidingFrameBorder.SHADOW_SIZE + 5));
 
-            Object slidingNorthFrameBorder = new SlidingFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingNorthFrameBorder = new SlidingFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(0, 1, SlidingFrameBorder.SHADOW_SIZE + 5, 1));
 
-            Object slidingSouthFrameBorder = new SlidingFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingSouthFrameBorder = new SlidingFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0, 1));
 
-            Object slidingEastFrameBorder2 = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingEastFrameBorder2 = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(0, 4, 0, 0));
 
-            Object slidingWestFrameBorder2 = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingWestFrameBorder2 = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(0, 0, 0, 4));
 
-            Object slidingNorthFrameBorder2 = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingNorthFrameBorder2 = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(0, 0, 4, 0));
 
-            Object slidingSouthFrameBorder2 = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+            Object slidingSouthFrameBorder2 = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                     new Insets(4, 0, 0, 0));
 
             uiDefaults = new Object[]{
@@ -557,7 +558,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.highlight", defaultLtHighlightColor,
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
-                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(table.getColor("activeCaption"), 2),
+                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("activeCaption"), 2),
                     BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
@@ -590,7 +591,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
                     // grid
-                    "NestedTableHeader.cellBorder", table.getBorder("TableHeader.cellBorder"),
+                    "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
                     "TAB", "selectNextGroup",
@@ -623,7 +624,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         table.put("Theme.painter", XertoPainter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) table.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
         table.put("PopupMenu.border", popupMenuBorder);
     }
 }

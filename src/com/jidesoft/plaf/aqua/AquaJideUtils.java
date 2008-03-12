@@ -10,7 +10,6 @@ import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
@@ -72,46 +71,46 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        WindowsDesktopProperty defaultTextColor = new WindowsDesktopProperty("win.button.textColor", table.get("controlText"), toolkit);
+        Object defaultTextColor = UIDefaultsLookup.get("controlText");
 
-        Object defaultBackgroundColor = table.get("Panel.background"); // AquaImageFactory.getWindowBackgroundColorUIResource();
+        Object defaultBackgroundColor = UIDefaultsLookup.get("Panel.background"); // AquaImageFactory.getWindowBackgroundColorUIResource();
 
-        WindowsDesktopProperty defaultLightColor = new WindowsDesktopProperty("win.3d.lightColor", table.get("controlHighlight"), toolkit);
-        WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", table.get("controlLtHighlight"), toolkit);
-        WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
-        WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", table.get("controlDkShadow"), toolkit);
+        Object defaultLightColor = UIDefaultsLookup.get("controlHighlight");
+        Object defaultHighlightColor = UIDefaultsLookup.get("controlLtHighlight");
+        Object defaultShadowColor = UIDefaultsLookup.get("controlShadow");
+        Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
 
-        Object mdiBackgroundColor = table.get("Panel.background"); // AquaImageFactory.getWindowBackgroundColorUIResource();
+        Object mdiBackgroundColor = UIDefaultsLookup.get("Panel.background"); // AquaImageFactory.getWindowBackgroundColorUIResource();
 
-        Object controlFont = table.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
+        Object controlFont = UIDefaultsLookup.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
 
-        Object controlSmallFont = table.get("TabbedPane.smallFont"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextSmallFont");
+        Object controlSmallFont = UIDefaultsLookup.get("TabbedPane.smallFont"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextSmallFont");
 
-        Object boldFont = table.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
+        Object boldFont = UIDefaultsLookup.get("Button.font"); // new UIDefaults.ProxyLazyValue("apple.laf.AquaLookAndFeel", "getControlTextFont");
 
         Object resizeBorder = BorderFactory.createLineBorder(new Color(230, 230, 230), 2);
 
         Object defaultFormBackground = new ExtWindowsDesktopProperty(// Not exactly right
-                new String[]{"win.3d.shadowColor"}, new Object[]{table.get("control")}, toolkit, new ConvertListener() {
+                new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return obj[0];
             }
         });
 
         Object inactiveTabForground = new ExtWindowsDesktopProperty(// Not exactly right
-                new String[]{"win.3d.shadowColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+                new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return ((Color) obj[0]).darker();
             }
         });
 
-        Object focusedButtonColor = table.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
+        Object focusedButtonColor = UIDefaultsLookup.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
 
-        Object selectedAndFocusedButtonColor = table.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
+        Object selectedAndFocusedButtonColor = UIDefaultsLookup.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
 
-        Object selectedButtonColor = table.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
+        Object selectedButtonColor = UIDefaultsLookup.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
 
-        Object selectionBackgroundColor = table.get("TextField.selectionBackground"); // AquaImageFactory.getTextSelectionBackgroundColorUIResource();
+        Object selectionBackgroundColor = UIDefaultsLookup.get("TextField.selectionBackground"); // AquaImageFactory.getTextSelectionBackgroundColorUIResource();
 
         Object buttonBorder = new BasicBorders.MarginBorder();
 
@@ -126,11 +125,11 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                 "JideButton.font", controlFont,
                 "JideButton.background", defaultBackgroundColor,
-                "JideButton.foreground", table.get("controlText"),
-                "JideButton.shadow", table.getColor("controlShadow"),
-                "JideButton.darkShadow", table.getColor("controlDkShadow"),
-                "JideButton.light", table.getColor("controlHighlight"),
-                "JideButton.highlight", table.getColor("controlLtHighlight"),
+                "JideButton.foreground", defaultTextColor,
+                "JideButton.shadow", defaultShadowColor,
+                "JideButton.darkShadow", defaultDarkShadowColor,
+                "JideButton.light", defaultLightColor,
+                "JideButton.highlight", defaultHighlightColor,
 
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
@@ -378,7 +377,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePane.downIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, 0, collapsiblePaneSize, collapsiblePaneSize),
                     "CollapsiblePane.upIcon", IconsFactory.getIcon(null, collapsiblePaneImage, 0, collapsiblePaneSize, collapsiblePaneSize, collapsiblePaneSize),
 
-                    "StatusBarItem.border", new BorderUIResource(BorderFactory.createLineBorder(table.getColor("controlShadow"), 1)),
+                    "StatusBarItem.border", new BorderUIResource(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlShadow"), 1)),
 
                     "StatusBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)),
                     "StatusBar.gap", 2,
@@ -398,11 +397,11 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                     "CommandBar.font", controlFont,
                     "CommandBar.background", defaultBackgroundColor,
-                    "CommandBar.foreground", table.get("controlText"),
-                    "CommandBar.shadow", table.getColor("controlShadow"),
-                    "CommandBar.darkShadow", table.getColor("controlDkShadow"),
-                    "CommandBar.light", table.getColor("controlHighlight"),
-                    "CommandBar.highlight", table.getColor("controlLtHighlight"),
+                    "CommandBar.foreground", defaultTextColor,
+                    "CommandBar.shadow", defaultShadowColor,
+                    "CommandBar.darkShadow", defaultDarkShadowColor,
+                    "CommandBar.light", defaultLightColor,
+                    "CommandBar.highlight", defaultHighlightColor,
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
@@ -420,7 +419,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.titleBarSize", 17,
                     "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                    "CommandBar.titleBarForeground", table.getColor("controlText"),
+                    "CommandBar.titleBarForeground", defaultTextColor,
                     "CommandBar.titleBarFont", boldFont,
                     "CommandBar.minimumSize", new DimensionUIResource(20, 20),
 

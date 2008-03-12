@@ -8,6 +8,7 @@ package com.jidesoft.plaf.vsnet;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.metal.MetalPainter;
@@ -71,43 +72,43 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        Object defaultTextColor = table.get("controlText");
-        Object defaultBackgroundColor = table.get("control");
-        Object defaultHighlightColor = table.get("controlHighlight");
-        Object defaultLtHighlightColor = table.get("controlLtHighlight");
-        Object defaultShadowColor = table.get("controlShadow");
-        Object defaultDarkShadowColor = table.get("controlDkShadow");
-        Object activeTitleTextColor = table.get("activeCaptionText");
-        Object activeTitleBackgroundColor = table.get("activeCaption");
-        Object activeTitleBorderColor = table.get("controlDkShadow");
-        Object inactiveTitleTextColor = table.get("controlText");
-        Object inactiveTitleBackgroundColor = table.get("control");
-        Object mdiBackgroundColor = table.get("controlShadow");
+        Object defaultTextColor = UIDefaultsLookup.get("controlText");
+        Object defaultBackgroundColor = UIDefaultsLookup.get("control");
+        Object defaultHighlightColor = UIDefaultsLookup.get("controlHighlight");
+        Object defaultLtHighlightColor = UIDefaultsLookup.get("controlLtHighlight");
+        Object defaultShadowColor = UIDefaultsLookup.get("controlShadow");
+        Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
+        Object activeTitleTextColor = UIDefaultsLookup.get("activeCaptionText");
+        Object activeTitleBackgroundColor = UIDefaultsLookup.get("activeCaption");
+        Object activeTitleBorderColor = UIDefaultsLookup.get("controlDkShadow");
+        Object inactiveTitleTextColor = UIDefaultsLookup.get("controlText");
+        Object inactiveTitleBackgroundColor = UIDefaultsLookup.get("control");
+        Object mdiBackgroundColor = UIDefaultsLookup.get("controlShadow");
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
         Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
 
-        Object singleLineBorder = new BorderUIResource(BorderFactory.createLineBorder(table.getColor("controlShadow")));
+        Object singleLineBorder = new BorderUIResource(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlShadow")));
 
-        Object slidingEastFrameBorder = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+        Object slidingEastFrameBorder = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                 new Insets(0, 4, 0, 0));
 
-        Object slidingWestFrameBorder = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+        Object slidingWestFrameBorder = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                 new Insets(0, 0, 0, 4));
 
-        Object slidingNorthFrameBorder = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+        Object slidingNorthFrameBorder = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                 new Insets(0, 0, 4, 0));
 
-        Object slidingSouthFrameBorder = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+        Object slidingSouthFrameBorder = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                 new Insets(4, 0, 0, 0));
 
-        Object resizeBorder = new ResizeFrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"),
+        Object resizeBorder = new ResizeFrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"),
                 new Insets(4, 4, 4, 4));
 
         Object defaultFormBackgroundColor = VsnetUtils.getLighterColor((Color) activeTitleBackgroundColor);
 
-        Color highlightColor = table.getColor("textHighlight");
+        Color highlightColor = UIDefaultsLookup.getColor("textHighlight");
 
         Object focusedButtonColor =
                 new ColorUIResource(VsnetUtils.getRolloverButtonColor(highlightColor));
@@ -247,7 +248,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
                 "JideSplitButton.textIconGap", 3,
-                "JideSplitButton.selectionBackground", table.getColor("MenuItem.selectionBackground"),
+                "JideSplitButton.selectionBackground", UIDefaultsLookup.getColor("MenuItem.selectionBackground"),
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released",
@@ -461,7 +462,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
                     "AbstractComboBox.useJButton", Boolean.TRUE,
-                    "NestedTableHeader.cellBorder", table.getBorder("TableHeader.cellBorder"),
+                    "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
                     "TAB", "selectNextGroup",
@@ -472,9 +473,9 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         }
 
         // make the spinner has the same font as text field
-        table.put("Spinner.font", table.get("TextField.font"));
-        table.put("Spinner.margin", table.get("TextField.margin"));
-        table.put("FormattedTextField.font", table.get("TextField.font"));
+        table.put("Spinner.font", UIDefaultsLookup.get("TextField.font"));
+        table.put("Spinner.margin", UIDefaultsLookup.get("TextField.margin"));
+        table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
         table.put("Theme.painter", MetalPainter.getInstance());
     }

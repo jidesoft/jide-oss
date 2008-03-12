@@ -333,7 +333,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        g.setColor(UIDefaultsLookup.getColor("JideButton.background"));
+        g.setColor(UIDefaultsLookup.getColor("control"));
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 

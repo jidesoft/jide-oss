@@ -84,10 +84,9 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             menuHeight = menuItem.getWidth();
         }
 
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
         Color borderColor = getPainter().getMenuItemBorderColor();
-        Color mouseHoverBackground = table.getColor("Menu.mouseHoverBackground");
-        Border mouseHoverBorder = table.getBorder("Menu.mouseHoverBorder");
+        Color mouseHoverBackground = UIDefaultsLookup.getColor("Menu.mouseHoverBackground");
+        Border mouseHoverBorder = UIDefaultsLookup.getBorder("Menu.mouseHoverBorder");
 
         if (menuItem.isOpaque()) {
             if (menuItem.getParent() != null) {

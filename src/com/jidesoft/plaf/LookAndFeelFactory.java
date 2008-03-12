@@ -27,7 +27,6 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -1143,31 +1142,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static class SyntheticaInitializer implements UIDefaultsInitializer {
         public void initialize(UIDefaults defaults) {
             Object[] uiDefaults = {
-                    "textHighlight", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                    "controlText", UIDefaultsLookup.getColor("Label.foreground"),
-                    "activeCaptionText", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
                     "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Label.font"),
-                    "ComboBox.background", new ColorUIResource(Color.WHITE),
                     "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
                     "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
-
-                    "activeCaption", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                    "inactiveCaption", UIDefaultsLookup.getColor("InternalFrame.inactiveTitleBackground"),
-                    "control", new ColorUIResource(Color.WHITE),
-                    "controlLtHighlight", new ColorUIResource(Color.WHITE),
-                    "controlHighlight", new ColorUIResource(Color.LIGHT_GRAY),
-                    "controlShadow", new ColorUIResource(Color.DARK_GRAY),
-                    "controlDkShadow", new ColorUIResource(Color.BLACK),
-                    "MenuItem.background", new ColorUIResource(Color.GRAY),
-                    "SplitPane.background", UIDefaultsLookup.getColor("Label.background"),
-                    "Tree.hash", new ColorUIResource(Color.GRAY),
-
-                    "TextField.foreground", UIDefaultsLookup.getColor("Label.foreground"),
-                    "TextField.inactiveForeground", UIDefaultsLookup.getColor("Label.foreground"),
-                    "TextField.selectionForeground", UIDefaultsLookup.getColor("List.selectionForeground"),
-                    "TextField.selectionBackground", UIDefaultsLookup.getColor("List.selectionBackground"),
-                    "Table.gridColor", UIDefaultsLookup.getColor("Label.foreground"),
-                    "TextField.background", new ColorUIResource(Color.WHITE),
             };
             putDefaults(defaults, uiDefaults);
         }

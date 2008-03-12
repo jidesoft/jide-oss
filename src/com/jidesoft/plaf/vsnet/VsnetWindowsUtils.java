@@ -73,67 +73,67 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        WindowsDesktopProperty defaultTextColor = new WindowsDesktopProperty("win.button.textColor", table.get("controlText"), toolkit);
-        WindowsDesktopProperty defaultBackgroundColor = new WindowsDesktopProperty("win.3d.backgroundColor", table.get("control"), toolkit);
-        WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.lightColor", table.get("controlHighlight"), toolkit);
-        WindowsDesktopProperty defaultLtHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", table.get("controlLtHighlight"), toolkit);
-        WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
-        WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", table.get("controlDkShadow"), toolkit);
-        WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", table.get("activeCaptionText"), toolkit);
-        WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", table.get("activeCaption"), toolkit);
-        WindowsDesktopProperty mdiBackgroundColor = new WindowsDesktopProperty("win.mdi.backgroundColor", table.get("controlShadow"), toolkit);
+        WindowsDesktopProperty defaultTextColor = new WindowsDesktopProperty("win.button.textColor", UIDefaultsLookup.get("controlText"), toolkit);
+        WindowsDesktopProperty defaultBackgroundColor = new WindowsDesktopProperty("win.3d.backgroundColor", UIDefaultsLookup.get("control"), toolkit);
+        WindowsDesktopProperty defaultHighlightColor = new WindowsDesktopProperty("win.3d.lightColor", UIDefaultsLookup.get("controlHighlight"), toolkit);
+        WindowsDesktopProperty defaultLtHighlightColor = new WindowsDesktopProperty("win.3d.highlightColor", UIDefaultsLookup.get("controlLtHighlight"), toolkit);
+        WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", UIDefaultsLookup.get("controlShadow"), toolkit);
+        WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", UIDefaultsLookup.get("controlDkShadow"), toolkit);
+        WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", UIDefaultsLookup.get("activeCaptionText"), toolkit);
+        WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", UIDefaultsLookup.get("activeCaption"), toolkit);
+        WindowsDesktopProperty mdiBackgroundColor = new WindowsDesktopProperty("win.mdi.backgroundColor", UIDefaultsLookup.get("controlShadow"), toolkit);
 
-        WindowsDesktopProperty menuTextColor = new WindowsDesktopProperty("win.menu.textColor", table.get("control"), toolkit);
+        WindowsDesktopProperty menuTextColor = new WindowsDesktopProperty("win.menu.textColor", UIDefaultsLookup.get("control"), toolkit);
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
         Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
 
         Object resizeBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                         new Insets(4, 4, 4, 4));
             }
         });
 
-        Object defaultFormBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{table.get("control")}, toolkit, new ConvertListener() {
+        Object defaultFormBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return VsnetUtils.getDefaultBackgroundColor((Color) obj[0]);
             }
         });
 
-        Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(VsnetUtils.getRolloverButtonColor((Color) obj[0]));
             }
         });
 
-        Object selectedAndFocusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object selectedAndFocusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(VsnetUtils.getSelectedAndRolloverButtonColor((Color) obj[0]));
             }
         });
 
-        Object selectedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("textHighlight")}, toolkit, new ConvertListener() {
+        Object selectedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(VsnetUtils.getSelectedButtonColor((Color) obj[0]));
             }
         });
 
-        Object singleLineBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.shadowColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+        Object singleLineBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new BorderUIResource(BorderFactory.createLineBorder((Color) obj[0]));
             }
         });
 
-        Object borderColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+        Object borderColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(VsnetUtils.getButtonBorderColor((Color) obj[0]));
             }
         });
 
-        Object gripperForeground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{table.get("control")}, toolkit, new ConvertListener() {
+        Object gripperForeground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(VsnetUtils.getGripperForegroundColor((Color) obj[0]));
             }
@@ -329,7 +329,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_DOCK) != 0) {
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 4, 0, 0));
@@ -337,7 +337,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
             });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 0, 0, 4));
@@ -345,7 +345,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
             });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(0, 0, 4, 0));
@@ -353,7 +353,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
             });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
-                    new Object[]{table.get("control"), table.get("controlLtHighlight"), table.get("controlShadow"), table.get("controlDkShadow")}, toolkit, new ConvertListener() {
+                    new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
                             new Insets(4, 0, 0, 0));
@@ -477,7 +477,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         }
 
         if ((products & PRODUCT_ACTION) != 0) {
-            Object commandBarBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{table.get("control")}, toolkit, new ConvertListener() {
+            Object commandBarBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getToolBarBackgroundColor((Color) obj[0]));
                 }
@@ -561,10 +561,10 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         }
 
         // make the spinner has the same font as text field
-        table.put("Spinner.font", table.get("TextField.font"));
-        table.put("Spinner.margin", table.get("TextField.margin"));
-        table.put("Spinner.border", table.get("TextField.border"));
-        table.put("FormattedTextField.font", table.get("TextField.font"));
+        table.put("Spinner.font", UIDefaultsLookup.get("TextField.font"));
+        table.put("Spinner.margin", UIDefaultsLookup.get("TextField.margin"));
+        table.put("Spinner.border", UIDefaultsLookup.get("TextField.border"));
+        table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
         table.put("Theme.painter", BasicPainter.getInstance());
     }
@@ -581,36 +581,36 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         if (!Beans.isDesignTime()) {
             Object defaultLightColor = new ExtWindowsDesktopProperty(
-                    new String[]{"win.3d.lightColor"}, new Object[]{table.get("controlHighlight")}, toolkit, new ConvertListener() {
+                    new String[]{"win.3d.lightColor"}, new Object[]{UIDefaultsLookup.get("controlHighlight")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getLighterColor((Color) obj[0]));
                 }
             });
-            Object borderColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+            Object borderColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getButtonBorderColor((Color) obj[0]));
                 }
             });
-            WindowsDesktopProperty menuTextColor = new WindowsDesktopProperty("win.menu.textColor", table.get("control"), toolkit);
+            WindowsDesktopProperty menuTextColor = new WindowsDesktopProperty("win.menu.textColor", UIDefaultsLookup.get("control"), toolkit);
 
             Object menuFont = JideSwingUtilities.getMenuFont(toolkit, table);
 
             Object menuSelectionBackground = new ExtWindowsDesktopProperty(//Actual color 182, 189, 210
-                    new String[]{"win.3d.lightColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+                    new String[]{"win.3d.lightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getMenuSelectionColor((Color) obj[0]));
                 }
             });
 
             Object menuBackground = new ExtWindowsDesktopProperty(//Actual color 249, 248, 247
-                    new String[]{"win.3d.backgroundColor"}, new Object[]{table.get("control")}, toolkit, new ConvertListener() {
+                    new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getMenuBackgroundColor((Color) obj[0]));
                 }
             });
 
             Object separatorColor = new ExtWindowsDesktopProperty(// Not exactly right
-                    new String[]{"win.3d.shadowColor"}, new Object[]{table.get("controlShadow")}, toolkit, new ConvertListener() {
+                    new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(((Color) obj[0]).brighter());
                 }
@@ -675,7 +675,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         }
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((BasicPainter) table.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
+        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0]), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
             }

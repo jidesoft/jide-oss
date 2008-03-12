@@ -8,6 +8,7 @@ package com.jidesoft.plaf.eclipse;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -44,20 +45,20 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-        Object defaultTextColor = table.get("controlText");
-        Object defaultBackgroundColor = table.get("control");
-        Object defaultHighlightColor = table.get("controlHighlight");
-        Object defaultLtHighlightColor = table.get("controlLtHighlight");
-        Object defaultShadowColor = table.get("controlShadow");
-        Object defaultDarkShadowColor = table.get("controlDkShadow");
-        Object activeTitleTextColor = table.get("activeCaptionText");
-        Object activeTitleBackgroundColor = table.get("activeCaption");
-        Object activeTitleBarGradientColor = table.getColor("activeCaption").darker();
-        Object activeTitleBorderColor = table.get("controlDkShadow");
-        Object inactiveTitleTextColor = table.get("controlText");
-        Object inactiveTitleBackgroundColor = table.get("control");
-        Object mdiBackgroundColor = table.get("controlShadow");
-        Object selectionBackgroundColor = table.getColor("controlShadow");
+        Object defaultTextColor = UIDefaultsLookup.get("controlText");
+        Object defaultBackgroundColor = UIDefaultsLookup.get("control");
+        Object defaultHighlightColor = UIDefaultsLookup.get("controlHighlight");
+        Object defaultLtHighlightColor = UIDefaultsLookup.get("controlLtHighlight");
+        Object defaultShadowColor = UIDefaultsLookup.get("controlShadow");
+        Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
+        Object activeTitleTextColor = UIDefaultsLookup.get("activeCaptionText");
+        Object activeTitleBackgroundColor = UIDefaultsLookup.get("activeCaption");
+        Object activeTitleBarGradientColor = UIDefaultsLookup.getColor("activeCaption").darker();
+        Object activeTitleBorderColor = UIDefaultsLookup.get("controlDkShadow");
+        Object inactiveTitleTextColor = UIDefaultsLookup.get("controlText");
+        Object inactiveTitleBackgroundColor = UIDefaultsLookup.get("control");
+        Object mdiBackgroundColor = UIDefaultsLookup.get("controlShadow");
+        Object selectionBackgroundColor = UIDefaultsLookup.getColor("controlShadow");
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
@@ -68,22 +69,22 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
 
         Border documentBorder = shadowBorder;
 
-        Object slidingEastFrameBorder = new FrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"), new Insets(0, 4, 0, 0));
+        Object slidingEastFrameBorder = new FrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"), new Insets(0, 4, 0, 0));
 
-        Object slidingWestFrameBorder = new FrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"), new Insets(0, 0, 0, 4));
+        Object slidingWestFrameBorder = new FrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"), new Insets(0, 0, 0, 4));
 
-        Object slidingNorthFrameBorder = new FrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"), new Insets(0, 0, 4, 0));
+        Object slidingNorthFrameBorder = new FrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"), new Insets(0, 0, 4, 0));
 
-        Object slidingSouthFrameBorder = new FrameBorder(table.getColor("control"), table.getColor("controlLtHighlight"), table.getColor("controlShadow"), table.getColor("controlDkShadow"), new Insets(4, 0, 0, 0));
+        Object slidingSouthFrameBorder = new FrameBorder(UIDefaultsLookup.getColor("control"), UIDefaultsLookup.getColor("controlLtHighlight"), UIDefaultsLookup.getColor("controlShadow"), UIDefaultsLookup.getColor("controlDkShadow"), new Insets(4, 0, 0, 0));
 
         Object focusedButtonColor =
-                new ColorUIResource(EclipseUtils.getFocusedButtonColor(table.getColor("textHighlight")));
+                new ColorUIResource(EclipseUtils.getFocusedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
 
         Object selectedAndFocusedButtonColor =
-                new ColorUIResource(EclipseUtils.getSelectedAndFocusedButtonColor(table.getColor("textHighlight")));
+                new ColorUIResource(EclipseUtils.getSelectedAndFocusedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
 
         Object selectedButtonColor =
-                new ColorUIResource(EclipseUtils.getSelectedButtonColor(table.getColor("textHighlight")));
+                new ColorUIResource(EclipseUtils.getSelectedButtonColor(UIDefaultsLookup.getColor("textHighlight")));
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -394,8 +395,8 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     }),
                     "CommandBar.titleBarSize", 17,
                     "CommandBar.titleBarButtonGap", 1,
-                    "CommandBar.titleBarBackground", table.getColor("activeCaption"),
-                    "CommandBar.titleBarForeground", table.getColor("activeCaptionText"),
+                    "CommandBar.titleBarBackground", activeTitleBackgroundColor,
+                    "CommandBar.titleBarForeground", activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
                     "CommandBar.minimumSize", new DimensionUIResource(20, 20),
 
@@ -415,7 +416,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
                     "AbstractComboBox.useJButton", Boolean.TRUE,
-                    "NestedTableHeader.cellBorder", table.getBorder("TableHeader.cellBorder"),
+                    "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
             };
             table.putDefaults(uiDefaults);
         }
