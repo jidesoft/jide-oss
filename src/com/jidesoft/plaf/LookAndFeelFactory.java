@@ -95,71 +95,45 @@ import java.util.Vector;
  */
 public class LookAndFeelFactory implements ProductNames {
 
-    /**
-     * Class name of Windows L&F provided in Sun JDK.
-     */
+    /** Class name of Windows L&F provided in Sun JDK. */
     public static final String WINDOWS_LNF = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 
-    /**
-     * Class name of Metal L&F provided in Sun JDK.
-     */
+    /** Class name of Metal L&F provided in Sun JDK. */
     public static final String METAL_LNF = "javax.swing.plaf.metal.MetalLookAndFeel";
 
-    /**
-     * Class name of Aqua L&F provided in Apple Mac OSX JDK.
-     */
+    /** Class name of Aqua L&F provided in Apple Mac OSX JDK. */
     public static final String AQUA_LNF = "apple.laf.AquaLookAndFeel";
 
-    /**
-     * Class name of Quaqua L&F.
-     */
+    /** Class name of Quaqua L&F. */
     public static final String QUAQUA_LNF = "ch.randelshofer.quaqua.QuaquaLookAndFeel";
 
-    /**
-     * Class name of Quaqua Alloy L&F.
-     */
+    /** Class name of Quaqua Alloy L&F. */
     public static final String ALLOY_LNF = "com.incors.plaf.alloy.AlloyLookAndFeel";
 
-    /**
-     * Class name of Synthetica L&F.
-     */
-    public static final String SYNTHETICA_LNF = "de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel";
+    /** Class name of Synthetica L&F. */
+    public static final String SYNTHETICA_LNF = "de.javasoft.plaf.synthetica.SyntheticaLookAndFeel";
 
     private static final String SYNTHETICA_LNF_PREFIX = "de.javasoft.plaf.synthetica.Synthetica";
 
-    /**
-     * Class name of Plastic3D L&F before JGoodies Look 1.3 release.
-     */
+    /** Class name of Plastic3D L&F before JGoodies Look 1.3 release. */
     public static final String PLASTIC3D_LNF = "com.jgoodies.plaf.plastic.Plastic3DLookAndFeel";
 
-    /**
-     * Class name of Plastic3D L&F after JGoodies Look 1.3 release.
-     */
+    /** Class name of Plastic3D L&F after JGoodies Look 1.3 release. */
     public static final String PLASTIC3D_LNF_1_3 = "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
 
-    /**
-     * Class name of PlasticXP L&F.
-     */
+    /** Class name of PlasticXP L&F. */
     public static final String PLASTICXP_LNF = "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
 
-    /**
-     * Class name of Tonic L&F.
-     */
+    /** Class name of Tonic L&F. */
     public static final String TONIC_LNF = "com.digitprop.tonic.TonicLookAndFeel";
 
-    /**
-     * Class name of A03 L&F.
-     */
+    /** Class name of A03 L&F. */
     public static final String A03_LNF = "a03.swing.plaf.A03LookAndFeel";
 
-    /**
-     * Class name of Pgs L&F.
-     */
+    /** Class name of Pgs L&F. */
     public static final String PGS_LNF = "com.pagosoft.plaf.PgsLookAndFeel";
 
-    /**
-     * Class name of GTK L&F provided by Sun JDK.
-     */
+    /** Class name of GTK L&F provided by Sun JDK. */
     public static final String GTK_LNF = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 
     /**
@@ -691,9 +665,15 @@ public class LookAndFeelFactory implements ProductNames {
             if (lnf.getClass().getName().equals(GTK_LNF) && isGTKLnfInstalled()) {
                 new GTKInitializer().initialize(uiDefaults);
             }
-            else
-            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) && isSyntheticaLnfInstalled()) {
-                new SyntheticaInitializer().initialize(uiDefaults);
+            else if (isSyntheticaLnfInstalled()) {
+                try {
+                    if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || Class.forName(SYNTHETICA_LNF).isAssignableFrom(lnf.getClass())) {
+                        new SyntheticaInitializer().initialize(uiDefaults);
+                    }
+                }
+                catch (ClassNotFoundException e) {
+                    // ignore
+                }
             }
 
             switch (style) {
