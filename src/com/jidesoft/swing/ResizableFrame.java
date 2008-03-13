@@ -13,9 +13,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-/**
- * A resizable undecorated frame.
- */
+/** A resizable undecorated frame. */
 public class ResizableFrame extends JFrame implements ResizableSupport {
 
     private ResizablePanel _resizablePanel;
@@ -39,9 +37,7 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
         initComponents();
     }
 
-    /**
-     * Initializes the resizable window.
-     */
+    /** Initializes the resizable window. */
     protected void initComponents() {
         setUndecorated(true);
 
@@ -61,6 +57,20 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                         if (!JFrame.isDefaultLookAndFeelDecorated()) {
                             ResizableFrame.this.setBounds(newX, newY, newW, newH);
                         }
+                        ResizableFrame.this.resizing();
+                    }
+
+
+                    @Override
+                    public void beginResizing(int resizeCorner) {
+                        super.beginResizing(resizeCorner);
+                        ResizableFrame.this.beginResizing();
+                    }
+
+                    @Override
+                    public void endResizing(int resizeCorner) {
+                        super.endResizing(resizeCorner);
+                        ResizableFrame.this.endResizing();
                     }
 
                     @Override
@@ -81,9 +91,18 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
         });
     }
 
+    protected void beginResizing() {
+    }
+
+    protected void resizing() {
+    }
+
+    protected void endResizing() {
+    }
+
     /**
-     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise
-     * the window won't be resizable.
+     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window
+     * won't be resizable.
      *
      * @param border the border.
      */

@@ -13,9 +13,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-/**
- * A resizable window.
- */
+/** A resizable window. */
 public class ResizableWindow extends JWindow implements ResizableSupport {
 
     private ResizablePanel _resizablePanel;
@@ -44,9 +42,7 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
         initComponents();
     }
 
-    /**
-     * Initializes the resizable window.
-     */
+    /** Initializes the resizable window. */
     protected void initComponents() {
         _resizablePanel = new ResizablePanel() {
             @Override
@@ -62,7 +58,22 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
                             ((JComponent) container).setPreferredSize(new Dimension(newW, newH));
                         }
                         ResizableWindow.this.setBounds(newX, newY, newW, newH);
+                        ResizableWindow.this.resizing();
                     }
+
+
+                    @Override
+                    public void beginResizing(int resizeCorner) {
+                        super.beginResizing(resizeCorner);
+                        ResizableWindow.this.beginResizing();
+                    }
+
+                    @Override
+                    public void endResizing(int resizeCorner) {
+                        super.endResizing(resizeCorner);
+                        ResizableWindow.this.endResizing();
+                    }
+
 
                     @Override
                     public boolean isTopLevel() {
@@ -82,9 +93,18 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
         });
     }
 
+    protected void beginResizing() {
+    }
+
+    protected void resizing() {
+    }
+
+    protected void endResizing() {
+    }
+
     /**
-     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise
-     * the window won't be resizable.
+     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window
+     * won't be resizable.
      *
      * @param border the border.
      */
