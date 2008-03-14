@@ -22,7 +22,6 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 /**
  * JideButtonUI implementation
@@ -374,8 +373,8 @@ public class BasicJideButtonUI extends JideButtonUI {
     }
 
     /**
-     * As of Java 2 platform v 1.4 this method should not be used or overriden.
-     * Use the paintText method which takes the AbstractButton argument.
+     * As of Java 2 platform v 1.4 this method should not be used or overriden. Use the paintText
+     * method which takes the AbstractButton argument.
      */
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
@@ -391,8 +390,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         int mnemonicIndex = b.getDisplayedMnemonicIndex();
 
         if (!isHorizontal) {
-            Graphics2D g2d = (Graphics2D) g;
-            AffineTransform oldAt = g2d.getTransform();
+            Graphics2D g2d = (Graphics2D) g.create();
             g2d.rotate(Math.PI / 2);
             g2d.translate(0, -c.getWidth() + 1);
 
@@ -419,7 +417,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 /*** paint the text disabled ***/
                 /*** paint the text disabled ***/
                 Color color = UIDefaultsLookup.getColor("Button.disabledForeground");
-                g.setColor(color == null ? b.getBackground().darker() : color);
+                g2d.setColor(color == null ? b.getBackground().darker() : color);
 
                 // JDK PORTING HINT
                 // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
@@ -427,10 +425,11 @@ public class BasicJideButtonUI extends JideButtonUI {
                         textRect.y, textRect.x + fm.getAscent());
             }
 
-            g2d.setTransform(oldAt);
+            g2d.dispose();
         }
         else {
             /* Draw the Text */
+            Color old = g.getColor();
             if (model.isEnabled()) {
                 /*** paint the text normally */
                 int state = JideSwingUtilities.getButtonState(b);
@@ -463,6 +462,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g, text, mnemonicIndex,
                         textRect.x, textRect.y + fm.getAscent());
             }
+            g.setColor(old);
         }
     }
 
@@ -474,6 +474,7 @@ public class BasicJideButtonUI extends JideButtonUI {
      * @param b        Current button to render
      * @param textRect Bounding rectangle to render the text.
      * @param text     String to render
+     *
      * @since 1.4
      */
     protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text) {
@@ -519,7 +520,8 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
             }
-            else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.FLAT_STYLE) {
+            else
+            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.FLAT_STYLE) {
                 if (b.getModel().isSelected() && b.getModel().isPressed()) {
                     g.setColor(_shadowColor);    // inner 3D border
                     g.drawLine(0, 0, b.getWidth() - 1, 0);
@@ -565,7 +567,8 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
             }
-            else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
+            else
+            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
                 if (b.getModel().isPressed()) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_PRESSED);
                     if (paintDefaultBorder) {
@@ -726,10 +729,11 @@ public class BasicJideButtonUI extends JideButtonUI {
     }
 
     /**
-     * Checks if we should wrap text on a button. If the vertical text position is bottom and horizontal text position is center,
-     * we will wrap the text.
+     * Checks if we should wrap text on a button. If the vertical text position is bottom and
+     * horizontal text position is center, we will wrap the text.
      *
      * @param c
+     *
      * @return true or false.
      */
     public static boolean shouldWrapText(Component c) {

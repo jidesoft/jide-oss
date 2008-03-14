@@ -1188,12 +1188,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                              Font font, FontMetrics metrics, int tabIndex,
                              String title, Rectangle textRect,
                              boolean isSelected) {
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g.create();
         if (isSelected && _tabPane.isBoldActiveTab()) {
-            g.setFont(font.deriveFont(Font.BOLD));
+            g2d.setFont(font.deriveFont(Font.BOLD));
         }
         else {
-            g.setFont(font);
+            g2d.setFont(font);
         }
 
         String actualText = title;
@@ -1230,7 +1230,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         View v = getTextViewForTab(tabIndex);
         if (v != null) {
             // html
-            v.paint(g, textRect);
+            v.paint(g2d, textRect);
         }
         else {
             // plain text
@@ -1238,30 +1238,30 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
             if (_tabPane.isEnabled() && _tabPane.isEnabledAt(tabIndex)) {
                 if (colorProvider != null) {
-                    g.setColor(colorProvider.getForegroudAt(tabIndex));
+                    g2d.setColor(colorProvider.getForegroudAt(tabIndex));
                 }
                 else {
                     Color color = _tabPane.getForegroundAt(tabIndex);
                     if (isSelected && showFocusIndicator()) {
                         if (!(color instanceof ColorUIResource)) {
-                            g.setColor(color);
+                            g2d.setColor(color);
                         }
                         else {
-                            g.setColor(_activeTabForeground);
+                            g2d.setColor(_activeTabForeground);
                         }
                     }
                     else {
                         if (!(color instanceof ColorUIResource)) {
-                            g.setColor(color);
+                            g2d.setColor(color);
                         }
                         else {
-                            g.setColor(_inactiveTabForeground);
+                            g2d.setColor(_inactiveTabForeground);
                         }
                     }
                 }
 
                 if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
                 }
                 else {// draw string from top to bottom
                     AffineTransform old = g2d.getTransform();
@@ -1274,17 +1274,17 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         g2d.rotate(-Math.PI / 2);
                         g2d.translate(-textRect.height + 7, 0); // no idea why i need 7 here
                     }
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, 0,
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, 0,
                             ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
                     g2d.setTransform(old);
                 }
             }
             else { // tab disabled
                 if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-                    g.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
-                    g.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex, textRect.x - 1, textRect.y + metrics.getAscent() - 1);
+                    g2d.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
+                    g2d.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, textRect.x - 1, textRect.y + metrics.getAscent() - 1);
                 }
                 else {// draw string from top to bottom
                     AffineTransform old = g2d.getTransform();
@@ -1297,16 +1297,17 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         g2d.rotate(-Math.PI / 2);
                         g2d.translate(-textRect.height + 7, 0); // no idea why i need 7 here
                     }
-                    g.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex,
+                    g2d.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex,
                             0, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
-                    g.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g, actualText, mnemIndex,
+                    g2d.setColor(_tabPane.getBackgroundAt(tabIndex).darker());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex,
                             tabPlacement == RIGHT ? -1 : 1, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent() - 1);
                     g2d.setTransform(old);
                 }
             }
         }
+        g2d.dispose();
     }
 
     /**
