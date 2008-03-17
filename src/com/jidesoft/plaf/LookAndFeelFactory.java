@@ -95,45 +95,71 @@ import java.util.Vector;
  */
 public class LookAndFeelFactory implements ProductNames {
 
-    /** Class name of Windows L&F provided in Sun JDK. */
+    /**
+     * Class name of Windows L&F provided in Sun JDK.
+     */
     public static final String WINDOWS_LNF = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 
-    /** Class name of Metal L&F provided in Sun JDK. */
+    /**
+     * Class name of Metal L&F provided in Sun JDK.
+     */
     public static final String METAL_LNF = "javax.swing.plaf.metal.MetalLookAndFeel";
 
-    /** Class name of Aqua L&F provided in Apple Mac OSX JDK. */
+    /**
+     * Class name of Aqua L&F provided in Apple Mac OSX JDK.
+     */
     public static final String AQUA_LNF = "apple.laf.AquaLookAndFeel";
 
-    /** Class name of Quaqua L&F. */
+    /**
+     * Class name of Quaqua L&F.
+     */
     public static final String QUAQUA_LNF = "ch.randelshofer.quaqua.QuaquaLookAndFeel";
 
-    /** Class name of Quaqua Alloy L&F. */
+    /**
+     * Class name of Quaqua Alloy L&F.
+     */
     public static final String ALLOY_LNF = "com.incors.plaf.alloy.AlloyLookAndFeel";
 
-    /** Class name of Synthetica L&F. */
+    /**
+     * Class name of Synthetica L&F.
+     */
     public static final String SYNTHETICA_LNF = "de.javasoft.plaf.synthetica.SyntheticaLookAndFeel";
 
     private static final String SYNTHETICA_LNF_PREFIX = "de.javasoft.plaf.synthetica.Synthetica";
 
-    /** Class name of Plastic3D L&F before JGoodies Look 1.3 release. */
+    /**
+     * Class name of Plastic3D L&F before JGoodies Look 1.3 release.
+     */
     public static final String PLASTIC3D_LNF = "com.jgoodies.plaf.plastic.Plastic3DLookAndFeel";
 
-    /** Class name of Plastic3D L&F after JGoodies Look 1.3 release. */
+    /**
+     * Class name of Plastic3D L&F after JGoodies Look 1.3 release.
+     */
     public static final String PLASTIC3D_LNF_1_3 = "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
 
-    /** Class name of PlasticXP L&F. */
+    /**
+     * Class name of PlasticXP L&F.
+     */
     public static final String PLASTICXP_LNF = "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
 
-    /** Class name of Tonic L&F. */
+    /**
+     * Class name of Tonic L&F.
+     */
     public static final String TONIC_LNF = "com.digitprop.tonic.TonicLookAndFeel";
 
-    /** Class name of A03 L&F. */
+    /**
+     * Class name of A03 L&F.
+     */
     public static final String A03_LNF = "a03.swing.plaf.A03LookAndFeel";
 
-    /** Class name of Pgs L&F. */
+    /**
+     * Class name of Pgs L&F.
+     */
     public static final String PGS_LNF = "com.pagosoft.plaf.PgsLookAndFeel";
 
-    /** Class name of GTK L&F provided by Sun JDK. */
+    /**
+     * Class name of GTK L&F provided by Sun JDK.
+     */
     public static final String GTK_LNF = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 
     /**
@@ -633,8 +659,8 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         // For Mac only
-        else if ((lnf.getClass().getName().equals(AQUA_LNF) && isAquaLnfInstalled())
-                || (lnf.getClass().getName().equals(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
+        else if ((isLnfInUse(AQUA_LNF) && isAquaLnfInstalled())
+                || (isLnfInUse(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
                 Class<?> aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
@@ -666,13 +692,8 @@ public class LookAndFeelFactory implements ProductNames {
                 new GTKInitializer().initialize(uiDefaults);
             }
             else if (isSyntheticaLnfInstalled()) {
-                try {
-                    if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || Class.forName(SYNTHETICA_LNF).isAssignableFrom(lnf.getClass())) {
-                        new SyntheticaInitializer().initialize(uiDefaults);
-                    }
-                }
-                catch (ClassNotFoundException e) {
-                    // ignore
+                if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF)) {
+                    new SyntheticaInitializer().initialize(uiDefaults);
                 }
             }
 
@@ -768,13 +789,15 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Returns whether or not the Aqua L&F is in classpath.
+     * Returns whether or not the L&F is in classpath.
      *
-     * @return <tt>true</tt> if aqua L&F is in classpath, <tt>false</tt> otherwise
+     * @param lnfName the L&F name.
+     *
+     * @return <tt>true</tt> if the L&F is in classpath, <tt>false</tt> otherwise
      */
-    public static boolean isAquaLnfInstalled() {
+    public static boolean isLnfInstalled(String lnfName) {
         try {
-            getValidClassLoader().loadClass(AQUA_LNF);
+            getValidClassLoader().loadClass(lnfName);
             return true;
         }
         catch (ClassNotFoundException e) {
@@ -795,18 +818,39 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
+     * Checks if the L&F is the L&F or a subclass of the L&F.
+     *
+     * @param lnfName the L&F name.
+     *
+     * @return true or false.
+     */
+    public static boolean isLnfInUse(String lnfName) {
+        try {
+            return lnfName.equals(UIManager.getLookAndFeel().getID())
+                    || Class.forName(lnfName).getClass().isAssignableFrom(UIManager.getLookAndFeel().getClass());
+        }
+        catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns whether or not the Aqua L&F is in classpath.
+     *
+     * @return <tt>true</tt> if aqua L&F is in classpath, <tt>false</tt> otherwise
+     */
+    public static boolean isAquaLnfInstalled() {
+        return isLnfInstalled(AQUA_LNF);
+    }
+
+
+    /**
      * Returns whether or not the Quaqua L&F is in classpath.
      *
      * @return <tt>true</tt> if Quaqua L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isQuaquaLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(QUAQUA_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(QUAQUA_LNF);
     }
 
     /**
@@ -815,13 +859,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> alloy L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isAlloyLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(ALLOY_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(ALLOY_LNF);
     }
 
     /**
@@ -830,13 +868,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> GTK L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isGTKLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(GTK_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(GTK_LNF);
     }
 
     /**
@@ -845,13 +877,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isPlastic3DLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(PLASTIC3D_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(PLASTIC3D_LNF);
     }
 
     /**
@@ -860,13 +886,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isPlastic3D13LnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(PLASTIC3D_LNF_1_3);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(PLASTIC3D_LNF_1_3);
     }
 
     /**
@@ -875,13 +895,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isPlasticXPLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(PLASTICXP_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(PLASTICXP_LNF);
     }
 
     /**
@@ -890,13 +904,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> Tonic L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isTonicLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(TONIC_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(TONIC_LNF);
     }
 
     /**
@@ -905,13 +913,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> A03 L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isA03LnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(A03_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(A03_LNF);
     }
 
     /**
@@ -920,13 +922,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if pgs L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isPgsLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(PGS_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(PGS_LNF);
     }
 
     /**
@@ -935,13 +931,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if Synthetica L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isSyntheticaLnfInstalled() {
-        try {
-            getValidClassLoader().loadClass(SYNTHETICA_LNF);
-            return true;
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return isLnfInstalled(SYNTHETICA_LNF);
     }
 
     /**
@@ -975,33 +965,15 @@ public class LookAndFeelFactory implements ProductNames {
                 }
             }
 
-//            if (lnfClass != null) {
-//                try {
-//                    Class synthClass = getValidClassLoader().loadClass("javax.swing.plaf.synth.SynthLookAndFeel");
-//                    if (lnfClass.isAssignableFrom(synthClass)) {
-//                        lnfClass = null;
-//                    }
-//                }
-//                catch (ClassNotFoundException e) {
-//                }
-//            }
-
             if (lnfClass == null) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                // force to Metal L&F as in JDK1.5, GTK L&F is used as default L&F. We currently don't support GTK L&F.
-//                if (SystemInfo.isLinux() || SystemInfo.isUnix()) {
-//                    UIManager.setLookAndFeel(METAL_LNF);
-//                }
-//                else {
-//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                }
             }
             else {
                 UIManager.setLookAndFeel(lnfName);
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // ignore
         }
     }
 
@@ -1139,6 +1111,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
     }
 
+    @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
     public static void verifyDefaults(UIDefaults table, Object[] keyValueList) {
         for (int i = 0, max = keyValueList.length; i < max; i += 2) {
             Object value = keyValueList[i + 1];
