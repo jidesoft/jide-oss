@@ -11,8 +11,8 @@ import java.awt.*;
 /**
  * An interface which defines a list of methods that are used to paint the UI.
  * <p/>
- * Please note, this interface is still in development mode.
- * Future version might break your build if you use it now.
+ * Please note, this interface is still in development mode. Future version might break your build
+ * if you use it now.
  */
 public interface ThemePainter {
     public static final int STATE_DEFAULT = 0;
@@ -71,6 +71,10 @@ public interface ThemePainter {
     void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
     void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
+    void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
+    void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
     Color getMenuItemBorderColor();
 

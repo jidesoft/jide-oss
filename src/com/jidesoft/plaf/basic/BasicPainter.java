@@ -474,8 +474,14 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        g.setColor(UIDefaultsLookup.getColor("TextField.background"));
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        if (!(c.getBackground() instanceof UIResource)) {
+            g.setColor(c.getBackground());
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
+        else {
+            g.setColor(UIDefaultsLookup.getColor("TextField.background"));
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
     }
 
     public void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -490,6 +496,20 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         else {
             g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.background"));
         }
+        g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        g.setColor(UIManager.getColor("CollapsiblePane.emphasizedBackground"));
+        g.fillRect(rect.x, rect.y, rect.x + rect.width, rect.height);
+        g.setColor(UIManager.getColor("controlShadow"));
+        g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+    }
+
+    public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        g.setColor(UIManager.getColor("CollapsiblePane.background"));
+        g.fillRect(rect.x, rect.y, rect.x + rect.width, rect.height);
+        g.setColor(UIManager.getColor("controlShadow"));
         g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
     }
 

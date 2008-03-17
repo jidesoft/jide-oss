@@ -1004,11 +1004,20 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
-        JideSwingUtilities.fillGradient(g2d,
-                new Rectangle(rect.x, rect.y, rect.width, rect.height),
-                getCurrentTheme().getColor("CollapsiblePanes.backgroundLt"),
-                getCurrentTheme().getColor("CollapsiblePanes.backgroundDk"),
-                orientation == SwingConstants.HORIZONTAL);
+        if (!(c.getBackground() instanceof UIResource)) {
+            JideSwingUtilities.fillGradient(g2d,
+                    new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                    c.getBackground(),
+                    ColorUtils.getDerivedColor(c.getBackground(), 0.6f),
+                    orientation == SwingConstants.HORIZONTAL);
+        }
+        else {
+            JideSwingUtilities.fillGradient(g2d,
+                    new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                    getCurrentTheme().getColor("CollapsiblePanes.backgroundLt"),
+                    getCurrentTheme().getColor("CollapsiblePanes.backgroundDk"),
+                    orientation == SwingConstants.HORIZONTAL);
+        }
 
     }
 
@@ -1034,5 +1043,33 @@ public class Office2003Painter extends BasicPainter {
                 colorLt,
                 colorDk,
                 orientation == SwingConstants.HORIZONTAL);
+    }
+
+    @Override
+    public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                colorDk,
+                colorLt,
+                orientation == SwingConstants.HORIZONTAL);
+        g2d.setColor(getCurrentTheme().getColor("controlLt"));
+        g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+    }
+
+    @Override
+    public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g;
+        Color colorLt = getCurrentTheme().getColor("backgroundLt");
+        Color colorDk = getCurrentTheme().getColor("backgroundDk");
+        JideSwingUtilities.fillGradient(g2d,
+                new Rectangle(rect.x, rect.y, rect.width, rect.height),
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.HORIZONTAL);
+        g2d.setColor(getCurrentTheme().getColor("controlShadow"));
+        g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
     }
 }
