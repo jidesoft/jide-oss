@@ -8,22 +8,20 @@ package com.jidesoft.swing;
 import com.jidesoft.utils.SecurityUtils;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JideBoxLayout is very similar to BoxLayout in the way that all components
- * are arragned either from left to right or from top to bottom. Different \
- * from BoxLayout, there are three possible contraints when adding component
- * to this layout - FIX, FLEXIBLE and VARY.
- * <ul>
- * <li>FIX: use the preferred size of the compoent and size is fixed
- * <li>FLEXIBLE: respect the preferred size of the compoennt but size can be changed.
- * <li>VARY: ignore preferred size. Its size is calculated based how much area left.
- * </ul>
- * This is the default layout manager for {@link com.jidesoft.swing.JideSplitPane}.
+ * JideBoxLayout is very similar to BoxLayout in the way that all components are arragned either
+ * from left to right or from top to bottom. Different \ from BoxLayout, there are three possible
+ * contraints when adding component to this layout - FIX, FLEXIBLE and VARY. <ul> <li>FIX: use the
+ * preferred size of the compoent and size is fixed <li>FLEXIBLE: respect the preferred size of the
+ * compoennt but size can be changed. <li>VARY: ignore preferred size. Its size is calculated based
+ * how much area left. </ul> This is the default layout manager for {@link
+ * com.jidesoft.swing.JideSplitPane}.
  */
-public class JideBoxLayout implements LayoutManager2 {
+public class JideBoxLayout implements LayoutManager2, Serializable {
 
     private final boolean DEBUG = false;
 
@@ -42,22 +40,20 @@ public class JideBoxLayout implements LayoutManager2 {
     protected int[] _componentSizes;
 
     /**
-     * For FIX component, the width (or height if vertical) is and
-     * will always be the preferred width.
+     * For FIX component, the width (or height if vertical) is and will always be the preferred
+     * width.
      */
     public static final String FIX = "fix";
 
     /**
-     * FLEXIBLE components try to keep the preferred width. If
-     * there isn't enough space, all FLEXIBLE components will shrink
-     * proportionally.
+     * FLEXIBLE components try to keep the preferred width. If there isn't enough space, all
+     * FLEXIBLE components will shrink proportionally.
      */
     public static final String FLEXIBLE = "flexible";
 
     /**
-     * For VARY component, the width will always be whatever width left.
-     * You can allow add multiple FIX or FLEXIBLE components but only
-     * one VARY component is allowed.
+     * For VARY component, the width will always be whatever width left. You can allow add multiple
+     * FIX or FLEXIBLE components but only one VARY component is allowed.
      */
     public static final String VARY = "vary";
 
@@ -74,26 +70,24 @@ public class JideBoxLayout implements LayoutManager2 {
     public static final int Y_AXIS = 1;
 
     /**
-     * Specifies that components should be laid out in the direction of
-     * a line of text as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies that components should be laid out in the direction of a line of text as determined
+     * by the target container's <code>ComponentOrientation</code> property.
      */
     public static final int LINE_AXIS = 2;
 
     /**
-     * Specifies that components should be laid out in the direction that
-     * lines flow across a page as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies that components should be laid out in the direction that lines flow across a page
+     * as determined by the target container's <code>ComponentOrientation</code> property.
      */
     public static final int PAGE_AXIS = 3;
 
     private boolean _resetWhenInvalidate = true;
 
     /**
-     * Creates a layout manager that will lay out components along the
-     * given axis.
+     * Creates a layout manager that will lay out components along the given axis.
      *
      * @param target the container that needs to be laid out
+     *
      * @throws AWTError if the value of <code>axis</code> is invalid
      */
     public JideBoxLayout(Container target) {
@@ -102,10 +96,8 @@ public class JideBoxLayout implements LayoutManager2 {
 
     /**
      * @param target the container that needs to be laid out
-     * @param axis   the axis to lay out components along. Can be one of:
-     *               <code>JideBoxLayout.X_AXIS</code>,
-     *               <code>JideBoxLayout.Y_AXIS</code>,
-     *               <code>JideBoxLayout.LINE_AXIS</code> or
+     * @param axis   the axis to lay out components along. Can be one of: <code>JideBoxLayout.X_AXIS</code>,
+     *               <code>JideBoxLayout.Y_AXIS</code>, <code>JideBoxLayout.LINE_AXIS</code> or
      *               <code>JideBoxLayout.PAGE_AXIS</code>
      */
     public JideBoxLayout(Container target, int axis) {
@@ -115,10 +107,8 @@ public class JideBoxLayout implements LayoutManager2 {
 
     /**
      * @param target the container that needs to be laid out
-     * @param axis   the axis to lay out components along. Can be one of:
-     *               <code>JideBoxLayout.X_AXIS</code>,
-     *               <code>JideBoxLayout.Y_AXIS</code>,
-     *               <code>JideBoxLayout.LINE_AXIS</code> or
+     * @param axis   the axis to lay out components along. Can be one of: <code>JideBoxLayout.X_AXIS</code>,
+     *               <code>JideBoxLayout.Y_AXIS</code>, <code>JideBoxLayout.LINE_AXIS</code> or
      *               <code>JideBoxLayout.PAGE_AXIS</code>
      * @param gap
      */
@@ -322,10 +312,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * If the layout manager uses a per-component string,
-     * adds the component <code>comp</code> to the layout,
-     * associating it
-     * with the string specified by <code>name</code>.
+     * If the layout manager uses a per-component string, adds the component <code>comp</code> to
+     * the layout, associating it with the string specified by <code>name</code>.
      *
      * @param name      the string to be associated with the component
      * @param component the component to be added
@@ -335,9 +323,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Returns the minimum size needed to contain the children.
-     * The width is the sum of all the childrens min widths and
-     * the height is the largest of the childrens minimum heights.
+     * Returns the minimum size needed to contain the children. The width is the sum of all the
+     * childrens min widths and the height is the largest of the childrens minimum heights.
      */
     public Dimension minimumLayoutSize(Container container) {
         int minPrimary = 0;
@@ -382,10 +369,8 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Returns the preferred size needed to contain the children.
-     * The width is the
-     * sum of all the childrens preferred widths and
-     * the height is the largest of the childrens preferred heights.
+     * Returns the preferred size needed to contain the children. The width is the sum of all the
+     * childrens preferred widths and the height is the largest of the childrens preferred heights.
      */
     public Dimension preferredLayoutSize(Container container) {
         int prePrimary = 0;
@@ -454,8 +439,7 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object.
+     * Adds the specified component to the layout, using the specified constraint object.
      *
      * @param comp        the component to be added
      * @param constraints where/how the component is added to the layout.
@@ -469,11 +453,10 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the alignment along the x axis.  This specifies how the component would like to be
+     * aligned relative to other components.  The value should be a number between 0 and 1 where 0
+     * represents alignment along the origin, 1 is aligned the furthest away from the origin, 0.5 is
+     * centered, etc.
      */
     public synchronized float getLayoutAlignmentX(Container target) {
         return 0.0f;
@@ -481,11 +464,10 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the alignment along the y axis.  This specifies how the component would like to be
+     * aligned relative to other components.  The value should be a number between 0 and 1 where 0
+     * represents alignment along the origin, 1 is aligned the furthest away from the origin, 0.5 is
+     * centered, etc.
      */
     public synchronized float getLayoutAlignmentY(Container target) {
         return 0.0f;
@@ -493,8 +475,8 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invalidates the layout, indicating that if the layout manager has cached information it
+     * should be discarded.
      */
     public synchronized void invalidateLayout(Container c) {
         if (isResetWhenInvalidate() || componentCountChanged(c)) {
@@ -522,8 +504,7 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Returns the maximum layout size, which is Integer.MAX_VALUE
-     * in both directions.
+     * Returns the maximum layout size, which is Integer.MAX_VALUE in both directions.
      */
     public Dimension maximumLayoutSize(Container target) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -554,8 +535,7 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Returns the available width based on the container size and
-     * Insets.
+     * Returns the available width based on the container size and Insets.
      */
     protected int getAvailableSize(Dimension containerSize,
                                    Insets insets) {
@@ -568,8 +548,7 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Returns the left inset, unless the Insets are null in which case
-     * 0 is returned.
+     * Returns the left inset, unless the Insets are null in which case 0 is returned.
      */
     protected int getInitialLocation(Insets insets) {
         if (insets != null)
@@ -579,9 +558,8 @@ public class JideBoxLayout implements LayoutManager2 {
 
 
     /**
-     * Sets the width of the component c to be size, placing its
-     * x location at location, y to the insets.top and height
-     * to the containersize.height less the top and bottom insets.
+     * Sets the width of the component c to be size, placing its x location at location, y to the
+     * insets.top and height to the containersize.height less the top and bottom insets.
      */
     protected void setComponentToSize(Component c, int size,
                                       int location, Insets insets,
@@ -645,13 +623,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Returns a particular value of the inset identified by the
-     * axis and <code>isTop</code><p>.
-     * axis isTop
-     * 0    true    - left
-     * 0    false   - right
-     * 1    true    - top
-     * 1    false   - bottom
+     * Returns a particular value of the inset identified by the axis and <code>isTop</code><p>.
+     * axis isTop 0    true    - left 0    false   - right 1    true    - top 1    false   - bottom
      */
     int getSizeForPrimaryAxis(Insets insets, boolean isTop) {
         ComponentOrientation o = _target.getComponentOrientation();
@@ -674,13 +647,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Returns a particular value of the inset identified by the
-     * axis and <code>isTop</code><p>.
-     * axis isTop
-     * 0    true    - left
-     * 0    false   - right
-     * 1    true    - top
-     * 1    false   - bottom
+     * Returns a particular value of the inset identified by the axis and <code>isTop</code><p>.
+     * axis isTop 0    true    - left 0    false   - right 1    true    - top 1    false   - bottom
      */
     int getSizeForSecondaryAxis(Insets insets, boolean isTop) {
         ComponentOrientation o = _target.getComponentOrientation();
@@ -712,13 +680,13 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Given one of the 4 axis values, resolve it to an absolute axis.
-     * The relative axis values, PAGE_AXIS and LINE_AXIS are converted
-     * to their absolute couterpart given the target's ComponentOrientation
-     * value.  The absolute axes, X_AXIS and Y_AXIS are returned unmodified.
+     * Given one of the 4 axis values, resolve it to an absolute axis. The relative axis values,
+     * PAGE_AXIS and LINE_AXIS are converted to their absolute couterpart given the target's
+     * ComponentOrientation value.  The absolute axes, X_AXIS and Y_AXIS are returned unmodified.
      *
      * @param axis the axis to resolve
      * @param o    the ComponentOrientation to resolve against
+     *
      * @return the resolved axis
      */
     protected static int resolveAxis(int axis, ComponentOrientation o) {
@@ -758,7 +726,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Checks of the layout should be reset when {@link #invalidateLayout(java.awt.Container)} is called.
+     * Checks of the layout should be reset when {@link #invalidateLayout(java.awt.Container)} is
+     * called.
      *
      * @return true or false.
      */
@@ -767,7 +736,8 @@ public class JideBoxLayout implements LayoutManager2 {
     }
 
     /**
-     * Sets the flag if the layout should be reset when {@link #invalidateLayout(java.awt.Container)} is called.
+     * Sets the flag if the layout should be reset when {@link #invalidateLayout(java.awt.Container)}
+     * is called.
      *
      * @param resetWhenInvalidate
      */

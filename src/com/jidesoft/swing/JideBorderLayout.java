@@ -10,34 +10,31 @@
 package com.jidesoft.swing;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * This is a modified version of <code>BorderLayout</code>. Different from
- * <code>BorderLayout</code>, the TOP and BOTTOM component's width are same
- * as CENTER compoennt's width. In BorderLayout, their width are the same
- * as the container's width.
+ * <code>BorderLayout</code>, the TOP and BOTTOM component's width are same as CENTER compoennt's
+ * width. In BorderLayout, their width are the same as the container's width.
  *
  * @see BorderLayout
  */
-public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
+public class JideBorderLayout implements LayoutManager2, Serializable {
 
     /**
-     * Constructs a border layout with the horizontal gaps
-     * between components.
-     * The horizontal gap is specified by <code>hgap</code>.
+     * Constructs a border layout with the horizontal gaps between components. The horizontal gap is
+     * specified by <code>hgap</code>.
      */
     int hgap;
 
     /**
-     * Constructs a border layout with the vertical gaps
-     * between components.
-     * The vertical gap is specified by <code>vgap</code>.
+     * Constructs a border layout with the vertical gaps between components. The vertical gap is
+     * specified by <code>vgap</code>.
      */
     int vgap;
 
     /**
-     * Constant to specify components location to be the
-     * north portion of the border layout.
+     * Constant to specify components location to be the north portion of the border layout.
      *
      * @serial
      * @see #addLayoutComponent
@@ -45,8 +42,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      */
     Component north;
     /**
-     * Constant to specify components location to be the
-     * west portion of the border layout.
+     * Constant to specify components location to be the west portion of the border layout.
      *
      * @serial
      * @see #addLayoutComponent
@@ -54,8 +50,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      */
     Component west;
     /**
-     * Constant to specify components location to be the
-     * east portion of the border layout.
+     * Constant to specify components location to be the east portion of the border layout.
      *
      * @serial
      * @see #addLayoutComponent
@@ -63,8 +58,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      */
     Component east;
     /**
-     * Constant to specify components location to be the
-     * south portion of the border layout.
+     * Constant to specify components location to be the south portion of the border layout.
      *
      * @serial
      * @see #addLayoutComponent
@@ -72,8 +66,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      */
     Component south;
     /**
-     * Constant to specify components location to be the
-     * center portion of the border layout.
+     * Constant to specify components location to be the center portion of the border layout.
      *
      * @serial
      * @see #addLayoutComponent
@@ -82,39 +75,33 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     Component center;
 
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * mixing the two types of constants can lead to unpredicable results.  If
-     * you use both types, the relative constants will take precedence.
-     * For example, if you add components using both the <code>NORTH</code>
-     * and <code>BEFORE_FIRST_LINE</code> constants in a container whose
-     * orientation is <code>LEFT_TO_RIGHT</code>, only the
-     * <code>BEFORE_FIRST_LINE</code> will be layed out.
-     * This will be the same for lastLine, firstItem, lastItem.
+     * A relative positioning constant, that can be used instead of north, south, east, west or
+     * center. mixing the two types of constants can lead to unpredicable results.  If you use both
+     * types, the relative constants will take precedence. For example, if you add components using
+     * both the <code>NORTH</code> and <code>BEFORE_FIRST_LINE</code> constants in a container whose
+     * orientation is <code>LEFT_TO_RIGHT</code>, only the <code>BEFORE_FIRST_LINE</code> will be
+     * layed out. This will be the same for lastLine, firstItem, lastItem.
      *
      * @serial
      */
     Component firstLine;
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
+     * A relative positioning constant, that can be used instead of north, south, east, west or
+     * center. Please read Description for firstLine.
      *
      * @serial
      */
     Component lastLine;
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
+     * A relative positioning constant, that can be used instead of north, south, east, west or
+     * center. Please read Description for firstLine.
      *
      * @serial
      */
     Component firstItem;
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
+     * A relative positioning constant, that can be used instead of north, south, east, west or
+     * center. Please read Description for firstLine.
      *
      * @serial
      */
@@ -146,8 +133,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String CENTER = "Center";
 
     /**
-     * Synonym for PAGE_START.  Exists for compatibility with previous
-     * versions.  PAGE_START is preferred.
+     * Synonym for PAGE_START.  Exists for compatibility with previous versions.  PAGE_START is
+     * preferred.
      *
      * @see #PAGE_START
      * @since 1.2
@@ -155,8 +142,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String BEFORE_FIRST_LINE = "First";
 
     /**
-     * Synonym for PAGE_END.  Exists for compatibility with previous
-     * versions.  PAGE_END is preferred.
+     * Synonym for PAGE_END.  Exists for compatibility with previous versions.  PAGE_END is
+     * preferred.
      *
      * @see #PAGE_END
      * @since 1.2
@@ -164,8 +151,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String AFTER_LAST_LINE = "Last";
 
     /**
-     * Synonym for LINE_START.  Exists for compatibility with previous
-     * versions.  LINE_START is preferred.
+     * Synonym for LINE_START.  Exists for compatibility with previous versions.  LINE_START is
+     * preferred.
      *
      * @see #LINE_START
      * @since 1.2
@@ -173,8 +160,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String BEFORE_LINE_BEGINS = "Before";
 
     /**
-     * Synonym for LINE_END.  Exists for compatibility with previous
-     * versions.  LINE_END is preferred.
+     * Synonym for LINE_END.  Exists for compatibility with previous versions.  LINE_END is
+     * preferred.
      *
      * @see #LINE_END
      * @since 1.2
@@ -182,9 +169,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String AFTER_LINE_ENDS = "After";
 
     /**
-     * The component comes before the first line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to NORTH.
+     * The component comes before the first line of the layout's content. For Western, left-to-right
+     * and top-to-bottom orientations, this is equivalent to NORTH.
      *
      * @see Component#getComponentOrientation
      * @since 1.4
@@ -192,9 +178,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String PAGE_START = BEFORE_FIRST_LINE;
 
     /**
-     * The component comes after the last line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to SOUTH.
+     * The component comes after the last line of the layout's content. For Western, left-to-right
+     * and top-to-bottom orientations, this is equivalent to SOUTH.
      *
      * @see Component#getComponentOrientation
      * @since 1.4
@@ -202,9 +187,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String PAGE_END = AFTER_LAST_LINE;
 
     /**
-     * The component goes at the beginning of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to WEST.
+     * The component goes at the beginning of the line direction for the layout. For Western,
+     * left-to-right and top-to-bottom orientations, this is equivalent to WEST.
      *
      * @see Component#getComponentOrientation
      * @since 1.4
@@ -212,9 +196,8 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     public static final String LINE_START = BEFORE_LINE_BEGINS;
 
     /**
-     * The component goes at the end of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to EAST.
+     * The component goes at the end of the line direction for the layout. For Western,
+     * left-to-right and top-to-bottom orientations, this is equivalent to EAST.
      *
      * @see Component#getComponentOrientation
      * @since 1.4
@@ -227,18 +210,15 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     private static final long serialVersionUID = -8658291919501921765L;
 
     /**
-     * Constructs a new border layout with
-     * no gaps between components.
+     * Constructs a new border layout with no gaps between components.
      */
     public JideBorderLayout() {
         this(0, 0);
     }
 
     /**
-     * Constructs a border layout with the specified gaps
-     * between components.
-     * The horizontal gap is specified by <code>hgap</code>
-     * and the vertical gap is specified by <code>vgap</code>.
+     * Constructs a border layout with the specified gaps between components. The horizontal gap is
+     * specified by <code>hgap</code> and the vertical gap is specified by <code>vgap</code>.
      *
      * @param hgap the horizontal gap.
      * @param vgap the vertical gap.
@@ -261,6 +241,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      * Sets the horizontal gap between components.
      *
      * @param hgap the horizontal gap between components
+     *
      * @since JDK1.1
      */
     public void setHgap(int hgap) {
@@ -280,6 +261,7 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
      * Sets the vertical gap between components.
      *
      * @param vgap the vertical gap between components
+     *
      * @since JDK1.1
      */
     public void setVgap(int vgap) {
@@ -287,22 +269,20 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object.  For border layouts, the constraint must be
-     * one of the following constants:  <code>NORTH</code>,
-     * <code>SOUTH</code>, <code>EAST</code>,
-     * <code>WEST</code>, or <code>CENTER</code>.
+     * Adds the specified component to the layout, using the specified constraint object.  For
+     * border layouts, the constraint must be one of the following constants:  <code>NORTH</code>,
+     * <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>, or <code>CENTER</code>.
      * <p/>
-     * Most applications do not call this method directly. This method
-     * is called when a component is added to a container using the
-     * <code>Container.add</code> method with the same argument types.
+     * Most applications do not call this method directly. This method is called when a component is
+     * added to a container using the <code>Container.add</code> method with the same argument
+     * types.
      *
      * @param comp        the component to be added.
-     * @param constraints an object that specifies how and where
-     *                    the component is added to the layout.
-     * @throws IllegalArgumentException if the constraint object is not
-     *                                  a string, or if it not one of the five specified
-     *                                  constants.
+     * @param constraints an object that specifies how and where the component is added to the
+     *                    layout.
+     *
+     * @throws IllegalArgumentException if the constraint object is not a string, or if it not one
+     *                                  of the five specified constants.
      * @see Container#add(Component,Object)
      * @since JDK1.1
      */
@@ -360,12 +340,12 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Removes the specified component from this border layout. This
-     * method is called when a container calls its <code>remove</code> or
-     * <code>removeAll</code> methods. Most applications do not call this
-     * method directly.
+     * Removes the specified component from this border layout. This method is called when a
+     * container calls its <code>remove</code> or <code>removeAll</code> methods. Most applications
+     * do not call this method directly.
      *
      * @param comp the component to be removed.
+     *
      * @see Container#remove(Component)
      * @see Container#removeAll()
      */
@@ -402,16 +382,16 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Determines the minimum size of the <code>target</code> container
-     * using this layout manager.
+     * Determines the minimum size of the <code>target</code> container using this layout manager.
      * <p/>
-     * This method is called when a container calls its
-     * <code>getMinimumSize</code> method. Most applications do not call
-     * this method directly.
+     * This method is called when a container calls its <code>getMinimumSize</code> method. Most
+     * applications do not call this method directly.
      *
      * @param target the container in which to do the layout.
-     * @return the minimum dimensions needed to lay out the subcomponents
-     *         of the specified container.
+     *
+     * @return the minimum dimensions needed to lay out the subcomponents of the specified
+     *         container.
+     *
      * @see Container
      * @see Container#getMinimumSize()
      */
@@ -457,17 +437,16 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Determines the preferred size of the <code>target</code>
-     * container using this layout manager, based on the components
-     * in the container.
+     * Determines the preferred size of the <code>target</code> container using this layout manager,
+     * based on the components in the container.
      * <p/>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>getPreferredSize</code>
-     * method.
+     * Most applications do not call this method directly. This method is called when a container
+     * calls its <code>getPreferredSize</code> method.
      *
      * @param target the container in which to do the layout.
-     * @return the preferred dimensions to lay out the subcomponents
-     *         of the specified container.
+     *
+     * @return the preferred dimensions to lay out the subcomponents of the specified container.
+     *
      * @see Container
      * @see Container#getPreferredSize()
      */
@@ -513,10 +492,11 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Returns the maximum dimensions for this layout given the components
-     * in the specified target container.
+     * Returns the maximum dimensions for this layout given the components in the specified target
+     * container.
      *
      * @param target the component which needs to be laid out
+     *
      * @see Container
      * @see #minimumLayoutSize
      * @see #preferredLayoutSize
@@ -526,30 +506,28 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the alignment along the x axis.  This specifies how the component would like to be
+     * aligned relative to other components.  The value should be a number between 0 and 1 where 0
+     * represents alignment along the origin, 1 is aligned the furthest away from the origin, 0.5 is
+     * centered, etc.
      */
     public float getLayoutAlignmentX(Container parent) {
         return 0.5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the alignment along the y axis.  This specifies how the component would like to be
+     * aligned relative to other components.  The value should be a number between 0 and 1 where 0
+     * represents alignment along the origin, 1 is aligned the furthest away from the origin, 0.5 is
+     * centered, etc.
      */
     public float getLayoutAlignmentY(Container parent) {
         return 0.5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invalidates the layout, indicating that if the layout manager has cached information it
+     * should be discarded.
      */
     public void invalidateLayout(Container target) {
     }
@@ -557,20 +535,18 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     /**
      * Lays out the container argument using this border layout.
      * <p/>
-     * This method actually reshapes the components in the specified
-     * container in order to satisfy the constraints of this
-     * <code>BorderLayout</code> object. The <code>NORTH</code>
-     * and <code>SOUTH</code> components, if any, are placed at
-     * the top and bottom of the container, respectively. The
-     * <code>WEST</code> and <code>EAST</code> components are
-     * then placed on the left and right, respectively. Finally,
-     * the <code>CENTER</code> object is placed in any remaining
-     * space in the middle.
+     * This method actually reshapes the components in the specified container in order to satisfy
+     * the constraints of this <code>BorderLayout</code> object. The <code>NORTH</code> and
+     * <code>SOUTH</code> components, if any, are placed at the top and bottom of the container,
+     * respectively. The <code>WEST</code> and <code>EAST</code> components are then placed on the
+     * left and right, respectively. Finally, the <code>CENTER</code> object is placed in any
+     * remaining space in the middle.
      * <p/>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>doLayout</code> method.
+     * Most applications do not call this method directly. This method is called when a container
+     * calls its <code>doLayout</code> method.
      *
      * @param target the container in which to do the layout.
+     *
      * @see Container
      * @see Container#doLayout()
      */
@@ -636,9 +612,9 @@ public class JideBorderLayout implements LayoutManager2, java.io.Serializable {
     /**
      * Get the component that corresponds to the given constraint location
      *
-     * @param key The desired absolute position,
-     *            either NORTH, SOUTH, EAST, or WEST.
+     * @param key The desired absolute position, either NORTH, SOUTH, EAST, or WEST.
      * @param ltr Is the component line direction left-to-right?
+     *
      * @return the child component.
      */
     private Component getChild(String key, boolean ltr) {
