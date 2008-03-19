@@ -140,6 +140,8 @@ public class CacheMap<T, K> {
         if (cache == null || !cache.containsKey(context)) {
             List<Class<?>> classesToSearch = new ArrayList();
 
+            classesToSearch.add(clazz);
+
             // Direct superinterfaces, recursively
             Class<?>[] interfaces = clazz.getInterfaces();
             for (Class<?> c : interfaces) {
@@ -166,16 +168,26 @@ public class CacheMap<T, K> {
                 classesToSearch.add(Object.class);  // use Object as default fallback.
             }
 
+            // search to match context first
             for (Class<?> c : classesToSearch) {
                 Cache<K, T> cacheForClass = getCache(c);
-
                 if (cacheForClass != null) {
                     T object = cacheForClass.getObject(context);
-                    if (object == null && !_defaultContext.equals(context)) {
-                        return getRegisteredObject(c, _defaultContext);
-                    }
                     if (object != null) {
                         return object;
+                    }
+                }
+            }
+
+            // fall back to default context
+            if (!_defaultContext.equals(context)) {
+                for (Class<?> c : classesToSearch) {
+                    Cache<K, T> cacheForClass = getCache(c);
+                    if (cacheForClass != null) {
+                        T object = cacheForClass.getObject(_defaultContext);
+                        if (object != null) {
+                            return object;
+                        }
                     }
                 }
             }
