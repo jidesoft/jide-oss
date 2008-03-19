@@ -461,7 +461,12 @@ public class IconsFactory {
 
     private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
         InputStream resource = baseClass.getResourceAsStream(file);
-        return new ImageIcon(ImageIO.read(resource));
+        if (resource == null) {
+            throw new IOException("Resource \"" + file + "\" doesn't exist");
+        }
+        else {
+            return new ImageIcon(ImageIO.read(resource));
+        }
     }
 
     /**
