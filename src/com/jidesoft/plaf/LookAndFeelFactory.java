@@ -826,7 +826,7 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isLnfInUse(String lnfName) {
         try {
-            return lnfName.equals(UIManager.getLookAndFeel().getID())
+            return lnfName.equals(UIManager.getLookAndFeel().getClass().getName())
                     || Class.forName(lnfName).getClass().isAssignableFrom(UIManager.getLookAndFeel().getClass());
         }
         catch (ClassNotFoundException e) {
