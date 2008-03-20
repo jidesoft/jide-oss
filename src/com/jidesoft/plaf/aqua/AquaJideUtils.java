@@ -296,6 +296,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             Object slidingSouthFrameBorder = BorderFactory.createLineBorder(slidingBorderColor);
 
             uiDefaults = new Object[]{
+                    "DockableFrame.usingMacStandardIcons", Boolean.TRUE,
+
                     "DockableFrame.defaultIcon", JideIconsFactory.getImageIcon(JideIconsFactory.DockableFrame.BLANK),
                     "DockableFrame.background", defaultBackgroundColor,
                     "DockableFrame.border", new BorderUIResource(BorderFactory.createLineBorder(Color.lightGray, 1)),
