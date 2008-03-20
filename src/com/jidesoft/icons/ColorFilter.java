@@ -15,7 +15,7 @@ import java.awt.image.RGBImageFilter;
  */
 public class ColorFilter extends RGBImageFilter {
     private boolean brighter;
-    private int percent;
+    private static int percent = 30;
 
     private static ColorFilter _colorFilter;
 
@@ -25,7 +25,7 @@ public class ColorFilter extends RGBImageFilter {
         }
         else {
             _colorFilter.setBrighter(brighter);
-            _colorFilter.setPercent(percent);
+            setPercent(percent);
         }
         return _colorFilter;
     }
@@ -34,8 +34,8 @@ public class ColorFilter extends RGBImageFilter {
         this.brighter = brighter;
     }
 
-    public void setPercent(int percent) {
-        this.percent = percent;
+    public static void setPercent(int _percent) {
+        percent = _percent;
     }
 
     /**
@@ -46,10 +46,24 @@ public class ColorFilter extends RGBImageFilter {
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i) {
-        ColorFilter filter = ColorFilter.getInstance(true, 30); // 30 percent brighter
+        ColorFilter filter = ColorFilter.getInstance(true, percent);
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
+
+    /**
+     * Creates a brighter image
+     *
+     * @param i the original image
+     * @param p percentage of brightness
+     *
+     * @return a brighter image
+     */
+    public static Image createBrighterImage(Image i, int p) {
+        setPercent(p);
+        return createBrighterImage(i);
+    }
+
 
     /**
      * Creates a darker image.
@@ -59,10 +73,25 @@ public class ColorFilter extends RGBImageFilter {
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i) {
-        ColorFilter filter = ColorFilter.getInstance(false, 30); // 30 percent brighter
+        ColorFilter filter = ColorFilter.getInstance(false, percent);
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
+
+
+    /**
+     * Creates a darker image.
+     *
+     * @param i the original image
+     * @param p percentage of darkness
+     *
+     * @return a darker image.
+     */
+    public static Image createDarkerImage(Image i, int p) {
+        setPercent(p);
+        return createDarkerImage(i);
+    }
+
 
     /**
      * Constructs a ColorFilter object that filters a color image to a brighter or a darker image.
