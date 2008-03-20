@@ -17,6 +17,7 @@ public class ColorFilter extends RGBImageFilter {
     private boolean brighter;
     private static int percent = 30;
 
+    
     private static ColorFilter _colorFilter;
 
     public static ColorFilter getInstance(boolean brighter, int percent) {
