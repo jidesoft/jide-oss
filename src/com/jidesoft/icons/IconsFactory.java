@@ -219,7 +219,8 @@ public class IconsFactory {
     }
 
     /**
-     * Gets a brighter ImageIcon by passing class and a relative image file path.
+     * Gets a brighter ImageIcon by passing class, a relative image file path
+     * and a percentage of brightness.
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
@@ -301,8 +302,8 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a brighter image from an input image. If input image is null, a blank ImageIcon will
-     * be returned.
+     * Creates a brighter image from an input image with a given percentage of brightness.
+     * If input image is null, a blank ImageIcon will be returned.
      *
      * @param image   image
      * @param percent percentage of brightness
@@ -316,8 +317,8 @@ public class IconsFactory {
 
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled. If input
-     * icon is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image. Usually gray icon indicates disabled.
+     * If input icon is null, a blank ImageIcon will be returned.
      *
      * @param c    The component to get properties useful for painting, e.g. the foreground or
      *             background color.
@@ -333,8 +334,9 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled. If input
-     * icon is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image with a given percentage of brightness.
+     * Usually gray icon indicates disabled.
+     * If input icon is null, a blank ImageIcon will be returned.
      *
      * @param c       The component to get properties useful for painting, e.g. the foreground or
      *                background color.
@@ -364,8 +366,8 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a brighter image from an input image. If input image is null, a blank ImageIcon will
-     * be returned.
+     * Creates a brighter image from an input image with a given percentage of brightness.
+     * If input image is null, a blank ImageIcon will be returned.
      *
      * @param icon    image
      * @param percent percentage of brightness
@@ -379,8 +381,8 @@ public class IconsFactory {
 
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled. If input
-     * image is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image. Usually gray icon indicates disabled.
+     * If input image is null, a blank ImageIcon will be returned.
      *
      * @param image image
      * @return gray version of the image

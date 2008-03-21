@@ -51,7 +51,7 @@ public class ColorFilter extends RGBImageFilter {
     }
 
     /**
-     * Creates a brighter image
+     * Creates a brighter image with a given percentage of brightness
      *
      * @param i the original image
      * @param p percentage of brightness
@@ -65,7 +65,7 @@ public class ColorFilter extends RGBImageFilter {
 
 
     /**
-     * Creates a darker image.
+     * Creates a darker image
      *
      * @param i the original image
      *
@@ -79,7 +79,7 @@ public class ColorFilter extends RGBImageFilter {
 
 
     /**
-     * Creates a darker image.
+     * Creates a darker image with a given percentage of darkness
      *
      * @param i the original image
      * @param p percentage of darkness
