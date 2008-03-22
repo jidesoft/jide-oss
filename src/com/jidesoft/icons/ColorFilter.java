@@ -14,8 +14,8 @@ import java.awt.image.RGBImageFilter;
  * An image filter that brighten or darken an existing image.
  */
 public class ColorFilter extends RGBImageFilter {
-    private boolean brighter;
-    private static int percent = 30;
+    private boolean _brighter;
+    private static int _percent = 30;
     private static ColorFilter _colorFilter;
 
     public static ColorFilter getInstance(boolean brighter, int percent) {
@@ -30,11 +30,11 @@ public class ColorFilter extends RGBImageFilter {
     }
 
     public void setBrighter(boolean brighter) {
-        this.brighter = brighter;
+        _brighter = brighter;
     }
 
-    public static void setPercent(int _percent) {
-        percent = _percent;
+    public static void setPercent(int percent) {
+        _percent = percent;
     }
 
     /**
@@ -45,7 +45,7 @@ public class ColorFilter extends RGBImageFilter {
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i) {
-        ColorFilter filter = ColorFilter.getInstance(true, percent);
+        ColorFilter filter = ColorFilter.getInstance(true, _percent);
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
@@ -72,7 +72,7 @@ public class ColorFilter extends RGBImageFilter {
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i) {
-        ColorFilter filter = ColorFilter.getInstance(false, percent);
+        ColorFilter filter = ColorFilter.getInstance(false, _percent);
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
@@ -102,8 +102,8 @@ public class ColorFilter extends RGBImageFilter {
      *          darkest gray, and 0 is the lightest
      */
     public ColorFilter(boolean b, int p) {
-        brighter = b;
-        percent = p;
+        _brighter = b;
+        _percent = p;
         canFilterIndexColorModel = true;
     }
 
@@ -120,10 +120,10 @@ public class ColorFilter extends RGBImageFilter {
     }
 
     private int convert(int color) {
-        if (brighter)
-            color += (255 - color) * percent / 100;
+        if (_brighter)
+            color += (255 - color) * _percent / 100;
         else
-            color -= (255 - color) * percent / 100;
+            color -= (255 - color) * _percent / 100;
 
         if (color < 0) color = 0;
         if (color > 255) color = 255;
