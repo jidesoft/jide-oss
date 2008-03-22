@@ -1,6 +1,7 @@
 package com.jidesoft.icons;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,8 +127,53 @@ public class IconSetManager {
             return icon;
         }
         else {
-            return icon; // TODO scale it
+            return IconsFactory.getScaledImage(null, icon, size, size);
         }
+    }
+
+    /**
+     * Gets the ImageIcon.
+     *
+     * @param iconName        the icon name as defined in IconSet.
+     * @param size            the icon size. If the size is not available, it will find the closest
+     *                        size that is larger than the requested size.
+     * @param overlayIconName the overlay icon name as defined in IconSet.
+     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH,
+     *                        WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     *
+     * @return the ImageIcon.
+     */
+    public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location) {
+        return getOverlayImageIcon(iconName, size, overlayIconName, location, new Insets(0, 0, 0, 0));
+    }
+
+    /**
+     * Gets the ImageIcon.
+     *
+     * @param iconName        the icon name as defined in IconSet.
+     * @param size            the icon size. If the size is not available, it will find the closest
+     *                        size that is larger than the requested size.
+     * @param overlayIconName the overlay icon name as defined in IconSet.
+     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH,
+     *                        WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @param insets          the margin of the overlay icon to the border of the icon.
+     *
+     * @return the ImageIcon.
+     */
+    public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location, Insets insets) {
+        ImageIcon icon = getImageIcon(iconName, size);
+        if (icon == null) {
+            return null;
+        }
+        ImageIcon overlay = getImageIcon(overlayIconName, size);
+        if (overlay == null) {
+            return icon;
+        }
+
+        // grab the middle portion of the overlay icon only
+        overlay = IconsFactory.getIcon(null, overlay, size / 4, size / 4, size / 2, size / 2);
+
+        return IconsFactory.getOverlayIcon(null, icon, overlay, location, insets);
     }
 
 //    public static void main(String[] args) {

@@ -5,6 +5,8 @@
  */
 package com.jidesoft.icons;
 
+import com.jidesoft.swing.JideSwingUtilities;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -146,6 +148,7 @@ public class IconsFactory {
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
+     *
      * @return the ImageIcon
      */
     public static ImageIcon getImageIcon(Class<?> clazz, String fileName) {
@@ -165,7 +168,9 @@ public class IconsFactory {
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
+     *
      * @return the ImageIcon
+     *
      * @throws IOException when image file is not found.
      */
     public static ImageIcon findImageIcon(Class<?> clazz, String fileName) throws IOException {
@@ -185,6 +190,7 @@ public class IconsFactory {
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
+     *
      * @return the ImageIcon
      */
     public static ImageIcon getDisabledImageIcon(Class<?> clazz, String fileName) {
@@ -204,6 +210,7 @@ public class IconsFactory {
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
+     *
      * @return the ImageIcon
      */
     public static ImageIcon getBrighterImageIcon(Class<?> clazz, String fileName) {
@@ -219,12 +226,13 @@ public class IconsFactory {
     }
 
     /**
-     * Gets a brighter ImageIcon by passing class, a relative image file path
-     * and a percentage of brightness.
+     * Gets a brighter ImageIcon by passing class, a relative image file path and a percentage of
+     * brightness.
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
      * @param percent  percentage of brightness
+     *
      * @return the ImageIcon
      */
     public static ImageIcon getBrighterImageIcon(Class<?> clazz, String fileName, int percent) {
@@ -245,6 +253,7 @@ public class IconsFactory {
      * image is null, a blank ImageIcon will be returned.
      *
      * @param image image
+     *
      * @return gray version of the image
      */
     public static ImageIcon createGrayImage(Image image) {
@@ -258,6 +267,7 @@ public class IconsFactory {
      * input icon is null, a blank ImageIcon will be returned.
      *
      * @param icon image
+     *
      * @return gray version of the image
      */
     private static ImageIcon createGrayImage(ImageIcon icon) {
@@ -273,6 +283,7 @@ public class IconsFactory {
      * @param c    The component to get properties useful for painting, e.g. the foreground or
      *             background color.
      * @param icon icon
+     *
      * @return gray version of the image
      */
     public static ImageIcon createGrayImage(Component c, Icon icon) {
@@ -293,6 +304,7 @@ public class IconsFactory {
      * be returned.
      *
      * @param image image
+     *
      * @return dimmed version of the image
      */
     public static ImageIcon createBrighterImage(Image image) {
@@ -302,11 +314,12 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a brighter image from an input image with a given percentage of brightness.
-     * If input image is null, a blank ImageIcon will be returned.
+     * Creates a brighter image from an input image with a given percentage of brightness. If input
+     * image is null, a blank ImageIcon will be returned.
      *
      * @param image   image
      * @param percent percentage of brightness
+     *
      * @return dimmed version of the image
      */
     public static ImageIcon createBrighterImage(Image image, int percent) {
@@ -317,12 +330,13 @@ public class IconsFactory {
 
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled.
-     * If input icon is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image. Usually gray icon indicates disabled. If input
+     * icon is null, a blank ImageIcon will be returned.
      *
      * @param c    The component to get properties useful for painting, e.g. the foreground or
      *             background color.
      * @param icon icon
+     *
      * @return gray version of the image
      */
     public static ImageIcon createBrighterImage(Component c, Icon icon) {
@@ -334,14 +348,14 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a gray version from an input image with a given percentage of brightness.
-     * Usually gray icon indicates disabled.
-     * If input icon is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image with a given percentage of brightness. Usually
+     * gray icon indicates disabled. If input icon is null, a blank ImageIcon will be returned.
      *
      * @param c       The component to get properties useful for painting, e.g. the foreground or
      *                background color.
      * @param icon    icon
      * @param percent percentage of brightness
+     *
      * @return gray version of the image
      */
     public static ImageIcon createBrighterImage(Component c, Icon icon, int percent) {
@@ -357,6 +371,7 @@ public class IconsFactory {
      * will be returned.
      *
      * @param icon image
+     *
      * @return dimmed version of the image
      */
     public static ImageIcon createBrighterImage(ImageIcon icon) {
@@ -366,11 +381,12 @@ public class IconsFactory {
     }
 
     /**
-     * Creates a brighter image from an input image with a given percentage of brightness.
-     * If input image is null, a blank ImageIcon will be returned.
+     * Creates a brighter image from an input image with a given percentage of brightness. If input
+     * image is null, a blank ImageIcon will be returned.
      *
      * @param icon    image
      * @param percent percentage of brightness
+     *
      * @return dimmed version of the image
      */
     public static ImageIcon createBrighterImage(ImageIcon icon, int percent) {
@@ -381,10 +397,11 @@ public class IconsFactory {
 
 
     /**
-     * Creates a gray version from an input image. Usually gray icon indicates disabled.
-     * If input image is null, a blank ImageIcon will be returned.
+     * Creates a gray version from an input image. Usually gray icon indicates disabled. If input
+     * image is null, a blank ImageIcon will be returned.
      *
      * @param image image
+     *
      * @return gray version of the image
      */
     public static ImageIcon createNegativeImage(Image image) {
@@ -397,6 +414,7 @@ public class IconsFactory {
      * Creates a gray version from an input ImageIcon. Usually gray icon indicates disabled.
      *
      * @param icon image
+     *
      * @return gray version of the image
      */
     private static ImageIcon createNegativeImage(ImageIcon icon) {
@@ -411,6 +429,7 @@ public class IconsFactory {
      * @param icon     icon
      * @param oldColor the old color to be replaced.
      * @param newColor the new color that will replace the old color.
+     *
      * @return the image after replacing the color.
      */
     public static ImageIcon createMaskImage(Component c, Icon icon, Color oldColor, Color newColor) {
@@ -429,6 +448,7 @@ public class IconsFactory {
      * @param icon         the image to be rotated.
      * @param rotatedAngle the rotated angle, in degree, clockwise. It could be any double but we
      *                     will mod it with 360 before using it.
+     *
      * @return the image after rotating.
      */
     public static ImageIcon createRotatedImage(Component c, Icon icon, double rotatedAngle) {
@@ -454,7 +474,8 @@ public class IconsFactory {
         if ((originalAngle >= 0 && originalAngle <= 90) || (originalAngle > 180 && originalAngle <= 270)) {
             w = (int) (iw * Math.sin(DEGREE_90 - radian) + ih * Math.sin(radian));
             h = (int) (iw * Math.sin(radian) + ih * Math.sin(DEGREE_90 - radian));
-        } else {
+        }
+        else {
             w = (int) (ih * Math.sin(DEGREE_90 - radian) + iw * Math.sin(radian));
             h = (int) (ih * Math.sin(radian) + iw * Math.sin(DEGREE_90 - radian));
         }
@@ -486,6 +507,7 @@ public class IconsFactory {
      * @param c    The component to get properties useful for painting, e.g. the foreground or
      *             background color.
      * @param icon icon
+     *
      * @return the negative version of the image
      */
     public static ImageIcon createNegativeImage(Component c, Icon icon) {
@@ -515,6 +537,9 @@ public class IconsFactory {
 
     private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
         InputStream resource = baseClass.getResourceAsStream(file);
+        if (resource == null) {
+            System.err.println("Image file " + file + " is missing");
+        }
         return new ImageIcon(ImageIO.read(resource));
     }
 
@@ -615,6 +640,7 @@ public class IconsFactory {
      *               icon.
      * @param height the height of the sub-image. It should be less than the height of the original
      *               icon.
+     *
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height) {
@@ -640,6 +666,7 @@ public class IconsFactory {
      *                   destWidth is not the same as the width.
      * @param destHeight the height of the returned icon. The sub-image will be resize if the
      *                   destHeight is not the same as the height.
+     *
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int destWidth, int destHeight) {
@@ -662,6 +689,7 @@ public class IconsFactory {
      *                  original icon.
      * @param imageType image type is defined in {@link BufferedImage}, such as {@link
      *                  BufferedImage#TYPE_INT_ARGB}, {@link BufferedImage#TYPE_INT_RGB} etc.
+     *
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int imageType) {
@@ -690,6 +718,7 @@ public class IconsFactory {
      *                   destWidth is not the same as the width.
      * @param destHeight the height of the returned icon. The sub-image will be resize if the
      *                   destHeight is not the same as the height.
+     *
      * @return an new image icon that was part of the input image icon.
      */
     public static ImageIcon getIcon(Component c, ImageIcon icon, int x, int y, int width, int height, int imageType, int destWidth, int destHeight) {
@@ -710,6 +739,7 @@ public class IconsFactory {
      * @param overlayIcon the overlay icon.
      * @param location    the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST,
      *                    EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     *
      * @return the new icon.
      */
     public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location) {
@@ -729,6 +759,7 @@ public class IconsFactory {
      *                    CENTER. For example, if the location is WEST, insets.left will be the gap
      *                    of the left side of the original icon and the left side of the overlay
      *                    icon.
+     *
      * @return the new icon.
      */
     public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location, Insets insets) {
@@ -789,6 +820,7 @@ public class IconsFactory {
      *                    pained.
      * @param y           the y location relative to the original icon where the overlayIcon will be
      *                    pained.
+     *
      * @return the overlay icon
      */
     public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int x, int y) {
@@ -803,8 +835,39 @@ public class IconsFactory {
             }
             image.getGraphics().drawImage(overlayIcon.getImage(), x, y, sw, sh, c);
             return new ImageIcon(image);
-        } else {
+        }
+        else {
             return icon;
+        }
+    }
+
+    /**
+     * Gets a scaled version of the existing icon.
+     *
+     * @param c    the component where the returned icon will be used. The component is used as the
+     *             ImageObserver. It could be null.
+     * @param icon the original icon
+     * @param w    the new width
+     * @param h    the new height
+     *
+     * @return the scaled icon
+     */
+    public static ImageIcon getScaledImage(Component c, ImageIcon icon, int w, int h) {
+        if (w >= icon.getIconWidth() / 2) {
+            BufferedImage temp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = temp.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.drawImage(icon.getImage(), 0, 0, temp.getWidth(), temp.getHeight(), c);
+            g2.dispose();
+            return new ImageIcon(temp);
+        }
+        else {
+            BufferedImage temp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = temp.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(icon.getImage(), 0, 0, temp.getWidth(), temp.getHeight(), c);
+            g2.dispose();
+            return new ImageIcon(JideSwingUtilities.getFasterScaledInstance(temp, w, h, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true));
         }
     }
 }
