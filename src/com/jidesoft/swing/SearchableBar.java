@@ -47,7 +47,8 @@ import java.util.Locale;
  * <code>Searchable</code>. So if you have an interface of <code>Searchable</code>, all you need is
  * to call
  * <code><pre>
- * SearchableBar.install(searchable, KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK),
+ * SearchableBar.install(searchable, KeyStroke.getKeyStroke(KeyEvent.VK_F,
+ * KeyEvent.CTRL_DOWN_MASK),
  * new SearchableBar.Installer() {
  *     public void openSearchBar(SearchableBar searchableBar) {
  *        // add code to show search bar
@@ -567,10 +568,31 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
     }
 
+    /**
+     * Gets the searching text.
+     *
+     * @return the searching text.
+     */
     public String getSearchingText() {
         return _textField != null ? _textField.getText() : "";
     }
 
+    /**
+     * Sets the searching text.
+     *
+     * @param searchingText the new searching text.
+     */
+    public void setSearchingText(String searchingText) {
+        if (_textField != null) {
+            _textField.setText(searchingText);
+        }
+    }
+
+    /**
+     * Returns false.
+     *
+     * @return false.
+     */
     public boolean isPassive() {
         return false;
     }
