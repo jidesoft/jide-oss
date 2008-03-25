@@ -108,8 +108,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Returns the ui that is of type <code>klass</code>, or null if one can not be found.
      */
     static Object getUIOfType(ComponentUI ui, Class klass) {
         if (klass.isInstance(ui)) {
@@ -119,8 +118,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Returns the InputMap for condition <code>condition</code>. Called as part of
+     * <code>installKeyboardActions</code>.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -221,7 +220,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 rect = new Rectangle(menuWidth - _splitButtonMargin - 1 + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                 getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
             }
-            else if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
+            else
+            if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
                 if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
                     Rectangle rect = new Rectangle(menuWidth - _splitButtonMargin - 1 + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
@@ -238,7 +238,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
             else {
-                if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
+                if (((b.isRolloverEnabled() && isMouseOver()) || b.hasFocus()) && model.isEnabled()) {
                     if (isAlwaysDropdown(menuItem)) {
                         Rectangle rect = new Rectangle(0, 0, menuWidth, menuHeight);
                         getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
@@ -255,7 +255,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
         }
-        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
+        else
+        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -275,7 +276,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     paintRaisedBorder(g, rect);
                 }
             }
-            else if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
+            else
+            if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
                 if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
                     Rectangle rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
@@ -309,7 +311,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
             }
             else {
-                if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
+                if (((b.isRolloverEnabled() && isMouseOver()) || b.hasFocus()) && model.isEnabled()) {
                     // Draw a line border with background
                     Rectangle rect = new Rectangle(0, 0, menuWidth - _splitButtonMargin, menuHeight);
                     if (((JideSplitButton) menuItem).isButtonEnabled()) {
@@ -335,7 +337,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
         }
-        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
+        else
+        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -355,7 +358,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     paintRaisedBorder(g, rect);
                 }
             }
-            else if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
+            else
+            if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
                 if (isMouseOver() && model.isEnabled()) {
                     Rectangle rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
@@ -389,7 +393,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
             }
             else {
-                if (isMouseOver() && model.isEnabled()) {
+                if (b.isRolloverEnabled() && isMouseOver() && model.isEnabled()) {
                     // Draw a line border with background
                     Rectangle rect = new Rectangle(0, 0, menuWidth - _splitButtonMargin, menuHeight);
                     if (((JideSplitButton) menuItem).isButtonEnabled()) {
@@ -492,9 +496,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
-         * MenuSelectionManager.
+         * Invoked when the mouse has been clicked on the menu. This method clears or sets the
+         * selection path of the MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -559,8 +562,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse has been released on the menu. Delegates the mouse event to the
+         * MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -612,10 +615,9 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         /**
-         * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * Invoked when the cursor enters the menu. This method sets the selected path for the
+         * MenuSelectionManager and handles the case in which a menu item is used to pop up an
+         * additional menu, as in a hierarchical menu system.
          *
          * @param e the mouse event; not used
          */
@@ -665,10 +667,11 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when a mouse button is pressed on the menu and then dragged. Delegates the mouse
+         * event to the MenuSelectionManager.
          *
          * @param e the mouse event
+         *
          * @see java.awt.event.MouseMotionListener#mouseDragged
          */
         public void mouseDragged(MouseEvent e) {
@@ -955,9 +958,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     /**
-     * Actions for Buttons. Two type of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Actions for Buttons. Two type of action are supported: pressed: Moves the button to a pressed
+     * state released: Disarms the button.
      */
     private static class Actions extends UIAction {
         private static final String PRESS = "pressed";
@@ -1074,6 +1076,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
      * @param c
      * @param text
      * @param extraWidth
+     *
      * @return
      */
     public static int getAdjustExtaWidth(Component c, String text, int extraWidth) {
@@ -1114,10 +1117,11 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     /**
-     * Gets the text after wrapping. Please note, it will only wrap text into two lines thus
-     * it is not designed for general usage.
+     * Gets the text after wrapping. Please note, it will only wrap text into two lines thus it is
+     * not designed for general usage.
      *
      * @param text
+     *
      * @return the two lines.
      */
     public static String[] getWrappedText(String text) {
