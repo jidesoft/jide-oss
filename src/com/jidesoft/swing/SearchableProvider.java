@@ -8,8 +8,8 @@ package com.jidesoft.swing;
 import java.awt.event.KeyEvent;
 
 /**
- * <code>SearchableProvider</code> is an interface that works with {@link Searchable} to
- * provide different way to supply the searching text.
+ * <code>SearchableProvider</code> is an interface that works with {@link Searchable} to provide
+ * different way to supply the searching text.
  */
 public interface SearchableProvider {
     /**
@@ -21,7 +21,9 @@ public interface SearchableProvider {
 
     /**
      * Returns true if the SearchableProvider doesn't accept keyboard input directly. In this case,
-     * the Searchable component (such as JTextComponent, JTable, JList or JComboBox) will
+     * the Searchable component (such as JTextComponent, JTable, JList or JComboBox) will accept the
+     * keys so it returns true. However in SearchableBar case, the text field on SearchableBar will
+     * accept the keys so it returns false.
      *
      * @return true or false.
      */

@@ -365,7 +365,7 @@ public abstract class Searchable {
         protected void select(int index, KeyEvent e, String searchingText) {
             if (index != -1) {
                 setSelectedIndex(index, e != null && isIncrementalSelectKey(e));
-                _cursor = index;
+                Searchable.this.setCursor(index);
                 _textField.setForeground(getForeground());
                 _noMatch.setText("");
             }
@@ -421,7 +421,7 @@ public abstract class Searchable {
             _searchableProvider = null;
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_END));
         }
-        _cursor = -1;
+        setCursor(-1);
     }
 
     public SearchableProvider getSearchableProvider() {
@@ -1478,7 +1478,7 @@ public abstract class Searchable {
             int index = findFirst(text);
             if (index != -1) {
                 setSelectedIndex(index, false); // clear side effect of ctrl-a will select all items
-                _cursor = index; // as setSelectedIndex is used directly, we have to manually set the cursor value.
+                Searchable.this.setCursor(index); // as setSelectedIndex is used directly, we have to manually set the cursor value.
             }
 
 
