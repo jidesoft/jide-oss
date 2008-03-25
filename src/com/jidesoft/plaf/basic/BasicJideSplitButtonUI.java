@@ -67,6 +67,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         _highlight = UIDefaultsLookup.getColor("controlHighlight");
         _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
 
+        menuItem.setRolloverEnabled(true);
+
         super.installDefaults();
     }
 
