@@ -370,10 +370,11 @@ public class JideMenu extends JMenu implements Alignable {
             // Then the y:
             if (JideSwingUtilities.getOrientationOf(this) == HORIZONTAL) {
                 y = s.height + yOffset - 1;    // Prefer dropping down
-                if (position.y + y + pmSize.height >= screenBounds.height &&
-                        // popup doesn't fit - place it wherever there's more room
+                if (getPreferredPopupVerticalAlignment() == TOP || // If forced to be on TOP
+                		(position.y + y + pmSize.height >= screenBounds.height &&
+                        // ...or popup doesn't fit - place it wherever there's more room
                         screenBounds.height - s.height < 2 * (position.y
-                                - screenBounds.y)) {
+                                - screenBounds.y))) {
 
                     y = 1 - yOffset - pmSize.height;   // Otherwise drop 'up'
                 }
