@@ -18,31 +18,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
+import java.util.List;
 
 /**
- * <code>CheckBoxList</code> is a special JList which uses JCheckBox as the list element. In
- * addition to regular JList feature, it also allows you select any number of elements in the list
- * by selecting the check boxes.
+ * <code>CheckBoxList</code> is a special JList which uses JCheckBox as the list element. In addition to regular JList
+ * feature, it also allows you select any number of elements in the list by selecting the check boxes.
  * <p/>
- * To select an element, user can mouse click on the check box, or highlight the rows and press
- * SPACE key to toggle the selections.
+ * To select an element, user can mouse click on the check box, or highlight the rows and press SPACE key to toggle the
+ * selections.
  * <p/>
- * We used cell renderer feature in JList to add the check box in each row. However you can still
- * set your own cell renderer just like before using {@link #setCellRenderer(javax.swing.ListCellRenderer)}.
- * CheckBoxList will use your cell renderer and automatically put a check box before it.
+ * We used cell renderer feature in JList to add the check box in each row. However you can still set your own cell
+ * renderer just like before using {@link #setCellRenderer(javax.swing.ListCellRenderer)}. CheckBoxList will use your
+ * cell renderer and automatically put a check box before it.
  * <p/>
- * Please note, we changed CheckBoxList implementation in 1.9.2 release. The old CheckBoxList class
- * is renamed to {@link CheckBoxListWithSelectable}. If you want to use the old implementation, you
- * can use CheckBoxListWithSelectable instead. The main difference between the two implementation is
- * at how the selection state is kept. In new implementation, the selection state is kept at a
- * separate ListSelectionModel which you can get using {@link CheckBoxList#getCheckBoxListSelectionModel()}.
- * If you need to add a check to a check box or to find out if a check box is checked, you need to
- * ask the getCheckBoxListSelectionModel() to do it. The old implementation kept the selection state
- * at Selectable object in the ListModel. The new implementation is also inline with that of {@link
+ * Please note, we changed CheckBoxList implementation in 1.9.2 release. The old CheckBoxList class is renamed to {@link
+ * CheckBoxListWithSelectable}. If you want to use the old implementation, you can use CheckBoxListWithSelectable
+ * instead. The main difference between the two implementation is at how the selection state is kept. In new
+ * implementation, the selection state is kept at a separate ListSelectionModel which you can get using {@link
+ * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
+ * box is checked, you need to ask the getCheckBoxListSelectionModel() to do it. The old implementation kept the
+ * selection state at Selectable object in the ListModel. The new implementation is also inline with that of {@link
  * CheckBoxTree}.
  */
 public class CheckBoxList extends JList {
@@ -64,8 +60,7 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified
-     * <code>Vector</code>.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified <code>Vector</code>.
      *
      * @param listData the <code>Vector</code> to be loaded into the data model
      */
@@ -75,8 +70,7 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified
-     * <code>Object[]</code>.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified <code>Object[]</code>.
      *
      * @param listData the array of Objects to be loaded into the data model
      */
@@ -86,13 +80,11 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified,
-     * non-<code>null</code> model. All <code>CheckBoxList</code> constructors delegate to this
-     * one.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified, non-<code>null</code> model.
+     * All <code>CheckBoxList</code> constructors delegate to this one.
      * <p/>
      *
      * @param dataModel the data model for this list
-     *
      * @throws IllegalArgumentException if <code>dataModel</code> is <code>null</code>
      */
     public CheckBoxList(ListModel dataModel) {
@@ -333,9 +325,9 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each
-     * tree node to select and unselect. If false, user can't click but you as developer can
-     * programatically call API to select/unselect it.
+     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
+     * and unselect. If false, user can't click but you as developer can programatically call API to select/unselect
+     * it.
      *
      * @return the value of property checkBoxEnabled.
      */
@@ -344,11 +336,10 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Checks if check box is enabled. There is no setter for it. The only way is to override this
-     * method to return true or false.
+     * Checks if check box is enabled. There is no setter for it. The only way is to override this method to return true
+     * or false.
      *
      * @param index the row index.
-     *
      * @return true or false. If false, the check box on the particular row index will be disabled.
      */
     public boolean isCheckBoxEnabled(int index) {
@@ -356,14 +347,12 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Checks if check box is visible. There is no setter for it. The only way is to override this
-     * method to return true or false.
+     * Checks if check box is visible. There is no setter for it. The only way is to override this method to return true
+     * or false.
      *
      * @param index whether the check box on the row index is visible.
-     *
-     * @return true or false. If false, there is not check box on the particular row index. By
-     *         default, we always return true. You override this method to return true of false
-     *         depending on your need.
+     * @return true or false. If false, there is not check box on the particular row index. By default, we always return
+     *         true. You override this method to return true of false depending on your need.
      */
     public boolean isCheckBoxVisible(int index) {
         return true;
@@ -372,9 +361,8 @@ public class CheckBoxList extends JList {
     /**
      * Sets the value of property checkBoxEnabled.
      *
-     * @param checkBoxEnabled true to allow to check the check box. False to disable it which means
-     *                        user can see whether a row is checked or not but they cannot change
-     *                        it.
+     * @param checkBoxEnabled true to allow to check the check box. False to disable it which means user can see whether
+     *                        a row is checked or not but they cannot change it.
      */
     public void setCheckBoxEnabled(boolean checkBoxEnabled) {
         if (checkBoxEnabled != _checkBoxEnabled) {
@@ -389,8 +377,7 @@ public class CheckBoxList extends JList {
     /**
      * Gets the ListSelectionModel that keeps the check boxes' state information for CheckBoxList.
      *
-     * @return the ListSelectionModel that keeps the check boxes' state information for
-     *         CheckBoxList.
+     * @return the ListSelectionModel that keeps the check boxes' state information for CheckBoxList.
      */
     public CheckBoxListSelectionModel getCheckBoxListSelectionModel() {
         return _checkBoxListSelectionModel;
@@ -405,7 +392,6 @@ public class CheckBoxList extends JList {
      * Returns an array of all of the selected indices in increasing order.
      *
      * @return all of the selected indices, in increasing order
-     *
      * @see #removeSelectionInterval
      * @see #addListSelectionListener
      */
@@ -435,7 +421,6 @@ public class CheckBoxList extends JList {
      * Selects a single cell and clear all other selections.
      *
      * @param index the index of the one cell to select
-     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -450,7 +435,6 @@ public class CheckBoxList extends JList {
      * Selects a single cell and keeps all previous selections.
      *
      * @param index the index of the one cell to select
-     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -465,7 +449,6 @@ public class CheckBoxList extends JList {
      * Deselects a single cell.
      *
      * @param index the index of the one cell to select
-     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -480,7 +463,6 @@ public class CheckBoxList extends JList {
      * Selects a set of cells.
      *
      * @param indices an array of the indices of the cells to select
-     *
      * @see ListSelectionModel#addSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -505,8 +487,7 @@ public class CheckBoxList extends JList {
     /**
      * Sets the selected elements.
      *
-     * @param elements sets the select elements. All the rows that have the value in the array will
-     *                 be checked.
+     * @param elements sets the select elements. All the rows that have the value in the array will be checked.
      */
     public void setSelectedObjects(Object[] elements) {
         Map<Object, String> selected = new HashMap<Object, String>();
@@ -519,8 +500,7 @@ public class CheckBoxList extends JList {
     /**
      * Sets the selected elements.
      *
-     * @param elements sets the select elements. All the rows that have the value in the Vector will
-     *                 be checked.
+     * @param elements sets the select elements. All the rows that have the value in the Vector will be checked.
      */
     public void setSelectedObjects(Vector<?> elements) {
         Map<Object, String> selected = new HashMap<Object, String>();
@@ -531,25 +511,27 @@ public class CheckBoxList extends JList {
     }
 
     private void setSelectedObjects(Map<Object, String> selected) {
-        int[] indices = new int[selected.size()];
-        Arrays.fill(indices, -1);
-        int index = 0;
+        List<Integer> indices = new ArrayList();
         for (int i = 0; i < getModel().getSize(); i++) {
             Object elementAt = getModel().getElementAt(i);
             if (selected.get(elementAt) != null) {
-                indices[index++] = i;
+                indices.add(i);
             }
         }
-        setCheckBoxListSelectedIndices(indices);
+        int[] selectedIndices = new int[indices.size()];
+        for (int i = 0; i < indices.size(); i++) {
+            Integer row = indices.get(i);
+            selectedIndices[i] = row;
+        }
+        setCheckBoxListSelectedIndices(selectedIndices);
     }
 
     /**
      * @return the values that are checked.
-     *
-     * @deprecated We keep this method in order to be compatible with {@link
-     *             CheckBoxListWithSelectable}. You should use {@link #getCheckBoxListSelectedValues()}
-     *             instead. Or you can use {@link #getCheckBoxListSelectionModel()} to get the
-     *             selection model and get the selected indices from there.
+     * @deprecated We keep this method in order to be compatible with {@link CheckBoxListWithSelectable}. You should use
+     *             {@link #getCheckBoxListSelectedValues()} instead. Or you can use {@link
+     *             #getCheckBoxListSelectionModel()} to get the selection model and get the selected indices from
+     *             there.
      */
     @Deprecated
     public Object[] getSelectedObjects() {
@@ -557,11 +539,9 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Returns an array of the values for the selected cells. The returned values are sorted in
-     * increasing index order.
+     * Returns an array of the values for the selected cells. The returned values are sorted in increasing index order.
      *
      * @return the selected values or an empty list if nothing is selected
-     *
      * @see #isSelectedIndex
      * @see #getModel
      * @see #addListSelectionListener
@@ -594,7 +574,6 @@ public class CheckBoxList extends JList {
      * Returns the first selected index; returns -1 if there is no selected item.
      *
      * @return the value of <code>getMinSelectionIndex</code>
-     *
      * @see #getMinSelectionIndex
      * @see #addListSelectionListener
      */
@@ -607,7 +586,6 @@ public class CheckBoxList extends JList {
      * Returns the first selected value, or <code>null</code> if the selection is empty.
      *
      * @return the first selected value
-     *
      * @see #getMinSelectionIndex
      * @see #getModel
      * @see #addListSelectionListener
@@ -621,8 +599,8 @@ public class CheckBoxList extends JList {
      * Selects the specified object from the list and clear all other selections.
      *
      * @param anObject     the object to select
-     * @param shouldScroll true if the list should scroll to display the selected object, if one
-     *                     exists; otherwise false
+     * @param shouldScroll true if the list should scroll to display the selected object, if one exists; otherwise
+     *                     false
      */
     public void setCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
         if (anObject == null)
@@ -647,8 +625,8 @@ public class CheckBoxList extends JList {
      * Selects the specified object from the list and keep all previous selections.
      *
      * @param anObject     the object to be selected
-     * @param shouldScroll true if the list should scroll to display the selected object, if one
-     *                     exists; otherwise false
+     * @param shouldScroll true if the list should scroll to display the selected object, if one exists; otherwise
+     *                     false
      */
     public void addCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
         if (anObject != null) {
@@ -695,8 +673,8 @@ public class CheckBoxList extends JList {
      * Deselects the specified object from the list.
      *
      * @param anObject     the object to select
-     * @param shouldScroll true if the list should scroll to display the selected object, if one
-     *                     exists; otherwise false
+     * @param shouldScroll true if the list should scroll to display the selected object, if one exists; otherwise
+     *                     false
      */
     public void removeCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
         if (anObject != null) {
