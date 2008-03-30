@@ -169,31 +169,33 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int lineHeight = 0;
-        for (int i = _styledTexts.size() - 1; i >= 0; i--) {
-            StyledText styledText = _styledTexts.get(i);
-            StyleRange style = styledText.styleRange;
-            float size = (style != null &&
-                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
-            font = label.getFont();
-            if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
-                fm2 = label.getFontMetrics(font);
-                width += fm2.stringWidth((_styledTexts.get(i)).text);
-            }
-            else {
-                fm2 = fm;
-                width += fm.stringWidth((_styledTexts.get(i)).text);
-            }
+        synchronized (_styledTexts) {
+            for (int i = _styledTexts.size() - 1; i >= 0; i--) {
+                StyledText styledText = _styledTexts.get(i);
+                StyleRange style = styledText.styleRange;
+                float size = (style != null &&
+                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
+                font = label.getFont();
+                if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                    font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    fm2 = label.getFontMetrics(font);
+                    width += fm2.stringWidth((_styledTexts.get(i)).text);
+                }
+                else {
+                    fm2 = fm;
+                    width += fm.stringWidth((_styledTexts.get(i)).text);
+                }
 
-            if (style != null) {
-                if (style.isUnderlined() && lineHeight < 2) {
-                    lineHeight = 2;
-                }
-                if (style.isDotted() && lineHeight < 3) {
-                    lineHeight = 3;
-                }
-                if (style.isWaved() && lineHeight < 4) {
-                    lineHeight = 4;
+                if (style != null) {
+                    if (style.isUnderlined() && lineHeight < 2) {
+                        lineHeight = 2;
+                    }
+                    if (style.isDotted() && lineHeight < 3) {
+                        lineHeight = 3;
+                    }
+                    if (style.isWaved() && lineHeight < 4) {
+                        lineHeight = 4;
+                    }
                 }
             }
         }
@@ -337,10 +339,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. The JComponents orientation (LEADING/TRAILING) will
-     * also be taken into account and translated into LEFT/RIGHT values accordingly.
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. The
+     * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
+     * accordingly.
      */
     public static String layoutCompoundLabel(JComponent c,
                                              FontMetrics fm,
@@ -401,11 +403,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
-     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. This
+     * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
+     * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
      */
     public static String layoutCompoundLabel(
@@ -429,11 +430,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
-     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. This
+     * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
+     * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
      */
     private static String layoutCompoundLabelImpl(
