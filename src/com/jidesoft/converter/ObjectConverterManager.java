@@ -7,16 +7,16 @@ package com.jidesoft.converter;
 
 import java.awt.*;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * A global object that can register converter with a type and a ConverterContext.
  * <p/>
- * <code>ObjectConverterManager</code> is used in many places in JIDE products. It is especially
- * used at JIDE Grids where <code>ContextSensitiveTableModel</code> adds cellClass and
- * converterContext to each cell in a table model. We use both values as the key to look up for the
- * <code>ObjectConverter</code> from <code>ObjectConverterManager</code>.
+ * <code>ObjectConverterManager</code> is used in many places in JIDE products. It is especially used at JIDE Grids
+ * where <code>ContextSensitiveTableModel</code> adds cellClass and converterContext to each cell in a table model. We
+ * use both values as the key to look up for the <code>ObjectConverter</code> from <code>ObjectConverterManager</code>.
  */
 public class ObjectConverterManager {
 
@@ -25,8 +25,7 @@ public class ObjectConverterManager {
     private static ObjectConverter _defaultConverter = new DefaultObjectConverter();
 
     /**
-     * Registers a converter with the type specified as class and a converter context specified as
-     * context.
+     * Registers a converter with the type specified as class and a converter context specified as context.
      *
      * @param clazz     the type of which the converter will registered.
      * @param converter the converter to be registered
@@ -97,7 +96,6 @@ public class ObjectConverterManager {
      *
      * @param clazz   the type of which the converter will be registered.
      * @param context the converter context.
-     *
      * @return the registered converter.
      */
     public static ObjectConverter getConverter(Class<?> clazz, ConverterContext context) {
@@ -122,7 +120,6 @@ public class ObjectConverterManager {
      * Gets the converter associated with the type.
      *
      * @param clazz type
-     *
      * @return the converter
      */
     public static ObjectConverter getConverter(Class<?> clazz) {
@@ -133,7 +130,6 @@ public class ObjectConverterManager {
      * Converts an object to string using default converter context.
      *
      * @param object object to be converted.
-     *
      * @return the string
      */
     public static String toString(Object object) {
@@ -148,7 +144,6 @@ public class ObjectConverterManager {
      *
      * @param object object to be converted.
      * @param clazz  type of the object
-     *
      * @return the string
      */
     public static String toString(Object object, Class<?> clazz) {
@@ -161,7 +156,6 @@ public class ObjectConverterManager {
      * @param object  object to be converted.
      * @param clazz   type of the object
      * @param context converter context
-     *
      * @return the string converted from object
      */
     public static String toString(Object object, Class<?> clazz, ConverterContext context) {
@@ -182,7 +176,6 @@ public class ObjectConverterManager {
      *
      * @param string the string to be converted
      * @param clazz  the type to be converted to
-     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz) {
@@ -195,7 +188,6 @@ public class ObjectConverterManager {
      * @param string  the string to be converted
      * @param clazz   the type to be converted to
      * @param context converter context to be used
-     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz, ConverterContext context) {
@@ -216,7 +208,6 @@ public class ObjectConverterManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
-     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -224,14 +215,13 @@ public class ObjectConverterManager {
     }
 
     /**
-     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods
-     * like as toString or fromString, {@link #initDefaultConverter()} will be called if it has
-     * never be called. By default, autoInit is true.
+     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods like as toString or
+     * fromString, {@link #initDefaultConverter()} will be called if it has never be called. By default, autoInit is
+     * true.
      * <p/>
-     * This might affect the behavior if users provide their own converters and want to overwrite
-     * default converters. In this case, instead of depending on autoInit to initialize default
-     * converters, you should call {@link #initDefaultConverter()} first, then call
-     * registerConverter to add your own converters.
+     * This might affect the behavior if users provide their own converters and want to overwrite default converters. In
+     * this case, instead of depending on autoInit to initialize default converters, you should call {@link
+     * #initDefaultConverter()} first, then call registerConverter to add your own converters.
      *
      * @param autoInit true or false.
      */
@@ -260,9 +250,8 @@ public class ObjectConverterManager {
     /**
      * Returns an array of all the registration listeners registered on this manager.
      *
-     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no
-     *         registration listeners are currently registered
-     *
+     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
+     *         listeners are currently registered
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -274,7 +263,6 @@ public class ObjectConverterManager {
      * Gets the available ConverterContexts registered with the class.
      *
      * @param clazz the class.
-     *
      * @return the available ConverterContexts.
      */
     public static ConverterContext[] getConverterContexts(Class<?> clazz) {
@@ -282,30 +270,27 @@ public class ObjectConverterManager {
     }
 
     /**
-     * Initialize default converters. Please make sure you call this method before you use any
-     * converter related classes. By default we register following converters. <ul> <li>
-     * registerConverter(String.class, new DefaultObjectConverter()); <li>
-     * registerConverter(Integer.class, new IntegerConverter()); <li> registerConverter(int.class,
-     * new IntegerConverter()); <li> registerConverter(Integer.class, new NaturalNumberConverter(),
-     * NaturalNumberConverter.CONTEXT); <li> registerConverter(int.class, new
-     * NaturalNumberConverter(), NaturalNumberConverter.CONTEXT); <li> registerConverter(Long.class,
-     * new LongConverter()); <li> registerConverter(long.class, new LongConverter()); <li>
-     * registerConverter(Double.class, new DoubleConverter()); <li> registerConverter(double.class,
-     * new DoubleConverter()); <li> registerConverter(Float.class, new FloatConverter()); <li>
-     * registerConverter(float.class, new FloatConverter()); <li> registerConverter(Short.class, new
-     * ShortConverter()); <li> registerConverter(short.class, new ShortConverter()); <li>
-     * registerConverter(Rectangle.class, new RectangleConverter()); <li>
-     * registerConverter(Point.class, new PointConverter()); <li> registerConverter(Insets.class,
-     * new InsetsConverter()); <li> registerConverter(Dimension.class, new DimensionConverter());
-     * <li> registerConverter(Boolean.class, new BooleanConverter()); <li>
-     * registerConverter(boolean.class, new BooleanConverter()); <li> registerConverter(File.class,
-     * new FileConverter()); <li> registerConverter(String.class, new FontNameConverter(),
-     * FontNameConverter.CONTEXT); <li> registerConverter(Date.class, new DateConverter()); <li>
-     * registerConverter(Calendar.class, new CalendarConverter()); <li>
-     * registerConverter(Calendar.class, new MonthConverter(), MonthConverter.CONTEXT_MONTH); <li>
-     * registerConverter(Color.class, new RgbColorConverter()); <li> registerConverter(Color.class,
-     * new HexColorConverter(), ColorConverter.CONTEXT_HEX); <li> registerConverter(String[].class,
-     * new StringArrayConverter()); </ul>
+     * Initialize default converters. Please make sure you call this method before you use any converter related
+     * classes. By default we register following converters. <ul> <li> registerConverter(String.class, new
+     * DefaultObjectConverter()); <li> registerConverter(Integer.class, new IntegerConverter()); <li>
+     * registerConverter(int.class, new IntegerConverter()); <li> registerConverter(Integer.class, new
+     * NaturalNumberConverter(), NaturalNumberConverter.CONTEXT); <li> registerConverter(int.class, new
+     * NaturalNumberConverter(), NaturalNumberConverter.CONTEXT); <li> registerConverter(Long.class, new
+     * LongConverter()); <li> registerConverter(long.class, new LongConverter()); <li> registerConverter(Double.class,
+     * new DoubleConverter()); <li> registerConverter(double.class, new DoubleConverter()); <li>
+     * registerConverter(Float.class, new FloatConverter()); <li> registerConverter(float.class, new FloatConverter());
+     * <li> registerConverter(Short.class, new ShortConverter()); <li> registerConverter(short.class, new
+     * ShortConverter()); <li> registerConverter(Rectangle.class, new RectangleConverter()); <li>
+     * registerConverter(Point.class, new PointConverter()); <li> registerConverter(Insets.class, new
+     * InsetsConverter()); <li> registerConverter(Dimension.class, new DimensionConverter()); <li>
+     * registerConverter(Boolean.class, new BooleanConverter()); <li> registerConverter(boolean.class, new
+     * BooleanConverter()); <li> registerConverter(File.class, new FileConverter()); <li>
+     * registerConverter(String.class, new FontNameConverter(), FontNameConverter.CONTEXT); <li>
+     * registerConverter(Date.class, new DateConverter()); <li> registerConverter(Calendar.class, new
+     * CalendarConverter()); <li> registerConverter(Calendar.class, new MonthConverter(), MonthConverter.CONTEXT_MONTH);
+     * <li> registerConverter(Color.class, new RgbColorConverter()); <li> registerConverter(Color.class, new
+     * HexColorConverter(), ColorConverter.CONTEXT_HEX); <li> registerConverter(String[].class, new
+     * StringArrayConverter()); </ul>
      */
     public static void initDefaultConverter() {
         if (_inited) {
@@ -403,6 +388,8 @@ public class ObjectConverterManager {
             ObjectConverterManager.registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
             registerConverter(Object[].class, new DefaultArrayConverter("; ", Object.class));
             registerConverter(String[].class, new DefaultArrayConverter("; ", String.class));
+
+            registerConverter(BigDecimal.class, new BigDecimalConverter());
         }
         finally {
             _initing = false;
@@ -412,10 +399,9 @@ public class ObjectConverterManager {
     }
 
     /**
-     * If {@link #initDefaultConverter()} is called once, calling it again will have no effect
-     * because an internal flag is set. This method will reset the internal flag so that you can
-     * call  {@link #initDefaultConverter()} in case you unresgister all converters using {@link
-     * #unregisterAllConverters()}.
+     * If {@link #initDefaultConverter()} is called once, calling it again will have no effect because an internal flag
+     * is set. This method will reset the internal flag so that you can call  {@link #initDefaultConverter()} in case
+     * you unresgister all converters using {@link #unregisterAllConverters()}.
      */
     public static void resetInit() {
         _inited = false;

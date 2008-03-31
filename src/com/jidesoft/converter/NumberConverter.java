@@ -11,9 +11,8 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- * Converter which converts Number to String and converts it back. You can pass in a NumberFormat as
- * UserObject of ConverterContext if you want to control the format of the number such as maximum
- * decimal point etc.
+ * Converter which converts Number to String and converts it back. You can pass in a NumberFormat as UserObject of
+ * ConverterContext if you want to control the format of the number such as maximum decimal point etc.
  */
 abstract public class NumberConverter implements ObjectConverter {
     private NumberFormat _numberFormat;
@@ -37,7 +36,12 @@ abstract public class NumberConverter implements ObjectConverter {
         // format on userOjbect has a higher priority.
         try {
             if (context == null || context.getUserObject() == null || !(context.getUserObject() instanceof NumberFormat)) {
-                return getNumberFormat().format(object);
+                if (object instanceof Number && ((Number) object).doubleValue() == Double.NaN) {
+                    return "";
+                }
+                else {
+                    return getNumberFormat().format(object);
+                }
             }
             else {
                 NumberFormat format = (NumberFormat) context.getUserObject();
@@ -58,8 +62,7 @@ abstract public class NumberConverter implements ObjectConverter {
     }
 
     /**
-     * Gets the NumberFormat. Of setNumberFormat is never called, it will return
-     * DecimalFormat.getInstance().
+     * Gets the NumberFormat. Of setNumberFormat is never called, it will return DecimalFormat.getInstance().
      *
      * @return the NumberFormat.
      */
@@ -83,11 +86,10 @@ abstract public class NumberConverter implements ObjectConverter {
     }
 
     /**
-     * Parse the string as number. It will try using getNumberFormat first then try
-     * getDefaultNumberFormat which is the US locale number format.
+     * Parse the string as number. It will try using getNumberFormat first then try getDefaultNumberFormat which is the
+     * US locale number format.
      *
      * @param string the string
-     *
      * @return the Number. Null if the string is not a number.
      */
     protected Number parseNumber(String string) {
@@ -118,9 +120,9 @@ abstract public class NumberConverter implements ObjectConverter {
     }
 
     /**
-     * Sets if the grouping will be used for the NumberFormat. We will call
-     * NumberFormat#setGroupingUsed when we create the NumberFormat. Default is true. If you want to
-     * call this method, please make sure calling it before ObjectConverterManager is used.
+     * Sets if the grouping will be used for the NumberFormat. We will call NumberFormat#setGroupingUsed when we create
+     * the NumberFormat. Default is true. If you want to call this method, please make sure calling it before
+     * ObjectConverterManager is used.
      *
      * @param groupingUsed true or false.
      */
