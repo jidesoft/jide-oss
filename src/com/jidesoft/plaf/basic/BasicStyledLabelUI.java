@@ -169,33 +169,32 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int lineHeight = 0;
-        synchronized (_styledTexts) {
-            for (int i = _styledTexts.size() - 1; i >= 0; i--) {
-                StyledText styledText = _styledTexts.get(i);
-                StyleRange style = styledText.styleRange;
-                float size = (style != null &&
-                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
-                font = label.getFont();
-                if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                    font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
-                    fm2 = label.getFontMetrics(font);
-                    width += fm2.stringWidth((_styledTexts.get(i)).text);
-                }
-                else {
-                    fm2 = fm;
-                    width += fm.stringWidth((_styledTexts.get(i)).text);
-                }
+        StyledText[] texts = _styledTexts.toArray(new StyledText[_styledTexts.size()]);
+        for (int i = texts.length - 1; i >= 0; i--) {
+            StyledText styledText = texts[i];
+            StyleRange style = styledText.styleRange;
+            float size = (style != null &&
+                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
+            font = label.getFont();
+            if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                fm2 = label.getFontMetrics(font);
+                width += fm2.stringWidth(styledText.text);
+            }
+            else {
+                fm2 = fm;
+                width += fm.stringWidth(styledText.text);
+            }
 
-                if (style != null) {
-                    if (style.isUnderlined() && lineHeight < 2) {
-                        lineHeight = 2;
-                    }
-                    if (style.isDotted() && lineHeight < 3) {
-                        lineHeight = 3;
-                    }
-                    if (style.isWaved() && lineHeight < 4) {
-                        lineHeight = 4;
-                    }
+            if (style != null) {
+                if (style.isUnderlined() && lineHeight < 2) {
+                    lineHeight = 2;
+                }
+                if (style.isDotted() && lineHeight < 3) {
+                    lineHeight = 3;
+                }
+                if (style.isWaved() && lineHeight < 4) {
+                    lineHeight = 4;
                 }
             }
         }
