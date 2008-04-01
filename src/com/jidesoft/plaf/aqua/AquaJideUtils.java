@@ -361,7 +361,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             final int collapsiblePaneSize = 12;
 
             uiDefaults = new Object[]{
-                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
+                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 15,
 
                     "CollapsiblePane.background", UIDefaultsLookup.getColor("InternalFrame.inactiveTitleBackground"),

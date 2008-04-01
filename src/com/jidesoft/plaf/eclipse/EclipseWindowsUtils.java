@@ -418,7 +418,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             final int collapsiblePaneSize = 11;
 
             uiDefaults = new Object[]{
-                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
+                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 15,
 
                     "CollapsiblePane.background", defaultBackgroundColor,

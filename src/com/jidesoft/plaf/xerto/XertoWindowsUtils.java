@@ -30,8 +30,8 @@ import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for
- * WindowsLookAndFeel. Xerto Style is designed by Xerto at http://www.xerto.com.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for WindowsLookAndFeel.
+ * Xerto Style is designed by Xerto at http://www.xerto.com.
  */
 public class XertoWindowsUtils extends Office2003WindowsUtils {
 
@@ -606,7 +606,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
             uiDefaults = new Object[]{
                     // components
-                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
+                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 5,
 
                     "CollapsiblePane.background", collapsiblePaneBackground,

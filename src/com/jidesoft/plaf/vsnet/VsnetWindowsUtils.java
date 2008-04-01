@@ -28,8 +28,7 @@ import java.awt.*;
 import java.beans.Beans;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for
- * WindowsLookAndFeel.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for WindowsLookAndFeel.
  */
 public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
@@ -443,7 +442,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
             uiDefaults = new Object[]{
                     // components
-                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 0, 12)),
+                    "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 15,
 
                     "CollapsiblePane.background", Color.BLACK.equals(defaultBackgroundColor.createValue(table)) ? defaultLtHighlightColor : defaultBackgroundColor,
