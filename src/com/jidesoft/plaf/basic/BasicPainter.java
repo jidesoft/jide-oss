@@ -13,8 +13,8 @@ import java.awt.*;
 /**
  * Painter for JIDE styles.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes
- * only. Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class BasicPainter implements SwingConstants, ThemePainter {
     private static BasicPainter _instance;
@@ -496,21 +496,30 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         else {
             g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.background"));
         }
-        g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+        switch (orientation) {
+            case SwingConstants.EAST:
+                g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1);
+                break;
+            case SwingConstants.WEST:
+                g.drawLine(rect.x, rect.y, rect.x, rect.y + rect.height - 1);
+                break;
+            case SwingConstants.NORTH:
+                g.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y);
+            case SwingConstants.SOUTH:
+            default:
+                g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+                break;
+        }
     }
 
     public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         g.setColor(UIManager.getColor("CollapsiblePane.emphasizedBackground"));
         g.fillRect(rect.x, rect.y, rect.x + rect.width, rect.height);
-        g.setColor(UIManager.getColor("controlShadow"));
-        g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
     }
 
     public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         g.setColor(UIManager.getColor("CollapsiblePane.background"));
         g.fillRect(rect.x, rect.y, rect.x + rect.width, rect.height);
-        g.setColor(UIManager.getColor("controlShadow"));
-        g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
     }
 
     public Color getColor(Object key) {

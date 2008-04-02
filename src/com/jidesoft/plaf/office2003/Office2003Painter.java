@@ -24,8 +24,8 @@ import java.util.TreeMap;
 /**
  * Painter for Office2003 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes
- * only. Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class Office2003Painter extends BasicPainter {
 
@@ -945,6 +945,62 @@ public class Office2003Painter extends BasicPainter {
                 orientation == SwingConstants.HORIZONTAL);
     }
 
+    private void paintCollapsiblePaneTitlePane(Graphics2D g2d, Color colorLt, Color colorDk, int orientation, Rectangle rect) {
+        Color old = g2d.getColor();
+        g2d.setColor(colorLt);
+        switch (orientation) {
+            case SwingConstants.EAST:
+                g2d.drawLine(rect.x + 2, rect.y, rect.x + rect.width - 1, rect.y);
+                g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 1, rect.y + 1);
+                JideSwingUtilities.fillGradient(g2d,
+                        new Rectangle(rect.x, rect.y + 2, rect.width, rect.height - 4),
+                        colorLt,
+                        colorDk,
+                        false);
+                g2d.setColor(colorDk);
+                g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 1, rect.y + rect.height - 2);
+                g2d.drawLine(rect.x + 2, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
+                break;
+            case SwingConstants.WEST:
+                g2d.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
+                g2d.drawLine(rect.x, rect.y + 1, rect.x + rect.width - 1, rect.y + 1);
+                JideSwingUtilities.fillGradient(g2d,
+                        new Rectangle(rect.x, rect.y + 2, rect.width, rect.height - 4),
+                        colorLt,
+                        colorDk,
+                        false);
+                g2d.setColor(colorDk);
+                g2d.drawLine(rect.x, rect.y + rect.height - 2, rect.x + rect.width - 1, rect.y + rect.height - 2);
+                g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
+                break;
+            case SwingConstants.NORTH:
+                g2d.drawLine(rect.x, rect.y, rect.x, rect.y + rect.height - 2);
+                g2d.drawLine(rect.x + 1, rect.y, rect.x + 1, rect.y + rect.height - 1);
+                JideSwingUtilities.fillGradient(g2d,
+                        new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
+                        colorLt,
+                        colorDk,
+                        true);
+                g2d.setColor(colorDk);
+                g2d.drawLine(rect.x + rect.width - 2, rect.y, rect.x + rect.width - 2, rect.y + rect.height - 1);
+                g2d.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 2);
+                break;
+            case SwingConstants.SOUTH:
+                g2d.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
+                g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);
+                JideSwingUtilities.fillGradient(g2d,
+                        new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
+                        colorLt,
+                        colorDk,
+                        true);
+                g2d.setColor(colorDk);
+                g2d.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
+                g2d.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
+                break;
+        }
+        g2d.setColor(old);
+    }
+
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
@@ -959,20 +1015,9 @@ public class Office2003Painter extends BasicPainter {
             colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
             colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
         }
-        Color old = g.getColor();
-        g.setColor(colorLt);
-        g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
-        g.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);
-        JideSwingUtilities.fillGradient(g2d,
-                new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
-                colorLt,
-                colorDk,
-                orientation == SwingConstants.VERTICAL);
-        g.setColor(colorDk);
-        g.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
-        g.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
-        g.setColor(old);
+        paintCollapsiblePaneTitlePane(g2d, colorLt, colorDk, orientation, rect);
     }
+
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -988,17 +1033,7 @@ public class Office2003Painter extends BasicPainter {
             colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
             colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
         }
-        g.setColor(colorLt);
-        g.drawLine(rect.x, rect.y + 2, rect.x, rect.y + rect.height - 1);
-        g.drawLine(rect.x + 1, rect.y + 1, rect.x + 1, rect.y + rect.height - 1);
-        JideSwingUtilities.fillGradient(g2d,
-                new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
-                colorLt,
-                colorDk,
-                orientation == SwingConstants.VERTICAL);
-        g.setColor(colorDk);
-        g.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
-        g.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
+        paintCollapsiblePaneTitlePane(g2d, colorLt, colorDk, orientation, rect);
     }
 
     @Override
@@ -1021,28 +1056,44 @@ public class Office2003Painter extends BasicPainter {
 
     }
 
+    private void paintCollapsiblePaneTitlePanePlain(Graphics2D g2d, Color colorDk, Color colorLt, int orientation, Rectangle rect) {
+        Rectangle rectangle;
+        switch (orientation) {
+            case SwingConstants.EAST:
+                rectangle = new Rectangle(rect.x + rect.width - 1, rect.y, 1, rect.height);
+                break;
+            case SwingConstants.WEST:
+                rectangle = new Rectangle(rect.x, rect.y, 1, rect.height);
+                break;
+            case SwingConstants.NORTH:
+                rectangle = new Rectangle(rect.x, rect.y, rect.width, 1);
+                break;
+            case SwingConstants.SOUTH:
+            default:
+                rectangle = new Rectangle(rect.x, rect.y + rect.height - 1, rect.width, 1);
+                break;
+        }
+        JideSwingUtilities.fillGradient(g2d, rectangle,
+                colorLt,
+                colorDk,
+                orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH);
+    }
+
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
         Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
-        JideSwingUtilities.fillGradient(g2d,
-                new Rectangle(rect.x, rect.y + rect.height - 1, rect.width, 1),
-                colorLt,
-                colorDk,
-                orientation == SwingConstants.HORIZONTAL);
+        paintCollapsiblePaneTitlePanePlain(g2d, colorDk, colorLt, orientation, rect);
     }
+
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
         Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
-        JideSwingUtilities.fillGradient(g2d,
-                new Rectangle(rect.x, rect.y + rect.height - 1, rect.width, 1),
-                colorLt,
-                colorDk,
-                orientation == SwingConstants.HORIZONTAL);
+        paintCollapsiblePaneTitlePanePlain(g2d, colorDk, colorLt, orientation, rect);
     }
 
     @Override
@@ -1054,9 +1105,7 @@ public class Office2003Painter extends BasicPainter {
                 new Rectangle(rect.x, rect.y, rect.width, rect.height),
                 colorDk,
                 colorLt,
-                orientation == SwingConstants.HORIZONTAL);
-        g2d.setColor(getCurrentTheme().getColor("controlLt"));
-        g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+                orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH);
     }
 
     @Override
@@ -1068,8 +1117,6 @@ public class Office2003Painter extends BasicPainter {
                 new Rectangle(rect.x, rect.y, rect.width, rect.height),
                 colorLt,
                 colorDk,
-                orientation == SwingConstants.HORIZONTAL);
-        g2d.setColor(getCurrentTheme().getColor("controlShadow"));
-        g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+                orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH);
     }
 }
