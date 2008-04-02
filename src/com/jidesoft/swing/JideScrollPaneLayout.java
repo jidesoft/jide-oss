@@ -676,13 +676,13 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         Rectangle vsbR = new Rectangle(0, isVsbCoversWholeHeight(scrollPane) ? -vpbInsets.top : availR.y - vpbInsets.top, 0, 0);
 
         boolean vsbNeeded;
-        if (isEmpty) {
-            vsbNeeded = false;
-        }
-        else if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
+        if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
             vsbNeeded = true;
         }
         else if (vsbPolicy == VERTICAL_SCROLLBAR_NEVER) {
+            vsbNeeded = false;
+        }
+        else if (isEmpty) {
             vsbNeeded = false;
         }
         else {  // vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED
@@ -702,13 +702,13 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
         Rectangle hsbR = new Rectangle(isHsbCoversWholeWidth(scrollPane) ? -vpbInsets.left : availR.x - vpbInsets.left, 0, 0, 0);
         boolean hsbNeeded;
-        if (isEmpty) {
-            hsbNeeded = false;
-        }
-        else if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
+        if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
             hsbNeeded = true;
         }
         else if (hsbPolicy == HORIZONTAL_SCROLLBAR_NEVER) {
+            hsbNeeded = false;
+        }
+        else if (isEmpty) {
             hsbNeeded = false;
         }
         else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
