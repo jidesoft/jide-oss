@@ -3,6 +3,10 @@ package com.jidesoft.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A collection of several util methods related to Math. We only used it in DefaultSummaryCalculator in JIDE Pivot Grid
+ * to calculate statistics but this class will be reserved as a place holder for methods related to Math.
+ */
 public final class MathUtils {
     protected MathUtils() {
     }
