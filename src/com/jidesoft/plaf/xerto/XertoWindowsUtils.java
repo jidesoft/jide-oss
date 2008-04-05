@@ -691,7 +691,6 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
-                    // grid
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{

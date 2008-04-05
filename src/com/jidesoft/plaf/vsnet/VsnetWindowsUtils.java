@@ -527,7 +527,6 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_GRIDS) != 0) {
             uiDefaults = new Object[]{
-                    // grid
                     "AbstractComboBox.useJButton", Boolean.FALSE,
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 

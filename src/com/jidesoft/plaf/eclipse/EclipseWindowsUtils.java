@@ -501,6 +501,11 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             uiDefaults = new Object[]{
                     "AbstractComboBox.useJButton", Boolean.FALSE,
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
+
+                    "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }
