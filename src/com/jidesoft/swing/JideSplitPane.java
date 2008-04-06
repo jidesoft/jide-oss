@@ -19,8 +19,7 @@ import java.util.Arrays;
  * <code>JideSplitPane</code> is used to divide multiple <code>Component</code>s.
  * <p/>
  * These <code>Component</code>s in a split pane can be aligned left to right using
- * <code>JideSplitPane.HORIZONTAL_SPLIT</code>, or top to bottom using
- * <code>JideSplitPane.VERTICAL_SPLIT</code>.
+ * <code>JideSplitPane.HORIZONTAL_SPLIT</code>, or top to bottom using <code>JideSplitPane.VERTICAL_SPLIT</code>.
  */
 public class JideSplitPane extends JPanel implements ContainerListener, ComponentListener, Accessible {
 
@@ -31,14 +30,14 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             "nonContinuousDivider";
 
     /**
-     * Vertical split indicates the <code>Component</code>s are split along the y axis.  For example
-     * the two or more <code>Component</code>s will be split one on top of the other.
+     * Vertical split indicates the <code>Component</code>s are split along the y axis.  For example the two or more
+     * <code>Component</code>s will be split one on top of the other.
      */
     public final static int VERTICAL_SPLIT = 0;
 
     /**
-     * Horizontal split indicates the <code>Component</code>s are split along the x axis.  For
-     * example the two or more <code>Component</code>s will be split one to the left of the other.
+     * Horizontal split indicates the <code>Component</code>s are split along the x axis.  For example the two or more
+     * <code>Component</code>s will be split one to the left of the other.
      */
     public final static int HORIZONTAL_SPLIT = 1;
 
@@ -88,9 +87,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
     /**
      * Size of the divider. All dividers have the same size. If <code>orientation</code> is
-     * <code>HORIZONTAL_SPLIT</code>, the size will equal to the width of the divider If
-     * <code>orientation</code> is <code>VERTICAL_SPLIT</code>, the size will equal to the height of
-     * the divider.
+     * <code>HORIZONTAL_SPLIT</code>, the size will equal to the width of the divider If <code>orientation</code> is
+     * <code>VERTICAL_SPLIT</code>, the size will equal to the height of the divider.
      */
     private int _dividerSize = UIDefaultsLookup.getInt("JideSplitPane.dividerSize");
 
@@ -112,8 +110,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     private Container _layeredPane;
 
     /**
-     * If the gripper should be shown. Gripper is something on divider to indicate it can be
-     * dragged.
+     * If the gripper should be shown. Gripper is something on divider to indicate it can be dragged.
      */
     private boolean _showGripper = false;
 
@@ -123,15 +120,14 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     private boolean _proportionalLayout = false;
 
     /**
-     * An array of the proportions to assign to the widths or heights of the contained panes.  Has
-     * one fewer elements than there are contained panes; the last pane receives the remaining
-     * room.
+     * An array of the proportions to assign to the widths or heights of the contained panes.  Has one fewer elements
+     * than there are contained panes; the last pane receives the remaining room.
      */
     private double[] _proportions;
 
     /**
-     * For proportional layouts only, when this flag is true the initial layout uses even
-     * proportions for the contained panes, unless the proportions are explicitly set.
+     * For proportional layouts only, when this flag is true the initial layout uses even proportions for the contained
+     * panes, unless the proportions are explicitly set.
      */
     private boolean _initiallyEven = true;
 
@@ -139,8 +135,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     public WindowAdapter _windowDeactivatedListener;
 
     /**
-     * Creates a new <code>JideSplitPane</code> configured to arrange the child components
-     * side-by-side horizontally.
+     * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
      */
     public JideSplitPane() {
         this(JideSplitPane.HORIZONTAL_SPLIT);
@@ -151,9 +146,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Creates a new <code>JideSplitPane</code> configured with the specified orientation.
      *
      * @param newOrientation <code>JideSplitPane.HORIZONTAL_SPLIT</code> or <code>JideSplitPane.VERTICAL_SPLIT</code>
-     *
-     * @throws IllegalArgumentException if <code>orientation</code> is not one of HORIZONTAL_SPLIT
-     *                                  or VERTICAL_SPLIT.
+     * @throws IllegalArgumentException if <code>orientation</code> is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
      */
     public JideSplitPane(int newOrientation) {
         super();
@@ -207,14 +200,24 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             }
             if (index < 0 || (index + 1) << 1 >= _componentSizes.length)
                 return -1;
+
+            boolean ltr = getComponentOrientation().isLeftToRight();
+            boolean reversed = !ltr && getOrientation() == JideSplitPane.HORIZONTAL_SPLIT;
+
             int location = 0;
-            for (int i = 0; i < (index << 1) + 1; i++)
-                location += _componentSizes[i];
+            if (reversed) {
+                for (int i = _componentSizes.length - 1; i >= (index * 2) + 1; i--)
+                    location += _componentSizes[i];
+            }
+            else {
+                for (int i = 0; i < (index * 2) + 1; i++)
+                    location += _componentSizes[i];
+            }
 
             Insets insets = getInsets();
             if (insets != null) {
                 if (getOrientation() == HORIZONTAL_SPLIT) {
-                    location += insets.left;
+                    location += reversed ? insets.right : insets.left;
                 }
                 else {
                     location += insets.top;
@@ -228,23 +231,48 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             int oldLocation = getDividerLocation(index);
             if (oldLocation == -1 || oldLocation == location)
                 return;
-            int prevIndex = 2 * index;
-            int nextIndex = 2 * index + 2;
-            for (int i = prevIndex; i >= 0; i--) {
-                if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                    break;
+            boolean ltr = getComponentOrientation().isLeftToRight();
+            boolean reversed = !ltr && getOrientation() == JideSplitPane.HORIZONTAL_SPLIT;
+            int prevIndex;
+            int nextIndex;
+            if (reversed) {
+                prevIndex = 2 * index + 2;
+                nextIndex = 2 * index;
+                for (int i = nextIndex; i >= 0; i--) {
+                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
+                        break;
+                    }
+                    nextIndex--;
                 }
-                prevIndex--;
-            }
-            for (int i = nextIndex; i < _target.getComponentCount(); i++) {
-                if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                    break;
+                for (int i = prevIndex; i < _target.getComponentCount(); i++) {
+                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
+                        break;
+                    }
+                    prevIndex++;
                 }
-                nextIndex++;
-            }
 
-            if (prevIndex < 0 || nextIndex >= _componentSizes.length) {
-                return;
+                if (nextIndex < 0 || prevIndex >= _componentSizes.length) {
+                    return;
+                }
+            }
+            else {
+                prevIndex = 2 * index;
+                nextIndex = 2 * index + 2;
+                for (int i = prevIndex; i >= 0; i--) {
+                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
+                        break;
+                    }
+                    prevIndex--;
+                }
+                for (int i = nextIndex; i < _target.getComponentCount(); i++) {
+                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
+                        break;
+                    }
+                    nextIndex++;
+                }
+                if (prevIndex < 0 || nextIndex >= _componentSizes.length) {
+                    return;
+                }
             }
 
             _componentSizes[prevIndex] += location - oldLocation;
@@ -263,15 +291,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 if (comp2 instanceof JComponent) {
                     ((JComponent) comp2).setPreferredSize(new Dimension(_componentSizes[nextIndex], comp2.getPreferredSize().height));
                 }
-//                for (int i = 0; i < _target.getComponentCount(); i++) {
-//                    Component component = _target.getComponent(i);
-//                    if (component == comp1 || component == comp2 || !component.isVisible()) {
-//                        continue;
-//                    }
-//                    if (component instanceof JComponent) {
-//                        ((JComponent) component).setPreferredSize(new Dimension(component.getSize().width, component.getPreferredSize().height));
-//                    }
-//                }
             }
             else {
                 if (comp1 instanceof JComponent) {
@@ -280,21 +299,11 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 if (comp2 instanceof JComponent) {
                     ((JComponent) comp2).setPreferredSize(new Dimension(comp2.getPreferredSize().width, _componentSizes[nextIndex]));
                 }
-//                for (int i = 0; i < _target.getComponentCount(); i++) {
-//                    Component component = _target.getComponent(i);
-//                    if (component == comp1 || component == comp2 || !component.isVisible()) {
-//                        continue;
-//                    }
-//                    if (component instanceof JComponent) {
-//                        ((JComponent) component).setPreferredSize(new Dimension(component.getPreferredSize().width, component.getSize().height));
-//                    }
-//                }
             }
         }
 
         /**
-         * Uses the component sizes to generate a new array of proportions, and replaces the
-         * existing one.
+         * Uses the component sizes to generate a new array of proportions, and replaces the existing one.
          */
         private void replaceProportions() {
             setProportions(deduceProportions());
@@ -432,12 +441,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Inserts the specified pane to this container at the given position. Note: Divider is not
-     * counted.
+     * Inserts the specified pane to this container at the given position. Note: Divider is not counted.
      *
      * @param pane  the pane to be added
      * @param index the position at which to insert the component.
-     *
      * @return the component <code>pane</code>
      */
     public Component insertPane(Component pane, int index) {
@@ -445,13 +452,11 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Inserts the specified pane to this container at the given position. Note: Divider is not
-     * counted.
+     * Inserts the specified pane to this container at the given position. Note: Divider is not counted.
      *
      * @param pane       the pane to be added
      * @param constraint an object expressing layout constraints for this component
      * @param index      the position at which to insert the component.
-     *
      * @return the component <code>pane</code>
      */
     public Component insertPane(Component pane, Object constraint, int index) {
@@ -472,7 +477,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Adds the specified pane to this container at the end.
      *
      * @param pane the pane to be added
-     *
      * @return the pane <code>pane</code>
      */
     public Component addPane(Component pane) {
@@ -531,14 +535,12 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Sets the orientation, or how the splitter is divided. The options are:<ul>
-     * <li>JideSplitPane.VERTICAL_SPLIT  (above/below orientation of components)
-     * <li>JideSplitPane.HORIZONTAL_SPLIT  (left/right orientation of components) </ul>
+     * Sets the orientation, or how the splitter is divided. The options are:<ul> <li>JideSplitPane.VERTICAL_SPLIT
+     * (above/below orientation of components) <li>JideSplitPane.HORIZONTAL_SPLIT  (left/right orientation of
+     * components) </ul>
      *
      * @param orientation an integer specifying the orientation
-     *
-     * @throws IllegalArgumentException if orientation is not one of: HORIZONTAL_SPLIT or
-     *                                  VERTICAL_SPLIT.
+     * @throws IllegalArgumentException if orientation is not one of: HORIZONTAL_SPLIT or VERTICAL_SPLIT.
      */
     public void setOrientation(int orientation) {
         if ((orientation != VERTICAL_SPLIT) &&
@@ -576,7 +578,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the orientation.
      *
      * @return an integer giving the orientation
-     *
      * @see #setOrientation
      */
     public int getOrientation() {
@@ -584,17 +585,16 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Lays out the <code>JideSplitPane</code> layout based on the preferred size children
-     * components, or based on the proportions if proportional layout is on. This will likely result
-     * in changing the divider location.
+     * Lays out the <code>JideSplitPane</code> layout based on the preferred size children components, or based on the
+     * proportions if proportional layout is on. This will likely result in changing the divider location.
      */
     public void resetToPreferredSizes() {
         doLayout();
     }
 
     /**
-     * Sets this split pane to lay its constituents out proportionally if the given flag is true, or
-     * by preferred sizes otherwise.
+     * Sets this split pane to lay its constituents out proportionally if the given flag is true, or by preferred sizes
+     * otherwise.
      *
      * @param proportionalLayout true or false.
      */
@@ -618,11 +618,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Sets the proportions to use in laying out this split pane's children.  Only applicable when
-     * {@link #isProportionalLayout} is true; calling it when false will throw an exception.  The
-     * given array must either be null, or have one fewer slots than there are {@linkplain
-     * #getPaneCount() contained panes}.  Each item in the array (if not null) must be a number
-     * between 0 and 1, and the sum of all of them must be no more than 1.
+     * Sets the proportions to use in laying out this split pane's children.  Only applicable when {@link
+     * #isProportionalLayout} is true; calling it when false will throw an exception.  The given array must either be
+     * null, or have one fewer slots than there are {@linkplain #getPaneCount() contained panes}.  Each item in the
+     * array (if not null) must be a number between 0 and 1, and the sum of all of them must be no more than 1.
      *
      * @param proportions the proportions of all the panes.
      */
@@ -665,8 +664,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Returns the current array of proportions used for proportional layout, or null if none has
-     * been established via {@link #setProportions} or via user action.
+     * Returns the current array of proportions used for proportional layout, or null if none has been established via
+     * {@link #setProportions} or via user action.
      *
      * @return the proportions.
      */
@@ -678,8 +677,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Sets the flag telling whether to do even proportions for the initial proportional layout, in
-     * the absence of explicit proportions.
+     * Sets the flag telling whether to do even proportions for the initial proportional layout, in the absence of
+     * explicit proportions.
      *
      * @param initiallyEven true or false.
      */
@@ -688,8 +687,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Returns the flag that tells whether to do even proportions for the initial proportional
-     * layout, in the absence of explicit proportions.
+     * Returns the flag that tells whether to do even proportions for the initial proportional layout, in the absence of
+     * explicit proportions.
      *
      * @return ture or false.
      */
@@ -698,12 +697,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Returns true, so that calls to <code>revalidate</code> on any descendant of this
-     * <code>JideSplitPane</code> will cause a request to be queued that will validate the
-     * <code>JideSplitPane</code> and all its descendants.
+     * Returns true, so that calls to <code>revalidate</code> on any descendant of this <code>JideSplitPane</code> will
+     * cause a request to be queued that will validate the <code>JideSplitPane</code> and all its descendants.
      *
      * @return true
-     *
      * @see JComponent#revalidate
      */
     @Override
@@ -773,8 +770,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Drags divider to right location. If it's continous layout, really drag the divider; if not,
-     * only drag the shadow.
+     * Drags divider to right location. If it's continous layout, really drag the divider; if not, only drag the
+     * shadow.
      *
      * @param divider  the divider
      * @param location new location
@@ -819,11 +816,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Returns the index of the divider. For example, the index of the first divider is 0, the index
-     * of the second is 1. Notes: Pane is not counted
+     * Returns the index of the divider. For example, the index of the first divider is 0, the index of the second is 1.
+     * Notes: Pane is not counted
      *
      * @param divider divider to get index
-     *
      * @return index of the divider. -1 if comp doesn't exist in this container
      */
     public int indexOfDivider(JideSplitPaneDivider divider) {
@@ -839,11 +835,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Returns the index of the pane. For example, the index of the first pane is 0, the index of
-     * the second is 1. Notes: divider is not counted
+     * Returns the index of the pane. For example, the index of the first pane is 0, the index of the second is 1.
+     * Notes: divider is not counted
      *
      * @param pane pane to get index
-     *
      * @return index of the pane. -1 if comp doesn't exist in this container
      */
     public int indexOfPane(Component pane) {
@@ -862,7 +857,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the index of the component.
      *
      * @param comp component to get index
-     *
      * @return index of the comp. -1 if comp doesn't exist in this container
      */
     public int indexOf(Component comp) {
@@ -877,7 +871,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the divider at index.
      *
      * @param index index
-     *
      * @return the divider at the index
      */
     public JideSplitPaneDivider getDividerAt(int index) {
@@ -890,7 +883,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the component at index.
      *
      * @param index index
-     *
      * @return the component at the index
      */
     public Component getPaneAt(int index) {
@@ -919,9 +911,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Set the divider location. You can only call this method to set the divider location when the
-     * component is rendered on the screen. If the component has never been displayed before, this
-     * method call has no effect.
+     * Set the divider location. You can only call this method to set the divider location when the component is
+     * rendered on the screen. If the component has never been displayed before, this method call has no effect.
      *
      * @param dividerIndex the divider index, starting from 0 for the first divider.
      * @param location     new location
@@ -934,12 +925,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Get the divider location. You can only get a valid divider location when the component is
-     * displayed on the screen. If the component has never been displayed on screen, -1 will be
-     * returned.
+     * Get the divider location. You can only get a valid divider location when the component is displayed on the
+     * screen. If the component has never been displayed on screen, -1 will be returned.
      *
      * @param dividerIndex the divider index
-     *
      * @return the location of the divider.
      */
     public int getDividerLocation(int dividerIndex) {
@@ -947,8 +936,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Invoked when a component has been added to the container. Basically if you add anything which
-     * is not divider, a divider will automatically added before or after the component.
+     * Invoked when a component has been added to the container. Basically if you add anything which is not divider, a
+     * divider will automatically added before or after the component.
      *
      * @param e ContainerEvent
      */
@@ -962,9 +951,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Invoked when a component has been removed from the container. Basically if you remove
-     * anything which is not divider, a divider will automatically deleted before or after the
-     * component.
+     * Invoked when a component has been removed from the container. Basically if you remove anything which is not
+     * divider, a divider will automatically deleted before or after the component.
      *
      * @param e ContainerEvent
      */
@@ -1076,8 +1064,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Removes the proportion at the given pane index, spreading its value proportionally across the
-     * other proportions.  If it's the last proportion being removed, sets the proportions to null.
+     * Removes the proportion at the given pane index, spreading its value proportionally across the other proportions.
+     * If it's the last proportion being removed, sets the proportions to null.
      *
      * @param paneIndex the pane index.
      */
@@ -1127,8 +1115,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Adds a proportion at the given pane index, taking a proportional amount from each of the
-     * existing proportions.
+     * Adds a proportion at the given pane index, taking a proportional amount from each of the existing proportions.
      *
      * @param paneIndex the pane index.
      */
@@ -1203,60 +1190,95 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Get previous divider's, if any, location from current divider. If there is no previous
-     * divider, return 0.
+     * Get previous divider's, if any, location from current divider. If there is no previous divider, return 0.
      *
      * @param divider          the divider
      * @param ignoreVisibility true to not check if the pane is visible.
-     *
      * @return the location of previous divider if any
      */
-    protected int getPreviousDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility) {
+    protected int getPreviousDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
         int index = indexOfDivider(divider);
-        if (index <= 0)
-            return 0;
-        else {
-            for (int i = index - 1; i >= 0; i--) {
-                if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                    if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
-                        return getDividerAt(i).getBounds().x + getDividerSize();
-                    }
-                    else {
-                        return getDividerAt(i).getBounds().y + getDividerSize();
+        int location = -1;
+        if (reversed) {
+            if (((index + 1) * 2) + 1 <= getComponentCount()) {
+                for (int i = index + 1; (i * 2) + 1 < getComponentCount(); i++) {
+                    if (ignoreVisibility || getDividerAt(i).isVisible()) {
+                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                            location = getDividerAt(i).getBounds().x;
+                        }
+                        else {
+                            location = getDividerAt(i).getBounds().y;
+                        }
                     }
                 }
             }
-            return 0;
         }
+        else {
+            if (index > 0) {
+                for (int i = index - 1; i >= 0; i--) {
+                    if (ignoreVisibility || getDividerAt(i).isVisible()) {
+                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                            location = getDividerAt(i).getBounds().x;
+                        }
+                        else {
+                            location = getDividerAt(i).getBounds().y;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (location != -1) {
+            return location + getDividerSize();
+        }
+
+        return 0;
     }
 
     /**
-     * Get previous divider's, if any, location from current divider. If there is no previous
-     * divider, return 0.
+     * Get previous divider's, if any, location from current divider. If there is no previous divider, return 0.
      *
      * @param divider          the divider
      * @param ignoreVisibility true to not check if the pane is visible.
-     *
      * @return the location of next divider if any
      */
-    protected int getNextDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility) {
+    protected int getNextDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
         int index = indexOfDivider(divider);
-        if (((index + 1) * 2) + 1 > getComponentCount())
-            return getOrientation() == HORIZONTAL_SPLIT ? getWidth() : getHeight();
-        else {
-            for (int i = index + 1; (i * 2) + 1 < getComponentCount(); i++) {
-                if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                    if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
-                        return getDividerAt(i).getBounds().x - getDividerSize();
-                    }
-                    else {
-                        return getDividerAt(i).getBounds().y - getDividerSize();
+        int location = -1;
+        if (!reversed) {
+            if (((index + 1) * 2) + 1 <= getComponentCount()) {
+                for (int i = index + 1; (i * 2) + 1 < getComponentCount(); i++) {
+                    if (ignoreVisibility || getDividerAt(i).isVisible()) {
+                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                            location = getDividerAt(i).getBounds().x;
+                        }
+                        else {
+                            location = getDividerAt(i).getBounds().y;
+                        }
                     }
                 }
             }
-
-            return getOrientation() == HORIZONTAL_SPLIT ? getWidth() : getHeight();
         }
+        else {
+            if (index > 0) {
+                for (int i = index - 1; i >= 0; i--) {
+                    if (ignoreVisibility || getDividerAt(i).isVisible()) {
+                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                            location = getDividerAt(i).getBounds().x;
+                        }
+                        else {
+                            location = getDividerAt(i).getBounds().y;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (location != -1) {
+            return location - getDividerSize();
+        }
+
+        return getOrientation() == HORIZONTAL_SPLIT ? getWidth() : getHeight();
     }
 
     /**
@@ -1282,8 +1304,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Causes this container to lay out its components.  Most programs should not call this method
-     * directly, but should invoke the <code>validate</code> method instead.
+     * Causes this container to lay out its components.  Most programs should not call this method directly, but should
+     * invoke the <code>validate</code> method instead.
      *
      * @see LayoutManager#layoutContainer
      * @see #setLayout
@@ -1307,7 +1329,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         return _continuousLayout;
     }
 
-
     /**
      * Turn continuous layout on/off.
      *
@@ -1321,12 +1342,10 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Gets the AccessibleContext associated with this JideSplitPane. For split panes, the
-     * AccessibleContext takes the form of an AccessibleJideSplitPane. A new AccessibleJideSplitPane
-     * instance is created if necessary.
+     * Gets the AccessibleContext associated with this JideSplitPane. For split panes, the AccessibleContext takes the
+     * form of an AccessibleJideSplitPane. A new AccessibleJideSplitPane instance is created if necessary.
      *
-     * @return an AccessibleJideSplitPane that serves as the AccessibleContext of this
-     *         JideSplitPane
+     * @return an AccessibleJideSplitPane that serves as the AccessibleContext of this JideSplitPane
      */
     @Override
     public AccessibleContext getAccessibleContext() {
@@ -1338,16 +1357,14 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
 
     /**
-     * This class implements accessibility support for the <code>JideSplitPane</code> class.  It
-     * provides an implementation of the Java Accessibility API appropriate to split pane
-     * user-interface elements.
+     * This class implements accessibility support for the <code>JideSplitPane</code> class.  It provides an
+     * implementation of the Java Accessibility API appropriate to split pane user-interface elements.
      */
     protected class AccessibleJideSplitPane extends AccessibleJComponent {
         /**
          * Gets the state set of this object.
          *
          * @return an instance of AccessibleState containing the current state of the object
-         *
          * @see javax.accessibility.AccessibleState
          */
         @Override
@@ -1366,7 +1383,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
          * Gets the role of this object.
          *
          * @return an instance of AccessibleRole describing the role of the object
-         *
          * @see AccessibleRole
          */
         @Override
@@ -1383,8 +1399,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Enables heavyweight components. The difference is the divider. If true, the divider will be
-     * heavyweight divider. Otherwise it will use lightweight divider.
+     * Enables heavyweight components. The difference is the divider. If true, the divider will be heavyweight divider.
+     * Otherwise it will use lightweight divider.
      *
      * @param heavyweightComponentEnabled true to enable the usage of heavyweight components.
      */

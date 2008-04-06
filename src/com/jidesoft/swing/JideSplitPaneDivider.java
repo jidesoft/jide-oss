@@ -46,9 +46,8 @@ public class JideSplitPaneDivider extends JPanel
     protected JideSplitPane _jideSplitPane;
 
     /**
-     * Handles mouse events from both this class, and the split pane. Mouse events are handled for
-     * the splitpane since you want to be able to drag when clicking on the border of the divider,
-     * which is not drawn by the divider.
+     * Handles mouse events from both this class, and the split pane. Mouse events are handled for the splitpane since
+     * you want to be able to drag when clicking on the border of the divider, which is not drawn by the divider.
      */
     protected MouseHandler _mouseHandler;
 
@@ -77,8 +76,8 @@ public class JideSplitPaneDivider extends JPanel
     private Painter _gripperPainter;
 
     /**
-     * Creates an instance of BasicJideSplitPaneDivider. Registers this instance for mouse events
-     * and mouse dragged events.
+     * Creates an instance of BasicJideSplitPaneDivider. Registers this instance for mouse events and mouse dragged
+     * events.
      *
      * @param splitPane the JideSplitPane.
      */
@@ -163,8 +162,8 @@ public class JideSplitPaneDivider extends JPanel
 
 
     /**
-     * Returns the size of the divider, that is the width if the splitpane is HORIZONTAL_SPLIT, or
-     * the height of VERTICAL_SPLIT.
+     * Returns the size of the divider, that is the width if the splitpane is HORIZONTAL_SPLIT, or the height of
+     * VERTICAL_SPLIT.
      *
      * @return the divider size.
      */
@@ -190,8 +189,7 @@ public class JideSplitPaneDivider extends JPanel
 
 
     /**
-     * Property change event, presumably from the JideSplitPane, will message updateOrientation if
-     * necessary.
+     * Property change event, presumably from the JideSplitPane, will message updateOrientation if necessary.
      */
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getSource() == _jideSplitPane) {
@@ -207,8 +205,8 @@ public class JideSplitPaneDivider extends JPanel
 
 
     /**
-     * Resets the UI property to a value from the current look and feel. <code>JComponent</code>
-     * subclasses must override this method like this:
+     * Resets the UI property to a value from the current look and feel. <code>JComponent</code> subclasses must
+     * override this method like this:
      * <pre>
      *   public void updateUI() {
      *      setUI((SliderUI)UIManager.getUI(this);
@@ -284,20 +282,19 @@ public class JideSplitPaneDivider extends JPanel
         _jideSplitPane.finishDraggingTo(this, location);
     }
 
-    protected int getPreviousDividerLocation(boolean ignoreVisibility) {
-        return _jideSplitPane.getPreviousDividerLocation(this, ignoreVisibility);
+    protected int getPreviousDividerLocation(boolean ignoreVisibility, boolean reversed) {
+        return _jideSplitPane.getPreviousDividerLocation(this, ignoreVisibility, reversed);
     }
 
-    protected int getNextDividerLocation(boolean ignoreVisibility) {
-        return _jideSplitPane.getNextDividerLocation(this, ignoreVisibility);
+    protected int getNextDividerLocation(boolean ignoreVisibility, boolean reversed) {
+        return _jideSplitPane.getNextDividerLocation(this, ignoreVisibility, reversed);
     }
 
     /**
-     * Gets the first component. This divider is installed between two components. The first
-     * component is usually the one on the left or on the top.
+     * Gets the first component. This divider is installed between two components. The first component is usually the
+     * one on the left or on the top.
      *
      * @param ignoreVisibility true to not check if the component is visible.
-     *
      * @return the first component
      */
     public Component getFirstComponent(boolean ignoreVisibility) {
@@ -317,11 +314,10 @@ public class JideSplitPaneDivider extends JPanel
     }
 
     /**
-     * Gets the second component. This divider is installed between two components. The second
-     * component is usually the one on the right or on the bottom.
+     * Gets the second component. This divider is installed between two components. The second component is usually the
+     * one on the right or on the bottom.
      *
      * @param ignoreVisibility true to not check if the component is visible.
-     *
      * @return the first component
      */
     public Component getSecondComponent(boolean ignoreVisibility) {
@@ -342,8 +338,8 @@ public class JideSplitPaneDivider extends JPanel
     }
 
     /**
-     * MouseHandler is responsible for converting mouse events (released, dragged...) into the
-     * appropriate DragController methods.
+     * MouseHandler is responsible for converting mouse events (released, dragged...) into the appropriate
+     * DragController methods.
      * <p/>
      */
     protected class MouseHandler extends MouseInputAdapter {
@@ -417,11 +413,10 @@ public class JideSplitPaneDivider extends JPanel
 
 
     /**
-     * Handles the events during a dragging session for a HORIZONTAL_SPLIT oriented split pane. This
-     * continually messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be messaged with
-     * <code>isValid</code> to insure that dragging can happen (dragging won't be allowed if the two
-     * views can not be resized).
+     * Handles the events during a dragging session for a HORIZONTAL_SPLIT oriented split pane. This continually
+     * messages <code>dragDividerTo</code> and then when done messages <code>finishDraggingTo</code>. When an instance
+     * is created it should be messaged with <code>isValid</code> to insure that dragging can happen (dragging won't be
+     * allowed if the two views can not be resized).
      */
     protected class DragController {
         /**
@@ -461,16 +456,16 @@ public class JideSplitPaneDivider extends JPanel
             }
             else {
                 if (leftC.isVisible()) {
-                    minLocation = reversed ? getNextDividerLocation(false) : getPreviousDividerLocation(false) + leftC.getMinimumSize().width;
+                    minLocation = getPreviousDividerLocation(false, reversed) + leftC.getMinimumSize().width;
                 }
                 else {
-                    minLocation = reversed ? getNextDividerLocation(false) : getPreviousDividerLocation(true);
+                    minLocation = getPreviousDividerLocation(true, reversed);
                 }
                 if (rightC.isVisible()) {
-                    maxLocation = Math.max(0, reversed ? getPreviousDividerLocation(false) : getNextDividerLocation(false) - (getSize().width) - rightC.getMinimumSize().width);
+                    maxLocation = Math.max(0, getNextDividerLocation(false, reversed) - (getSize().width) - rightC.getMinimumSize().width);
                 }
                 else {
-                    maxLocation = Math.max(0, reversed ? getPreviousDividerLocation(false) : getNextDividerLocation(true) - (getSize().width));
+                    maxLocation = Math.max(0, getNextDividerLocation(true, reversed) - (getSize().width));
                 }
                 if (maxLocation < minLocation) minLocation = maxLocation = 0;
             }
@@ -491,9 +486,7 @@ public class JideSplitPaneDivider extends JPanel
          * Returns the new position to put the divider at based on the passed in MouseEvent.
          *
          * @param e the mouse event.
-         *
-         * @return the position of the mouse event after considering the max and min size it is
-         *         allowed.
+         * @return the position of the mouse event after considering the max and min size it is allowed.
          */
         protected int positionForMouseEvent(MouseEvent e) {
             int newX = (e.getSource() == JideSplitPaneDivider.this) ? (e.getX() + getLocation().x) : e.getX();
@@ -507,7 +500,6 @@ public class JideSplitPaneDivider extends JPanel
          *
          * @param x x position
          * @param y y position
-         *
          * @return the actual position after considering the max and min size it is allowed.
          */
         protected int getNeededLocation(int x, int y) {
@@ -549,11 +541,10 @@ public class JideSplitPaneDivider extends JPanel
 
 
     /**
-     * Handles the events during a dragging session for a VERTICAL_SPLIT oriented split pane. This
-     * continually messages <code>dragDividerTo</code> and then when done messages
-     * <code>finishDraggingTo</code>. When an instance is created it should be messaged with
-     * <code>isValid</code> to insure that dragging can happen (dragging won't be allowed if the two
-     * views can not be resized).
+     * Handles the events during a dragging session for a VERTICAL_SPLIT oriented split pane. This continually messages
+     * <code>dragDividerTo</code> and then when done messages <code>finishDraggingTo</code>. When an instance is created
+     * it should be messaged with <code>isValid</code> to insure that dragging can happen (dragging won't be allowed if
+     * the two views can not be resized).
      */
     protected class VerticalDragController extends DragController {
         /* DragControllers ivars are now in terms of y, not x. */
@@ -576,16 +567,16 @@ public class JideSplitPaneDivider extends JPanel
             }
             else {
                 if (leftC.isVisible()) {
-                    minLocation = getPreviousDividerLocation(false) + leftC.getMinimumSize().height;
+                    minLocation = getPreviousDividerLocation(false, false) + leftC.getMinimumSize().height;
                 }
                 else {
                     minLocation = 0;
                 }
                 if (rightC.isVisible()) {
-                    maxLocation = Math.max(0, getNextDividerLocation(false) - getSize().height - rightC.getMinimumSize().height);
+                    maxLocation = Math.max(0, getNextDividerLocation(false, false) - getSize().height - rightC.getMinimumSize().height);
                 }
                 else {
-                    maxLocation = Math.max(0, getNextDividerLocation(true) - getSize().height);
+                    maxLocation = Math.max(0, getNextDividerLocation(true, false) - getSize().height);
                 }
                 if (maxLocation < minLocation) minLocation = maxLocation = 0;
             }
