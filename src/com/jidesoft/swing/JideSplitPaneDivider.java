@@ -441,8 +441,11 @@ public class JideSplitPaneDivider extends JPanel
 
 
         protected DragController(MouseEvent e) {
-            Component leftC = getFirstComponent(false);
-            Component rightC = getSecondComponent(false);
+            ComponentOrientation o = getComponentOrientation();
+            boolean ltr = o.isLeftToRight();
+            boolean reversed = !ltr && _jideSplitPane.getOrientation() == JideSplitPane.HORIZONTAL_SPLIT;
+            Component leftC = reversed ? getSecondComponent(false) : getFirstComponent(false);
+            Component rightC = reversed ? getFirstComponent(false) : getSecondComponent(false);
 
             initialLocation = getLocation().x;
             if (e.getSource() == JideSplitPaneDivider.this) {
@@ -458,16 +461,16 @@ public class JideSplitPaneDivider extends JPanel
             }
             else {
                 if (leftC.isVisible()) {
-                    minLocation = getPreviousDividerLocation(false) + leftC.getMinimumSize().width;
+                    minLocation = reversed ? getNextDividerLocation(false) : getPreviousDividerLocation(false) + leftC.getMinimumSize().width;
                 }
                 else {
-                    minLocation = getPreviousDividerLocation(true);
+                    minLocation = reversed ? getNextDividerLocation(false) : getPreviousDividerLocation(true);
                 }
                 if (rightC.isVisible()) {
-                    maxLocation = Math.max(0, getNextDividerLocation(false) - (getSize().width) - rightC.getMinimumSize().width);
+                    maxLocation = Math.max(0, reversed ? getPreviousDividerLocation(false) : getNextDividerLocation(false) - (getSize().width) - rightC.getMinimumSize().width);
                 }
                 else {
-                    maxLocation = Math.max(0, getNextDividerLocation(true) - (getSize().width));
+                    maxLocation = Math.max(0, reversed ? getPreviousDividerLocation(false) : getNextDividerLocation(true) - (getSize().width));
                 }
                 if (maxLocation < minLocation) minLocation = maxLocation = 0;
             }
