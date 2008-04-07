@@ -6298,8 +6298,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
             int x = tabAreaInsets.left;
             int y = tabAreaInsets.top;
-            int totalWidth = 0;
-            int totalHeight = 0;
 
             //
             // Calculate bounds within which a tab run must fit
@@ -6367,7 +6365,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     else {
                         _tabRuns[0] = 0;
                         _maxTabWidth = 0;
-                        totalHeight += _maxTabHeight;
                         if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
                             rect.x = x + getLeftMargin();// give the first tab arrow angle extra space
                         }
@@ -6376,7 +6373,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
                     rect.width = calculateTabWidth(tabPlacement, i, metrics) + _rectSizeExtend;
-                    totalWidth = rect.x + rect.width;
                     _maxTabWidth = Math.max(_maxTabWidth, rect.width);
 
                     rect.y = y;
@@ -6418,7 +6414,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     else {
                         _tabRuns[0] = 0;
                         _maxTabHeight = 0;
-                        totalWidth = _maxTabWidth;
                         if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
                             rect.y = y + getLeftMargin();// give the first tab arrow angle extra space
                         }
@@ -6427,7 +6422,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
                     rect.height = calculateTabHeight(tabPlacement, i, metrics) + _rectSizeExtend;
-                    totalHeight = rect.y + rect.height;
                     _maxTabHeight = Math.max(_maxTabHeight, rect.height);
 
                     rect.x = x;
