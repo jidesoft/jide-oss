@@ -652,7 +652,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabScroller.scrollForwardButton.setAction(am.get("scrollTabsForwardAction"));
             _tabScroller.scrollBackwardButton.setAction(am.get("scrollTabsBackwardAction"));
             _tabScroller.listButton.setAction(am.get("scrollTabsListAction"));
-            _tabScroller.closeButton.setAction(am.get("closeTabAction"));
+            Action action = _tabPane.getCloseAction();
+            if (action == null) action = new CloseTabAction();
+            _tabScroller.closeButton.setAction(action);
         }
 
     }
@@ -7578,9 +7580,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void updateCloseAction() {
-        ActionMap map = getActionMap();
-        Action action = _tabPane.getCloseAction();
-        map.put("closeTabAction", action != null ? action : new CloseTabAction());
         ensureCloseButtonCreated();
     }
 
@@ -8058,7 +8057,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     closeButton.setName("TabClose");
                     _closeButtons[i] = closeButton;
                     closeButton.setBounds(0, 0, 0, 0);
-                    closeButton.setAction(am.get("closeTabAction"));
+                    Action action = _tabPane.getCloseAction();
+                    if (action == null) action = new CloseTabAction();
+                    closeButton.setAction(action);
                     _tabScroller.tabPanel.add(closeButton);
                 }
                 closeButton.setIndex(i);
