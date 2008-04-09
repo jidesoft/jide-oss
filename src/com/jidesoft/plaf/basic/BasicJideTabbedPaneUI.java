@@ -7692,7 +7692,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     public class MouseWheelHandler implements MouseWheelListener {
         public void mouseWheelMoved(MouseWheelEvent e) {
-            if (scrollableTabLayoutEnabled() && e.getWheelRotation() != 0) {
+            if (_tabPane.isScrollSelectedTabOnWheel()) {
+                // set selected tab to the currently selected tab plus the wheel rotation but between
+                // 0 and tabCount-1
+                _tabPane.setSelectedIndex(
+                        Math.min(_tabPane.getTabCount() - 1, Math.max(0, _tabPane.getSelectedIndex() + e.getWheelRotation())));
+            }
+            else if (scrollableTabLayoutEnabled() && e.getWheelRotation() != 0) {
                 if (e.getWheelRotation() > 0) {
                     for (int i = 0; i < e.getScrollAmount(); i++) {
                         _tabScroller.scrollForward(_tabPane.getTabPlacement());
