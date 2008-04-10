@@ -449,7 +449,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             };
             table.putDefaults(uiDefaults);
         }
-        table.put("Theme.painter", AquaPainter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", AquaPainter.getInstance());
     }
 
     public static boolean isGraphite() {

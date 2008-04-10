@@ -296,7 +296,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
             table.putDefaults(uiDefaults);
         }
 
-        table.put("Theme.painter", Office2003Painter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", Office2003Painter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
         Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {

@@ -598,6 +598,7 @@ public class LookAndFeelFactory implements ProductNames {
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     break;
                 case XERTO_STYLE:
+                case XERTO_STYLE_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -644,7 +645,7 @@ public class LookAndFeelFactory implements ProductNames {
                 || (isLnfInUse(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
-                Class<?> aquaJideUtils = getValidClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
+                Class<?> aquaJideUtils = getUIManagerClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
                 aquaJideUtils.getMethod("initComponentDefaults", UIDefaults.class).invoke(null, uiDefaults);
                 aquaJideUtils.getMethod("initClassDefaults", UIDefaults.class).invoke(null, uiDefaults);
             }
@@ -777,7 +778,7 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isLnfInstalled(String lnfName) {
         try {
-            getValidClassLoader().loadClass(lnfName);
+            getUIManagerClassLoader().loadClass(lnfName);
             return true;
         }
         catch (ClassNotFoundException e) {
@@ -785,7 +786,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
     }
 
-    private static ClassLoader getValidClassLoader() {
+    public static ClassLoader getUIManagerClassLoader() {
         Object cl = UIManager.get("ClassLoader");
         if (cl instanceof ClassLoader) {
             return (ClassLoader) cl;
@@ -936,7 +937,7 @@ public class LookAndFeelFactory implements ProductNames {
             Class<?> lnfClass = null;
             if (lnfName != null) {
                 try {
-                    lnfClass = getValidClassLoader().loadClass(lnfName);
+                    lnfClass = getUIManagerClassLoader().loadClass(lnfName);
                 }
                 catch (ClassNotFoundException e) {
                     // ignore

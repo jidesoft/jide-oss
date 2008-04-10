@@ -476,6 +476,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         table.put("Spinner.margin", UIDefaultsLookup.get("TextField.margin"));
         table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
-        table.put("Theme.painter", MetalPainter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", MetalPainter.getInstance());
     }
 }

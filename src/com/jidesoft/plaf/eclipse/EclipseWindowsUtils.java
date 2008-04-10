@@ -529,7 +529,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             };
             table.putDefaults(uiDefaultsFont);
         }
-        table.put("Theme.painter", EclipsePainter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", EclipsePainter.getInstance());
     }
 
     /**

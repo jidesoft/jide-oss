@@ -6,18 +6,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * When UIManager.getUI(JComponent target) is called to retrieve a ComponentUI
- * object for a target, we want to make sure that ComponentUI is from the
- * same classloader as the target classloader.
+ * When UIManager.getUI(JComponent target) is called to retrieve a ComponentUI object for a target, we want to make sure
+ * that ComponentUI is from the same classloader as the target classloader.
  * <p/>
- * The CacheCleanerLookAndFeel will install inself as a hook to intercept
- * UIManager().getUI(). It will clean up the UIManager cache if needed and
- * also update the UIManager L&F defaults table if needed. This is very useful if you have to
- * use multiple class loader and each class loader has its own version of JIDE jars.
+ * The CacheCleanerLookAndFeel will install inself as a hook to intercept UIManager().getUI(). It will clean up the
+ * UIManager cache if needed and also update the UIManager L&F defaults table if needed. This is very useful if you have
+ * to use multiple class loader and each class loader has its own version of JIDE jars.
  * <p/>
  * <code><pre>
  * CachedLookAndFeel.install();
- * CachedLookAndFeel.installJideExtension(LookAndFeelFactory.class.getClassLoader(),
+ * CachedLookAndFeel.installJideExtension(LookAndFeelFactory.class.getClassLoader(), true);
  * </pre></code>
  */
 class CachedLookAndFeel extends LookAndFeel {
@@ -26,8 +24,7 @@ class CachedLookAndFeel extends LookAndFeel {
     UIDefaults customDefaults = new CustomUIDefaults();
 
     /**
-     * Install itself as UIManager.getLAFState().multiLookAndFeel to that
-     * calls to getUI() can be trapped
+     * Install itself as UIManager.getLAFState().multiLookAndFeel to that calls to getUI() can be trapped
      */
     public static void install() {
         try {
@@ -53,11 +50,11 @@ class CachedLookAndFeel extends LookAndFeel {
     }
 
     public String getName() {
-        return "CacheCleanerLookAndFeel";
+        return "CachedLookAndFeel";
     }
 
     public String getID() {
-        return "CacheCleanerLookAndFeel";
+        return "CachedLookAndFeel";
     }
 
     public String getDescription() {
@@ -77,8 +74,8 @@ class CachedLookAndFeel extends LookAndFeel {
     }
 
     /**
-     * Call the LookAndFeelFactory.installJideExtension using a specific class
-     * loader. This is used for GUI context switch when going between two class loaders.
+     * Call the LookAndFeelFactory.installJideExtension using a specific class loader. This is used for GUI context
+     * switch when going between two class loaders.
      *
      * @param newLoader ClassLoader
      */
@@ -87,11 +84,12 @@ class CachedLookAndFeel extends LookAndFeel {
     }
 
     /**
-     * Call the LookAndFeelFactory.installJideExtension using a specific class
-     * loader. This is used for GUI context switch when going between two class loaders.
+     * Call the LookAndFeelFactory.installJideExtension using a specific class loader. This is used for GUI context
+     * switch when going between two class loaders.
      *
      * @param newLoader ClassLoader
-     * @param force     if true, we will install the extension even when the current loader and new class loader are the same.
+     * @param force     if true, we will install the extension even when the current loader and new class loader are the
+     *                  same.
      */
     public static void installJideExtension(ClassLoader newLoader, boolean force) {
         if (currentLoader == newLoader && !force) {

@@ -420,6 +420,6 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
             };
             table.putDefaults(uiDefaults);
         }
-        table.put("Theme.painter", EclipsePainter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", EclipsePainter.getInstance());
     }
 }

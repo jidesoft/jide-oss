@@ -564,7 +564,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         table.put("Spinner.border", UIDefaultsLookup.get("TextField.border"));
         table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
-        table.put("Theme.painter", BasicPainter.getInstance());
+        UIDefaultsLookup.put(table, "Theme.painter", BasicPainter.getInstance());
     }
 
     /**

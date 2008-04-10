@@ -7,26 +7,27 @@
 package com.jidesoft.plaf;
 
 import com.jidesoft.converter.ObjectConverterManager;
+import sun.reflect.Reflection;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
- * This class simply uses UIManager's get method to lookup the UIDefaults.
- * We used this everywhere in our code so that we have one central place
- * to find out which UIDefaults we are using.
- * Another good thing is you can use {@link #setTrace(boolean)} and {@link #setDebug(boolean)}
- * to turn on the trace so that it will print out which UIDefaults we are trying to get.
+ * This class simply uses UIManager's get method to lookup the UIDefaults. We used this everywhere in our code so that
+ * we have one central place to find out which UIDefaults we are using. Another good thing is you can use {@link
+ * #setTrace(boolean)} and {@link #setDebug(boolean)} to turn on the trace so that it will print out which UIDefaults we
+ * are trying to get.
  */
 public class UIDefaultsLookup {
     private static boolean _debug = false;
     private static boolean _trace = false;
 
     /**
-     * Sets the debug mode. If debug mode is on, we will print out
-     * any UIDefaults that the value is null.
+     * Sets the debug mode. If debug mode is on, we will print out any UIDefaults that the value is null.
      *
      * @param debug true or false.
      */
@@ -35,8 +36,8 @@ public class UIDefaultsLookup {
     }
 
     /**
-     * Sets the trace mode. If trace mode is on, we will print out
-     * any UIDefaults we are trying to get and its current value.
+     * Sets the trace mode. If trace mode is on, we will print out any UIDefaults we are trying to get and its current
+     * value.
      *
      * @param trace true or false.
      */
@@ -44,9 +45,41 @@ public class UIDefaultsLookup {
         _trace = trace;
     }
 
+    public static void put(UIDefaults table, String key, Object value) {
+        Object v = table.get(key);
+        if (v == null || !(v instanceof Map)) {
+            v = new HashMap<ClassLoader, Object>();
+            table.put(key, v);
+        }
+        ((Map) v).put(value.getClass().getClassLoader(), value);
+    }
+
+    // Returns the invoker's class loader, or null if none.
+    // NOTE: This must always be invoked when there is exactly one intervening
+    // frame from the core libraries on the stack between this method's
+    // invocation and the desired invoker.
+    static ClassLoader getCallerClassLoader() {
+        // NOTE use of more generic Reflection.getCallerClass()
+        Class caller = Reflection.getCallerClass(3);
+        // This can be null if the VM is requesting it
+        if (caller == null) {
+            return null;
+        }
+        // Circumvent security check since this is package-private
+        return caller.getClassLoader();
+    }
+
     public static Object get(Object key) {
         Object value = UIManager.get(key);
         log(value, key, null);
+        if (value instanceof Map && "Theme.painter".equals(key)) {
+            try {
+                return ((Map) value).get(getCallerClassLoader());
+            }
+            catch (Exception e) {
+                ((Map) value).get(LookAndFeelFactory.getUIManagerClassLoader());
+            }
+        }
         return value;
     }
 
@@ -71,13 +104,11 @@ public class UIDefaultsLookup {
     }
 
     /**
-     * If the value of <code>key</code> is a <code>Font</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is a <code>Font</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Font</code>,
-     *         return the <code>Font</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is a <code>Font</code>, return the <code>Font</code> object; otherwise
+     *         return <code>null</code>
      */
     public static Font getFont(Object key) {
         Object value = get(key);
@@ -86,15 +117,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Font</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is a <code>Font</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is a <code>Font</code>,
-     *         return the <code>Font</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Font</code>, return the
+     *         <code>Font</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Font getFont(Object key, Locale l) {
@@ -103,13 +132,11 @@ public class UIDefaultsLookup {
     }
 
     /**
-     * If the value of <code>key</code> is a <code>Color</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is a <code>Color</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Color</code>,
-     *         return the <code>Color</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is a <code>Color</code>, return the <code>Color</code> object;
+     *         otherwise return <code>null</code>
      */
     public static Color getColor(Object key) {
         Object value = get(key);
@@ -118,15 +145,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Color</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is a <code>Color</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is a <code>Color</code>,
-     *         return the <code>Color</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Color</code>, return the
+     *         <code>Color</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Color getColor(Object key, Locale l) {
@@ -136,13 +161,11 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is an <code>Icon</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is an <code>Icon</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Icon</code>,
-     *         return the <code>Icon</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is an <code>Icon</code>, return the <code>Icon</code> object; otherwise
+     *         return <code>null</code>
      */
     public static Icon getIcon(Object key) {
         Object value = get(key);
@@ -151,15 +174,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Icon</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is an <code>Icon</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is an <code>Icon</code>,
-     *         return the <code>Icon</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Icon</code>, return the
+     *         <code>Icon</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Icon getIcon(Object key, Locale l) {
@@ -169,13 +190,11 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is a <code>Border</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is a <code>Border</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Border</code>,
-     *         return the <code>Border</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is a <code>Border</code>, return the <code>Border</code> object;
+     *         otherwise return <code>null</code>
      */
     public static Border getBorder(Object key) {
         Object value = get(key);
@@ -184,15 +203,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Border</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is a <code>Border</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is a <code>Border</code>,
-     *         return the <code>Border</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Border</code>, return the
+     *         <code>Border</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Border getBorder(Object key, Locale l) {
@@ -202,13 +219,11 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is a <code>String</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is a <code>String</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>String</code>,
-     *         return the <code>String</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is a <code>String</code>, return the <code>String</code> object;
+     *         otherwise return <code>null</code>
      */
     public static String getString(Object key) {
         Object value = get(key);
@@ -216,15 +231,13 @@ public class UIDefaultsLookup {
     }
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>String</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is a <code>String</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired <code>Locale</code>
-     * @return if the value for <code>key</code> for the given
-     *         <code>Locale</code> is a <code>String</code>,
-     *         return the <code>String</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> for the given <code>Locale</code> is a <code>String</code>, return the
+     *         <code>String</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static String getString(Object key, Locale l) {
@@ -233,12 +246,10 @@ public class UIDefaultsLookup {
     }
 
     /**
-     * If the value of <code>key</code> is an <code>Integer</code> return its
-     * integer value, otherwise return 0.
+     * If the value of <code>key</code> is an <code>Integer</code> return its integer value, otherwise return 0.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Integer</code>,
-     *         return its value, otherwise return 0
+     * @return if the value for <code>key</code> is an <code>Integer</code>, return its value, otherwise return 0
      */
     public static int getInt(Object key) {
         Object value = get(key);
@@ -247,14 +258,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Integer</code> return its integer value, otherwise return 0.
+     * If the value of <code>key</code> for the given <code>Locale</code> is an <code>Integer</code> return its integer
+     * value, otherwise return 0.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is an <code>Integer</code>,
-     *         return its value, otherwise return 0
+     * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Integer</code>, return its value,
+     *         otherwise return 0
      * @since 1.9.5.04
      */
     public static int getInt(Object key, Locale l) {
@@ -264,12 +274,10 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is boolean, return the
-     * boolean value, otherwise return false.
+     * If the value of <code>key</code> is boolean, return the boolean value, otherwise return false.
      *
      * @param key an <code>Object</code> specifying the key for the desired boolean value
-     * @return if the value of <code>key</code> is boolean, return the
-     *         boolean value, otherwise return false.
+     * @return if the value of <code>key</code> is boolean, return the boolean value, otherwise return false.
      * @since 1.9.5.04
      */
     public static boolean getBoolean(Object key) {
@@ -279,14 +287,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is boolean, return the boolean value, otherwise return false.
+     * If the value of <code>key</code> for the given <code>Locale</code> is boolean, return the boolean value,
+     * otherwise return false.
      *
      * @param key an <code>Object</code> specifying the key for the desired boolean value
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is boolean, return the
-     *         boolean value, otherwise return false.
+     * @return if the value for <code>key</code> and <code>Locale</code> is boolean, return the boolean value, otherwise
+     *         return false.
      * @since 1.9.5.04
      */
     public static boolean getBoolean(Object key, Locale l) {
@@ -296,13 +303,11 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is an <code>Insets</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is an <code>Insets</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Insets</code>,
-     *         return the <code>Insets</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is an <code>Insets</code>, return the <code>Insets</code> object;
+     *         otherwise return <code>null</code>
      */
     public static Insets getInsets(Object key) {
         Object value = get(key);
@@ -311,15 +316,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Insets</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is an <code>Insets</code> return it, otherwise
+     * return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is an <code>Insets</code>,
-     *         return the <code>Insets</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Insets</code>, return the
+     *         <code>Insets</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Insets getInsets(Object key, Locale l) {
@@ -329,13 +332,11 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> is a <code>Dimension</code> return it,
-     * otherwise return <code>null</code>.
+     * If the value of <code>key</code> is a <code>Dimension</code> return it, otherwise return <code>null</code>.
      *
      * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Dimension</code>,
-     *         return the <code>Dimension</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> is a <code>Dimension</code>, return the <code>Dimension</code> object;
+     *         otherwise return <code>null</code>
      */
     public static Dimension getDimension(Object key) {
         Object value = get(key);
@@ -344,15 +345,13 @@ public class UIDefaultsLookup {
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Dimension</code> return it, otherwise return <code>null</code>.
+     * If the value of <code>key</code> for the given <code>Locale</code> is a <code>Dimension</code> return it,
+     * otherwise return <code>null</code>.
      *
      * @param key the desired key
      * @param l   the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is a <code>Dimension</code>,
-     *         return the <code>Dimension</code> object; otherwise return
-     *         <code>null</code>
+     * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Dimension</code>, return the
+     *         <code>Dimension</code> object; otherwise return <code>null</code>
      * @since 1.9.5.04
      */
     public static Dimension getDimension(Object key, Locale l) {
