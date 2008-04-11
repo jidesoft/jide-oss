@@ -86,7 +86,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
                                                   boolean cellHasFocus) {
 
         _checkBox.setPreferredSize(new Dimension(_checkBox.getPreferredSize().width, 0));
-        setComponentOrientation(list.getComponentOrientation());
+        applyComponentOrientation(list.getComponentOrientation());
 
         Object actualValue;
         if (list instanceof CheckBoxList) {
@@ -176,10 +176,9 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
     }
 
     /**
-     * Customizes the cell renderer. By default, it will use toString to covert the object and use
-     * it as the text for the checkbox. You can subclass it to set an icon, change alignment etc.
-     * Since "this" is a JCheckBox, you can call all methods available on JCheckBox in the
-     * overridden method.
+     * Customizes the cell renderer. By default, it will use toString to covert the object and use it as the text for
+     * the checkbox. You can subclass it to set an icon, change alignment etc. Since "this" is a JCheckBox, you can call
+     * all methods available on JCheckBox in the overridden method.
      *
      * @param value
      */
@@ -196,15 +195,14 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
 
     /**
-     * A subclass of DefaultListCellRenderer that implements UIResource. DefaultListCellRenderer
-     * doesn't implement UIResource directly so that applications can safely override the
-     * cellRenderer property with DefaultListCellRenderer subclasses.
+     * A subclass of DefaultListCellRenderer that implements UIResource. DefaultListCellRenderer doesn't implement
+     * UIResource directly so that applications can safely override the cellRenderer property with
+     * DefaultListCellRenderer subclasses.
      * <p/>
-     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future
-     * Swing releases. The current serialization support is appropriate for short term storage or
-     * RMI between applications running the same version of Swing.  As of 1.4, support for long term
-     * storage of all JavaBeans<sup><font size="-2">TM</font></sup> has been added to the
-     * <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     public static class UIResource extends CheckBoxListCellRenderer
             implements javax.swing.plaf.UIResource {

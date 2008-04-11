@@ -17,11 +17,9 @@ import java.io.Serializable;
 
 
 /**
- * A list cell renderer based on StyledLabel.
- * To use it, you should make your cell renderer extending this one and override
- * {@link #customizeStyledLabel(javax.swing.JList,Object,int,boolean,boolean)} method.
- * If your overridden method, you can call setStyleRange() or setStyleRanges() based on
- * the item value, if it is leaf etc information.
+ * A list cell renderer based on StyledLabel. To use it, you should make your cell renderer extending this one and
+ * override {@link #customizeStyledLabel(javax.swing.JList,Object,int,boolean,boolean)} method. If your overridden
+ * method, you can call setStyleRange() or setStyleRanges() based on the item value, if it is leaf etc information.
  */
 public class StyledListCellRenderer extends StyledLabel
         implements ListCellRenderer, Serializable {
@@ -29,8 +27,7 @@ public class StyledListCellRenderer extends StyledLabel
     protected static Border noFocusBorder;
 
     /**
-     * Constructs a default renderer object for an item
-     * in a list.
+     * Constructs a default renderer object for an item in a list.
      */
     public StyledListCellRenderer() {
         super();
@@ -43,7 +40,7 @@ public class StyledListCellRenderer extends StyledLabel
 
 
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setComponentOrientation(list.getComponentOrientation());
+        applyComponentOrientation(list.getComponentOrientation());
         if (isSelected) {
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
@@ -99,12 +96,9 @@ public class StyledListCellRenderer extends StyledLabel
 
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      *
-     * @return <code>true</code> if the background is completely opaque
-     *         and differs from the JList's background;
+     * @return <code>true</code> if the background is completely opaque and differs from the JList's background;
      *         <code>false</code> otherwise
      * @since 1.5
      */
@@ -123,18 +117,14 @@ public class StyledListCellRenderer extends StyledLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void validate() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      *
      * @since 1.5
      */
@@ -143,9 +133,7 @@ public class StyledListCellRenderer extends StyledLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      *
      * @since 1.5
      */
@@ -154,36 +142,28 @@ public class StyledListCellRenderer extends StyledLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void revalidate() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void repaint(long tm, int x, int y, int width, int height) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void repaint(Rectangle r) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
@@ -193,91 +173,70 @@ public class StyledListCellRenderer extends StyledLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, char oldValue, char newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, short oldValue, short newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, int oldValue, int newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, long oldValue, long newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, float oldValue, float newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, double oldValue, double newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
     }
 
     /**
-     * A subclass of DefaultListCellRenderer that implements UIResource.
-     * DefaultListCellRenderer doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with DefaultListCellRenderer subclasses.
+     * A subclass of DefaultListCellRenderer that implements UIResource. DefaultListCellRenderer doesn't implement
+     * UIResource directly so that applications can safely override the cellRenderer property with
+     * DefaultListCellRenderer subclasses.
      * <p/>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     public static class UIResource extends StyledListCellRenderer
             implements javax.swing.plaf.UIResource {

@@ -70,7 +70,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         _checkBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
         _emptyBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
-        setComponentOrientation(tree.getComponentOrientation());
+        applyComponentOrientation(tree.getComponentOrientation());
 
         TreePath path = tree.getPathForRow(row);
         if (path != null && tree instanceof CheckBoxTree) {

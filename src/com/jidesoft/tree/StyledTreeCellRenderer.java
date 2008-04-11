@@ -17,10 +17,9 @@ import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
 
 /**
- * A tree cell renderer based on StyledLabel.
- * To use it, you should make your cell renderer extending this one and override
- * {@link #customizeStyledLabel(javax.swing.JTree,Object,boolean,boolean,boolean,int,boolean)} method.
- * If your overridden method, you can call setStyleRange() or setStyleRanges() based on the tree node value and row index.
+ * A tree cell renderer based on StyledLabel. To use it, you should make your cell renderer extending this one and
+ * override {@link #customizeStyledLabel(javax.swing.JTree,Object,boolean,boolean,boolean,int,boolean)} method. If your
+ * overridden method, you can call setStyleRange() or setStyleRanges() based on the tree node value and row index.
  */
 public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRenderer {
     /**
@@ -51,8 +50,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
      */
     private Color treeBGColor;
     /**
-     * Color to draw the focus indicator in, determined from the background.
-     * color.
+     * Color to draw the focus indicator in, determined from the background. color.
      */
     private Color focusBGColor;
 
@@ -99,9 +97,8 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     protected Color borderSelectionColor;
 
     /**
-     * Returns a new instance of DefaultTreeCellRenderer.  Alignment is
-     * set to left aligned. Icons and text color are determined from the
-     * UIManager.
+     * Returns a new instance of DefaultTreeCellRenderer.  Alignment is set to left aligned. Icons and text color are
+     * determined from the UIManager.
      */
     public StyledTreeCellRenderer() {
         setLeafIcon(UIDefaultsLookup.getIcon("Tree.leafIcon"));
@@ -121,24 +118,21 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
 
 
     /**
-     * Returns the default icon, for the current laf, that is used to
-     * represent non-leaf nodes that are expanded.
+     * Returns the default icon, for the current laf, that is used to represent non-leaf nodes that are expanded.
      */
     public Icon getDefaultOpenIcon() {
         return UIDefaultsLookup.getIcon("Tree.openIcon");
     }
 
     /**
-     * Returns the default icon, for the current laf, that is used to
-     * represent non-leaf nodes that are not expanded.
+     * Returns the default icon, for the current laf, that is used to represent non-leaf nodes that are not expanded.
      */
     public Icon getDefaultClosedIcon() {
         return UIDefaultsLookup.getIcon("Tree.closedIcon");
     }
 
     /**
-     * Returns the default icon, for the current laf, that is used to
-     * represent leaf nodes.
+     * Returns the default icon, for the current laf, that is used to represent leaf nodes.
      */
     public Icon getDefaultLeafIcon() {
         return UIDefaultsLookup.getIcon("Tree.leafIcon");
@@ -166,8 +160,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Returns the icon used to represent non-leaf nodes that are not
-     * expanded.
+     * Returns the icon used to represent non-leaf nodes that are not expanded.
      */
     public Icon getClosedIcon() {
         return closedIcon;
@@ -259,11 +252,10 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Subclassed to map <code>FontUIResource</code>s to null. If
-     * <code>font</code> is null, or a <code>FontUIResource</code>, this
-     * has the effect of letting the font of the JTree show
-     * through. On the other hand, if <code>font</code> is non-null, and not
-     * a <code>FontUIResource</code>, the font becomes <code>font</code>.
+     * Subclassed to map <code>FontUIResource</code>s to null. If <code>font</code> is null, or a
+     * <code>FontUIResource</code>, this has the effect of letting the font of the JTree show through. On the other
+     * hand, if <code>font</code> is non-null, and not a <code>FontUIResource</code>, the font becomes
+     * <code>font</code>.
      */
     @Override
     public void setFont(Font font) {
@@ -275,8 +267,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     /**
      * Gets the font of this component.
      *
-     * @return this component's font; if a font has not been set
-     *         for this component, the font of its parent is returned
+     * @return this component's font; if a font has not been set for this component, the font of its parent is returned
      */
     @Override
     public Font getFont() {
@@ -291,11 +282,9 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Subclassed to map <code>ColorUIResource</code>s to null. If
-     * <code>color</code> is null, or a <code>ColorUIResource</code>, this
-     * has the effect of letting the background color of the JTree show
-     * through. On the other hand, if <code>color</code> is non-null, and not
-     * a <code>ColorUIResource</code>, the background becomes
+     * Subclassed to map <code>ColorUIResource</code>s to null. If <code>color</code> is null, or a
+     * <code>ColorUIResource</code>, this has the effect of letting the background color of the JTree show through. On
+     * the other hand, if <code>color</code> is non-null, and not a <code>ColorUIResource</code>, the background becomes
      * <code>color</code>.
      */
     @Override
@@ -306,13 +295,10 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Configures the renderer based on the passed in components.
-     * The value is set from messaging the tree with
-     * <code>convertValueToText</code>, which ultimately invokes
-     * <code>toString</code> on <code>value</code>.
-     * The foreground color is set based on the selection and the icon
-     * is set based on the <code>leaf</code> and <code>expanded</code>
-     * parameters.
+     * Configures the renderer based on the passed in components. The value is set from messaging the tree with
+     * <code>convertValueToText</code>, which ultimately invokes <code>toString</code> on <code>value</code>. The
+     * foreground color is set based on the selection and the icon is set based on the <code>leaf</code> and
+     * <code>expanded</code> parameters.
      */
     public Component getTreeCellRendererComponent(JTree tree, Object value,
                                                   boolean sel,
@@ -356,7 +342,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
         else
             setForeground(getTextNonSelectionColor());
 
-        setComponentOrientation(tree.getComponentOrientation());
+        applyComponentOrientation(tree.getComponentOrientation());
 
         selected = sel;
 
@@ -467,8 +453,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Overrides <code>JComponent.getPreferredSize</code> to
-     * return slightly wider preferred size value.
+     * Overrides <code>JComponent.getPreferredSize</code> to return slightly wider preferred size value.
      */
     @Override
     public Dimension getPreferredSize() {
@@ -481,18 +466,14 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void validate() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      *
      * @since 1.5
      */
@@ -501,36 +482,28 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void revalidate() {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void repaint(long tm, int x, int y, int width, int height) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void repaint(Rectangle r) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      *
      * @since 1.5
      */
@@ -539,9 +512,7 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
@@ -551,72 +522,56 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, char oldValue, char newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, short oldValue, short newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, int oldValue, int newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, long oldValue, long newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, float oldValue, float newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, double oldValue, double newValue) {
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the <a href="#override">Implementation Note</a> for more information.
      */
     @Override
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
