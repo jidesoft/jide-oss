@@ -77,7 +77,7 @@ public class Office2003Painter extends BasicPainter {
 
     private String _colorName = XPUtils.DEFAULT;
 
-    private static boolean _native = SystemInfo.isWindowsXP();
+    private static boolean _native = SystemInfo.isWindowsXP() || SystemInfo.isWindowsVista();
 
     private static Office2003Theme _defaultTheme = new DefaultOffice2003Theme();
     private static Office2003Theme _normalTheme = new Office2003Theme(XPUtils.GRAY);
