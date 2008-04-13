@@ -14,8 +14,8 @@ import java.awt.*;
 /**
  * Resizable is a class that support resizable feature.
  * <p/>
- * To use it and make a component resizable, you just need to
- * create new Resizable() and pass in that component to the constructor.
+ * To use it and make a component resizable, you just need to create new Resizable() and pass in that component to the
+ * constructor.
  */
 public class Resizable {
 
@@ -38,8 +38,8 @@ public class Resizable {
     public static final String PROPERTY_RESIZE_CORNER_SIZE = "resizeCornerSize";
 
     protected final JComponent _component;
-	private Insets _resizeInsets;
-	private MouseInputListener _mouseInputAdapter;
+    private Insets _resizeInsets;
+    private MouseInputListener _mouseInputAdapter;
 
 
     private boolean _topLevel;
@@ -64,7 +64,8 @@ public class Resizable {
     /**
      * Sets resizable corners.
      *
-     * @param resizableCorners new resizable corners. The value is a bitwise OR of eight constants defined in {@link Resizable}.
+     * @param resizableCorners new resizable corners. The value is a bitwise OR of eight constants defined in {@link
+     *                         Resizable}.
      */
     public void setResizableCorners(int resizableCorners) {
         if (_resizableCorners != resizableCorners) {
@@ -75,7 +76,8 @@ public class Resizable {
     }
 
     /**
-     * Gets resize corner size. This size is the corner's sensitive area which will trigger the resizing from both sides.
+     * Gets resize corner size. This size is the corner's sensitive area which will trigger the resizing from both
+     * sides.
      *
      * @return the resize corner size.
      */
@@ -97,9 +99,8 @@ public class Resizable {
     }
 
     /**
-     * Installs the listeners needed to perform resizing operations.
-     * You do not need to call this method directly. Construstor
-     * will call this method automatically.
+     * Installs the listeners needed to perform resizing operations. You do not need to call this method directly.
+     * Construstor will call this method automatically.
      */
     protected void installListeners() {
         _mouseInputAdapter = createMouseInputListener();
@@ -108,8 +109,8 @@ public class Resizable {
     }
 
     /**
-     * Uninstalls the listeners that created to perform resizing operations.
-     * After uninstallation, the component will not be resizable anymore.
+     * Uninstalls the listeners that created to perform resizing operations. After uninstallation, the component will
+     * not be resizable anymore.
      */
     public void uninstallListeners() {
         _component.removeMouseListener(_mouseInputAdapter);
@@ -118,8 +119,8 @@ public class Resizable {
     }
 
     /**
-     * Creates the MouseInputListener for resizing. Subclass can override
-     * this method to provide its own MouseInputListener to customize exsiting one.
+     * Creates the MouseInputListener for resizing. Subclass can override this method to provide its own
+     * MouseInputListener to customize exsiting one.
      *
      * @return the MouseInputListener for resizing.
      */
@@ -150,9 +151,9 @@ public class Resizable {
      * setPreferredSize(new Dimension(newW, newH));
      * getParent().doLayout();
      * </pre></code>
-     * in fact, depending on where you added this ResizablePanel, you may need to override this method
-     * to do something else. For example, {@link ResizableWindow} uses <code>ResizablePanel</code> to
-     * implement resizable feature in JWindow. It overrides this method to call setBounds on JWindow itself.
+     * in fact, depending on where you added this ResizablePanel, you may need to override this method to do something
+     * else. For example, {@link ResizableWindow} uses <code>ResizablePanel</code> to implement resizable feature in
+     * JWindow. It overrides this method to call setBounds on JWindow itself.
      *
      * @param resizeCorner the resize corner.
      * @param newX         the new x position.
@@ -188,13 +189,11 @@ public class Resizable {
     }
 
     /**
-     * Checks if the Resizable is added to a top level component.
-     * <p> If it's top level component, it will use screen coordinates
-     * to do all calculations during resizing. If resizing the resizable panel won't affect
-     * any top level container's position, you can return false here.
-     * Otherwise, return true. The default implementation always return false.
-     * Subclasses can override to return different value. In the case of
-     * ResizableWindow or ResizableDialog, this method is overridden and returns true.
+     * Checks if the Resizable is added to a top level component. <p> If it's top level component, it will use screen
+     * coordinates to do all calculations during resizing. If resizing the resizable panel won't affect any top level
+     * container's position, you can return false here. Otherwise, return true. The default implementation always return
+     * false. Subclasses can override to return different value. In the case of ResizableWindow or ResizableDialog, this
+     * method is overridden and returns true.
      *
      * @return false.
      */
@@ -203,9 +202,9 @@ public class Resizable {
     }
 
     /**
-     * To indicates this <code>Resizable</code> is installed on a top level component
-     * such as JWindow, JDialog and JFrame v.s. a JPanel which is not a top level component
-     * because a JPanel must be added to another top level component in order to be displayed.
+     * To indicates this <code>Resizable</code> is installed on a top level component such as JWindow, JDialog and
+     * JFrame v.s. a JPanel which is not a top level component because a JPanel must be added to another top level
+     * component in order to be displayed.
      *
      * @param topLevel true or false.
      */
@@ -222,27 +221,29 @@ public class Resizable {
         return _component;
     }
 
-	/**
-	 * Returns the insets that should be used to calculate the resize area.
-	 * Unless you have used setResizeInsets or overriden this method, it'll return the insets of the component.
-	 * @return the insets that should be used to calculate the resize area.
-	 */
-	public Insets getResizeInsets() {
-		if(_resizeInsets != null) {
-			return _resizeInsets;
-		}
-		return getComponent().getInsets();
-	}
+    /**
+     * Returns the insets that should be used to calculate the resize area. Unless you have used setResizeInsets or
+     * overriden this method, it'll return the insets of the component.
+     *
+     * @return the insets that should be used to calculate the resize area.
+     */
+    public Insets getResizeInsets() {
+        if (_resizeInsets != null) {
+            return _resizeInsets;
+        }
+        return getComponent().getInsets();
+    }
 
-	/**
-	 * Sets the insets the be used to calculate the resize area.
-	 * @param resizeInsets
-	 */
-	public void setResizeInsets(Insets resizeInsets) {
-		_resizeInsets = resizeInsets;
-	}
+    /**
+     * Sets the insets the be used to calculate the resize area.
+     *
+     * @param resizeInsets
+     */
+    public void setResizeInsets(Insets resizeInsets) {
+        _resizeInsets = resizeInsets;
+    }
 
-	public static class ResizeCorner extends JComponent {
+    public static class ResizeCorner extends JComponent {
         final static int SIZE = 16;
         private int _corner = LOWER_RIGHT;
 
@@ -272,40 +273,60 @@ public class Resizable {
             int size = Math.min(getWidth(), getHeight());
             int count = Math.min(size / 4, 4);
             Color old = g.getColor();
-            switch (getCorner()) {
+            int corner = getCorner();
+            boolean ltr = getComponentOrientation().isLeftToRight();
+            switch (corner) {
                 case LOWER_RIGHT: {
                     g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
                     int delta = 0;
-                    int x = getWidth() - 1;
-                    int y = getHeight() - 1;
                     for (int i = 0; i < count; i++) {
                         delta += 4;
-                        g.drawLine(x, y - delta, x - delta, y);
+                        if (ltr) {
+                            g.drawLine(size, size - delta, size - delta, size);
+                        }
+                        else {
+                            g.drawLine(0, delta, size - delta, size);
+                        }
                     }
                     g.setColor(UIDefaultsLookup.getColor("controlShadow"));
                     delta = 0;
                     for (int i = 0; i < count; i++) {
                         delta += 4;
-                        g.drawLine(x, y - delta + 1, x - delta + 1, y);
-                        g.drawLine(x, y - delta + 2, x - delta + 2, y);
+                        if (ltr) {
+                            g.drawLine(size, size - delta + 1, size - delta + 1, size);
+                            g.drawLine(size, size - delta + 2, size - delta + 2, size);
+                        }
+                        else {
+                            g.drawLine(0, delta + 1, size - delta - 1, size);
+                            g.drawLine(0, delta + 2, size - delta - 2, size);
+                        }
                     }
                 }
                 break;
                 case UPPER_RIGHT: {
                     g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
                     int delta = 0;
-                    int x = getWidth() - 1;
-                    int y = getHeight() - 1;
                     for (int i = 0; i < count; i++) {
                         delta += 4;
-                        g.drawLine(x - delta, 0, x, delta);
+                        if (ltr) {
+                            g.drawLine(size - delta, 0, size, delta);
+                        }
+                        else {
+                            g.drawLine(delta, 0, size, size - delta);
+                        }
                     }
                     g.setColor(UIDefaultsLookup.getColor("controlShadow"));
                     delta = 0;
                     for (int i = 0; i < count; i++) {
                         delta += 4;
-                        g.drawLine(x - delta + 1, 0, x, delta - 1);
-                        g.drawLine(x - delta + 2, 0, x, delta - 2);
+                        if (ltr) {
+                            g.drawLine(size - delta + 1, 0, size, delta - 1);
+                            g.drawLine(size - delta + 2, 0, size, delta - 2);
+                        }
+                        else {
+                            g.drawLine(delta + 1, 0, size, size - delta - 1);
+                            g.drawLine(delta + 2, 0, size, size - delta - 2);
+                        }
                     }
                 }
                 break;

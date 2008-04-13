@@ -24,16 +24,14 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     public static final int Y_AXIS = 1;
 
     /**
-     * Specifies that components should be laid out in the direction of
-     * a line of text as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies that components should be laid out in the direction of a line of text as determined by the target
+     * container's <code>ComponentOrientation</code> property.
      */
     public static final int LINE_AXIS = 2;
 
     /**
-     * Specifies that components should be laid out in the direction that
-     * lines flow across a page as determined by the target container's
-     * <code>ComponentOrientation</code> property.
+     * Specifies that components should be laid out in the direction that lines flow across a page as determined by the
+     * target container's <code>ComponentOrientation</code> property.
      */
     public static final int PAGE_AXIS = 3;
 
@@ -67,17 +65,14 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
 
     private int _axis = X_AXIS; // get from L&F or user can set it
 
-    private int _alignment = SwingConstants.RIGHT; // get from L&F or user can set it
+    private int _alignment = SwingConstants.TRAILING; // get from L&F or user can set it
 
     /**
-     * Creates a layout manager that will lay out components along the
-     * given axis.
+     * Creates a layout manager that will lay out components along the given axis.
      *
      * @param target              the container that needs to be laid out
-     * @param axis                the axis to lay out components along. Can be one of:
-     *                            <code>BoxLayout.X_AXIS</code>,
-     *                            <code>BoxLayout.Y_AXIS</code>,
-     *                            <code>BoxLayout.LINE_AXIS</code> or
+     * @param axis                the axis to lay out components along. Can be one of: <code>BoxLayout.X_AXIS</code>,
+     *                            <code>BoxLayout.Y_AXIS</code>, <code>BoxLayout.LINE_AXIS</code> or
      *                            <code>BoxLayout.PAGE_AXIS</code>
      * @param alignment           the alignment
      * @param sizeConstraint      the size constraint
@@ -107,17 +102,14 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Indicates that a child has changed its layout related information,
-     * and thus any cached calculations should be flushed.
+     * Indicates that a child has changed its layout related information, and thus any cached calculations should be
+     * flushed.
      * <p/>
-     * This method is called by AWT when the invalidate method is called
-     * on the Container.  Since the invalidate method may be called
-     * asynchronously to the event thread, this method may be called
-     * asynchronously.
+     * This method is called by AWT when the invalidate method is called on the Container.  Since the invalidate method
+     * may be called asynchronously to the event thread, this method may be called asynchronously.
      *
      * @param target the affected container
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public synchronized void invalidateLayout(Container target) {
         checkContainer(target);
@@ -190,13 +182,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Returns the preferred dimensions for this layout, given the components
-     * in the specified target container.
+     * Returns the preferred dimensions for this layout, given the components in the specified target container.
      *
      * @param target the container that needs to be laid out
      * @return the dimensions >= 0 && <= Integer.MAX_VALUE
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see java.awt.Container
      * @see #minimumLayoutSize
      * @see #maximumLayoutSize
@@ -222,13 +212,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Returns the minimum dimensions needed to lay out the components
-     * contained in the specified target container.
+     * Returns the minimum dimensions needed to lay out the components contained in the specified target container.
      *
      * @param target the container that needs to be laid out
      * @return the dimensions >= 0 && <= Integer.MAX_VALUE
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see #preferredLayoutSize
      * @see #maximumLayoutSize
      */
@@ -253,13 +241,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Returns the maximum dimensions the target container can use
-     * to lay out the components it contains.
+     * Returns the maximum dimensions the target container can use to lay out the components it contains.
      *
      * @param target the container that needs to be laid out
      * @return the dimenions >= 0 && <= Integer.MAX_VALUE
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see #preferredLayoutSize
      * @see #minimumLayoutSize
      */
@@ -284,15 +270,12 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Returns the alignment along the X axis for the container.
-     * If the box is horizontal, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the X axis will be returned.
+     * Returns the alignment along the X axis for the container. If the box is horizontal, the default alignment will be
+     * returned. Otherwise, the alignment needed to place the children along the X axis will be returned.
      *
      * @param target the container
      * @return the alignment >= 0.0f && <= 1.0f
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public synchronized float getLayoutAlignmentX(Container target) {
         checkContainer(target);
@@ -301,15 +284,12 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Returns the alignment along the Y axis for the container.
-     * If the box is vertical, the default
-     * alignment will be returned. Otherwise, the alignment needed
-     * to place the children along the Y axis will be returned.
+     * Returns the alignment along the Y axis for the container. If the box is vertical, the default alignment will be
+     * returned. Otherwise, the alignment needed to place the children along the Y axis will be returned.
      *
      * @param target the container
      * @return the alignment >= 0.0f && <= 1.0f
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public synchronized float getLayoutAlignmentY(Container target) {
         checkContainer(target);
@@ -318,12 +298,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Called by the AWT <!-- XXX CHECK! --> when the specified container
-     * needs to be laid out.
+     * Called by the AWT when the specified container needs to be laid out.
      *
      * @param target the container to lay out
-     * @throws java.awt.AWTError if the target isn't the container specified to the
-     *                           BoxLayout constructor
+     * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public void layoutContainer(Container target) {
         checkContainer(target);
@@ -336,6 +314,14 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         // Resolve axis to an absolute value (either X_AXIS or Y_AXIS)
         ComponentOrientation o = target.getComponentOrientation();
         int absoluteAxis = resolveAxis(_axis, o);
+        boolean ltr = o.isLeftToRight();
+        int alignment = _alignment;
+        if (_alignment == SwingConstants.LEADING) {
+            alignment = ltr ? SwingConstants.LEFT : SwingConstants.RIGHT;
+        }
+        else if (_alignment == SwingConstants.TRAILING) {
+            alignment = ltr ? SwingConstants.RIGHT : SwingConstants.LEFT;
+        }
 
         // determine the child placements
         synchronized (this) {
@@ -343,7 +329,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             resetBounds();
             if (absoluteAxis == X_AXIS) {
                 int y = in.top;
-                if (_alignment == SwingConstants.CENTER) {
+                if (alignment == SwingConstants.CENTER) {
                     Dimension size = preferredLayoutSize(target);
                     // layout left aligned button first
                     int x = in.left + (alloc.width + size.width) / 2;
@@ -382,11 +368,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                         }
                     }
                 }
-                else if (_alignment == SwingConstants.RIGHT) {
+                else if (alignment == SwingConstants.RIGHT) {
                     // layout left aligned button first
                     int x = in.left + alloc.width;
                     for (int i = 0; i < getButtonOrder().length(); i++) {
-                        char c = getButtonOrder().charAt(getButtonOrder().length() - i - 1);
+                        char c = getButtonOrder().charAt(ltr ? getButtonOrder().length() - i - 1 : i);
                         if (c == 'A' || c == 'a') {
                             x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc);
                         }
@@ -405,7 +391,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     // layout left aligned button first
                     x = in.left;
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
-                        char c = getOppositeButtonOrder().charAt(i);
+                        char c = getOppositeButtonOrder().charAt(ltr ? i : getOppositeButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
                             x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc);
                         }
@@ -420,11 +406,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                         }
                     }
                 }
-                else if (_alignment == SwingConstants.LEFT) {
+                else if (alignment == SwingConstants.LEFT) {
                     // layout left aligned button first
                     int x = in.left;
                     for (int i = 0; i < getButtonOrder().length(); i++) {
-                        char c = getButtonOrder().charAt(i);
+                        char c = getButtonOrder().charAt(ltr ? i : getButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
                             x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc);
                         }
@@ -442,7 +428,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     // layout right aligned button
                     x = in.left + alloc.width;
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
-                        char c = getOppositeButtonOrder().charAt(getOppositeButtonOrder().length() - i - 1);
+                        char c = getOppositeButtonOrder().charAt(ltr ? getOppositeButtonOrder().length() - i - 1 : i);
                         if (c == 'A' || c == 'a') {
                             x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc);
                         }
@@ -460,7 +446,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             }
             else {
                 int x = in.left;
-                if (_alignment == SwingConstants.TOP) {
+                if (alignment == SwingConstants.TOP) {
                     // layout top aligned button first
                     int y = in.top;
                     for (int i = 0; i < getButtonOrder().length(); i++) {
@@ -497,7 +483,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                         }
                     }
                 }
-                else if (_alignment == SwingConstants.BOTTOM) {
+                else if (alignment == SwingConstants.BOTTOM) {
                     // layout top aligned button first
                     int y = in.top + alloc.height;
                     for (int i = 0; i < getButtonOrder().length(); i++) {
@@ -775,10 +761,9 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     /**
-     * Given one of the 4 axis values, resolve it to an absolute axis.
-     * The relative axis values, PAGE_AXIS and LINE_AXIS are converted
-     * to their absolute couterpart given the target's ComponentOrientation
-     * value.  The absolute axes, X_AXIS and Y_AXIS are returned unmodified.
+     * Given one of the 4 axis values, resolve it to an absolute axis. The relative axis values, PAGE_AXIS and LINE_AXIS
+     * are converted to their absolute couterpart given the target's ComponentOrientation value.  The absolute axes,
+     * X_AXIS and Y_AXIS are returned unmodified.
      *
      * @param axis the axis to resolve
      * @param o    the ComponentOrientation to resolve against

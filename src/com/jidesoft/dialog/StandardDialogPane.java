@@ -13,27 +13,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 /**
- * StandardDialogPane is the content pane of StandardDialog. It can also be used
- * when you want the template of StandardDialog but you don't want to use JDialog.
- * <UL>
- * <LI> Introduce laziness. The content will not be filled until
- * pack() or show() be called.
- * <LI> Default action and cancel action. User can set default
- * action and cancel action of this dialog. By default, ENTER key
- * will trigger the default action and ESC key will trigger the cancel action and set the dialog result to RESULT_CANCELLED.
- * <LI> Divide the whole ContentPane of the dialog into three parts
- * - content panel, button panel and banner panel. By default,
- * they are added to CENTER, SOUTH and NORTH of a BorderLayout respectively.
- * There isn't anything special about this. However if all your dialogs use
- * this pattern, it will automatically make the user interface more consistent.
- * </UL>
+ * StandardDialogPane is the content pane of StandardDialog. It can also be used when you want the template of
+ * StandardDialog but you don't want to use JDialog. <UL> <LI> Introduce laziness. The content will not be filled until
+ * pack() or show() be called. <LI> Default action and cancel action. User can set default action and cancel action of
+ * this dialog. By default, ENTER key will trigger the default action and ESC key will trigger the cancel action and set
+ * the dialog result to RESULT_CANCELLED. <LI> Divide the whole ContentPane of the dialog into three parts - content
+ * panel, button panel and banner panel. By default, they are added to CENTER, SOUTH and NORTH of a BorderLayout
+ * respectively. There isn't anything special about this. However if all your dialogs use this pattern, it will
+ * automatically make the user interface more consistent. </UL>
  * <p/>
- * This class is abstract. Subclasses need to implement createBannerPanel(),
- * createButtonPanel() and createContentPanel()
+ * This class is abstract. Subclasses need to implement createBannerPanel(), createButtonPanel() and
+ * createContentPanel()
  * <p/>
- * <code>StandardDialogPane</code> has lazy loading feature. So when you are done setup the page list,
- * you need to call {@link #initComponents()} to initialize everything. This method will be called automatically
- * if the dialog pane is added to StandardDialog.
+ * <code>StandardDialogPane</code> has lazy loading feature. So when you are done setup the page list, you need to call
+ * {@link #initComponents()} to initialize everything. This method will be called automatically if the dialog pane is
+ * added to StandardDialog.
  */
 abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     private boolean _lazyConstructorCalled = false;
@@ -94,9 +88,8 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     }
 
     /**
-     * Call three createXxxPanel methods and layout them using BorderLayout.
-     * By default, banner panel, content panel and button panel are added to NORTH,
-     * CENTER and SOUTH of BorderLayout respectively.
+     * Call three createXxxPanel methods and layout them using BorderLayout. By default, banner panel, content panel and
+     * button panel are added to NORTH, CENTER and SOUTH of BorderLayout respectively.
      * <p/>
      * You can override this method if you want to layout them in another way.
      */
@@ -131,9 +124,9 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     }
 
     /**
-     * Setups the layout for the three panels - banner panel, content panel and button panel.
-     * By default, we will use BorderLayout, put the content panel in the middle, banner panel on the top and
-     * button panel either right or bottom depending on its alignment.
+     * Setups the layout for the three panels - banner panel, content panel and button panel. By default, we will use
+     * BorderLayout, put the content panel in the middle, banner panel on the top and button panel either right or
+     * bottom depending on its alignment.
      * <p/>
      * Subclass can override it to do your own layout. The three panels are the three parameters.
      *
@@ -150,13 +143,12 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
             add(contentPanel, BorderLayout.CENTER);
         }
         if (buttonPanel != null) {
-            if (buttonPanel.getAlignment() == SwingConstants.LEFT
-                    || buttonPanel.getAlignment() == SwingConstants.RIGHT
-                    || buttonPanel.getAlignment() == SwingConstants.CENTER) {
-                add(buttonPanel, BorderLayout.AFTER_LAST_LINE);
+            if (buttonPanel.getAlignment() == SwingConstants.TOP
+                    || buttonPanel.getAlignment() == SwingConstants.BOTTOM) {
+                add(buttonPanel, BorderLayout.AFTER_LINE_ENDS);
             }
             else {
-                add(buttonPanel, BorderLayout.AFTER_LINE_ENDS);
+                add(buttonPanel, BorderLayout.AFTER_LAST_LINE);
             }
         }
     }
@@ -207,11 +199,10 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     }
 
     /**
-     * Subclasses should implement this method to create the banner panel.
-     * By default banner panel will appear on top of the dialog unless you
-     * override initComponent() method. Banner panel is really used to balance
-     * the layout of dialog to make the dialog looking good. However it can be used
-     * to show some help text. It is highly recommended to use our {@link BannerPanel}
+     * Subclasses should implement this method to create the banner panel. By default banner panel will appear on top of
+     * the dialog unless you override initComponent() method. Banner panel is really used to balance the layout of
+     * dialog to make the dialog looking good. However it can be used to show some help text. It is highly recommended
+     * to use our {@link BannerPanel}
      * <p/>
      * If subclass doesn't want to have a banner panel, just return null.
      *
@@ -220,17 +211,16 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     abstract public JComponent createBannerPanel();
 
     /**
-     * Subclasses should implement this method to create the content panel.
-     * This is the main panel of the dialog which will be added to the center
-     * of the dialog. Subclass should never return null.
+     * Subclasses should implement this method to create the content panel. This is the main panel of the dialog which
+     * will be added to the center of the dialog. Subclass should never return null.
      *
      * @return the content panel.
      */
     abstract public JComponent createContentPanel();
 
     /**
-     * Subclasses should implement this method to create the button panel.
-     * 90% of dialogs have buttons. It is highly recommended to use our {@link ButtonPanel}.
+     * Subclasses should implement this method to create the button panel. 90% of dialogs have buttons. It is highly
+     * recommended to use our {@link ButtonPanel}.
      *
      * @return the button panel.
      * @see ButtonPanel

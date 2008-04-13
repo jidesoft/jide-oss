@@ -12,59 +12,54 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * <code>ButtonPanel</code> can help to layout buttons easily
- * in any dialogs.
+ * <code>ButtonPanel</code> can help to layout buttons easily in any dialogs.
  * <p/>
  * For more detail, please refer to JIDE Dialogs Developer Guide.
  */
 public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
 
     /**
-     * This option will make all buttons have the same size.
-     * If all buttons have the same size, the GUI will certainly look better.
+     * This option will make all buttons have the same size. If all buttons have the same size, the GUI will certainly
+     * look better.
      */
     public static final int SAME_SIZE = 0;
 
     /**
-     * This option will make all buttons no less than a certain size.
-     * The size is different on different platforms.
-     * We need this option because sometimes one button has a very long text.
-     * If all buttons have the same size, it will make the button panel extremely long.
-     * Even though they have the same size but will look out of balance.
-     * This option is not available if the buttons are arranged vertically.
+     * This option will make all buttons no less than a certain size. The size is different on different platforms. We
+     * need this option because sometimes one button has a very long text. If all buttons have the same size, it will
+     * make the button panel extremely long. Even though they have the same size but will look out of balance. This
+     * option is not available if the buttons are arranged vertically.
      */
     public static final int NO_LESS_THAN = 1;
 
     /**
-     * Client property key. If this client property is set to Boolean.TRUE, the button panel
-     * will always use the component's preferred width instead of using minButtonWidth.
+     * Client property key. If this client property is set to Boolean.TRUE, the button panel will always use the
+     * component's preferred width instead of using minButtonWidth.
      */
     public final static String KEEP_PREFERRED_WIDTH = "keepPreferredWidth";
 
     /**
-     * The button will produce an affirmative action. Typical affirmative buttons are
-     * OK, Save, Print, Replace etc.
-     * This constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * The button will produce an affirmative action. Typical affirmative buttons are OK, Save, Print, Replace etc. This
+     * constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String AFFIRMATIVE_BUTTON = "AFFIRMATIVE";
 
     /**
-     * The button will produce a cancel action. Typical cancel button is Cancel.
-     * This constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * The button will produce a cancel action. Typical cancel button is Cancel. This constant is used as contraint
+     * parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String CANCEL_BUTTON = "CANCEL";
 
     /**
-     * The button will open some help windows.
-     * This constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * The button will open some help windows. This constant is used as contraint parameter in {@link
+     * #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String HELP_BUTTON = "HELP";
 
     /**
-     * The button will produce an alternative action different neither an affirmative
-     * or cancel action. Typical alaternative button is Don't Save comparing with Save as affirmative action
-     * and Cancel as cancel action.
-     * This constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * The button will produce an alternative action different neither an affirmative or cancel action. Typical
+     * alaternative button is Don't Save comparing with Save as affirmative action and Cancel as cancel action. This
+     * constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String OTHER_BUTTON = "ALTERNATIVE";
 
@@ -86,40 +81,39 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
      * Constructs a new <code>ButtonPanel</code> with right alignment.
      */
     public ButtonPanel() {
-        this(SwingConstants.RIGHT);
+        this(SwingConstants.TRAILING);
     }
 
     /**
      * Constructs a new <code>ButtonPanel</code> with the specified alignment.
      *
-     * @param alignment the alignment. The supported alignment are {@link SwingConstants#RIGHT},
-     *                  {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER}, {@link SwingConstants#TOP} or
-     *                  {@link SwingConstants#BOTTOM}.
+     * @param alignment the alignment. The supported alignment are {@link SwingConstants#RIGHT}, {@link
+     *                  SwingConstants#LEFT}, {@link SwingConstants#CENTER}, {@link SwingConstants#TOP} or {@link
+     *                  SwingConstants#BOTTOM}.
      */
     public ButtonPanel(int alignment) {
         this(alignment, SAME_SIZE);
     }
 
     /**
-     * Constructs a new <code>ButtonPanel</code> with default horizontal
-     * spacing and the given alignment.
+     * Constructs a new <code>ButtonPanel</code> with default horizontal spacing and the given alignment.
      *
      * @param alignment     the alignment of the buttons. It can be one of <code>SwingConstants.LEFT</code> or
      *                      <code>SwingConstants.RIGHT</code> or <code>SwingConstants.TOP</code> or
      *                      <code>SwingConstants.BOTTOM</code> or <code>SwingConstants.CENTER</code>.
-     * @param sizeContraint size contraint of the button.
-     *                      It can be either <code>SAME_SIZE</code> or <code>NO_LESS_THAN</code>
+     * @param sizeContraint size contraint of the button. It can be either <code>SAME_SIZE</code> or
+     *                      <code>NO_LESS_THAN</code>
      */
 
     public ButtonPanel(int alignment, int sizeContraint) {
         _alignment = alignment;
 
-        if (alignment != SwingConstants.LEFT && alignment != SwingConstants.RIGHT
+        if (alignment != SwingConstants.LEFT && alignment != SwingConstants.RIGHT && alignment != SwingConstants.LEADING && alignment != SwingConstants.TRAILING
                 && alignment != SwingConstants.TOP && alignment != SwingConstants.BOTTOM && alignment != SwingConstants.CENTER) {
             throw new IllegalArgumentException("Invalid alignment");
         }
 
-        int axis = (_alignment == SwingConstants.CENTER || _alignment == SwingConstants.LEFT || _alignment == SwingConstants.RIGHT)
+        int axis = (_alignment == SwingConstants.CENTER || _alignment == SwingConstants.LEFT || _alignment == SwingConstants.RIGHT || _alignment == SwingConstants.TRAILING || _alignment == SwingConstants.LEADING)
                 ? ButtonPanelLayout.X_AXIS : ButtonPanelLayout.Y_AXIS;
 
         _layout = new ButtonPanelLayout(this, axis, _alignment, sizeContraint, _defaultOrder, _defaultOppositeOrder, _defaultButtonGap, _defaultGroupGap);
@@ -175,17 +169,17 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * Sets the alignment. If the alignment is one of SwingConstants.CENTER, SwingConstants.LEFT, and SwingConstants.RIGHT,
-     * the buttons will be laid out horizontally. If the alignment is SwingConstants.TOP or SwingConstants.BOTTOM, the buttons will
-     * be laid out vertically.
+     * Sets the alignment. If the alignment is one of SwingConstants.CENTER, SwingConstants.LEFT, SwingConstants.RIGHT,
+     * SwingConstants.LEADING or SwingConstants.TRAILING, the buttons will be laid out horizontally. If the alignment is
+     * SwingConstants.TOP or SwingConstants.BOTTOM, the buttons will be laid out vertically.
      *
-     * @param alignment the alignment. The supported alignment are {@link SwingConstants#RIGHT},
-     *                  {@link SwingConstants#LEFT}, {@link SwingConstants#CENTER}, {@link SwingConstants#TOP} or
-     *                  {@link SwingConstants#BOTTOM}.
+     * @param alignment the alignment. The supported alignment are {@link SwingConstants#RIGHT}, {@link
+     *                  SwingConstants#LEFT}, {@link SwingConstants#CENTER}, {@link SwingConstants#TOP} or {@link
+     *                  SwingConstants#BOTTOM}.
      */
     public void setAlignment(int alignment) {
         _alignment = alignment;
-        int axis = (_alignment == SwingConstants.CENTER || _alignment == SwingConstants.LEFT || _alignment == SwingConstants.RIGHT)
+        int axis = (_alignment == SwingConstants.CENTER || _alignment == SwingConstants.LEFT || _alignment == SwingConstants.RIGHT || _alignment == SwingConstants.LEADING || _alignment == SwingConstants.TRAILING)
                 ? ButtonPanelLayout.X_AXIS : ButtonPanelLayout.Y_AXIS;
         _layout.setAlignment(_alignment);
         _layout.setAxis(axis);
@@ -214,18 +208,18 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
      * Adds button to ButonPanel with specified type.
      *
      * @param button a button.
-     * @param index  the position in the button panel's list at which to insert the component; -1
-     *               means insert at the end component
+     * @param index  the position in the button panel's list at which to insert the component; -1 means insert at the
+     *               end component
      */
     public void addButton(AbstractButton button, int index) {
         addButton(button, AFFIRMATIVE_BUTTON, index);
     }
 
     /**
-     * Adds button to ButonPanel with specified constraint. The valid constraints
-     * are {@link #AFFIRMATIVE_BUTTON}, {@link #CANCEL_BUTTON},{@link #OTHER_BUTTON} and {@link #HELP_BUTTON}.
-     * The main purpose of the constraints is to determine how the buttons are laid out on different platforms according to the OS convension.
-     * For example, on Windows, AFFIRMATIVE_BUTTON appears on the right hand side of CANCEL_BUTTON. On Mac OSX, AFFIRMATIVE_BUTTON will
+     * Adds button to ButonPanel with specified constraint. The valid constraints are {@link #AFFIRMATIVE_BUTTON},
+     * {@link #CANCEL_BUTTON},{@link #OTHER_BUTTON} and {@link #HELP_BUTTON}. The main purpose of the constraints is to
+     * determine how the buttons are laid out on different platforms according to the OS convension. For example, on
+     * Windows, AFFIRMATIVE_BUTTON appears on the right hand side of CANCEL_BUTTON. On Mac OSX, AFFIRMATIVE_BUTTON will
      * appear on the left hand side of CANCEL_BUTTON.
      *
      * @param button     a button.
@@ -240,8 +234,8 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
      *
      * @param button     a button.
      * @param constraint String of one of types.
-     * @param index      the position in the button panel's list at which to insert the component; -1
-     *                   means insert at the end component
+     * @param index      the position in the button panel's list at which to insert the component; -1 means insert at
+     *                   the end component
      */
     public void addButton(AbstractButton button, Object constraint, int index) {
         add(button, constraint, index);
@@ -311,9 +305,9 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * Sets the size contraint. Valid values are {@link #NO_LESS_THAN} and {@link #SAME_SIZE}.
-     * The size constraint will apply to all components except if the component client property
-     * {@link ButtonPanel#KEEP_PREFERRED_WIDTH} is set to Boolean.TRUE.
+     * Sets the size contraint. Valid values are {@link #NO_LESS_THAN} and {@link #SAME_SIZE}. The size constraint will
+     * apply to all components except if the component client property {@link ButtonPanel#KEEP_PREFERRED_WIDTH} is set
+     * to Boolean.TRUE.
      *
      * @param sizeContraint the size contraint.
      */
@@ -457,9 +451,9 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * Gets the button with the name. In order to use this method, you have to set a name to the
-     * button using {@link AbstractButton#setName(String)} method. Please note, the name is not the same as
-     * the contraint in the second parameter of {@link #add(java.awt.Component,Object)}.
+     * Gets the button with the name. In order to use this method, you have to set a name to the button using {@link
+     * AbstractButton#setName(String)} method. Please note, the name is not the same as the contraint in the second
+     * parameter of {@link #add(java.awt.Component,Object)}.
      *
      * @param name the button name.
      * @return the button which has the name. null if there is no button with that name.

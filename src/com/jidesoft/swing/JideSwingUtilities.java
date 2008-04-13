@@ -40,8 +40,7 @@ import java.util.*;
  */
 public class JideSwingUtilities implements SwingConstants {
     /**
-     * Whether or not text is drawn anti-aliased.  This is only used if <code>AA_TEXT_DEFINED</code>
-     * is true.
+     * Whether or not text is drawn anti-aliased.  This is only used if <code>AA_TEXT_DEFINED</code> is true.
      */
     private static final boolean AA_TEXT;
 
@@ -66,7 +65,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Create a Panel around a component so that component aligns to left.
      *
      * @param object
-     *
      * @return a Panel
      */
     public static JPanel createLeftPanel(Component object) {
@@ -80,7 +78,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Create a Panel around a component so that component aligns to right.
      *
      * @param object
-     *
      * @return a Panel
      */
     public static JPanel createRightPanel(Component object) {
@@ -94,7 +91,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Create a Panel around a component so that component aligns to top.
      *
      * @param object
-     *
      * @return a Panel
      */
     public static JPanel createTopPanel(Component object) {
@@ -108,7 +104,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Create a Panel around a component so that component aligns to buttom.
      *
      * @param object
-     *
      * @return a Panel
      */
     public static JPanel createBottomPanel(Component object) {
@@ -122,7 +117,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Create a Panel around a component so that component is right in the middle.
      *
      * @param object
-     *
      * @return a Panel
      */
     public static JPanel createCenterPanel(Component object) {
@@ -214,7 +208,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Gets the top level Frame of the component.
      *
      * @param component
-     *
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
      */
     public static Frame getFrame(Component component) {
@@ -249,14 +242,13 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Synchronizes the two viewports. The view position in one view changes, the other view's view
-     * position will change too. Generally speaking, if you want the two viewports to synchronize
-     * vertically, they should have the same height. If horizonally, the same width.
+     * Synchronizes the two viewports. The view position in one view changes, the other view's view position will change
+     * too. Generally speaking, if you want the two viewports to synchronize vertically, they should have the same
+     * height. If horizonally, the same width.
      *
      * @param view1       the first viewport
      * @param view2       the second viewport
-     * @param orientation the orientation. It could be either SwingConstants.HORIZONTAL or
-     *                    SwingConstants.VERTICAL.
+     * @param orientation the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
      */
     public static void synchronizeView(final JViewport view1, final JViewport view2, final int orientation) {
         final ChangeListener c1 = new ChangeListener() {
@@ -417,14 +409,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are
-     * Comparable, we will use compareTo method to see if it equals 0. At last, we will use
-     * <code>o1.equals(o2)</code> to compare. If none of the above conditions match, we return
-     * false.
+     * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will use
+     * compareTo method to see if it equals 0. At last, we will use <code>o1.equals(o2)</code> to compare. If none of
+     * the above conditions match, we return false.
      *
      * @param o1 the first object to compare
      * @param o2 the second object to compare
-     *
      * @return true if the two objects are equal. Otherwise false.
      */
     public static boolean equals(Object o1, Object o2) {
@@ -432,17 +422,15 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the two objects equal. If both are the same instance, they are equal. If both are
-     * null, they are equal. If o1 and o2 both are Comparable, we will use compareTo method to see
-     * if it equals 0. If considerArray is true and o1 and o2 are both array, we will compare each
-     * element in the array. At last, we will use <code>o1.equals(o2)</code> to compare. If none of
-     * the above conditions match, we return false.
+     * Checks if the two objects equal. If both are the same instance, they are equal. If both are null, they are equal.
+     * If o1 and o2 both are Comparable, we will use compareTo method to see if it equals 0. If considerArray is true
+     * and o1 and o2 are both array, we will compare each element in the array. At last, we will use
+     * <code>o1.equals(o2)</code> to compare. If none of the above conditions match, we return false.
      *
      * @param o1            the first object to compare
      * @param o2            the second object to compare
-     * @param considerArray If true, and if o1 and o2 are both array, we will compare each element
-     *                      in the array instead of just compare the two array objects.
-     *
+     * @param considerArray If true, and if o1 and o2 are both array, we will compare each element in the array instead
+     *                      of just compare the two array objects.
      * @return true if the two objects are equal. Otherwise false.
      */
     public static boolean equals(Object o1, Object o2, boolean considerArray) {
@@ -490,14 +478,12 @@ public class JideSwingUtilities implements SwingConstants {
      * @param img                 the original image to be scaled
      * @param targetWidth         the desired width of the scaled instance, in pixels
      * @param targetHeight        the desired height of the scaled instance, in pixels
-     * @param hint                one of the rendering hints that corresponds to
-     *                            RenderingHints.KEY_INTERPOLATION (e.g. RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
-     *                            RenderingHints.VALUE_INTERPOLATION_BILINEAR, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
-     * @param progressiveBilinear if true, this method will use a multi-step scaling technique that
-     *                            provides higher quality than the usual one-step technique (only
-     *                            useful in down-scaling cases, where targetWidth or targetHeight is
-     *                            smaller than the original dimensions)
-     *
+     * @param hint                one of the rendering hints that corresponds to RenderingHints.KEY_INTERPOLATION (e.g.
+     *                            RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, RenderingHints.VALUE_INTERPOLATION_BILINEAR,
+     *                            RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+     * @param progressiveBilinear if true, this method will use a multi-step scaling technique that provides higher
+     *                            quality than the usual one-step technique (only useful in down-scaling cases, where
+     *                            targetWidth or targetHeight is smaller than the original dimensions)
      * @return a scaled version of the original BufferedImage
      */
     public static BufferedImage getFasterScaledInstance(BufferedImage img,
@@ -581,8 +567,7 @@ public class JideSwingUtilities implements SwingConstants {
         private String defaultVal;
 
         /**
-         * Constructor that takes the name of the system property whose string value needs to be
-         * determined.
+         * Constructor that takes the name of the system property whose string value needs to be determined.
          *
          * @param theProp the name of the system property.
          */
@@ -591,8 +576,7 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         /**
-         * Constructor that takes the name of the system property and the default value of that
-         * property.
+         * Constructor that takes the name of the system property and the default value of that property.
          *
          * @param theProp    the name of the system property.
          * @param defaultVal the default value.
@@ -603,11 +587,9 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         /**
-         * Determines the string value of the system property whose name was specified in the
-         * constructor.
+         * Determines the string value of the system property whose name was specified in the constructor.
          *
-         * @return the string value of the system property, or the default value if there is no
-         *         property with that key.
+         * @return the string value of the system property, or the default value if there is no property with that key.
          */
         public Object run() {
             String value = System.getProperty(theProp);
@@ -616,25 +598,22 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * In JDK1.4, it uses a wrong font for Swing component in Windows L&F which is actually one big
-     * reason for people to think Swing application ugly. To address this issue, we changed the code
-     * to force to use Tahoma font for all the fonts in L&F instead of using the system font.
+     * In JDK1.4, it uses a wrong font for Swing component in Windows L&F which is actually one big reason for people to
+     * think Swing application ugly. To address this issue, we changed the code to force to use Tahoma font for all the
+     * fonts in L&F instead of using the system font.
      * <p/>
-     * However this is a downside to this. Tahoma cannot display unicode characters such as Chinese,
-     * Japanese and Korean. So if the locale is CJK ({@link SystemInfo#isCJKLocale()}, we shouldn't
-     * use Tahoma. If you are on JDK 1.5 and above, you shouldn't force to use Tahoma either because
-     * JDK fixed it in 1.5 and above.
+     * However this is a downside to this. Tahoma cannot display unicode characters such as Chinese, Japanese and
+     * Korean. So if the locale is CJK ({@link SystemInfo#isCJKLocale()}, we shouldn't use Tahoma. If you are on JDK 1.5
+     * and above, you shouldn't force to use Tahoma either because JDK fixed it in 1.5 and above.
      * <p/>
      * There are also a few system properties you can set to control if system font should be used.
-     * "swing.useSystemFontSettings" is the one for all Swing applications.
-     * "Application.useSystemFontSettings" is the one for a particular Swing application.
+     * "swing.useSystemFontSettings" is the one for all Swing applications. "Application.useSystemFontSettings" is the
+     * one for a particular Swing application.
      * <p/>
-     * This method considers all the cases above. If JDK is 1.5 and above, this method will return
-     * true. If you are on Chinese, Japanese or Korean locale, it will return true. If
-     * "swing.useSystemFontSettings" property us true, it will return true. If
-     * "Application.useSystemFontSettings" property is true, it will return true. Otherwise, it will
-     * return false. All JIDE L&F considered the returned value and decide if Tahoma font should be
-     * used or not.
+     * This method considers all the cases above. If JDK is 1.5 and above, this method will return true. If you are on
+     * Chinese, Japanese or Korean locale, it will return true. If "swing.useSystemFontSettings" property us true, it
+     * will return true. If "Application.useSystemFontSettings" property is true, it will return true. Otherwise, it
+     * will return false. All JIDE L&F considered the returned value and decide if Tahoma font should be used or not.
      *
      * @return true if the L&F should use system font.
      */
@@ -704,22 +683,20 @@ public class JideSwingUtilities implements SwingConstants {
          * If true, it will call {@link #action(java.awt.Component)} on this component.
          *
          * @param c the component
-         *
          * @return true or false.
          */
         boolean condition(Component c);
 
         /**
-         * The action you want to perform on this component. This method will only be called if
-         * {@link #condition(java.awt.Component)} returns true.
+         * The action you want to perform on this component. This method will only be called if {@link
+         * #condition(java.awt.Component)} returns true.
          *
          * @param c the component
          */
         void action(Component c);
 
         /**
-         * The actino you want to perform to any components. If action(c) is called, this action is
-         * after it.
+         * The actino you want to perform to any components. If action(c) is called, this action is after it.
          *
          * @param c the component.
          */
@@ -738,11 +715,10 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public interface ConditionHandler extends Handler {
         /**
-         * If this method returns true, the recursive call will stop at the component and will not
-         * call to its children.
+         * If this method returns true, the recursive call will stop at the component and will not call to its
+         * children.
          *
          * @param c the component
-         *
          * @return true or false.
          */
         boolean stopCondition(Component c);
@@ -774,17 +750,15 @@ public class JideSwingUtilities implements SwingConstants {
          * If true, it will call {@link #action(java.awt.Component)} on this component.
          *
          * @param c the component
-         *
          * @return true or false.
          */
         boolean condition(Component c);
 
         /**
-         * The action you want to perform on this component. This method will only be called if
-         * {@link #condition(java.awt.Component)} returns true.
+         * The action you want to perform on this component. This method will only be called if {@link
+         * #condition(java.awt.Component)} returns true.
          *
          * @param c the component
-         *
          * @return the component that will be returned from {@link com.jidesoft.swing.JideSwingUtilities#getRecursively(java.awt.Component,com.jidesoft.swing.JideSwingUtilities.GetHandler)}.
          */
         Component action(Component c);
@@ -868,8 +842,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Calls setEnabled method recursively on component. <code>Component</code> c is usually a
-     * <code>Container</code>
+     * Calls setEnabled method recursively on component. <code>Component</code> c is usually a <code>Container</code>
      *
      * @param c       component
      * @param enabled true if enable; false otherwise
@@ -890,8 +863,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Calls setRequestFocusEnabled method recursively on component. <code>Component</code> c is
-     * usually a <code>Container</code>
+     * Calls setRequestFocusEnabled method recursively on component. <code>Component</code> c is usually a
+     * <code>Container</code>
      *
      * @param c       component
      * @param enabled true if setRequestFocusEnabled to true; false otherwise
@@ -924,18 +897,17 @@ public class JideSwingUtilities implements SwingConstants {
     private static final String OPAQUE_LISTENER = "setOpaqueRecursively.opaqueListener";
 
     /**
-     * setOpaqueRecursively method will make all child components opaque true or false. But if you
-     * call jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE), we will not
-     * touch this particular component when setOpaqueRecursively.
+     * setOpaqueRecursively method will make all child components opaque true or false. But if you call
+     * jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE), we will not touch this particular
+     * component when setOpaqueRecursively.
      */
     public static final String SET_OPAQUE_RECURSIVELY_EXCLUDED = "setOpaqueRecursively.excluded";
 
     /**
-     * Calls setOpaque method recursively on each component except for JButton, JComboBox and
-     * JTextComponent. <code>Component</code> c is usually a <code>Container</code>. If you would
-     * like certain child component not affected by this call, you can call
-     * jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE) before calling
-     * this method.
+     * Calls setOpaque method recursively on each component except for JButton, JComboBox and JTextComponent.
+     * <code>Component</code> c is usually a <code>Container</code>. If you would like certain child component not
+     * affected by this call, you can call jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE)
+     * before calling this method.
      *
      * @param c      component
      * @param opaque true if setOpaque to true; false otherwise
@@ -1024,10 +996,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. The JComponents orientation (LEADING/TRAILING) will
-     * also be taken into account and translated into LEFT/RIGHT values accordingly.
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. The
+     * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
+     * accordingly.
      */
     public static String layoutCompoundLabel(JComponent c,
                                              FontMetrics fm,
@@ -1090,11 +1062,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
-     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. This
+     * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
+     * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
      */
     public static String layoutCompoundLabel(FontMetrics fm,
@@ -1119,11 +1090,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewR rectangle. This layoutCompoundLabel() does not know how to
-     * handle LEADING/TRAILING values in horizontalTextPosition (they will default to RIGHT) and in
-     * horizontalAlignment (they will default to CENTER). Use the other version of
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. This
+     * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
+     * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
      */
     private static String layoutCompoundLabelImpl(JComponent c,
@@ -1599,13 +1569,11 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Disables the double buffered flag of the component and its children. The return map contains
-     * the components that were double buffered. After this call, you can then restore the double
-     * buffered flag using {@link #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using
-     * the map that is returned from this method.
+     * Disables the double buffered flag of the component and its children. The return map contains the components that
+     * were double buffered. After this call, you can then restore the double buffered flag using {@link
+     * #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from this method.
      *
      * @param c the parent container.
-     *
      * @return the map that contains all components that were double buffered.
      */
     public static Map<Component, Boolean> disableDoubleBuffered(final Component c) {
@@ -1630,13 +1598,11 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Enables the double buffered flag of the component and its children. The return map contains
-     * the components that weren't double buffered. After this call, you can then restore the double
-     * buffered flag using {@link #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using
-     * the map that is returned from this method.
+     * Enables the double buffered flag of the component and its children. The return map contains the components that
+     * weren't double buffered. After this call, you can then restore the double buffered flag using {@link
+     * #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from this method.
      *
      * @param c the parent container.
-     *
      * @return the map that contains all components that weren't double buffered.
      */
     public static Map<Component, Boolean> enableDoubleBuffered(final Component c) {
@@ -1661,12 +1627,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Restores the double buffered flag of the component and its children. Only components that are
-     * in the map will be changed.
+     * Restores the double buffered flag of the component and its children. Only components that are in the map will be
+     * changed.
      *
      * @param c   the parent container.
-     * @param map a map maps from component to a boolean. If the boolean is true, it means the
-     *            component was double buffered bore. Otherwise, not double buffered.
+     * @param map a map maps from component to a boolean. If the boolean is true, it means the component was double
+     *            buffered bore. Otherwise, not double buffered.
      */
     public static void restoreDoubleBuffered(final Component c, final Map<Component, Boolean> map) {
         JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
@@ -1708,7 +1674,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Returns whether or not text should be drawn antialiased.
      *
      * @param c JComponent to test.
-     *
      * @return Whether or not text should be drawn antialiased for the specified component.
      */
     private static boolean drawTextAntialiased(Component c) {
@@ -1734,7 +1699,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Returns whether or not text should be drawn antialiased.
      *
      * @param aaText Whether or not aa text has been turned on for the component.
-     *
      * @return Whether or not text should be drawn antialiased.
      */
     public static boolean drawTextAntialiased(boolean aaText) {
@@ -1778,9 +1742,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Get rendering hints from a Graphics instance. "hintsToSave" is a Map of RenderingHint
-     * key-values. For each hint key present in that map, the value of that hint is obtained from
-     * the Graphics and stored as the value for the key in savedHints.
+     * Get rendering hints from a Graphics instance. "hintsToSave" is a Map of RenderingHint key-values. For each hint
+     * key present in that map, the value of that hint is obtained from the Graphics and stored as the value for the key
+     * in savedHints.
      */
     private static RenderingHints getRenderingHints(Graphics2D g2d,
                                                     RenderingHints hintsToSave,
@@ -1837,13 +1801,12 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Setups the graphics to draw text using anti-alias.
      * <p/>
-     * Under JDK1.4 and JDK5, this method will use a system property "swing.aatext" to determine if
-     * anti-alias is used. Under JDK6, we will read the system setting. For example, on Windows XP,
-     * there is a check box to turn on clear type anti-alias. We will use the same settings.
+     * Under JDK1.4 and JDK5, this method will use a system property "swing.aatext" to determine if anti-alias is used.
+     * Under JDK6, we will read the system setting. For example, on Windows XP, there is a check box to turn on clear
+     * type anti-alias. We will use the same settings.
      *
      * @param c
      * @param g
-     *
      * @return the old hints. You will need this value as the third parameter in {@link
      *         #restoreAntialiasing(java.awt.Component,java.awt.Graphics,Object)}.
      */
@@ -1888,7 +1851,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Setups the graphics to draw shape using anti-alias.
      *
      * @param g
-     *
      * @return the old hints. You will need this value as the third parameter in {@link
      *         #restoreShapeAntialiasing(java.awt.Graphics,Object)}.
      */
@@ -2037,9 +1999,7 @@ public class JideSwingUtilities implements SwingConstants {
      * containerContainsFocus, does the specified container contain the current focusOwner?
      *
      * @param cont the specified container
-     *
-     * @return Is the current focusOwner a descendent of the specified container, or the container
-     *         itself?
+     * @return Is the current focusOwner a descendent of the specified container, or the container itself?
      */
     public static boolean containerContainsFocus(Container cont) {
         Component focusOwner =
@@ -2115,12 +2075,11 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Fills a gradient using the startColor and endColor specified. This is a fast version of fill
-     * gradient which will not only leverage hardware acceleration, but also cache GradientPaint and
-     * reuse it.
+     * Fills a gradient using the startColor and endColor specified. This is a fast version of fill gradient which will
+     * not only leverage hardware acceleration, but also cache GradientPaint and reuse it.
      * <p/>
-     * We also leave an option to use the normal GradientPaint to paint the gradient. To do so, just
-     * set a system property "normalGradientPaint" to "false".
+     * We also leave an option to use the normal GradientPaint to paint the gradient. To do so, just set a system
+     * property "normalGradientPaint" to "false".
      *
      * @param g2d
      * @param s
@@ -2141,7 +2100,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Gets the top modal dialog of current window.
      *
      * @param w
-     *
      * @return the top modal dialog of current window.
      */
     public static Window getTopModalDialog(Window w) {
@@ -2230,13 +2188,11 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Find some subcomponent of the specified container that will accept focus.
      * <p/>
-     * Note that this doesn't do something smart like trying to walk the hierarchy horizontally at
-     * each level so that the focused subcomponent is as high as possible. Rather, it drills
-     * vertically. It's just a safety valve so that focus can be requested somewhere rather than
-     * being lost.
+     * Note that this doesn't do something smart like trying to walk the hierarchy horizontally at each level so that
+     * the focused subcomponent is as high as possible. Rather, it drills vertically. It's just a safety valve so that
+     * focus can be requested somewhere rather than being lost.
      *
      * @param container
-     *
      * @return a focusable subcomponent
      */
     public static Component findSomethingFocusable(Container container) {
@@ -2263,11 +2219,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * There are four standard tests which determine if Swing will be able to request focus for a
-     * component. Test them.
+     * There are four standard tests which determine if Swing will be able to request focus for a component. Test them.
      *
      * @param comp
-     *
      * @return does the specified component pass the four focusability tests
      */
     public static boolean passesFocusabilityTest(Component comp) {
@@ -2277,10 +2231,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Ignore the exception. This method does nothing. However it's a good practice to use this
-     * method so that we can easily find out the place that ignoring exception. In development
-     * phase, we can log a message in this method so that we can verify if it makes sense to
-     * ignore.
+     * Ignore the exception. This method does nothing. However it's a good practice to use this method so that we can
+     * easily find out the place that ignoring exception. In development phase, we can log a message in this method so
+     * that we can verify if it makes sense to ignore.
      *
      * @param e
      */
@@ -2297,8 +2250,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Throws the exception. If the exception is RuntimeException, just throw it. Otherwise, wrap it
-     * in RuntimeException and throw it.
+     * Throws the exception. If the exception is RuntimeException, just throw it. Otherwise, wrap it in RuntimeException
+     * and throw it.
      *
      * @param e
      */
@@ -2312,9 +2265,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Throws the InvocationTargetException. Usually InvocationTargetException has a nested
-     * exception as target exception. If the target exception is a RuntimeException or Error, we
-     * will throw it. Otherwise, we will wrap it inside RuntimeException and throw it.
+     * Throws the InvocationTargetException. Usually InvocationTargetException has a nested exception as target
+     * exception. If the target exception is a RuntimeException or Error, we will throw it. Otherwise, we will wrap it
+     * inside RuntimeException and throw it.
      *
      * @param e
      */
@@ -2355,14 +2308,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Gets the first occurence of the component with specified type in the container. It used
-     * deep-first searching to find it.
+     * Gets the first occurence of the component with specified type in the container. It used deep-first searching to
+     * find it.
      *
      * @param c
      * @param container
-     *
-     * @return the first occurence of the component with specified type in the container. Null if
-     *         nothing is found.
+     * @return the first occurence of the component with specified type in the container. Null if nothing is found.
      */
     public static Component getDescendantOfClass(Class c, Container container) {
         if (container == null || c == null)
@@ -2496,8 +2447,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Draws a border based on an image. The image can be divided into nine different areas. Each
-     * area size is determined by the insets.
+     * Draws a border based on an image. The image can be divided into nine different areas. Each area size is
+     * determined by the insets.
      */
     public static void drawImageBorder(Graphics g, ImageIcon img, Rectangle rect, Insets ins, boolean drawCenter) {
         int left = ins.left;
@@ -2543,7 +2494,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Copied from BasicLookAndFeel as the method is package local.
      *
      * @param component
-     *
      * @return if request focus is success or not.
      */
     public static boolean compositeRequestFocus(Component component) {
@@ -2588,15 +2538,12 @@ public class JideSwingUtilities implements SwingConstants {
      * Gets the top level Window of the component.
      *
      * @param component
-     *
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
-     *
-     * @deprecated Please use {@link #getWindowForComponent(java.awt.Component)} instead.
-     *             getWindowForComponent method is the same as the same name method in JOptionPane.
-     *             We have to copy it here because it's not public. getWindowForComponent is better
-     *             than this method is because it will give you a shared root frame even when
-     *             parentComponent is null. You can refer to {@link javax.swing.JOptionPane#getRootFrame()}
-     *             for more information.
+     * @deprecated Please use {@link #getWindowForComponent(java.awt.Component)} instead. getWindowForComponent method
+     *             is the same as the same name method in JOptionPane. We have to copy it here because it's not public.
+     *             getWindowForComponent is better than this method is because it will give you a shared root frame even
+     *             when parentComponent is null. You can refer to {@link javax.swing.JOptionPane#getRootFrame()} for
+     *             more information.
      */
     @Deprecated
     public static Window getWindow(Component component) {
@@ -2629,7 +2576,6 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param component the component
      * @param l         the listener
-     *
      * @return true if already registered. Otherwise false.
      */
     public static boolean isKeyListenerRegistered(Component component, KeyListener l) {
@@ -2668,8 +2614,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Inserts the table model listener at the particular index in the listeners' chain. The
-     * listeners are fired in reverse order. So the listener at index 0 will be fired at last.
+     * Inserts the table model listener at the particular index in the listeners' chain. The listeners are fired in
+     * reverse order. So the listener at index 0 will be fired at last.
      *
      * @param model the AbstractTableModel
      * @param l     the TableModelListener to be inserted
@@ -2702,7 +2648,6 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param component the component
      * @param l         the listener
-     *
      * @return true if already registered. Otherwise false.
      */
     public static boolean isMouseListenerRegistered(Component component, MouseListener l) {
@@ -2745,7 +2690,6 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param component the component
      * @param l         the listener
-     *
      * @return true if already registered. Otherwise false.
      */
     public static boolean isMouseMotionListenerRegistered(Component component, MouseMotionListener l) {
@@ -2787,7 +2731,6 @@ public class JideSwingUtilities implements SwingConstants {
      * Gets the scroll pane around the component.
      *
      * @param innerComponent
-     *
      * @return the scroll pane. Null if the component is not in any JScrollPane.
      */
     public static Component getScrollPane(Component innerComponent) {
@@ -2805,13 +2748,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the listener is always registered to the EventListenerList to avoid duplicated
-     * registration of the same listener
+     * Checks if the listener is always registered to the EventListenerList to avoid duplicated registration of the same
+     * listener
      *
      * @param list the EventListenerList to register the listener.
      * @param t    the type of the EventListener.
      * @param l    the listener.
-     *
      * @return true if already registered. Otherwise false.
      */
     public static boolean isListenerRegistered(EventListenerList list, Class t, EventListener l) {
@@ -2820,13 +2762,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the listener is always registered to the Component to avoid duplicated registration
-     * of the same listener
+     * Checks if the listener is always registered to the Component to avoid duplicated registration of the same
+     * listener
      *
      * @param component the component that you want to register the listener.
      * @param t         the type of the EventListener.
      * @param l         the listener.
-     *
      * @return true if already registered. Otherwise false.
      */
     public static boolean isListenerRegistered(Component component, Class t, EventListener l) {
@@ -2848,7 +2789,6 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param clazz the type of the component to look for
      * @param c     the component
-     *
      * @return the first child of the component that is the specified type.
      */
     public static Component getFirstChildOf(final Class<?> clazz, Component c) {
@@ -2873,8 +2813,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * To make sure the row is visible. If the table's horizontal scroll bar is visible, the method
-     * will not change the horizontal scroll bar's position.
+     * To make sure the row is visible. If the table's horizontal scroll bar is visible, the method will not change the
+     * horizontal scroll bar's position.
      *
      * @param table
      * @param row
@@ -2935,8 +2875,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * If c is a JRootPane descendant return its outermost JRootPane ancestor. If c is a
-     * RootPaneContainer then return its JRootPane.
+     * If c is a JRootPane descendant return its outermost JRootPane ancestor. If c is a RootPaneContainer then return
+     * its JRootPane.
      *
      * @return the outermost JRootPane for Component c or {@code null}.
      */
@@ -2961,12 +2901,11 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the font specified by the font name is fixed width font. Fixed width font means all
-     * chars have the exact same width.
+     * Checks if the font specified by the font name is fixed width font. Fixed width font means all chars have the
+     * exact same width.
      *
      * @param fontName  the font name
      * @param component the component where the font will be displayed.
-     *
      * @return ture if the font is fixed width. Otherwise false.
      */
     public static boolean isFixedWidthFont(String fontName, Component component) {
@@ -2998,5 +2937,54 @@ public class JideSwingUtilities implements SwingConstants {
             // ignore it and return false
         }
         return false;
+    }
+
+    /**
+     * Sets the locale recursively on the component and all its child components if any.
+     *
+     * @param c      the component
+     * @param locale the new locales.
+     */
+    public static void setLocaleRecursively(final Component c, final Locale locale) {
+        if (c instanceof JComponent) {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+                public boolean condition(Component c) {
+                    return true;
+                }
+
+                public void action(Component c) {
+                    c.setLocale(locale);
+                }
+
+                public void postAction(Component c) {
+
+                }
+            });
+        }
+    }
+
+    /**
+     * Invalidate and doLayout on the component and all its child components if any.
+     *
+     * @param c the component
+     */
+    public static void invalidateRecursively(final Component c) {
+        if (c instanceof JComponent) {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+                public boolean condition(Component c) {
+                    return true;
+                }
+
+                public void action(Component c) {
+                    if (c instanceof JComponent) ((JComponent) c).revalidate();
+                    c.invalidate();
+                }
+
+                public void postAction(Component c) {
+                }
+            });
+        }
+        c.doLayout();
+        c.repaint();
     }
 }
