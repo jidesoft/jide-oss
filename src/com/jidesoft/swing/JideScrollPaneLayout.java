@@ -10,10 +10,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * The layout manager used by <code>JideScrollPane</code>.
- * <code>JideScrollPaneLayout</code> is
- * responsible for eleven components: a viewport, two scrollbars,
- * a row header, a column header, a row footer, a column footer, and four "corner" components.
+ * The layout manager used by <code>JideScrollPane</code>. <code>JideScrollPaneLayout</code> is responsible for eleven
+ * components: a viewport, two scrollbars, a row header, a column header, a row footer, a column footer, and four
+ * "corner" components.
  */
 class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneConstants {
     /**
@@ -155,9 +154,8 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
      * Returns the <code>Component</code> at the specified corner.
      *
      * @param key the <code>String</code> specifying the corner
-     * @return the <code>Component</code> at the specified corner, as defined in
-     *         {@link ScrollPaneConstants}; if <code>key</code> is not one of the
-     *         four corners, <code>null</code> is returned
+     * @return the <code>Component</code> at the specified corner, as defined in {@link ScrollPaneConstants}; if
+     *         <code>key</code> is not one of the four corners, <code>null</code> is returned
      * @see JScrollPane#getCorner
      */
     public Component getScrollBarCorner(String key) {
@@ -179,17 +177,13 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
     }
 
     /**
-     * The preferred size of a <code>ScrollPane</code> is the size of the insets,
-     * plus the preferred size of the viewport, plus the preferred size of
-     * the visible headers, plus the preferred size of the scrollbars
-     * that will appear given the current view and the current
-     * scrollbar displayPolicies.
-     * <p>Note that the rowHeader is calculated as part of the preferred width
-     * and the colHeader is calculated as part of the preferred size.
+     * The preferred size of a <code>ScrollPane</code> is the size of the insets, plus the preferred size of the
+     * viewport, plus the preferred size of the visible headers, plus the preferred size of the scrollbars that will
+     * appear given the current view and the current scrollbar displayPolicies. <p>Note that the rowHeader is calculated
+     * as part of the preferred width and the colHeader is calculated as part of the preferred size.
      *
      * @param parent the <code>Container</code> that will be laid out
-     * @return a <code>Dimension</code> object specifying the preferred size of the
-     *         viewport and any scrollbars
+     * @return a <code>Dimension</code> object specifying the preferred size of the viewport and any scrollbars
      * @see ViewportLayout
      * @see LayoutManager
      */
@@ -348,11 +342,9 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
     }
 
     /**
-     * The minimum size of a <code>ScrollPane</code> is the size of the insets
-     * plus minimum size of the viewport, plus the scrollpane's
-     * viewportBorder insets, plus the minimum size
-     * of the visible headers, plus the minimum size of the
-     * scrollbars whose displayPolicy isn't NEVER.
+     * The minimum size of a <code>ScrollPane</code> is the size of the insets plus minimum size of the viewport, plus
+     * the scrollpane's viewportBorder insets, plus the minimum size of the visible headers, plus the minimum size of
+     * the scrollbars whose displayPolicy isn't NEVER.
      *
      * @param parent the <code>Container</code> that will be laid out
      * @return a <code>Dimension</code> object specifying the minimum size
@@ -470,35 +462,26 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
 
     /**
-     * Lays out the scrollpane. The positioning of components depends on
-     * the following constraints:
-     * <ul>
-     * <li> The row header, if present and visible, gets its preferred
-     * width and the viewport's height.
+     * Lays out the scrollpane. The positioning of components depends on the following constraints: <ul> <li> The row
+     * header, if present and visible, gets its preferred width and the viewport's height.
      * <p/>
-     * <li> The column header, if present and visible, gets its preferred
-     * height and the viewport's width.
+     * <li> The column header, if present and visible, gets its preferred height and the viewport's width.
      * <p/>
-     * <li> If a vertical scrollbar is needed, i.e. if the viewport's extent
-     * height is smaller than its view height or if the <code>displayPolicy</code>
-     * is ALWAYS, it's treated like the row header with respect to its
-     * dimensions and is made visible.
+     * <li> If a vertical scrollbar is needed, i.e. if the viewport's extent height is smaller than its view height or
+     * if the <code>displayPolicy</code> is ALWAYS, it's treated like the row header with respect to its dimensions and
+     * is made visible.
      * <p/>
-     * <li> If a horizontal scrollbar is needed, it is treated like the
-     * column header (see the paragraph above regarding the vertical scrollbar).
+     * <li> If a horizontal scrollbar is needed, it is treated like the column header (see the paragraph above regarding
+     * the vertical scrollbar).
      * <p/>
-     * <li> If the scrollpane has a non-<code>null</code>
-     * <code>viewportBorder</code>, then space is allocated for that.
+     * <li> If the scrollpane has a non-<code>null</code> <code>viewportBorder</code>, then space is allocated for
+     * that.
      * <p/>
-     * <li> The viewport gets the space available after accounting for
-     * the previous constraints.
+     * <li> The viewport gets the space available after accounting for the previous constraints.
      * <p/>
-     * <li> The corner components, if provided, are aligned with the
-     * ends of the scrollbars and headers. If there is a vertical
-     * scrollbar, the right corners appear; if there is a horizontal
-     * scrollbar, the lower corners appear; a row header gets left
-     * corners, and a column header gets upper corners.
-     * </ul>
+     * <li> The corner components, if provided, are aligned with the ends of the scrollbars and headers. If there is a
+     * vertical scrollbar, the right corners appear; if there is a horizontal scrollbar, the lower corners appear; a row
+     * header gets left corners, and a column header gets upper corners. </ul>
      *
      * @param parent the <code>Container</code> to lay out
      */
@@ -519,10 +502,6 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         availR.y = insets.top;
         availR.width -= insets.left + insets.right;
         availR.height -= insets.top + insets.bottom;
-
-        /* Get the scrollPane's orientation.
-         */
-        boolean leftToRight = scrollPane.getComponentOrientation().isLeftToRight();
 
         /* If there's a visible column header remove the space it
          * needs from the top of availR.  The column header is treated
@@ -560,13 +539,8 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
             rowHeadR.width = rowHeadWidth;
             availR.width -= rowHeadWidth;
-            if (leftToRight) {
-                rowHeadR.x = availR.x;
-                availR.x += rowHeadWidth;
-            }
-            else {
-                rowHeadR.x = availR.x + availR.width;
-            }
+            rowHeadR.x = availR.x;
+            availR.x += rowHeadWidth;
         }
 
         /* If there's a JScrollPane.viewportBorder, remove the
@@ -598,13 +572,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                     _rowFoot.getPreferredSize().width);
             rowFootR.width = rowFootWidth;
             availR.width -= rowFootWidth;
-            if (leftToRight) {
-                rowFootR.x = availR.x + availR.width;
-            }
-            else {
-                rowFootR.x = availR.x;
-                availR.x += rowFootWidth;
-            }
+            rowFootR.x = availR.x + availR.width;
         }
 
         /* If there's a visible column footer remove the space it
@@ -691,7 +659,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
 
         if ((vsb != null) && vsbNeeded) {
-            adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
+            adjustForVSB(true, availR, vsbR, vpbInsets, true);
             extentSize = viewport.toViewCoordinates(availR.getSize());
         }
 
@@ -731,7 +699,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                 vsbNeeded = viewPrefSize.height > extentSize.height;
 
                 if (vsbNeeded) {
-                    adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
+                    adjustForVSB(true, availR, vsbR, vpbInsets, true);
                 }
             }
         }
@@ -743,8 +711,12 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          * answer.
          */
 
+        // Get the scrollPane's orientation.
+        boolean ltr = scrollPane.getComponentOrientation().isLeftToRight();
+
+
         if (viewport != null) {
-            viewport.setBounds(availR);
+            viewport.setBounds(adjustBounds(parent, availR, ltr));
 //            viewport.setViewSize(availR.getSize());  // to fix the strange scroll bar problem reported on http://www.jidesoft.com/forum/viewtopic.php?p=20526#20526
 
             if (sv != null) {
@@ -758,8 +730,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                     boolean newVSBNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || (rowHead != null && rowHead.getView() != null && rowHead.getView().getPreferredSize().height > extentSize.height));
                     if (newVSBNeeded != vsbNeeded) {
                         vsbNeeded = newVSBNeeded;
-                        adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets,
-                                leftToRight);
+                        adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets, true);
                         extentSize = viewport.toViewCoordinates
                                 (availR.getSize());
                     }
@@ -778,8 +749,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                                     extentSize.height;
 
                             if (vsbNeeded) {
-                                adjustForVSB(true, availR, vsbR, vpbInsets,
-                                        leftToRight);
+                                adjustForVSB(true, availR, vsbR, vpbInsets, true);
                             }
                         }
                         if (_rowFoot != null && _rowFoot.isVisible()) {
@@ -789,7 +759,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                 }
                 if (oldHSBNeeded != hsbNeeded ||
                         oldVSBNeeded != vsbNeeded) {
-                    viewport.setBounds(availR);
+                    viewport.setBounds(adjustBounds(parent, availR, ltr));
                     // You could argue that we should recheck the
                     // Scrollable methods again until they stop changing,
                     // but they might never stop changing, so we stop here
@@ -798,7 +768,8 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             }
         }
 
-        /* We now have the final size of the viewport: availR.
+        /*
+         * We now have the final size of the viewport: availR.
          * Now fixup the header and scrollbar widths/heights.
          */
         vsbR.height = isVsbCoversWholeHeight(scrollPane) ? scrollPane.getHeight() - 1 : availR.height + vpbInsets.top + vpbInsets.bottom;
@@ -823,28 +794,28 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          */
 
         if (rowHead != null) {
-            rowHead.setBounds(rowHeadR);
+            rowHead.setBounds(adjustBounds(parent, rowHeadR, ltr));
         }
 
         if (_rowFoot != null) {
-            _rowFoot.setBounds(rowFootR);
+            _rowFoot.setBounds(adjustBounds(parent, rowFootR, ltr));
         }
 
         if (colHead != null) {
             int height = Math.min(colHeadR.height, colHead.getPreferredSize().height);
-            colHead.setBounds(new Rectangle(colHeadR.x, colHeadR.y + colHeadR.height - height, colHeadR.width, height));
+            colHead.setBounds(adjustBounds(parent, new Rectangle(colHeadR.x, colHeadR.y + colHeadR.height - height, colHeadR.width, height), ltr));
         }
 
         if (_colFoot != null) {
             int height = Math.min(colFootR.height, _colFoot.getPreferredSize().height);
-            _colFoot.setBounds(new Rectangle(colFootR.x, colFootR.y, colFootR.width, height));
+            _colFoot.setBounds(adjustBounds(parent, new Rectangle(colFootR.x, colFootR.y, colFootR.width, height), ltr));
         }
 
         if (vsb != null) {
             if (vsbNeeded) {
                 vsb.setVisible(true);
                 if (_vTop == null && _vBottom == null)
-                    vsb.setBounds(vsbR);
+                    vsb.setBounds(adjustBounds(parent, vsbR, ltr));
                 else {
                     Rectangle rect = new Rectangle(vsbR);
                     if (_vTop != null) {
@@ -852,21 +823,21 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                         rect.y += dim.height;
                         rect.height -= dim.height;
                         _vTop.setVisible(true);
-                        _vTop.setBounds(vsbR.x, vsbR.y, vsbR.width, dim.height);
+                        _vTop.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y, vsbR.width, dim.height), ltr));
                     }
                     if (_vBottom != null) {
                         Dimension dim = _vBottom.getPreferredSize();
                         rect.height -= dim.height;
                         _vBottom.setVisible(true);
-                        _vBottom.setBounds(vsbR.x, vsbR.y + vsbR.height - dim.height, vsbR.width, dim.height);
+                        _vBottom.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y + vsbR.height - dim.height, vsbR.width, dim.height), ltr));
                     }
-                    vsb.setBounds(rect);
+                    vsb.setBounds(adjustBounds(parent, rect, ltr));
                 }
             }
             else {
                 if (viewPrefSize.height > extentSize.height) {
                     vsb.setVisible(true);
-                    vsb.setBounds(vsbR.x, vsbR.y, 0, vsbR.height);
+                    vsb.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y, 0, vsbR.height), ltr));
                 }
                 else {
                     vsb.setVisible(false);
@@ -882,7 +853,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             if (hsbNeeded) {
                 hsb.setVisible(true);
                 if (_hLeft == null && _hRight == null)
-                    hsb.setBounds(hsbR);
+                    hsb.setBounds(adjustBounds(parent, hsbR, ltr));
                 else {
                     Rectangle rect = new Rectangle(hsbR);
                     if (_hLeft != null) {
@@ -890,22 +861,22 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                         rect.x += dim.width;
                         rect.width -= dim.width;
                         _hLeft.setVisible(true);
-                        _hLeft.setBounds(hsbR.x, hsbR.y, dim.width, hsbR.height);
+                        _hLeft.setBounds(adjustBounds(parent, new Rectangle(hsbR.x, hsbR.y, dim.width, hsbR.height), ltr));
                         _hLeft.doLayout();
                     }
                     if (_hRight != null) {
                         Dimension dim = _hRight.getPreferredSize();
                         rect.width -= dim.width;
                         _hRight.setVisible(true);
-                        _hRight.setBounds(hsbR.x + hsbR.width - dim.width, hsbR.y, dim.width, hsbR.height);
+                        _hRight.setBounds(adjustBounds(parent, new Rectangle(adjustBounds(parent, availR, ltr)), ltr));
                     }
-                    hsb.setBounds(rect);
+                    hsb.setBounds(adjustBounds(parent, rect, ltr));
                 }
             }
             else {
                 if (viewPrefSize.width > extentSize.width) {
                     hsb.setVisible(true);
-                    hsb.setBounds(hsbR.x, hsbR.y, hsbR.width, 0);
+                    hsb.setBounds(adjustBounds(parent, new Rectangle(hsbR.x, hsbR.y, hsbR.width, 0), ltr));
                 }
                 else {
                     hsb.setVisible(false);
@@ -919,52 +890,49 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
 
         if (lowerLeft != null && lowerLeft.isVisible()) {
             int height = Math.min(lowerLeft.getPreferredSize().height, colFootR.height);
-            lowerLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
-                    colFootR.y != 0 ? colFootR.y : hsbR.y,
-                    leftToRight ? rowHeadR.width : vsbR.width,
-                    height);
+            lowerLeft.setBounds(adjustBounds(parent, new Rectangle(rowHeadR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowHeadR.width, height), ltr));
         }
 
         if (lowerRight != null && lowerRight.isVisible()) {
             int height = Math.min(lowerRight.getPreferredSize().height, colFootR.height);
-            lowerRight.setBounds(leftToRight ? rowFootR.x : rowHeadR.x,
-                    colFootR.y != 0 ? colFootR.y : hsbR.y,
-                    leftToRight ? rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width) : rowHeadR.width,
-                    height);
+            lowerRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width), height), ltr));
         }
 
         if (upperLeft != null && upperLeft.isVisible()) {
             int height = Math.min(upperLeft.getPreferredSize().height, colHeadR.height);
-            upperLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
-                    colHeadR.y + colHeadR.height - height,
-                    leftToRight ? rowHeadR.width : vsbR.width,
-                    height);
+            upperLeft.setBounds(adjustBounds(parent, new Rectangle(rowHeadR.x, colHeadR.y + colHeadR.height - height, rowHeadR.width, height), ltr));
         }
 
         if (upperRight != null && upperRight.isVisible()) {
             int height = Math.min(upperRight.getPreferredSize().height, colHeadR.height);
-            upperRight.setBounds(leftToRight ? rowFootR.x : rowHeadR.x,
-                    colHeadR.y + colHeadR.height - height,
-                    leftToRight ? rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width) : rowHeadR.width,
-                    height);
+            upperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colHeadR.y + colHeadR.height - height, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width), height), ltr));
+        }
+    }
+
+    private Rectangle adjustBounds(Container container, Rectangle rect, boolean ltr) {
+        if (ltr) {
+            return rect;
+        }
+        else {
+            Rectangle r = new Rectangle(rect);
+            int w = container.getWidth();
+            r.x = w - (rect.x + rect.width);
+            return r;
         }
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the vertical scrollbar is needed (<code>wantsVSB</code>).
-     * The location of the vsb is updated in <code>vsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the vsb. This is only called when <code>wantsVSB</code> has
-     * changed, eg you shouldn't invoke adjustForVSB(true) twice.
+     * Adjusts the <code>Rectangle</code> <code>available</code> based on if the vertical scrollbar is needed
+     * (<code>wantsVSB</code>). The location of the vsb is updated in <code>vsbR</code>, and the viewport border insets
+     * (<code>vpbInsets</code>) are used to offset the vsb. This is only called when <code>wantsVSB</code> has changed,
+     * eg you shouldn't invoke adjustForVSB(true) twice.
      */
     private void adjustForVSB(boolean wantsVSB, Rectangle available,
                               Rectangle vsbR, Insets vpbInsets,
                               boolean leftToRight) {
         int oldWidth = vsbR.width;
         if (wantsVSB) {
-            int vsbWidth = Math.max(0, Math.min(vsb.getPreferredSize().width,
-                    available.width));
+            int vsbWidth = Math.max(0, vsb.getPreferredSize().width);
 
             available.width -= vsbWidth;
             vsbR.width = vsbWidth;
@@ -983,19 +951,16 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the horizontal scrollbar is needed (<code>wantsHSB</code>).
-     * The location of the hsb is updated in <code>hsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the hsb.  This is only called when <code>wantsHSB</code> has
-     * changed, eg you shouldn't invoked adjustForHSB(true) twice.
+     * Adjusts the <code>Rectangle</code> <code>available</code> based on if the horizontal scrollbar is needed
+     * (<code>wantsHSB</code>). The location of the hsb is updated in <code>hsbR</code>, and the viewport border insets
+     * (<code>vpbInsets</code>) are used to offset the hsb.  This is only called when <code>wantsHSB</code> has changed,
+     * eg you shouldn't invoked adjustForHSB(true) twice.
      */
     private void adjustForHSB(boolean wantsHSB, Rectangle available,
                               Rectangle hsbR, Insets vpbInsets) {
         int oldHeight = hsbR.height;
         if (wantsHSB) {
-            int hsbHeight = Math.max(0, Math.min(available.height,
-                    hsb.getPreferredSize().height));
+            int hsbHeight = Math.max(0, hsb.getPreferredSize().height);
 
             available.height -= hsbHeight;
             hsbR.y = available.y + available.height + vpbInsets.bottom;
