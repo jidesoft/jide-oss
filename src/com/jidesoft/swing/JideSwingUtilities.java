@@ -2964,6 +2964,47 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Sets the bounds. If the container orientation is from right to left, this method will adjust the x to the
+     * opposite.
+     *
+     * @param container the container. It is usually the parent of the component.
+     * @param component the component to set bounds
+     * @param bounds    the bounds.
+     */
+    public static void setBounds(Container container, Component component, Rectangle bounds) {
+        if (container.getComponentOrientation().isLeftToRight()) {
+            component.setBounds(bounds);
+        }
+        else {
+            Rectangle r = new Rectangle(bounds);
+            int w = container.getWidth();
+            r.x = w - (bounds.x + bounds.width);
+            component.setBounds(r);
+        }
+    }
+
+    /**
+     * Sets the bounds. If the container orientation is from right to left, this method will adjust the x to the
+     * opposite.
+     *
+     * @param container the container. It is usually the parent of the component.
+     * @param component the component to set bounds
+     * @param x         the x of the bounds
+     * @param y         the y of the bounds
+     * @param width     the the height of the bounds. of the bounds.
+     * @param height    the height of the bounds.
+     */
+    public static void setBounds(Container container, Component component, int x, int y, int width, int height) {
+        if (container.getComponentOrientation().isLeftToRight()) {
+            component.setBounds(x, y, width, height);
+        }
+        else {
+            int w = container.getWidth();
+            component.setBounds(w - x - width, y, width, height);
+        }
+    }
+
+    /**
      * Invalidate and doLayout on the component and all its child components if any.
      *
      * @param c the component
