@@ -25,6 +25,9 @@ public class FileConverter implements ObjectConverter {
     }
 
     public Object fromString(String string, ConverterContext context) {
+        if (string == null || string.trim().length() == 0) {
+            return null;
+        }
         return new File(string);
     }
 
