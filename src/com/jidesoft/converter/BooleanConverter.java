@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 public class BooleanConverter implements ObjectConverter {
 
-    BooleanConverter() {
+    public BooleanConverter() {
     }
 
     public String toString(Object object, ConverterContext context) {
