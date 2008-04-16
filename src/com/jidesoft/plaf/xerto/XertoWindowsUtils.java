@@ -615,8 +615,6 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "CollapsiblePane.emphasizedBackground", collapsiblePaneBackground,
                     "CollapsiblePane.emphasizedForeground", new ColorUIResource(XertoUtils.getTextColor(XertoUtils.getEmBaseColor(collapsiblePaneBackground))),
                     "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
-                    // this is for metal
-                    // "CollapsiblePane.border", new BorderUIResource(BorderFactory.createLineBorder(new Color(172, 168, 153))),
 
                     "CollapsiblePane.font", controlFont,
 

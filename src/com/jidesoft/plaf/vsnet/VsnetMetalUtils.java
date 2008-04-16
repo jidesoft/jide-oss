@@ -388,7 +388,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePane.foreground", defaultTextColor,
                     "CollapsiblePane.emphasizedBackground", activeTitleBackgroundColor,
                     "CollapsiblePane.emphasizedForeground", activeTitleTextColor,
-                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
+                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
                     "CollapsiblePane.font", controlFont,
 
                     "CollapsiblePane.contentBorder", new BorderUIResource(BorderFactory.createEmptyBorder(8, 10, 8, 10)),

@@ -514,8 +514,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePane.foreground", new ColorUIResource(XertoUtils.getTextColor(collapsiblePaneBackground)),
                     "CollapsiblePane.emphasizedBackground", collapsiblePaneBackground,
                     "CollapsiblePane.emphasizedForeground", new ColorUIResource(XertoUtils.getTextColor(XertoUtils.getEmBaseColor(collapsiblePaneBackground))),
-//                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
-                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createLineBorder(new Color(172, 168, 153))),
+                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
 
                     "CollapsiblePane.font", controlFont,
 

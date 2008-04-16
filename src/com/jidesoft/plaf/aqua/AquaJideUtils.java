@@ -369,7 +369,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePane.foreground", UIDefaultsLookup.getColor("InternalFrame.inactiveTitleForeground"),
                     "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
                     "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
-                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
+                    "CollapsiblePane.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
                     "CollapsiblePane.font", controlFont,
 
                     "CollapsiblePane.contentBorder", new BorderUIResource(BorderFactory.createEmptyBorder(8, 10, 8, 10)),

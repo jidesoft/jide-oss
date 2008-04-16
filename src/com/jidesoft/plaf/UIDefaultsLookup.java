@@ -12,6 +12,7 @@ import sun.reflect.Reflection;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -73,11 +74,27 @@ public class UIDefaultsLookup {
         Object value = UIManager.get(key);
         log(value, key, null);
         if (value instanceof Map && "Theme.painter".equals(key)) {
+            Map map = (Map) value;
             try {
-                return ((Map) value).get(getCallerClassLoader());
+                ClassLoader classLoader = getCallerClassLoader();
+                Object o = map.get(classLoader);
+                while (o == null && classLoader.getParent() != null) {
+                    classLoader = classLoader.getParent();
+                    o = map.get(classLoader);
+                }
+                if (o == null && map.size() >= 1) {
+                    Collection<Object> classLoaders = map.values();
+                    for (Object cl : classLoaders) {
+                        if (cl != null) {
+                            o = cl;
+                            break;
+                        }
+                    }
+                }
+                return o;
             }
             catch (Exception e) {
-                ((Map) value).get(LookAndFeelFactory.getUIManagerClassLoader());
+                return map.get(LookAndFeelFactory.getUIManagerClassLoader());
             }
         }
         return value;
