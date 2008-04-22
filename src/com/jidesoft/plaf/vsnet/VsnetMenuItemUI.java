@@ -520,8 +520,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * We draw the background in paintMenuItem() so override update (which fills the background of
-     * opaque components by default) to just call paint().
+     * We draw the background in paintMenuItem() so override update (which fills the background of opaque components by
+     * default) to just call paint().
      */
     @Override
     public void update(Graphics g, JComponent c) {
@@ -769,7 +769,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
      * @param g        the paint graphics
      * @param menuItem menu item to be painted
      * @param bgColor  selection background color
-     *
      * @since 1.4
      */
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
@@ -873,9 +872,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewRect rectangle.
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewRect rectangle.
      */
 
     private String layoutMenuItem(FontMetrics fm,
@@ -1157,10 +1155,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
 
         public void mouseReleased(MouseEvent e) {
-            if (!SwingUtilities.isLeftMouseButton(e)) {
-                return;
-            }
-
             if (menuItem != null && menuItem.isEnabled()) {
                 MenuSelectionManager manager = MenuSelectionManager.defaultManager();
                 Point p = e.getPoint();
@@ -1255,12 +1249,11 @@ public class VsnetMenuItemUI extends MenuItemUI {
     private class MenuKeyHandler implements MenuKeyListener {
 
         /**
-         * Handles the mnemonic key typed in the MenuItem if this menuItem is in a standalone popup
-         * menu. This invocation normally handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed.
-         * Ideally, the MenuKeyHandlers for both BasicMenuItemUI and BasicMenuUI can be consolidated
-         * into BasicPopupMenuUI but that would require an semantic change. This would result in a
-         * performance win since we can shortcut a lot of the needless processing from
-         * MenuSelectionManager.processKeyEvent(). See 4670831.
+         * Handles the mnemonic key typed in the MenuItem if this menuItem is in a standalone popup menu. This
+         * invocation normally handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed. Ideally, the MenuKeyHandlers for
+         * both BasicMenuItemUI and BasicMenuUI can be consolidated into BasicPopupMenuUI but that would require an
+         * semantic change. This would result in a performance win since we can shortcut a lot of the needless
+         * processing from MenuSelectionManager.processKeyEvent(). See 4670831.
          */
         public void menuKeyTyped(MenuKeyEvent e) {
             if (menuItem != null && menuItem.isEnabled()) {
@@ -1328,14 +1321,12 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * Call this method when a menu item is to be activated. This method handles some of the details
-     * of menu item activation such as clearing the selected path and messaging the JMenuItem's
-     * doClick() method.
+     * Call this method when a menu item is to be activated. This method handles some of the details of menu item
+     * activation such as clearing the selected path and messaging the JMenuItem's doClick() method.
      *
-     * @param msm A MenuSelectionManager. The visual feedback and internal bookkeeping tasks are
-     *            delegated to this MenuSelectionManager. If <code>null</code> is passed as this
-     *            argument, the <code>MenuSelectionManager.defaultManager</code> is used.
-     *
+     * @param msm A MenuSelectionManager. The visual feedback and internal bookkeeping tasks are delegated to this
+     *            MenuSelectionManager. If <code>null</code> is passed as this argument, the
+     *            <code>MenuSelectionManager.defaultManager</code> is used.
      * @see MenuSelectionManager
      * @see JMenuItem#doClick(int)
      * @since 1.4
