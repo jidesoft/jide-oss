@@ -2,11 +2,13 @@ package com.jidesoft.plaf.office2003;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SystemInfo;
 
@@ -956,7 +958,7 @@ public class Office2003Painter extends BasicPainter {
                         new Rectangle(rect.x, rect.y + 2, rect.width, rect.height - 4),
                         colorLt,
                         colorDk,
-                        false);
+                        true);
                 g2d.setColor(colorDk);
                 g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 1, rect.y + rect.height - 2);
                 g2d.drawLine(rect.x + 2, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
@@ -968,7 +970,7 @@ public class Office2003Painter extends BasicPainter {
                         new Rectangle(rect.x, rect.y + 2, rect.width, rect.height - 4),
                         colorLt,
                         colorDk,
-                        false);
+                        true);
                 g2d.setColor(colorDk);
                 g2d.drawLine(rect.x, rect.y + rect.height - 2, rect.x + rect.width - 1, rect.y + rect.height - 2);
                 g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
@@ -980,7 +982,7 @@ public class Office2003Painter extends BasicPainter {
                         new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
                         colorLt,
                         colorDk,
-                        true);
+                        false);
                 g2d.setColor(colorDk);
                 g2d.drawLine(rect.x + rect.width - 2, rect.y, rect.x + rect.width - 2, rect.y + rect.height - 1);
                 g2d.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 2);
@@ -992,7 +994,7 @@ public class Office2003Painter extends BasicPainter {
                         new Rectangle(rect.x + 2, rect.y, rect.width - 4, rect.height),
                         colorLt,
                         colorDk,
-                        true);
+                        false);
                 g2d.setColor(colorDk);
                 g2d.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 1);
                 g2d.drawLine(rect.x + rect.width - 1, rect.y + 2, rect.x + rect.width - 1, rect.y + rect.height - 1);
@@ -1118,5 +1120,42 @@ public class Office2003Painter extends BasicPainter {
                 colorLt,
                 colorDk,
                 orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH);
+    }
+
+
+    @Override
+    public void paintTabAreaBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (c instanceof JideTabbedPane && ((JideTabbedPane) c).getColorTheme() != JideTabbedPane.COLOR_THEME_OFFICE2003) {
+            super.paintTabAreaBackground(c, g, rect, orientation, state);
+        }
+        else {
+            // set color of the tab area
+            if (c.isOpaque()) {
+                if (c instanceof JideTabbedPane && ((JideTabbedPane) c).getTabShape() != JideTabbedPane.SHAPE_BOX) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    Color startColor = getTabAreaBackgroundDk();
+                    Color endColor = getTabAreaBackgroundLt();
+                    int placement = ((JideTabbedPane) c).getTabPlacement();
+                    switch (placement) {
+                        case TOP:
+                            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, true);
+                            break;
+                        case BOTTOM:
+                            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), endColor, startColor, true);
+                            break;
+                        case LEFT:
+                            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, false);
+                            break;
+                        case RIGHT:
+                            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), endColor, startColor, false);
+                            break;
+                    }
+                }
+                else {
+                    g.setColor(UIDefaultsLookup.getColor("control"));
+                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
+                }
+            }
+        }
     }
 }

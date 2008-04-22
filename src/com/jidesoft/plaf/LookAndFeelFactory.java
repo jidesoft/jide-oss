@@ -755,7 +755,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
 
             // built in customizer
-            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) && isSyntheticaLnfInstalled()) {
+            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF)) {
                 new SyntheticaCustomizer().customize(uiDefaults);
             }
         }
@@ -807,7 +807,7 @@ public class LookAndFeelFactory implements ProductNames {
     public static boolean isLnfInUse(String lnfName) {
         try {
             return lnfName.equals(UIManager.getLookAndFeel().getClass().getName())
-                    || Class.forName(lnfName).getClass().isAssignableFrom(UIManager.getLookAndFeel().getClass());
+                    || Class.forName(lnfName).isAssignableFrom(UIManager.getLookAndFeel().getClass());
         }
         catch (ClassNotFoundException e) {
             return false;
@@ -1087,7 +1087,7 @@ public class LookAndFeelFactory implements ProductNames {
     public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
             Object[] uiDefaults = {
-                    "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
+                    "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("activeCaptionText"),
             };
             overwriteDefaults(defaults, uiDefaults);
         }

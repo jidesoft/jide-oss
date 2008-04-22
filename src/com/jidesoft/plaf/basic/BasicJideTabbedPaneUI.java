@@ -203,7 +203,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      */
     // PENDING: This wouldn't be necessary if JTabbedPane had a better
     // way of notifying listeners when the count changed.
-    private int _tabCount;
+    protected int _tabCount;
 
     protected TabCloseButton[] _closeButtons;
 
@@ -718,7 +718,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Reloads the mnemonics. This should be invoked when a memonic changes, when the title of a mnemonic changes, or
      * when tabs are added/removed.
      */
-    private void updateMnemonics() {
+    protected void updateMnemonics() {
         resetMnemonics();
         for (int counter = _tabPane.getTabCount() - 1; counter >= 0; counter--) {
             int mnemonic = _tabPane.getMnemonicAt(counter);
@@ -874,17 +874,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
-        if (_tabPane.isOpaque()) {
-            if (getTabShape() == JideTabbedPane.SHAPE_BOX) {
-                g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground"));
-            }
-            else {
-                g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
-            }
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
-        }
+        getPainter().paintTabAreaBackground(_tabPane, g, rect,
+                tabPlacement == JideTabbedPane.TOP || tabPlacement == JideTabbedPane.BOTTOM ? SwingConstants.HORIZONTAL : SwingConstants.VERTICAL,
+                ThemePainter.STATE_DEFAULT);
     }
-
 
     protected void paintTab(Graphics g, int tabPlacement,
                             Rectangle[] rects, int tabIndex,
@@ -8425,6 +8418,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             else {
                 stopTimer();
             }
+            dtde.rejectDrag();
         }
 
         private void startTimer(int tabIndex) {

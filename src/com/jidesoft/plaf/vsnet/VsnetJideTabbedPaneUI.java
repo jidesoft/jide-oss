@@ -8,7 +8,7 @@ package com.jidesoft.plaf.vsnet;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideTabbedPaneUI;
-import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ColorUtils;
 
@@ -207,59 +207,13 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
     }
 
     @Override
-    protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
-        if (_tabPane.isOpaque()) {
-            int tabShape = getTabShape();
-            if (tabShape != JideTabbedPane.SHAPE_BOX) {
-                if (getColorTheme() == JideTabbedPane.COLOR_THEME_WIN2K) {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
-                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
-
-                }
-                else if (getColorTheme() == JideTabbedPane.COLOR_THEME_VSNET) {
-                    super.paintTabAreaBackground(g, rect, tabPlacement);
-                }
-                else {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
-                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
-                }
-            }
-            else {
-                g.setColor(UIDefaultsLookup.getColor("control"));
-                g.fillRect(rect.x, rect.y, rect.width, rect.height);
-            }
-        }
-    }
-
-    @Override
     protected void paintTabBackground(Graphics g, int tabPlacement,
                                       int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
 
-        Graphics2D g2d = (Graphics2D) g;
-
         if (tabRegion != null) {
             Color[] colors = getGradientColors(tabIndex, isSelected);
-            Color backgroundStart = colors[0];
-            Color backgroundEnd = colors[1];
-
-            if (backgroundEnd != null && backgroundStart != null) {
-                switch (tabPlacement) {
-                    case LEFT:
-                        JideSwingUtilities.fillGradient(g2d, tabRegion, backgroundStart, backgroundEnd, false);
-                        break;
-                    case RIGHT:
-                        JideSwingUtilities.fillGradient(g2d, tabRegion, backgroundEnd, backgroundStart, false);
-                        break;
-                    case BOTTOM:
-                        JideSwingUtilities.fillGradient(g2d, tabRegion, backgroundEnd, backgroundStart, true);
-                        break;
-                    case TOP:
-                    default:
-                        JideSwingUtilities.fillGradient(g2d, tabRegion, backgroundStart, backgroundEnd, true);
-                        break;
-                }
-            }
+            getPainter().paintTabBackground(_tabPane, g, tabRegion, colors, SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
         }
 
         if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS_SELECTED) {
@@ -474,8 +428,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             g.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1);// right
             g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
         }
-        else
-        if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             g.setColor(_shadow);
 
             if (contentInsets.left > 0) {
@@ -904,8 +857,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
                 g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
             }
         }
-        else
-        if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else if (tabShape == JideTabbedPane.SHAPE_FLAT || tabShape == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             g.setColor(_shadow);
             if (contentInsets.top > 0) {
                 g.drawLine(x, y, x + w - 1, y);// top

@@ -4,9 +4,7 @@
 
 package com.jidesoft.plaf.office2003;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.vsnet.VsnetJideTabbedPaneUI;
-import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 
 import javax.swing.*;
@@ -167,39 +165,6 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
     public static ComponentUI createUI(JComponent c) {
         return new Office2003JideTabbedPaneUI();
-    }
-
-    @Override
-    protected void paintTabAreaBackground(Graphics g, Rectangle rect, int tabPlacement) {
-        if (getColorTheme() != JideTabbedPane.COLOR_THEME_OFFICE2003) {
-            super.paintTabAreaBackground(g, rect, tabPlacement);
-        }
-        else {
-            // set color of the tab area
-            if (_tabPane.isOpaque()) {
-                if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    Color startColor = getPainter().getTabAreaBackgroundDk();
-                    Color endColor = getPainter().getTabAreaBackgroundLt();
-                    if (_tabPane.getTabPlacement() == TOP) {
-                        JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, true);
-                    }
-                    else if (_tabPane.getTabPlacement() == BOTTOM) {
-                        JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), endColor, startColor, true);
-                    }
-                    else if (_tabPane.getTabPlacement() == LEFT) {
-                        JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), startColor, endColor, false);
-                    }
-                    else if (_tabPane.getTabPlacement() == RIGHT) {
-                        JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), endColor, startColor, false);
-                    }
-                }
-                else {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
-                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
-                }
-            }
-        }
     }
 
     // paint the content top line when the tab is on the top

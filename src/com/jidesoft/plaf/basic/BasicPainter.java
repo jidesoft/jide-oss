@@ -3,6 +3,7 @@ package com.jidesoft.plaf.basic;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.SecurityUtils;
 
 import javax.swing.*;
@@ -524,5 +525,87 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
     public Color getColor(Object key) {
         return UIDefaultsLookup.getColor(key);
+    }
+
+
+    public void paintTabAreaBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (c.isOpaque() && c instanceof JideTabbedPane) {
+            JideTabbedPane tabbedPane = (JideTabbedPane) c;
+            int tabShape = tabbedPane.getTabShape();
+            int colorTheme = tabbedPane.getColorTheme();
+            if (tabShape == JideTabbedPane.SHAPE_BOX) {
+                g.setColor(UIDefaultsLookup.getColor("control"));
+            }
+            else {
+                if (colorTheme == JideTabbedPane.COLOR_THEME_WIN2K) {
+                    g.setColor(UIDefaultsLookup.getColor("control"));
+
+                }
+                else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
+                    g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
+                }
+                else {
+                    g.setColor(UIDefaultsLookup.getColor("control"));
+                }
+            }
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
+    }
+
+    public void paintTabBackground(JComponent c, Graphics g, Shape region, Color[] colors, int orientation, int state) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        if (state == STATE_DEFAULT) {
+            Color backgroundStart = colors[0];
+            Color backgroundEnd = colors[1];
+            if (backgroundEnd != null && backgroundStart != null) {
+                int tabPlacement = JideTabbedPane.TOP;
+                if (c instanceof JideTabbedPane) {
+                    tabPlacement = ((JideTabbedPane) c).getTabPlacement();
+                }
+                switch (tabPlacement) {
+                    case JideTabbedPane.LEFT:
+                        JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, false);
+                        break;
+                    case JideTabbedPane.RIGHT:
+                        JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, false);
+                        break;
+                    case JideTabbedPane.BOTTOM:
+                        JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, true);
+                        break;
+                    case JideTabbedPane.TOP:
+                    default:
+                        JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, true);
+                        break;
+                }
+            }
+        }
+        g2d.dispose();
+    }
+
+    public void paintTabContentBorder(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+
+    }
+
+    public void paintSidePaneItemBackground(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
+        Color startColor = colors != null && colors.length > 0 ? colors[0] : c.getBackground();
+        Color endColor = colors != null && colors.length > 1 ? colors[1] : startColor;
+        switch (orientation) {
+            case SwingConstants.WEST:
+                JideSwingUtilities.fillGradient((Graphics2D) g, rect,
+                        startColor, endColor, false);
+                break;
+            case SwingConstants.EAST:
+                JideSwingUtilities.fillGradient((Graphics2D) g, rect,
+                        endColor, startColor, false);
+                break;
+            case SwingConstants.NORTH:
+                JideSwingUtilities.fillGradient((Graphics2D) g, rect,
+                        startColor, endColor, true);
+                break;
+            case SwingConstants.SOUTH:
+                JideSwingUtilities.fillGradient((Graphics2D) g, rect,
+                        endColor, startColor, true);
+                break;
+        }
     }
 }
