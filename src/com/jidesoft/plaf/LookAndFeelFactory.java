@@ -760,7 +760,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
 
-        UIManager.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
+        uiDefaults.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
 
         UIDefaultsCustomizer[] customizers = getUIDefaultsCustomizers();
         for (UIDefaultsCustomizer customizer : customizers) {
