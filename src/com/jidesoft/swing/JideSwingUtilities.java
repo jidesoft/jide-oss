@@ -22,9 +22,11 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.View;
+import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -915,7 +917,8 @@ public class JideSwingUtilities implements SwingConstants {
     public static void setOpaqueRecursively(final Component c, final boolean opaque) {
         setRecursively(c, new Handler() {
             public boolean condition(Component c) {
-                return !(c instanceof JComboBox || c instanceof JButton || c instanceof JTextComponent);
+                return !(c instanceof JComboBox || c instanceof JButton || c instanceof JTextComponent ||
+                        c instanceof ListCellRenderer || c instanceof TreeCellRenderer || c instanceof TableCellRenderer || c instanceof CellEditor);
             }
 
             public void action(Component c) {
