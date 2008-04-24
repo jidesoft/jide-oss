@@ -14,7 +14,6 @@ import com.jidesoft.swing.TopLevelMenuContainer;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
@@ -502,8 +501,8 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * We draw the background in paintMenuItem() so override update (which fills the background of
-     * opaque components by default) to just call paint().
+     * We draw the background in paintMenuItem() so override update (which fills the background of opaque components by
+     * default) to just call paint().
      */
     @Override
     public void update(Graphics g, JComponent c) {
@@ -708,7 +707,6 @@ public class MetalMenuItemUI extends MenuItemUI {
      * @param g        the paint graphics
      * @param menuItem menu item to be painted
      * @param bgColor  selection background color
-     *
      * @since 1.4
      */
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
@@ -738,7 +736,6 @@ public class MetalMenuItemUI extends MenuItemUI {
      * @param menuItem menu item to render
      * @param textRect bounding rectangle for rendering the text
      * @param text     string to render
-     *
      * @since 1.4
      */
     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text) {
@@ -750,17 +747,17 @@ public class MetalMenuItemUI extends MenuItemUI {
             // *** paint the text disabled
             if (UIDefaultsLookup.get("MenuItem.disabledForeground") instanceof Color) {
                 g.setColor(UIDefaultsLookup.getColor("MenuItem.disabledForeground"));
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x,
                         textRect.y + fm.getAscent());
             }
             else {
                 g.setColor(menuItem.getBackground().brighter());
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x,
                         textRect.y + fm.getAscent());
                 g.setColor(menuItem.getBackground().darker());
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x - 1,
                         textRect.y + fm.getAscent() - 1);
             }
@@ -770,7 +767,7 @@ public class MetalMenuItemUI extends MenuItemUI {
             if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
                 g.setColor(selectionForeground); // Uses protected field.
             }
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+            JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                     textRect.x,
                     textRect.y + fm.getAscent());
         }
@@ -778,9 +775,8 @@ public class MetalMenuItemUI extends MenuItemUI {
 
 
     /**
-     * Compute and return the location of the icons origin, the location of origin of the text
-     * baseline, and a possibly clipped version of the compound labels string.  Locations are
-     * computed relative to the viewRect rectangle.
+     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
+     * clipped version of the compound labels string.  Locations are computed relative to the viewRect rectangle.
      */
 
     private String layoutMenuItem(FontMetrics fm,
@@ -1091,12 +1087,11 @@ public class MetalMenuItemUI extends MenuItemUI {
     private class MenuKeyHandler implements MenuKeyListener {
 
         /**
-         * Handles the mnemonic key typed in the MenuItem if this menuItem is in a standalone popup
-         * menu. This invocation normally handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed.
-         * Ideally, the MenuKeyHandlers for both BasicMenuItemUI and BasicMenuUI can be consolidated
-         * into BasicPopupMenuUI but that would require an semantic change. This would result in a
-         * performance win since we can shortcut a lot of the needless processing from
-         * MenuSelectionManager.processKeyEvent(). See 4670831.
+         * Handles the mnemonic key typed in the MenuItem if this menuItem is in a standalone popup menu. This
+         * invocation normally handled in BasicMenuUI.MenuKeyHandler.menuKeyPressed. Ideally, the MenuKeyHandlers for
+         * both BasicMenuItemUI and BasicMenuUI can be consolidated into BasicPopupMenuUI but that would require an
+         * semantic change. This would result in a performance win since we can shortcut a lot of the needless
+         * processing from MenuSelectionManager.processKeyEvent(). See 4670831.
          */
         public void menuKeyTyped(MenuKeyEvent e) {
             if (menuItem != null && menuItem.isEnabled()) {
@@ -1152,14 +1147,12 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * Call this method when a menu item is to be activated. This method handles some of the details
-     * of menu item activation such as clearing the selected path and messaging the JMenuItem's
-     * doClick() method.
+     * Call this method when a menu item is to be activated. This method handles some of the details of menu item
+     * activation such as clearing the selected path and messaging the JMenuItem's doClick() method.
      *
-     * @param msm A MenuSelectionManager. The visual feedback and internal bookkeeping tasks are
-     *            delegated to this MenuSelectionManager. If <code>null</code> is passed as this
-     *            argument, the <code>MenuSelectionManager.defaultManager</code> is used.
-     *
+     * @param msm A MenuSelectionManager. The visual feedback and internal bookkeeping tasks are delegated to this
+     *            MenuSelectionManager. If <code>null</code> is passed as this argument, the
+     *            <code>MenuSelectionManager.defaultManager</code> is used.
      * @see javax.swing.MenuSelectionManager
      * @see javax.swing.JMenuItem#doClick(int)
      * @since 1.4
@@ -1174,9 +1167,9 @@ public class MetalMenuItemUI extends MenuItemUI {
     }
 
     /**
-     * This is to see if the menu item in question is part of the system menu on an internal frame.
-     * The Strings that are being checked can be found in MetalInternalFrameTitlePaneUI.java,
-     * WindowsInternalFrameTitlePaneUI.java, and MotifInternalFrameTitlePaneUI.java.
+     * This is to see if the menu item in question is part of the system menu on an internal frame. The Strings that are
+     * being checked can be found in MetalInternalFrameTitlePaneUI.java, WindowsInternalFrameTitlePaneUI.java, and
+     * MotifInternalFrameTitlePaneUI.java.
      *
      * @since 1.4
      */

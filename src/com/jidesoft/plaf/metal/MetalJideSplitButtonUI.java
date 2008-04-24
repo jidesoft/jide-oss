@@ -101,8 +101,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
 
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Returns the ui that is of type <code>klass</code>, or null if one can not be found.
      */
     static Object getUIOfType(ComponentUI ui, Class klass) {
         if (klass.isInstance(ui)) {
@@ -112,8 +111,8 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Returns the InputMap for condition <code>condition</code>. Called as part of
+     * <code>installKeyboardActions</code>.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -491,17 +490,17 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             // *** paint the text disabled
             if (UIDefaultsLookup.get("MenuItem.disabledForeground") instanceof Color) {
                 g.setColor(UIDefaultsLookup.getColor("MenuItem.disabledForeground"));
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x,
                         textRect.y + fm.getAscent());
             }
             else {
                 g.setColor(menuItem.getBackground().brighter());
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x,
                         textRect.y + fm.getAscent());
                 g.setColor(menuItem.getBackground().darker());
-                BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+                JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                         textRect.x - 1,
                         textRect.y + fm.getAscent() - 1);
             }
@@ -511,7 +510,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
                 g.setColor(selectionForeground); // Uses protected field.
             }
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemIndex,
+            JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
                     textRect.x,
                     textRect.y + fm.getAscent());
         }
@@ -523,8 +522,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
+         * Invoked when the mouse has been clicked on the menu. This method clears or sets the selection path of the
          * MenuSelectionManager.
          *
          * @param e the mouse event
@@ -575,8 +573,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse has been released on the menu. Delegates the mouse event to the MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -628,10 +625,9 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
 
         /**
-         * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * Invoked when the cursor enters the menu. This method sets the selected path for the MenuSelectionManager and
+         * handles the case in which a menu item is used to pop up an additional menu, as in a hierarchical menu
+         * system.
          *
          * @param e the mouse event; not used
          */
@@ -681,8 +677,8 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when a mouse button is pressed on the menu and then dragged. Delegates the mouse event to the
+         * MenuSelectionManager.
          *
          * @param e the mouse event
          * @see java.awt.event.MouseMotionListener#mouseDragged
@@ -836,9 +832,8 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
     }
 
     /**
-     * Actions for Buttons. Two type of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Actions for Buttons. Two type of action are supported: pressed: Moves the button to a pressed state released:
+     * Disarms the button.
      */
     private static class Actions extends UIAction {
         private static final String PRESS = "pressed";
