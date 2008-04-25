@@ -67,8 +67,12 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     private boolean _verticalScrollBarCoversWholeHeight;
 
     public static final String PROPERTY_HORIZONTAL_SCROLL_BAR_COVERS_WHOLE_WIDTH = "horizontalScrollBarCoversWholeWidth";
-
     public static final String PROPERTY_VERTICAL_SCROLL_BAR_COVERS_WHOLE_HEIGHT = "verticalScrollBarCoversWholeHeight";
+
+    private boolean _columnHeadersHeightUnified;
+    private boolean _columnFootersHeightUnified;
+    public static final String PROPERTY_COLUMN_HEADERS_HEIGHT_UNIFIED = "columnHeadersHeightUnified";
+    public static final String PROPERTY_COLUMN_FOOTERS_HEIGHT_UNIFIED = "columnFootersHeightUnified";
 
     /**
      * Creates a <code>JideScrollPane</code> that displays the view component in a viewport whose view position can be
@@ -376,10 +380,6 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         return _verticalScrollBarCoversWholeHeight;
     }
 
-    public boolean isHorizontalScrollBarCoversWholeWidth() {
-        return _horizontalScrollBarCoversWholeWidth;
-    }
-
     public void setHorizontalScrollBarCoversWholeWidth(boolean horizontalScrollBarCoversWholeWidth) {
         boolean old = _horizontalScrollBarCoversWholeWidth;
         if (old != horizontalScrollBarCoversWholeWidth) {
@@ -391,6 +391,10 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
                 getHorizontalScrollBar().doLayout();
             }
         }
+    }
+
+    public boolean isHorizontalScrollBarCoversWholeWidth() {
+        return _horizontalScrollBarCoversWholeWidth;
     }
 
     public void setVerticalScrollBarCoversWholeHeight(boolean verticalScrollBarCoversWholeHeight) {
@@ -405,4 +409,57 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
             }
         }
     }
+
+    /**
+     * If true, the top-right, top-left corners the column header will have the same height. If false, three of them
+     * will keep their own preferred height.
+     *
+     * @return true or false.
+     */
+    public boolean isColumnHeadersHeightUnified() {
+        return _columnHeadersHeightUnified;
+    }
+
+    /**
+     * Sets the flag if the top-right, top-left corner and the column header will have the same height or different
+     * heights.
+     *
+     * @param columnHeadersHeightUnified true or false.
+     */
+    public void setColumnHeadersHeightUnified(boolean columnHeadersHeightUnified) {
+        boolean old = _columnHeadersHeightUnified;
+        if (old != columnHeadersHeightUnified) {
+            _columnHeadersHeightUnified = columnHeadersHeightUnified;
+            firePropertyChange(PROPERTY_COLUMN_HEADERS_HEIGHT_UNIFIED, old, _horizontalScrollBarCoversWholeWidth);
+            invalidate();
+            doLayout();
+        }
+    }
+
+    /**
+     * If true, the bottom-right, bottom-left corners the column footer will have the same height. If false, three of
+     * them will keep their own preferred height.
+     *
+     * @return true or false.
+     */
+    public boolean isColumnFootersHeightUnified() {
+        return _columnFootersHeightUnified;
+    }
+
+    /**
+     * Sets the flag if the bottom-right, bottom-left corner and the column footer will have the same height or
+     * different heights.
+     *
+     * @param columnFootersHeightUnified true or false.
+     */
+    public void setColumnFootersHeightUnified(boolean columnFootersHeightUnified) {
+        boolean old = _columnFootersHeightUnified;
+        if (old != columnFootersHeightUnified) {
+            _columnFootersHeightUnified = columnFootersHeightUnified;
+            firePropertyChange(PROPERTY_COLUMN_FOOTERS_HEIGHT_UNIFIED, old, _horizontalScrollBarCoversWholeWidth);
+            invalidate();
+            doLayout();
+        }
+    }
+
 }

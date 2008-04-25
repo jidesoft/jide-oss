@@ -80,6 +80,24 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         }
     }
 
+    protected boolean isColumnHeadersHeightUnified(JScrollPane sp) {
+        if (sp instanceof JideScrollPane) {
+            return ((JideScrollPane) sp).isColumnHeadersHeightUnified();
+        }
+        else {
+            return false;
+        }
+    }
+
+    protected boolean isColumnFootersHeightUnified(JScrollPane sp) {
+        if (sp instanceof JideScrollPane) {
+            return ((JideScrollPane) sp).isColumnFootersHeightUnified();
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public void addLayoutComponent(String s, Component c) {
         if (s.equals(ROW_FOOTER)) {
@@ -801,13 +819,18 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
             _rowFoot.setBounds(adjustBounds(parent, rowFootR, ltr));
         }
 
+        int columnHeaderHeight = isColumnHeadersHeightUnified(scrollPane) ? Math.max(colHeadR.height,
+                Math.max(upperLeft == null ? 0 : upperLeft.getPreferredSize().height, upperRight == null ? 0 : upperRight.getPreferredSize().height)) : 0;
+        int columnFooterHeight = isColumnFootersHeightUnified(scrollPane) ? Math.max(colFootR.height,
+                Math.max(lowerLeft == null ? 0 : lowerLeft.getPreferredSize().height, lowerRight == null ? 0 : lowerRight.getPreferredSize().height)) : 0;
+
         if (colHead != null) {
-            int height = Math.min(colHeadR.height, colHead.getPreferredSize().height);
+            int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(colHeadR.height, colHead.getPreferredSize().height);
             colHead.setBounds(adjustBounds(parent, new Rectangle(colHeadR.x, colHeadR.y + colHeadR.height - height, colHeadR.width, height), ltr));
         }
 
         if (_colFoot != null) {
-            int height = Math.min(colFootR.height, _colFoot.getPreferredSize().height);
+            int height = isColumnFootersHeightUnified(scrollPane) ? columnFooterHeight : Math.min(colFootR.height, _colFoot.getPreferredSize().height);
             _colFoot.setBounds(adjustBounds(parent, new Rectangle(colFootR.x, colFootR.y, colFootR.width, height), ltr));
         }
 
@@ -889,22 +912,22 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         }
 
         if (lowerLeft != null && lowerLeft.isVisible()) {
-            int height = Math.min(lowerLeft.getPreferredSize().height, colFootR.height);
+            int height = isColumnFootersHeightUnified(scrollPane) ? columnFooterHeight : Math.min(lowerLeft.getPreferredSize().height, colFootR.height);
             lowerLeft.setBounds(adjustBounds(parent, new Rectangle(rowHeadR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowHeadR.width, height), ltr));
         }
 
         if (lowerRight != null && lowerRight.isVisible()) {
-            int height = Math.min(lowerRight.getPreferredSize().height, colFootR.height);
+            int height = isColumnFootersHeightUnified(scrollPane) ? columnFooterHeight : Math.min(lowerRight.getPreferredSize().height, colFootR.height);
             lowerRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width), height), ltr));
         }
 
         if (upperLeft != null && upperLeft.isVisible()) {
-            int height = Math.min(upperLeft.getPreferredSize().height, colHeadR.height);
+            int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(upperLeft.getPreferredSize().height, colHeadR.height);
             upperLeft.setBounds(adjustBounds(parent, new Rectangle(rowHeadR.x, colHeadR.y + colHeadR.height - height, rowHeadR.width, height), ltr));
         }
 
         if (upperRight != null && upperRight.isVisible()) {
-            int height = Math.min(upperRight.getPreferredSize().height, colHeadR.height);
+            int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(upperRight.getPreferredSize().height, colHeadR.height);
             upperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colHeadR.y + colHeadR.height - height, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) ? 0 : vsbR.width), height), ltr));
         }
     }
