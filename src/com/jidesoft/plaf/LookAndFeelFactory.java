@@ -28,6 +28,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -1086,7 +1087,15 @@ public class LookAndFeelFactory implements ProductNames {
     public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
             Object[] uiDefaults = {
+                    "Workspace.background", UIManager.getColor("control"),
+                    "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
+                    "JideTabbedPane.background", UIManager.getColor("control"),
+                    "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                    "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
                     "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("activeCaptionText"),
+                    "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
+
             };
             overwriteDefaults(defaults, uiDefaults);
         }
