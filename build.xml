@@ -62,7 +62,7 @@
         <mkdir dir="${javadoc_dir}"></mkdir>
         <javadoc maxmemory="${maxheapsize}" sourcepath="${javadoc_source_list}"
                  packagenames="com.jidesoft.*" destdir="${javadoc_dir}"
-                 header="JIDE ${jide_version}">
+                 header="JIDE Common Layer ${jide_version}">
             <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
             <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
         </javadoc>
