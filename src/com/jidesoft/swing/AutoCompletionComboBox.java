@@ -95,6 +95,11 @@ public class AutoCompletionComboBox extends JComboBox {
         getAutoCompletion().setStrictCompletion(strictCompletion);
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the underlying AutoCompletion class.
      *

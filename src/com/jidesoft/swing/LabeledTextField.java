@@ -341,6 +341,11 @@ public class LabeledTextField extends JPanel {
         }
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     public int getBaseline(int width, int height) {
         if (SystemInfo.isJdk6Above()) {
             try {

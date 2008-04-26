@@ -6887,7 +6887,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 _popup = null;
             }
-            _popup = new JidePopup();
+            _popup = com.jidesoft.popup.JidePopupFactory.getSharedInstance().createPopup();
             _popup.setPopupBorder(BorderFactory.createLineBorder(_darkShadow));
             _popup.add(panel);
             _popup.addExcludedComponent(listButton);

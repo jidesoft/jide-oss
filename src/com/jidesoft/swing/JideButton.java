@@ -277,6 +277,11 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
         _pressedForeground = pressedForeground;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the background for different states. The states are defined in ThemePainter as
      * constants. Not all states are supported by all components. If the state is not supported or

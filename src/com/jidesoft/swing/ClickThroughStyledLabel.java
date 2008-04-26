@@ -60,6 +60,11 @@ public class ClickThroughStyledLabel extends StyledLabel implements MouseInputLi
         _target = target;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     protected void installListeners() {
         addMouseListener(this);
         addMouseMotionListener(this);

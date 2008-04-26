@@ -450,6 +450,11 @@ public class JideMenu extends JMenu implements Alignable {
         }
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     public int getOrientation() {
         return _orientation;
     }

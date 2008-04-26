@@ -80,6 +80,11 @@ public class NullCheckBox extends JCheckBox {
     }
 
     @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
+    @Override
     public void updateUI() {
         super.updateUI();
         clearAttribute();

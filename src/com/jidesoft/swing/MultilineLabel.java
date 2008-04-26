@@ -27,6 +27,11 @@ public class MultilineLabel extends JTextArea {
         adjustUI();
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Reloads the pluggable UI.  The key used to fetch the
      * new interface is <code>getUIClassID()</code>.  The type of

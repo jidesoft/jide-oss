@@ -152,6 +152,11 @@ public class CheckBoxTree extends JTree {
         return _defaultRenderer;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the actual cell renderer. Since CheckBoxTree has its own check box cell renderer, this method will give you
      * access to the actual cell renderer which is either the default tree cell renderer or the cell renderer you set

@@ -206,6 +206,11 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Returns the column footer.
      *

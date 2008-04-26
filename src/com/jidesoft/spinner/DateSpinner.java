@@ -1,5 +1,6 @@
 package com.jidesoft.spinner;
 
+import java.awt.Component;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.InternationalFormatter;
@@ -52,6 +53,11 @@ public class DateSpinner extends JSpinner {
         customizeSpinner();
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+    
     private void customizeDateEditor() {
 //        _timeEditor.setBorder(BorderFactory.createEmptyBorder());
         JFormattedTextField.AbstractFormatter formatter = _timeEditor.getTextField().getFormatter();

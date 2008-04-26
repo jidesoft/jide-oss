@@ -76,6 +76,11 @@ public class TristateCheckBox extends JCheckBox {
         this(null);
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * No one may add mouse listeners, not even Swing!
      */

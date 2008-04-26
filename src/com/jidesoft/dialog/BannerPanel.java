@@ -259,6 +259,11 @@ public class BannerPanel extends JPanel {
         return icon;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the Paint used to paint the background of the BannerPanel.
      *

@@ -273,6 +273,11 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         _allowClosing = allowClosing;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Allow this document closing. By default it return true. User can override this method to return based on
      * conidition. A typical user case is: add a DocumentComponentListener. In documentComponentClosing, make this

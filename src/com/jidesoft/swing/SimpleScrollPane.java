@@ -135,6 +135,11 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     }
 
     @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
+    @Override
     public void updateUI() {
         super.updateUI();
         setLayout(new SimpleScrollPaneLayout.UIResource());

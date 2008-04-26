@@ -105,7 +105,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     protected JidePopup createPopup() {
-        JidePopup popup = new JidePopup();
+        JidePopup popup = com.jidesoft.popup.JidePopupFactory.getSharedInstance().createPopup();
         popup.setLayout(new BorderLayout());
         popup.setResizable(true);
         popup.setPopupBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlDkShadow"), 1));

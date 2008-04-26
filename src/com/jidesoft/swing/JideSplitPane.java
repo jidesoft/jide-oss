@@ -935,6 +935,11 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         return ((JideSplitPaneLayout) getLayout()).getDividerLocation(dividerIndex);
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Invoked when a component has been added to the container. Basically if you add anything which is not divider, a
      * divider will automatically added before or after the component.

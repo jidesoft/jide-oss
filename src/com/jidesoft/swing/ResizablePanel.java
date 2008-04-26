@@ -91,6 +91,11 @@ public class ResizablePanel extends JPanel implements ResizableSupport {
         return _resizable;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Overrides the updateUI method to set border to resizable border defined
      * in UIManagerLookup.getBorder("Resizable.resizeBorder")).

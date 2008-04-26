@@ -99,6 +99,11 @@ public class PaintPanel extends JPanel {
         _isVertical = vertical;
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Paints the background.
      *

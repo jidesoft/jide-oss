@@ -174,6 +174,11 @@ public class AutoResizingTextArea extends JTextArea {
         }
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the maximum number of rows that will be displayed. You can set it using {@link #setMaxRows(int)}
      * or passed in using constructor such as {@link #AutoResizingTextArea(int,int)}.

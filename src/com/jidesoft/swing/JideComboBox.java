@@ -29,6 +29,11 @@ public class JideComboBox extends JComboBox {
         super();
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Resets the UI property to a value from the current look and
      * feel.

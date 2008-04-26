@@ -140,6 +140,11 @@ public class ButtonPanel extends JPanel {
         _buttons.remove(position);
     }
 
+    @Override
+    public JToolTip createToolTip() {
+      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
+    }
+
     /**
      * Gets the button at the specified position in the <code>ButtonPanel</code>.
      *
