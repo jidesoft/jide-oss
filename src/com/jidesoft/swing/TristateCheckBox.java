@@ -123,6 +123,8 @@ public class TristateCheckBox extends JCheckBox {
     private class TristateDecorator implements ButtonModel {
         private final ButtonModel other;
 
+        private State _state;
+
         private TristateDecorator(ButtonModel other) {
             this.other = other;
         }
@@ -143,6 +145,7 @@ public class TristateCheckBox extends JCheckBox {
                 setPressed(true);
                 setSelected(true);
             }
+            _state = state;
         }
 
         /**
@@ -155,18 +158,19 @@ public class TristateCheckBox extends JCheckBox {
          * checkbox is deselected.
          */
         private State getState() {
-            if (isSelected() && !isArmed()) {
-                // normal black tick
-                return SELECTED;
-            }
-            else if (isSelected() && isArmed()) {
-                // don't care grey tick
-                return DONT_CARE;
-            }
-            else {
-                // normal deselected
-                return NOT_SELECTED;
-            }
+            return _state == null ? DONT_CARE : _state;
+//            if (isSelected() && !isArmed()) {
+//                // normal black tick
+//                return SELECTED;
+//            }
+//            else if (isSelected() && isArmed()) {
+//                // don't care grey tick
+//                return DONT_CARE;
+//            }
+//            else {
+//                // normal deselected
+//                return NOT_SELECTED;
+//            }
         }
 
         /**
