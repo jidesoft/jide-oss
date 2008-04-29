@@ -11,7 +11,7 @@ package com.jidesoft.popup;
  * the need for a custom UI or overriding all methods that create popups
  */
 public class JidePopupFactory {
-    private static int _popupType = JidePopup.HEAVY_WEIGHT_POPUP;
+    private static int _popupType = -1;
     private static JidePopupFactory _popupFactory;
 
     public JidePopup createPopup() {
