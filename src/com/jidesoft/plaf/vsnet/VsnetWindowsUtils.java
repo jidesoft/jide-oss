@@ -5,27 +5,17 @@
  */
 package com.jidesoft.plaf.vsnet;
 
-import com.jidesoft.icons.IconsFactory;
-import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.plaf.ExtWindowsDesktopProperty;
-import com.jidesoft.plaf.LookAndFeelFactory;
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.WindowsDesktopProperty;
-import com.jidesoft.plaf.basic.BasicPainter;
-import com.jidesoft.plaf.basic.BasicRangeSliderUI;
-import com.jidesoft.plaf.basic.Painter;
-import com.jidesoft.plaf.basic.ThemePainter;
-import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.JideTabbedPane;
-
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.DimensionUIResource;
-import javax.swing.plaf.InsetsUIResource;
+import javax.swing.plaf.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.beans.Beans;
+import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.plaf.*;
+import com.jidesoft.plaf.basic.*;
+import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.swing.JideTabbedPane;
 
 /**
  * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for WindowsLookAndFeel.
@@ -673,7 +663,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         }
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
+        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0]), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
             }
