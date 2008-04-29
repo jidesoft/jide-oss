@@ -9,9 +9,9 @@ import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.vsnet.ResizeFrameBorder;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -156,7 +156,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         UIDefaultsLookup.put(table, "Theme.painter", XertoPainter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
         table.put("PopupMenu.border", popupMenuBorder);
     }
 
@@ -623,7 +623,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         UIDefaultsLookup.put(table, "Theme.painter", XertoPainter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((BasicPainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
         table.put("PopupMenu.border", popupMenuBorder);
     }
 }
