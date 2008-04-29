@@ -52,8 +52,7 @@ public class MeterProgressBar extends JProgressBar {
     }
 
     /**
-     * Returns a string that specifies the name of the l&f class
-     * that renders this component.
+     * Returns a string that specifies the name of the l&f class that renders this component.
      *
      * @return String "MeterProgressBarUI"
      */
@@ -62,14 +61,8 @@ public class MeterProgressBar extends JProgressBar {
         return uiClassID;
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Resets the UI property to a value from the current look and
-     * feel.
+     * Resets the UI property to a value from the current look and feel.
      *
      * @see JComponent#updateUI
      */

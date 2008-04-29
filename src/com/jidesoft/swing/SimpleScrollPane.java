@@ -16,8 +16,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * <code>SimpleScrollPane</code> is a special scroll pane. There is no scroll bar.
- * It just uses four scroll buttons to do the scrolling.
+ * <code>SimpleScrollPane</code> is a special scroll pane. There is no scroll bar. It just uses four scroll buttons to
+ * do the scrolling.
  */
 public class SimpleScrollPane extends JScrollPane implements ChangeListener, MouseWheelListener {
 
@@ -42,22 +42,15 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     public static final String SCROLL_RIGHT_BUTTON = "SCROLL_RIGHT_BUTTON";
 
     /**
-     * Creates a <code>JideScrollPane</code> that displays the view
-     * component in a viewport
-     * whose view position can be controlled with a pair of scrollbars.
-     * The scrollbar policies specify when the scrollbars are displayed,
-     * For example, if <code>vsbPolicy</code> is
-     * <code>VERTICAL_SCROLLBAR_AS_NEEDED</code>
-     * then the vertical scrollbar only appears if the view doesn't fit
-     * vertically. The available policy settings are listed at
-     * {@link #setVerticalScrollBarPolicy} and
-     * {@link #setHorizontalScrollBarPolicy}.
+     * Creates a <code>JideScrollPane</code> that displays the view component in a viewport whose view position can be
+     * controlled with a pair of scrollbars. The scrollbar policies specify when the scrollbars are displayed, For
+     * example, if <code>vsbPolicy</code> is <code>VERTICAL_SCROLLBAR_AS_NEEDED</code> then the vertical scrollbar only
+     * appears if the view doesn't fit vertically. The available policy settings are listed at {@link
+     * #setVerticalScrollBarPolicy} and {@link #setHorizontalScrollBarPolicy}.
      *
      * @param view      the component to display in the scrollpanes viewport
-     * @param vsbPolicy an integer that specifies the vertical
-     *                  scrollbar policy
-     * @param hsbPolicy an integer that specifies the horizontal
-     *                  scrollbar policy
+     * @param vsbPolicy an integer that specifies the vertical scrollbar policy
+     * @param hsbPolicy an integer that specifies the horizontal scrollbar policy
      * @see #setViewportView
      */
     public SimpleScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
@@ -95,10 +88,8 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
 
 
     /**
-     * Creates a <code>JideScrollPane</code> that displays the
-     * contents of the specified
-     * component, where both horizontal and vertical scrollbars appear
-     * whenever the component's contents are larger than the view.
+     * Creates a <code>JideScrollPane</code> that displays the contents of the specified component, where both
+     * horizontal and vertical scrollbars appear whenever the component's contents are larger than the view.
      *
      * @param view the component to display in the scrollpane's viewport
      * @see #setViewportView
@@ -109,16 +100,11 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
 
 
     /**
-     * Creates an empty (no viewport view) <code>JideScrollPane</code>
-     * with specified
-     * scrollbar policies. The available policy settings are listed at
-     * {@link #setVerticalScrollBarPolicy} and
-     * {@link #setHorizontalScrollBarPolicy}.
+     * Creates an empty (no viewport view) <code>JideScrollPane</code> with specified scrollbar policies. The available
+     * policy settings are listed at {@link #setVerticalScrollBarPolicy} and {@link #setHorizontalScrollBarPolicy}.
      *
-     * @param vsbPolicy an integer that specifies the vertical
-     *                  scrollbar policy
-     * @param hsbPolicy an integer that specifies the horizontal
-     *                  scrollbar policy
+     * @param vsbPolicy an integer that specifies the vertical scrollbar policy
+     * @param hsbPolicy an integer that specifies the horizontal scrollbar policy
      * @see #setViewportView
      */
     public SimpleScrollPane(int vsbPolicy, int hsbPolicy) {
@@ -127,16 +113,11 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
 
 
     /**
-     * Creates an empty (no viewport view) <code>JideScrollPane</code>
-     * where both horizontal and vertical scrollbars appear when needed.
+     * Creates an empty (no viewport view) <code>JideScrollPane</code> where both horizontal and vertical scrollbars
+     * appear when needed.
      */
     public SimpleScrollPane() {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    }
-
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
     }
 
     @Override
@@ -312,7 +293,8 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     }
 
     /**
-     * Creates the scroll button. You can override this method to change the attributes on the button. For example, you can do this to create a bigger scroll button.
+     * Creates the scroll button. You can override this method to change the attributes on the button. For example, you
+     * can do this to create a bigger scroll button.
      * <code><pre>
      * SimpleScrollPane pane = new SimpleScrollPane(){
      *     protected AbstractButton createScrollButton(int type) {
@@ -323,8 +305,9 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
      * };
      * </pre></code>
      *
-     * @param type the type of the scroll button. It could be {@link javax.swing.SwingConstants#NORTH},
-     *             {@link javax.swing.SwingConstants#SOUTH}, {@link javax.swing.SwingConstants#WEST} or {@link javax.swing.SwingConstants#EAST} .
+     * @param type the type of the scroll button. It could be {@link javax.swing.SwingConstants#NORTH}, {@link
+     *             javax.swing.SwingConstants#SOUTH}, {@link javax.swing.SwingConstants#WEST} or {@link
+     *             javax.swing.SwingConstants#EAST} .
      * @return the scroll button.
      */
     protected AbstractButton createScrollButton(int type) {
@@ -474,8 +457,8 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     }
 
     /**
-     * Sets scroll on rollover. If true, the scrolling will start when mouse is placed above the scroll button.
-     * If false, the scrolling will start only when you click or press and hold the mouse button.
+     * Sets scroll on rollover. If true, the scrolling will start when mouse is placed above the scroll button. If
+     * false, the scrolling will start only when you click or press and hold the mouse button.
      *
      * @param scrollOnRollover true or false.
      */
@@ -497,8 +480,8 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     }
 
     /**
-     * Sets the delay in ms betwen each unit scrolling. By default, it's 50. The big
-     * the nubmer, the slow the scrolling.
+     * Sets the delay in ms betwen each unit scrolling. By default, it's 50. The big the nubmer, the slow the
+     * scrolling.
      *
      * @param repeatDelay thenew repeat delay.
      */

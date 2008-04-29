@@ -1386,11 +1386,6 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     public int getEditingTabIndex() {
         return ((JideTabbedPaneUI) getUI()).getEditingTabIndex();
     }

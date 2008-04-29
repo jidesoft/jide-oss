@@ -15,12 +15,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * <code>BannerPanel</code> is a panel that can show title, subtitle and icon with title on top,
- * subtitle on the bottom and icon on the left. You can use ImageIcon as the icon but you can also
- * use your own component as the icon component by using {@link #setIconComponent(javax.swing.JComponent)}.
+ * <code>BannerPanel</code> is a panel that can show title, subtitle and icon with title on top, subtitle on the bottom
+ * and icon on the left. You can use ImageIcon as the icon but you can also use your own component as the icon component
+ * by using {@link #setIconComponent(javax.swing.JComponent)}.
  * <p/>
- * <code>BannerPanel</code> can be placed on top of any dialog or any panel to show some help
- * information or display a product logo.
+ * <code>BannerPanel</code> can be placed on top of any dialog or any panel to show some help information or display a
+ * product logo.
  */
 public class BannerPanel extends JPanel {
 
@@ -121,8 +121,8 @@ public class BannerPanel extends JPanel {
      *
      * @param title         the title.
      * @param subtitle      the sub title.
-     * @param iconComponent the icon component. It will appear where the icon is if using
-     *                      constructor {@link #BannerPanel(String,String,javax.swing.ImageIcon)}.
+     * @param iconComponent the icon component. It will appear where the icon is if using constructor {@link
+     *                      #BannerPanel(String,String,javax.swing.ImageIcon)}.
      */
     public BannerPanel(String title, String subtitle, JComponent iconComponent) {
         setTitle(title);
@@ -185,8 +185,7 @@ public class BannerPanel extends JPanel {
                 if (_titleLabel != null && TITLE_PROPERTY.equals(evt.getPropertyName())) {
                     _titleLabel.setText((String) evt.getNewValue());
                 }
-                else
-                if (_subtitleLabel != null && SUBTITLE_PROPERTY.equals(evt.getPropertyName())) {
+                else if (_subtitleLabel != null && SUBTITLE_PROPERTY.equals(evt.getPropertyName())) {
                     String text = (String) evt.getNewValue();
                     _subtitleLabel.setText(text);
                     if (text != null && text.length() != 0) {
@@ -251,17 +250,11 @@ public class BannerPanel extends JPanel {
      * Prepares the title icon.
      *
      * @param icon the input icon fro setTitleIcon(icon).
-     *
-     * @return the image icon after processing. By default it will return the same image icon.
-     *         Subclass can override it to scale the image or do other processing.
+     * @return the image icon after processing. By default it will return the same image icon. Subclass can override it
+     *         to scale the image or do other processing.
      */
     protected ImageIcon prepareTitleIcon(ImageIcon icon) {
         return icon;
-    }
-
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
     }
 
     /**
@@ -274,8 +267,8 @@ public class BannerPanel extends JPanel {
     }
 
     /**
-     * Sets the Paint used to paint the background of the BannerPanel. User can set the paint to a
-     * gradient paint to make the BannerPanel looks attractive.
+     * Sets the Paint used to paint the background of the BannerPanel. User can set the paint to a gradient paint to
+     * make the BannerPanel looks attractive.
      *
      * @param backgroundPaint the background paint.
      */
@@ -284,10 +277,9 @@ public class BannerPanel extends JPanel {
     }
 
     /**
-     * This method allows you to use gradient background without using {@link
-     * #setBackgroundPaint(java.awt.Paint)} method. You can use GradientPaint to do the same thing.
-     * However if you use this method, it will use fast gradient paint defined in JideSwingUtilities
-     * to do the painting.
+     * This method allows you to use gradient background without using {@link #setBackgroundPaint(java.awt.Paint)}
+     * method. You can use GradientPaint to do the same thing. However if you use this method, it will use fast gradient
+     * paint defined in JideSwingUtilities to do the painting.
      *
      * @param startColor start color of the gradient
      * @param endColor   end color of the gradient
@@ -379,10 +371,9 @@ public class BannerPanel extends JPanel {
 
 
     /**
-     * Gets the icon component. If you use constructor {@link #BannerPanel(String,String,javax.swing.ImageIcon)},
-     * the icon component will be a JLabel with the icon in the 3rd parameter. If you use the
-     * constructor {@link #BannerPanel(String,String,javax.swing.JComponent)}, it will return the
-     * component as in the 3rd parameter.
+     * Gets the icon component. If you use constructor {@link #BannerPanel(String,String,javax.swing.ImageIcon)}, the
+     * icon component will be a JLabel with the icon in the 3rd parameter. If you use the constructor {@link
+     * #BannerPanel(String,String,javax.swing.JComponent)}, it will return the component as in the 3rd parameter.
      *
      * @return the icon component
      */
@@ -451,8 +442,8 @@ public class BannerPanel extends JPanel {
     }
 
     /**
-     * Sets the subtitle indent. Subtitle is always behind the title. The indent will decide how
-     * behind. It's in pixels.
+     * Sets the subtitle indent. Subtitle is always behind the title. The indent will decide how behind. It's in
+     * pixels.
      *
      * @param subTitleIndent the new index.
      */
@@ -561,9 +552,9 @@ public class BannerPanel extends JPanel {
 
     /**
      * Sets the title icon location. By default the title icon is added a border layout using
-     * BorderLayout.AFTER_LINE_ENDS. However you can use this method to decide where to add. Valid
-     * values are SwingContants.EAST and SwingContants.WEST as well as SwingContants.LEADING and
-     * SwingContants.TRAILING considering the case of both RTL and LTR.
+     * BorderLayout.AFTER_LINE_ENDS. However you can use this method to decide where to add. Valid values are
+     * SwingContants.EAST and SwingContants.WEST as well as SwingContants.LEADING and SwingContants.TRAILING considering
+     * the case of both RTL and LTR.
      *
      * @param titleIconLocation the title icon location.
      */
@@ -598,9 +589,7 @@ public class BannerPanel extends JPanel {
      *
      * @return a JLabel or the third parameter you passed in using the constrcutor {@link
      *         #BannerPanel(String,String,javax.swing.JComponent)}.
-     *
-     * @deprecated use {@link #getIconComponent()} instead. We also add a setter for it which was
-     *             missing before.
+     * @deprecated use {@link #getIconComponent()} instead. We also add a setter for it which was missing before.
      */
     @Deprecated
     public JComponent getImageLabel() {

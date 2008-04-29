@@ -20,8 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * <code>LabeledTextField</code> is a combo component which includes text field and an optional
- * JLabel in the front and another optionial AbstractButton at the end.
+ * <code>LabeledTextField</code> is a combo component which includes text field and an optional JLabel in the front and
+ * another optionial AbstractButton at the end.
  */
 public class LabeledTextField extends JPanel {
 
@@ -36,8 +36,7 @@ public class LabeledTextField extends JPanel {
     protected PopupMenuCustomizer _customizer;
 
     /**
-     * The PopupMenuCustomizer for the context menu when clicking on the label/icon before the text
-     * field.
+     * The PopupMenuCustomizer for the context menu when clicking on the label/icon before the text field.
      */
     public static interface PopupMenuCustomizer {
         void customize(LabeledTextField field, JPopupMenu menu);
@@ -97,8 +96,8 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Setup the layout of the components. By default, we used a border layout with label first,
-     * field in the center and button last.
+     * Setup the layout of the components. By default, we used a border layout with label first, field in the center and
+     * button last.
      *
      * @param label  the label
      * @param field  the text field.
@@ -162,9 +161,8 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Creates a text field. By default it will return a JTextField with opaque set to false.
-     * Subclass can override this method to create their own text field such as
-     * JFormattedTextField.
+     * Creates a text field. By default it will return a JTextField with opaque set to false. Subclass can override this
+     * method to create their own text field such as JFormattedTextField.
      *
      * @return a text field.
      */
@@ -201,9 +199,9 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Creates the button that appears after the text field. By default it returns null so there is
-     * no button. Subclass can override it to create their own button. A typical usage of this is to
-     * create a browse button to browse a file or directory.
+     * Creates the button that appears after the text field. By default it returns null so there is no button. Subclass
+     * can override it to create their own button. A typical usage of this is to create a browse button to browse a file
+     * or directory.
      *
      * @return the button.
      */
@@ -341,11 +339,6 @@ public class LabeledTextField extends JPanel {
         }
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     public int getBaseline(int width, int height) {
         if (SystemInfo.isJdk6Above()) {
             try {
@@ -399,11 +392,11 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
-     * Sets the PopupMenuCustomizer. PopupMenuCustomizer can be used to do customize the popup menu
-     * for the <code>LabeledTextField</code>.
+     * Sets the PopupMenuCustomizer. PopupMenuCustomizer can be used to do customize the popup menu for the
+     * <code>LabeledTextField</code>.
      * <p/>
-     * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in.
-     * You can add/remove/change the menu items in customize method. For example,
+     * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in. You can
+     * add/remove/change the menu items in customize method. For example,
      * <code><pre>
      * field.setPopupMenuCustomzier(new LabeledTextField.PopupMenuCustomizer() {
      *     void customize(LabledTextField field, JPopupMenu menu) {
@@ -413,8 +406,7 @@ public class LabeledTextField extends JPanel {
      *     }
      * }
      * </pre></code>
-     * If the menu is never used, the two add methods will never be called thus improve the
-     * performance.
+     * If the menu is never used, the two add methods will never be called thus improve the performance.
      *
      * @param customizer the PopupMenuCustomizer
      */

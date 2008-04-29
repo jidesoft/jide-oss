@@ -206,11 +206,6 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
         return tick;
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     public void start() {
         setVisible(true);
     }

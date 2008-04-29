@@ -694,12 +694,7 @@ public class CheckBoxList extends JList {
     public void clearCheckBoxListSelection() {
         getCheckBoxListSelectionModel().clearSelection();
     }
-    
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-    
+
     /**
      * Selects all objects in this list except those are disabled.
      */

@@ -369,11 +369,6 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
         _layout.setMinButtonWidth(minButtonWidth);
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     public void buttonEventFired(ButtonEvent e) {
         for (int i = 0; i < getComponentCount(); i++) {
             final Component component = getComponent(i);

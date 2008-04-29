@@ -13,11 +13,10 @@ import javax.swing.text.Element;
 import java.awt.*;
 
 /**
- * An extended version of <code>JTextArea</code> that automatically resizes itself vertically.
- * This component works best when used in a layout that obeys preferred height of its components.
- * For example, you can use a <code>BorderLayout</code> and place <code>AutoResizingTextArea</code>
- * to the north or south side. Similarly, you can use a <code>JideBoxLayout</code> and use FLEXIBLE or FIX
- * as the constraint.
+ * An extended version of <code>JTextArea</code> that automatically resizes itself vertically. This component works best
+ * when used in a layout that obeys preferred height of its components. For example, you can use a
+ * <code>BorderLayout</code> and place <code>AutoResizingTextArea</code> to the north or south side. Similarly, you can
+ * use a <code>JideBoxLayout</code> and use FLEXIBLE or FIX as the constraint.
  */
 public class AutoResizingTextArea extends JTextArea {
 
@@ -65,8 +64,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Creates a textarea with the default minimum and maximum row count and the provided initial text.
-     * The textarea is sized to fit the provided text.
+     * Creates a textarea with the default minimum and maximum row count and the provided initial text. The textarea is
+     * sized to fit the provided text.
      *
      * @param text The initial text to display.
      */
@@ -76,8 +75,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Create a new <code>AutoResizingTextArea</code> with a height bounded by the provided minimum and maximum row counts and with its
-     * width dictated by the provided column count.
+     * Create a new <code>AutoResizingTextArea</code> with a height bounded by the provided minimum and maximum row
+     * counts and with its width dictated by the provided column count.
      *
      * @param minRows The minimum number of rows that this textarea can have
      * @param maxRows The maximum number of rows that this textarea can have.
@@ -91,15 +90,14 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Create a new <code>AutoResizingTextArea</code> with a height bounded by the provided minimum and maximum row counts and with its
-     * width dictated by the provided column count. The textarea is sized to fit the provided text.
+     * Create a new <code>AutoResizingTextArea</code> with a height bounded by the provided minimum and maximum row
+     * counts and with its width dictated by the provided column count. The textarea is sized to fit the provided text.
      *
      * @param text    The initial text to display in the textarea.
      * @param minRows The minimum number of rows that this textarea can have
      * @param maxRows The maximum number of rows that this textarea can have.
      * @param columns The number of columns that this textarea has.
-     * @throws IllegalArgumentException if the rows or columns
-     *                                  arguments are negative.
+     * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
     public AutoResizingTextArea(String text, int minRows, int maxRows, int columns) {
         this(minRows, maxRows, columns);
@@ -107,8 +105,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Create a new <code>AutoResizingTextArea</code> using a <code>Document</code>.
-     * The document will be set to the text area using {@link #setDocument(javax.swing.text.Document)}.
+     * Create a new <code>AutoResizingTextArea</code> using a <code>Document</code>. The document will be set to the
+     * text area using {@link #setDocument(javax.swing.text.Document)}.
      *
      * @param doc the document.
      */
@@ -118,17 +116,15 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Constructs a new <code>AutoResizingTextArea</code> with the specified number of rows
-     * and columns, and the given model.  All of the constructors
-     * feed through this constructor.
+     * Constructs a new <code>AutoResizingTextArea</code> with the specified number of rows and columns, and the given
+     * model.  All of the constructors feed through this constructor.
      *
      * @param doc     the model to use, or create a default one if null
      * @param text    the text to be displayed, null if none
      * @param minRows the minimum number of rows >= 0
      * @param maxRows the maximum number of rows >= 0
      * @param columns the number of columns >= 0
-     * @throws IllegalArgumentException if the rows or columns
-     *                                  arguments are negative.
+     * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
 
     public AutoResizingTextArea(Document doc, String text, int minRows, int maxRows, int columns) {
@@ -139,8 +135,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Sets the number of visible rows. The row value will be forced to the boundaries of the range
-     * [minRows ... maxRows] if it is outside that range.
+     * Sets the number of visible rows. The row value will be forced to the boundaries of the range [minRows ...
+     * maxRows] if it is outside that range.
      *
      * @param rows The number of rows to show
      */
@@ -154,9 +150,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Called when the number of rows is updated. By default, it will get the parent scroll pane
-     * and call revalidate. Subclass can override it to customize the behavior when number of rows
-     * is updated.
+     * Called when the number of rows is updated. By default, it will get the parent scroll pane and call revalidate.
+     * Subclass can override it to customize the behavior when number of rows is updated.
      *
      * @param oldRow the previous row count.
      * @param newRow the new row count.
@@ -174,14 +169,9 @@ public class AutoResizingTextArea extends JTextArea {
         }
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Gets the maximum number of rows that will be displayed. You can set it using {@link #setMaxRows(int)}
-     * or passed in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * Gets the maximum number of rows that will be displayed. You can set it using {@link #setMaxRows(int)} or passed
+     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
      *
      * @return the maximum number of rows that will be displayed.
      */
@@ -200,8 +190,8 @@ public class AutoResizingTextArea extends JTextArea {
     }
 
     /**
-     * Gets the minimum number of rows that will be displayed. You can set it using {@link #setMinRows(int)}
-     * or passed in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * Gets the minimum number of rows that will be displayed. You can set it using {@link #setMinRows(int)} or passed
+     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
      *
      * @return the minimum number of rows that will be displayed.
      */

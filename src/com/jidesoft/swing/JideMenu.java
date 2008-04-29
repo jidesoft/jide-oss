@@ -15,13 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * A special implementation of JMenu. It is used to replace JMenu in order to use with CommandBar.
- * <br> It has two special features. First, it has a PopupMenuCustomizer for lazy menu creation.
- * Instead of creating menu upfront which might be quite expensive, you can create it using
- * PopupMenuCustomizer. PopupMenuCustomizer is called before the menu is set visible. Please note,
- * when you use PopupMenuCustomizer, you need to remove the old menu items you added previously
- * using PopupMenuCustomizer. Otherwise, you will see a menu which gets longer and longer when you
- * show it. See below for an example.
+ * A special implementation of JMenu. It is used to replace JMenu in order to use with CommandBar. <br> It has two
+ * special features. First, it has a PopupMenuCustomizer for lazy menu creation. Instead of creating menu upfront which
+ * might be quite expensive, you can create it using PopupMenuCustomizer. PopupMenuCustomizer is called before the menu
+ * is set visible. Please note, when you use PopupMenuCustomizer, you need to remove the old menu items you added
+ * previously using PopupMenuCustomizer. Otherwise, you will see a menu which gets longer and longer when you show it.
+ * See below for an example.
  * <code><pre>
  * JideMenu jideMenu = new JideMenu("Dynamic");
  * jideMenu.setPopupMenuCustomizer(new JideMenu.PopupMenuCustomizer(){
@@ -35,9 +34,9 @@ import java.awt.event.ActionListener;
  * });
  * </pre></code>
  * <p/>
- * Second feature is popup alignment. Usually menu and its popup align to the left side. In our
- * case, we hope they align to right side. So we added a method call
- * setPreferredPopupHorizontalAlignment(). You can set to RIGHT if you want to.
+ * Second feature is popup alignment. Usually menu and its popup align to the left side. In our case, we hope they align
+ * to right side. So we added a method call setPreferredPopupHorizontalAlignment(). You can set to RIGHT if you want
+ * to.
  * <p/>
  */
 public class JideMenu extends JMenu implements Alignable {
@@ -49,10 +48,10 @@ public class JideMenu extends JMenu implements Alignable {
     private MenuCreator _menuCreator;
 
     private PopupMenuCustomizer _customizer;
-	
-	private PopupMenuOriginCalculator _originCalculator;
 
-	public static int DELAY = 400;
+    private PopupMenuOriginCalculator _originCalculator;
+
+    public static int DELAY = 400;
 
     private int _orientation;
 
@@ -105,9 +104,9 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     /**
-     * Checks if the menu is added to a top level menu container. It will be consider as top level
-     * menu when <br> 1. getParent() equals null, or <br> 2. getParent() is not an instance of
-     * JPopupMenu <br> Please note, the definition of topLevelMenu is different from that of JMenu.
+     * Checks if the menu is added to a top level menu container. It will be consider as top level menu when <br> 1.
+     * getParent() equals null, or <br> 2. getParent() is not an instance of JPopupMenu <br> Please note, the definition
+     * of topLevelMenu is different from that of JMenu.
      *
      * @return true if it's top level menu.
      */
@@ -117,9 +116,8 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     /**
-     * @deprecated The createMenu method of MenuCreator should JPopupMenu as parameter. Since it's a
-     *             public API we have to deprecated this one and ask users to use {@link
-     *             PopupMenuCustomizer} instead.
+     * @deprecated The createMenu method of MenuCreator should JPopupMenu as parameter. Since it's a public API we have
+     *             to deprecated this one and ask users to use {@link PopupMenuCustomizer} instead.
      */
     @Deprecated
     public interface MenuCreator {
@@ -127,39 +125,37 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     /**
-     * Customizes the popup menu. This method will be called every time before popup menu is set
-     * visible.
+     * Customizes the popup menu. This method will be called every time before popup menu is set visible.
      */
     public interface PopupMenuCustomizer {
         void customize(JPopupMenu menu);
     }
 
-	/**
-	 * Calculates the origin of the popup menu if specified.
-	 */
-	public interface PopupMenuOriginCalculator {
-		Point getPopupMenuOrigin(JideMenu menu);
-	}
+    /**
+     * Calculates the origin of the popup menu if specified.
+     */
+    public interface PopupMenuOriginCalculator {
+        Point getPopupMenuOrigin(JideMenu menu);
+    }
 
-	/**
-	 * Gets the PopupMenuOriginCalculator or <code>null</code>, if none has been specified.
-	 */
-	public PopupMenuOriginCalculator getOriginCalculator() {
-		return _originCalculator;
-	}
+    /**
+     * Gets the PopupMenuOriginCalculator or <code>null</code>, if none has been specified.
+     */
+    public PopupMenuOriginCalculator getOriginCalculator() {
+        return _originCalculator;
+    }
 
-	/**
-	 * Sets the PopupMenuOriginCalculator that will be used to determine the popup menu origin.
-	 */
-	public void setOriginCalculator(PopupMenuOriginCalculator originCalculator) {
-		this._originCalculator = originCalculator;
-	}
+    /**
+     * Sets the PopupMenuOriginCalculator that will be used to determine the popup menu origin.
+     */
+    public void setOriginCalculator(PopupMenuOriginCalculator originCalculator) {
+        this._originCalculator = originCalculator;
+    }
 
-	/**
+    /**
      * Gets the MenuCreator.
      *
      * @return the MenuCreator.
-     *
      * @deprecated use{@link PopupMenuCustomizer} and {@link #getPopupMenuCustomizer()} instead.
      */
     @Deprecated
@@ -168,11 +164,10 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     /**
-     * Sets the MenuCreator. MenuCreator can be used to do lazy menu creation. If you put code in
-     * the MenuCreator, it won't be called until before the menu is set visible.
+     * Sets the MenuCreator. MenuCreator can be used to do lazy menu creation. If you put code in the MenuCreator, it
+     * won't be called until before the menu is set visible.
      *
      * @param menuCreator
-     *
      * @deprecated use{@link PopupMenuCustomizer} and {@link #setPopupMenuCustomizer(com.jidesoft.swing.JideMenu.PopupMenuCustomizer)}
      *             instead.
      */
@@ -191,11 +186,11 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     /**
-     * Sets the PopupMenuCustomizer. PopupMenuCustomizer can be used to do lazy menu creation. If
-     * you put code in the MenuCreator, it won't be called until before the menu is set visible.
+     * Sets the PopupMenuCustomizer. PopupMenuCustomizer can be used to do lazy menu creation. If you put code in the
+     * MenuCreator, it won't be called until before the menu is set visible.
      * <p/>
-     * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in.
-     * You can add/remove/change the menu items in customize method. For example, instead of
+     * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in. You can
+     * add/remove/change the menu items in customize method. For example, instead of
      * <code><pre>
      * JideMenu menu = new JideMenu();
      * menu.add(new JMenuItem("..."));
@@ -212,8 +207,7 @@ public class JideMenu extends JMenu implements Alignable {
      *     }
      * }
      * </pre></code>
-     * If the menu is never used, the two add methods will never be called thus improve the
-     * performance.
+     * If the menu is never used, the two add methods will never be called thus improve the performance.
      *
      * @param customizer
      */
@@ -223,10 +217,10 @@ public class JideMenu extends JMenu implements Alignable {
 
     @Override
     protected Point getPopupMenuOrigin() {
-		if(_originCalculator != null) {
-			return _originCalculator.getPopupMenuOrigin(this);
-		}
-		int x = 0;
+        if (_originCalculator != null) {
+            return _originCalculator.getPopupMenuOrigin(this);
+        }
+        int x = 0;
         int y = 0;
         JPopupMenu pm = getPopupMenu();
 
@@ -371,10 +365,10 @@ public class JideMenu extends JMenu implements Alignable {
             if (JideSwingUtilities.getOrientationOf(this) == HORIZONTAL) {
                 y = s.height + yOffset - 1;    // Prefer dropping down
                 if (getPreferredPopupVerticalAlignment() == TOP || // If forced to be on TOP
-                		(position.y + y + pmSize.height >= screenBounds.height &&
-                        // ...or popup doesn't fit - place it wherever there's more room
-                        screenBounds.height - s.height < 2 * (position.y
-                                - screenBounds.y))) {
+                        (position.y + y + pmSize.height >= screenBounds.height &&
+                                // ...or popup doesn't fit - place it wherever there's more room
+                                screenBounds.height - s.height < 2 * (position.y
+                                        - screenBounds.y))) {
 
                     y = 1 - yOffset - pmSize.height;   // Otherwise drop 'up'
                 }
@@ -448,11 +442,6 @@ public class JideMenu extends JMenu implements Alignable {
             _orientation = orientation;
             firePropertyChange(PROPERTY_ORIENTATION, old, orientation);
         }
-    }
-
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
     }
 
     public int getOrientation() {

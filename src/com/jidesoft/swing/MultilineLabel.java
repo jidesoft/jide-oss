@@ -10,8 +10,7 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 /**
- * Normal JLabel cannot have multiple lines. If you want to multiple
- * label, you can use this class.
+ * Normal JLabel cannot have multiple lines. If you want to multiple label, you can use this class.
  */
 public class MultilineLabel extends JTextArea {
     public MultilineLabel() {
@@ -27,16 +26,9 @@ public class MultilineLabel extends JTextArea {
         adjustUI();
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Reloads the pluggable UI.  The key used to fetch the
-     * new interface is <code>getUIClassID()</code>.  The type of
-     * the UI is <code>TextUI</code>.  <code>invalidate</code>
-     * is called after setting the UI.
+     * Reloads the pluggable UI.  The key used to fetch the new interface is <code>getUIClassID()</code>.  The type of
+     * the UI is <code>TextUI</code>.  <code>invalidate</code> is called after setting the UI.
      */
     @Override
     public void updateUI() {
@@ -65,8 +57,8 @@ public class MultilineLabel extends JTextArea {
     }
 
     /**
-     * Overrides <code>getMinimumSize</code> to return <code>getPreferredSize()</code> instead.
-     * We did this because of a bug at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4824261.
+     * Overrides <code>getMinimumSize</code> to return <code>getPreferredSize()</code> instead. We did this because of a
+     * bug at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4824261.
      *
      * @return the preferred size as minimum size.
      */

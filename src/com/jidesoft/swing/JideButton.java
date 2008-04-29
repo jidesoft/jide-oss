@@ -13,8 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * JideButton is a replacement for JButton when it is used on toolbar (or command bar in the case of
- * JIDE Action Framework).
+ * JideButton is a replacement for JButton when it is used on toolbar (or command bar in the case of JIDE Action
+ * Framework).
  */
 public class JideButton extends JButton implements Alignable, ButtonStyle, ComponentStateSupport, AlignmentSupport {
 
@@ -30,9 +30,8 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     private int _buttonStyle = TOOLBAR_STYLE;
 
     /**
-     * By default, if a JideButton is added to a popup menu, clicking on the button will dismiss the
-     * popup menu. However if you change the default behavior, you can use this client property and
-     * set it to Boolean.FALSE.
+     * By default, if a JideButton is added to a popup menu, clicking on the button will dismiss the popup menu. However
+     * if you change the default behavior, you can use this client property and set it to Boolean.FALSE.
      */
     public static final String CLIENT_PROPERTY_HIDE_POPUPMENU = "JideButton.hidePopupMenu";
 
@@ -65,7 +64,6 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * Creates a button where properties are taken from the <code>Action</code> supplied.
      *
      * @param a the <code>Action</code> used to specify the new button
-     *
      * @since 1.3
      */
     public JideButton(Action a) {
@@ -107,7 +105,6 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "ButtonUI"
-     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -165,8 +162,8 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     /**
      * Sets the button style.
      *
-     * @param buttonStyle one of the following values: {@link #TOOLBAR_STYLE} (default), {@link
-     *                    #TOOLBOX_STYLE}, {@link #FLAT_STYLE} and {@link #HYPERLINK_STYLE}.
+     * @param buttonStyle one of the following values: {@link #TOOLBAR_STYLE} (default), {@link #TOOLBOX_STYLE}, {@link
+     *                    #FLAT_STYLE} and {@link #HYPERLINK_STYLE}.
      */
     public void setButtonStyle(int buttonStyle) {
         if (buttonStyle < 0 || buttonStyle > HYPERLINK_STYLE) {
@@ -184,23 +181,21 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     /**
      * Checks the alwaysShowHyperlink property value.
      *
-     * @return true if the hyperlink is always visible. False if the hyperlink will be visible only
-     *         when mouse rolls over.
+     * @return true if the hyperlink is always visible. False if the hyperlink will be visible only when mouse rolls
+     *         over.
      */
     public boolean isAlwaysShowHyperlink() {
         return _alwaysShowHyperlink;
     }
 
     /**
-     * Sets the property if hyperlink (the underline) should be visible all the time. By default the
-     * hyperlink is visible when mouse is over the button. If set to true, the hyperlink will always
-     * be visible.
+     * Sets the property if hyperlink (the underline) should be visible all the time. By default the hyperlink is
+     * visible when mouse is over the button. If set to true, the hyperlink will always be visible.
      * <p/>
      * Please notes, this is an option only available when button style is set to HYPERLINK_STYLE.
      *
-     * @param alwaysShowHyperlink a boolean value. True means the button will always show hyperlink.
-     *                            False means it will show hyperlink only when mouse is over the
-     *                            button.
+     * @param alwaysShowHyperlink a boolean value. True means the button will always show hyperlink. False means it will
+     *                            show hyperlink only when mouse is over the button.
      */
     public void setAlwaysShowHyperlink(boolean alwaysShowHyperlink) {
         if (_alwaysShowHyperlink != alwaysShowHyperlink) {
@@ -277,23 +272,16 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
         _pressedForeground = pressedForeground;
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Gets the background for different states. The states are defined in ThemePainter as
-     * constants. Not all states are supported by all components. If the state is not supported or
-     * background is never set, it will return null.
+     * Gets the background for different states. The states are defined in ThemePainter as constants. Not all states are
+     * supported by all components. If the state is not supported or background is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different backgrounds. This method
-     * allows you to customize it for each component to use a different background. So if you want
-     * the background to be used, don't use a ColorUIResource because UIResource is considered as a
-     * setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to
+     * customize it for each component to use a different background. So if you want the background to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
      * @param state
-     *
      * @return the background for different states.
      */
     public Color getBackgroundOfState(int state) {
@@ -311,14 +299,13 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     }
 
     /**
-     * Sets the background for different states.  The states are defined in ThemePainter as
-     * constants. Not all states are supported by all components. If the state is not supported or
-     * background is never set, it will return null.
+     * Sets the background for different states.  The states are defined in ThemePainter as constants. Not all states
+     * are supported by all components. If the state is not supported or background is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different backgrounds. This method
-     * allows you to customize it for each component to use a different background. So if you want
-     * the background to be used, don't use a ColorUIResource because UIResource is considered as a
-     * setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to
+     * customize it for each component to use a different background. So if you want the background to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
      * @param state
      * @param color
@@ -341,17 +328,15 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     }
 
     /**
-     * Gets the foreground for different states. The states are defined in ThemePainter as
-     * constants. Not all states are supported by all components. If the state is not supported or
-     * foreground is never set, it will return null.
+     * Gets the foreground for different states. The states are defined in ThemePainter as constants. Not all states are
+     * supported by all components. If the state is not supported or foreground is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different foregrounds. This method
-     * allows you to customize it for each component to use a different foreground. So if you want
-     * the foreground to be used, don't use a ColorUIResource because UIResource is considered as a
-     * setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to
+     * customize it for each component to use a different foreground. So if you want the foreground to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
      * @param state
-     *
      * @return the foreground for different states.
      */
     public Color getForegroundOfState(int state) {
@@ -370,14 +355,13 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
 
 
     /**
-     * Sets the foreground for different states.  The states are defined in ThemePainter as
-     * constants. Not all states are supported by all components. If the state is not supported or
-     * foreground is never set, it will return null.
+     * Sets the foreground for different states.  The states are defined in ThemePainter as constants. Not all states
+     * are supported by all components. If the state is not supported or foreground is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different foregrounds. This method
-     * allows you to customize it for each component to use a different foreground. So if you want
-     * the foreground to be used, don't use a ColorUIResource because UIResource is considered as a
-     * setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to
+     * customize it for each component to use a different foreground. So if you want the foreground to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
      * @param state
      * @param color

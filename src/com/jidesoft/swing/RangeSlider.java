@@ -11,9 +11,9 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import javax.swing.*;
 
 /**
- * <tt>RangeSlider</tt> is a slider that can be used to select a range. A regular slider has only one thumb.
- * So it can only be used to select one value. <tt>RangeSlider</tt> has two thumbs. Each one can be moved
- * independently or both are moved together.
+ * <tt>RangeSlider</tt> is a slider that can be used to select a range. A regular slider has only one thumb. So it can
+ * only be used to select one value. <tt>RangeSlider</tt> has two thumbs. Each one can be moved independently or both
+ * are moved together.
  * <p/>
  * {@link #getLowValue()} will return the value of low range and {@link #getHighValue()} is the high range.
  */
@@ -22,15 +22,14 @@ public class RangeSlider extends JSlider {
     private static final String uiClassID = "RangeSliderUI";
 
     /**
-     * Creates a horizontal range slider with the range 0 to 100 and
-     * initial low and high values both at 50.
+     * Creates a horizontal range slider with the range 0 to 100 and initial low and high values both at 50.
      */
     public RangeSlider() {
     }
 
     /**
-     * Creates a range slider using the specified orientation with the
-     * range 0 to 100 and initial low and high values both at 50.
+     * Creates a range slider using the specified orientation with the range 0 to 100 and initial low and high values
+     * both at 50.
      *
      * @param orientation the orientation of the <code>RangeSlider</code>.
      */
@@ -39,9 +38,8 @@ public class RangeSlider extends JSlider {
     }
 
     /**
-     * Creates a horizontal slider using the specified min and max
-     * with an initial value equal to the average of the min plus max.
-     * and initial low and high values both at 50.
+     * Creates a horizontal slider using the specified min and max with an initial value equal to the average of the min
+     * plus max. and initial low and high values both at 50.
      *
      * @param min the minimum value of the slider.
      * @param max the maximum value of the slider.
@@ -63,14 +61,8 @@ public class RangeSlider extends JSlider {
                 min, max));
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Resets the UI property to a value from the current look and
-     * feel.
+     * Resets the UI property to a value from the current look and feel.
      *
      * @see javax.swing.JComponent#updateUI
      */
@@ -84,8 +76,7 @@ public class RangeSlider extends JSlider {
 
 
     /**
-     * Returns a string that specifies the name of the L&F class
-     * that renders this component.
+     * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "RangeSliderUI"
      * @see javax.swing.JComponent#getUIClassID
@@ -125,8 +116,7 @@ public class RangeSlider extends JSlider {
     }
 
     /**
-     * Sets the range slider's low value.  This method just forwards
-     * the value to the model.
+     * Sets the range slider's low value.  This method just forwards the value to the model.
      *
      * @param lowValue the new low value
      */
@@ -145,8 +135,7 @@ public class RangeSlider extends JSlider {
     }
 
     /**
-     * Sets the range slider's high value.  This method just forwards
-     * the value to the model.
+     * Sets the range slider's high value.  This method just forwards the value to the model.
      *
      * @param highValue the new high value
      */

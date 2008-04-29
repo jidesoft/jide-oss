@@ -26,11 +26,6 @@ public class OverlayComboBox extends JComboBox {
     }
 
     @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
-    @Override
     public void repaint(long tm, int x, int y, int width, int height) {
         super.repaint(tm, x, y, width, height);
         OverlayableUtils.repaintOverlayable(this);

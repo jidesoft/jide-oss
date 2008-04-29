@@ -78,11 +78,6 @@ public class StyledLabel extends JLabel {
         super(text, icon, horizontalAlignment);
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
      * Resets the UI property to a value from the current look and feel.
      *

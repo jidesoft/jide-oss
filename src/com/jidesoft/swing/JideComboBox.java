@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.util.Vector;
 
 /**
- * <code>JideComboBox</code> is a JCombobox used on JToolBar or CommandBar. It has a flat look which matches
- * with that of JideButton and JideSplitButton.
+ * <code>JideComboBox</code> is a JCombobox used on JToolBar or CommandBar. It has a flat look which matches with that
+ * of JideButton and JideSplitButton.
  */
 public class JideComboBox extends JComboBox {
     private static final String uiClassID = "JideComboBoxUI";
@@ -29,14 +29,8 @@ public class JideComboBox extends JComboBox {
         super();
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-
     /**
-     * Resets the UI property to a value from the current look and
-     * feel.
+     * Resets the UI property to a value from the current look and feel.
      *
      * @see JComponent#updateUI
      */
@@ -49,8 +43,7 @@ public class JideComboBox extends JComboBox {
     }
 
     /**
-     * Returns a string that specifies the name of the L&F class
-     * that renders this component.
+     * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "JideComboBoxUI"
      * @see JComponent#getUIClassID

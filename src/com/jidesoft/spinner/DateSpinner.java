@@ -1,6 +1,5 @@
 package com.jidesoft.spinner;
 
-import java.awt.Component;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.InternationalFormatter;
@@ -13,8 +12,8 @@ import java.util.TimeZone;
 /**
  * <code>DateSpinner</code> is a spinner that is specialized in displaying or editing a a date or time.
  * <p/>
- * To change the value, you can use {@link #setValue(Object)} and pass in a Date. To get the
- * Date, using {@link #getValue()}.
+ * To change the value, you can use {@link #setValue(Object)} and pass in a Date. To get the Date, using {@link
+ * #getValue()}.
  */
 public class DateSpinner extends JSpinner {
     public DefaultFormatter _formatter;
@@ -53,11 +52,6 @@ public class DateSpinner extends JSpinner {
         customizeSpinner();
     }
 
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
-    }
-    
     private void customizeDateEditor() {
 //        _timeEditor.setBorder(BorderFactory.createEmptyBorder());
         JFormattedTextField.AbstractFormatter formatter = _timeEditor.getTextField().getFormatter();
@@ -81,8 +75,8 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Sets the date format string used by this DateSpinner. Please note, this method call
-     * will receate the DateEditor used by DateSpinner.
+     * Sets the date format string used by this DateSpinner. Please note, this method call will receate the DateEditor
+     * used by DateSpinner.
      *
      * @param format the format
      */
@@ -114,26 +108,21 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Sets when edits are published back to the
-     * <code>JFormattedTextField</code>. If true, <code>commitEdit</code>
-     * is invoked after every valid edit (any time the text is edited). On
-     * the other hand, if this is false than the <code>DefaultFormatter</code>
-     * does not publish edits back to the <code>JFormattedTextField</code>.
-     * As such, the only time the value of the <code>JFormattedTextField</code>
-     * will change is when <code>commitEdit</code> is invoked on
-     * <code>JFormattedTextField</code>, typically when enter is pressed
-     * or focus leaves the <code>JFormattedTextField</code>.
+     * Sets when edits are published back to the <code>JFormattedTextField</code>. If true, <code>commitEdit</code> is
+     * invoked after every valid edit (any time the text is edited). On the other hand, if this is false than the
+     * <code>DefaultFormatter</code> does not publish edits back to the <code>JFormattedTextField</code>. As such, the
+     * only time the value of the <code>JFormattedTextField</code> will change is when <code>commitEdit</code> is
+     * invoked on <code>JFormattedTextField</code>, typically when enter is pressed or focus leaves the
+     * <code>JFormattedTextField</code>.
      *
-     * @param commit Used to indicate when edits are commited back to the
-     *               JTextComponent
+     * @param commit Used to indicate when edits are commited back to the JTextComponent
      */
     public void setCommitsOnValidEdit(boolean commit) {
         _formatter.setCommitsOnValidEdit(commit);
     }
 
     /**
-     * Returns when edits are published back to the
-     * <code>JFormattedTextField</code>.
+     * Returns when edits are published back to the <code>JFormattedTextField</code>.
      *
      * @return true if edits are commited after evey valid edit
      */
@@ -142,9 +131,8 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Configures the behavior when inserting characters. If
-     * <code>overwriteMode</code> is true (the default), new characters
-     * overwrite existing characters in the model.
+     * Configures the behavior when inserting characters. If <code>overwriteMode</code> is true (the default), new
+     * characters overwrite existing characters in the model.
      *
      * @param overwriteMode Indicates if overwrite or overstrike mode is used
      */
@@ -162,22 +150,18 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Sets whether or not the value being edited is allowed to be invalid
-     * for a length of time (that is, <code>stringToValue</code> throws
-     * a <code>ParseException</code>).
-     * It is often convenient to allow the user to temporarily input an
-     * invalid value.
+     * Sets whether or not the value being edited is allowed to be invalid for a length of time (that is,
+     * <code>stringToValue</code> throws a <code>ParseException</code>). It is often convenient to allow the user to
+     * temporarily input an invalid value.
      *
-     * @param allowsInvalid Used to indicate if the edited value must always
-     *                      be valid
+     * @param allowsInvalid Used to indicate if the edited value must always be valid
      */
     public void setAllowsInvalid(boolean allowsInvalid) {
         _formatter.setAllowsInvalid(allowsInvalid);
     }
 
     /**
-     * Returns whether or not the value being edited is allowed to be invalid
-     * for a length of time.
+     * Returns whether or not the value being edited is allowed to be invalid for a length of time.
      *
      * @return false if the edited value must always be valid
      */
@@ -204,10 +188,9 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Specify whether or not date/time parsing is to be lenient.  With
-     * lenient parsing, the parser may use heuristics to interpret inputs that
-     * do not precisely match this object's format.  With strict parsing,
-     * inputs must match this object's format.
+     * Specify whether or not date/time parsing is to be lenient.  With lenient parsing, the parser may use heuristics
+     * to interpret inputs that do not precisely match this object's format.  With strict parsing, inputs must match
+     * this object's format.
      *
      * @param lenient when true, parsing is lenient
      * @see java.util.Calendar#setLenient

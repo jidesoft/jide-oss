@@ -62,8 +62,8 @@ public class PaintPanel extends JPanel {
 
     /**
      * This method allows you to use gradient background without using {@link #setBackgroundPaint(java.awt.Paint)}
-     * method. You can use GradientPaint to do the same thing. However if you use this method,
-     * it will use fast gradient paint defined in JideSwingUtilities to do the painting.
+     * method. You can use GradientPaint to do the same thing. However if you use this method, it will use fast gradient
+     * paint defined in JideSwingUtilities to do the painting.
      *
      * @param startColor start color of the gradient
      * @param endColor   end color of the gradient
@@ -97,11 +97,6 @@ public class PaintPanel extends JPanel {
 
     public void setVertical(boolean vertical) {
         _isVertical = vertical;
-    }
-
-    @Override
-    public JToolTip createToolTip() {
-      return com.jidesoft.swing.JToolTipFactory.getSharedInstance().createToolTip(this);
     }
 
     /**
