@@ -165,7 +165,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         buildStyledText(label);
 
         int width = 0;
-        Font font = label.getFont();
+        Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int lineHeight = 0;
@@ -205,6 +205,20 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         return new Dimension(width, fontHeight + lineHeight);
     }
 
+    /**
+     * Gets the font from the label.
+     *
+     * @param label the label.
+     * @return the font. If label's getFont is null, we will use Label.font instead.
+     */
+    protected Font getFont(StyledLabel label) {
+        Font font = label.getFont();
+        if (font == null) {
+            font = UIDefaultsLookup.getFont("Label.font");
+        }
+        return font;
+    }
+
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
         int x = textX < label.getInsets().left ? label.getInsets().left : textX;
         int y;
@@ -221,7 +235,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int charDisplayed = 0;
         boolean displayMnemonic = false;
         int mneIndex = 0;
-        Font font = label.getFont();
+        Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
 
@@ -240,6 +254,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
 
             font = label.getFont();
+            if (font == null) {
+                font = UIDefaultsLookup.getFont("Label.font");
+            }
             if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                 font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                 fm2 = label.getFontMetrics(font);
