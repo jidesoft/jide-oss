@@ -259,14 +259,26 @@ public class JideSwingUtilities implements SwingConstants {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.x != v2.x) {
-                        view2.setViewPosition(new Point(v1.x, v2.y));
+                        try {
+                            view2.removeChangeListener(this);
+                            view2.setViewPosition(new Point(v1.x, v2.y));
+                        }
+                        finally {
+                            view2.addChangeListener(this);
+                        }
                     }
                 }
                 else if (orientation == VERTICAL) {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.y != v2.y) {
-                        view2.setViewPosition(new Point(v2.x, v1.y));
+                        try {
+                            view2.removeChangeListener(this);
+                            view2.setViewPosition(new Point(v2.x, v1.y));
+                        }
+                        finally {
+                            view2.addChangeListener(this);
+                        }
                     }
                 }
             }
@@ -278,14 +290,26 @@ public class JideSwingUtilities implements SwingConstants {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.x != v2.x) {
-                        view1.setViewPosition(new Point(v2.x, v1.y));
+                        try {
+                            view1.removeChangeListener(this);
+                            view1.setViewPosition(new Point(v2.x, v1.y));
+                        }
+                        finally {
+                            view1.addChangeListener(this);
+                        }
                     }
                 }
                 else if (orientation == VERTICAL) {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.y != v2.y) {
-                        view1.setViewPosition(new Point(v1.x, v2.y));
+                        try {
+                            view1.removeChangeListener(this);
+                            view1.setViewPosition(new Point(v1.x, v2.y));
+                        }
+                        finally {
+                            view1.addChangeListener(this);
+                        }
                     }
                 }
             }
