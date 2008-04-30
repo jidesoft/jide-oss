@@ -329,14 +329,6 @@ public class JideSwingUtilities implements SwingConstants {
                 return ThemePainter.STATE_DISABLE;
             }
         }
-        else if (b.hasFocus() && b.isFocusPainted()) {
-            if (model.isSelected()) {
-                return ThemePainter.STATE_PRESSED;
-            }
-            else {
-                return ThemePainter.STATE_ROLLOVER;
-            }
-        }
         else if (model.isPressed() && model.isArmed()) {
             if (model.isRollover()) {
                 return ThemePainter.STATE_PRESSED;
@@ -352,6 +344,14 @@ public class JideSwingUtilities implements SwingConstants {
         }
         else if (model.isSelected()) {
             return ThemePainter.STATE_SELECTED;
+        }
+        else if (b.hasFocus() && b.isFocusPainted()) {
+            if (model.isSelected()) {
+                return ThemePainter.STATE_PRESSED;
+            }
+            else {
+                return ThemePainter.STATE_ROLLOVER;
+            }
         }
         return ThemePainter.STATE_DEFAULT;
     }
