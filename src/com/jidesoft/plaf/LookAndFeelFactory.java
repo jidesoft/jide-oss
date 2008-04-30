@@ -495,6 +495,7 @@ public class LookAndFeelFactory implements ProductNames {
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initClassDefaults(uiDefaults, false);
                     break;
+                case VSNET_STYLE:
                 case VSNET_STYLE_WITHOUT_MENU:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
