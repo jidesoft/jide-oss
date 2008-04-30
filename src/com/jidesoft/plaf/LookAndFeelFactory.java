@@ -1096,7 +1096,7 @@ public class LookAndFeelFactory implements ProductNames {
                     "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("activeCaptionText"),
                     "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
                     "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
-
+                    "Icon.floating", Boolean.FALSE,
             };
             overwriteDefaults(defaults, uiDefaults);
         }
