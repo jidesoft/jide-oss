@@ -1192,12 +1192,8 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabLeadingComponent(Component component) {
-        if (component != null) {
-            if (!(component instanceof UIResource)) {
-                throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
-            }
-            component.setSize(component.getPreferredSize());
-            component.setVisible(true);
+        if (component != null && !(component instanceof UIResource)) {
+            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
         }
         Component old = _tabLeadingComponent;
         _tabLeadingComponent = component;
@@ -1216,12 +1212,8 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabTrailingComponent(Component component) {
-        if (component != null) {
-            if (!(component instanceof UIResource)) {
-                throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
-            }
-            component.setSize(component.getPreferredSize());
-            component.setVisible(true);
+        if (component != null && !(component instanceof UIResource)) {
+            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
         }
         Component old = _tabTrailingComponent;
         _tabTrailingComponent = component;
