@@ -1100,6 +1100,8 @@ public class LookAndFeelFactory implements ProductNames {
                     "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
                     "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
                     "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                    "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
+                    "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
                     "StatusBarItem.border", BorderFactory.createEmptyBorder(2, 2, 2, 2),
                     "Icon.floating", Boolean.FALSE,
             };
