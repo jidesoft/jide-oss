@@ -1093,9 +1093,14 @@ public class LookAndFeelFactory implements ProductNames {
                     "JideTabbedPane.background", UIManager.getColor("control"),
                     "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
                     "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                    "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("activeCaptionText"),
+                    "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color"),
+                    "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
+                    "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.flexdock.border.color"),
                     "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
                     "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
+                    "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                    "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                    "StatusBarItem.border", BorderFactory.createEmptyBorder(2, 2, 2, 2),
                     "Icon.floating", Boolean.FALSE,
             };
             overwriteDefaults(defaults, uiDefaults);
