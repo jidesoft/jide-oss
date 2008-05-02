@@ -132,7 +132,7 @@ public class CheckBoxTree extends JTree {
      */
     @Override
     public TreeCellRenderer getCellRenderer() {
-        TreeCellRenderer cellRenderer = super.getCellRenderer();
+        TreeCellRenderer cellRenderer = getActualCellRenderer();
         if (cellRenderer == null) {
             cellRenderer = getDefaultRenderer();
         }
@@ -179,7 +179,13 @@ public class CheckBoxTree extends JTree {
         final CheckBoxTreeCellRenderer checkBoxTreeCellRenderer = new CheckBoxTreeCellRenderer(renderer);
         addPropertyChangeListener(CELL_RENDERER_PROPERTY, new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                checkBoxTreeCellRenderer.setActualTreeRenderer((TreeCellRenderer) evt.getNewValue());
+                TreeCellRenderer treeCellRenderer = (TreeCellRenderer) evt.getNewValue();
+                if (treeCellRenderer != checkBoxTreeCellRenderer) {
+                    checkBoxTreeCellRenderer.setActualTreeRenderer(treeCellRenderer);
+                }
+                else {
+                    checkBoxTreeCellRenderer.setActualTreeRenderer(null);
+                }
             }
         });
         return checkBoxTreeCellRenderer;
