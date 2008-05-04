@@ -96,8 +96,7 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
     public class AquaTabCloseButton extends TabCloseButton {
         /**
-         * Resets the UI property to a value from the current look and
-         * feel.
+         * Resets the UI property to a value from the current look and feel.
          *
          * @see JComponent#updateUI
          */
@@ -149,12 +148,12 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
             if (isMouseOver() && isMousePressed()) {
                 g.setColor(COLOR1);
-                g.fillOval(1, 2, getWidth() - 3, getHeight() - 4);
+                g.fillOval(2, 2, getWidth() - 4, getHeight() - 4);
                 g.setColor(COLOR2);
             }
             else if (isMouseOver()) {
                 g.setColor(COLOR1);
-                g.fillOval(1, 2, getWidth() - 3, getHeight() - 4);
+                g.fillOval(2, 2, getWidth() - 4, getHeight() - 4);
                 g.setColor(COLOR3);
             }
             else {
