@@ -146,23 +146,40 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         if (selected == null)
             return;
 
-        if (getTextComponent() instanceof JTextArea) {
-            int pos = getTextComponent().getCaretPosition();
+        String newText;
+        int pos = getTextComponent().getCaretPosition();
+        if (isMultilineTextComponent()) {
             String text = getTextComponent().getText();
-            int start = text.lastIndexOf("\n", pos - 1);
+            int start = text.lastIndexOf('\n', pos - 1);
             String remain = pos == -1 ? "" : text.substring(pos);
             text = text.substring(0, start + 1);
             text += selected;
-            pos = text.length();
             text += remain;
-            getTextComponent().setText(text);
-            getTextComponent().setCaretPosition(pos);
+            newText = text;
         }
         else {
-            String hint = "" + selected;
-            getTextComponent().setText(hint);
-            getTextComponent().setCaretPosition(hint.length());
+            newText = selected.toString();
         }
+
+        getTextComponent().setText(newText);
+        // DocumentFilters in JTextComponent's document model may alter the
+        // provided text. The line separator has to be searched in the actual text
+        String actualText = getTextComponent().getText();
+        int separatorIndex = actualText.indexOf('\n', pos);
+        getTextComponent().setCaretPosition(
+                separatorIndex == -1 ? actualText.length() : separatorIndex);
+    }
+
+    /**
+     * Returns whether this IntelliHints' <code>JTextComponent</code> supports
+     * single-line text or multi-line text.
+     *
+     * @return <code>true</code> if the component supports multiple text lines,
+     *         <code>false</code> otherwise
+     */
+    protected boolean isMultilineTextComponent() {
+        return getTextComponent() instanceof JTextArea ||
+                getTextComponent() instanceof JEditorPane;
     }
 
     /**
@@ -269,14 +286,14 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * @return the context.
      */
     protected Object getContext() {
-        if (getTextComponent() instanceof JTextArea) {
+        if (isMultilineTextComponent()) {
             int pos = getTextComponent().getCaretPosition();
             if (pos == 0) {
                 return "";
             }
             else {
                 String text = getTextComponent().getText();
-                int start = text.lastIndexOf("\n", pos - 1);
+                int start = text.lastIndexOf('\n', pos - 1);
                 return text.substring(start + 1, pos);
             }
         }
@@ -397,11 +414,11 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * @return the keystroek that will trigger the hint popup.
      */
     protected KeyStroke getShowHintsKeyStroke() {
-        if (getTextComponent() instanceof JTextField) {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
+        if (isMultilineTextComponent()) {
+            return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, KeyEvent.CTRL_MASK);
         }
         else {
-            return KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, KeyEvent.CTRL_MASK);
+            return KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
         }
     }
 
