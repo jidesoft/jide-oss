@@ -120,7 +120,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      *
      * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
      *              TREE_STYLE.
-     *
      * @throws java.awt.HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see javax.swing.JComponent#getDefaultLocale
@@ -169,7 +168,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * @param indexPanel the index panel. It has the nagivation control to control which page to
      *                   show.
      * @param pagesPanel the pages panel. It contains all the pages of this dialog.
-     *
      * @return the panel that contains both index panel and pages panel.
      */
     protected JComponent setupContentPanel(JComponent indexPanel, JComponent pagesPanel) {
@@ -339,8 +337,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                         else if (AbstractDialogPage.TITLE_PROPERTY.equals(evt.getPropertyName())) {
                             _tabbedPane.setTitleAt(index, (String) evt.getNewValue());
                         }
-                        else
-                        if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
+                        else if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
                             _tabbedPane.setToolTipTextAt(index, (String) evt.getNewValue());
                         }
                     }
@@ -609,7 +606,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * </code></pre>
      *
      * @param root
-     *
      * @return tree
      */
     protected JTree createTree(DefaultMutableTreeNode root) {
@@ -805,7 +801,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
 
             public void contentsChanged(ListDataEvent e) {
                 if (e.getIndex0() == -1 && e.getIndex1() == -1 && e.getType() == ListDataEvent.CONTENTS_CHANGED) {
-                    int index = _pageList.getPageIndexByFullTitle(_pageList.getCurrentPage().getTitle());
+                    int index = _pageList.getPageIndexByFullTitle(_pageList.getCurrentPage().getFullTitle());
                     list.setSelectedIndex(index);
                 }
             }
@@ -828,7 +824,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * </code></pre>
      *
      * @param listModel
-     *
      * @return list.
      */
     protected JList createList(DefaultListModel listModel) {
@@ -850,15 +845,14 @@ public class MultiplePageDialogPane extends StandardDialogPane {
 
         final ButtonGroup group = new ButtonGroup();
         for (int i = 0; i < _pageList.getPageCount(); i++) {
-            AbstractDialogPage optionsPanel = _pageList.getPage(i);
+            final AbstractDialogPage optionsPanel = _pageList.getPage(i);
             final JideButton button = createIconButton(optionsPanel.getTitle(), optionsPanel.getIcon());
             button.setToolTipText(optionsPanel.getDescription());
             button.setEnabled(optionsPanel.isPageEnabled());
             button.addActionListener(new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
-                    AbstractDialogPage currentPage = _pageList.getPageByFullTitle(e.getActionCommand());
-                    setCurrentPage(currentPage, buttonsPanel);
-                    if (getCurrentPage() == currentPage) {
+                    setCurrentPage(optionsPanel, buttonsPanel);
+                    if (getCurrentPage() == optionsPanel) {
                         group.setSelected(button.getModel(), true);
                     }
                 }
@@ -874,8 +868,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                     else if (AbstractDialogPage.TITLE_PROPERTY.equals(evt.getPropertyName())) {
                         button.setText((String) evt.getNewValue());
                     }
-                    else
-                    if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
+                    else if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
                         button.setToolTipText((String) evt.getNewValue());
                     }
                 }
@@ -971,7 +964,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      *
      * @param title
      * @param icon
-     *
      * @return the button
      */
     protected JideButton createIconButton(String title, Icon icon) {

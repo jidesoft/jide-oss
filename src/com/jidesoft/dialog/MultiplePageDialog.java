@@ -111,7 +111,6 @@ public class MultiplePageDialog extends StandardDialog {
      * as the owner of the dialog. By default TAB_STYLE is used.
      *
      * @param owner
-     *
      * @throws HeadlessException
      */
     public MultiplePageDialog(Frame owner) throws HeadlessException {
@@ -126,7 +125,6 @@ public class MultiplePageDialog extends StandardDialog {
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param modal true for a modal dialog, false for one that allows others windows to be active
      *              at the same time
-     *
      * @throws HeadlessException
      */
     public MultiplePageDialog(Frame owner, boolean modal) throws HeadlessException {
@@ -140,7 +138,6 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -158,7 +155,6 @@ public class MultiplePageDialog extends StandardDialog {
      * @param title the <code>String</code> to display in the dialog's title bar
      * @param modal true for a modal dialog, false for one that allows other windows to be active at
      *              the same time
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -179,7 +175,6 @@ public class MultiplePageDialog extends StandardDialog {
      *              the same time
      * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
      *              TREE_STYLE.
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -195,7 +190,6 @@ public class MultiplePageDialog extends StandardDialog {
      * as the owner of the dialog. By default TAB_STYLE is used.
      *
      * @param owner
-     *
      * @throws HeadlessException
      */
     public MultiplePageDialog(Dialog owner) throws HeadlessException {
@@ -210,7 +204,6 @@ public class MultiplePageDialog extends StandardDialog {
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param modal true for a modal dialog, false for one that allows others windows to be active
      *              at the same time
-     *
      * @throws HeadlessException
      */
     public MultiplePageDialog(Dialog owner, boolean modal) throws HeadlessException {
@@ -224,7 +217,6 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -242,7 +234,6 @@ public class MultiplePageDialog extends StandardDialog {
      * @param title the <code>String</code> to display in the dialog's title bar
      * @param modal true for a modal dialog, false for one that allows other windows to be active at
      *              the same time
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -263,7 +254,6 @@ public class MultiplePageDialog extends StandardDialog {
      *              the same time
      * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
      *              TREE_STYLE.
-     *
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -313,7 +303,6 @@ public class MultiplePageDialog extends StandardDialog {
      * @param indexPanel the index panel. It has the nagivation control to control which page to
      *                   show.
      * @param pagesPanel the pages panel. It contains all the pages of this dialog.
-     *
      * @return the panel that contains both index panel and pages panel.
      */
     protected JComponent setupContentPanel(JComponent indexPanel, JComponent pagesPanel) {
@@ -441,8 +430,7 @@ public class MultiplePageDialog extends StandardDialog {
                         else if (AbstractDialogPage.TITLE_PROPERTY.equals(evt.getPropertyName())) {
                             _tabbedPane.setTitleAt(index, (String) evt.getNewValue());
                         }
-                        else
-                        if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
+                        else if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
                             _tabbedPane.setToolTipTextAt(index, (String) evt.getNewValue());
                         }
                     }
@@ -701,7 +689,6 @@ public class MultiplePageDialog extends StandardDialog {
      * </code></pre>
      *
      * @param root
-     *
      * @return tree
      */
     protected JTree createTree(DefaultMutableTreeNode root) {
@@ -898,7 +885,7 @@ public class MultiplePageDialog extends StandardDialog {
             public void contentsChanged(ListDataEvent e) {
                 if (e.getIndex0() == -1 && e.getIndex1() == -1 && e.getType() == ListDataEvent.CONTENTS_CHANGED) {
                     if (_pageList.getCurrentPage() != null) {
-                        int index = _pageList.getPageIndexByFullTitle(_pageList.getCurrentPage().getTitle());
+                        int index = _pageList.getPageIndexByFullTitle(_pageList.getCurrentPage().getFullTitle());
                         list.setSelectedIndex(index);
                     }
                 }
@@ -922,7 +909,6 @@ public class MultiplePageDialog extends StandardDialog {
      * </code></pre>
      *
      * @param listModel
-     *
      * @return list.
      */
     protected JList createList(DefaultListModel listModel) {
@@ -945,15 +931,14 @@ public class MultiplePageDialog extends StandardDialog {
 
         final ButtonGroup group = new ButtonGroup();
         for (int i = 0; i < _pageList.getPageCount(); i++) {
-            AbstractDialogPage optionsPanel = _pageList.getPage(i);
+            final AbstractDialogPage optionsPanel = _pageList.getPage(i);
             final JideButton button = createIconButton(optionsPanel.getTitle(), optionsPanel.getIcon());
             button.setToolTipText(optionsPanel.getDescription());
             button.setEnabled(optionsPanel.isPageEnabled());
             button.addActionListener(new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
-                    AbstractDialogPage currentPage = _pageList.getPageByFullTitle(e.getActionCommand());
-                    setCurrentPage(currentPage, buttonsPanel);
-                    if (getCurrentPage() == currentPage) {
+                    setCurrentPage(optionsPanel, buttonsPanel);
+                    if (getCurrentPage() == optionsPanel) {
                         group.setSelected(button.getModel(), true);
                     }
                 }
@@ -969,8 +954,7 @@ public class MultiplePageDialog extends StandardDialog {
                     else if (AbstractDialogPage.TITLE_PROPERTY.equals(evt.getPropertyName())) {
                         button.setText((String) evt.getNewValue());
                     }
-                    else
-                    if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
+                    else if (AbstractDialogPage.DESCRIPTION_PROPERTY.equals(evt.getPropertyName())) {
                         button.setToolTipText((String) evt.getNewValue());
                     }
                 }
@@ -978,7 +962,7 @@ public class MultiplePageDialog extends StandardDialog {
             buttonsPanel.addButton(button);
             group.add(button);
             if (_pageList.getPageCount() > 0) {
-                if (getInitialPageTitle() != null && getInitialPageTitle().equals(optionsPanel.getTitle())) {
+                if (getInitialPageTitle() != null && getInitialPageTitle().equals(optionsPanel.getFullTitle())) {
                     group.setSelected(button.getModel(), true);
                 }
                 else if (getInitialPageTitle() == null && i == 0) {
@@ -1074,7 +1058,6 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @param title
      * @param icon
-     *
      * @return the button
      */
     protected JideButton createIconButton(String title, Icon icon) {
