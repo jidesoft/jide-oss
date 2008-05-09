@@ -234,7 +234,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(0, 0, 0, 0)),
                     "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
                     "DockableFrameTitlePane.gripperPainter", gripperPainter,
-                    "DockableFrameTitlePane.margin", new InsetsUIResource(2, 6, 2, 6), // gap
+                    "DockableFrameTitlePane.margin", new InsetsUIResource(1, 6, 1, 6), // gap
 
                     "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("DockableFrame.inactiveTitleForeground"),
 
