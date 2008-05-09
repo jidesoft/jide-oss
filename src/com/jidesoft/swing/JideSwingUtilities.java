@@ -2671,6 +2671,23 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Checks if the property change listener is already registerd on the component.
+     *
+     * @param component the component
+     * @param l         the listener
+     * @return true if already registered. Otherwise false.
+     */
+    public static boolean isPropertyChangeListenerRegistered(Component component, PropertyChangeListener l) {
+        PropertyChangeListener[] listeners = component.getPropertyChangeListeners();
+        for (PropertyChangeListener listener : listeners) {
+            if (listener == l) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks if the mouse listener is already registerd on the component.
      *
      * @param component the component
