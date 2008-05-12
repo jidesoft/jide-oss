@@ -378,9 +378,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
     }
 
     /**
-     * Checks if <code>f</code> represents a real directory or file as opposed to a
-     * special folder such as <code>"Desktop"</code>. Used by UI classes to decide if
-     * a folder is selectable when doing directory choosing.
+     * Checks if <code>f</code> represents a real directory or file as opposed to a special folder such as
+     * <code>"Desktop"</code>. Used by UI classes to decide if a folder is selectable when doing directory choosing.
      *
      * @param f a <code>File</code> object
      * @return <code>true</code> if <code>f</code> is a real file or directory.
@@ -495,6 +494,25 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             if (_toolbar != null) {
                 updateToolbarButtons();
             }
+
+            /*
+             * Added on 05/11/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26932#26932
+             *
+             * The addition below ensures Component#firePropertyChange is called, and thus fires the
+             * appropriate 'bound property event' on all folder selection changes.
+             *
+             * @see FolderChooser#setSelectedFolder(folder)
+             */
+
+            String folderPath = (e.getNewLeadSelectionPath().getLastPathComponent()).toString();
+            File folder = new File(folderPath);
+            _folderChooser.setSelectedFolder(folder);
+
+            /*
+             * End of addition.
+             *
+             * Added on 05/11/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26932#26932
+             */
         }
     }
 

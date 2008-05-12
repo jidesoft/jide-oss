@@ -14,8 +14,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * <code>FolderChooser</code> provides a simple mechanism for the user to
- * choose a folder.
+ * <code>FolderChooser</code> provides a simple mechanism for the user to choose a folder.
  * <p/>
  * In addition to supporting the basic folder choosing function, it also supports create new folder, delete an existing
  * folder. Another useful feature is recent list. It allows you to set a list of recent selected folders so that user
@@ -72,8 +71,8 @@ public class FolderChooser extends JFileChooser {
     }
 
     /**
-     * Sets the recent folder list. The element in the list should be {@link File}.
-     * Property change event on {@link FolderChooser#PROPERTY_RECENTLIST} will be fired when recent folder list is changed.
+     * Sets the recent folder list. The element in the list should be {@link File}. Property change event on {@link
+     * FolderChooser#PROPERTY_RECENTLIST} will be fired when recent folder list is changed.
      *
      * @param recentList the recent folder list.
      */
@@ -84,8 +83,7 @@ public class FolderChooser extends JFileChooser {
     }
 
     /**
-     * Resets the UI property to a value from the current look and
-     * feel.
+     * Resets the UI property to a value from the current look and feel.
      *
      * @see JComponent#updateUI
      */
@@ -98,8 +96,7 @@ public class FolderChooser extends JFileChooser {
     }
 
     /**
-     * Returns a string that specifies the name of the L&F class
-     * that renders this component.
+     * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "FolderChooserUI"
      * @see JComponent#getUIClassID
@@ -133,4 +130,54 @@ public class FolderChooser extends JFileChooser {
 //    public File getCurrentDirectory() {
 //        return super.getSelectedFile();
 //    }
+
+    /*
+     * Added on 05/11/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26932#26932
+     *
+     * The addition below ensures Component#firePropertyChange is called, and thus fires the
+     * appropriate 'bound property event' on all folder selection changes.
+     *
+     * @see BasicFolderChooserUI.FolderChooserSelectionListener#valueChanged
+     */
+
+    /**
+     * Represents the highlighted folder in the 'folder tree' in the UI.
+     *
+     * @see #getSelectedFolder
+     * @see #setSelectedFolder
+     */
+    private File _selectedFolder;
+
+    /**
+     * Returns the selected folder. This can be set either by the programmer via <code>setSelectedFolder</code> or by a
+     * user action, such as selecting the folder from a 'folder tree' in the UI.
+     *
+     * @return the selected folder in the <i>folder tree<i>
+     * @see #setSelectedFolder
+     */
+    public File getSelectedFolder() {
+        return _selectedFolder;
+    }
+
+    /**
+     * Sets the selected folder.<p> </p> Property change event {@link JFileChooser#SELECTED_FILE_CHANGED_PROPERTY} will
+     * be fired when a new folder is selected.
+     *
+     * @param selectedFolder the selected folder
+     * @beaninfo preferred: true bound: true
+     * @see #getSelectedFolder
+     */
+    public void setSelectedFolder(File selectedFolder) {
+        File old = _selectedFolder;
+        if (!JideSwingUtilities.equals(old, selectedFolder)) {
+            _selectedFolder = selectedFolder;
+            firePropertyChange(SELECTED_FILE_CHANGED_PROPERTY, old, _selectedFolder);
+        }
+    }
+
+    /*
+    * End of addition.
+    *
+    * Added on 05/11/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26932#26932
+    */
 }
