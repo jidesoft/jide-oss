@@ -891,7 +891,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
                         Dimension dim = _hRight.getPreferredSize();
                         rect.width -= dim.width;
                         _hRight.setVisible(true);
-                        _hRight.setBounds(adjustBounds(parent, new Rectangle(adjustBounds(parent, availR, ltr)), ltr));
+                        _hRight.setBounds(adjustBounds(parent, new Rectangle(hsbR.x + hsbR.width - dim.width, hsbR.y, dim.width, hsbR.height), ltr));
                     }
                     hsb.setBounds(adjustBounds(parent, rect, ltr));
                 }
