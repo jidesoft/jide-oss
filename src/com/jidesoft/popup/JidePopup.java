@@ -1870,17 +1870,22 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
 // comment out because bug report on http://www.jidesoft.com/forum/viewtopic.php?p=10333#10333.
         if (owner != null && owner.isShowing()) {
-            for (Container p = owner.getParent(); p != null; p = p.getParent()) {
-                if (p instanceof JPopupMenu) break;
-                if (p instanceof Window) {
-                    if (!((Window) p).isFocused()) {
-                        boolean success = owner.requestFocusInWindow();
-                        if (!success) {
-                            owner.requestFocus();
-                        }
+            boolean focusInWindowWorked = false;
+            Container parent = owner.getParent();
+            while (parent != null) {
+                if (parent instanceof JPopupMenu) break;
+                if (parent instanceof Window) {
+                    if (((Window) parent).isFocused()) {
+                        focusInWindowWorked = owner.requestFocusInWindow();
                         break;
                     }
                 }
+                parent = parent.getParent();
+            }
+
+            // only if requestFocusInWindow fails, then try requestFocus on the owner
+            if (!focusInWindowWorked) {
+                owner.requestFocus();
             }
         }
 
