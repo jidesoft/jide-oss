@@ -25,9 +25,12 @@ import com.jidesoft.utils.ProductNames;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import sun.swing.SwingLazyValue;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
@@ -157,6 +160,12 @@ public class LookAndFeelFactory implements ProductNames {
      * Class name of GTK L&F provided by Sun JDK.
      */
     public static final String GTK_LNF = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+
+    /**
+     * The name of Nimbus L&F. We didn't create a constant for Nimbus is because the package name will be changed in
+     * JDK7 release
+     */
+    public static final String NIMBUS_LNF_NAME = "NimbusLookAndFeel";
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as VSNET_STYLE
@@ -671,13 +680,15 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else {
             // built in initializer
-            if (lnf.getClass().getName().equals(GTK_LNF) && isGTKLnfInstalled()) {
+            if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
                 new GTKInitializer().initialize(uiDefaults);
             }
-            else if (isSyntheticaLnfInstalled()) {
-                if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF)) {
-                    new SyntheticaInitializer().initialize(uiDefaults);
-                }
+            else if (isSyntheticaLnfInstalled()
+                    && (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF))) {
+                new SyntheticaInitializer().initialize(uiDefaults);
+            }
+            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
+                new NimbusInitializer().initialize(uiDefaults);
             }
 
             switch (style) {
@@ -916,6 +927,21 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
+     * Returns whether or not the Nimbus L&F is in classpath.
+     *
+     * @return <tt>true</tt> if Nimbus L&F is in classpath, <tt>false</tt> otherwise
+     */
+    public static boolean isNimbusLnfInstalled() {
+        UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+        for (UIManager.LookAndFeelInfo info : infos) {
+            if (info.getClassName().indexOf(NIMBUS_LNF_NAME) != -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Install the default L&F. In this method, we will look at system property "swing.defaultlaf" first. If the value
      * is set and it's not an instance of Synth L&F, we will use it. Otherwise, we will use Metal L&F is OS is Linux or
      * UNIX and use UIManager.getSystemLookAndFeelClassName() for other OS. In addition, we will add JIDE extension to
@@ -1106,6 +1132,47 @@ public class LookAndFeelFactory implements ProductNames {
                     "Icon.floating", Boolean.FALSE,
             };
             overwriteDefaults(defaults, uiDefaults);
+        }
+    }
+
+    public static class NimbusInitializer implements UIDefaultsInitializer {
+        public void initialize(UIDefaults defaults) {
+            Object marginBorder = new SwingLazyValue(
+                    "javax.swing.plaf.basic.BasicBorders$MarginBorder");
+
+            Object[] uiDefaults = {
+                    "textHighlight", new ColorUIResource(197, 218, 233),
+                    "controlText", new ColorUIResource(Color.BLACK),
+                    "activeCaptionText", new ColorUIResource(Color.BLACK),
+                    "MenuItem.acceleratorFont", new FontUIResource("Arial", Font.PLAIN, 12),
+                    "ComboBox.background", new ColorUIResource(Color.WHITE),
+                    "ComboBox.disabledForeground", new ColorUIResource(Color.DARK_GRAY),
+                    "ComboBox.disabledBackground", new ColorUIResource(Color.GRAY),
+
+                    "activeCaption", new ColorUIResource(197, 218, 233),
+                    "inactiveCaption", new ColorUIResource(Color.DARK_GRAY),
+                    "control", new ColorUIResource(220, 223, 228),
+                    "controlLtHighlight", new ColorUIResource(Color.WHITE),
+                    "controlHighlight", new ColorUIResource(Color.LIGHT_GRAY),
+                    "controlShadow", new ColorUIResource(133, 137, 144),
+                    "controlDkShadow", new ColorUIResource(Color.BLACK),
+                    "MenuItem.background", new ColorUIResource(237, 239, 242),
+                    "SplitPane.background", new ColorUIResource(220, 223, 228),
+                    "Tree.hash", new ColorUIResource(Color.GRAY),
+
+                    "TextField.foreground", new ColorUIResource(Color.BLACK),
+                    "TextField.inactiveForeground", new ColorUIResource(Color.BLACK),
+                    "TextField.selectionForeground", new ColorUIResource(Color.WHITE),
+                    "TextField.selectionBackground", new ColorUIResource(197, 218, 233),
+                    "Table.gridColor", new ColorUIResource(Color.BLACK),
+                    "TextField.background", new ColorUIResource(Color.WHITE),
+
+                    "Menu.border", marginBorder,
+                    "MenuItem.border", marginBorder,
+                    "CheckBoxMenuItem.border", marginBorder,
+                    "RadioButtonMenuItem.border", marginBorder,
+            };
+            putDefaults(defaults, uiDefaults);
         }
     }
 
