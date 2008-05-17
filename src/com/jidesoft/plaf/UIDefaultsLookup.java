@@ -94,7 +94,12 @@ public class UIDefaultsLookup {
                 return o;
             }
             catch (Exception e) {
-                return map.get(LookAndFeelFactory.getUIManagerClassLoader());
+                if (map.size() == 1) {
+                    return map.values().iterator().next();
+                }
+                else {
+                    return map.get(LookAndFeelFactory.getUIManagerClassLoader());
+                }
             }
         }
         return value;
