@@ -519,7 +519,6 @@ public class LookAndFeelFactory implements ProductNames {
                     uiDefaults.put("Gripper.painter", gripperPainter);
                     uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
                     uiDefaults.put("JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003);
-                    uiDefaults.put("JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_WINXP);
                     uiDefaults.put("JideTabbedPane.selectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.unselectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
@@ -541,7 +540,7 @@ public class LookAndFeelFactory implements ProductNames {
                         uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.buttonGap", 4); // gap between buttons
-                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 3, 0)));
+                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 1, 0)));
                         uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
                         uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
                     }
