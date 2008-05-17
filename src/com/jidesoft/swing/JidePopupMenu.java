@@ -16,13 +16,11 @@ import javax.swing.plaf.PopupMenuUI;
 import java.awt.*;
 
 /**
- * This component extends JPopupMenu and adds a method to
- * display the menu inside the screen even if the mouse
- * pointer is near the edge of the screen.
+ * This component extends JPopupMenu and adds a method to display the menu inside the screen even if the mouse pointer
+ * is near the edge of the screen.
  * <p/>
- * It also puts the menu items into a scroll pane.
- * When there are too many menu items that can't fit into one screen, the scroll pane
- * will scroll up and down so that you can still get to all menu items.
+ * It also puts the menu items into a scroll pane. When there are too many menu items that can't fit into one screen,
+ * the scroll pane will scroll up and down so that you can still get to all menu items.
  */
 public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
@@ -40,8 +38,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
     /**
      * Constructs a <code>JPopupMenu</code> with the specified title.
      *
-     * @param label the string that a UI may use to display as a title
-     *              for the popup menu.
+     * @param label the string that a UI may use to display as a title for the popup menu.
      */
     public JidePopupMenu(String label) {
         super(label);
@@ -88,36 +85,17 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
      * @return new position
      */
     protected Point getPopupMenuOrigin(Component invoker, int x, int y) {
-
-        Rectangle bounds = PortingUtils.getScreenBounds(invoker);
-
         Dimension size = this.getSize();
-
         if (size.width == 0) {
             size = getPreferredScrollableViewportSize();
         }
 
         Point p = new Point(x, y);
         SwingUtilities.convertPointToScreen(p, invoker);
-        int left = p.x + size.width;
-        int bottom = p.y + size.height;
-
-        if (x < bounds.x) {
-            x = bounds.x;
-        }
-        if (left > bounds.width) {
-            x -= size.width;
-        }
-
-        if (bottom > bounds.height) {
-            y -= size.height;
-        }
-
-        if (y < bounds.y) {
-            y = bounds.y;
-        }
-
-        return new Point(x, y);
+        Rectangle bounds = PortingUtils.ensureOnScreen(new Rectangle(p, size));
+        p = bounds.getLocation();
+        SwingUtilities.convertPointFromScreen(p, invoker);
+        return p;
     }
 
     @Override
