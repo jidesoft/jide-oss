@@ -14,27 +14,25 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * <code>CheckBoxListWithSelectable</code> is a special JList which uses JCheckBox as the list element.
- * In addition to regular JList feature, it also allows you select any number
- * of elements in the list by selecting the check boxes.
+ * <code>CheckBoxListWithSelectable</code> is a special JList which uses JCheckBox as the list element. In addition to
+ * regular JList feature, it also allows you select any number of elements in the list by selecting the check boxes.
  * <p/>
- * The element is ListModel should be an instance of {@link Selectable}. If you have
- * your own class that represents the element in the list, you can implement <code>Selectable</code>
- * and implements a few very simple methods. If your elements are already in an array or Vector
- * that you pass in to the constructor of JList, we will convert them to {@link DefaultSelectable} which
- * implements <code>Selectable</code> interface.
+ * The element is ListModel should be an instance of {@link Selectable}. If you have your own class that represents the
+ * element in the list, you can implement <code>Selectable</code> and implements a few very simple methods. If your
+ * elements are already in an array or Vector that you pass in to the constructor of JList, we will convert them to
+ * {@link DefaultSelectable} which implements <code>Selectable</code> interface.
  * <p/>
- * To select an element, user can mouse click on the check box, or highlight the rows and press SPACE
- * key to toggle the selections.
+ * To select an element, user can mouse click on the check box, or highlight the rows and press SPACE key to toggle the
+ * selections.
+ * <p/>
+ * To listen to the check box selection change, you can call addItemListener to add an ItemListener.
  * <p/>
  * Please note, there are two implementions of CheckBoxList. CheckBoxListWithSelectable is one. There is also another
- * one call CheckBoxList. CheckBoxListWithSelectable is actually the old implementation. In 1.9.2, we introduced
- * a new implementation and renamed the old implementation to CheckBoxListWithSelectable.
- * The main difference between the two implementation is at
- * how the selection state is kept. In new implementation, the selection state is
- * kept at a separate ListSelectionModel which you can get using
- * {@link CheckBoxList#getCheckBoxListSelectionModel()}. The old implementation
- * kept the selection state at Selectable object in the ListModel.
+ * one call CheckBoxList. CheckBoxListWithSelectable is actually the old implementation. In 1.9.2, we introduced a new
+ * implementation and renamed the old implementation to CheckBoxListWithSelectable. The main difference between the two
+ * implementation is at how the selection state is kept. In new implementation, the selection state is kept at a
+ * separate ListSelectionModel which you can get using {@link CheckBoxList#getCheckBoxListSelectionModel()}. The old
+ * implementation kept the selection state at Selectable object in the ListModel.
  */
 public class CheckBoxListWithSelectable extends JList implements ItemSelectable {
 
@@ -52,13 +50,11 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in
-     * the specified <code>Vector</code>. If the Vector contains elements which
-     * is not an instance of {@link Selectable}, it will wrap it automatically
-     * into {@link DefaultSelectable} and add to ListModel.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified <code>Vector</code>. If the
+     * Vector contains elements which is not an instance of {@link Selectable}, it will wrap it automatically into
+     * {@link DefaultSelectable} and add to ListModel.
      *
-     * @param listData the <code>Vector</code> to be loaded into the
-     *                 data model
+     * @param listData the <code>Vector</code> to be loaded into the data model
      */
     public CheckBoxListWithSelectable(final Vector<?> listData) {
         super(wrap(listData));
@@ -66,10 +62,9 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in
-     * the specified <code>Object[]</code>. If the Object array contains elements which
-     * is not an instance of {@link Selectable}, it will wrap it automatically
-     * into {@link DefaultSelectable} and add to ListModel.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified <code>Object[]</code>. If the
+     * Object array contains elements which is not an instance of {@link Selectable}, it will wrap it automatically into
+     * {@link DefaultSelectable} and add to ListModel.
      *
      * @param listData the array of Objects to be loaded into the data model
      */
@@ -79,16 +74,14 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Constructs a <code>CheckBoxList</code> that displays the elements in the
-     * specified, non-<code>null</code> model.
+     * Constructs a <code>CheckBoxList</code> that displays the elements in the specified, non-<code>null</code> model.
      * All <code>CheckBoxList</code> constructors delegate to this one.
      * <p/>
-     * Please note, if you are using this constructor, please make sure
-     * all elements in dataModel are instance of {@link Selectable}.
+     * Please note, if you are using this constructor, please make sure all elements in dataModel are instance of {@link
+     * Selectable}.
      *
      * @param dataModel the data model for this list
-     * @throws IllegalArgumentException if <code>dataModel</code>
-     *                                  is <code>null</code>
+     * @throws IllegalArgumentException if <code>dataModel</code> is <code>null</code>
      */
     public CheckBoxListWithSelectable(ListModel dataModel) {
         super(wrap(dataModel));
@@ -329,11 +322,9 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Adds a listener to the list that's notified each time a change
-     * to the item selection occurs.  Listeners added directly to the
-     * <code>CheckBoxList</code>
-     * will have their <code>ItemEvent.getSource() ==
-     * this CheckBoxList</code>.
+     * Adds a listener to the list that's notified each time a change to the item selection occurs.  Listeners added
+     * directly to the <code>CheckBoxList</code> will have their <code>ItemEvent.getSource() == this
+     * CheckBoxList</code>.
      *
      * @param listener the <code>ItemListener</code> to add
      */
@@ -343,8 +334,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
 
 
     /**
-     * Removes a listener from the list that's notified each time a
-     * change to the item selection occurs.
+     * Removes a listener from the list that's notified each time a change to the item selection occurs.
      *
      * @param listener the <code>ItemListener</code> to remove
      */
@@ -354,11 +344,9 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
 
 
     /**
-     * Returns an array of all the <code>ItemListener</code>s added
-     * to this JList with addItemListener().
+     * Returns an array of all the <code>ItemListener</code>s added to this JList with addItemListener().
      *
-     * @return all of the <code>ItemListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return all of the <code>ItemListener</code>s added or an empty array if no listeners have been added
      * @see #addItemListener
      */
     public ItemListener[] getItemListeners() {
@@ -366,9 +354,8 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the <code>event</code> parameter.
+     * Notifies all listeners that have registered interest for notification on this event type.  The event instance is
+     * lazily created using the <code>event</code> parameter.
      *
      * @param event the <code>ItemEvent</code> object
      * @see javax.swing.event.EventListenerList
@@ -394,9 +381,8 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Gets the selected objects. This is different from {@link #getSelectedValues()} which is
-     * a JList's feature. The List returned from this method contains the objects that is
-     * checked in the CheckBoxList.
+     * Gets the selected objects. This is different from {@link #getSelectedValues()} which is a JList's feature. The
+     * List returned from this method contains the objects that is checked in the CheckBoxList.
      *
      * @return the selected objects.
      */
@@ -469,10 +455,9 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Gets the value of property checkBoxEnabled. If true, user can
-     * click on check boxes on each tree node to select and unselect.
-     * If false, user can't click but you as developer can programatically
-     * call API to select/unselect it.
+     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
+     * and unselect. If false, user can't click but you as developer can programatically call API to select/unselect
+     * it.
      *
      * @return the value of property checkBoxEnabled.
      */
@@ -481,8 +466,8 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Checks if check box is visible. There is no setter for it. The only way is to override
-     * this method to return true or false.
+     * Checks if check box is visible. There is no setter for it. The only way is to override this method to return true
+     * or false.
      *
      * @param index the row index.
      * @return true or false. If false, there is not check box on the particular row index.

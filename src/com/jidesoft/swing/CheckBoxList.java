@@ -32,14 +32,18 @@ import java.util.List;
  * renderer just like before using {@link #setCellRenderer(javax.swing.ListCellRenderer)}. CheckBoxList will use your
  * cell renderer and automatically put a check box before it.
  * <p/>
+ * The selection state is kept in a ListSelectionModel called CheckBoxListSelectionModel, which you can get using {@link
+ * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
+ * box is checked, you need to ask the getCheckBoxListSelectionModel() by using addListSelectionListener.
+ * <p/>
  * Please note, we changed CheckBoxList implementation in 1.9.2 release. The old CheckBoxList class is renamed to {@link
  * CheckBoxListWithSelectable}. If you want to use the old implementation, you can use CheckBoxListWithSelectable
  * instead. The main difference between the two implementation is at how the selection state is kept. In new
  * implementation, the selection state is kept at a separate ListSelectionModel which you can get using {@link
  * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
- * box is checked, you need to ask the getCheckBoxListSelectionModel() to do it. The old implementation kept the
- * selection state at Selectable object in the ListModel. The new implementation is also inline with that of {@link
- * CheckBoxTree}.
+ * box is checked, you need to ask the getCheckBoxListSelectionModel() by using addListSelectionListener. The old
+ * implementation kept the selection state at Selectable object in the ListModel. The new implementation is also inline
+ * with that of {@link CheckBoxTree}.
  */
 public class CheckBoxList extends JList {
 
