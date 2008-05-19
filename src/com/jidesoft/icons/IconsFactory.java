@@ -514,8 +514,11 @@ public class IconsFactory {
         InputStream resource = baseClass.getResourceAsStream(file);
         if (resource == null) {
             System.err.println("Image file " + file + " is missing");
+            return null;
         }
-        return new ImageIcon(ImageIO.read(resource));
+        else {
+            return new ImageIcon(ImageIO.read(resource));
+        }
     }
 
     /**
