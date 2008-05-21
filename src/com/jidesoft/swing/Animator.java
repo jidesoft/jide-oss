@@ -6,13 +6,13 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * An <code>ActionListener</code> with a timer. It is used to
- * simplify the animation of all kind of sliding windows.
+ * An <code>ActionListener</code> with a timer. It is used to simplify the animation of all kind of sliding windows.
  */
 
 public class Animator implements ActionListener {
@@ -24,7 +24,12 @@ public class Animator implements ActionListener {
     private final int _totalSteps;
     private int _currentStep;
 
-    private AnimatorListener _listener;
+    /**
+     * The list of all registered AnimatorListeners.
+     *
+     * @see #addAnimatorListener
+     */
+    private EventListenerList _listenerList = new EventListenerList();
 
     /**
      * Creates an animator for source with initDelay 50 ms, each step delays 10 ms and total 10 steps.
@@ -41,7 +46,8 @@ public class Animator implements ActionListener {
      * @param source     the source for this animator.
      * @param initDelay  the initial delay before timer starts.
      * @param delay      the delay of the timer
-     * @param totalSteps the number of steps. If -1, it means this animator will never stop until {@link #stop()} is called.
+     * @param totalSteps the number of steps. If -1, it means this animator will never stop until {@link #stop()} is
+     *                   called.
      */
     public Animator(Component source, int initDelay, int delay, int totalSteps) {
         _source = source;
@@ -63,33 +69,87 @@ public class Animator implements ActionListener {
     }
 
     /**
-     * Gets the AnimatorListener so that you can custom the behavior of the animator.
+     * Gets the AnimatorListener so that you can custom the behavior of the animator.<p> </p> Returns the last
+     * animatorListener in the EventListenerList
      *
      * @return the listener
+     * @deprecated Please use #getAnimatorListeners
      */
+    @Deprecated
     public AnimatorListener getAnimatorListener() {
-        return _listener;
+        AnimatorListener listener = null;
+        if (_listenerList != null) {
+            AnimatorListener[] listeners = getAnimatorListeners();
+            listener = listeners[listeners.length - 1];
+        }
+        return listener;
     }
 
     /**
      * Sets the AnimatorListener so that you can custom the behavior of the animator.
      *
-     * @param listener the <code>AnimatorListener</code>.
+     * @param animatorListener the <code>AnimatorListener</code>. Null to clear all existing listeners.
+     * @deprecated Please use #addAnimatorListener which makes it possible to add multiple listeners.
      */
-    public void setAnimatorListener(AnimatorListener listener) {
-        _listener = listener;
+    @Deprecated
+    public void setAnimatorListener(AnimatorListener animatorListener) {
+        if (animatorListener == null) {
+            if (_listenerList != null) {
+                AnimatorListener[] listeners = getAnimatorListeners();
+                for (AnimatorListener listener : listeners) {
+                    _listenerList.remove(AnimatorListener.class, listener);
+                }
+            }
+        }
+        else {
+            addAnimatorListener(animatorListener);
+        }
+    }
+
+    /**
+     * Adds an <code>AnimatorListener</code> to this Animator.
+     *
+     * @param l the <code>AnimatorListener</code> to be added
+     */
+    public void addAnimatorListener(AnimatorListener l) {
+        _listenerList.add(AnimatorListener.class, l);
+    }
+
+    /**
+     * Removes an <code>AnimatorListener</code> from this Animator.
+     *
+     * @param l the listener to be removed
+     */
+    public void removeAnimatorListener(AnimatorListener l) {
+        _listenerList.remove(AnimatorListener.class, l);
+    }
+
+    /**
+     * Returns an array of all the <code>AnimatorListener</code>s added to this Animator with addAnimatorListener().
+     *
+     * @return all of the <code>AnimatorListener</code>s added or an empty array if no listeners have been added
+     */
+    public AnimatorListener[] getAnimatorListeners() {
+        return _listenerList.getListeners(AnimatorListener.class);
     }
 
     public void actionPerformed(ActionEvent e) {
         if (_source != null) {
-            if (_listener != null) {
-                _listener.animationFrame(_source, _totalSteps, _currentStep);
+            if (_listenerList != null) {
+                AnimatorListener[] listeners = getAnimatorListeners();
+                for (AnimatorListener listener : listeners) {
+                    listener.animationFrame(_source, _totalSteps, _currentStep);
+                }
             }
+
             _currentStep++;
             if (_totalSteps != -1 && _currentStep > _totalSteps) {
                 stop();
-                if (_listener != null) {
-                    _listener.animationEnds(_source);
+                if (_listenerList != null) {
+                    AnimatorListener[] listeners = getAnimatorListeners();
+                    for (AnimatorListener listener : listeners) {
+                        listener.animationEnds(_source);
+                    }
                 }
             }
         }
@@ -99,8 +159,11 @@ public class Animator implements ActionListener {
      * Starts the animator.
      */
     public void start() {
-        if (_listener != null) {
-            _listener.animationStarts(_source);
+        if (_listenerList != null) {
+            AnimatorListener[] listeners = getAnimatorListeners();
+            for (AnimatorListener listener : listeners) {
+                listener.animationStarts(_source);
+            }
         }
         if (_timer != null)
             _timer.start();
