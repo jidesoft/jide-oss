@@ -64,9 +64,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         }
 
         if ((products & PRODUCT_ACTION) != 0) {
-            table.put("CommandBarUI", "com.jidesoft.plaf.office2003.Office2003CommandBarUI");
             table.put("CommandBarSeparatorUI", "com.jidesoft.plaf.office2003.Office2003CommandBarSeparatorUI");
-            table.put("CommandBarTitleBarUI", "com.jidesoft.plaf.office2003.Office2003CommandBarTitleBarUI");
         }
     }
 

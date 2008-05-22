@@ -62,9 +62,7 @@ public class VsnetLookAndFeelExtension extends BasicLookAndFeelExtension {
 
         if ((products & PRODUCT_ACTION) != 0) {
             // action
-            table.put("CommandBarUI", vsnetPackageName + "VsnetCommandBarUI");
             table.put("CommandBarSeparatorUI", vsnetPackageName + "VsnetCommandBarSeparatorUI");
-            table.put("ChevronUI", vsnetPackageName + "VsnetChevronUI");
         }
     }
 }
