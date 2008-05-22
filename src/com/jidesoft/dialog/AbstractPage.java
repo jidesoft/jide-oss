@@ -7,6 +7,8 @@ package com.jidesoft.dialog;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * AbstractPage is an abstract base class that provides functionality to defer populating a JPanel object until it is
@@ -76,6 +78,8 @@ public abstract class AbstractPage extends JPanel implements Laziness {
 
     // Some versions of Swing called paint() before
     // the components were added to their containers.
+
+    private static final Logger LOGGER_EVENT = Logger.getLogger(PageEvent.class.getName());
 
     /**
      * Creates an AbstractPage.
@@ -224,10 +228,9 @@ public abstract class AbstractPage extends JPanel implements Laziness {
      * <code>addPageListener</code> .
      *
      * @return all of the <code>PageListener</code>s added, or an empty array if no listeners have been added
-     * @since 1.4
      */
     public PageListener[] getPageListeners() {
-        return (PageListener[]) listenerList.getListeners(
+        return listenerList.getListeners(
                 PageListener.class);
     }
 
@@ -254,6 +257,23 @@ public abstract class AbstractPage extends JPanel implements Laziness {
         if (source == null) { // set the source to this if it's null
             source = this;
         }
+
+        if (LOGGER_EVENT.isLoggable(Level.FINE)) {
+            switch (id) {
+                case PageEvent.PAGE_OPENED:
+                    LOGGER_EVENT.fine("Page \"" + this + " is opened, source is " + source.getClass().getName());
+                    break;
+                case PageEvent.PAGE_CLOSING:
+                    LOGGER_EVENT.fine("Page \"" + this + " is closing, source is " + source.getClass().getName());
+                    break;
+                case PageEvent.PAGE_CLOSED:
+                    LOGGER_EVENT.fine("Page \"" + this + " is closed, source is " + source.getClass().getName());
+                    break;
+                default:
+                    break;
+            }
+        }
+
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == PageListener.class) {

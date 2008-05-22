@@ -19,25 +19,24 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 
 /**
- * MultiplePageDialog is a StandardDialog which can have multiple AbstractDialogPages. You can
- * choose one from four predefined styles of how to change the page visibility. Those four styles
- * are TAB_STYLE, ICON_STYLE, LIST_STYLE and TREE_STYLE.
+ * MultiplePageDialog is a StandardDialog which can have multiple AbstractDialogPages. You can choose one from four
+ * predefined styles of how to change the page visibility. Those four styles are TAB_STYLE, ICON_STYLE, LIST_STYLE and
+ * TREE_STYLE.
  * <p/>
- * To use this class, just create a PageList of AbstractDialogPage and call setPageList() to set to
- * this dialog. Based on the style, the class will automatically layout those pages correctly and
- * hook up actions to switch based on user selection.
+ * To use this class, just create a PageList of AbstractDialogPage and call setPageList() to set to this dialog. Based
+ * on the style, the class will automatically layout those pages correctly and hook up actions to switch based on user
+ * selection.
  * <p/>
- * As AbstractDialogPage extends AbstractPage, so you can always use PageListener to decide what to
- * do when page is opened, closing, closed, activated or deactivated.
+ * As AbstractDialogPage extends AbstractPage, so you can always use PageListener to decide what to do when page is
+ * opened, closing, closed, activated or deactivated.
  * <p/>
- * We automatically create a button panel which have three button - OK, Cancel and Apply. The
- * ButtonPanel listens to ButtonEvent from all the pages. You can simply fireButtonEvent in the page
- * to change the state of those buttons. Or if you want to create your own button panel, just
- * override createButtonPanel() method.
+ * We automatically create a button panel which have three button - OK, Cancel and Apply. The ButtonPanel listens to
+ * ButtonEvent from all the pages. You can simply fireButtonEvent in the page to change the state of those buttons. Or
+ * if you want to create your own button panel, just override createButtonPanel() method.
  * <p/>
- * If you choose LIST_STYLE and TREE_STYLE, you can set your own ListCellRenderer and
- * TreeCellRenderer. Just call setListCellRenderer() and setTreeCellRenderer(). The value passed in
- * the renderer is an instance of AbstractDialogPage associated with that list row or tree node.
+ * If you choose LIST_STYLE and TREE_STYLE, you can set your own ListCellRenderer and TreeCellRenderer. Just call
+ * setListCellRenderer() and setTreeCellRenderer(). The value passed in the renderer is an instance of
+ * AbstractDialogPage associated with that list row or tree node.
  */
 public class MultiplePageDialog extends StandardDialog {
     /**
@@ -70,15 +69,15 @@ public class MultiplePageDialog extends StandardDialog {
     private JComponent _indexPanel;
 
     /**
-     * The panel contains all the pages. In TAB_STYLE, it is a tabbed pane and in other styles, it's
-     * a panel with CardLayout.
+     * The panel contains all the pages. In TAB_STYLE, it is a tabbed pane and in other styles, it's a panel with
+     * CardLayout.
      */
     private JComponent _pagesPanel;
     private CardLayout _cardLayout;
 
     /**
-     * Map that maps from page full title to tree node. It provides a fast access from page full
-     * title to the tree node in TREE_STYLE.
+     * Map that maps from page full title to tree node. It provides a fast access from page full title to the tree node
+     * in TREE_STYLE.
      */
     private Map _titleNodeMap;
 
@@ -95,9 +94,8 @@ public class MultiplePageDialog extends StandardDialog {
     public JTree _tree;
 
     /**
-     * Creates a non-modal MultiplePageDialog without a title and without a specified
-     * <code>Frame</code> owner.  A shared, hidden frame will be set as the owner of the dialog. By
-     * default TAB_STYLE is used.
+     * Creates a non-modal MultiplePageDialog without a title and without a specified <code>Frame</code> owner.  A
+     * shared, hidden frame will be set as the owner of the dialog. By default TAB_STYLE is used.
      *
      * @throws HeadlessException
      */
@@ -106,9 +104,9 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a non-modal MultiplePageDialog without a title with the specified <code>Frame</code>
-     * as its owner.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set
-     * as the owner of the dialog. By default TAB_STYLE is used.
+     * Creates a non-modal MultiplePageDialog without a title with the specified <code>Frame</code> as its owner.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
+     * default TAB_STYLE is used.
      *
      * @param owner
      * @throws HeadlessException
@@ -118,13 +116,12 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal MultiplePageDialog without a title and with the specified owner
-     * <code>Frame</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will
-     * be set as the owner of the dialog. By default TAB_STYLE is used.
+     * Creates a modal or non-modal MultiplePageDialog without a title and with the specified owner <code>Frame</code>.
+     * If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
+     * default TAB_STYLE is used.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
-     * @param modal true for a modal dialog, false for one that allows others windows to be active
-     *              at the same time
+     * @param modal true for a modal dialog, false for one that allows others windows to be active at the same time
      * @throws HeadlessException
      */
     public MultiplePageDialog(Frame owner, boolean modal) throws HeadlessException {
@@ -132,9 +129,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a non-modal MultiplePageDialog with the specified title and with the specified owner
-     * frame.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Creates a non-modal MultiplePageDialog with the specified title and with the specified owner frame.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
@@ -147,14 +143,12 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal dialog with the specified title and the specified owner
-     * <code>Frame</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will
-     * be set as the owner of this dialog.
+     * Creates a modal or non-modal dialog with the specified title and the specified owner <code>Frame</code>.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of this dialog.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     * @param modal true for a modal dialog, false for one that allows other windows to be active at
-     *              the same time
+     * @param modal true for a modal dialog, false for one that allows other windows to be active at the same time
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -164,17 +158,14 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title
-     * and the specified owner <code>Frame</code>.  If <code>owner</code> is <code>null</code>, a
-     * shared, hidden frame will be set as the owner of this dialog.  All constructors defer to this
-     * one.
+     * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title and the specified
+     * owner <code>Frame</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
+     * owner of this dialog.  All constructors defer to this one.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     * @param modal true for a modal dialog, false for one that allows other windows to be active at
-     *              the same time
-     * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
-     *              TREE_STYLE.
+     * @param modal true for a modal dialog, false for one that allows other windows to be active at the same time
+     * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or TREE_STYLE.
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -185,9 +176,9 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a non-modal MultiplePageDialog without a title with the specified <code>Dialog</code>
-     * as its owner.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set
-     * as the owner of the dialog. By default TAB_STYLE is used.
+     * Creates a non-modal MultiplePageDialog without a title with the specified <code>Dialog</code> as its owner.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
+     * default TAB_STYLE is used.
      *
      * @param owner
      * @throws HeadlessException
@@ -197,13 +188,12 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal MultiplePageDialog without a title and with the specified owner
-     * <code>Dialog</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will
-     * be set as the owner of the dialog. By default TAB_STYLE is used.
+     * Creates a modal or non-modal MultiplePageDialog without a title and with the specified owner <code>Dialog</code>.
+     *  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
+     * default TAB_STYLE is used.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
-     * @param modal true for a modal dialog, false for one that allows others windows to be active
-     *              at the same time
+     * @param modal true for a modal dialog, false for one that allows others windows to be active at the same time
      * @throws HeadlessException
      */
     public MultiplePageDialog(Dialog owner, boolean modal) throws HeadlessException {
@@ -211,9 +201,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a non-modal MultiplePageDialog with the specified title and with the specified owner
-     * frame.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
-     * owner of the dialog.
+     * Creates a non-modal MultiplePageDialog with the specified title and with the specified owner frame.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
@@ -226,14 +215,12 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal dialog with the specified title and the specified owner
-     * <code>Dialog</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will
-     * be set as the owner of this dialog.
+     * Creates a modal or non-modal dialog with the specified title and the specified owner <code>Dialog</code>.  If
+     * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of this dialog.
      *
      * @param owner the <code>Dialog</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     * @param modal true for a modal dialog, false for one that allows other windows to be active at
-     *              the same time
+     * @param modal true for a modal dialog, false for one that allows other windows to be active at the same time
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -243,17 +230,14 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title
-     * and the specified owner <code>Dialog</code>.  If <code>owner</code> is <code>null</code>, a
-     * shared, hidden frame will be set as the owner of this dialog.  All constructors defer to this
-     * one.
+     * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title and the specified
+     * owner <code>Dialog</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
+     * owner of this dialog.  All constructors defer to this one.
      *
      * @param owner the <code>Dialog</code> from which the dialog is displayed
      * @param title the <code>String</code> to display in the dialog's title bar
-     * @param modal true for a modal dialog, false for one that allows other windows to be active at
-     *              the same time
-     * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
-     *              TREE_STYLE.
+     * @param modal true for a modal dialog, false for one that allows other windows to be active at the same time
+     * @param style the style. It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or TREE_STYLE.
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see JComponent#getDefaultLocale
@@ -264,8 +248,7 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Implements the method in StandardDialog. You can override this method to create a
-     * BannerPanel.
+     * Implements the method in StandardDialog. You can override this method to create a BannerPanel.
      *
      * @return the BannerPanel
      */
@@ -275,9 +258,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Implements the method in StandardDialog. You can override this method to create a
-     * ContentPanel. By default, a JPanel with BorderLayout is created. IndexPanel is added to WEST
-     * and PagesPanel is added to CENTER.
+     * Implements the method in StandardDialog. You can override this method to create a ContentPanel. By default, a
+     * JPanel with BorderLayout is created. IndexPanel is added to WEST and PagesPanel is added to CENTER.
      *
      * @return the ContentPanel
      */
@@ -297,11 +279,10 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Setups the content panel. It will use the index panel and the pages panel created earlier and
-     * put it into another panel.
+     * Setups the content panel. It will use the index panel and the pages panel created earlier and put it into another
+     * panel.
      *
-     * @param indexPanel the index panel. It has the nagivation control to control which page to
-     *                   show.
+     * @param indexPanel the index panel. It has the nagivation control to control which page to show.
      * @param pagesPanel the pages panel. It contains all the pages of this dialog.
      * @return the panel that contains both index panel and pages panel.
      */
@@ -317,8 +298,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates the button panel. It has three buttons - OK, Cancel and Apply. If you want to create
-     * your own button panel, just override this method.
+     * Creates the button panel. It has three buttons - OK, Cancel and Apply. If you want to create your own button
+     * panel, just override this method.
      *
      * @return button panel
      */
@@ -367,8 +348,7 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Gets the OK Button only if you didn't override the createButtonPanel() and remove the OK
-     * button.
+     * Gets the OK Button only if you didn't override the createButtonPanel() and remove the OK button.
      *
      * @return the OK Button
      */
@@ -377,8 +357,7 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Gets the cancel button. only if you didn't override the createButtonPanel() and remove the
-     * cancel button.
+     * Gets the cancel button. only if you didn't override the createButtonPanel() and remove the cancel button.
      *
      * @return the cancel button.
      */
@@ -387,8 +366,7 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Gets the apply button. only if you didn't override the createButtonPanel() and remove the
-     * apply button.
+     * Gets the apply button. only if you didn't override the createButtonPanel() and remove the apply button.
      *
      * @return the apply button.
      */
@@ -397,8 +375,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates the pages panel. If it's TAB_STYLE, a tabbed pane will be created. If it's any other
-     * styles, a JPanel with CardLayout will be created.
+     * Creates the pages panel. If it's TAB_STYLE, a tabbed pane will be created. If it's any other styles, a JPanel
+     * with CardLayout will be created.
      *
      * @return a panel containing all the pages.
      */
@@ -514,7 +492,7 @@ public class MultiplePageDialog extends StandardDialog {
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
                         Object o = ((PageList) e.getSource()).getSelectedItem();
-                        if (o instanceof AbstractDialogPage) {
+                        if (o instanceof AbstractDialogPage && !o.equals(_pageList.getCurrentPage())) {
                             setCurrentPage((AbstractDialogPage) o);
                         }
                     }
@@ -553,8 +531,7 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Sets the page list of this dialog. User must call this method before the dialog is set
-     * visible.
+     * Sets the page list of this dialog. User must call this method before the dialog is set visible.
      *
      * @param pageList
      */
@@ -680,9 +657,9 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates tree that is used in TREE_STYLE dialog's index panel. Below is the code we used. If
-     * you just want to have a different cell renderer, you can just call {@link
-     * #setTreeCellRenderer(javax.swing.tree.TreeCellRenderer)} to set a new one.
+     * Creates tree that is used in TREE_STYLE dialog's index panel. Below is the code we used. If you just want to have
+     * a different cell renderer, you can just call {@link #setTreeCellRenderer(javax.swing.tree.TreeCellRenderer)} to
+     * set a new one.
      * <pre><code>
      * UIManager.put("Tree.hash", Color.white);
      * return new JTree(root);
@@ -697,8 +674,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Configure the JTree used in TREE_STYLE dialog. Subclass can override this method to configure
-     * the JTree to the way you want. Below is the default implementation of this method.
+     * Configure the JTree used in TREE_STYLE dialog. Subclass can override this method to configure the JTree to the
+     * way you want. Below is the default implementation of this method.
      * <code><pre>
      * tree.setToggleClickCount(1);
      * tree.setCellRenderer(createTreeCellRenderer());
@@ -765,7 +742,7 @@ public class MultiplePageDialog extends StandardDialog {
 
                 if (treeNode != null) {
                     Object userObject = treeNode.getUserObject();
-                    if (userObject instanceof AbstractDialogPage) {
+                    if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage())) {
                         setCurrentPage((AbstractDialogPage) userObject, tree);
                         if (getCurrentPage() != userObject) {
                             // TODO select the old path.
@@ -899,9 +876,9 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates list that is used in LIST_STYLE dialog's index panel. Below is the code we used. If
-     * you just want to have a different cell renderer, you can just call {@link
-     * #setListCellRenderer(javax.swing.ListCellRenderer)} to set a new one.
+     * Creates list that is used in LIST_STYLE dialog's index panel. Below is the code we used. If you just want to have
+     * a different cell renderer, you can just call {@link #setListCellRenderer(javax.swing.ListCellRenderer)} to set a
+     * new one.
      * <pre><code>
      * JList list = new JList(listModel);
      * list.setCellRenderer(createListCellRenderer());
@@ -919,8 +896,8 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Creates the panel that contains several icons. Each icon represents for a page. This is only
-     * used for ICON_STYLE.
+     * Creates the panel that contains several icons. Each icon represents for a page. This is only used for
+     * ICON_STYLE.
      *
      * @return a panel that contains several icons.
      */
@@ -1081,11 +1058,10 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Sets the style of this dialog. This class doesn't support change style on fly. You can only
-     * change style before the dialog is set to visible.
+     * Sets the style of this dialog. This class doesn't support change style on fly. You can only change style before
+     * the dialog is set to visible.
      *
-     * @param style It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or
-     *              TREE_STYLE.
+     * @param style It must be one of the following: TAB_STYLE, ICON_STYLE, LIST_STYLE or TREE_STYLE.
      */
     public void setStyle(int style) {
         if (style == TAB_STYLE || style == LIST_STYLE || style == ICON_STYLE || style == TREE_STYLE) {
@@ -1175,9 +1151,9 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     /**
-     * Gets the initial page title. Initial page is the page that will be selected when the dialog
-     * is just opened. Please note the title is the full title. In most case it's just the title of
-     * the page. Only in TREE_STYLE, it should be a list of titles that concats with '.'.
+     * Gets the initial page title. Initial page is the page that will be selected when the dialog is just opened.
+     * Please note the title is the full title. In most case it's just the title of the page. Only in TREE_STYLE, it
+     * should be a list of titles that concats with '.'.
      *
      * @return the initial page title.
      */
