@@ -245,8 +245,7 @@ public class DefaultOffice2003Theme extends Office2003Theme {
                 "selection.PressedLt",
                 "selection.PressedDk"
         };
-        for (int i = 0; i < uiDefaultsSelection.length; i++) {
-            Object o = uiDefaultsSelection[i];
+        for (Object o : uiDefaultsSelection) {
             remove(o);
         }
     }

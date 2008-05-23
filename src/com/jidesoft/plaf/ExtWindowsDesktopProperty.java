@@ -79,8 +79,8 @@ public class ExtWindowsDesktopProperty implements UIDefaults.ActiveValue {
      */
     private static void updateAllUIs() {
         Frame appFrames[] = Frame.getFrames();
-        for (int j = 0; j < appFrames.length; j++) {
-            updateWindowUI(appFrames[j]);
+        for (Frame frame : appFrames) {
+            updateWindowUI(frame);
         }
     }
 
@@ -90,8 +90,8 @@ public class ExtWindowsDesktopProperty implements UIDefaults.ActiveValue {
     private static void updateWindowUI(Window window) {
         SwingUtilities.updateComponentTreeUI(window);
         Window ownedWins[] = window.getOwnedWindows();
-        for (int i = 0; i < ownedWins.length; i++) {
-            updateWindowUI(ownedWins[i]);
+        for (Window win : ownedWins) {
+            updateWindowUI(win);
         }
     }
 

@@ -133,9 +133,9 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         MouseMotionListener[] listeners = b.getMouseMotionListeners();
 
         if (listeners != null) {
-            for (int counter = 0; counter < listeners.length; counter++) {
-                if (listeners[counter] instanceof RolloverMouseInputAdapter) {
-                    return (RolloverMouseInputAdapter) listeners[counter];
+            for (MouseMotionListener listener : listeners) {
+                if (listener instanceof RolloverMouseInputAdapter) {
+                    return (RolloverMouseInputAdapter) listener;
                 }
             }
         }

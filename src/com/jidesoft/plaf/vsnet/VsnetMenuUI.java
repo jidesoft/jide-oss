@@ -209,9 +209,9 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             return;
         }
         if (lastMnemonic != 0 && windowInputMap != null) {
-            for (int i = 0; i < shortcutKeys.length; i++) {
+            for (int shortcutKey : shortcutKeys) {
                 windowInputMap.remove(KeyStroke.getKeyStroke
-                        (lastMnemonic, shortcutKeys[i], false));
+                        (lastMnemonic, shortcutKey, false));
             }
         }
         if (mnemonic != 0) {
@@ -221,9 +221,9 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
                 SwingUtilities.replaceUIInputMap(menuItem, JComponent.
                         WHEN_IN_FOCUSED_WINDOW, windowInputMap);
             }
-            for (int i = 0; i < shortcutKeys.length; i++) {
+            for (int shortcutKey : shortcutKeys) {
                 windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
-                        shortcutKeys[i], false),
+                        shortcutKey, false),
                         "selectMenu");
             }
         }

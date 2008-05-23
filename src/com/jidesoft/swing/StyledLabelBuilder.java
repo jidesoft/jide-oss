@@ -20,24 +20,22 @@ import java.util.*;
 import java.util.List;
 
 /**
- * <code>StyledLabelBuilder</code> is a quick way to define StyledLabel.
- * It provides two ways to handle the creation and modification of StyleLabels.
+ * <code>StyledLabelBuilder</code> is a quick way to define StyledLabel. It provides two ways to handle the creation and
+ * modification of StyleLabels.
  * <p/>
- * The first is to use it as a builder (thus the name).
- * This way is preferred if you want to create a StyledLabel with a specific
- * format and partially generic content.
- * Example:
+ * The first is to use it as a builder (thus the name). This way is preferred if you want to create a StyledLabel with a
+ * specific format and partially generic content. Example:
  * <pre><code>StyledLabel label = new StyledLabelBuilder()
  * 	.add(file.getName())
  * 	.add(" (", Font.BOLD)
  * 	.add(file.getPath(), "italic") // using annotation style - see section two for information about annotations
  * 	.add(")", Font.BOLD)
  * 	.createLabel();</code></pre>
- * This code would be used to create a label like "something.txt (/temp/something.txt)" with some styling (the braces would be bold, the path would be italic).
- * In case you find yourself reusing a specific style quite often in such a label
- * you might consider to create a style for it.
- * This can be done with the help of the {@link #register}-methods.
- * As an example, the code above could be rewritten like this (though it only pays off when used for creation of longer styles):
+ * This code would be used to create a label like "something.txt (/temp/something.txt)" with some styling (the braces
+ * would be bold, the path would be italic). In case you find yourself reusing a specific style quite often in such a
+ * label you might consider to create a style for it. This can be done with the help of the {@link #register}-methods.
+ * As an example, the code above could be rewritten like this (though it only pays off when used for creation of longer
+ * styles):
  * <pre><code>StyledLabelBuilder builder = new StyledLabelBuilder()
  * 	.register("OPERATOR", Font.BOLD, new Color(0x000052)) // use parameters
  * 	.register("PATH", "italic, f:#0000CD"); // or style annotations
@@ -47,9 +45,10 @@ import java.util.List;
  * 	.add(file.getPath(), "PATH,underlined") // use a style + style annotation
  * 	.add(")", "OPERATOR")
  * 	.createLabel();</code></pre>
- * Note that we're using different font colors this time. It pays off as soon as you want to modify a specific group of text parts or as your styles start to get more complicated.
- * The {@link #clear()}-method is very useful if you want to use these styles.
- * Instead of re-creating a new builder each time, you can use the clear-method to clear the internal buffer of text without removing the previously defined styles.
+ * Note that we're using different font colors this time. It pays off as soon as you want to modify a specific group of
+ * text parts or as your styles start to get more complicated. The {@link #clear()}-method is very useful if you want to
+ * use these styles. Instead of re-creating a new builder each time, you can use the clear-method to clear the internal
+ * buffer of text without removing the previously defined styles.
  * <p/>
  * Let's have an example (we're going to reuse the code from above!):
  * <pre><code>builder.clear();
@@ -64,44 +63,33 @@ import java.util.List;
  * <pre><code>// no need to call {@link #clear()} this time
  * builder.configure(label, String.format("%s ({%s:PATH})", file.getName(), file.getPath()));</code></pre>
  * <p/>
- * Each of the {@link #add} and {@link #register} methods is the same as using the corresponding StyleRange-constructor directly (except that you don't have to care about its start and length).
+ * Each of the {@link #add} and {@link #register} methods is the same as using the corresponding StyleRange-constructor
+ * directly (except that you don't have to care about its start and length).
  * <p/>
- * The second, even more advanced, way to use this class is in combination with an annotated string. Using the static {@link #setStyledText} or {@link #createStyledLabel} methods you can create a fully styled label from just on string. This is ideal if you need the string to be configurable or locale-specific.
- * The usage is even more easy than the builder-approach:
- * <code>StyledLabel label = StyledLabelBuilder.createStyledLabel("I'm your {first:bold} styled {label:italic}!");</code>
- * In the above example, the resulting label would have a a bold "first" and an italic "label". Each annotation is started by a "{" and ended by a "}". The text you want to be styled accordingly is seperated from its annotations by a ":". If your text needs to contain a ":" itself, you need to escape it using the "\" character. The same goes for "{" that are not supposed to start an annotation. You don't need to escape the "}" at all. If it is used within the annotated string it'll be ignored. It only counts after the annotation seperator (":").
- * There are multiply annotations available. Each annotation offers a shortcut made up from one or two of their characters. For example: We used "bold" and "italic" in the example above, but we could've used "b" and "i" instead.
- * It is also possible to combine multiple styles by seperating them with a ",". As an example:
- * <code>{This text is bold, italic and blue:b,i,f:blue}</code>
- * Instead of writing "b,i" you can also write "bi" or "bolditalic".
- * This example brings us to colors. They've to be started with "f" or "font" for the font-color or "l" or "line" for the line-color or "b" or "background" for the background color.
- * There are a lot of ways to specify a color. You may use its HTML name (as I did in the above example) or any of these:
- * f:(0,0,255)
- * f:#00F
- * l:#0000FF
- * l:0x0000FF
- * The "#00F" notation is just like it is in CSS. It is the same as if you had written "#0000FF".
- * You can get and modify the map of color-names the parser is using with the static {@link #getColorNamesMap()}-method.
+ * The second, even more advanced, way to use this class is in combination with an annotated string. Using the static
+ * {@link #setStyledText} or {@link #createStyledLabel} methods you can create a fully styled label from just on string.
+ * This is ideal if you need the string to be configurable or locale-specific. The usage is even more easy than the
+ * builder-approach: <code>StyledLabel label = StyledLabelBuilder.createStyledLabel("I'm your {first:bold} styled
+ * {label:italic}!");</code> In the above example, the resulting label would have a a bold "first" and an italic
+ * "label". Each annotation is started by a "{" and ended by a "}". The text you want to be styled accordingly is
+ * seperated from its annotations by a ":". If your text needs to contain a ":" itself, you need to escape it using the
+ * "\" character. The same goes for "{" that are not supposed to start an annotation. You don't need to escape the "}"
+ * at all. If it is used within the annotated string it'll be ignored. It only counts after the annotation seperator
+ * (":"). There are multiply annotations available. Each annotation offers a shortcut made up from one or two of their
+ * characters. For example: We used "bold" and "italic" in the example above, but we could've used "b" and "i" instead.
+ * It is also possible to combine multiple styles by seperating them with a ",". As an example: <code>{This text is
+ * bold, italic and blue:b,i,f:blue}</code> Instead of writing "b,i" you can also write "bi" or "bolditalic". This
+ * example brings us to colors. They've to be started with "f" or "font" for the font-color or "l" or "line" for the
+ * line-color or "b" or "background" for the background color. There are a lot of ways to specify a color. You may use
+ * its HTML name (as I did in the above example) or any of these: f:(0,0,255) f:#00F l:#0000FF l:0x0000FF The "#00F"
+ * notation is just like it is in CSS. It is the same as if you had written "#0000FF". You can get and modify the map of
+ * color-names the parser is using with the static {@link #getColorNamesMap()}-method.
  * <p/>
  * You saw some styles above. Here is a complete list of styles and its shortcut.
  * <p/>
- * <b>Font styles</b>
- * <ul>
- * <li>plain or p
- * <li>bold or b
- * <li>italic or i
- * <li>bolditalic or bi
- * </ul>
- * <b>Additional styles</b>
- * <ul>
- * <li>strike or s
- * <li>doublestrike or ds
- * <li>waved or w
- * <li>underlined or u
- * <li>dotted or d
- * <li>superscript or sp
- * <li>subscript or sb
- * </ul>
+ * <b>Font styles</b> <ul> <li>plain or p <li>bold or b <li>italic or i <li>bolditalic or bi </ul> <b>Additional
+ * styles</b> <ul> <li>strike or s <li>doublestrike or ds <li>waved or w <li>underlined or u <li>dotted or d
+ * <li>superscript or sp <li>subscript or sb </ul>
  * <p/>
  *
  * @author Patrick Gotthardt
@@ -431,12 +419,7 @@ public class StyledLabelBuilder {
     }
 
     /**
-     * Can be:
-     * (255, 0, 0)
-     * #FF0000
-     * #F00
-     * 0xFF0000
-     * red
+     * Can be: (255, 0, 0) #FF0000 #F00 0xFF0000 red
      */
     private static Color toColor(String str) {
         switch (str.charAt(0)) {
@@ -553,7 +536,7 @@ public class StyledLabelBuilder {
         return buffer.toString();
     }
 
-    private static int findNextOf(char[] text, char[] c, int start) {
+    private static int findNextOf(char[] text, char[] chars, int start) {
         boolean escaped = false;
         for (int i = start; i < text.length; i++) {
             if (escaped) {
@@ -564,8 +547,8 @@ public class StyledLabelBuilder {
                 escaped = true;
             }
             else {
-                for (int j = 0; j < c.length; j++) {
-                    if (text[i] == c[j]) {
+                for (char c : chars) {
+                    if (text[i] == c) {
                         return i;
                     }
                 }

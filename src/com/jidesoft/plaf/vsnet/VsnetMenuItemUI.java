@@ -715,9 +715,9 @@ public class VsnetMenuItemUI extends MenuItemUI {
         ButtonModel model = b.getModel();
         boolean isSelected = false;
         if (b instanceof JCheckBoxMenuItem)
-            isSelected = ((JCheckBoxMenuItem) b).isSelected();
+            isSelected = b.isSelected();
         else if (b instanceof JRadioButtonMenuItem)
-            isSelected = ((JRadioButtonMenuItem) b).isSelected();
+            isSelected = b.isSelected();
         if (isSelected) {
             if (model.isArmed() || (b instanceof JMenu && model.isSelected())) {
                 getPainter().paintMenuItemBackground(b, g, checkIconRect, SwingConstants.HORIZONTAL, ThemePainter.STATE_PRESSED);
@@ -1383,10 +1383,10 @@ public class VsnetMenuItemUI extends MenuItemUI {
         Icon tmpIcon = null;
         if (!model.isEnabled()) {
             if (model.isSelected()) {
-                tmpIcon = (Icon) b.getDisabledSelectedIcon();
+                tmpIcon = b.getDisabledSelectedIcon();
             }
             else {
-                tmpIcon = (Icon) b.getDisabledIcon();
+                tmpIcon = b.getDisabledIcon();
             }
 
             // create default diabled icon
@@ -1400,20 +1400,20 @@ public class VsnetMenuItemUI extends MenuItemUI {
             }
         }
         else if (model.isPressed() && model.isArmed()) {
-            tmpIcon = (Icon) b.getPressedIcon();
+            tmpIcon = b.getPressedIcon();
             if (tmpIcon != null) {
             }
         }
         else if (b.isRolloverEnabled() && model.isRollover()) {
             if (model.isSelected()) {
-                tmpIcon = (Icon) b.getRolloverSelectedIcon();
+                tmpIcon = b.getRolloverSelectedIcon();
             }
             else {
-                tmpIcon = (Icon) b.getRolloverIcon();
+                tmpIcon = b.getRolloverIcon();
             }
         }
         else if (model.isSelected()) {
-            tmpIcon = (Icon) b.getSelectedIcon();
+            tmpIcon = b.getSelectedIcon();
         }
 
         if (tmpIcon != null) {

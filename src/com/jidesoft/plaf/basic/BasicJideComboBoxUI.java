@@ -22,6 +22,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
         return new BasicJideComboBoxUI();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         _editable = comboBox.isEditable();
@@ -41,6 +42,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
         LookAndFeel.uninstallBorder(comboBox);
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         if (_rolloverListener == null) {
@@ -49,6 +51,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
         comboBox.addMouseListener(_rolloverListener);
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
         comboBox.removeMouseListener(_rolloverListener);
@@ -59,6 +62,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
         return new RolloverListener();
     }
 
+    @Override
     protected JButton createArrowButton() {
         JButton button = new BasicJideComboBoxButton(
                 comboBox, new BasicJideComboBoxIcon(),
@@ -95,6 +99,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     // This is here because of a bug in the compiler.
     // When a protected-inner-class-savvy compiler comes out we
     // should move this into MetalComboBoxLayoutManager.
+    @Override
     public void layoutComboBox(Container parent, MetalComboBoxLayoutManager manager) {
         if (arrowButton != null) {
             if (arrowButton instanceof BasicJideComboBoxButton) {
@@ -136,6 +141,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     }
 
     protected class BasicJideComboBoxBorder extends AbstractBorder implements UIResource {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Color old = g.getColor();
             JComboBox box = (JComboBox) c;
@@ -151,10 +157,12 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
             g.setColor(old);
         }
 
+        @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(1, 1, 1, 1);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             insets.left = insets.right = insets.top = insets.bottom = 1;
             return insets;
@@ -165,11 +173,13 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     protected RolloverListener _rolloverListener;
 
     protected class RolloverListener extends MouseAdapter implements FocusListener {
+        @Override
         public void mouseEntered(MouseEvent e) {
             setRollOver(true);
             comboBox.repaint();
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             if (comboBox.isPopupVisible()) {
                 // this might be the ugliest hack I've ever written

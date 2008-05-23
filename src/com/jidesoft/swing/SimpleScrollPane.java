@@ -530,6 +530,7 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
         return SwingConstants.CENTER;
     }
 
+    @Override
     public void setWheelScrollingEnabled(boolean handleWheel) {
         if (handleWheel && !isWheelScrollingEnabled())
             this.addMouseWheelListener(this);

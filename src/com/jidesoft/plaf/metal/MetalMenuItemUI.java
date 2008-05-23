@@ -371,7 +371,7 @@ public class MetalMenuItemUI extends MenuItemUI {
                                                  Icon arrowIcon,
                                                  int defaultTextIconGap) {
         JMenuItem b = (JMenuItem) c;
-        Icon icon = (Icon) b.getIcon();
+        Icon icon = b.getIcon();
         String text = b.getText();
         KeyStroke accelerator = b.getAccelerator();
         String acceleratorText = "";
@@ -612,17 +612,17 @@ public class MetalMenuItemUI extends MenuItemUI {
         if (b.getIcon() != null) {
             Icon icon;
             if (!model.isEnabled()) {
-                icon = (Icon) b.getDisabledIcon();
+                icon = b.getDisabledIcon();
             }
             else if (model.isPressed() && model.isArmed()) {
-                icon = (Icon) b.getPressedIcon();
+                icon = b.getPressedIcon();
                 if (icon == null) {
                     // Use default icon
-                    icon = (Icon) b.getIcon();
+                    icon = b.getIcon();
                 }
             }
             else {
-                icon = (Icon) b.getIcon();
+                icon = b.getIcon();
             }
 
             if (icon != null)
@@ -967,7 +967,7 @@ public class MetalMenuItemUI extends MenuItemUI {
         for (i = 0, j = path.length; i < j; i++) {
             for (int k = 0; k <= i; k++)
                 System.out.print("  ");
-            MenuElement me = (MenuElement) path[i];
+            MenuElement me = path[i];
             if (me instanceof JMenuItem)
                 System.out.println(((JMenuItem) me).getText() + ", ");
             else if (me == null)

@@ -49,26 +49,32 @@ class CachedLookAndFeel extends LookAndFeel {
         customDefaults = new CustomUIDefaults();
     }
 
+    @Override
     public String getName() {
         return "CachedLookAndFeel";
     }
 
+    @Override
     public String getID() {
         return "CachedLookAndFeel";
     }
 
+    @Override
     public String getDescription() {
         return "Provide customized behaviour for getUI() method";
     }
 
+    @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
 
+    @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
 
+    @Override
     public UIDefaults getDefaults() {
         return customDefaults;
     }
@@ -101,7 +107,7 @@ class CachedLookAndFeel extends LookAndFeel {
             Method installJideExtension = lafFactory.getDeclaredMethod("installJideExtension", new Class[]{int.class});
             int style = LookAndFeelFactory.getDefaultStyle();
             UIManager.put(LookAndFeelFactory.JIDE_EXTENSION_INSTALLLED, null); // force population
-            installJideExtension.invoke(null, new Object[]{new Integer(style)});
+            installJideExtension.invoke(null, new Object[]{style});
 
         }
         catch (Exception e) {
@@ -126,6 +132,7 @@ class CachedLookAndFeel extends LookAndFeel {
     }
 
     static class CustomUIDefaults extends UIDefaults {
+        @Override
         public ComponentUI getUI(JComponent target) {
             UIDefaults defaults = UIManager.getDefaults();
 

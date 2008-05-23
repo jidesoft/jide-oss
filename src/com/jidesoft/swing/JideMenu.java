@@ -234,11 +234,11 @@ public class JideMenu extends JMenu implements Alignable {
         Rectangle screenBounds = new Rectangle(toolkit.getScreenSize());
         GraphicsEnvironment ge =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gd = ge.getScreenDevices();
-        for (int i = 0; i < gd.length; i++) {
-            if (gd[i].getType() == GraphicsDevice.TYPE_RASTER_SCREEN) {
+        GraphicsDevice[] gds = ge.getScreenDevices();
+        for (GraphicsDevice gd : gds) {
+            if (gd.getType() == GraphicsDevice.TYPE_RASTER_SCREEN) {
                 GraphicsConfiguration dgc =
-                        gd[i].getDefaultConfiguration();
+                        gd.getDefaultConfiguration();
                 if (dgc.getBounds().contains(position)) {
                     gc = dgc;
                     break;
@@ -474,8 +474,7 @@ public class JideMenu extends JMenu implements Alignable {
                 else {
                     // HACK: check if the calling stack has clearSelectedPath method.
                     StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
-                    for (int i = 0; i < stackTraceElements.length; i++) {
-                        StackTraceElement stackTraceElement = stackTraceElements[i];
+                    for (StackTraceElement stackTraceElement : stackTraceElements) {
                         if (stackTraceElement.getMethodName().equals("clearSelectedPath")) {
                             setPopupMenuVisibleImmediately(b);
                             return;

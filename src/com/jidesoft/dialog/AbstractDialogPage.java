@@ -119,7 +119,7 @@ public abstract class AbstractDialogPage extends AbstractPage {
      * @since 1.4
      */
     public ButtonListener[] getButtonListeners() {
-        return (ButtonListener[]) listenerList.getListeners(
+        return listenerList.getListeners(
                 ButtonListener.class);
     }
 

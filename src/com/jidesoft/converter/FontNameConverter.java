@@ -8,9 +8,9 @@ package com.jidesoft.converter;
 import java.awt.*;
 
 /**
- * Converter which converts Font Name String to String and converts it back.
- * It's almost the same as StringConverter except if user types in a string
- * which cannot find in font list on your computer, it will return null in fromString and return "" in toString.
+ * Converter which converts Font Name String to String and converts it back. It's almost the same as StringConverter
+ * except if user types in a string which cannot find in font list on your computer, it will return null in fromString
+ * and return "" in toString.
  */
 public class FontNameConverter implements ObjectConverter {
     /**
@@ -24,8 +24,7 @@ public class FontNameConverter implements ObjectConverter {
         }
         else {
             String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-            for (int i = 0; i < fontNames.length; i++) { // check font if it is available
-                String fontName = fontNames[i];
+            for (String fontName : fontNames) { // check font if it is available
                 if (fontName.equals(object)) {
                     return fontName;
                 }
@@ -44,8 +43,7 @@ public class FontNameConverter implements ObjectConverter {
         }
         else {
             String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-            for (int i = 0; i < fontNames.length; i++) { // check font if it is available
-                String fontName = fontNames[i];
+            for (String fontName : fontNames) { // check font if it is available
                 if (fontName.equals(string)) {
                     return string;
                 }

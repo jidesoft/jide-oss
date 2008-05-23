@@ -344,12 +344,10 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * Returns the buttons to display from the JOptionPane the receiver is
-     * providing the look and feel for. If the JOptionPane has options
-     * set, they will be provided, otherwise if the optionType is
-     * YES_NO_OPTION, yesNoOptions is returned, if the type is
-     * YES_NO_CANCEL_OPTION yesNoCancelOptions is returned, otherwise
-     * defaultButtons are returned.
+     * Returns the buttons to display from the JOptionPane the receiver is providing the look and feel for. If the
+     * JOptionPane has options set, they will be provided, otherwise if the optionType is YES_NO_OPTION, yesNoOptions is
+     * returned, if the type is YES_NO_CANCEL_OPTION yesNoCancelOptions is returned, otherwise defaultButtons are
+     * returned.
      */
     @Override
     protected Object[] getButtons() {
@@ -454,8 +452,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * Configures any necessary colors/fonts for the specified button
-     * used representing the button portion of the optionpane.
+     * Configures any necessary colors/fonts for the specified button used representing the button portion of the
+     * optionpane.
      */
     protected void configureButton(JButton button) {
         Font buttonFont = (Font) UIDefaultsLookup.get("OptionPane.buttonFont");
@@ -479,9 +477,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * This class is used to create the default buttons. This indirection is
-     * used so that addButtonComponents can tell which Buttons were created
-     * by us vs subclassers or from the JOptionPane itself.
+     * This class is used to create the default buttons. This indirection is used so that addButtonComponents can tell
+     * which Buttons were created by us vs subclassers or from the JOptionPane itself.
      */
     protected static class ButtonFactory {
         private String name;
@@ -599,8 +596,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                 titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
                 titlePanel.setOpaque(false);
                 titlePanel.add(Box.createGlue());
-                for (int i = 0; i < titles.length; i++) {
-                    String s = titles[i];
+                for (String s : titles) {
                     JLabel label = new JLabel(s);
                     label.setFont(label.getFont().deriveFont(UIDefaultsLookup.getInt("OptionPane.bannerFontStyle"), UIDefaultsLookup.getInt("OptionPane.bannerFontSize")));
                     Color color = UIDefaultsLookup.getColor("OptionPane.bannerForeground");
@@ -622,10 +618,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     // static methods to split a string into multiple lines.
 
     /**
-     * 1. Do not break a word/number. If the character is letter/digit, break at the most recent non- one;
-     * 2. Expand "\n" to a blank line
-     * 3. Expand "\t" to four " "
-     * 4. Trim leading empty spaces
+     * 1. Do not break a word/number. If the character is letter/digit, break at the most recent non- one; 2. Expand
+     * "\n" to a blank line 3. Expand "\t" to four " " 4. Trim leading empty spaces
      *
      * @param str
      * @param width
@@ -677,14 +671,12 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * Replaces all occurrences of <code>target</code> in <code>string</code>
-     * with <code>dest</code>.
+     * Replaces all occurrences of <code>target</code> in <code>string</code> with <code>dest</code>.
      *
      * @param string string in which to target occurrences
      * @param target string to target
      * @param dest   replacement string
-     * @return <code>string</code> with <code>dest</code> substituted
-     *         for <code>target</code>
+     * @return <code>string</code> with <code>dest</code> substituted for <code>target</code>
      */
     private static String replaceOccurrences(String string, String target, String dest) {
         StringBuffer b = new StringBuffer(string);
@@ -701,8 +693,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * to do searches in character arrays. The source is the character array being
-     * searched, and the target is the string being searched for.
+     * to do searches in character arrays. The source is the character array being searched, and the target is the
+     * string being searched for.
      *
      * @param source       the characters being searched.
      * @param sourceOffset offset of the source string.
@@ -711,9 +703,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param targetOffset offset of the target string.
      * @param targetCount  count of the target string.
      * @param fromIndex    the index to begin searching from.
-     * @return If the string argument occurs as a substring within this object, then
-     *         the index of the first character of the first such substring is returned; if
-     *         it does not occur as a substring, -1 is returned.
+     * @return If the string argument occurs as a substring within this object, then the index of the first character of
+     *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
     private static int indexOf(char[] source, int sourceOffset, int sourceCount,
                                char[] target, int targetOffset, int targetCount,
@@ -764,19 +755,16 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     /**
-     * Returns the index within this string of the first occurrence of the
-     * specified substring, starting at the specified index.  If the string
-     * argument occurs as a substring within this object, then the index of
-     * the first character of the first such substring is returned; if it does
-     * not occur as a substring, -1 is returned.  This replaces the functionality
-     * for java 1.4 StringBuffer.indexOf.
+     * Returns the index within this string of the first occurrence of the specified substring, starting at the
+     * specified index.  If the string argument occurs as a substring within this object, then the index of the first
+     * character of the first such substring is returned; if it does not occur as a substring, -1 is returned.  This
+     * replaces the functionality for java 1.4 StringBuffer.indexOf.
      *
      * @param buf       - buffer to search for str
      * @param findStr   - string to located
      * @param fromIndex - index to search
-     * @return If the string argument occurs as a substring within this object, then
-     *         the index of the first character of the first such substring is returned; if
-     *         it does not occur as a substring, -1 is returned.
+     * @return If the string argument occurs as a substring within this object, then the index of the first character of
+     *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
     private static int indexOf(StringBuffer buf, String findStr, int fromIndex) {
         // function in java's StringBuffer version 1.4 is synchronized

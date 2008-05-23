@@ -13,8 +13,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.*;
 
 /**
- * A transferable implementation for the default data transfer of some Swing
- * components.
+ * A transferable implementation for the default data transfer of some Swing components.
  * <p/>
  * This is copy from the same class as JDK. The original class is pacakge local.
  *
@@ -59,9 +58,8 @@ public class BasicTransferable implements Transferable, UIResource {
 
 
     /**
-     * Returns an array of DataFlavor objects indicating the flavors the data
-     * can be provided in.  The array should be ordered according to preference
-     * for providing the data (from most richly descriptive to least descriptive).
+     * Returns an array of DataFlavor objects indicating the flavors the data can be provided in.  The array should be
+     * ordered according to preference for providing the data (from most richly descriptive to least descriptive).
      *
      * @return an array of data flavors in which this data can be transferred
      */
@@ -96,16 +94,15 @@ public class BasicTransferable implements Transferable, UIResource {
     }
 
     /**
-     * Returns whether or not the specified data flavor is supported for
-     * this object.
+     * Returns whether or not the specified data flavor is supported for this object.
      *
      * @param flavor the requested flavor for the data
      * @return boolean indicating whether or not the data flavor is supported
      */
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         DataFlavor[] flavors = getTransferDataFlavors();
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+        for (DataFlavor f : flavors) {
+            if (f.equals(flavor)) {
                 return true;
             }
         }
@@ -113,15 +110,13 @@ public class BasicTransferable implements Transferable, UIResource {
     }
 
     /**
-     * Returns an object which represents the data to be transferred.  The class
-     * of the object returned is defined by the representation class of the flavor.
+     * Returns an object which represents the data to be transferred.  The class of the object returned is defined by
+     * the representation class of the flavor.
      *
      * @param flavor the requested flavor for the data
-     * @throws java.io.IOException if the data is no longer available
-     *                             in the requested flavor.
+     * @throws java.io.IOException if the data is no longer available in the requested flavor.
      * @throws java.awt.datatransfer.UnsupportedFlavorException
-     *                             if the requested data flavor is
-     *                             not supported.
+     *                             if the requested data flavor is not supported.
      * @see java.awt.datatransfer.DataFlavor#getRepresentationClass
      */
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
@@ -180,9 +175,8 @@ public class BasicTransferable implements Transferable, UIResource {
     }
 
     /**
-     * Some subclasses will have flavors that are more descriptive than HTML
-     * or plain text.  If this method returns a non-null value, it will be
-     * placed at the start of the array of supported flavors.
+     * Some subclasses will have flavors that are more descriptive than HTML or plain text.  If this method returns a
+     * non-null value, it will be placed at the start of the array of supported flavors.
      */
     protected DataFlavor[] getRicherFlavors() {
         return null;
@@ -195,16 +189,15 @@ public class BasicTransferable implements Transferable, UIResource {
     // --- html flavors ----------------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is an HTML flavor that
-     * is supported.
+     * Returns whether or not the specified data flavor is an HTML flavor that is supported.
      *
      * @param flavor the requested flavor for the data
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isHTMLFlavor(DataFlavor flavor) {
         DataFlavor[] flavors = BasicTransferable.htmlFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+        for (DataFlavor flavor1 : flavors) {
+            if (flavor1.equals(flavor)) {
                 return true;
             }
         }
@@ -212,8 +205,8 @@ public class BasicTransferable implements Transferable, UIResource {
     }
 
     /**
-     * Should the HTML flavors be offered?  If so, the method
-     * getHTMLData should be implemented to provide something reasonable.
+     * Should the HTML flavors be offered?  If so, the method getHTMLData should be implemented to provide something
+     * reasonable.
      */
     protected boolean isHTMLSupported() {
         return htmlData != null;
@@ -229,16 +222,15 @@ public class BasicTransferable implements Transferable, UIResource {
     // --- plain text flavors ----------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is an plain flavor that
-     * is supported.
+     * Returns whether or not the specified data flavor is an plain flavor that is supported.
      *
      * @param flavor the requested flavor for the data
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isPlainFlavor(DataFlavor flavor) {
         DataFlavor[] flavors = BasicTransferable.plainFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+        for (DataFlavor flavor1 : flavors) {
+            if (flavor1.equals(flavor)) {
                 return true;
             }
         }
@@ -246,8 +238,8 @@ public class BasicTransferable implements Transferable, UIResource {
     }
 
     /**
-     * Should the plain text flavors be offered?  If so, the method
-     * getPlainData should be implemented to provide something reasonable.
+     * Should the plain text flavors be offered?  If so, the method getPlainData should be implemented to provide
+     * something reasonable.
      */
     protected boolean isPlainSupported() {
         return plainData != null;
@@ -263,16 +255,15 @@ public class BasicTransferable implements Transferable, UIResource {
     // --- string flavorss --------------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is a String flavor that
-     * is supported.
+     * Returns whether or not the specified data flavor is a String flavor that is supported.
      *
      * @param flavor the requested flavor for the data
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isStringFlavor(DataFlavor flavor) {
         DataFlavor[] flavors = BasicTransferable.stringFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+        for (DataFlavor flavor1 : flavors) {
+            if (flavor1.equals(flavor)) {
                 return true;
             }
         }

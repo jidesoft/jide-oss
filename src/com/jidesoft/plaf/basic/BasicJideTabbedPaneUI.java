@@ -8000,8 +8000,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         // directly modify the rects
         private void outpush(Rectangle rects[]) {
-            for (int i = 0; i < tabs.length; i++) {
-                rects[tabs[i].id].width = tabs[i].width;
+            for (AbstractTab tab : tabs) {
+                rects[tab.id].width = tab.width;
             }
             rects[0].x = startOffset;
             for (int i = 1; i < rects.length; i++) {
@@ -8024,6 +8024,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @Override
     public void ensureActiveTabIsVisible(boolean scrollLeft) {
         if (_tabPane == null || _tabPane.getWidth() == 0) {
             return;

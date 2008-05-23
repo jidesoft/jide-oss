@@ -100,9 +100,9 @@ public class MetalMenuUI extends MetalMenuItemUI {
             return;
         }
         if (lastMnemonic != 0 && windowInputMap != null) {
-            for (int i = 0; i < shortcutKeys.length; i++) {
+            for (int shortcutKey : shortcutKeys) {
                 windowInputMap.remove(KeyStroke.getKeyStroke
-                        (lastMnemonic, shortcutKeys[i], false));
+                        (lastMnemonic, shortcutKey, false));
             }
         }
         if (mnemonic != 0) {
@@ -112,9 +112,9 @@ public class MetalMenuUI extends MetalMenuItemUI {
                 SwingUtilities.replaceUIInputMap(menuItem, JComponent.
                         WHEN_IN_FOCUSED_WINDOW, windowInputMap);
             }
-            for (int i = 0; i < shortcutKeys.length; i++) {
+            for (int shortcutKey : shortcutKeys) {
                 windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
-                        shortcutKeys[i], false),
+                        shortcutKey, false),
                         "selectMenu");
             }
         }
@@ -251,15 +251,15 @@ public class MetalMenuUI extends MetalMenuItemUI {
                     if (subElements.length > 0) {
                         me = new MenuElement[4];
                         me[0] = (MenuElement) cnt;
-                        me[1] = (MenuElement) menu;
-                        me[2] = (MenuElement) menu.getPopupMenu();
+                        me[1] = menu;
+                        me[2] = menu.getPopupMenu();
                         me[3] = subElements[0];
                     }
                     else {
                         me = new MenuElement[3];
                         me[0] = (MenuElement) cnt;
                         me[1] = menu;
-                        me[2] = (MenuElement) menu.getPopupMenu();
+                        me[2] = menu.getPopupMenu();
                     }
                     defaultManager.setSelectedPath(me);
                 }

@@ -774,7 +774,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         if (b.getIcon() != null) {
             // rotate back since we don't want to paint icon in a rotated way.
             if (JideSwingUtilities.getOrientationOf(b) == SwingConstants.VERTICAL) {
-                ((Graphics2D) g).translate(0, b.getWidth() - 1);
+                g.translate(0, b.getWidth() - 1);
                 ((Graphics2D) g).rotate(-Math.PI / 2);
             }
             Icon icon;
@@ -813,7 +813,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
 
             if (JideSwingUtilities.getOrientationOf(b) == SwingConstants.VERTICAL) {
                 ((Graphics2D) g).rotate(Math.PI / 2);
-                ((Graphics2D) g).translate(0, -b.getHeight() + 1);
+                g.translate(0, -b.getHeight() + 1);
             }
         }
     }

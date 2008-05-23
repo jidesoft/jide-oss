@@ -62,7 +62,7 @@ public class SlidingFrameBorder implements Border, UIResource {
             g.drawLine(x, y + _insets.top - 3, x + width, y + _insets.top - 3);
             g.drawLine(x, y + _insets.top - 2, x + width, y + _insets.top - 2);
 
-            paintGradient((Graphics2D) g, new Rectangle(x, y, width, _insets.top - 5), true, 40, false);
+            paintGradient(g, new Rectangle(x, y, width, _insets.top - 5), true, 40, false);
         }
 
         if (_insets.left >= SHADOW_SIZE) { //
@@ -77,7 +77,7 @@ public class SlidingFrameBorder implements Border, UIResource {
             g.drawLine(x + _insets.left - 3, y, x + _insets.left - 3, y + height);
             g.drawLine(x + _insets.left - 2, y, x + _insets.left - 2, y + height);
 
-            paintGradient((Graphics2D) g, new Rectangle(x, y, _insets.left - 5, height), false, 40, false);
+            paintGradient(g, new Rectangle(x, y, _insets.left - 5, height), false, 40, false);
         }
 
         if (_insets.bottom >= SHADOW_SIZE) {
@@ -92,7 +92,7 @@ public class SlidingFrameBorder implements Border, UIResource {
             g.setColor(_darkShadow);
             g.drawLine(x, y + height - _insets.bottom + 4, x + width, y + height - _insets.bottom + 4);
 
-            paintGradient((Graphics2D) g, new Rectangle(x, y + height - _insets.bottom + 4, width, _insets.bottom - 5), true, 100, true);
+            paintGradient(g, new Rectangle(x, y + height - _insets.bottom + 4, width, _insets.bottom - 5), true, 100, true);
         }
 
         if (_insets.right >= SHADOW_SIZE) {
@@ -107,7 +107,7 @@ public class SlidingFrameBorder implements Border, UIResource {
             g.setColor(_darkShadow);
             g.drawLine(x + width - _insets.right + 4, y, x + width - _insets.right + 4, y + height);
 
-            paintGradient((Graphics2D) g, new Rectangle(x + width - _insets.right + 4, y, _insets.right - 5, height), false, 100, true);
+            paintGradient(g, new Rectangle(x + width - _insets.right + 4, y, _insets.right - 5, height), false, 100, true);
         }
     }
 

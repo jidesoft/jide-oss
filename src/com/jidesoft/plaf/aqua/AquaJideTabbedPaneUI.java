@@ -283,7 +283,7 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
     @Override
     protected void prepareEditor(TabEditor e, int tabIndex) {
-        ((JTextField) e).setOpaque(true);
+        e.setOpaque(true);
         super.prepareEditor(e, tabIndex);
     }
 

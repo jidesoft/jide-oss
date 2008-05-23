@@ -103,8 +103,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
     }
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Returns the ui that is of type <code>klass</code>, or null if one can not be found.
      */
     static Object getUIOfType(ComponentUI ui, Class klass) {
         if (klass.isInstance(ui)) {
@@ -114,8 +113,8 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Returns the InputMap for condition <code>condition</code>. Called as part of
+     * <code>installKeyboardActions</code>.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -242,8 +241,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
+         * Invoked when the mouse has been clicked on the menu. This method clears or sets the selection path of the
          * MenuSelectionManager.
          *
          * @param e the mouse event
@@ -294,8 +292,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
 
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse has been released on the menu. Delegates the mouse event to the MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -347,10 +344,9 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
 
         /**
-         * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * Invoked when the cursor enters the menu. This method sets the selected path for the MenuSelectionManager and
+         * handles the case in which a menu item is used to pop up an additional menu, as in a hierarchical menu
+         * system.
          *
          * @param e the mouse event; not used
          */
@@ -400,8 +396,8 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when a mouse button is pressed on the menu and then dragged. Delegates the mouse event to the
+         * MenuSelectionManager.
          *
          * @param e the mouse event
          * @see java.awt.event.MouseMotionListener#mouseDragged
@@ -488,7 +484,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         if (b.getIcon() != null) {
             // rotate back since we don't want to paint icon in a rotated way.
             if (JideSwingUtilities.getOrientationOf(b) == SwingConstants.VERTICAL) {
-                ((Graphics2D) g).translate(0, b.getWidth() - 1);
+                g.translate(0, b.getWidth() - 1);
                 ((Graphics2D) g).rotate(-Math.PI / 2);
             }
             Icon icon;
@@ -527,15 +523,14 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
             if (JideSwingUtilities.getOrientationOf(b) == SwingConstants.VERTICAL) {
                 ((Graphics2D) g).rotate(Math.PI / 2);
-                ((Graphics2D) g).translate(0, -b.getHeight() + 1);
+                g.translate(0, -b.getHeight() + 1);
             }
         }
     }
 
     /**
-     * Actions for Buttons. Two type of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Actions for Buttons. Two type of action are supported: pressed: Moves the button to a pressed state released:
+     * Disarms the button.
      */
     private static class Actions extends UIAction {
         private static final String PRESS = "pressed";

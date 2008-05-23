@@ -28,7 +28,7 @@ public class XertoJideButtonUI extends BasicJideButtonUI {
     public void installUI(JComponent c) {
         _buttonUI.installUI(c);
         if (c instanceof JButton) {
-            ((JButton) c).setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+            c.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
             ((JButton) c).setRolloverEnabled(true);
         }
     }

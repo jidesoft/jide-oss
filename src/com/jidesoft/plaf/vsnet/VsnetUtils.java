@@ -63,10 +63,10 @@ class VsnetUtils {
             return 0;
         }
         else if (x >= 0 && x <= 64) {
-            return (int) (x * 33 / 64 + 123);
+            return x * 33 / 64 + 123;
         }
         else {
-            return (int) ((x - 65) * 157 / 189 + 33);
+            return (x - 65) * 157 / 189 + 33;
         }
     }
 
@@ -98,7 +98,7 @@ class VsnetUtils {
     }
 
     private static double RATIO1 = 0.80;
-    private static double RATIO2 = 0.92f; 
+    private static double RATIO2 = 0.92f;
     private static double RATIO3 = 0.86f;
 
     /**

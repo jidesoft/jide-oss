@@ -56,8 +56,8 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
 
         // calculate bars bounding rectangle
         barsBounds = new Rectangle();
-        for (int i = 0; i < bars.length; i++) {
-            barsBounds = barsBounds.union(bars[i].getBounds());
+        for (Area bar : bars) {
+            barsBounds = barsBounds.union(bar.getBounds());
         }
 
         // create colors
@@ -97,6 +97,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     /**
      * Show/Hide the pane, starting and stopping the animation as you go
      */
+    @Override
     public void setVisible(boolean i_bIsVisible) {
         setOpaque(false);
         // capture
@@ -114,6 +115,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     /**
      * Recalc bars based on changes in size
      */
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
         // update centering transform
@@ -131,6 +133,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     /**
      * paint background dimed and bars over top
      */
+    @Override
     protected void paintComponent(Graphics g) {
         if (!tempHide) {
             Rectangle oClip = g.getClipBounds();

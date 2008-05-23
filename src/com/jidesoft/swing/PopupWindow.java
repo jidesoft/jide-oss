@@ -23,8 +23,7 @@ import java.util.Vector;
  * <p/>
  * You can add another JPopupMenu or JComboxBox in this popup.
  * <p/>
- * This class is copied from http://forum.java.sun.com/thread.jsp?forum=57&thread=230866
- * with some minor modifications.
+ * This class is copied from http://forum.java.sun.com/thread.jsp?forum=57&thread=230866 with some minor modifications.
  */
 public class PopupWindow {
 
@@ -287,8 +286,8 @@ public class PopupWindow {
     }
 
     void releaseContainers() {
-        for (int i = 0; i < _grabbed.size(); i++) {
-            Component c = (Component) _grabbed.get(i);
+        for (Object o : _grabbed) {
+            Component c = (Component) o;
             if (c instanceof Window) {
                 ((Window) c).removeWindowListener(_windowListener);
                 c.removeComponentListener(_componentListener);
@@ -316,13 +315,12 @@ public class PopupWindow {
     }
 
     /**
-     * Adds a <code>PopupMenu</code> listener which will listen to notification
-     * messages from the popup portion of the combo box.
+     * Adds a <code>PopupMenu</code> listener which will listen to notification messages from the popup portion of the
+     * combo box.
      * <p/>
-     * For all standard look and feels shipped with Java 2, the popup list
-     * portion of combo box is implemented as a <code>JPopupMenu</code>.
-     * A custom look and feel may not implement it this way and will
-     * therefore not receive the notification.
+     * For all standard look and feels shipped with Java 2, the popup list portion of combo box is implemented as a
+     * <code>JPopupMenu</code>. A custom look and feel may not implement it this way and will therefore not receive the
+     * notification.
      *
      * @param l the <code>PopupMenuListener</code> to add
      * @since 1.4
@@ -343,23 +341,19 @@ public class PopupWindow {
     }
 
     /**
-     * Returns an array of all the <code>PopupMenuListener</code>s added
-     * to this JComboBox with addPopupMenuListener().
+     * Returns an array of all the <code>PopupMenuListener</code>s added to this JComboBox with addPopupMenuListener().
      *
-     * @return all of the <code>PopupMenuListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return all of the <code>PopupMenuListener</code>s added or an empty array if no listeners have been added
      * @since 1.4
      */
     public PopupMenuListener[] getPopupMenuListeners() {
-        return (PopupMenuListener[]) listenerList.getListeners(PopupMenuListener.class);
+        return listenerList.getListeners(PopupMenuListener.class);
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box will become visible.
+     * Notifies <code>PopupMenuListener</code>s that the popup portion of the combo box will become visible.
      * <p/>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
+     * This method is public but should not be called by anything other than the UI delegate.
      *
      * @see #addPopupMenuListener
      * @since 1.4
@@ -377,11 +371,9 @@ public class PopupWindow {
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has become invisible.
+     * Notifies <code>PopupMenuListener</code>s that the popup portion of the combo box has become invisible.
      * <p/>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
+     * This method is public but should not be called by anything other than the UI delegate.
      *
      * @see #addPopupMenuListener
      * @since 1.4
@@ -399,11 +391,9 @@ public class PopupWindow {
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has been canceled.
+     * Notifies <code>PopupMenuListener</code>s that the popup portion of the combo box has been canceled.
      * <p/>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
+     * This method is public but should not be called by anything other than the UI delegate.
      *
      * @see #addPopupMenuListener
      * @since 1.4
@@ -421,9 +411,8 @@ public class PopupWindow {
     }
 
     /**
-     * PopupWindow will add necessary listeners to some components
-     * so that mouse click etc can hide the popup window. However in
-     * certain case, you might not want this.
+     * PopupWindow will add necessary listeners to some components so that mouse click etc can hide the popup window.
+     * However in certain case, you might not want this.
      *
      * @param comp component which will not hide popup when it is clicked.
      */

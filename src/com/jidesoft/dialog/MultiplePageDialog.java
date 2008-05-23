@@ -613,8 +613,8 @@ public class MultiplePageDialog extends StandardDialog {
                 // compare PageList with TitleNodeMap to find out what is missing
                 Set set = _titleNodeMap.keySet();
                 Vector toBeRemoved = new Vector();
-                for (Iterator iterator = set.iterator(); iterator.hasNext();) {
-                    String title = (String) iterator.next();
+                for (Object o : set) {
+                    String title = (String) o;
                     if (_pageList.getPageByFullTitle(title) == null) {
                         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) _titleNodeMap.get(title);
                         if (treeNode != null) {
@@ -628,8 +628,8 @@ public class MultiplePageDialog extends StandardDialog {
                         }
                     }
                 }
-                for (int i = 0; i < toBeRemoved.size(); i++) {
-                    _titleNodeMap.remove(toBeRemoved.get(i));
+                for (Object o : toBeRemoved) {
+                    _titleNodeMap.remove(o);
                 }
             }
 

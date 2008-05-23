@@ -141,8 +141,7 @@ public class SortedList<E> implements List<E> {
         sortedList.add("aaa");
         sortedList.add("ddd");
         sortedList.add("ccc");
-        for (String aSortedList : sortedList) {
-            String s = (String) aSortedList;
+        for (String s : sortedList) {
             System.out.println(s);
         }
     }

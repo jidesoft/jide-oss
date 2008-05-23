@@ -18,8 +18,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -28,8 +27,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -38,8 +36,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseReleased(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -48,8 +45,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseEntered(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -58,8 +54,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseExited(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -68,8 +63,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseDragged(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }
@@ -78,8 +72,7 @@ class MouseInputListeners implements MouseInputListener {
     }
 
     public void mouseMoved(MouseEvent e) {
-        for (int i = 0; i < _mouseInputListeners.length; i++) {
-            MouseInputListener mouseInputListener = _mouseInputListeners[i];
+        for (MouseInputListener mouseInputListener : _mouseInputListeners) {
             if (e.isConsumed()) {
                 break;
             }

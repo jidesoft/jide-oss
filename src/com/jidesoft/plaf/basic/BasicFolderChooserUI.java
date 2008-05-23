@@ -138,8 +138,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     Object parentObject = parentPath.getLastPathComponent();
                     Object deletedObject = path.getLastPathComponent();
                     int index = _fileSystemTree.getModel().getIndexOfChild(parentObject, deletedObject);
-                    for (int i = 0; i < selection.size(); i++) {
-                        File f = (File) selection.get(i);
+                    for (Object s : selection) {
+                        File f = (File) s;
                         recursiveDelete(f);
                     }
                     ((BasicFileSystemTreeModel) _fileSystemTree.getModel()).removePath(path, index, deletedObject);
@@ -166,8 +166,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 if (isFileSystem(file) && file.isDirectory()) {
                     // delete all children first
                     File[] children = FileSystemView.getFileSystemView().getFiles(file, false);
-                    for (int i = 0; i < children.length; i++) {
-                        File f = children[i];
+                    for (File f : children) {
                         if (!recursiveDelete(f)) {
                             return false;
                         }
@@ -273,8 +272,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     return new ArrayList();
 
                 List folders = new ArrayList(paths.length);
-                for (int i = 0; i < paths.length; i++) {
-                    TreePath path = paths[i];
+                for (TreePath path : paths) {
                     BasicFileSystemTreeNode f = (BasicFileSystemTreeNode) path.getLastPathComponent();
                     folders.add(f.getFile());
                 }
@@ -418,8 +416,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         do {
             stack.push(parent);
             if (alternativeRoots != null) {
-                for (int i = 0; i < alternativeRoots.length; i++) {
-                    File r = alternativeRoots[i];
+                for (File r : alternativeRoots) {
                     if (r.equals(parent)) {
                         stack.push(root);
                         break outloop;

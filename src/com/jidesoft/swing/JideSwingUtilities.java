@@ -689,8 +689,7 @@ public class JideSwingUtilities implements SwingConstants {
         Object[] array = list.toArray(new Object[list.size()]);
         Arrays.sort(array);
         System.out.println("String keys ---");
-        for (int i = 0; i < array.length; i++) {
-            Object key = array[i];
+        for (Object key : array) {
             System.out.println(key + " => " + UIDefaultsLookup.get(key));
         }
     }
@@ -857,8 +856,8 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         if (children != null) {
-            for (int i = 0; i < children.length; i++) {
-                Component result = getRecursively0(children[i], handler);
+            for (Component child : children) {
+                Component result = getRecursively0(child, handler);
                 if (result != null) {
                     return result;
                 }
@@ -994,7 +993,7 @@ public class JideSwingUtilities implements SwingConstants {
             return null;
         }
 
-        Icon icon = (Icon) b.getIcon();
+        Icon icon = b.getIcon();
         String text = b.getText();
 
         Font font = b.getFont();
@@ -1004,7 +1003,7 @@ public class JideSwingUtilities implements SwingConstants {
         Rectangle textR = new Rectangle();
         Rectangle viewR = new Rectangle(Short.MAX_VALUE, Short.MAX_VALUE);
 
-        layoutCompoundLabel((JComponent) b, fm, text, icon, isHorizontal,
+        layoutCompoundLabel(b, fm, text, icon, isHorizontal,
                 b.getVerticalAlignment(), b.getHorizontalAlignment(),
                 b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
                 viewR, iconR, textR, (text == null ? 0 : textIconGap));
@@ -1589,8 +1588,7 @@ public class JideSwingUtilities implements SwingConstants {
 
     public static void setChildrenOrientationOf(Container c, int orientation) {
         Component[] components = c.getComponents();
-        for (int i = 0; i < components.length; ++i) {
-            Component component = components[i];
+        for (Component component : components) {
             setOrientationOf(component, orientation);
         }
     }
@@ -1608,7 +1606,7 @@ public class JideSwingUtilities implements SwingConstants {
         if (c instanceof JComponent) {
             JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
                 public boolean condition(Component c) {
-                    return c instanceof JComponent && ((JComponent) c).isDoubleBuffered();
+                    return c instanceof JComponent && c.isDoubleBuffered();
                 }
 
                 public void action(Component c) {
@@ -1787,8 +1785,7 @@ public class JideSwingUtilities implements SwingConstants {
         }
         /* RenderingHints.keySet() returns Set*/
         Set objects = hintsToSave.keySet();
-        for (Iterator iterator = objects.iterator(); iterator.hasNext();) {
-            Object o = iterator.next();
+        for (Object o : objects) {
             RenderingHints.Key key = (RenderingHints.Key) o;
             Object value = g2d.getRenderingHint(key);
             savedHints.put(key, value);
@@ -2131,9 +2128,9 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static Window getTopModalDialog(Window w) {
         Window[] ws = w.getOwnedWindows();
-        for (int i = 0; i < ws.length; i++) {
-            if (ws[i].isVisible() && ws[i] instanceof Dialog && ((Dialog) ws[i]).isModal()) {
-                return (getTopModalDialog(ws[i]));
+        for (Window w1 : ws) {
+            if (w1.isVisible() && w1 instanceof Dialog && ((Dialog) w1).isModal()) {
+                return (getTopModalDialog(w1));
             }
         }
         return w;
@@ -2230,13 +2227,13 @@ public class JideSwingUtilities implements SwingConstants {
         Component[] comps;
         Component comp;
         comps = container.getComponents();
-        for (int i = 0; i < comps.length; i++) {
-            if (passesFocusabilityTest(comps[i])) {
+        for (Component comp1 : comps) {
+            if (passesFocusabilityTest(comp1)) {
                 container.requestFocusInWindow();
                 return container;
             }
-            else if (comps[i] instanceof Container) {
-                comp = findSomethingFocusable((Container) (comps[i]));
+            else if (comp1 instanceof Container) {
+                comp = findSomethingFocusable((Container) (comp1));
                 if (comp != null) {
                     return comp;
                 }
@@ -2348,8 +2345,7 @@ public class JideSwingUtilities implements SwingConstants {
 
         Component[] components = container.getComponents();
 
-        for (int i = 0; i < components.length; i++) {
-            Component component = components[i];
+        for (Component component : components) {
             if (c.isInstance(component)) {
                 return component;
             }
@@ -2783,7 +2779,7 @@ public class JideSwingUtilities implements SwingConstants {
             return innerComponent;
         }
         if (component.getParent() != null && component.getParent().getParent() != null && component.getParent().getParent() instanceof JScrollPane) {
-            component = (JComponent) component.getParent().getParent();
+            component = component.getParent().getParent();
             return component;
         }
         else {

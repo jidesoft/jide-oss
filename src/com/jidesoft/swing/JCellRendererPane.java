@@ -100,7 +100,7 @@ public class JCellRendererPane extends JComponent implements Accessible {
         }
 
         boolean wasDoubleBuffered = false;
-        if ((c instanceof JComponent) && ((JComponent) c).isDoubleBuffered()) {
+        if ((c instanceof JComponent) && c.isDoubleBuffered()) {
             wasDoubleBuffered = true;
             ((JComponent) c).setDoubleBuffered(false);
         }

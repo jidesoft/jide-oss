@@ -45,9 +45,8 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
         if (!_loaded) {
             if (BasicFolderChooserUI.isFileSystem(_file) && _file.isDirectory()) {
                 File[] files = _folderChooser.getFileSystemView().getFiles(_file, _folderChooser.isFileHidingEnabled());
-                for (int i = 0; i < files.length; i++) {
-                    File childFile = files[i];
-                    if (childFile.isDirectory()) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
                         return true;
                     }
                 }
@@ -76,17 +75,16 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
             catch (Exception e) {
             }
             List children = new ArrayList();
-            for (int i = 0; i < files.length; i++) {
-                File childFile = files[i];
-                if (childFile.isDirectory()) {
-                    BasicFileSystemTreeNode fileTreeNode = BasicFileSystemTreeNode.createFileSystemTreeNode(childFile, _folderChooser);
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    BasicFileSystemTreeNode fileTreeNode = BasicFileSystemTreeNode.createFileSystemTreeNode(file, _folderChooser);
                     children.add(fileTreeNode);
                 }
             }
-            BasicFileSystemTreeNode[] result = (BasicFileSystemTreeNode[]) children.toArray(new BasicFileSystemTreeNode[children.size()]);
-            Arrays.sort(result);
-            for (int i = 0; i < result.length; i++) {
-                add(result[i]);
+            BasicFileSystemTreeNode[] results = (BasicFileSystemTreeNode[]) children.toArray(new BasicFileSystemTreeNode[children.size()]);
+            Arrays.sort(results);
+            for (BasicFileSystemTreeNode result : results) {
+                add(result);
             }
         }
     }

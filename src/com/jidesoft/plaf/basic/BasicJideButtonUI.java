@@ -327,10 +327,10 @@ public class BasicJideButtonUI extends JideButtonUI {
         Icon tmpIcon = null;
         if (!model.isEnabled()) {
             if (model.isSelected()) {
-                tmpIcon = (Icon) b.getDisabledSelectedIcon();
+                tmpIcon = b.getDisabledSelectedIcon();
             }
             else {
-                tmpIcon = (Icon) b.getDisabledIcon();
+                tmpIcon = b.getDisabledIcon();
             }
 
             // create default diabled icon
@@ -344,7 +344,7 @@ public class BasicJideButtonUI extends JideButtonUI {
             }
         }
         else if (model.isPressed() && model.isArmed()) {
-            tmpIcon = (Icon) b.getPressedIcon();
+            tmpIcon = b.getPressedIcon();
             if (tmpIcon != null) {
                 // revert back to 0 offset
                 clearTextShiftOffset();
@@ -352,14 +352,14 @@ public class BasicJideButtonUI extends JideButtonUI {
         }
         else if (b.isRolloverEnabled() && model.isRollover()) {
             if (model.isSelected()) {
-                tmpIcon = (Icon) b.getRolloverSelectedIcon();
+                tmpIcon = b.getRolloverSelectedIcon();
             }
             else {
-                tmpIcon = (Icon) b.getRolloverIcon();
+                tmpIcon = b.getRolloverIcon();
             }
         }
         else if (model.isSelected()) {
-            tmpIcon = (Icon) b.getSelectedIcon();
+            tmpIcon = b.getSelectedIcon();
         }
 
         if (tmpIcon != null) {
@@ -373,8 +373,8 @@ public class BasicJideButtonUI extends JideButtonUI {
     }
 
     /**
-     * As of Java 2 platform v 1.4 this method should not be used or overriden. Use the paintText
-     * method which takes the AbstractButton argument.
+     * As of Java 2 platform v 1.4 this method should not be used or overriden. Use the paintText method which takes the
+     * AbstractButton argument.
      */
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
@@ -474,7 +474,6 @@ public class BasicJideButtonUI extends JideButtonUI {
      * @param b        Current button to render
      * @param textRect Bounding rectangle to render the text.
      * @param text     String to render
-     *
      * @since 1.4
      */
     protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text) {
@@ -520,8 +519,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
             }
-            else
-            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.FLAT_STYLE) {
+            else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.FLAT_STYLE) {
                 if (b.getModel().isSelected() && b.getModel().isPressed()) {
                     g.setColor(_shadowColor);    // inner 3D border
                     g.drawLine(0, 0, b.getWidth() - 1, 0);
@@ -567,8 +565,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                     }
                 }
             }
-            else
-            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
+            else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
                 if (b.getModel().isPressed()) {
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_PRESSED);
                     if (paintDefaultBorder) {
@@ -729,11 +726,10 @@ public class BasicJideButtonUI extends JideButtonUI {
     }
 
     /**
-     * Checks if we should wrap text on a button. If the vertical text position is bottom and
-     * horizontal text position is center, we will wrap the text.
+     * Checks if we should wrap text on a button. If the vertical text position is bottom and horizontal text position
+     * is center, we will wrap the text.
      *
      * @param c
-     *
      * @return true or false.
      */
     public static boolean shouldWrapText(Component c) {

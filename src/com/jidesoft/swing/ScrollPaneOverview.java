@@ -9,8 +9,8 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 
 /**
- * Original code http://forums.java.net/jive/thread.jspa?forumID=73&threadID=14674
- * under "Do whatever you want with this code" license
+ * Original code http://forums.java.net/jive/thread.jspa?forumID=73&threadID=14674 under "Do whatever you want with this
+ * code" license
  */
 @SuppressWarnings("serial")
 class ScrollPaneOverview extends JComponent {
@@ -86,6 +86,7 @@ class ScrollPaneOverview extends JComponent {
         return _selectionBorder;
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         if (_image == null || _rectangle == null)
             return;
@@ -112,6 +113,7 @@ class ScrollPaneOverview extends JComponent {
         g.setColor(oldcolor);
     }
 
+    @Override
     public Dimension getPreferredSize() {
         if (_image == null || _rectangle == null)
             return new Dimension();

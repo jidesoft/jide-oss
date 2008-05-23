@@ -56,6 +56,7 @@ public final class SwingPropertyChangeSupport extends PropertyChangeSupport {
      * @throws NullPointerException if {@code evt} is {@code null}
      * @since 1.6
      */
+    @Override
     public void firePropertyChange(final PropertyChangeEvent evt) {
         if (evt == null) {
             throw new NullPointerException();
@@ -78,7 +79,6 @@ public final class SwingPropertyChangeSupport extends PropertyChangeSupport {
      * Returns {@code notifyOnEDT} property.
      *
      * @return {@code notifyOnEDT} property
-     * @see #SwingPropertyChangeSupport(ObjectsourceBean,booleannotifyOnEDT)
      * @since 1.6
      */
     public final boolean isNotifyOnEDT() {

@@ -202,7 +202,7 @@ public class XertoUtils {
     }
 
     public static int getToolBarValue(int x) {
-        return (int) (x * 215 / 255 + 40);
+        return x * 215 / 255 + 40;
     }
 
     public static Color getGripperForegroundColor(Color backColor) {
@@ -220,10 +220,10 @@ public class XertoUtils {
             return 0;
         }
         else if (x >= 0 && x <= 64) {
-            return (int) (x * 33 / 64 + 123);
+            return x * 33 / 64 + 123;
         }
         else {
-            return (int) ((x - 65) * 157 / 189 + 33);
+            return (x - 65) * 157 / 189 + 33;
         }
     }
 
