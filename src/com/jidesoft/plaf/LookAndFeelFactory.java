@@ -1167,6 +1167,9 @@ public class LookAndFeelFactory implements ProductNames {
                     "Table.gridColor", new ColorUIResource(Color.BLACK),
                     "TextField.background", new ColorUIResource(Color.WHITE),
 
+                    "Table.selectionBackground", defaults.getColor("Tree.selectionBackground"),
+                    "Table.selectionForeground", defaults.getColor("Tree.selectionForeground"),
+
                     "Menu.border", marginBorder,
                     "MenuItem.border", marginBorder,
                     "CheckBoxMenuItem.border", marginBorder,
