@@ -1113,6 +1113,7 @@ public class LookAndFeelFactory implements ProductNames {
     public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
             Object[] uiDefaults = {
+                    "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
                     "Workspace.background", UIManager.getColor("control"),
                     "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
                     "JideTabbedPane.background", UIManager.getColor("control"),
