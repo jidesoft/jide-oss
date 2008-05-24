@@ -1130,6 +1130,7 @@ public class LookAndFeelFactory implements ProductNames {
                     "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
                     "StatusBarItem.border", BorderFactory.createEmptyBorder(2, 2, 2, 2),
                     "Icon.floating", Boolean.FALSE,
+                    "JideSplitPane.dividerSize", 6,
             };
             overwriteDefaults(defaults, uiDefaults);
         }
