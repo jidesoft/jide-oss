@@ -490,7 +490,14 @@ public class JideTabbedPane extends JTabbedPane {
     @Override
     public void setSelectedIndex(int index) {
         if (!_suppressSetSelectedIndex) {
-            super.setSelectedIndex(index);
+            boolean old = isFocusCycleRoot();
+            setFocusCycleRoot(true);
+            try {
+                super.setSelectedIndex(index);
+            }
+            finally {
+                setFocusCycleRoot(old);
+            }
         }
     }
 
