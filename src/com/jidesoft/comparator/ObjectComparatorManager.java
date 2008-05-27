@@ -111,8 +111,8 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
-     * to find the comparator and compare.
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code> to find the comparator and
+     * compare.
      *
      * @param o1 the first object to be compared.
      * @param o2 the second object to be compared.
@@ -124,8 +124,8 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
-     * to find the comparator and compare.
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code> to find the comparator and
+     * compare.
      *
      * @param o1      the first object to be compared.
      * @param o2      the second object to be compared.
@@ -169,15 +169,15 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
-     * to find the comparator and compare. This method needs a third parameter which is the data type.
-     * This is useful when you have two objects that have different data types but both extend
-     * the same super class. In this case, you may want the super class as the key to look up in
-     * <code>ObjectComparatorManager</code>.
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code> to find the comparator and
+     * compare. This method needs a third parameter which is the data type. This is useful when you have two objects
+     * that have different data types but both extend the same super class. In this case, you may want the super class
+     * as the key to look up in <code>ObjectComparatorManager</code>.
      *
      * @param o1    the first object to be compared.
      * @param o2    the second object to be compared.
-     * @param clazz the data type of the two objects. If your two objects have the same type, you may just use {@link #compare(Object,Object)} methods.
+     * @param clazz the data type of the two objects. If your two objects have the same type, you may just use {@link
+     *              #compare(Object,Object)} methods.
      * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
      */
     public static int compare(Object o1, Object o2, Class<?> clazz) {
@@ -185,13 +185,13 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code>
-     * to find the comparator and compare. If it is not found, we will convert the object to
-     * string and compare the two strings.
+     * Compares the two objects. It will look up in <code>ObjectComparatorManager</code> to find the comparator and
+     * compare. If it is not found, we will convert the object to string and compare the two strings.
      *
      * @param o1      the first object to be compared.
      * @param o2      the second object to be compared.
-     * @param clazz   the data type of the two objects. If your two objects have the same type, you may just use {@link #compare(Object,Object)} methods.
+     * @param clazz   the data type of the two objects. If your two objects have the same type, you may just use {@link
+     *                #compare(Object,Object)} methods.
      * @param context the comparator context
      * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
      */
@@ -236,24 +236,23 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods like
-     * as toString or fromString, {@link #initDefaultComparator()} will be called if it has never be called.
-     * By default, autoInit is true.
+     * Sets autoInit to true or false. If autoInit is true, whenever someone tries to call methods like as toString or
+     * fromString, {@link #initDefaultComparator()} will be called if it has never be called. By default, autoInit is
+     * true.
      * <p/>
-     * This might affect the behavior if users provide their own comparators and want to overwrite
-     * default comparators. In this case, instead of depending on autoInit to initialize default comparators,
-     * you should call {@link #initDefaultComparator()} first, then call registerComparator to add your own comparators.
+     * This might affect the behavior if users provide their own comparators and want to overwrite default comparators.
+     * In this case, instead of depending on autoInit to initialize default comparators, you should call {@link
+     * #initDefaultComparator()} first, then call registerComparator to add your own comparators.
      *
-     * @param autoInit false if you want to disable autoInit which means you either don't
-     *                 want those default comparators registered or you will call {@link #initDefaultComparator()} yourself.
+     * @param autoInit false if you want to disable autoInit which means you either don't want those default comparators
+     *                 registered or you will call {@link #initDefaultComparator()} yourself.
      */
     public static void setAutoInit(boolean autoInit) {
         _autoInit = autoInit;
     }
 
     /**
-     * Adds a listener to the list that's notified each time a change
-     * to the manager occurs.
+     * Adds a listener to the list that's notified each time a change to the manager occurs.
      *
      * @param l the RegistrationListener
      */
@@ -262,8 +261,7 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Removes a listener from the list that's notified each time a
-     * change to the manager occurs.
+     * Removes a listener from the list that's notified each time a change to the manager occurs.
      *
      * @param l the RegistrationListener
      */
@@ -272,11 +270,10 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Returns an array of all the registration listeners
-     * registered on this manager.
+     * Returns an array of all the registration listeners registered on this manager.
      *
-     * @return all of this registration's <code>RegistrationListener</code>s
-     *         or an empty array if no registration listeners are currently registered
+     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
+     *         listeners are currently registered
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -295,8 +292,8 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Initialize default comparator. Please make sure you call this method
-     * before you use any comparator related classes such as SortableTableModel.
+     * Initialize default comparator. Please make sure you call this method before you use any comparator related
+     * classes such as SortableTableModel.
      */
     public static void initDefaultComparator() {
         if (_inited) {
@@ -306,6 +303,7 @@ public class ObjectComparatorManager {
         _initing = true;
 
         try {
+            registerComparator(Object.class, new DefaultComparator());
             registerComparator(Boolean.class, new BooleanComparator());
             registerComparator(Calendar.class, new CalendarComparator());
             NumberComparator numberComparator = new NumberComparator();
@@ -316,8 +314,9 @@ public class ObjectComparatorManager {
             registerComparator(int.class, numberComparator);
             registerComparator(short.class, numberComparator);
             registerComparator(Comparable.class, new FastComparableComparator());
-            registerComparator(Object.class, new DefaultComparator());
             registerComparator(String.class, Collator.getInstance());
+            registerComparator(CharSequence.class, new AlphanumComparator(), AlphanumComparator.CONTEXT);
+            registerComparator(CharSequence.class, new AlphanumComparator(false), AlphanumComparator.CONTEXT_IGNORE_CASE);
         }
         finally {
             _initing = false;
@@ -327,19 +326,19 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * If {@link #initDefaultComparator()} is called once, calling it again will have no effect because an internal flag is set.
-     * This method will reset the internal flag so that you can call  {@link #initDefaultComparator()} in case you unresgister all
-     * comparators using {@link #unregisterAllComparators()}.
+     * If {@link #initDefaultComparator()} is called once, calling it again will have no effect because an internal flag
+     * is set. This method will reset the internal flag so that you can call  {@link #initDefaultComparator()} in case
+     * you unresgister all comparators using {@link #unregisterAllComparators()}.
      */
     public static void resetInit() {
         _inited = false;
     }
 
-//    public static void main(String[] args) {
-//        ObjectComparatorManager.initDefaultComparator();
-//        Comparator comparator =  ObjectComparatorManager.getComparator(Information.class);
-//        System.out.println(comparator.getClass().getName());
-//    }
+    public static void main(String[] args) {
+        ObjectComparatorManager.initDefaultComparator();
+        Comparator comparator =  ObjectComparatorManager.getComparator(CharSequence.class);
+        System.out.println(comparator.getClass().getName());
+    }
 //
 //    private static class Information implements Comparable {
 //        public int compareTo(Object o) {
