@@ -169,14 +169,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int lineHeight = 0;
+        int defaultFontSize = font.getSize();
         synchronized (_styledTexts) {
             StyledText[] texts = _styledTexts.toArray(new StyledText[_styledTexts.size()]);
             for (int i = texts.length - 1; i >= 0; i--) {
                 StyledText styledText = texts[i];
                 StyleRange style = styledText.styleRange;
                 float size = (style != null &&
-                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
-                font = label.getFont();
+                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : (float) defaultFontSize;
+                font = getFont(label);
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                     font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
@@ -238,6 +239,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
+        int defaultFontSize = font.getSize();
 
         for (StyledText styledText : _styledTexts) {
             StyleRange style = styledText.styleRange;
@@ -251,12 +253,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             y = textY;
 
             float size = (style != null &&
-                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) font.getSize() / style.getFontShrinkRatio()) : (float) font.getSize();
+                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : (float) defaultFontSize;
 
-            font = label.getFont();
-            if (font == null) {
-                font = UIDefaultsLookup.getFont("Label.font");
-            }
+            font = getFont(label);
             if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                 font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                 fm2 = label.getFontMetrics(font);
