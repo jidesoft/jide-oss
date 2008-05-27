@@ -1105,6 +1105,7 @@ public class LookAndFeelFactory implements ProductNames {
                     "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Label.font"),
                     "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
                     "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
+                    "Slider.focusInsets", new InsetsUIResource(0, 0, 0, 0),
             };
             putDefaults(defaults, uiDefaults);
         }
