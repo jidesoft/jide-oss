@@ -136,29 +136,24 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
             super.paintBackground(g, c);
 
-            if (getTabShape() != JideTabbedPane.SHAPE_BOX) {// the color set is office2003
-                Rectangle rect = null;
-                if (_tabPane.getTabPlacement() == TOP) {
-                    rect = new Rectangle(0, 0, width, h + 2);
+            Rectangle rect = null;
+            if (_tabPane.getTabPlacement() == TOP) {
+                rect = new Rectangle(0, 0, width, h + 2);
 
-                }
-                else if (_tabPane.getTabPlacement() == BOTTOM) {
-                    rect = new Rectangle(0, height - h - 2, width, h + 2);
-
-                }
-                else if (_tabPane.getTabPlacement() == LEFT) {
-                    rect = new Rectangle(0, 0, w + 2, height);
-
-                }
-                else if (_tabPane.getTabPlacement() == RIGHT) {
-                    rect = new Rectangle(width - w - 2, 0, w + 2, height);
-                }
-                if (rect != null) {
-                    paintTabAreaBackground(g, rect, _tabPane.getTabPlacement());
-                }
             }
-            else {
-                super.paintBackground(g, c);
+            else if (_tabPane.getTabPlacement() == BOTTOM) {
+                rect = new Rectangle(0, height - h - 2, width, h + 2);
+
+            }
+            else if (_tabPane.getTabPlacement() == LEFT) {
+                rect = new Rectangle(0, 0, w + 2, height);
+
+            }
+            else if (_tabPane.getTabPlacement() == RIGHT) {
+                rect = new Rectangle(width - w - 2, 0, w + 2, height);
+            }
+            if (rect != null) {
+                paintTabAreaBackground(g, rect, _tabPane.getTabPlacement());
             }
         }
     }

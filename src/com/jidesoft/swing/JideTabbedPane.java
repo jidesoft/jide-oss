@@ -419,7 +419,7 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @return true if tab is box style; false otherwise
      * @deprecated As JideTabbedPane can now support many different style, box style is just one of them. So this is
-     *             method is replaced by {@link #getTabShape()} method. If the return value is STYLE_BOX, it is a box
+     *             method is replaced by {@link #getTabShape()} method. If the return value is SHAPE_BOX, it is a box
      *             style tab.
      */
     @Deprecated

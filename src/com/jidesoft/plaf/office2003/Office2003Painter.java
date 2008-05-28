@@ -2,7 +2,6 @@ package com.jidesoft.plaf.office2003;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
@@ -1131,7 +1130,7 @@ public class Office2003Painter extends BasicPainter {
         else {
             // set color of the tab area
             if (c.isOpaque()) {
-                if (c instanceof JideTabbedPane && ((JideTabbedPane) c).getTabShape() != JideTabbedPane.SHAPE_BOX) {
+                if (c instanceof JideTabbedPane) {
                     Graphics2D g2d = (Graphics2D) g;
                     Color startColor = getTabAreaBackgroundDk();
                     Color endColor = getTabAreaBackgroundLt();
@@ -1152,7 +1151,7 @@ public class Office2003Painter extends BasicPainter {
                     }
                 }
                 else {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
+                    g.setColor(c.getBackground());
                     g.fillRect(rect.x, rect.y, rect.width, rect.height);
                 }
             }
