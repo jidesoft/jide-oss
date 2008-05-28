@@ -168,6 +168,19 @@ public class CheckBoxTree extends JTree {
         }
     }
 
+    @Override
+    public void setCellRenderer(TreeCellRenderer x) {
+      if(x==null) {
+        x=getDefaultRenderer();
+      }
+      super.setCellRenderer(x);
+      if (_treeCellRenderer != null) {
+          _treeCellRenderer.setActualTreeRenderer(x);
+      }
+    }
+
+
+    
     /**
      * Creates the cell renderer.
      *
