@@ -96,7 +96,8 @@ class FolderToolBar extends JToolBar {
                 }
             });
             _recentFoldersList.setPrototypeDisplayValue("AAAAAAAAAAAAAAAAAA");
-            add(new JLabel("Recent: "));
+            final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
+            add(new JLabel(resourceBundle.getString("FolderChooser.toolbar.recent")));
             add(_recentFoldersList);
             addSeparator();
         }
