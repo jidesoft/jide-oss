@@ -121,8 +121,10 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             _detailsArea = null;
         }
         _detailsArea = createDetailsComponent();
-        optionPane.add(_detailsArea, JideBoxLayout.VARY);
-        _detailsArea.setVisible(isDetailsVisible());
+        if (_detailsArea != null) {
+            optionPane.add(_detailsArea, JideBoxLayout.VARY);
+            _detailsArea.setVisible(isDetailsVisible());
+        }
     }
 
     @Override
