@@ -3,12 +3,6 @@
  *
  * Copyright 2002 JIDE Software Inc. All rights reserved.
  */
-/*
- * @(#)JideSplitPaneDivider.java
- *
- * Copyright 2002 JIDE Software Inc. All rights reserved.
- */
-
 
 package com.jidesoft.swing;
 
@@ -20,6 +14,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -93,6 +89,7 @@ public class JideSplitPaneDivider extends JPanel
         setBorder(UIDefaultsLookup.getBorder("JideSplitPaneDivider.border"));
         _gripperPainter = (Painter) UIDefaultsLookup.get("JideSplitPaneDivider.gripperPainter");
         setOpaque(false);
+        setLayout(null);
     }
 
     public void setDefaultResizeCursor() {
@@ -193,12 +190,16 @@ public class JideSplitPaneDivider extends JPanel
      */
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getSource() == _jideSplitPane) {
-            if (e.getPropertyName().equals(JideSplitPane.ORIENTATION_PROPERTY)) {
+            if (JideSplitPane.ORIENTATION_PROPERTY.equals(e.getPropertyName())) {
                 _orientation = _jideSplitPane.getOrientation();
                 setCursor((_orientation == JideSplitPane.HORIZONTAL_SPLIT) ?
                         HORIZONTAL_CURSOR : VERTICAL_CURSOR);
                 invalidate();
                 validate();
+            }
+            else if (JideSplitPane.ONE_TOUCH_EXPANDABLE_PROPERTY.equals(e.getPropertyName())) {
+                setDividerSize(_jideSplitPane.getDividerSize());
+                oneTouchExpandableChanged();
             }
         }
     }
@@ -229,8 +230,8 @@ public class JideSplitPaneDivider extends JPanel
      * Paints the divider.
      */
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         // Paint the border.
         Border border = getBorder();
 
@@ -276,6 +277,13 @@ public class JideSplitPaneDivider extends JPanel
 
     protected void dragDividerTo(int location) {
         _jideSplitPane.dragDividerTo(this, location);
+
+        /*
+         * Update the variables used by the one-touch expand/collapse buttons.
+         */
+        _currrentState = DEFAULT_STATE;
+        int indexOfDivider = _jideSplitPane.indexOfDivider(JideSplitPaneDivider.this);
+        _lastPosition = _jideSplitPane.getDividerLocation(indexOfDivider);
     }
 
     protected void finishDraggingTo(int location) {
@@ -605,4 +613,356 @@ public class JideSplitPaneDivider extends JPanel
         }
     } // End of BasicSplitPaneDividier.VerticalDragController
 
+    /*
+     * Added on 05/14/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26074#26074,
+     * http://www.jidesoft.com/forum/viewtopic.php?p=5148#5148 and
+     * http://www.jidesoft.com/forum/viewtopic.php?p=23403#23403.
+     *
+     * The addition below provides the option of adding a one-touch button which is capable of expanding/collapsing the
+     * split pane (in one click of the mouse).
+     *
+     * @see #setOneTouchExpandable(boolean)
+     */
+
+    /**
+     * Indicates that the pane of the left of this component has been collapse by the one-touch button.
+     */
+    public final static int COLLAPSED_STATE = 0;
+
+    /**
+     * Indicates that this divider has not been expanded or collapsed.
+     */
+    public final static int DEFAULT_STATE = 1;
+
+    /**
+     * Indicates that the pane of the right of this component has been collapse by the one-touch button. Hence, the pane
+     * on the left has been "expanded".
+     */
+    public final static int EXPANDED_STATE = 2;
+
+    /**
+     * Indicates the current state of this divider. Either expanded, collapsed or in its default state.
+     */
+    private int _currrentState = DEFAULT_STATE;
+
+    /**
+     * Button for quickly toggling the left component.
+     */
+    protected JButton _leftButton = null;
+
+    /**
+     * Button for quickly toggling the right component.
+     */
+    protected JButton _rightButton = null;
+
+    /**
+     * Used to paint the triangle on the one-touch buttons.
+     */
+    private int _triangleSize = 5;
+
+    /**
+     * Used as the one-touch button's width.
+     */
+    private int _buttonWidth = 5;
+
+    /**
+     * Used as the one-touch button's height.
+     */
+    private int _buttonHeight = 10;
+
+    /**
+     * Holding place to store the default minimum size of each pane.
+     */
+    private Dimension[] _minimumSizes;
+
+    /**
+     * The last non-expanded/collapsed position of the divider. We want to keep track of the dividers last position, so
+     * if a user collapses the pane on the right of this divider for example, pressing the expand button will revert the
+     * divider back to its original location - the last non-expanded/collapsed position.
+     *
+     * @see JideSplitPaneDivider.OneTouchActionHandler#actionPerformed
+     */
+    private int _lastPosition;
+
+    /**
+     * Invoked when the oneTouchExpandable value of the JideSplitPane changes.<p> </p> Responsible for creating the
+     * one-touch buttons and revalidating the UI.
+     * <p/>
+     * #see JideSplitePane#setOneTouchExpandable(boolean)
+     */
+    protected void oneTouchExpandableChanged() {
+
+        if (_jideSplitPane.isOneTouchExpandable() && _leftButton == null) {
+            _leftButton = createLeftOneTouchButton();
+            if (_leftButton != null) {
+                _leftButton.addActionListener(new OneTouchActionHandler(true));
+                if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                    _leftButton.setBounds(1, 10, _buttonWidth, _buttonHeight);
+                }
+                else if (_orientation == JideSplitPane.VERTICAL_SPLIT) {
+                    _leftButton.setBounds(10, 1, _buttonHeight, _buttonWidth);
+                }
+                add(_leftButton);
+            }
+        }
+
+        if (_jideSplitPane.isOneTouchExpandable() && _rightButton == null) {
+            _rightButton = createRightOneTouchButton();
+            if (_rightButton != null) {
+                _rightButton.addActionListener(new OneTouchActionHandler(false));
+                if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                    _rightButton.setBounds(1, 25, _buttonWidth, _buttonHeight);
+                }
+                else if (_orientation == JideSplitPane.VERTICAL_SPLIT) {
+                    _rightButton.setBounds(25, 1, _buttonHeight, _buttonWidth);
+                }
+                add(_rightButton);
+            }
+        }
+
+        if (!(_jideSplitPane.isOneTouchExpandable()) && _leftButton != null) {
+            remove(_leftButton);
+            _leftButton = null;
+        }
+        if (!(_jideSplitPane.isOneTouchExpandable()) && _rightButton != null) {
+            remove(_rightButton);
+            _rightButton = null;
+        }
+
+        /*
+         * The one-touch buttons should comletely collapse the pane in question; as such, all panes should have a
+         * their minimum sizes overridden whilst one-touch expandable is on.
+         *
+         * We fill the minimunSizes array with the current minimum size of each pane for restoration later.
+         */
+        int paneCount = _jideSplitPane.getPaneCount();
+        _minimumSizes = new Dimension[paneCount];
+        if (_jideSplitPane.isOneTouchExpandable()) {
+            for (int i = 0; i < paneCount; i++) {
+                Component component = _jideSplitPane.getPaneAt(i);
+                _minimumSizes[i] = component.getMinimumSize();
+                component.setMinimumSize(new Dimension(0, 0));
+            }
+        }
+        else {
+            for (int i = 0; i < paneCount; i++) {
+                Component component = _jideSplitPane.getPaneAt(i);
+                _minimumSizes[i] = component.getMinimumSize();
+                component.setMinimumSize(_minimumSizes[i]);
+            }
+        }
+    }
+
+    /**
+     * Builds the Button that can be used to collapse the component to the left/above this divider.
+     *
+     * @returns a JButton instance used to collapse the component to the left/above this divider.
+     */
+    protected JButton createLeftOneTouchButton() {
+        JButton b = new JButton() {
+            public void setBorder(Border b) {
+            }
+
+            public void paint(Graphics g) {
+                if (_jideSplitPane != null) {
+                    g.setColor(this.getBackground());
+                    if (isOpaque()) {
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
+
+                    if (_jideSplitPane.getLeftOneTouchButtonImageIcon() != null) {
+                        _jideSplitPane.getLeftOneTouchButtonImageIcon().paintIcon(this, g, 0, 0);
+                    }
+                    else if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+
+                        /*
+                         * If the split pane is horizontally split, paint the 'left' button.
+                         */
+                        g.setColor(getDarkShadowColor());
+                        int size = _triangleSize;
+                        for (int i = 0; i < size; i++) {
+                            g.drawLine(i, size - i, i, size + i);
+                        }
+                    }
+                    else if (_orientation == JideSplitPane.VERTICAL_SPLIT) {
+
+                        /*
+                         * If the split pane is vertically split, paint an 'up' button.
+                         */
+                        g.setColor(getDarkShadowColor());
+                        int size = _triangleSize;
+                        for (int i = 0; i < size; i++) {
+                            g.drawLine(size - i, i, size + i, i);
+                        }
+                    }
+                }
+            }
+
+            public boolean isFocusTraversable() {
+                return false;
+            }
+        };
+        b.setMinimumSize(new Dimension(_buttonWidth, _buttonHeight));
+        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        b.setFocusPainted(false);
+        b.setBorderPainted(false);
+        b.setRequestFocusEnabled(false);
+        return b;
+    }
+
+    /**
+     * Builds the rightButton that can be used to expand/collapse a split panes divider to the right.
+     *
+     * @returns a JButton instance used to expand/collapse a split panes divider to the right.
+     */
+    protected JButton createRightOneTouchButton() {
+        JButton b = new JButton() {
+            public void setBorder(Border b) {
+            }
+
+            public void paint(Graphics g) {
+                if (_jideSplitPane != null) {
+                    g.setColor(this.getBackground());
+                    if (isOpaque()) {
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
+
+                    if (_jideSplitPane.getRightOneTouchButtonImageIcon() != null) {
+                        _jideSplitPane.getRightOneTouchButtonImageIcon().paintIcon(this, g, 0, 0);
+                    }
+                    else if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+
+                        /*
+                         * If the split pane is horizontally split, paint the 'right' button.
+                         */
+                        g.setColor(getDarkShadowColor());
+                        int size = _triangleSize;
+                        int j = 0;
+                        for (int i = size - 1; i >= 0; i--) {
+                            g.drawLine(j, size - i, j, size + i);
+                            j++;
+                        }
+                    }
+                    else if (_orientation == JideSplitPane.VERTICAL_SPLIT) {
+
+                        /*
+                         * If the split pane is vertically split, paint an 'down' button.
+                         */
+                        g.setColor(getDarkShadowColor());
+                        int size = _triangleSize;
+                        int j = 0;
+                        for (int i = size - 1; i >= 0; i--) {
+                            g.drawLine(size - i, j, size + i, j);
+                            j++;
+                        }
+                    }
+                }
+            }
+
+            public boolean isFocusTraversable() {
+                return false;
+            }
+        };
+        b.setMinimumSize(new Dimension(_buttonWidth, _buttonHeight));
+        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        b.setFocusPainted(false);
+        b.setBorderPainted(false);
+        b.setRequestFocusEnabled(false);
+        return b;
+    }
+
+    /**
+     * Returns a dark shadow color. This color is used to paint the left and right buttons graphics. It is based on the
+     * current Look and Feel. (And thus fits all look and Feels.)
+     */
+    protected Color getDarkShadowColor() {
+        return UIManager.getColor("controlDkShadow");
+    }
+
+    /**
+     * The actionListener that will listen for button presses on either the leftButton or the rightButton. This class is
+     * responsible for one-touch expanding/collapsing of the divider.
+     */
+    private class OneTouchActionHandler implements ActionListener {
+
+        /**
+         * If <code>collapse</code> is true, move the divider to the left/top; otherwise, move the divider to the
+         * right/buttom.
+         */
+        private boolean _collapse;
+
+        /**
+         * Constructs the handler responsible for expanding/collapsing the panes on either side of this divider.
+         */
+        OneTouchActionHandler(boolean collapse) {
+            _collapse = collapse;
+        }
+
+        /**
+         * Called to collapse or expand this divider.
+         */
+        public void actionPerformed(ActionEvent e) {
+
+            /*
+             * If _collapse is true, move the divider to the left/top; otherwise, move the divider to the right/bottom.
+             */
+
+            /*
+             * If the left button is pressed. (If _collapse is true.)
+             */
+            if (_collapse) {
+                if (_currrentState == COLLAPSED_STATE) {
+                    int indexOfDivider = _jideSplitPane.indexOfDivider(JideSplitPaneDivider.this);
+                    int dividerPosition = _jideSplitPane.getDividerLocation(indexOfDivider);
+                    int previousDividerPosition = getPreviousDividerLocation(true, false);
+                    if (dividerPosition != previousDividerPosition) {
+                        _currrentState = DEFAULT_STATE;
+                    }
+                }
+
+                if (_currrentState == EXPANDED_STATE) {
+                    _jideSplitPane.setDividerLocation(JideSplitPaneDivider.this, _lastPosition);
+                    _currrentState = DEFAULT_STATE;
+                }
+                else if (_currrentState == DEFAULT_STATE) {
+                    int indexOfDivider = _jideSplitPane.indexOfDivider(JideSplitPaneDivider.this);
+                    _lastPosition = _jideSplitPane.getDividerLocation(indexOfDivider);
+                    int loc = getPreviousDividerLocation(true, false);
+                    _jideSplitPane.setDividerLocation(JideSplitPaneDivider.this, loc);
+                    _currrentState = COLLAPSED_STATE;
+                }
+            }
+            /*
+             * If the right button is pressed. (If _collapse is false.)
+             */
+            else {
+                if (_currrentState == EXPANDED_STATE) {
+                    int indexOfDivider = _jideSplitPane.indexOfDivider(JideSplitPaneDivider.this);
+                    int dividerPosition = _jideSplitPane.getDividerLocation(indexOfDivider);
+                    int nextDividerPosition = getNextDividerLocation(true, false);
+                    if (dividerPosition != nextDividerPosition) {
+                        _currrentState = DEFAULT_STATE;
+                    }
+                }
+
+                if (_currrentState == COLLAPSED_STATE) {
+                    _jideSplitPane.setDividerLocation(JideSplitPaneDivider.this, _lastPosition);
+                    _currrentState = DEFAULT_STATE;
+                }
+                else if (_currrentState == DEFAULT_STATE) {
+                    int indexOfDivider = _jideSplitPane.indexOfDivider(JideSplitPaneDivider.this);
+                    _lastPosition = _jideSplitPane.getDividerLocation(indexOfDivider);
+                    int loc = getNextDividerLocation(true, false);
+                    _jideSplitPane.setDividerLocation(JideSplitPaneDivider.this, loc);
+                    _currrentState = EXPANDED_STATE;
+                }
+            }
+        }
+    }
+
+    /*
+     * End of one-touch expand/collapse addition.
+     *
+     * Added on 05/14/2008.
+     */
 }

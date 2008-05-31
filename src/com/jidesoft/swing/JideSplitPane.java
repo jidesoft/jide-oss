@@ -138,7 +138,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
      */
     public JideSplitPane() {
-        this(JideSplitPane.HORIZONTAL_SPLIT);
+        this(HORIZONTAL_SPLIT);
     }
 
 
@@ -161,7 +161,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
         // setup layout
         LayoutManager layoutManager;
-        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+        if (_orientation == HORIZONTAL_SPLIT) {
             layoutManager = new JideSplitPaneLayout(this, JideSplitPaneLayout.X_AXIS);
         }
         else {
@@ -202,7 +202,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 return -1;
 
             boolean ltr = getComponentOrientation().isLeftToRight();
-            boolean reversed = !ltr && getOrientation() == JideSplitPane.HORIZONTAL_SPLIT;
+            boolean reversed = !ltr && getOrientation() == HORIZONTAL_SPLIT;
 
             int location = 0;
             if (reversed) {
@@ -232,7 +232,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (oldLocation == -1 || oldLocation == location)
                 return;
             boolean ltr = getComponentOrientation().isLeftToRight();
-            boolean reversed = !ltr && getOrientation() == JideSplitPane.HORIZONTAL_SPLIT;
+            boolean reversed = !ltr && getOrientation() == HORIZONTAL_SPLIT;
             int prevIndex;
             int nextIndex;
             if (reversed) {
@@ -562,7 +562,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 //        else
 //            setBorder(BorderFactory.createLineBorder(Color.CYAN));
         LayoutManager layoutManager;
-        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+        if (_orientation == HORIZONTAL_SPLIT) {
             layoutManager = new JideSplitPaneLayout(this, JideSplitPaneLayout.X_AXIS);
         }
         else {
@@ -740,7 +740,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     _nonContinuousLayoutDividerWrapper.setHeavyweight(isHeavyweightComponentEnabled());
                 }
 
-                _nonContinuousLayoutDividerWrapper.delegateSetCursor((_orientation == JideSplitPane.HORIZONTAL_SPLIT) ?
+                _nonContinuousLayoutDividerWrapper.delegateSetCursor((_orientation == HORIZONTAL_SPLIT) ?
                         JideSplitPaneDivider.HORIZONTAL_CURSOR : JideSplitPaneDivider.VERTICAL_CURSOR);
                 _nonContinuousLayoutDividerWrapper.delegateSetVisible(false);
                 _nonContinuousLayoutDividerWrapper.delegateAdd(_layeredPane, JLayeredPane.DRAG_LAYER);
@@ -1203,7 +1203,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (((index + 1) * 2) + 1 <= getComponentCount()) {
                 for (int i = index + 1; (i * 2) + 1 < getComponentCount(); i++) {
                     if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                        if (_orientation == HORIZONTAL_SPLIT) {
                             location = getDividerAt(i).getBounds().x;
                         }
                         else {
@@ -1217,7 +1217,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (index > 0) {
                 for (int i = index - 1; i >= 0; i--) {
                     if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                        if (_orientation == HORIZONTAL_SPLIT) {
                             location = getDividerAt(i).getBounds().x;
                         }
                         else {
@@ -1242,14 +1242,14 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * @param ignoreVisibility true to not check if the pane is visible.
      * @return the location of next divider if any
      */
-    protected int getNextDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
+    public int getNextDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
         int index = indexOfDivider(divider);
         int location = -1;
         if (!reversed) {
             if (((index + 1) * 2) + 1 <= getComponentCount()) {
                 for (int i = index + 1; (i * 2) + 1 < getComponentCount(); i++) {
                     if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                        if (_orientation == HORIZONTAL_SPLIT) {
                             location = getDividerAt(i).getBounds().x;
                         }
                         else {
@@ -1263,7 +1263,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (index > 0) {
                 for (int i = index - 1; i >= 0; i--) {
                     if (ignoreVisibility || getDividerAt(i).isVisible()) {
-                        if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
+                        if (_orientation == HORIZONTAL_SPLIT) {
                             location = getDividerAt(i).getBounds().x;
                         }
                         else {
@@ -1411,4 +1411,151 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             firePropertyChange(PROPERTY_HEAVYWEIGHT_COMPONENT_ENABLED, old, _heavyweightComponentEnabled);
         }
     }
+
+    /*
+     * Added on 05/14/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26074#26074,
+     * http://www.jidesoft.com/forum/viewtopic.php?p=5148#5148 and
+     * http://www.jidesoft.com/forum/viewtopic.php?p=23403#23403.
+     *
+     * The addition below provides the option of adding a one-touch button which is capable of expanding/collapsing the
+     * split pane (in one click of the mouse).
+     *
+     * @see #setOneTouchExpandable(boolean)
+     */
+
+    /**
+     * Bound property for <code>oneTouchExpandable</code>.
+     *
+     * @see #setOneTouchExpandable
+     */
+    public final static String ONE_TOUCH_EXPANDABLE_PROPERTY = "oneTouchExpandable";
+
+    /**
+     * Flag indicating whether the SplitPane's divider should be one-touch expandable/collapsible. The default value of
+     * this property is <code>false</code>
+     *
+     * @see #setOneTouchExpandable
+     * @see #isOneTouchExpandable
+     */
+    private boolean _oneTouchExpandable = false;
+
+    /**
+     * The default width/height of the divider (when horizontally/vertically splite respectively).
+     */
+    private int oneTouchExpandableDividerSize = 8;
+
+    /**
+     * The image displayed on the left one-touch button. If no image is supplied, a default triangle will be painted
+     * onto the button.
+     *
+     * @see #setLeftOneTouchButtonImageIcon
+     */
+    private ImageIcon _leftOneTouchButtonImageIcon = null;
+
+    /**
+     * The image displayed on the right one-touch button. If no image is supplied, a default triangle will be painted
+     * onto the button.
+     *
+     * @see #setRightOneTouchButtonImageIcon
+     */
+    private ImageIcon _rightOneTouchButtonImageIcon = null;
+
+    /**
+     * Sets the value of the <code>oneTouchExpandable</code> property. If <code>true</code>, the <code>JSplitPane</code>
+     * will display a UI widget on the divider to quickly expand/collapse the divider.<p> </p> The default value of this
+     * property is <code>false</code>.<p> </p> Please note: Some look and feels might not support one-touch expanding;
+     * they will ignore this property.
+     *
+     * @param oneTouchExpandable <code>true</code> to specify that the split pane should provide a collapse/expand
+     *                           widget
+     * @beaninfo bound: true description: UI widget on the divider to quickly expand/collapse the divider.
+     * @see #isOneTouchExpandable
+     */
+    public void setOneTouchExpandable(boolean oneTouchExpandable) {
+        boolean oldValue = _oneTouchExpandable;
+        _oneTouchExpandable = oneTouchExpandable;
+
+        /*
+         * We need to widden/shrink the dividers width so that we can display/remove the one-touch buttons.
+         */
+        LayoutManager layoutManager = getLayout();
+        if (layoutManager instanceof JideBoxLayout) {
+            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(true);
+        }
+        if (oneTouchExpandable) {
+            setDividerSize(oneTouchExpandableDividerSize);
+        }
+        else {
+            setDividerSize(UIDefaultsLookup.getInt("JideSplitPane.dividerSize"));
+        }
+
+        /*
+         * We now fire a bound property so each divider listening can set up its own one-touch buttons.
+         */
+        firePropertyChange(ONE_TOUCH_EXPANDABLE_PROPERTY, oldValue, _oneTouchExpandable);
+        if (oldValue != _oneTouchExpandable) {
+            revalidate();
+            repaint();
+        }
+
+        if (layoutManager instanceof JideBoxLayout) {
+            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(false);
+        }
+    }
+
+    /**
+     * Returns whether one-touch expand/collapse is on.
+     *
+     * @return the value of the <code>oneTouchExpandable</code> property
+     * @see #setOneTouchExpandable
+     */
+    public boolean isOneTouchExpandable() {
+        return _oneTouchExpandable;
+    }
+
+    /**
+     * Sets the left button's image icon. By default, the button has a width of 5 pixels and a height of 10 pixel in
+     * HORIZONTAL_SPLIT mode (and a width of 10 pixels and a height of 5 pixel in VERTICAL_SPLIT mode) -- this should be
+     * considered when assigning its imageIcon.
+     *
+     * @param leftButtonImageIcon the image to be displayed on the left one-touch button
+     */
+    public void setLeftOneTouchButtonImageIcon(ImageIcon leftButtonImageIcon) {
+        _leftOneTouchButtonImageIcon = leftButtonImageIcon;
+    }
+
+    /**
+     * Gets the left button's image icon.
+     *
+     * @return the imageIcon used displayed on the left one-touch button
+     */
+    public ImageIcon getLeftOneTouchButtonImageIcon() {
+        return _leftOneTouchButtonImageIcon;
+    }
+
+    /**
+     * Sets the right button's image icon. By default, the button has a width of 5 pixels and a height of 10 pixel in
+     * HORIZONTAL_SPLIT mode (and a width of 10 pixels and a height of 5 pixel in VERTICAL_SPLIT mode) -- this should be
+     * considered when assigning its imageIcon.
+     *
+     * @param rightButtonImageIcon the image to be displayed on the right one-touch button
+     */
+    public void setRightOneTouchButtonImageIcon(ImageIcon rightButtonImageIcon) {
+        _rightOneTouchButtonImageIcon = rightButtonImageIcon;
+    }
+
+    /**
+     * Gets the right button's image icon.
+     *
+     * @return the imageIcon used displayed on the left one-touch button
+     */
+    public ImageIcon getRightOneTouchButtonImageIcon() {
+        return _rightOneTouchButtonImageIcon;
+    }
+
+    /*
+     * End of one-touch expand/collapse addition.
+     *
+     * Added on 05/14/2008.
+     */
 }
