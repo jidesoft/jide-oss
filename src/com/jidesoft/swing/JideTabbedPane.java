@@ -983,6 +983,8 @@ public class JideTabbedPane extends JTabbedPane {
                 th.printStackTrace();
             }
         }
+
+        updateUI(); // force calling updateUI so that the tab buttons will be updated
     }
 
     @Override
