@@ -16,12 +16,12 @@ import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 
 /**
- * <tt>Calculator</tt> is a component that can do simple arithmetic calculation. Since it
- * extends JPanel, you can use it at any place in your application.
+ * <tt>Calculator</tt> is a component that can do simple arithmetic calculation. Since it extends JPanel, you can use it
+ * at any place in your application.
  * <p/>
- * To make it more flexible, the <tt>Calculator</tt> has no text field to display
- * the result. You can create your own JTextField or JLabel to display the result.
- * Here is a simple example to create a text field and associate it with Calculator.
+ * To make it more flexible, the <tt>Calculator</tt> has no text field to display the result. You can create your own
+ * JTextField or JLabel to display the result. Here is a simple example to create a text field and associate it with
+ * Calculator.
  * <pre><code>
  * final JTextField textField = new JTextField();
  * textField.setColumns(20);
@@ -35,16 +35,13 @@ import java.text.NumberFormat;
  * });
  * calculator.clear();
  * </code></pre>
- * With the code above, user can type in directly into text field and do the calculation.
- * If you just want to display the result and don't mind if the text field accepts keyboard input,
- * you don't need to call registerKeyboardActions method.
+ * With the code above, user can type in directly into text field and do the calculation. If you just want to display
+ * the result and don't mind if the text field accepts keyboard input, you don't need to call registerKeyboardActions
+ * method.
  * <p/>
- * All numeric and operator keys work as expected. Here are a few special keys that worth mentioning
- * <ul>
- * <li> 'C', 'c' or ESC to clear current result
- * <li> '!' to make current displayed number from positive to negative (or from negative to positive)
- * <li> ENTER is equalivent to '='..
- * </ul>
+ * All numeric and operator keys work as expected. Here are a few special keys that worth mentioning <ul> <li> 'C', 'c'
+ * or ESC to clear current result <li> '!' to make current displayed number from positive to negative (or from negative
+ * to positive) <li> ENTER is equalivent to '='.. </ul>
  * <p/>
  * Another interesting way to use Calculator is to use it without using GUI.
  * <pre><code>
@@ -59,13 +56,11 @@ import java.text.NumberFormat;
  * </code></pre>
  * The print out will be "10 * 24 = 240".
  * <p/>
- * There are seveal methods you can use to get internal state of the Calculator.
- * <ul>
- * <li> {@link #getDisplayText()}: to get the result that should be displayed. Please note, this method return a string.
- * <li> {@link #getResult()}: to get the last calculated result. This method returns a double value.
- * <li> {@link #getOperator()}: to get the current operator
- * <li> {@link #isOverflow()}: to check if there is an overflow. Usually if you try to divide by zero, you will get an overflow.
- * </ul>
+ * There are seveal methods you can use to get internal state of the Calculator. <ul> <li> {@link #getDisplayText()}: to
+ * get the result that should be displayed. Please note, this method return a string. <li> {@link #getResult()}: to get
+ * the last calculated result. This method returns a double value. <li> {@link #getOperator()}: to get the current
+ * operator <li> {@link #isOverflow()}: to check if there is an overflow. Usually if you try to divide by zero, you will
+ * get an overflow. </ul>
  */
 public class Calculator extends JPanel implements ActionListener {
 
@@ -164,8 +159,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Checks if the key event a key event for operators. In the other words, if it is {@link #CHAR_ADD},
-     * {@link #CHAR_MINUS}, {@link #CHAR_MULTIPLY} or {@link #CHAR_DIVIDE}, this method will return true.
+     * Checks if the key event a key event for operators. In the other words, if it is {@link #CHAR_ADD}, {@link
+     * #CHAR_MINUS}, {@link #CHAR_MULTIPLY} or {@link #CHAR_DIVIDE}, this method will return true.
      *
      * @param keyEvent the key event.
      * @return true if it is a valid key event is an operator.
@@ -176,7 +171,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Checks if the key event a key event for enter. In the other words, if it is {@link KeyEvent#VK_ENTER}, this method will return true.
+     * Checks if the key event a key event for enter. In the other words, if it is {@link KeyEvent#VK_ENTER}, this
+     * method will return true.
      *
      * @param keyEvent the key event.
      * @return true if it is a valid key event is an enter key.
@@ -187,12 +183,10 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Registers necessary keyboard actions onto the component. Usually the component
-     * is a <code>JTextField</code>.
+     * Registers necessary keyboard actions onto the component. Usually the component is a <code>JTextField</code>.
      *
      * @param component the component where the key input will be taken and passed to the <code>Calculator</code>.
-     * @param condition the condition as defined in
-     *                  {@link JComponent#registerKeyboardAction(java.awt.event.ActionListener,javax.swing.KeyStroke,int)}.
+     * @param condition the condition as defined in {@link JComponent#registerKeyboardAction(java.awt.event.ActionListener,javax.swing.KeyStroke,int)}.
      */
     public void registerKeyboardActions(JComponent component, int condition) {
         boolean isCellEditor = isCellEditor();
@@ -319,9 +313,10 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You can override it
-     * to create your own button. This method is used to create all buttons except the backspace and the +/- button. So if you want
-     * to override it, it's better to override {@link #createButton(String,javax.swing.Icon)} method.
+     * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You
+     * can override it to create your own button. This method is used to create all buttons except the backspace and the
+     * +/- button. So if you want to override it, it's better to override {@link #createButton(String,javax.swing.Icon)}
+     * method.
      *
      * @param text the text on the button.
      * @return the button.
@@ -331,8 +326,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You can override it
-     * to create your own button.
+     * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You
+     * can override it to create your own button.
      * <pre><code>
      * AbstractButton button = new JideButton(text, icon);
      * button.setOpaque(true);
@@ -376,8 +371,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Inputs a char to the calculator. Please note, not all chars are acceptable. Valid chars are defined in {@link Calculator} class
-     * as CHAR_XXX constants.
+     * Inputs a char to the calculator. Please note, not all chars are acceptable. Valid chars are defined in {@link
+     * Calculator} class as CHAR_XXX constants.
      *
      * @param c the char inputed char.
      */
@@ -765,66 +760,74 @@ public class Calculator extends JPanel implements ActionListener {
         }
     }
 
-    private final static int DELAY = 100;
+    /**
+     * Press the button. By default, we will trigger the action directly on this button. However subclass can override
+     * it to call doClick to mimic the user pressing the button.
+     *
+     * @param button
+     */
+    protected void fakePressButton(AbstractButton button) {
+        actionPerformed(new ActionEvent(button, 0, null));
+    }
 
     private void fakePressButton(char c) {
         switch (c) {
             case CHAR_CLEAR:
-                _clearButton.doClick(DELAY);
+                fakePressButton(_clearButton);
                 break;
             case CHAR_BACKSPACE:
-                _backspaceButton.doClick(DELAY);
+                fakePressButton(_backspaceButton);
                 break;
             case CHAR_EQUAL:
-                _equalButton.doClick(DELAY);
+                fakePressButton(_equalButton);
                 break;
             case CHAR_POINT:
-                _pointButton.doClick(DELAY);
+                fakePressButton(_pointButton);
                 break;
             case CHAR_NEGATIVE:
-                _negativeButton.doClick(DELAY);
+                fakePressButton(_negativeButton);
                 break;
             case CHAR_ADD:
-                _addButton.doClick(DELAY);
+                fakePressButton(_addButton);
                 break;
             case CHAR_MINUS:
-                _minusButton.doClick(DELAY);
+                fakePressButton(_minusButton);
                 break;
             case CHAR_MULTIPLY:
-                _multiplyButton.doClick(DELAY);
+                fakePressButton(_multiplyButton);
                 break;
             case CHAR_DIVIDE:
-                _divideButton.doClick(DELAY);
+                fakePressButton(_divideButton);
                 break;
             case CHAR_0:
-                _numberButtons[0].doClick(DELAY);
+                fakePressButton(_numberButtons[0]);
                 break;
             case CHAR_1:
-                _numberButtons[1].doClick(DELAY);
+                fakePressButton(_numberButtons[1]);
                 break;
             case CHAR_2:
-                _numberButtons[2].doClick(DELAY);
+                fakePressButton(_numberButtons[2]);
                 break;
             case CHAR_3:
-                _numberButtons[3].doClick(DELAY);
+                fakePressButton(_numberButtons[3]);
                 break;
             case CHAR_4:
-                _numberButtons[4].doClick(DELAY);
+                fakePressButton(_numberButtons[4]);
                 break;
             case CHAR_5:
-                _numberButtons[5].doClick(DELAY);
+                fakePressButton(_numberButtons[5]);
                 break;
             case CHAR_6:
-                _numberButtons[6].doClick(DELAY);
+                fakePressButton(_numberButtons[6]);
                 break;
             case CHAR_7:
-                _numberButtons[7].doClick(DELAY);
+                fakePressButton(_numberButtons[7]);
                 break;
             case CHAR_8:
-                _numberButtons[8].doClick(DELAY);
+                fakePressButton(_numberButtons[8]);
                 break;
             case CHAR_9:
-                _numberButtons[9].doClick(DELAY);
+                fakePressButton(_numberButtons[9]);
                 break;
         }
     }
@@ -848,8 +851,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Calculates the pending calculation. If the Calculator has both operations
-     * and a valid operator, this method will do the calculation and set the display text and result.
+     * Calculates the pending calculation. If the Calculator has both operations and a valid operator, this method will
+     * do the calculation and set the display text and result.
      */
     public void commit() {
         if (!_clearOperatorPending) {
@@ -907,8 +910,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * If this method return true, ENTER and ESCAPE key will be registered. Otherwise they will not be.
-     * The reason we do so because the two keys are conflicted with keys in JTable.
+     * If this method return true, ENTER and ESCAPE key will be registered. Otherwise they will not be. The reason we do
+     * so because the two keys are conflicted with keys in JTable.
      *
      * @return true or false.
      */
