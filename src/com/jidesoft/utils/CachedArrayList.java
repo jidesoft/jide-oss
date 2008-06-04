@@ -38,6 +38,16 @@ public class CachedArrayList<E> extends ArrayList<E> {
         if (o != null) {
             return o;
         }
+        else if (isLazyCaching()) {
+            int i = super.indexOf(elem);
+            if (i == -1) {
+                uncacheIt(elem);
+            }
+            else {
+                cacheIt(elem, i);
+            }
+            return i;
+        }
         else {
             return -1;
         }
