@@ -764,7 +764,7 @@ public class Calculator extends JPanel implements ActionListener {
      * Press the button. By default, we will trigger the action directly on this button. However subclass can override
      * it to call doClick to mimic the user pressing the button.
      *
-     * @param button
+     * @param button the button
      */
     protected void fakePressButton(AbstractButton button) {
         actionPerformed(new ActionEvent(button, 0, null));
@@ -935,7 +935,7 @@ public class Calculator extends JPanel implements ActionListener {
         calculator.input('2');
         calculator.input('4');
         calculator.input('=');
-        System.out.println("10 * 24 = " + calculator.getDisplayText());
+//        System.out.println("10 * 24 = " + calculator.getDisplayText());
     }
 
 }
