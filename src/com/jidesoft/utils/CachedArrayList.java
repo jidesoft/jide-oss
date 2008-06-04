@@ -8,11 +8,10 @@ package com.jidesoft.utils;
 import java.util.*;
 
 /**
- * This is a fast access ArrayList that sacrifices memory for speed. It will reduce the speed of
- * indexOf method from O(n) to O(1). However it will at least double the memory used by ArrayList.
- * So use it approriately. <p><strong>Just like ArrayList, this implementation is not
- * synchronized.</strong> If you want a thread safe implementation, you can use {@link
- * com.jidesoft.utils.CachedVector}.
+ * This is a fast access ArrayList that sacrifices memory for speed. It will reduce the speed of indexOf method from
+ * O(n) to O(1). However it will at least double the memory used by ArrayList. So use it approriately. <p><strong>Just
+ * like ArrayList, this implementation is not synchronized.</strong> If you want a thread safe implementation, you can
+ * use {@link com.jidesoft.utils.CachedVector}.
  */
 public class CachedArrayList<E> extends ArrayList<E> {
     private Map<Object, Integer> _indexCache;
@@ -40,20 +39,13 @@ public class CachedArrayList<E> extends ArrayList<E> {
             return o;
         }
         else {
-            int i = super.indexOf(elem);
-            if (i == -1) {
-                uncacheIt(elem);
-            }
-            else {
-                cacheIt(elem, i);
-            }
-            return i;
+            return -1;
         }
     }
 
     /**
-     * Adjusts the cache so that all values that are greater than index will increase by the value
-     * specified by the increase parameter.
+     * Adjusts the cache so that all values that are greater than index will increase by the value specified by the
+     * increase parameter.
      *
      * @param index    the index. All values above this index will be changed.
      * @param increase a positive number to increase or a negative number to decrease.
