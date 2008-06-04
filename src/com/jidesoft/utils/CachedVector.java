@@ -111,7 +111,12 @@ public class CachedVector<E> extends Vector<E> {
     @Override
     public void add(int index, E element) {
         super.add(index, element);
-        if (_indexCache != null) {
+        if (!isLazyCaching()) {
+            initializeCache();
+            adjustCache(index, 1);
+            cacheIt(element, index);
+        }
+        else if (_indexCache != null) {
             adjustCache(index, 1);
             cacheIt(element, index);
         }

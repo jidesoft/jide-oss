@@ -78,7 +78,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
     }
 
     protected Map<Object, Integer> createCache() {
-        return new IdentityHashMap();
+        return new IdentityHashMap<Object, Integer>();
     }
 
 
@@ -118,7 +118,12 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Override
     public void add(int index, E element) {
         super.add(index, element);
-        if (_indexCache != null) {
+        if (!isLazyCaching()) {
+            initializeCache();
+            adjustCache(index, 1);
+            cacheIt(element, index);
+        }
+        else if (_indexCache != null) {
             adjustCache(index, 1);
             cacheIt(element, index);
         }

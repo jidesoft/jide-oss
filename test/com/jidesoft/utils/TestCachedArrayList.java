@@ -48,8 +48,8 @@ public class TestCachedArrayList extends TestCase {
     }
 
     public void testIndexOf() {
-        assertEquals(cachedList.indexOf("" + (SIZE - 1)), list.indexOf("" + (SIZE - 1)));
-        assertEquals(cachedList.indexOf("1"), list.indexOf("1"));
+        assertEquals(cachedList.indexOf(cachedList.get(SIZE - 1)), list.indexOf(list.get(SIZE - 1)));
+        assertEquals(cachedList.indexOf(cachedList.get(1)), list.indexOf(list.get(1)));
         cachedList.invalidateCache();
     }
 
