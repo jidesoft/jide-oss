@@ -501,9 +501,11 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
              * @see FolderChooser#setSelectedFolder(folder)
              */
 
-            String folderPath = (e.getNewLeadSelectionPath().getLastPathComponent()).toString();
-            File folder = new File(folderPath);
-            _folderChooser.setSelectedFolder(folder);
+            if (_fileSystemTree.getSelectionCount() > 0) {
+                String folderPath = (e.getNewLeadSelectionPath().getLastPathComponent()).toString();
+                File folder = new File(folderPath);
+                _folderChooser.setSelectedFolder(folder);
+            }
 
             /*
              * End of addition.
