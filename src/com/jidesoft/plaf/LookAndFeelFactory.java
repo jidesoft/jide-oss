@@ -35,6 +35,7 @@ import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Vector;
 
@@ -1134,6 +1135,24 @@ public class LookAndFeelFactory implements ProductNames {
                     "JideSplitPane.dividerSize", 6,
             };
             overwriteDefaults(defaults, uiDefaults);
+            try {
+                Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.JideSyntheticaPainter");
+                Method getInstanceMethod = painterClass.getMethod("getInstance");
+                Object painter = getInstanceMethod.invoke(null);
+                UIDefaultsLookup.put(UIManager.getDefaults(), "Theme.painter", painter);
+            }
+            catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
     }
 
