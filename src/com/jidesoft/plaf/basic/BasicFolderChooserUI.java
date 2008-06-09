@@ -7,10 +7,7 @@ package com.jidesoft.plaf.basic;
 
 import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.plaf.FolderChooserUI;
-import com.jidesoft.swing.AutoCompletion;
 import com.jidesoft.swing.FolderChooser;
-import com.jidesoft.swing.SelectAllUtils;
-import com.jidesoft.swing.TreeSearchable;
 import com.jidesoft.utils.SystemInfo;
 import sun.awt.shell.ShellFolder;
 
@@ -25,7 +22,6 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -42,9 +38,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
 
     private JButton _approveButton;
     private JButton _cancelButton;
-    private JButton _navigationGoButton;
     private JPanel _buttonPanel;
-    private JPanel _navigationPanel;
 
     private Action _approveSelectionAction = new ApproveSelectionAction();
     public BasicFolderChooserUI.FolderChooserSelectionListener _selectionListener;
@@ -78,19 +72,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         }
 
         chooser.add(panel, BorderLayout.CENTER);
-
-        JPanel holdingPanel = new JPanel();
-        holdingPanel.setLayout(new BorderLayout());
-        holdingPanel.add(_navigationPanel = createNavigationPanel(), BorderLayout.NORTH);
-        holdingPanel.add(_buttonPanel = createButtonPanel(), BorderLayout.SOUTH);
-        chooser.add(holdingPanel, BorderLayout.AFTER_LAST_LINE);
-
-        if (_folderChooser.isNavigationFieldVisible()) {
-            setNavigationFieldVisible(true);
-        }
-        else {
-            setNavigationFieldVisible(false);
-        }
+        chooser.add(_buttonPanel = createButtonPanel(), BorderLayout.AFTER_LAST_LINE);
 
         updateView(chooser);
 
@@ -114,56 +96,6 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         buttonPanel.addButton(_approveButton, ButtonPanel.AFFIRMATIVE_BUTTON);
         buttonPanel.addButton(_cancelButton, ButtonPanel.CANCEL_BUTTON);
         return buttonPanel;
-    }
-
-    protected JPanel createNavigationPanel() {
-        NavigationTextFieldListener n = new NavigationTextFieldListener();
-        final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
-        String buttonText = resourceBundle.getString("FolderChooser.navigationPanel.go");
-        _navigationGoButton = new JButton(buttonText);
-        _navigationGoButton.addActionListener(n);
-        JTextField _navigationTextField = new JTextField(25);
-
-        _navigationTextField.addActionListener(n);
-
-        JPanel panel = new JPanel();
-        BorderLayout borderLayout = new BorderLayout();
-        borderLayout.setHgap(7);
-        panel.setLayout(borderLayout);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 6, 6, 6));
-        panel.add(_navigationTextField, BorderLayout.CENTER);
-        ButtonPanel buttonPanel = new ButtonPanel();
-        buttonPanel.add(_navigationGoButton);
-        panel.add(buttonPanel, BorderLayout.EAST);
-
-        SelectAllUtils.install(_navigationTextField);
-        TreeSearchable searchable = new TreeSearchable(_fileSystemTree) {
-            protected String convertElementToString(Object object) {
-                if (object instanceof TreePath) {
-                    Object treeNode = ((TreePath) object).getLastPathComponent();
-                    File f = new File(treeNode.toString());
-                    return f.getName();
-                }
-                return object.toString();
-            }
-        };
-        searchable.setRecursive(false);
-        new AutoCompletion(_navigationTextField, searchable);
-
-        return panel;
-    }
-
-    public void setNavigationFieldVisible(boolean navigationFieldVisible) {
-        _navigationPanel.setVisible(navigationFieldVisible);
-    }
-
-    public class NavigationTextFieldListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() != _navigationGoButton) {
-                _navigationGoButton.doClick(200);
-            }
-            setSelectedFiles();
-        }
     }
 
     @Override
@@ -549,14 +481,6 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             }
             else if (JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY.equals(evt.getPropertyName())) {
                 updateView(_folderChooser);
-            }
-            else if (FolderChooser.PROPERTY_NAVIGATION_FIELD_VISIBLE.equals(evt.getPropertyName())) {
-                if (_folderChooser.isNavigationFieldVisible()) {
-                    setNavigationFieldVisible(true);
-                }
-                else {
-                    setNavigationFieldVisible(false);
-                }
             }
         }
     }
