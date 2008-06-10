@@ -1136,7 +1136,7 @@ public class LookAndFeelFactory implements ProductNames {
             };
             overwriteDefaults(defaults, uiDefaults);
             try {
-                Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.JideSyntheticaPainter");
+                Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
                 Object painter = getInstanceMethod.invoke(null);
                 UIDefaultsLookup.put(UIManager.getDefaults(), "Theme.painter", painter);
