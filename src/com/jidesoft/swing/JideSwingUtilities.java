@@ -2661,7 +2661,7 @@ public class JideSwingUtilities implements SwingConstants {
             model.addTableModelListener(listener);
         }
         // inex is too large, add to the end.
-        if (index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1) {
             model.addTableModelListener(l);
         }
     }
@@ -2720,7 +2720,7 @@ public class JideSwingUtilities implements SwingConstants {
             component.addMouseListener(listener);
         }
         // inex is too large, add to the end.
-        if (index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1) {
             component.addMouseListener(l);
         }
     }
@@ -2762,7 +2762,7 @@ public class JideSwingUtilities implements SwingConstants {
             component.addMouseMotionListener(listener);
         }
         // inex is too large, add to the end.
-        if (index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1) {
             component.addMouseMotionListener(l);
         }
     }
