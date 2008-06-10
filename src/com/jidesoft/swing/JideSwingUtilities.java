@@ -888,6 +888,28 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Calls putClientProperty method recursively on component and its child components as long as it is JComponent.
+     *
+     * @param c              component
+     * @param clientProperty the client property name
+     * @param value          the value for the client property
+     */
+    public static void putClientPropertyRecursively(final Component c, final String clientProperty, final Object value) {
+        setRecursively(c, new Handler() {
+            public boolean condition(Component c) {
+                return c instanceof JComponent;
+            }
+
+            public void action(Component c) {
+                ((JComponent) c).putClientProperty(clientProperty, value);
+            }
+
+            public void postAction(Component c) {
+            }
+        });
+    }
+
+    /**
      * Calls setRequestFocusEnabled method recursively on component. <code>Component</code> c is usually a
      * <code>Container</code>
      *
