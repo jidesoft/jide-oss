@@ -1103,7 +1103,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static class SyntheticaInitializer implements UIDefaultsInitializer {
         public void initialize(UIDefaults defaults) {
             Object[] uiDefaults = {
-                    "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Label.font"),
+                    "Label.font", UIDefaultsLookup.getFont("Button.font"),
+                    "ToolBar.font", UIDefaultsLookup.getFont("Button.font"),
+                    "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Button.font"),
                     "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
                     "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
                     "Slider.focusInsets", new InsetsUIResource(0, 0, 0, 0),
@@ -1125,12 +1127,14 @@ public class LookAndFeelFactory implements ProductNames {
                     "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
                     "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.flexdock.border.color"),
                     "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
                     "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
                     "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
                     "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
                     "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
                     "StatusBarItem.border", BorderFactory.createEmptyBorder(2, 2, 2, 2),
+                    "JideButton.foreground", UIDefaultsLookup.getColor("Synthetica.menu.toplevel.textColor"),
+                    "JideSplitButton.foreground", UIDefaultsLookup.getColor("Synthetica.menu.toplevel.textColor"),
                     "Icon.floating", Boolean.FALSE,
                     "JideSplitPane.dividerSize", 6,
             };

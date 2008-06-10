@@ -6,6 +6,8 @@
 
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -16,13 +18,9 @@ import java.awt.*;
  * <code>TitledSeparator</code> is a component used for separating components on a panel or in a GUI. Each
  * <code>TitledSeparator</code> is comprised of a title part and a graphical line. This component is preferred over
  * <code>TitledBorder</code> when no full border is desired. To see this component in action, please refer to the
- * TitledSeparator Demo.
- * <p/>
- * <b>Usage</b>
- * <p/>
- * This class presents a large number of constructors. As such, configurating the <code>TitledSeparator</code> can be
- * wholely achieved at construction time. The list below shows the available constructors for this.
- * <p/>
+ * TitledSeparator Demo. <p/> <b>Usage</b> <p/> This class presents a large number of constructors. As such,
+ * configurating the <code>TitledSeparator</code> can be wholely achieved at construction time. The list below shows the
+ * available constructors for this. <p/>
  * <code><pre>
  * TitledSeparator(String text)
  * TitledSeparator(String text, int textAlignment)
@@ -33,11 +31,8 @@ import java.awt.*;
  * TitledSeparator(JComponent component, int type, int textAlignment, int barAlignment)
  * TitledSeparator(JComponent component, Border border, int textAlignment, int barAlignment)
  * </pre></code>
- * <p/>
- * Alternatively, you may use the empty constructor. When this approach is used, the text, border, text alignment and
- * border alignment will need to be explicitly set. For example:-
- * <p/>
- * <code>
+ * <p/> Alternatively, you may use the empty constructor. When this approach is used, the text, border, text alignment
+ * and border alignment will need to be explicitly set. For example:- <p/> <code>
  * <pre>
  * TitledSeparator separator = new TitledSeparator();
  * separator.setLabelComponent(new JLabel("Configured TitledSeparator"));
@@ -45,9 +40,7 @@ import java.awt.*;
  * separator.setBarAlignment(center);
  * separator.setSeparatorBorder(new PartialEtchedBorder(PartialSide.SOUTH));
  * </pre>
- * </code>
- * <p/>
- * Please note, that this class should be constructed and modified from the EDT.<p> </p>
+ * </code> <p/> Please note, that this class should be constructed and modified from the EDT.<p> </p>
  *
  * @beaninfo attribute: isContainer false description: A horizontal component used for separating components on a
  * panel.
@@ -234,15 +227,19 @@ public class TitledSeparator extends JPanel {
         int side = PartialSide.SOUTH;
         int thickness = 1;
 
+        Color color = labelComponent.getBackground();
+        if (color == null) {
+            color = UIDefaultsLookup.getColor("Label.background");
+        }
         switch (type) {
             case TYPE_PARTIAL_LINE:
-                Color c = labelComponent.getBackground().darker();
+                Color c = color.darker();
                 border = new PartialLineBorder(c, thickness, side);
                 break;
 
             case TYPE_PARTIAL_GRADIENT_LINE:
-                Color startColor = labelComponent.getBackground().darker();
-                Color finishColor = labelComponent.getBackground().brighter();
+                Color startColor = color.darker();
+                Color finishColor = color.brighter();
                 Color[] colors = {startColor, finishColor};
                 border = new PartialGradientLineBorder(colors, thickness, side);
                 break;
