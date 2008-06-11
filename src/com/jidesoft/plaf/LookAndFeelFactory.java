@@ -1132,10 +1132,14 @@ public class LookAndFeelFactory implements ProductNames {
                     "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
                     "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
                     "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
-                    "StatusBarItem.border", BorderFactory.createEmptyBorder(2, 2, 2, 2),
-                    "JideButton.foreground", UIDefaultsLookup.getColor("Synthetica.menu.toplevel.textColor"),
-                    "JideSplitButton.foreground", UIDefaultsLookup.getColor("Synthetica.menu.toplevel.textColor"),
+                    "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
+                    "JideButton.foreground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
+                    "JideSplitButton.foreground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
                     "Icon.floating", Boolean.FALSE,
+                    "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                    "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"), 2), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                    "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
                     "JideSplitPane.dividerSize", 6,
             };
             overwriteDefaults(defaults, uiDefaults);
@@ -1350,5 +1354,14 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static void setProductsUsed(int productsUsed) {
         _productsUsed = productsUsed;
+    }
+
+    /**
+     * Checks if the current L&F uses decorated frames.
+     *
+     * @return true if the current L&F uses decorated frames. Otherwise false.
+     */
+    public static boolean isCurrentLnfDecorated() {
+        return !isLnfInUse(SYNTHETICA_LNF);
     }
 }
