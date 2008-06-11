@@ -259,26 +259,14 @@ public class JideSwingUtilities implements SwingConstants {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.x != v2.x) {
-                        try {
-                            view2.removeChangeListener(this);
-                            view2.setViewPosition(new Point(v1.x, v2.y));
-                        }
-                        finally {
-                            view2.addChangeListener(this);
-                        }
+                        view2.setViewPosition(new Point(v1.x, v2.y));
                     }
                 }
                 else if (orientation == VERTICAL) {
                     Point v1 = view1.getViewPosition();
                     Point v2 = view2.getViewPosition();
                     if (v1.y != v2.y) {
-                        try {
-                            view2.removeChangeListener(this);
-                            view2.setViewPosition(new Point(v2.x, v1.y));
-                        }
-                        finally {
-                            view2.addChangeListener(this);
-                        }
+                        view2.setViewPosition(new Point(v2.x, v1.y));
                     }
                 }
             }
