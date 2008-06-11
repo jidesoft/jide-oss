@@ -170,6 +170,7 @@ public class LabeledTextField extends JPanel {
         JTextField textField = new OverlayTextField();
         SelectAllUtils.install(textField);
         textField.setOpaque(false);
+        textField.putClientProperty("Synthetica.opaque", false);
         textField.setColumns(20);
         return textField;
     }

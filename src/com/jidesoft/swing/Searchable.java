@@ -219,6 +219,7 @@ public abstract class Searchable {
      */
     protected class SearchField extends JTextField {
         SearchField() {
+            putClientProperty("Synthetica.opaque", false);
         }
 
         @Override
