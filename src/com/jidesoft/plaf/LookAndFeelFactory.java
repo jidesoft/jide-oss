@@ -1116,50 +1116,55 @@ public class LookAndFeelFactory implements ProductNames {
 
     public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
-                    "Workspace.background", UIManager.getColor("control"),
-                    "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
-                    "JideTabbedPane.background", UIManager.getColor("control"),
-                    "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                    "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                    "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color"),
-                    "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
-                    "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.flexdock.border.color"),
-                    "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                    "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                    "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                    "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
-                    "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
-                    "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
-                    "JideButton.foreground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
-                    "JideSplitButton.foreground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
-                    "Icon.floating", Boolean.FALSE,
-                    "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                    "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                    "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"), 2), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
-                    "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                    "CommandBarContainer.verticalGap", 0,
-                    "JideSplitPane.dividerSize", 6,
-            };
-            overwriteDefaults(defaults, uiDefaults);
             try {
+                Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
+                Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
+                Object[] uiDefaults = {
+                        "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
+                        "Workspace.background", UIManager.getColor("control"),
+                        "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
+                        "JideTabbedPane.background", UIManager.getColor("control"),
+                        "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                        "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                        "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color"),
+                        "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.flexdock.titlebar.color.selected"),
+                        "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.flexdock.border.color"),
+                        "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
+                        "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
+                        "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                        "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                        "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
+                        "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
+                        "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
+                        "JideButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
+                        "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
+                        "Icon.floating", Boolean.FALSE,
+                        "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                        "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                        "CommandBar.borderFloating", syntheticaFrameBorder.newInstance(),
+                        "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
+                        "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
+                        "CommandBarContainer.verticalGap", 0,
+//                        "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.close")),
+//                    "DockableFrameTitlePane.unfloatIcon", UIDefaultsLookup.get("Synthetica.flexdock.titlebar.unfloat"),
+//                    "DockableFrameTitlePane.floatIcon", UIDefaultsLookup.get("Synthetica.flexdock.titlebar.float"),
+//                        "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
+//                        "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
+//                        "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
+//                        "DockableFrameTitlePane.maximizeIcon", UIDefaultsLookup.get("InternalFrame.maximizeIcon"),
+//                        "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked")),
+                        "DockableFrameTitlePane.use3dButtons", Boolean.TRUE,
+                        "DockableFrameTitlePane.buttonGap", 2,
+                        "JideSplitPane.dividerSize", 6,
+                };
+                JideSwingUtilities.printUIDefaults();
+                overwriteDefaults(defaults, uiDefaults);
                 Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
                 Object painter = getInstanceMethod.invoke(null);
                 UIDefaultsLookup.put(UIManager.getDefaults(), "Theme.painter", painter);
             }
-            catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            catch (InvocationTargetException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
