@@ -6,8 +6,10 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.dialog.ButtonPanel;
+import com.jidesoft.hints.FileIntelliHints;
 import com.jidesoft.plaf.FolderChooserUI;
 import com.jidesoft.swing.FolderChooser;
+import com.jidesoft.swing.SelectAllUtils;
 import com.jidesoft.utils.SystemInfo;
 import sun.awt.shell.ShellFolder;
 
@@ -22,6 +24,9 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -38,7 +43,9 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
 
     private JButton _approveButton;
     private JButton _cancelButton;
+    private JTextField _navigationTextField;
     private JPanel _buttonPanel;
+    private JPanel _navigationPanel;
 
     private Action _approveSelectionAction = new ApproveSelectionAction();
     public BasicFolderChooserUI.FolderChooserSelectionListener _selectionListener;
@@ -46,6 +53,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
     public BasicFolderChooserUI(FolderChooser chooser) {
         super(chooser);
         BasicFileSystemTreeNode.clearCache();
+
     }
 
     public static ComponentUI createUI(JComponent c) {
@@ -56,23 +64,35 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
     public void installComponents(JFileChooser chooser) {
         _folderChooser = (FolderChooser) chooser;
 
-        JPanel panel = new JPanel(new BorderLayout(6, 6));
-        panel.add(createFileSystemTreePanel(), BorderLayout.CENTER);
-        panel.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
-        panel.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
-        chooser.add(panel);
+        JPanel toolBarPanel = new JPanel(new BorderLayout(6, 6));
+        toolBarPanel.add(createToolbar(), BorderLayout.BEFORE_FIRST_LINE);
+        toolBarPanel.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 
-        chooser.setLayout(new BorderLayout());
-
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        JPanel holdingPanel = new JPanel();
+        BorderLayout borderLayout = new BorderLayout();
+        borderLayout.setHgap(7);
+        holdingPanel.setLayout(borderLayout);
+        holdingPanel.setBorder(BorderFactory.createEmptyBorder(0, 6, 6, 6));
+        holdingPanel.add(_navigationPanel = createNavigationPanel(), BorderLayout.NORTH);
+        holdingPanel.add(createFileSystemTreePanel(), BorderLayout.CENTER);
+        holdingPanel.add(_buttonPanel = createButtonPanel(), BorderLayout.SOUTH);
 
         Component accessory = chooser.getAccessory();
         if (accessory != null) {
             chooser.add(chooser.getAccessory(), BorderLayout.BEFORE_FIRST_LINE);
         }
 
-        chooser.add(panel, BorderLayout.CENTER);
-        chooser.add(_buttonPanel = createButtonPanel(), BorderLayout.AFTER_LAST_LINE);
+        chooser.setLayout(new BorderLayout());
+        chooser.add(toolBarPanel);
+        chooser.add(holdingPanel, BorderLayout.AFTER_LAST_LINE);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (_folderChooser.isNavigationFieldVisible()) {
+            setNavigationFieldVisible(true);
+        }
+        else {
+            setNavigationFieldVisible(false);
+        }
 
         updateView(chooser);
 
@@ -82,6 +102,18 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             }
         };
         SwingUtilities.invokeLater(runnable);
+
+        /*
+         * _folderChooser ultimutly extends JComponent (and not JDialog) and thus has no root pane.
+         * As such, we need to do the following to set the default button.
+         */
+        _folderChooser.addHierarchyListener(new HierarchyListener() {
+            public void hierarchyChanged(HierarchyEvent e) {
+                if (_folderChooser.getRootPane() != null) {
+                    _folderChooser.getRootPane().setDefaultButton(_approveButton);
+                }
+            }
+        });
     }
 
     protected JPanel createButtonPanel() {
@@ -92,10 +124,66 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         _cancelButton.addActionListener(getCancelSelectionAction());
 
         ButtonPanel buttonPanel = new ButtonPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 6, 6, 6));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(6, 6, 0, 0));
         buttonPanel.addButton(_approveButton, ButtonPanel.AFFIRMATIVE_BUTTON);
         buttonPanel.addButton(_cancelButton, ButtonPanel.CANCEL_BUTTON);
         return buttonPanel;
+    }
+
+    protected JPanel createNavigationPanel() {
+        NavigationTextFieldListener navigationTextFieldListener = new NavigationTextFieldListener();
+        _navigationTextField = new JTextField(24);
+        SelectAllUtils.install(_navigationTextField);
+        FileIntelliHints fileIntelliHints = new FileIntelliHints(_navigationTextField);
+        fileIntelliHints.setFolderOnly(true);
+        fileIntelliHints.setShowFullPath(false);
+        fileIntelliHints.setFollowCaret(true);
+        _navigationTextField.addActionListener(navigationTextFieldListener);
+
+        JPanel panel = new JPanel();
+        BorderLayout borderLayout = new BorderLayout();
+        panel.setLayout(borderLayout);
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
+        panel.add(_navigationTextField, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    public void setNavigationFieldVisible(boolean navigationFieldVisible) {
+        _navigationPanel.setVisible(navigationFieldVisible);
+    }
+
+    public class NavigationTextFieldListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            String text = _navigationTextField.getText();
+            if (text == null || text.equals("")) {
+                return;
+            }
+
+            /*
+             * If the node is already selected, we trigger the "open" button. That is...
+             *
+             * When a user enters a folder into the text field and hits the ENTER key, the folder will become
+             * selected in the folder tree. The focus remains within the text field, allowing the user to press
+             * the ENTER key one more time. This will allow the user to select the specified folder.
+             *
+             * Put briefly: The first ENTER will select the node. The second ENTER key, if the tree node is
+             * already selected, we trigger the "open" button.
+             */
+            TreePath treePath = _fileSystemTree.getSelectionPath();
+            if (treePath != null) {
+                if (text.equals("" + treePath.getLastPathComponent())) {
+                    _approveButton.doClick(200);
+                }
+            }
+
+            File file = new File(text);
+            if (file.exists()) {
+                ensureFileIsVisible(file, true);
+                _folderChooser.setSelectedFolder(file);
+            }
+        }
     }
 
     @Override
@@ -482,6 +570,14 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             else if (JFileChooser.CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY.equals(evt.getPropertyName())) {
                 updateView(_folderChooser);
             }
+            else if (FolderChooser.PROPERTY_NAVIGATION_FIELD_VISIBLE.equals(evt.getPropertyName())) {
+                if (_folderChooser.isNavigationFieldVisible()) {
+                    setNavigationFieldVisible(true);
+                }
+                else {
+                    setNavigationFieldVisible(false);
+                }
+            }
         }
     }
 
@@ -505,6 +601,15 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 String folderPath = (e.getNewLeadSelectionPath().getLastPathComponent()).toString();
                 File folder = new File(folderPath);
                 _folderChooser.setSelectedFolder(folder);
+
+                /*
+                 * Ensure the _navigationTextField is in sync with the folder tree. That is, each time a folder is
+                 * selected in the tree, update the text field to reflect this.
+                 */
+                TreePath treePath = _fileSystemTree.getSelectionPath();
+                if (treePath != null) {
+                    _navigationTextField.setText("" + treePath.getLastPathComponent());
+                }
             }
 
             /*

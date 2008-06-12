@@ -180,4 +180,55 @@ public class FolderChooser extends JFileChooser {
     *
     * Added on 05/11/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=26932#26932
     */
+
+    /*
+    * Added on 05/27/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=22885#22885
+    *
+    * The addition below allows an optional text field and "Go" button to be displayed on the folderChooser.
+    * The user can type a path name into the field, and after hitting <Enter> or pressing the "Go" button,
+    * the FolderChooser navigates to the specified folder in the tree (the folder viewer).
+    */
+
+    /**
+     * Bound property for <code>_navigationFieldVisible</code>.
+     *
+     * @see #setNavigationFieldVisible
+     */
+    public final static String PROPERTY_NAVIGATION_FIELD_VISIBLE = "navigationFieldVisible";
+
+    /**
+     * Indicates whether the navigation text field is visible.
+     *
+     * @see #setNavigationFieldVisible
+     * @see #isNavigationFieldVisible
+     */
+    private boolean _navigationFieldVisible;
+
+    /**
+     * Sets the navigation text fields visibility.
+     *
+     * @param navigationFieldVisible if true, the navigation text field is displayed; otherwise it is hidden.
+     */
+    public void setNavigationFieldVisible(boolean navigationFieldVisible) {
+        boolean oldValue = _navigationFieldVisible;
+        if (!JideSwingUtilities.equals(oldValue, navigationFieldVisible)) {
+            _navigationFieldVisible = navigationFieldVisible;
+            firePropertyChange(PROPERTY_NAVIGATION_FIELD_VISIBLE, oldValue, _navigationFieldVisible);
+        }
+    }
+
+    /**
+     * Determines whether the navigation text field is visible.
+     *
+     * @return true if the navigation text field is visible; otherwise false.
+     */
+    public boolean isNavigationFieldVisible() {
+        return _navigationFieldVisible;
+    }
+
+    /*
+    * End of addition.
+    *
+    * Added on 05/27/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=22885#22885
+    */
 }
