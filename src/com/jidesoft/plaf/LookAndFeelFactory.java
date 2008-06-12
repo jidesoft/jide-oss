@@ -1140,6 +1140,7 @@ public class LookAndFeelFactory implements ProductNames {
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"), 2), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
+                    "CommandBarContainer.verticalGap", 0,
                     "JideSplitPane.dividerSize", 6,
             };
             overwriteDefaults(defaults, uiDefaults);
