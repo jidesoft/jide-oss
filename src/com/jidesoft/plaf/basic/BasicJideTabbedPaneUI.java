@@ -6684,7 +6684,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             else {
                 for (int k = 0; k < tabCount; k++) {
                     int oldWidth = _rects[k].width;
-                    _rects[k].width = _fixedStyleRectSize;// + _rectSizeExtend * 2;
+                    _rects[k].width = _fixedStyleRectSize;
 
                     if (isShowCloseButton() && _tabPane.isShowCloseButtonOnTab()) {
                         _rects[k].width += _closeButtons[k].getPreferredSize().width;
@@ -6703,8 +6703,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                     }
 
-                    totalWidth += _rects[k].width;
-
+                    totalWidth = _rects[k].x + _rects[k].width;
                 }
             }
         }
