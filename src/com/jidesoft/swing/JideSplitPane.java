@@ -1473,33 +1473,32 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      */
     public void setOneTouchExpandable(boolean oneTouchExpandable) {
         boolean oldValue = _oneTouchExpandable;
-        _oneTouchExpandable = oneTouchExpandable;
+        if (oldValue != oneTouchExpandable) {
+            _oneTouchExpandable = oneTouchExpandable;
 
-        /*
-         * We need to widden/shrink the dividers width so that we can display/remove the one-touch buttons.
-         */
-        LayoutManager layoutManager = getLayout();
-        if (layoutManager instanceof JideBoxLayout) {
-            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(true);
-        }
-        if (oneTouchExpandable) {
-            setDividerSize(oneTouchExpandableDividerSize);
-        }
-        else {
-            setDividerSize(UIDefaultsLookup.getInt("JideSplitPane.dividerSize"));
-        }
+            /*
+            * We need to widden/shrink the dividers width so that we can display/remove the one-touch buttons.
+            */
+            LayoutManager layoutManager = getLayout();
+            if (layoutManager instanceof JideBoxLayout) {
+                ((JideBoxLayout) layoutManager).setResetWhenInvalidate(true);
+            }
+            if (oneTouchExpandable) {
+                setDividerSize(oneTouchExpandableDividerSize);
+            }
+            else {
+                setDividerSize(UIDefaultsLookup.getInt("JideSplitPane.dividerSize"));
+            }
 
-        /*
-         * We now fire a bound property so each divider listening can set up its own one-touch buttons.
-         */
-        firePropertyChange(ONE_TOUCH_EXPANDABLE_PROPERTY, oldValue, _oneTouchExpandable);
-        if (oldValue != _oneTouchExpandable) {
+            /*
+            * We now fire a bound property so each divider listening can set up its own one-touch buttons.
+            */
+            firePropertyChange(ONE_TOUCH_EXPANDABLE_PROPERTY, oldValue, _oneTouchExpandable);
             revalidate();
             repaint();
-        }
-
-        if (layoutManager instanceof JideBoxLayout) {
-            ((JideBoxLayout) layoutManager).setResetWhenInvalidate(false);
+            if (layoutManager instanceof JideBoxLayout) {
+                ((JideBoxLayout) layoutManager).setResetWhenInvalidate(false);
+            }
         }
     }
 
