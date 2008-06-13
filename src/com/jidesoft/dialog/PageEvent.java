@@ -9,15 +9,14 @@ import java.awt.*;
 import java.util.EventObject;
 
 /**
- * An <code>EventObject</code> that adds support for
- * <code>AbstractPage</code> objects as the event source.
+ * An <code>EventObject</code> that adds support for <code>AbstractPage</code> objects as the event source.
  */
 public class PageEvent extends EventObject {
 
     /**
      * The first number in the range of IDs used for <code>AbstractPage</code> events.
      */
-    public static final int PAGE_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 5100;
+    public static final int PAGE_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 1200;
 
     /**
      * The last number in the range of IDs used for <code>AbstractPage</code> events.
@@ -72,8 +71,7 @@ public class PageEvent extends EventObject {
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event logging and for debugging.
+     * Returns a parameter string identifying this event. This method is useful for event logging and for debugging.
      *
      * @return a string identifying the event and its attributes
      */

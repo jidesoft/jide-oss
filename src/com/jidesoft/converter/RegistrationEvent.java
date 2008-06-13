@@ -10,14 +10,13 @@ import java.awt.*;
 import java.util.EventObject;
 
 /**
- * An <code>AWTEvent</code> that adds support for
- * registration objects as the event source.
+ * An <code>AWTEvent</code> that adds support for registration objects as the event source.
  */
 public class RegistrationEvent extends EventObject {
     /**
      * The first number in the range of IDs used for <code>DockableFrame</code> events.
      */
-    public static final int REGISTRATION_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 4100;
+    public static final int REGISTRATION_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 1400;
 
     /**
      * The last number in the range of IDs used for <code>DockableFrame</code> events.
@@ -25,20 +24,17 @@ public class RegistrationEvent extends EventObject {
     public static final int REGISTRATION_EVENT_LAST = REGISTRATION_EVENT_FIRST + 3;
 
     /**
-     * This event is delivered when the
-     * a new object is registered.
+     * This event is delivered when the a new object is registered.
      */
     public static final int REGISTRATION_ADDED = REGISTRATION_EVENT_FIRST;
 
     /**
-     * This event is delivered when
-     * the registered object is removed.
+     * This event is delivered when the registered object is removed.
      */
     public static final int REGISTRATION_REMOVED = 1 + REGISTRATION_EVENT_FIRST;
 
     /**
-     * This event is delivered when
-     * the whole regisration is cleared
+     * This event is delivered when the whole regisration is cleared
      */
     public static final int REGISTRATION_CLEARED = 2 + REGISTRATION_EVENT_FIRST;
 

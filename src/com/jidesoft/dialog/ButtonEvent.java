@@ -16,7 +16,7 @@ public class ButtonEvent extends EventObject {
     /**
      * The first number in the range of IDs used for <code>ButtonEvent</code>.
      */
-    public static final int BUTTON_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 5000;
+    public static final int BUTTON_EVENT_FIRST = AWTEvent.RESERVED_ID_MAX + 1300;
 
     /**
      * The last number in the range of IDs used for <code>DockableFrame</code> events.
@@ -89,9 +89,8 @@ public class ButtonEvent extends EventObject {
     }
 
     /**
-     * Creates a ButtonEvent with source, id, the button name and a user
-     * object. User object is required for CHANGE_BUTTON_TEXT and
-     * CHANGE_BUTTON_TOOLTIP event.
+     * Creates a ButtonEvent with source, id, the button name and a user object. User object is required for
+     * CHANGE_BUTTON_TEXT and CHANGE_BUTTON_TOOLTIP event.
      *
      * @param source
      * @param id
@@ -176,8 +175,7 @@ public class ButtonEvent extends EventObject {
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event logging and for debugging.
+     * Returns a parameter string identifying this event. This method is useful for event logging and for debugging.
      *
      * @return a string identifying the event and its attributes
      */
