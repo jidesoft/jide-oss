@@ -185,9 +185,9 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     JideSwingUtilities.paintArrow(g, selectionForeground, menuWidth - _splitButtonMarginOnMenu / 2 - 2, menuHeight / 2 - 3, 7, SwingConstants.VERTICAL);
                 }
                 else {
-                    g.setColor(menuItem.getForeground());
+                    g.setColor(getForegroundOfState(menuItem));
                     g.drawLine(menuWidth - _splitButtonMarginOnMenu, 0, menuWidth - _splitButtonMarginOnMenu, menuHeight - 2);
-                    JideSwingUtilities.paintArrow(g, menuItem.getForeground(), menuWidth - _splitButtonMarginOnMenu / 2 - 2, menuHeight / 2 - 3, 7, SwingConstants.VERTICAL);
+                    JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), menuWidth - _splitButtonMarginOnMenu / 2 - 2, menuHeight / 2 - 3, 7, SwingConstants.VERTICAL);
                 }
             }
             else {
@@ -426,7 +426,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         if (menuItem.isEnabled()) {
-            JideSwingUtilities.paintArrow(g, menuItem.getForeground(), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
+            JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
         }
         else {
             JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("controlShadow"), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
@@ -807,15 +807,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 g.setColor(selectionForeground); // Uses protected field.
             }
             else {
-                int state = JideSwingUtilities.getButtonState(menuItem);
-                Color foreground = null;
-                if (menuItem instanceof ComponentStateSupport) {
-                    foreground = ((ComponentStateSupport) menuItem).getForegroundOfState(state);
-                }
-                if (foreground == null || foreground instanceof UIResource) {
-                    foreground = menuItem.getForeground();
-                }
-                g.setColor(foreground);
+                g.setColor(getForegroundOfState(menuItem));
             }
             drawStringUnderlineCharAt(menuItem, g, text,
                     mnemonicIndex,
@@ -823,6 +815,18 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     textRect.y + fm.getAscent());
         }
         g.setColor(oldColor);
+    }
+
+    private Color getForegroundOfState(JMenuItem menuItem) {
+        int state = JideSwingUtilities.getButtonState(menuItem);
+        Color foreground = null;
+        if (menuItem instanceof ComponentStateSupport) {
+            foreground = ((ComponentStateSupport) menuItem).getForegroundOfState(state);
+        }
+        if (foreground == null || foreground instanceof UIResource) {
+            foreground = menuItem.getForeground();
+        }
+        return foreground;
     }
 
     protected void drawStringUnderlineCharAt(JComponent c, Graphics g, String text,

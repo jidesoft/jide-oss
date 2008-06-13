@@ -217,12 +217,21 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
         }
     }
 
+    private Color _defaultForeground;
     private Color _rolloverBackground;
     private Color _selectedBackground;
     private Color _pressedBackground;
     private Color _rolloverForeground;
     private Color _selectedForeground;
     private Color _pressedForeground;
+
+    public Color getDefaultForeground() {
+        return _defaultForeground;
+    }
+
+    public void setDefaultForeground(Color defaultForeground) {
+        _defaultForeground = defaultForeground;
+    }
 
     private Color getRolloverBackground() {
         return _rolloverBackground;
@@ -342,7 +351,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     public Color getForegroundOfState(int state) {
         switch (state) {
             case ThemePainter.STATE_DEFAULT:
-                return getForeground();
+                return getDefaultForeground();
             case ThemePainter.STATE_ROLLOVER:
                 return getRolloverForeground();
             case ThemePainter.STATE_SELECTED:
@@ -369,7 +378,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     public void setForegroundOfState(int state, Color color) {
         switch (state) {
             case ThemePainter.STATE_DEFAULT:
-                setForeground(color);
+                setDefaultForeground(color);
                 break;
             case ThemePainter.STATE_ROLLOVER:
                 setRolloverForeground(color);

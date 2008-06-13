@@ -397,15 +397,7 @@ public class BasicJideButtonUI extends JideButtonUI {
             /* Draw the Text */
             if (model.isEnabled()) {
                 /*** paint the text normally */
-                int state = JideSwingUtilities.getButtonState(b);
-                Color foreground = null;
-                if (b instanceof ComponentStateSupport) {
-                    foreground = ((ComponentStateSupport) b).getForegroundOfState(state);
-                }
-                if (foreground == null || foreground instanceof UIResource) {
-                    foreground = b.getForeground();
-                }
-                g2d.setColor(foreground);
+                g2d.setColor(getForegroundOfState(b));
 
                 // JDK PORTING HINT
                 // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
@@ -432,15 +424,7 @@ public class BasicJideButtonUI extends JideButtonUI {
             Color old = g.getColor();
             if (model.isEnabled()) {
                 /*** paint the text normally */
-                int state = JideSwingUtilities.getButtonState(b);
-                Color foreground = null;
-                if (b instanceof ComponentStateSupport) {
-                    foreground = ((ComponentStateSupport) b).getForegroundOfState(state);
-                }
-                if (foreground == null || foreground instanceof UIResource) {
-                    foreground = b.getForeground();
-                }
-                g.setColor(foreground);
+                g.setColor(getForegroundOfState(b));
 
                 // JDK PORTING HINT
                 // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
@@ -464,6 +448,18 @@ public class BasicJideButtonUI extends JideButtonUI {
             }
             g.setColor(old);
         }
+    }
+
+    protected Color getForegroundOfState(AbstractButton b) {
+        int state = JideSwingUtilities.getButtonState(b);
+        Color foreground = null;
+        if (b instanceof ComponentStateSupport) {
+            foreground = ((ComponentStateSupport) b).getForegroundOfState(state);
+        }
+        if (foreground == null || foreground instanceof UIResource) {
+            foreground = b.getForeground();
+        }
+        return foreground;
     }
 
     /**

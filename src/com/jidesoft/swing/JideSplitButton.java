@@ -15,10 +15,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * <code>JideSplitButton</code> is a combination of button and menu. There is a line in the middle of
- * the button that splits the button into two portions. The portion before the line is a button.
- * User can click on it and trigger an action. The portion after the line is a menu. User
- * can click on it to show a normal menu.
+ * <code>JideSplitButton</code> is a combination of button and menu. There is a line in the middle of the button that
+ * splits the button into two portions. The portion before the line is a button. User can click on it and trigger an
+ * action. The portion after the line is a menu. User can click on it to show a normal menu.
  * <p/>
  */
 public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentStateSupport {
@@ -92,9 +91,8 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Notification from the <code>UIFactory</code> that the L&F has changed.
-     * Called to replace the UI with the latest version from the
-     * <code>UIFactory</code>.
+     * Notification from the <code>UIFactory</code> that the L&F has changed. Called to replace the UI with the latest
+     * version from the <code>UIFactory</code>.
      *
      * @see javax.swing.JComponent#updateUI
      */
@@ -121,8 +119,8 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Returns the state of the button part of the JideSplitButton. True if the
-     * toggle button is selected, false if it's not.
+     * Returns the state of the button part of the JideSplitButton. True if the toggle button is selected, false if it's
+     * not.
      *
      * @return true if the toggle button is selected, otherwise false
      */
@@ -131,9 +129,8 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Sets the state of the button part of the JideSplitButton. Note that this method does not
-     * trigger an <code>actionEvent</code>.
-     * Call <code>doClick</code> to perform a programatic action change.
+     * Sets the state of the button part of the JideSplitButton. Note that this method does not trigger an
+     * <code>actionEvent</code>. Call <code>doClick</code> to perform a programatic action change.
      *
      * @param b true if the button is selected, otherwise false
      */
@@ -144,8 +141,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Returns the state of the button part of the JideSplitButton. True if the
-     * button is enabled, false if it's not.
+     * Returns the state of the button part of the JideSplitButton. True if the button is enabled, false if it's not.
      *
      * @return true if the button is enabled, otherwise false
      */
@@ -194,16 +190,16 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     /**
      * Checks the alwaysDropdown property value.
      *
-     * @return true or false. If true, the split button doesn't have default action. It always
-     *         drops down the menu when mouse clicks
+     * @return true or false. If true, the split button doesn't have default action. It always drops down the menu when
+     *         mouse clicks
      */
     public boolean isAlwaysDropdown() {
         return _alwaysDropdown;
     }
 
     /**
-     * If the property is true, the split button doesn't have default action. It always
-     * drops down the menu when mouse clicks. By default, this value is false.
+     * If the property is true, the split button doesn't have default action. It always drops down the menu when mouse
+     * clicks. By default, this value is false.
      *
      * @param alwaysDropdown true or false.
      */
@@ -224,12 +220,21 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
         }
     }
 
+    private Color _defaultForeground;
     private Color _rolloverBackground;
     private Color _selectedBackground;
     private Color _pressedBackground;
     private Color _rolloverForeground;
     private Color _selectedForeground;
     private Color _pressedForeground;
+
+    public Color getDefaultForeground() {
+        return _defaultForeground;
+    }
+
+    public void setDefaultForeground(Color defaultForeground) {
+        _defaultForeground = defaultForeground;
+    }
 
     private Color getRolloverBackground() {
         return _rolloverBackground;
@@ -280,15 +285,16 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Gets the background for different states. The states are defined in ThemePainter as constants.
-     * Not all states are supported by all components. If the state is not supported or background is never set,
-     * it will return null.
+     * Gets the background for different states. The states are defined in ThemePainter as constants. Not all states are
+     * supported by all components. If the state is not supported or background is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to customize it
-     * for each component to use a different background. So if you want the background to be used, don't use a ColorUIResource because
-     * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to
+     * customize it for each component to use a different background. So if you want the background to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
-     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of
+     *              available states.
      * @return the background for different states.
      */
     public Color getBackgroundOfState(int state) {
@@ -306,15 +312,16 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Sets the background for different states.  The states are defined in ThemePainter as constants.
-     * Not all states are supported by all components. If the state is not supported or background is never set,
-     * it will return null.
+     * Sets the background for different states.  The states are defined in ThemePainter as constants. Not all states
+     * are supported by all components. If the state is not supported or background is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to customize it
-     * for each component to use a different background. So if you want the background to be used, don't use a ColorUIResource because
-     * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different backgrounds. This method allows you to
+     * customize it for each component to use a different background. So if you want the background to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
-     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of
+     *              available states.
      * @param color the background color
      */
     public void setBackgroundOfState(int state, Color color) {
@@ -335,21 +342,22 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     }
 
     /**
-     * Gets the foreground for different states. The states are defined in ThemePainter as constants.
-     * Not all states are supported by all components. If the state is not supported or foreground is never set,
-     * it will return null.
+     * Gets the foreground for different states. The states are defined in ThemePainter as constants. Not all states are
+     * supported by all components. If the state is not supported or foreground is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to customize it
-     * for each component to use a different foreground. So if you want the foreground to be used, don't use a ColorUIResource because
-     * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to
+     * customize it for each component to use a different foreground. So if you want the foreground to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
-     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of
+     *              available states.
      * @return the foreground for different states.
      */
     public Color getForegroundOfState(int state) {
         switch (state) {
             case ThemePainter.STATE_DEFAULT:
-                return getForeground();
+                return getDefaultForeground();
             case ThemePainter.STATE_ROLLOVER:
                 return getRolloverForeground();
             case ThemePainter.STATE_SELECTED:
@@ -362,21 +370,22 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
 
 
     /**
-     * Sets the foreground for different states.  The states are defined in ThemePainter as constants.
-     * Not all states are supported by all components. If the state is not supported or foreground is never set,
-     * it will return null.
+     * Sets the foreground for different states.  The states are defined in ThemePainter as constants. Not all states
+     * are supported by all components. If the state is not supported or foreground is never set, it will return null.
      * <p/>
-     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to customize it
-     * for each component to use a different foreground. So if you want the foreground to be used, don't use a ColorUIResource because
-     * UIResource is considered as a setting set by the L&F and any L&F can choose to ignore it.
+     * Please note, each L&F will have its own way to paint the different foregrounds. This method allows you to
+     * customize it for each component to use a different foreground. So if you want the foreground to be used, don't
+     * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
+     * ignore it.
      *
-     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of available states.
+     * @param state the button state. Please refer to {@link com.jidesoft.plaf.basic.ThemePainter} to see the list of
+     *              available states.
      * @param color the background color
      */
     public void setForegroundOfState(int state, Color color) {
         switch (state) {
             case ThemePainter.STATE_DEFAULT:
-                setForeground(color);
+                setDefaultForeground(color);
                 break;
             case ThemePainter.STATE_ROLLOVER:
                 setRolloverForeground(color);
