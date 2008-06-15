@@ -3078,4 +3078,25 @@ public class JideSwingUtilities implements SwingConstants {
         c.doLayout();
         c.repaint();
     }
+
+    /**
+     * Regsters all actions registered on the source component and registered them on the target component at the
+     * specified condition.
+     *
+     * @param sourceComponent the source component.
+     * @param targetComponent the target component.
+     * @param keyStrokes      the keystrokes
+     * @param condition       the condition which will be used in {@link javax.swing.JComponent#registerKeyboardAction(java.awt.event.ActionListener,
+     *                        javax.swing.KeyStroke, int)} as the last parameter.
+     */
+    public static void synchronizeKeyboardActions(JComponent sourceComponent, JComponent targetComponent, KeyStroke[] keyStrokes, int condition) {
+        for (KeyStroke keyStroke : keyStrokes) {
+            ActionListener actionListener = sourceComponent.getActionForKeyStroke(keyStroke);
+            if (actionListener != null) {
+                targetComponent.registerKeyboardAction(actionListener, keyStroke, condition);
+            }
+
+
+        }
+    }
 }

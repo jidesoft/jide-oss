@@ -303,6 +303,31 @@ public class LabeledTextField extends JPanel {
     }
 
     /**
+     * Sets the text in this TextField.
+     *
+     * @param text the new text in this TextField.
+     */
+    public void setText(String text) {
+        if (getTextField() != null) {
+            getTextField().setText(text);
+        }
+    }
+
+    /**
+     * Gets the text in this TextField.
+     *
+     * @return the text in this TextField.
+     */
+    public String getText() {
+        if (getTextField() != null) {
+            return getTextField().getText();
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
      * Gets the actual text field.
      *
      * @return the actual text field.
