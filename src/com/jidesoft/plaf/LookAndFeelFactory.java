@@ -1145,15 +1145,49 @@ public class LookAndFeelFactory implements ProductNames {
                         "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
                         "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
                         "CommandBarContainer.verticalGap", 0,
-//                        "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.close")),
-//                    "DockableFrameTitlePane.unfloatIcon", UIDefaultsLookup.get("Synthetica.flexdock.titlebar.unfloat"),
-//                    "DockableFrameTitlePane.floatIcon", UIDefaultsLookup.get("Synthetica.flexdock.titlebar.float"),
-//                        "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
-//                        "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
-//                        "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
-//                        "DockableFrameTitlePane.maximizeIcon", UIDefaultsLookup.get("InternalFrame.maximizeIcon"),
-//                        "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked")),
-                        "DockableFrameTitlePane.use3dButtons", Boolean.TRUE,
+
+                        "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.close")),
+                        "DockableFrameTitlePane.hideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.close.hover")),
+                        "DockableFrameTitlePane.hideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.close")),
+                        "DockableFrameTitlePane.hideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.close.hover")),
+
+                        "DockableFrameTitlePane.floatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.undock")),
+                        "DockableFrameTitlePane.floatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.undock.hover")),
+                        "DockableFrameTitlePane.floatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.undock")),
+                        "DockableFrameTitlePane.floatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.undock.hover")),
+
+                        "DockableFrameTitlePane.unfloatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.dock")),
+                        "DockableFrameTitlePane.unfloatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.dock.hover")),
+                        "DockableFrameTitlePane.unfloatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.dock")),
+                        "DockableFrameTitlePane.unfloatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.dock.hover")),
+
+                        "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin")),
+                        "DockableFrameTitlePane.autohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.hover")),
+                        "DockableFrameTitlePane.autohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
+                        "DockableFrameTitlePane.autohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.hover")),
+
+                        "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.docked")),
+                        "DockableFrameTitlePane.stopAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.docked.hover")),
+                        "DockableFrameTitlePane.stopAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked")),
+                        "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked.hover")),
+
+                        "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin")),
+                        "DockableFrameTitlePane.hideAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.hover")),
+                        "DockableFrameTitlePane.hideAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin")),
+                        "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.hover")),
+
+                        "DockableFrameTitlePane.maximizeIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.maximize")),
+                        "DockableFrameTitlePane.maximizeRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.maximize.hover")),
+                        "DockableFrameTitlePane.maximizeActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.maximize")),
+                        "DockableFrameTitlePane.maximizeRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.maximize.hover")),
+
+                        "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.docked")),
+                        "DockableFrameTitlePane.restoreRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.pin.docked.hover")),
+                        "DockableFrameTitlePane.restoreActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked")),
+                        "DockableFrameTitlePane.restoreRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.flexdock.titlebar.active.pin.docked.hover")),
+
+
+                        "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
                         "DockableFrameTitlePane.buttonGap", 2,
                         "JideSplitPane.dividerSize", 6,
                 };
