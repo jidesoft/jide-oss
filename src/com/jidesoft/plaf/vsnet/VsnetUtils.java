@@ -55,7 +55,7 @@ class VsnetUtils {
         if (r >= 255) r = 255;
         if (g >= 255) g = 255;
         if (b >= 255) b = 255;
-        return new Color(r, g, b);
+        return new ColorUIResource(r, g, b);
     }
 
     static int getGripperValue(int x) {
@@ -76,12 +76,12 @@ class VsnetUtils {
         // Check for the 'Classic' control color
         if ((color.getRed() == 212) && (color.getGreen() == 208) && (color.getBlue() == 200)) {
             // Use the exact background for this color
-            backIDE = new Color(247, 243, 233);
+            backIDE = new ColorUIResource(247, 243, 233);
         }
         else if ((color.getRed() == 236) && (color.getGreen() == 233) && (color.getBlue() == 216)) {
             // Check for the 'XP' control color
             // Use the exact background for this color
-            backIDE = new Color(255, 251, 233);
+            backIDE = new ColorUIResource(255, 251, 233);
         }
         else {
             // Calculate the IDE background color as only half as dark as the control color
@@ -91,7 +91,7 @@ class VsnetUtils {
             if (r >= 255) r = 255;
             if (g >= 255) g = 255;
             if (b >= 255) b = 255;
-            backIDE = new Color(r, g, b);
+            backIDE = new ColorUIResource(r, g, b);
         }
 
         return backIDE;

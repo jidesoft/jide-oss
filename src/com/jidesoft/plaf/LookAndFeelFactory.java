@@ -1119,6 +1119,7 @@ public class LookAndFeelFactory implements ProductNames {
             try {
                 Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
                 Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
+                Color toolbarBackground = new JToolBar().getBackground();
                 Object[] uiDefaults = {
                         "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
                         "Workspace.background", UIManager.getColor("control"),
@@ -1139,6 +1140,8 @@ public class LookAndFeelFactory implements ProductNames {
                         "JideButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
                         "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
                         "Icon.floating", Boolean.FALSE,
+                        "CommandBar.background", toolbarBackground,
+                        "ContentContainer.background", toolbarBackground,
                         "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                         "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
                         "CommandBar.borderFloating", syntheticaFrameBorder.newInstance(),
@@ -1191,6 +1194,7 @@ public class LookAndFeelFactory implements ProductNames {
                         "DockableFrameTitlePane.buttonGap", 0,
                         "JideSplitPane.dividerSize", 6,
                 };
+                JideSwingUtilities.printUIDefaults();
                 overwriteDefaults(defaults, uiDefaults);
                 Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
