@@ -46,6 +46,7 @@ public class MultilineLabel extends JTextArea {
         setRequestFocusEnabled(false);
         setFocusable(false);
         setOpaque(false);
+        putClientProperty("Synthetica.opaque", false);
         setCaret(new DefaultCaret() {
             @Override
             protected void adjustVisibility(Rectangle nloc) {
