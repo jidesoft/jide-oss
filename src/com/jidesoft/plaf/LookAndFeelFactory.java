@@ -1194,7 +1194,6 @@ public class LookAndFeelFactory implements ProductNames {
                         "DockableFrameTitlePane.buttonGap", 0,
                         "JideSplitPane.dividerSize", 6,
                 };
-                JideSwingUtilities.printUIDefaults();
                 overwriteDefaults(defaults, uiDefaults);
                 Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
