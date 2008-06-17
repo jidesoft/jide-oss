@@ -13,21 +13,21 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * In JIDE Action Framework, <code>ContentContainer</code> is the area that contains all command bars.
- * It is also the largest area in the content pane of top level windows.
+ * In JIDE Action Framework, <code>ContentContainer</code> is the area that contains all command bars. It is also the
+ * largest area in the content pane of top level windows.
  * <p/>
- * <code>ContentContainer</code> uses BasicPainter to paint the background.
- * For example, under Office 2003 L&F, it will use gradient to paint the background.
+ * <code>ContentContainer</code> uses BasicPainter to paint the background. For example, under Office 2003 L&F, it will
+ * use gradient to paint the background.
  */
 public class ContentContainer extends JPanel {
     private ThemePainter _painter;
 
     /**
-     * Creates a new <code>JPanel</code> with a double buffer
-     * and a flow layout.
+     * Creates a new <code>JPanel</code> with a double buffer and a flow layout.
      */
     public ContentContainer() {
         setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(true);
         updateUI();
     }
 
@@ -37,11 +37,13 @@ public class ContentContainer extends JPanel {
         if (UIDefaultsLookup.get("Theme.painter") == null) {
             LookAndFeelFactory.installJideExtension();
         }
+        LookAndFeel.installColors(this, "ContentContainer.background", "ContentContainer.foreground");
         _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         if (_painter != null) {
             _painter.paintContentBackground(this, g, new Rectangle(0, 0, getWidth(), getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
         }
