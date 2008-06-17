@@ -9,6 +9,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -187,7 +188,12 @@ public class LabeledTextField extends JPanel {
     @Override
     public void updateUI() {
         super.updateUI();
-        setBorder(BorderFactory.createCompoundBorder(UIDefaultsLookup.getBorder("TextField.border"), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        Border textFieldBorder = UIDefaultsLookup.getBorder("TextField.border");
+        boolean big = textFieldBorder.getBorderInsets(this).top >= 2;
+        if (big)
+            setBorder(textFieldBorder);
+        else
+            setBorder(BorderFactory.createCompoundBorder(textFieldBorder, BorderFactory.createEmptyBorder(2, 2, 2, 2)));
         if (isEnabled()) {
             LookAndFeel.installColors(this, "TextField.background", "TextField.foreground");
         }
