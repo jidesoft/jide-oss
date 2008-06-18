@@ -9,6 +9,7 @@ package com.jidesoft.swing;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -742,14 +743,18 @@ public class JideSplitPaneDivider extends JPanel
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                component.setMinimumSize(new Dimension(0, 0));
+                if (SystemInfo.isJdk15Above() || component instanceof JComponent) {
+                    component.setMinimumSize(new Dimension(0, 0));
+                }
             }
         }
         else {
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                component.setMinimumSize(_minimumSizes[i]);
+                if (SystemInfo.isJdk15Above() || component instanceof JComponent) {
+                    component.setMinimumSize(_minimumSizes[i]);
+                }
             }
         }
     }
