@@ -171,6 +171,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         revalidate();
         repaint();
         JideSwingUtilities.synchronizeView(rowFooter, getViewport(), SwingConstants.VERTICAL);
+        JideSwingUtilities.synchronizeView(getViewport(), rowFooter, SwingConstants.VERTICAL);
     }
 
     /**
@@ -241,6 +242,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         repaint();
 
         JideSwingUtilities.synchronizeView(_columnFooter, getViewport(), SwingConstants.HORIZONTAL);
+        JideSwingUtilities.synchronizeView(getViewport(), _columnFooter, SwingConstants.HORIZONTAL);
     }
 
     /**
