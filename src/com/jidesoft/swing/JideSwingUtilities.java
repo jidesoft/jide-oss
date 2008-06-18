@@ -628,10 +628,22 @@ public class JideSwingUtilities implements SwingConstants {
      * Chinese, Japanese or Korean locale, it will return true. If "swing.useSystemFontSettings" property us true, it
      * will return true. If "Application.useSystemFontSettings" property is true, it will return true. Otherwise, it
      * will return false. All JIDE L&F considered the returned value and decide if Tahoma font should be used or not.
+     * <p/>
+     * Last but the least, we also add system property "JIDE.useSystemfont" which has the highest priority. If you set
+     * it to "true" or "false", this method will just check that value and return true or false respectively without
+     * looking at any other settings.
      *
      * @return true if the L&F should use system font.
      */
     public static boolean shouldUseSystemFont() {
+        String property = SecurityUtils.getProperty("JIDE.useSystemfont", "");
+        if ("false".equals(property)) {
+            return false;
+        }
+        else if ("true".equals(property)) {
+            return true;
+        }
+
         if (SystemInfo.isJdk15Above() || SystemInfo.isCJKLocale()) {
             return true;
         }
@@ -2398,7 +2410,13 @@ public class JideSwingUtilities implements SwingConstants {
             }
         }
         else {
-            menuFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+            Font font = table.getFont("ToolBar.font");
+            if (font == null) {
+                menuFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+            }
+            else {
+                menuFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+            }
         }
 
         if (menuFont == null) {
@@ -2427,7 +2445,13 @@ public class JideSwingUtilities implements SwingConstants {
             }
         }
         else {
-            controlFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+            Font font = table.getFont("Label.font");
+            if (font == null) {
+                controlFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+            }
+            else {
+                controlFont = font;
+            }
         }
 
         return controlFont;
@@ -2455,7 +2479,13 @@ public class JideSwingUtilities implements SwingConstants {
                 }
             }
             else {
-                boldFont = SecurityUtils.createFontUIResource("Tahoma", Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+                Font font = table.getFont("Label.font");
+                if (font == null) {
+                    boldFont = SecurityUtils.createFontUIResource("Tahoma", Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+                }
+                else {
+                    boldFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+                }
             }
             return boldFont;
         }
@@ -3095,8 +3125,6 @@ public class JideSwingUtilities implements SwingConstants {
             if (actionListener != null) {
                 targetComponent.registerKeyboardAction(actionListener, keyStroke, condition);
             }
-
-
         }
     }
 }
