@@ -952,7 +952,9 @@ public class JideTabbedPane extends JTabbedPane {
         int selected = getSelectedIndex();
         boolean enforce = false;
         if (selected == index && selected < tabCount - 1) {
-            enforce = true;
+            // since JDK5 fixed this, we only need to enforce the event when it is not JDK5 and above.
+            // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6368047
+            enforce = !SystemInfo.isJdk15Above();
         }
 
         boolean contains = false;
