@@ -47,20 +47,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         final String metalPackageName = "com.jidesoft.plaf.metal.";
 
         // common
-        table.put("JideTabbedPaneUI", metalPackageName + "MetalJideTabbedPaneUI");
         table.put("JideSplitButtonUI", metalPackageName + "MetalJideSplitButtonUI");
-
-        int products = LookAndFeelFactory.getProductsUsed();
-
-        if ((products & PRODUCT_DOCK) != 0) {
-            // dock
-            table.put("DockableFrameUI", metalPackageName + "MetalDockableFrameUI");
-        }
-
-        if ((products & PRODUCT_ACTION) != 0) {
-            // action
-            table.put("CommandBarTitleBarUI", metalPackageName + "MetalCommandBarTitleBarUI");
-        }
     }
 
     /**
