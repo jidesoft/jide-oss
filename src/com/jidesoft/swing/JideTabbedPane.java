@@ -760,9 +760,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets to true if the close button will be shown on tab. The value set to this method will be used only when
-     * isUseDefaultShowCloseButtonOnTab() returns false. You also need to setShowCloseButton(true) if you want to
-     * setShowCloseButtonOnTab(true).
+     * Sets to true if the close button will be shown on tab. If you ever call this method, we will automatically call
+     * setUseDefaultShowCloseButtonOnTab(false). It will also automatically call setShowCloseButton(true) if the
+     * showCloseButtonOnTab parameter is true.
      *
      * @param showCloseButtonOnTab true or false.
      */
@@ -771,7 +771,11 @@ public class JideTabbedPane extends JTabbedPane {
         if (oldShowCloseButtonOnTab != showCloseButtonOnTab) {
             _showCloseButtonOnTab = showCloseButtonOnTab;
             firePropertyChange(SHOW_CLOSE_BUTTON_ON_TAB_PROPERTY, oldShowCloseButtonOnTab, _showCloseButtonOnTab);
+            if (_showCloseButtonOnTab) {
+                setShowCloseButton(true);
+            }
         }
+        setUseDefaultShowCloseButtonOnTab(false);
     }
 
     /**
