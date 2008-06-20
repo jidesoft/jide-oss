@@ -1255,6 +1255,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                         else {
                             location = getDividerAt(i).getBounds().y;
                         }
+                        break;
                     }
                 }
             }
@@ -1270,6 +1271,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                             location = getDividerAt(i).getBounds().y;
                         }
                     }
+                    break;
                 }
             }
         }
@@ -1278,7 +1280,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             return location - getDividerSize();
         }
 
-        return getOrientation() == HORIZONTAL_SPLIT ? getWidth() : getHeight();
+        return getOrientation() == HORIZONTAL_SPLIT ? getWidth() - getDividerSize() : getHeight() - getDividerSize();
     }
 
     /**
