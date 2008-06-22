@@ -7,6 +7,7 @@ package com.jidesoft.dialog;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.swing.ArrowKeyNavigationSupport;
 
 import javax.swing.*;
 import java.awt.*;
@@ -119,17 +120,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
         _layout = new ButtonPanelLayout(this, axis, _alignment, sizeContraint, _defaultOrder, _defaultOppositeOrder, _defaultButtonGap, _defaultGroupGap);
         setLayout(_layout);
 
-//        Set forwardTraversalKeys = new HashSet();//getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-//        forwardTraversalKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0));
-//        forwardTraversalKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-//        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardTraversalKeys);
-//
-//        Set backwardTraversalKeys = new HashSet();//getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
-//        backwardTraversalKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0));
-//        backwardTraversalKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-//        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardTraversalKeys);
-//
-//        setFocusCycleRoot(true);
+        new ArrowKeyNavigationSupport(new Class[]{AbstractButton.class}).install(this);
     }
 
     @Override
