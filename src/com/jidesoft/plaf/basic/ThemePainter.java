@@ -20,7 +20,7 @@ public interface ThemePainter {
     public static final int STATE_SELECTED = 3;
     public static final int STATE_DISABLE = 4;
     public static final int STATE_DISABLE_SELECTED = 5;
-    public static final int STATE_DISABLED_ROLLOVER = 6;
+    public static final int STATE_DISABLE_ROLLOVER = 6;
     public static final int STATE_INACTIVE_ROLLOVER = 7; // this is only used by JideSplitButton. When the button part is rollover, the drop down part will be inactive rollover. And vice versa.
 
     void paintSelectedMenu(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
