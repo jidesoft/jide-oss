@@ -358,6 +358,7 @@ public class CheckBoxList extends JList {
      * @return true or false. If false, there is not check box on the particular row index. By default, we always return
      *         true. You override this method to return true of false depending on your need.
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean isCheckBoxVisible(int index) {
         return true;
     }
