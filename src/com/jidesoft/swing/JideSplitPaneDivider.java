@@ -743,8 +743,12 @@ public class JideSplitPaneDivider extends JPanel
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                if (SystemInfo.isJdk15Above() || component instanceof JComponent) {
+                if (SystemInfo.isJdk15Above()) {
                     component.setMinimumSize(new Dimension(0, 0));
+                }
+                else if (component instanceof JComponent) {
+                    JComponent jComponent = (JComponent) component;
+                    jComponent.setMinimumSize(new Dimension(0, 0));
                 }
             }
         }
@@ -752,8 +756,12 @@ public class JideSplitPaneDivider extends JPanel
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                if (SystemInfo.isJdk15Above() || component instanceof JComponent) {
+                if (SystemInfo.isJdk15Above()) {
                     component.setMinimumSize(_minimumSizes[i]);
+                }
+                else if (component instanceof JComponent) {
+                    JComponent jComponent = (JComponent) component;
+                    jComponent.setMinimumSize(_minimumSizes[i]);
                 }
             }
         }
