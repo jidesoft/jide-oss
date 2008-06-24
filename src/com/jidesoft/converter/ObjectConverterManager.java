@@ -430,4 +430,9 @@ public class ObjectConverterManager {
 //        });
 //        ObjectConverter converter = ObjectConverterManager.getConverter(A.class, new ConverterContext("A"));
 //    }
+
+    public static void clear() {
+        resetInit();
+        _cache.clear();
+    }
 }

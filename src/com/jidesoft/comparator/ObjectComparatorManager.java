@@ -334,15 +334,8 @@ public class ObjectComparatorManager {
         _inited = false;
     }
 
-    public static void main(String[] args) {
-        ObjectComparatorManager.initDefaultComparator();
-        Comparator comparator =  ObjectComparatorManager.getComparator(CharSequence.class);
-        System.out.println(comparator.getClass().getName());
+    public static void clear() {
+        resetInit();
+        _cache.clear();
     }
-//
-//    private static class Information implements Comparable {
-//        public int compareTo(Object o) {
-//            return 0;
-//        }
-//    }
 }
