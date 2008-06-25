@@ -36,7 +36,9 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -331,7 +333,7 @@ public class LookAndFeelFactory implements ProductNames {
 
     private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector();
     private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector();
-
+    private static Map<String,String> _installedLookAndFeels=new HashMap<String,String>(5);
     protected LookAndFeelFactory() {
     }
 
@@ -789,13 +791,10 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if the L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isLnfInstalled(String lnfName) {
-        try {
-            getUIManagerClassLoader().loadClass(lnfName);
-            return true;
+        if(_installedLookAndFeels.containsKey(lnfName)) {
+          return _installedLookAndFeels.get(lnfName)!=null;
         }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
+        return loadLnfClass(lnfName)!=null;
     }
 
     public static ClassLoader getUIManagerClassLoader() {
@@ -817,13 +816,36 @@ public class LookAndFeelFactory implements ProductNames {
      * @return true or false.
      */
     public static boolean isLnfInUse(String lnfName) {
+        if(_installedLookAndFeels.containsKey(lnfName) && _installedLookAndFeels.get(lnfName)==null ) {
+          return false;
+        }
+        return isAssignableFrom(lnfName,UIManager.getLookAndFeel().getClass());
+    }
+    
+    private static Class loadLnfClass(String lnfName) {
         try {
-            return lnfName.equals(UIManager.getLookAndFeel().getClass().getName())
-                    || Class.forName(lnfName).isAssignableFrom(UIManager.getLookAndFeel().getClass());
+            Class cls=getUIManagerClassLoader().loadClass(lnfName);
+            Map map=new HashMap<String,String>(_installedLookAndFeels);
+            map.put(lnfName, lnfName);
+            _installedLookAndFeels=map;
+            return cls;
         }
         catch (ClassNotFoundException e) {
-            return false;
+            Map map=new HashMap<String,String>(_installedLookAndFeels);
+            map.put(lnfName, null);
+            _installedLookAndFeels=map;
+            return null;
         }
+    }
+
+    private static boolean isAssignableFrom(String lnfName, Class cls) {
+      if(lnfName.equals(cls.getName())) {
+        return true;
+      }
+      Class cl=loadLnfClass(lnfName);
+      return cl==null
+              ? false
+              :cl.isAssignableFrom(cls);
     }
 
     /**
