@@ -469,7 +469,7 @@ public class LookAndFeelFactory implements ProductNames {
         uiDefaults.put(JIDE_STYLE_INSTALLED, _style);
 
         _lookAndFeel = lnf;
-
+        _installedLookAndFeels=new HashMap<String,String>();
         UIDefaultsInitializer[] initializers = getUIDefaultsInitializers();
         for (UIDefaultsInitializer initializer : initializers) {
             if (initializer != null) {
