@@ -52,9 +52,9 @@ public class UIDefaultsLookup {
             v = new HashMap<ClassLoader, Object>();
             table.put(key, v);
         }
-        Object  cl=UIManager.get("ClassLoader");
-        if(!(cl instanceof ClassLoader)) {
-          cl=value.getClass().getClassLoader();
+        Object cl = UIManager.get("ClassLoader");
+        if (!(cl instanceof ClassLoader)) {
+            cl = value.getClass().getClassLoader();
         }
         ((Map) v).put(cl, value);
     }
@@ -64,11 +64,11 @@ public class UIDefaultsLookup {
     // frame from the core libraries on the stack between this method's
     // invocation and the desired invoker.
     static ClassLoader getCallerClassLoader() {
-        Object  cl=UIManager.get("ClassLoader");
-        if(cl instanceof ClassLoader) {
-          return (ClassLoader)cl;
+        Object cl = UIManager.get("ClassLoader");
+        if (cl instanceof ClassLoader) {
+            return (ClassLoader) cl;
         }
-        
+
         // NOTE use of more generic Reflection.getCallerClass()
         Class caller = Reflection.getCallerClass(3);
         // This can be null if the VM is requesting it
