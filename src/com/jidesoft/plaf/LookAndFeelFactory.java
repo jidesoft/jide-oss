@@ -1122,7 +1122,6 @@ public class LookAndFeelFactory implements ProductNames {
         }
     }
 
-
     public static class SyntheticaInitializer implements UIDefaultsInitializer {
         public void initialize(UIDefaults defaults) {
             Object[] uiDefaults = {
@@ -1143,81 +1142,101 @@ public class LookAndFeelFactory implements ProductNames {
                 Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
                 Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
                 Color toolbarBackground = new JToolBar().getBackground();
-                Object[] uiDefaults = {
-                        "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
-                        "Workspace.background", UIManager.getColor("control"),
-                        "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
-                        "JideTabbedPane.background", UIManager.getColor("control"),
-                        "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                        "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                        "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("Synthetica.docking.titlebar.color"),
-                        "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.docking.titlebar.color.selected"),
-                        "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.docking.border.color"),
-                        "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                        "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                        "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                        "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                        "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
-                        "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
-                        "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
-                        "JideButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
-                        "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
-                        "Icon.floating", Boolean.FALSE,
-                        "CommandBar.background", toolbarBackground,
-                        "ContentContainer.background", toolbarBackground,
-                        "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                        "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                        "CommandBar.borderFloating", syntheticaFrameBorder.newInstance(),
-                        "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                        "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
-                        "CommandBarContainer.verticalGap", 0,
+                int products = LookAndFeelFactory.getProductsUsed();
+                {
+                    Object[] uiDefaults = {
+                            "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
+                            "JideSplitPane.dividerSize", 6,
+                            "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
+                            "JideTabbedPane.background", UIManager.getColor("control"),
+                            "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                            "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
+                            "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
+                            "JideButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
+                            "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
+                            "Icon.floating", Boolean.FALSE,
+                            "ContentContainer.background", toolbarBackground,
+                    };
+                    overwriteDefaults(defaults, uiDefaults);
+                }
 
-                        "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close")),
-                        "DockableFrameTitlePane.hideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close.hover")),
-                        "DockableFrameTitlePane.hideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close")),
-                        "DockableFrameTitlePane.hideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close.hover")),
+                if ((products & PRODUCT_COMPONENTS) != 0) {
+                    Object[] uiDefaults = {
+                            "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                            "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
+                            "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
+                            "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
+                            "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
+                    };
+                    overwriteDefaults(defaults, uiDefaults);
+                }
+                if ((products & PRODUCT_ACTION) != 0) {
+                    Object[] uiDefaults = {
+                            "CommandBar.background", toolbarBackground,
+                            "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                            "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
+                            "CommandBar.borderFloating", syntheticaFrameBorder.newInstance(),
+                            "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
+                            "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
+                            "CommandBarContainer.verticalGap", 0,
+                    };
+                    overwriteDefaults(defaults, uiDefaults);
+                }
+                if ((products & PRODUCT_DOCK) != 0) {
+                    Object[] uiDefaults = {
+                            "Workspace.background", UIManager.getColor("control"),
 
-                        "DockableFrameTitlePane.floatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock")),
-                        "DockableFrameTitlePane.floatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock.hover")),
-                        "DockableFrameTitlePane.floatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock")),
-                        "DockableFrameTitlePane.floatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock.hover")),
+                            "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("Synthetica.docking.titlebar.color"),
+                            "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("Synthetica.docking.titlebar.color.selected"),
+                            "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.docking.border.color"),
+                            "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
 
-                        "DockableFrameTitlePane.unfloatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock")),
-                        "DockableFrameTitlePane.unfloatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock.hover")),
-                        "DockableFrameTitlePane.unfloatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock")),
-                        "DockableFrameTitlePane.unfloatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock.hover")),
+                            "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close")),
+                            "DockableFrameTitlePane.hideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close.hover")),
+                            "DockableFrameTitlePane.hideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close")),
+                            "DockableFrameTitlePane.hideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close.hover")),
 
-                        "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
-                        "DockableFrameTitlePane.autohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
-                        "DockableFrameTitlePane.autohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
-                        "DockableFrameTitlePane.autohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
+                            "DockableFrameTitlePane.floatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock")),
+                            "DockableFrameTitlePane.floatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock.hover")),
+                            "DockableFrameTitlePane.floatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock")),
+                            "DockableFrameTitlePane.floatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock.hover")),
 
-                        "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
-                        "DockableFrameTitlePane.stopAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
-                        "DockableFrameTitlePane.stopAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
-                        "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
+                            "DockableFrameTitlePane.unfloatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock")),
+                            "DockableFrameTitlePane.unfloatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock.hover")),
+                            "DockableFrameTitlePane.unfloatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock")),
+                            "DockableFrameTitlePane.unfloatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock.hover")),
 
-                        "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
-                        "DockableFrameTitlePane.hideAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
-                        "DockableFrameTitlePane.hideAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
-                        "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
+                            "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
+                            "DockableFrameTitlePane.autohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
+                            "DockableFrameTitlePane.autohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
+                            "DockableFrameTitlePane.autohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
 
-                        "DockableFrameTitlePane.maximizeIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize")),
-                        "DockableFrameTitlePane.maximizeRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize.hover")),
-                        "DockableFrameTitlePane.maximizeActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize")),
-                        "DockableFrameTitlePane.maximizeRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize.hover")),
+                            "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
+                            "DockableFrameTitlePane.stopAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
+                            "DockableFrameTitlePane.stopAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
+                            "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
 
-                        "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
-                        "DockableFrameTitlePane.restoreRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
-                        "DockableFrameTitlePane.restoreActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
-                        "DockableFrameTitlePane.restoreRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
+                            "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
+                            "DockableFrameTitlePane.hideAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
+                            "DockableFrameTitlePane.hideAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
+                            "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
 
-                        "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
-                        "DockableFrameTitlePane.contentFilledButtons", Boolean.FALSE,
-                        "DockableFrameTitlePane.buttonGap", 0,
-                        "JideSplitPane.dividerSize", 6,
-                };
-                overwriteDefaults(defaults, uiDefaults);
+                            "DockableFrameTitlePane.maximizeIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize")),
+                            "DockableFrameTitlePane.maximizeRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize.hover")),
+                            "DockableFrameTitlePane.maximizeActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize")),
+                            "DockableFrameTitlePane.maximizeRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize.hover")),
+
+                            "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
+                            "DockableFrameTitlePane.restoreRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
+                            "DockableFrameTitlePane.restoreActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
+                            "DockableFrameTitlePane.restoreRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
+
+                            "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
+                            "DockableFrameTitlePane.contentFilledButtons", Boolean.FALSE,
+                            "DockableFrameTitlePane.buttonGap", 0,
+                    };
+                    overwriteDefaults(defaults, uiDefaults);
+                }
                 Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
                 Object painter = getInstanceMethod.invoke(null);
