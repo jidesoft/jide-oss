@@ -19,6 +19,7 @@ import com.jidesoft.plaf.vsnet.VsnetMetalUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.plaf.xerto.XertoMetalUtils;
 import com.jidesoft.plaf.xerto.XertoWindowsUtils;
+import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ProductNames;
@@ -1167,6 +1168,9 @@ public class LookAndFeelFactory implements ProductNames {
                             "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
                             "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
                             "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
+
+                            "OutlookTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
+                            "FloorTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
                     };
                     overwriteDefaults(defaults, uiDefaults);
                 }

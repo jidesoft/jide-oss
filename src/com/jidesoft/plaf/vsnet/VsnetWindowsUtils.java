@@ -5,17 +5,28 @@
  */
 package com.jidesoft.plaf.vsnet;
 
+import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.plaf.ExtWindowsDesktopProperty;
+import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.plaf.WindowsDesktopProperty;
+import com.jidesoft.plaf.basic.BasicPainter;
+import com.jidesoft.plaf.basic.BasicRangeSliderUI;
+import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.swing.JideButton;
+import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.swing.JideTabbedPane;
+
 import javax.swing.*;
-import javax.swing.plaf.*;
+import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.DimensionUIResource;
+import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.beans.Beans;
-import com.jidesoft.icons.IconsFactory;
-import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.plaf.*;
-import com.jidesoft.plaf.basic.*;
-import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.JideTabbedPane;
 
 /**
  * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Vsnet style for WindowsLookAndFeel.
@@ -461,6 +472,9 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
                     "DocumentPane.boldActiveTab", Boolean.TRUE,
+
+                    "OutlookTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
+                    "FloorTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
             };
             table.putDefaults(uiDefaults);
         }

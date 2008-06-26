@@ -14,6 +14,7 @@ import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.vsnet.ResizeFrameBorder;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
+import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.SecurityUtils;
@@ -541,6 +542,9 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
                     "DocumentPane.boldActiveTab", Boolean.FALSE,
+
+                    "OutlookTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
+                    "FloorTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
             };
             table.putDefaults(uiDefaults);
         }
