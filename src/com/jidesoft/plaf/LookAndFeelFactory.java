@@ -348,19 +348,28 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static int getDefaultStyle() {
         if (_defaultStyle == -1) {
-            int suggestedStyle;
+            String defaultStyle = SecurityUtils.getProperty("jide.defaultStyle", "-1");
             try {
-                if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
-                    suggestedStyle = OFFICE2003_STYLE;
+                _defaultStyle = Integer.parseInt(defaultStyle);
+            }
+            catch (NumberFormatException e) {
+                // ignore
+            }
+            if (_defaultStyle == -1) {
+                int suggestedStyle;
+                try {
+                    if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
+                        suggestedStyle = OFFICE2003_STYLE;
+                    }
+                    else {
+                        suggestedStyle = VSNET_STYLE;
+                    }
                 }
-                else {
+                catch (UnsupportedOperationException e) {
                     suggestedStyle = VSNET_STYLE;
                 }
+                return suggestedStyle;
             }
-            catch (UnsupportedOperationException e) {
-                suggestedStyle = VSNET_STYLE;
-            }
-            return suggestedStyle;
         }
         return _defaultStyle;
     }
