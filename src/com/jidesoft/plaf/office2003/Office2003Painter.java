@@ -1165,9 +1165,9 @@ public class Office2003Painter extends BasicPainter {
             g.setColor(new Color(248, 169, 0));
             g.drawLine(rect.x + 1, rect.y + rect.height - 3, rect.x + rect.width - 2, rect.y + rect.height - 3);
             g.setColor(new Color(246, 196, 86));
-            g.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
+            g.drawLine(rect.x + 2, rect.y + rect.height - 2, rect.x + rect.width - 3, rect.y + rect.height - 2);
             g.setColor(new Color(249, 177, 25));
-            g.drawLine(rect.x + 3, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+            g.drawLine(rect.x + 3, rect.y + rect.height - 1, rect.x + rect.width - 4, rect.y + rect.height - 1);
         }
     }
 }

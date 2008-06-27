@@ -615,7 +615,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         boolean isCellEditor = Boolean.TRUE.equals(c.getClientProperty(HeaderBox.CLIENT_PROPERTY_TABLE_CELL_EDITOR));
 
         Color baseColor = c.getBackground();
-        if (c instanceof UIResource) {
+        if (baseColor instanceof UIResource) {
             baseColor = UIDefaultsLookup.getColor("HeaderBox.background");
             if (baseColor == null) {
                 baseColor = UIDefaultsLookup.getColor("control");
@@ -629,21 +629,20 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             }
             else {
                 g.setColor(color);
-                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 6, 6);
+                g.fillRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 4, 4);
 
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 4, 4);
+                g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
+                g.drawRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 6, 6);
             }
 
             g.setColor(ColorUtils.getDerivedColor(baseColor, 0.45f));
-            g.drawLine(rect.x, rect.y + rect.height - 3, rect.x + rect.width, rect.y + rect.height - 3);
+            g.drawLine(rect.x + 1, rect.y + rect.height - 3, rect.x + rect.width - 2, rect.y + rect.height - 3);
 
             g.setColor(ColorUtils.getDerivedColor(baseColor, 0.43f));
-            g.drawLine(rect.x, rect.y + rect.height - 2, rect.x + rect.width, rect.y + rect.height - 2);
+            g.drawLine(rect.x + 2, rect.y + rect.height - 2, rect.x + rect.width - 3, rect.y + rect.height - 2);
 
             g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
-            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
-            g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1);
+            g.drawLine(rect.x + 3, rect.y + rect.height - 1, rect.x + rect.width - 4, rect.y + rect.height - 1);
         }
         else {
             if (isCellEditor) {
