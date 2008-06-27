@@ -597,14 +597,14 @@ public class JideSwingUtilities implements SwingConstants {
      * will return true. If "Application.useSystemFontSettings" property is true, it will return true. Otherwise, it
      * will return false. All JIDE L&F considered the returned value and decide if Tahoma font should be used or not.
      * <p/>
-     * Last but the least, we also add system property "JIDE.useSystemfont" which has the highest priority. If you set
+     * Last but the least, we also add system property "jide.useSystemfont" which has the highest priority. If you set
      * it to "true" or "false", this method will just check that value and return true or false respectively without
      * looking at any other settings.
      *
      * @return true if the L&F should use system font.
      */
     public static boolean shouldUseSystemFont() {
-        String property = SecurityUtils.getProperty("JIDE.useSystemfont", "");
+        String property = SecurityUtils.getProperty("jide.useSystemfont", "");
         if ("false".equals(property)) {
             return false;
         }
