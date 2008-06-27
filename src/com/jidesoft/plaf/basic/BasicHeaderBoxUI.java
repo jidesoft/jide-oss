@@ -11,7 +11,6 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.HeaderBox;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.ComponentUI;
 import java.awt.*;
@@ -22,9 +21,7 @@ import java.awt.event.MouseMotionListener;
  * JideButtonUI implementation
  */
 public class BasicHeaderBoxUI extends HeaderBoxUI {
-    // Shared UI object
     private static HeaderBoxUI _headerBoxUI;
-    private Border _border;
     protected ThemePainter _painter;
 
     public static ComponentUI createUI(JComponent c) {
@@ -162,8 +159,6 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
                 "Panel.foreground",
                 "Panel.font");
         LookAndFeel.installBorder(p, "Panel.border");
-        p.setOpaque(true);
-        _border = UIDefaultsLookup.getBorder("NestedTableHeader.cellBorder");
     }
 
     @Override
@@ -174,31 +169,28 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
     }
 
     protected void paintBorder(Graphics g, JComponent c) {
-        if (_border != null) {
-            _border.paintBorder(c, g, 0, 0, c.getWidth(), c.getHeight());
-        }
     }
 
     protected void paintBackground(Graphics g, JComponent c) {
         HeaderBox headerBox = (HeaderBox) c;
 
+        Rectangle rect = new Rectangle(0, 0, c.getWidth(), c.getHeight());
         if (headerBox.getModel().isPressed()) {
-            _painter.paintHeaderBoxBackground(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_PRESSED);
+            _painter.paintHeaderBoxBackground(c, g, rect, SwingConstants.HORIZONTAL, ThemePainter.STATE_PRESSED);
         }
         else if (headerBox.getModel().isSelected()) {
-            _painter.paintHeaderBoxBackground(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_SELECTED);
+            _painter.paintHeaderBoxBackground(c, g, rect, SwingConstants.HORIZONTAL, ThemePainter.STATE_SELECTED);
         }
         else if (headerBox.getModel().isRollover()) {
-            _painter.paintHeaderBoxBackground(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_ROLLOVER);
+            _painter.paintHeaderBoxBackground(c, g, rect, SwingConstants.HORIZONTAL, ThemePainter.STATE_ROLLOVER);
         }
         else {
-            _painter.paintHeaderBoxBackground(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
+            _painter.paintHeaderBoxBackground(c, g, rect, SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
         }
     }
 
     protected void uninstallDefaults(HeaderBox p) {
         LookAndFeel.uninstallBorder(p);
         _painter = null;
-        _border = null;
     }
 }

@@ -5,6 +5,7 @@ import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.HeaderBox;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SecurityUtils;
 
 import javax.swing.*;
@@ -613,42 +614,60 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     public void paintHeaderBoxBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         boolean isCellEditor = Boolean.TRUE.equals(c.getClientProperty(HeaderBox.CLIENT_PROPERTY_TABLE_CELL_EDITOR));
 
+        Color baseColor = c.getBackground();
+        if (c instanceof UIResource) {
+            baseColor = UIDefaultsLookup.getColor("HeaderBox.background");
+            if (baseColor == null) {
+                baseColor = UIDefaultsLookup.getColor("control");
+            }
+        }
         if (state == STATE_PRESSED || state == STATE_SELECTED || state == STATE_ROLLOVER) {
+            Color color = ColorUtils.getDerivedColor(baseColor, 0.48f);
             if (isCellEditor) {
-                g.setColor(new Color(222, 223, 216));
-                g.fillRect(0, 0, c.getWidth(), c.getHeight());
+                g.setColor(color);
+                g.fillRect(rect.x, rect.y, rect.width, rect.height);
             }
             else {
-                g.setColor(new Color(222, 223, 216));
-                g.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), 6, 6);
+                g.setColor(color);
+                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 6, 6);
 
                 g.setColor(Color.LIGHT_GRAY);
-                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 4, 4);
+                g.drawRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 4, 4);
             }
+
+            g.setColor(ColorUtils.getDerivedColor(baseColor, 0.45f));
+            g.drawLine(rect.x, rect.y + rect.height - 3, rect.x + rect.width, rect.y + rect.height - 3);
+
+            g.setColor(ColorUtils.getDerivedColor(baseColor, 0.43f));
+            g.drawLine(rect.x, rect.y + rect.height - 2, rect.x + rect.width, rect.y + rect.height - 2);
+
+            g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
+            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width, rect.y + rect.height - 1);
+            g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1);
         }
         else {
             if (isCellEditor) {
-                g.setColor(new Color(235, 234, 219));
-                g.fillRect(0, 0, c.getWidth() - 1, c.getHeight() - 1);
+                g.setColor(baseColor);
+                g.fillRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
             }
             else {
-                g.setColor(new Color(235, 234, 219));
-                g.fillRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 2);
+                g.setColor(baseColor);
+                g.fillRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 2, 2);
 
-                g.setColor(Color.LIGHT_GRAY);
-                g.drawRoundRect(0, 0, c.getWidth() - 1, c.getHeight() - 1, 2, 4);
+                g.setColor(ColorUtils.getDerivedColor(baseColor, .42f));
+                g.drawRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 2, 4);
             }
 
-            g.setColor(new Color(226, 222, 205));
-            g.drawLine(1, c.getHeight() - 3, c.getWidth() - 2, c.getHeight() - 3);
-            g.setColor(new Color(214, 210, 194));
-            g.drawLine(1, c.getHeight() - 2, c.getWidth() - 2, c.getHeight() - 2);
+            g.setColor(ColorUtils.getDerivedColor(baseColor, .48f));
+            g.drawLine(rect.x + 1, rect.y + rect.height - 3, rect.x + rect.width - 2, rect.y + rect.height - 3);
+            g.setColor(ColorUtils.getDerivedColor(baseColor, .47f));
+            g.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
 
             if (isCellEditor) {
                 g.setColor(new Color(198, 197, 178));
-                g.drawLine(c.getWidth() - 3, 4, c.getWidth() - 3, c.getHeight() - 7);
+                g.drawLine(rect.x + rect.width - 3, rect.y + 4, rect.x + rect.width - 3, rect.y + rect.height - 7);
                 g.setColor(Color.WHITE);
-                g.drawLine(c.getWidth() - 2, 4, c.getWidth() - 2, c.getHeight() - 7);
+                g.drawLine(rect.x + rect.width - 2, rect.y + 4, rect.x + rect.width - 2, rect.y + rect.height - 7);
             }
         }
     }
