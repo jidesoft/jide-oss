@@ -50,9 +50,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         int products = LookAndFeelFactory.getProductsUsed();
 
         table.put("JideTabbedPaneUI", "com.jidesoft.plaf.office2003.Office2003JideTabbedPaneUI");
-        table.put("HeaderBoxUI", "com.jidesoft.plaf.office2003.Office2003HeaderBoxUI");
         table.put("RangeSliderUI", "com.jidesoft.plaf.office2003.Office2003RangeSliderUI");
-        table.put("GripperUI", "com.jidesoft.plaf.office2003.Office2003GripperUI");
 
         if ((products & PRODUCT_DOCK) != 0) {
             table.put("SidePaneUI", "com.jidesoft.plaf.office2003.Office2003SidePaneUI");

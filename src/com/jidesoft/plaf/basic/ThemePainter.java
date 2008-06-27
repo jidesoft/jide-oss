@@ -83,6 +83,8 @@ public interface ThemePainter {
 
     void paintTabContentBorder(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
+    void paintHeaderBoxBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
     Color getMenuItemBorderColor();
 
     Color getGripperForeground();
