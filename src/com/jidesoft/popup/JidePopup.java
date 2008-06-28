@@ -1906,7 +1906,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Add an entry to global event queue.
      */
     private void addMouseEventHandler() {
-        if (SecurityUtils.isAWTEventListenerDisabled() || "true".equals(SecurityUtils.getProperty("jide.disableAWTEventListener", "false"))) {
+        if (shouldAWTEventListenerBeUsed()) {
             return;
         }
 
@@ -1962,11 +1962,15 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
     }
 
+    private boolean shouldAWTEventListenerBeUsed() {
+        return SecurityUtils.isAWTEventListenerDisabled() || "true".equals(SecurityUtils.getProperty("jide.disableAWTEventListener", "false"));
+    }
+
     /**
      * Add an entry to global event queue.
      */
     private void removeMouseEventHandler() {
-        if (SecurityUtils.isAWTEventListenerDisabled() || "true".equals(SecurityUtils.getProperty("jide.disableAWTEventListener", "false"))) {
+        if (shouldAWTEventListenerBeUsed()) {
             return;
         }
 
