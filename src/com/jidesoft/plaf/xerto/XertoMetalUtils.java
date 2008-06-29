@@ -221,6 +221,11 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
+                // common
+                "JideLabel.font", controlFont,
+                "JideLabel.background", defaultBackgroundColor,
+                "JideLabel.foreground", defaultTextColor,
+
                 "JideScrollPane.border", singleLineBorder,
 
                 "JideButton.selectedAndFocusedBackground", selectedAndFocusedButtonColor,

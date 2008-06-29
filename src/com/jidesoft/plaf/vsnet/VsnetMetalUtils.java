@@ -118,6 +118,11 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = {
+                // common
+                "JideLabel.font", controlFont,
+                "JideLabel.background", defaultBackgroundColor,
+                "JideLabel.foreground", defaultTextColor,
+
                 "JideButton.selectedAndFocusedBackground", selectedAndFocusedButtonColor,
                 "JideButton.focusedBackground", focusedButtonColor,
                 "JideButton.selectedBackground", selectedButtonColor,
