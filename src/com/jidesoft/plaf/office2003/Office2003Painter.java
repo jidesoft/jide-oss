@@ -6,6 +6,7 @@ import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.ComponentStateSupport;
+import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ColorUtils;
@@ -531,7 +532,34 @@ public class Office2003Painter extends BasicPainter {
             if (paintDefaultBorder) {
                 Color oldColor = g2d.getColor();
                 g2d.setColor(borderColor);
-                g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                Object position = c.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION);
+                if (position == null || JideButton.SEGMENT_POSITION_ONLY.equals(position)) {
+                    g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                }
+                else if (JideButton.SEGMENT_POSITION_FIRST.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g2d.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
+                    }
+                    else {
+                        g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
+                    }
+                }
+                else if (JideButton.SEGMENT_POSITION_MIDDLE.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g2d.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
+                    }
+                    else {
+                        g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
+                    }
+                }
+                else if (JideButton.SEGMENT_POSITION_LAST.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                    }
+                    else {
+                        g2d.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                    }
+                }
                 g2d.setColor(oldColor);
             }
         }

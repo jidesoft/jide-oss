@@ -6,8 +6,7 @@
 package com.jidesoft.swing;
 
 /**
- * The definitions of various button style. This is used by <code>JideButton</code>
- * and <code>JideSplitButton</code>.
+ * The definitions of various button style. This is used by <code>JideButton</code> and <code>JideSplitButton</code>.
  */
 public interface ButtonStyle {
     public final static String BUTTON_STYLE_PROPERTY = "buttonStyle";
@@ -16,6 +15,14 @@ public interface ButtonStyle {
     final static int TOOLBOX_STYLE = 1;
     final static int FLAT_STYLE = 2;
     final static int HYPERLINK_STYLE = 3;
+
+    // we used the same definition as Mac OS X.
+    // http://developer.apple.com/technotes/tn2007/tn2196.html#JBUTTON_BUTTONTYPE
+    public static final String CLIENT_PROPERTY_SEGMENT_POSITION = "JButton.segmentPosition";
+    public static final String SEGMENT_POSITION_FIRST = "first";
+    public static final String SEGMENT_POSITION_MIDDLE = "middle";
+    public static final String SEGMENT_POSITION_LAST = "last";
+    public static final String SEGMENT_POSITION_ONLY = "only";
 
     /**
      * Gets the button style.

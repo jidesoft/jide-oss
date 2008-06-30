@@ -1,10 +1,7 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.swing.ComponentStateSupport;
-import com.jidesoft.swing.HeaderBox;
-import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.*;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SecurityUtils;
 
@@ -222,10 +219,10 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         g.drawLine(rect.x, rect.y + rect.height, rect.x, rect.y + 1);
         g.drawLine(rect.x + rect.width - 2, rect.y, rect.x + rect.width - 2, rect.y + rect.height);
         if (orientation == SwingConstants.HORIZONTAL) {
-            g.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
+            g.drawLine(rect.x, rect.y, rect.x + rect.width - 1, rect.y);
         }
         else {
-            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
         }
         g.setColor(oldColor);
     }
@@ -251,7 +248,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (background == null || background instanceof UIResource) {
                     background = _bk0;
                 }
-                paintBackground(c, g, rect, background, background, orientation);
+                paintBackground(c, g, rect, showBorder ? _borderColor : null, background, orientation);
                 break;
             case STATE_ROLLOVER:
                 if (c instanceof ComponentStateSupport) {
@@ -293,7 +290,34 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             }
             if (paintDefaultBorder) {
                 g.setColor(borderColor);
-                g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                Object position = c.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION);
+                if (position == null || JideButton.SEGMENT_POSITION_ONLY.equals(position)) {
+                    g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                }
+                else if (JideButton.SEGMENT_POSITION_FIRST.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
+                    }
+                    else {
+                        g.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
+                    }
+                }
+                else if (JideButton.SEGMENT_POSITION_MIDDLE.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
+                    }
+                    else {
+                        g.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
+                    }
+                }
+                else if (JideButton.SEGMENT_POSITION_LAST.equals(position)) {
+                    if (orientation == SwingConstants.HORIZONTAL) {
+                        g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                    }
+                    else {
+                        g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
+                    }
+                }
             }
             g.setColor(background);
             g.fillRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
