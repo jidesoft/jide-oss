@@ -404,6 +404,10 @@ public class BasicJideButtonUI extends JideButtonUI {
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g2d, text, mnemonicIndex,
                         textRect.y + getTextShiftOffset(),
                         textRect.x + fm.getAscent() + getTextShiftOffset());
+                if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.HYPERLINK_STYLE
+                        && (((JideButton) b).isAlwaysShowHyperlink() || b.getModel().isRollover())) {
+                    g.drawLine(textRect.x, textRect.y, textRect.x, textRect.y + textRect.height);
+                }
             }
             else {
                 /*** paint the text disabled ***/
