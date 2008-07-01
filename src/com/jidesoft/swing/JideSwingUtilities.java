@@ -289,6 +289,9 @@ public class JideSwingUtilities implements SwingConstants {
             if (model.isRollover()) {
                 return ThemePainter.STATE_PRESSED;
             }
+            else if (model.isSelected()) {
+                return ThemePainter.STATE_SELECTED;
+            }
         }
         else if (b.isRolloverEnabled() && model.isRollover()) {
             if (model.isSelected()) {
