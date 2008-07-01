@@ -219,10 +219,10 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         g.drawLine(rect.x, rect.y + rect.height, rect.x, rect.y + 1);
         g.drawLine(rect.x + rect.width - 2, rect.y, rect.x + rect.width - 2, rect.y + rect.height);
         if (orientation == SwingConstants.HORIZONTAL) {
-            g.drawLine(rect.x, rect.y, rect.x + rect.width - 1, rect.y);
+            g.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
         }
         else {
-            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
+            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
         }
         g.setColor(oldColor);
     }

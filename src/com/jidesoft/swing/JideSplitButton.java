@@ -419,10 +419,5 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
             action.actionPerformed(new ActionEvent(this, 0, ""));
         }
     }
-
-    @Override
-    public boolean isOpaque() {
-        return super.originalIsOpaque();
-    }
 }
 
