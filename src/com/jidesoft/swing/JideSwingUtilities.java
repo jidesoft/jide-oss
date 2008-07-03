@@ -444,7 +444,7 @@ public class JideSwingUtilities implements SwingConstants {
                     return false;
                 }
                 for (int i = 0; i < length1; i++) {
-                    boolean equals = equals(Array.get(o1, i), Array.get(o1, i));
+                    boolean equals = equals(Array.get(o1, i), Array.get(o2, i));
                     if (!equals) {
                         return false;
                     }
