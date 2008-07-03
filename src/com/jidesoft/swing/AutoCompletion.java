@@ -54,6 +54,8 @@ public class AutoCompletion {
     private boolean _selecting = false;
 
     private boolean _hidePopupOnFocusLoss;
+    // we use this flag to workaround the bug that setText() will trigger auto-completion
+    private boolean _keyTyped = false;
     private boolean _hitBackspace = false;
     private boolean _hitBackspaceOnSelection;
 
@@ -199,6 +201,14 @@ public class AutoCompletion {
         }
     }
 
+    private boolean isKeyTyped() {
+        return _keyTyped;
+    }
+
+    private void setKeyTyped(boolean keyTyped) {
+        _keyTyped = keyTyped;
+    }
+
     private void setInitValue() {
         int index = getSearchable().getSelectedIndex();
         if (index != -1) {
@@ -249,6 +259,11 @@ public class AutoCompletion {
             @Override
             public void keyPressed(KeyEvent e) {
                 _hitBackspace = false;
+
+                if (KeyEvent.VK_ESCAPE != e.getKeyCode()) {
+                    setKeyTyped(true);
+                }
+
                 switch (e.getKeyCode()) {
                     // determine if the pressed key is backspace (needed by the remove method)
                     case KeyEvent.VK_BACK_SPACE:
@@ -271,28 +286,35 @@ public class AutoCompletion {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
 
-                if (_deletePressed) {
-                    _deletePressed = false;
-                    String text = getTextComponent().getText();
-                    int index = getSearchable().findFirst(text);
-                    if (index != -1) {
-                        if (text.length() == 0) {
-                            setSelectedItem(null);
+                try {
+                    if (_deletePressed) {
+                        _deletePressed = false;
+                        String text = getTextComponent().getText();
+                        int index = getSearchable().findFirst(text);
+                        if (index != -1) {
+                            if (text.length() == 0) {
+                                setSelectedItem(null);
+                            }
+                            else {
+                                Object item = getSearchable().getElementAt(index);
+                                setSelectedItem(item);
+                                getTextComponent().setText(getSearchable().convertElementToString(item)); // this is what auto complete is
+                                // select the completed part
+                                highlightCompletedText(text.length());
+                            }
                         }
-                        else {
-                            Object item = getSearchable().getElementAt(index);
-                            setSelectedItem(item);
-                            getTextComponent().setText(getSearchable().convertElementToString(item)); // this is what auto complete is
-                            // select the completed part
-                            highlightCompletedText(text.length());
+                        else { // didn't find a matching one
+                            if (isStrict()) {
+                                getTextComponent().setText(_saveText);
+                                e.consume();
+                                UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
+                            }
                         }
                     }
-                    else { // didn't find a matching one
-                        if (isStrict()) {
-                            getTextComponent().setText(_saveText);
-                            e.consume();
-                            UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
-                        }
+                }
+                finally {
+                    if (KeyEvent.VK_ESCAPE != e.getKeyCode()) {
+                        setKeyTyped(false);
                     }
                 }
             }
@@ -350,7 +372,9 @@ public class AutoCompletion {
         @Override
         public void remove(int offs, int len) throws BadLocationException {
             // return immediately when _selecting an item
-            if (_selecting) return;
+            if (_selecting)
+                return;
+
             if (_hitBackspace) {
                 // user hit backspace => move the selection backwards
                 // old item keeps being selected
@@ -373,37 +397,41 @@ public class AutoCompletion {
             // return immediately when _selecting an item
             if (_selecting)
                 return;
+
             // insert the string into the document
             super.insertString(offs, str, a);
-            // lookup and select a matching item
-            final String text = getText(0, getLength());
-            int index = getSearchable().findFromCursor(text);
-            Object item;
-            if (index != -1) {
-                item = getSearchable().getElementAt(index);
-                setSelectedItem(item);
-                setText(getSearchable().convertElementToString(item)); // this is what auto complete is
-                // select the completed part
-                highlightCompletedText(offs + str.length());
-            }
-            else { // didn't find a matching one
-                if (isStrict()) {
-                    index = getSearchable().getSelectedIndex();
-                    if (index == -1) {
-                        if (getSearchable().getElementCount() > 0) {
-                            index = 0;
-                            getSearchable().setSelectedIndex(0, false);
-                        }
-                    }
 
-                    if (index != -1) {
-                        item = getSearchable().getElementAt(index);
-                        offs = offs - str.length();
-                        // imitate no insert (later on offs will be incremented by str.length(): selection won't move forward)
-                        UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
-                        setText(getSearchable().convertElementToString(item));
-                        // select the completed part
-                        highlightCompletedText(offs + str.length());
+            if (isKeyTyped() || isStrict()) {
+                // lookup and select a matching item
+                final String text = getText(0, getLength());
+                int index = getSearchable().findFromCursor(text);
+                Object item;
+                if (index != -1) {
+                    item = getSearchable().getElementAt(index);
+                    setSelectedItem(item);
+                    setText(getSearchable().convertElementToString(item)); // this is what auto complete is
+                    // select the completed part
+                    highlightCompletedText(offs + str.length());
+                }
+                else { // didn't find a matching one
+                    if (isStrict()) {
+                        index = getSearchable().getSelectedIndex();
+                        if (index == -1) {
+                            if (getSearchable().getElementCount() > 0) {
+                                index = 0;
+                                getSearchable().setSelectedIndex(0, false);
+                            }
+                        }
+
+                        if (index != -1) {
+                            item = getSearchable().getElementAt(index);
+                            offs = offs - str.length();
+                            // imitate no insert (later on offs will be incremented by str.length(): selection won't move forward)
+                            UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
+                            setText(getSearchable().convertElementToString(item));
+                            // select the completed part
+                            highlightCompletedText(offs + str.length());
+                        }
                     }
                 }
             }
