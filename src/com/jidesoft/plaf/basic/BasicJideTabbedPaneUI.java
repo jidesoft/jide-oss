@@ -8058,7 +8058,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 _tabScroller.tabPanel.getParent().doLayout();
             }
             _tabPane.revalidate();
-            _tabPane.repaint();
+            getTabPanel().repaint();
         }
     }
 
