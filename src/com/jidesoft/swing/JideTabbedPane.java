@@ -1419,11 +1419,12 @@ public class JideTabbedPane extends JTabbedPane {
         int delay = 200;
         ((JideTabbedPaneUI) getUI()).getTabPanel().repaint(delay);
 
-        if (UIDefaultsLookup.get("JideTabbedPane.contentBorderInsets") == null) {
+        Insets contentinsets = getContentBorderInsets();
+        if (contentinsets == null) {
             LookAndFeelFactory.installJideExtension();
+            contentinsets = getContentBorderInsets();
         }
 
-        Insets contentinsets = UIDefaultsLookup.getInsets("JideTabbedPane.contentBorderInsets");
         if (contentinsets != null && (contentinsets.top != 0 || contentinsets.bottom != 0 || contentinsets.left != 0 || contentinsets.right != 0)) {
             Insets insets = new Insets(0, 0, 0, 0);
             BasicJideTabbedPaneUI.rotateInsets(contentinsets, insets, tabPlacement);
