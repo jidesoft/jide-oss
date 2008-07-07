@@ -321,6 +321,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "DockableFrameTitlePane.buttonGap", 3, // gap between buttons
                     "DockableFrameTitlePane.showIcon", Boolean.TRUE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 6), // gap
+                    "DockableFrameTitlePane.use3dButtons", Boolean.TRUE,
 
                     "ContentContainer.background", defaultBackgroundColor,
                     "ContentContainer.vgap", 1,

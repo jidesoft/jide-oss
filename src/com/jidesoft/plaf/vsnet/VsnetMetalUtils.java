@@ -350,6 +350,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "DockableFrameTitlePane.buttonGap", 2, // gap between buttons
                     "DockableFrameTitlePane.showIcon", Boolean.FALSE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 6), // gap
+                    "DockableFrameTitlePane.use3dButtons", Boolean.TRUE,
 
                     "ContentContainer.background", defaultFormBackgroundColor,
                     "ContentContainer.vgap", 1,
