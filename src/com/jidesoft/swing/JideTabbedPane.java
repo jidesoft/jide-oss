@@ -1429,16 +1429,16 @@ public class JideTabbedPane extends JTabbedPane {
             Insets insets = new Insets(0, 0, 0, 0);
             BasicJideTabbedPaneUI.rotateInsets(contentinsets, insets, tabPlacement);
             if (insets.top != 0) {
-                repaint(delay, 0, 0, getWidth(), insets.top);
+                paintImmediately(0, 0, getWidth(), insets.top);
             }
             if (insets.left != 0) {
-                repaint(delay, 0, 0, insets.left, getHeight());
+                paintImmediately(0, 0, insets.left, getHeight());
             }
             if (insets.right != 0) {
-                repaint(delay, getWidth() - insets.right, 0, insets.right, getHeight());
+                paintImmediately(getWidth() - insets.right, 0, insets.right, getHeight());
             }
             if (insets.bottom != 0) {
-                repaint(delay, 0, getHeight() - insets.bottom, getWidth(), insets.bottom);
+                paintImmediately(0, getHeight() - insets.bottom, getWidth(), insets.bottom);
             }
         }
     }
