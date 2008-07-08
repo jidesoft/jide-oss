@@ -16,7 +16,7 @@ import java.util.List;
  * A class that keeps all 1.4/1.3 different stuff.
  */
 public class PortingUtils {
-    private static Rectangle _virtualBounds = null;
+    private static Rectangle SCREEN_BOUNDS = null;
 
     /**
      * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the
@@ -137,10 +137,10 @@ public class PortingUtils {
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
-        ensureVirtualBounds();
+        ensureScreenBounds();
 
         // to handle multi-display case
-        Dimension screenSize = _virtualBounds.getSize();  // Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = SCREEN_BOUNDS.getSize();  // Toolkit.getDefaultToolkit().getScreenSize();
 
         // jdk1.4 only
         if (invoker != null && !(invoker instanceof JApplet) && invoker.getGraphicsConfiguration() != null) {
@@ -159,7 +159,7 @@ public class PortingUtils {
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
-        ensureVirtualBounds();
+        ensureScreenBounds();
 
         // jdk1.4 only
         if (invoker != null && !(invoker instanceof JApplet) && invoker.getGraphicsConfiguration() != null) {
@@ -183,10 +183,10 @@ public class PortingUtils {
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
-        ensureVirtualBounds();
+        ensureScreenBounds();
 
         // to handle multi-display case
-        Rectangle bounds = (Rectangle) _virtualBounds.clone();
+        Rectangle bounds = (Rectangle) SCREEN_BOUNDS.clone();
 
         // TODO
         // jdk1.4 only
@@ -211,14 +211,14 @@ public class PortingUtils {
         return e.getMaximumWindowBounds();
     }
 
-    private static void ensureVirtualBounds() {
-        if (_virtualBounds == null) {
-            _virtualBounds = new Rectangle();
+    private static void ensureScreenBounds() {
+        if (SCREEN_BOUNDS == null) {
+            SCREEN_BOUNDS = new Rectangle();
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] gs = ge.getScreenDevices();
             for (GraphicsDevice gd : gs) {
                 GraphicsConfiguration gc = gd.getDefaultConfiguration();
-                _virtualBounds = _virtualBounds.union(gc.getBounds());
+                SCREEN_BOUNDS = SCREEN_BOUNDS.union(gc.getBounds());
             }
         }
     }
@@ -289,7 +289,9 @@ public class PortingUtils {
             _initializationThread = new Thread() {
                 @Override
                 public void run() {
+                    System.out.printf("initializing");
                     SCREEN_AREA = new Area();
+                    SCREEN_BOUNDS = new Rectangle();
                     GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     List<Rectangle> screensList = new ArrayList();
                     List<Insets> insetsList = new ArrayList();
@@ -301,6 +303,7 @@ public class PortingUtils {
                         screensList.add(screenBounds);
                         insetsList.add(insets);
                         SCREEN_AREA.add(new Area(screenBounds));
+                        SCREEN_BOUNDS = SCREEN_BOUNDS.union(screenBounds);
                     }
                     SCREENS = screensList.toArray(new Rectangle[screensList.size()]);
                     INSETS = insetsList.toArray(new Insets[screensList.size()]);
