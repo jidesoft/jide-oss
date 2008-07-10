@@ -6829,17 +6829,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             viewport.addChangeListener(this);
 
             scrollForwardButton = createNoFocusButton(TabCloseButton.EAST_BUTTON);
-            scrollForwardButton.setName("TabScrollForward");
+            scrollForwardButton.setName("JideTabbedPane.scrollForward");
             scrollBackwardButton = createNoFocusButton(TabCloseButton.WEST_BUTTON);
-            scrollBackwardButton.setName("TabScrollBackward");
+            scrollBackwardButton.setName("JideTabbedPane.scrollBackward");
 
             scrollForwardButton.setBackground(viewport.getBackground());
             scrollBackwardButton.setBackground(viewport.getBackground());
 
             listButton = createNoFocusButton(TabCloseButton.LIST_BUTTON);
+            listButton.setName("JideTabbedPane.showList");
             listButton.setBackground(viewport.getBackground());
 
             closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
+            closeButton.setName("JideTabbedPane.close");
             closeButton.setBackground(viewport.getBackground());
         }
 
@@ -7260,6 +7262,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             setFocusPainted(false);
             setFocusable(false);
             setRequestFocusEnabled(false);
+            String name = getName();
+            if (name != null) setToolTipText(getResourceString(name));
         }
 
         public TabCloseButton() {
@@ -7574,6 +7578,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             else if (name.equals(JideTabbedPane.PROPERTY_TAB_COLOR_PROVIDER)) {
                 _tabPane.repaint();
+            }
+            else if (name.equals("locale")) {
+                _tabPane.updateUI();
             }
             else if (name.equals(JideTabbedPane.BOLDACTIVETAB_PROPERTY)) {
                 getTabPanel().invalidate();
@@ -8115,7 +8122,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 TabCloseButton closeButton = _closeButtons[i];
                 if (closeButton == null) {
                     closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
-                    closeButton.setName("TabClose");
+                    closeButton.setName("JideTabbedPane.close");
                     _closeButtons[i] = closeButton;
                     closeButton.setBounds(0, 0, 0, 0);
                     Action action = _tabPane.getCloseAction();
@@ -8720,5 +8727,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             numberOfButtons--;
         }
         return numberOfButtons;
+    }
+
+    /**
+     * Gets the resource string used in DocumentPane. Subclass can override it to provide their own strings.
+     *
+     * @param key the resource key
+     * @return the localized string.
+     */
+    protected String getResourceString(String key) {
+        return Resource.getResourceBundle(_tabPane != null ? _tabPane.getLocale() : Locale.getDefault()).getString(key);
     }
 }
