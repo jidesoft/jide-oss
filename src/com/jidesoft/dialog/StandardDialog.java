@@ -18,15 +18,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * StandardDialog is a dialog template. However several things are added to it to make it easier to
- * use. <UL> <LI> Laziness. The content will not be filled until pack() or show() are called. <LI>
- * Default action and cancel action. User can set the default action and cancel action of this
- * dialog. By default, the ENTER key will trigger the default action and the ESC key will trigger
- * the cancel action and set the dialog result to RESULT_CANCELLED. <LI> Divide the whole
- * ContentPane of the dialog into three parts - content panel, button panel and banner panel. By
- * default, they are added to the CENTER, SOUTH and NORTH of a BorderLayout respectively. There
- * isn't anything special about this. However if all your dialogs use this pattern, it will
- * automatically make the user interface more consistent. </UL>
+ * StandardDialog is a dialog template. However several things are added to it to make it easier to use. <UL> <LI>
+ * Laziness. The content will not be filled until pack() or show() are called. <LI> Default action and cancel action.
+ * User can set the default action and cancel action of this dialog. By default, the ENTER key will trigger the default
+ * action and the ESC key will trigger the cancel action and set the dialog result to RESULT_CANCELLED. <LI> Divide the
+ * whole ContentPane of the dialog into three parts - content panel, button panel and banner panel. By default, they are
+ * added to the CENTER, SOUTH and NORTH of a BorderLayout respectively. There isn't anything special about this. However
+ * if all your dialogs use this pattern, it will automatically make the user interface more consistent. </UL>
  * <p/>
  * This class is abstract. Subclasses need to implement createBannerPanel(), createButtonPanel() and
  * createContentPanel()
@@ -60,7 +58,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Frame owner, boolean modal) throws HeadlessException {
-        this(owner, "", modal);
+        this(owner, null, modal);
     }
 
     public StandardDialog(Frame owner, String title) throws HeadlessException {
@@ -69,13 +67,11 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
     public StandardDialog(Frame owner, String title, boolean modal) throws HeadlessException {
         super(owner, title, modal);
-        _standardDialogPane = createStandardDialogPane();
-        _propertyChangeListener = new StandardDialogPropertyChangeListener();
-        _standardDialogPane.addPropertyChangeListener(_propertyChangeListener);
+        initDialog();
     }
 
     public StandardDialog(Dialog owner, boolean modal) throws HeadlessException {
-        this(owner, "", modal);
+        this(owner, null, modal);
     }
 
     public StandardDialog(Dialog owner, String title) throws HeadlessException {
@@ -84,13 +80,37 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
     public StandardDialog(Dialog owner, String title, boolean modal) throws HeadlessException {
         super(owner, title, modal);
-        _standardDialogPane = createStandardDialogPane();
-        _propertyChangeListener = new StandardDialogPropertyChangeListener();
-        _standardDialogPane.addPropertyChangeListener(_propertyChangeListener);
+        initDialog();
     }
 
     public StandardDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) throws HeadlessException {
         super(owner, title, modal, gc);
+        initDialog();
+    }
+
+//    public StandardDialog(Window owner) {
+//        this(owner, null, ModalityType.MODELESS);
+//    }
+//
+//    public StandardDialog(Window owner, ModalityType modalityType) {
+//        this(owner, null, modalityType);
+//    }
+//
+//    public StandardDialog(Window owner, String title) {
+//        this(owner, title, ModalityType.MODELESS);
+//    }
+//
+//    public StandardDialog(Window owner, String title, ModalityType modalityType) {
+//        super(owner, title, modalityType);
+//        initDialog();
+//    }
+//
+//    public StandardDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
+//        super(owner, title, modalityType, gc);
+//        initDialog();
+//    }
+
+    private void initDialog() {
         _standardDialogPane = createStandardDialogPane();
         _propertyChangeListener = new StandardDialogPropertyChangeListener();
         _standardDialogPane.addPropertyChangeListener(_propertyChangeListener);
@@ -178,8 +198,8 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     /**
-     * Force the initComponent() method implemented in the child class to be called. If this method
-     * is called more than once on a given object, all calls but the first do nothing.
+     * Force the initComponent() method implemented in the child class to be called. If this method is called more than
+     * once on a given object, all calls but the first do nothing.
      */
     public synchronized final void initialize() {
         if ((!_lazyConstructorCalled) && (getParent() != null)) {
@@ -190,9 +210,8 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     /**
-     * Call three createXxxPanel methods and layout them using BorderLayout. By default, banner
-     * panel, content panel and button panel are added to NORTH, CENTER and SOUTH of BorderLayout
-     * respectively.
+     * Call three createXxxPanel methods and layout them using BorderLayout. By default, banner panel, content panel and
+     * button panel are added to NORTH, CENTER and SOUTH of BorderLayout respectively.
      * <p/>
      * You can override this method if you want to layout them in another way.
      */
@@ -262,10 +281,10 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     /**
-     * Subclasses should implement this method to create the banner panel. By default banner panel
-     * will appear on top of the dialog unless you override initComponent() method. Banner panel is
-     * really used to balance the layout of dialog to make the dialog looking good. However it can
-     * be used to show some help text. It is highly recommended to use our {@link BannerPanel}
+     * Subclasses should implement this method to create the banner panel. By default banner panel will appear on top of
+     * the dialog unless you override initComponent() method. Banner panel is really used to balance the layout of
+     * dialog to make the dialog looking good. However it can be used to show some help text. It is highly recommended
+     * to use our {@link BannerPanel}
      * <p/>
      * If subclass doesn't want to have a banner panel, just return null.
      *
@@ -274,20 +293,18 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     abstract public JComponent createBannerPanel();
 
     /**
-     * Subclasses should implement this method to create the content panel. This is the main panel
-     * of the dialog which will be added to the center of the dialog. Subclass should never return
-     * null.
+     * Subclasses should implement this method to create the content panel. This is the main panel of the dialog which
+     * will be added to the center of the dialog. Subclass should never return null.
      *
      * @return the content panel.
      */
     abstract public JComponent createContentPanel();
 
     /**
-     * Subclasses should implement this method to create the button panel. 90% of dialogs have
-     * buttons. It is highly recommended to use our {@link ButtonPanel}.
+     * Subclasses should implement this method to create the button panel. 90% of dialogs have buttons. It is highly
+     * recommended to use our {@link ButtonPanel}.
      *
      * @return the button panel.
-     *
      * @see ButtonPanel
      */
     abstract public ButtonPanel createButtonPanel();
