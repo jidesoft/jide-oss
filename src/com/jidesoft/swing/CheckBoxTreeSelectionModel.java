@@ -11,9 +11,8 @@ import java.util.Stack;
 import java.util.Vector;
 
 /**
- * <code>CheckBoxTreeSelectionModel</code> is a selection _model based on {@link
- * DefaultTreeSelectionModel} and use in {@link CheckBoxTree} to keep track of the checked tree
- * paths.
+ * <code>CheckBoxTreeSelectionModel</code> is a selection _model based on {@link DefaultTreeSelectionModel} and use in
+ * {@link CheckBoxTree} to keep track of the checked tree paths.
  *
  * @author Santhosh Kumar T
  */
@@ -47,9 +46,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
-     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
-     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Gets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will check all the
+     * children. Correspondingly, getSelectionPaths() will only return the parent tree path. If not in dig-in mode, each
+     * tree node can be checked or unchecked independently
      *
      * @return true or false.
      */
@@ -58,9 +57,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will
-     * check all the children. Correspondingly, getSelectionPaths() will only return the parent tree
-     * path. If not in dig-in mode, each tree node can be checked or unchecked independently
+     * Sets the dig-in mode. If the CheckBoxTree is in dig-in mode, checking the parent node will check all the
+     * children. Correspondingly, getSelectionPaths() will only return the parent tree path. If not in dig-in mode, each
+     * tree node can be checked or unchecked independently
      *
      * @param digIn true to enable dig-in mode. False to disable it.
      */
@@ -94,8 +93,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Tells whether given path is selected. if dig is true, then a path is assumed to be selected,
-     * if one of its ancestor is selected.
+     * Tells whether given path is selected. if dig is true, then a path is assumed to be selected, if one of its
+     * ancestor is selected.
      *
      * @param path  check if the path is selected.
      * @param digIn whether we will check its descendants.
@@ -240,7 +239,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
                     }
                     else {
                         if (!isSelectionEmpty()) {
-                            removeSelectionPaths(getSelectionPaths());
+                            removeSelectionPaths(getSelectionPaths(), !fireEventAtTheEnd);
                         }
                         delegateAddSelectionPaths(new TreePath[]{temp});
                     }
@@ -293,38 +292,45 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
 
     @Override
     public void removeSelectionPaths(TreePath[] paths) {
+        removeSelectionPaths(paths, true);
+    }
+
+    public void removeSelectionPaths(TreePath[] paths, boolean doFireEvent) {
         if (!isDigIn()) {
             super.removeSelectionPaths(paths);
             return;
         }
 
-        List<TreePath> toBeRemoved = new ArrayList<TreePath>();
-        for (TreePath path : paths) {
+        List toBeRemoved = new ArrayList();
+        for (int i = 0; i < paths.length; i++) {
+            TreePath path = paths[i];
             if (path.getPathCount() == 1) {
                 toBeRemoved.add(path);
             }
             else {
-                toggleRemoveSelection(path);
+                toggleRemoveSelection(path, doFireEvent);
             }
         }
         if (toBeRemoved.size() > 0) {
-            delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
+            delegateRemoveSelectionPaths((TreePath[]) toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
         }
     }
 
     /**
-     * If any ancestor node of given path is selected then unselect it and selection all its
-     * descendants except given path and descendants. Otherwise just unselect the given path
+     * If any ancestor node of given path is selected then unselect it and selection all its descendants except given
+     * path and descendants. Otherwise just unselect the given path
      *
-     * @param path the tree path
+     * @param path        the tree path
+     * @param doFireEvent
      */
-    private void toggleRemoveSelection(TreePath path) {
+    private void toggleRemoveSelection(TreePath path, boolean doFireEvent) {
         boolean fireEventAtTheEnd = false;
-        if (isSingleEventMode() && _fireEvent) {
-            _fireEvent = false;
-            fireEventAtTheEnd = true;
+        if (doFireEvent) {
+            if (isSingleEventMode() && _fireEvent) {
+                _fireEvent = false;
+                fireEventAtTheEnd = true;
+            }
         }
-
         try {
             Stack<TreePath> stack = new Stack<TreePath>();
             TreePath parent = path.getParentPath();
@@ -360,9 +366,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
             delegateRemoveSelectionPaths(new TreePath[]{parent});
         }
         finally {
-            _fireEvent = true;
-            if (isSingleEventMode() && fireEventAtTheEnd) {
-                notifyPathChange(new TreePath[]{path}, false, path);
+            if (doFireEvent) {
+                _fireEvent = true;
+                if (isSingleEventMode() && fireEventAtTheEnd) {
+                    notifyPathChange(new TreePath[]{path}, false, path);
+                }
             }
         }
     }
@@ -372,36 +380,32 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Single event mode is a mode that always fires only one event when you select or unselect a
-     * tree node.
+     * Single event mode is a mode that always fires only one event when you select or unselect a tree node.
      * <p/>
      * Taking this tree as an example,
      * <p/>
      * <code><pre>
      * A -- a
-     *   |- b
-     *   |- c
+     *   |- b
+     *   |- c
      * </code></pre>
-     * Case 1: Assuming b and c are selected at this point, you click on a. <br> <ul> <li>In
-     * non-single event mode, you will get select-A, deselect-b and deselect-c three events <li>In
-     * single event mode, you will only get select-a. </ul>
+     * Case 1: Assuming b and c are selected at this point, you click on a. <br> <ul> <li>In non-single event mode, you
+     * will get select-A, deselect-b and deselect-c three events <li>In single event mode, you will only get select-a.
+     * </ul>
      * <p/>
-     * Case 2: Assuming none of the nodes are selected, you click on A. In this case, both modes
-     * result in the same behavior. <ul> <li>In non-single event mode, you will get only select-A
-     * event. <li>In single event mode, you will only get select-A too. </ul> Case 3: Assuming b and
-     * c are selected and now you click on A. <ul> <li>In non-single event mode, you will get
-     * select-A event as well as deselect-b and deselect-c event. <li>In single event mode, you will
-     * only get select-A. </ul> As you can see, single event mode will always fire the event on the
-     * nodes you select. However it doesn't reflect what really happened inside the selection model.
-     * So if you want to get a complete picture of the selection state inside selection model, you
-     * should use {@link #getSelectionPaths()} to find out. In non-single event mode, the events
-     * reflect what happened inside the selection model. So you can get a complete picture of the
-     * exact state without asking the selection model. The downside is it will generate too many
-     * events. With this option, you can decide which mode you want to use that is the best for your
-     * case.
+     * Case 2: Assuming none of the nodes are selected, you click on A. In this case, both modes result in the same
+     * behavior. <ul> <li>In non-single event mode, you will get only select-A event. <li>In single event mode, you will
+     * only get select-A too. </ul> Case 3: Assuming b and c are selected and now you click on A. <ul> <li>In non-single
+     * event mode, you will get select-A event as well as deselect-b and deselect-c event. <li>In single event mode, you
+     * will only get select-A. </ul> As you can see, single event mode will always fire the event on the nodes you
+     * select. However it doesn't reflect what really happened inside the selection model. So if you want to get a
+     * complete picture of the selection state inside selection model, you should use {@link #getSelectionPaths()} to
+     * find out. In non-single event mode, the events reflect what happened inside the selection model. So you can get a
+     * complete picture of the exact state without asking the selection model. The downside is it will generate too many
+     * events. With this option, you can decide which mode you want to use that is the best for your case.
      * <p/>
-     * By default, singleEventMode is set to false to be compatible with the older versions that
-     * don't have this option.
+     * By default, singleEventMode is set to false to be compatible with the older versions that don't have this
+     * option.
      *
      * @param singleEventMode true or false.
      */
@@ -410,25 +414,26 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Notifies listeners of a change in path. changePaths should contain instances of
-     * PathPlaceHolder.
+     * Notifies listeners of a change in path. changePaths should contain instances of PathPlaceHolder.
      *
      * @param changedPaths     the paths that are changed.
      * @param isNew            is it a new path.
      * @param oldLeadSelection the old selection.
      */
     protected void notifyPathChange(TreePath[] changedPaths, boolean isNew, TreePath oldLeadSelection) {
-        int cPathCount = changedPaths.length;
-        boolean[] newness = new boolean[cPathCount];
+        if (_fireEvent) {
+            int cPathCount = changedPaths.length;
+            boolean[] newness = new boolean[cPathCount];
 
-        for (int counter = 0; counter < cPathCount; counter++) {
-            newness[counter] = isNew;
+            for (int counter = 0; counter < cPathCount; counter++) {
+                newness[counter] = isNew;
+            }
+
+            TreeSelectionEvent event = new TreeSelectionEvent
+                    (this, changedPaths, newness, oldLeadSelection, leadPath);
+
+            fireValueChanged(event);
         }
-
-        TreeSelectionEvent event = new TreeSelectionEvent
-                (this, changedPaths, newness, oldLeadSelection, leadPath);
-
-        fireValueChanged(event);
     }
 
     // do not use it for now
