@@ -291,7 +291,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                             public void actionPerformed(ActionEvent e) {
                                 JButton defaultButton = (JButton) e.getSource();
                                 Container top = defaultButton.getTopLevelAncestor();
-                                final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(Locale.getDefault());
+                                final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
                                 if (_detailsArea.isVisible()) {
                                     setDetailsVisible(false);
                                     _detailsArea.setVisible(false);
@@ -406,7 +406,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                 }
                 else if (type == JideOptionPane.CLOSE_OPTION) {
                     defaultOptions = new ButtonFactory[1];
-                    final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(Locale.getDefault());
+                    final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
                     defaultOptions[0] = new ButtonFactory(
                             ButtonNames.CLOSE,
                             resourceBundle.getString("Button.close"),
@@ -436,7 +436,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             for (int i = 0; i < options.length; i++) {
                 newOptions[i] = options[i];
             }
-            final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(Locale.getDefault());
+            final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
             newOptions[newOptions.length - 1] = new ButtonFactory(
                     ButtonNames.DETAILS,
                     resourceBundle.getString("Button.showDetails"),
@@ -625,6 +625,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      *
      * @param str
      * @param width
+     *
      * @return An array of Strings with lengh of "width"
      */
     private static String[] fitInWidth(String str, int width) {
@@ -678,6 +679,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param string string in which to target occurrences
      * @param target string to target
      * @param dest   replacement string
+     *
      * @return <code>string</code> with <code>dest</code> substituted for <code>target</code>
      */
     private static String replaceOccurrences(String string, String target, String dest) {
@@ -705,6 +707,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param targetOffset offset of the target string.
      * @param targetCount  count of the target string.
      * @param fromIndex    the index to begin searching from.
+     *
      * @return If the string argument occurs as a substring within this object, then the index of the first character of
      *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
@@ -765,6 +768,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param buf       - buffer to search for str
      * @param findStr   - string to located
      * @param fromIndex - index to search
+     *
      * @return If the string argument occurs as a substring within this object, then the index of the first character of
      *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
