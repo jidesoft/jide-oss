@@ -356,6 +356,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Invoked by <code>installUI</code> to create a layout manager object to manage the <code>JTabbedPane</code>.
      *
      * @return a layout manager object
+     *
      * @see TabbedPaneLayout
      * @see JTabbedPane#getTabLayoutPolicy
      */
@@ -4155,6 +4156,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      *
      * @param tabIndex the index of the tab
      * @param dest     the rectangle where the result should be placed
+     *
      * @return the resulting rectangle
      */
     protected Rectangle getTabBounds(int tabIndex, Rectangle dest) {
@@ -4342,6 +4344,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * specialized text rendering is needed for this tab. This is provided to support html rendering inside tabs.
      *
      * @param tabIndex the index of the tab
+     *
      * @return the text view to render the tab's text or null if no specialized rendering is required
      */
     protected View getTextViewForTab(int tabIndex) {
@@ -7870,13 +7873,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             // currently no IndexPropertyChangeEvent. Once
             // IndexPropertyChangeEvents have been added this code should be
             // modified to use it.
-            Integer indexObj =
+            Integer index =
                     (Integer) tp.getClientProperty("__index_to_remove__");
-            if (indexObj != null) {
-                int index = indexObj;
+            if (index != null) {
                 if (htmlViews != null && htmlViews.size() >= index) {
                     htmlViews.removeElementAt(index);
                 }
+                tp.putClientProperty("__index_to_remove__", null);
             }
 
             if (_tabPane.isTabEditing()) {
@@ -8733,6 +8736,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Gets the resource string used in DocumentPane. Subclass can override it to provide their own strings.
      *
      * @param key the resource key
+     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
