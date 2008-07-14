@@ -9,7 +9,7 @@ package com.jidesoft.swing;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.Painter;
-import com.jidesoft.utils.SystemInfo;
+import com.jidesoft.utils.PortingUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -305,6 +305,7 @@ public class JideSplitPaneDivider extends JPanel
      * one on the left or on the top.
      *
      * @param ignoreVisibility true to not check if the component is visible.
+     *
      * @return the first component
      */
     public Component getFirstComponent(boolean ignoreVisibility) {
@@ -328,6 +329,7 @@ public class JideSplitPaneDivider extends JPanel
      * one on the right or on the bottom.
      *
      * @param ignoreVisibility true to not check if the component is visible.
+     *
      * @return the first component
      */
     public Component getSecondComponent(boolean ignoreVisibility) {
@@ -496,6 +498,7 @@ public class JideSplitPaneDivider extends JPanel
          * Returns the new position to put the divider at based on the passed in MouseEvent.
          *
          * @param e the mouse event.
+         *
          * @return the position of the mouse event after considering the max and min size it is allowed.
          */
         protected int positionForMouseEvent(MouseEvent e) {
@@ -510,6 +513,7 @@ public class JideSplitPaneDivider extends JPanel
          *
          * @param x x position
          * @param y y position
+         *
          * @return the actual position after considering the max and min size it is allowed.
          */
         protected int getNeededLocation(int x, int y) {
@@ -743,26 +747,14 @@ public class JideSplitPaneDivider extends JPanel
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                if (SystemInfo.isJdk15Above()) {
-                    component.setMinimumSize(new Dimension(0, 0));
-                }
-                else if (component instanceof JComponent) {
-                    JComponent jComponent = (JComponent) component;
-                    jComponent.setMinimumSize(new Dimension(0, 0));
-                }
+                PortingUtils.setMinimumSize(component, new Dimension(0, 0));
             }
         }
         else {
             for (int i = 0; i < paneCount; i++) {
                 Component component = _jideSplitPane.getPaneAt(i);
                 _minimumSizes[i] = component.getMinimumSize();
-                if (SystemInfo.isJdk15Above()) {
-                    component.setMinimumSize(_minimumSizes[i]);
-                }
-                else if (component instanceof JComponent) {
-                    JComponent jComponent = (JComponent) component;
-                    jComponent.setMinimumSize(_minimumSizes[i]);
-                }
+                PortingUtils.setMinimumSize(component, _minimumSizes[i]);
             }
         }
     }

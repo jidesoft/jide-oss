@@ -5,7 +5,7 @@
  */
 package com.jidesoft.swing;
 
-import com.jidesoft.utils.SystemInfo;
+import com.jidesoft.utils.PortingUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,7 +13,9 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-/** A resizable undecorated frame. */
+/**
+ * A resizable undecorated frame.
+ */
 public class ResizableFrame extends JFrame implements ResizableSupport {
 
     private ResizablePanel _resizablePanel;
@@ -37,7 +39,9 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
         initComponents();
     }
 
-    /** Initializes the resizable window. */
+    /**
+     * Initializes the resizable window.
+     */
     protected void initComponents() {
         setUndecorated(true);
 
@@ -48,12 +52,7 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                     @Override
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
                         Container container = ResizableFrame.this.getContentPane();
-                        if (SystemInfo.isJdk15Above()) {
-                            container.setPreferredSize(new Dimension(newW, newH));
-                        }
-                        else if (container instanceof JComponent) {
-                            ((JComponent) container).setPreferredSize(new Dimension(newW, newH));
-                        }
+                        PortingUtils.setPreferredSize(container, new Dimension(newW, newH));
                         if (!JFrame.isDefaultLookAndFeelDecorated()) {
                             ResizableFrame.this.setBounds(newX, newY, newW, newH);
                         }
@@ -101,8 +100,8 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
     }
 
     /**
-     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window
-     * won't be resizable.
+     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window won't be
+     * resizable.
      *
      * @param border the border.
      */

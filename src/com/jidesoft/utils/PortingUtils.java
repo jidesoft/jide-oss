@@ -23,6 +23,7 @@ public class PortingUtils {
      * correct focused component.
      *
      * @param event
+     *
      * @return current focused component
      */
     public static Component getCurrentFocusComponent(AWTEvent event) {
@@ -33,6 +34,7 @@ public class PortingUtils {
      * Gets frame's state. In 1.3, used getState; in 1.4, uses getExtendedState.
      *
      * @param frame
+     *
      * @return frame's state
      */
     public static int getFrameState(Frame frame) {
@@ -53,6 +55,7 @@ public class PortingUtils {
      * Gets mouse modifiers. If 1.3, uses getModifiers; 1.4, getModifiersEx.
      *
      * @param e
+     *
      * @return mouse modifiers
      */
     public static int getMouseModifiers(MouseEvent e) {
@@ -85,6 +88,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
+     *
      * @return the rectange that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
@@ -110,6 +114,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
+     *
      * @return the rectange that has overlap with the screen bounds.
      */
     public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
@@ -134,6 +139,7 @@ public class PortingUtils {
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
      * @param invoker
+     *
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
@@ -156,6 +162,7 @@ public class PortingUtils {
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
      * @param invoker
+     *
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
@@ -180,6 +187,7 @@ public class PortingUtils {
      * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS.
      *
      * @param invoker
+     *
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
@@ -228,6 +236,7 @@ public class PortingUtils {
      *
      * @param invoker we will use this the invoker component to find out the current screen.
      * @param point   the point
+     *
      * @deprecated Please use {@link #ensureOnScreen(java.awt.Rectangle)} instead.
      */
     @Deprecated
@@ -347,6 +356,7 @@ public class PortingUtils {
      *
      * @param invoker the invoking component
      * @param bounds  the input bounds
+     *
      * @return the modified bounds.
      */
     public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
@@ -367,6 +377,7 @@ public class PortingUtils {
      * Modifies the position of rect so that it is completly on screen if that is possible.
      *
      * @param rect The rectange to move onto a single screen
+     *
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
@@ -429,6 +440,7 @@ public class PortingUtils {
      *
      * @param rect           the rect of the component.
      * @param considerInsets if consider the insets. The insets is for thing like Windows Task Bar.
+     *
      * @return the screen bounds that contains the rect.
      */
     public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
@@ -511,6 +523,41 @@ public class PortingUtils {
         if (SystemInfo.isMacOSX()) { // set special properties for Mac OS X
             java.lang.System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("apple.awt.brushMetalLook", "true");
+        }
+    }
+
+    /**
+     * Sets the preferred size on a component. This method is there mainly to fix the issue that setPreferredSize method
+     * is there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this
+     * method captures this logic and only call setPreferedSize when the JDK is 1.5 and above or when the component is
+     * instance of JComponent.
+     *
+     * @param component the component
+     * @param size      the preferred size.
+     */
+    public static void setPreferredSize(Component component, Dimension size) {
+        if (SystemInfo.isJdk15Above()) {
+            component.setPreferredSize(size);
+        }
+        else if (component instanceof JComponent) {
+            ((JComponent) component).setPreferredSize(size);
+        }
+    }
+
+    /**
+     * Sets the minimum size on a component. This method is there mainly to fix the issue that setMinimumSize method is
+     * there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this method
+     * captures this logic and only call setMinimumSize when the JDK is 1.5 and above or when the component is
+     *
+     * @param component the component
+     * @param size      the preferred size.
+     */
+    public static void setMinimumSize(Component component, Dimension size) {
+        if (SystemInfo.isJdk15Above()) {
+            component.setMinimumSize(size);
+        }
+        else if (component instanceof JComponent) {
+            ((JComponent) component).setMinimumSize(size);
         }
     }
 }
