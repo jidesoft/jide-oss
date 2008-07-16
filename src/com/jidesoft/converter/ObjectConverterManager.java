@@ -12,11 +12,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * A global object that can register converter with a type and a ConverterContext.
+ * <code>ObjectConverterManager</code> is a center place to register ObjectConverters with a data type and an optinoal
+ * ConverterContext. The ConverterContext is a switch when you need several different converters for the same data type.
+ * If you only use one ObjectConverter for a particular data type, you can use null as the ConverterContext.
  * <p/>
- * <code>ObjectConverterManager</code> is used in many places in JIDE products. It is especially used at JIDE Grids
- * where <code>ContextSensitiveTableModel</code> adds cellClass and converterContext to each cell in a table model. We
- * use both values as the key to look up for the <code>ObjectConverter</code> from <code>ObjectConverterManager</code>.
+ * <code>ObjectConverterManager</code> is used in many places in JIDE products, especially in JIDE Grids where
+ * <code>ContextSensitiveTableModel</code> adds getCellClassAt (the data type) and getConverterContextAt for each cell
+ * in a table model. We use both values as the key to look up for the <code>ObjectConverter</code> from
+ * <code>ObjectConverterManager</code>.
  */
 public class ObjectConverterManager {
 
