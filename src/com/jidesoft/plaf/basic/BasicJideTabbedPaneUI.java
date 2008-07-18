@@ -8315,7 +8315,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 textRect = new Rectangle();
 
         String title = _tabPane.getDisplayTitleAt(tabIndex);
-        if (title == null || title.length() < 4) {
+        if (title == null || title.length() < 3) {
             title = "    ";
         }
         Icon icon = _tabPane.getIconForTab(tabIndex);
