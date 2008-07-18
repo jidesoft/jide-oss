@@ -298,7 +298,6 @@ public class PortingUtils {
             _initializationThread = new Thread() {
                 @Override
                 public void run() {
-                    System.out.printf("initializing");
                     SCREEN_AREA = new Area();
                     SCREEN_BOUNDS = new Rectangle();
                     GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
