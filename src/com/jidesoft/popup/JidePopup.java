@@ -1850,44 +1850,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _panel = null;
         }
 
-        _actualOwner = null;
-//<syd_0034>
-//David: There are synchronous events which can result in a call to
-//  hidePopupImmediately. Because I made the call to addMouseEventHandler
-//  asynchronous, this can result in a situation where hidePopupImmediately
-//  gets called before addMouseEventHandler is executed. In that situation, the
-//  mouseEventHandler would be added after it was removed, resulting in the
-//  handler hanging around. So I call the removeMouseEventHandler method
-//  asynchronously, as well, to insure that it happens after
-//  addMouseEventHandler.
-//        removeMouseEventHandler();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 removeMouseEventHandler();
             }
         });
-//</syd_0034>
-
-// comment out because bug report on http://www.jidesoft.com/forum/viewtopic.php?p=10333#10333.
-        if (owner != null && owner.isShowing()) {
-            boolean focusInWindowWorked = false;
-            Container parent = owner.getParent();
-            while (parent != null) {
-                if (parent instanceof JPopupMenu) break;
-                if (parent instanceof Window) {
-                    if (((Window) parent).isFocused()) {
-                        focusInWindowWorked = owner.requestFocusInWindow();
-                        break;
-                    }
-                }
-                parent = parent.getParent();
-            }
-
-            // only if requestFocusInWindow fails, then try requestFocus on the owner
-            if (!focusInWindowWorked) {
-                owner.requestFocus();
-            }
-        }
 
         _resizableSupport = null;
         _owner = null;
