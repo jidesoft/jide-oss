@@ -245,6 +245,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected boolean _alwaysShowLineBorder = false;
     protected boolean _showFocusIndicator = false;
 
+    public static final String BUTTON_NAME_CLOSE = "JideTabbedPane.close";
+    public static final String BUTTON_NAME_TAB_LIST = "JideTabbedPane.showList";
+    public static final String BUTTON_NAME_SCROLL_BACKWARD = "JideTabbedPane.scrollBackward";
+    public static final String BUTTON_NAME_SCROLL_FORWARD = "JideTabbedPane.scrollForward";
+
+
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideTabbedPaneUI();
     }
@@ -356,7 +362,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Invoked by <code>installUI</code> to create a layout manager object to manage the <code>JTabbedPane</code>.
      *
      * @return a layout manager object
-     *
      * @see TabbedPaneLayout
      * @see JTabbedPane#getTabLayoutPolicy
      */
@@ -4156,7 +4161,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      *
      * @param tabIndex the index of the tab
      * @param dest     the rectangle where the result should be placed
-     *
      * @return the resulting rectangle
      */
     protected Rectangle getTabBounds(int tabIndex, Rectangle dest) {
@@ -4344,7 +4348,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * specialized text rendering is needed for this tab. This is provided to support html rendering inside tabs.
      *
      * @param tabIndex the index of the tab
-     *
      * @return the text view to render the tab's text or null if no specialized rendering is required
      */
     protected View getTextViewForTab(int tabIndex) {
@@ -6832,19 +6835,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             viewport.addChangeListener(this);
 
             scrollForwardButton = createNoFocusButton(TabCloseButton.EAST_BUTTON);
-            scrollForwardButton.setName("JideTabbedPane.scrollForward");
+            scrollForwardButton.setName(BUTTON_NAME_SCROLL_FORWARD);
             scrollBackwardButton = createNoFocusButton(TabCloseButton.WEST_BUTTON);
-            scrollBackwardButton.setName("JideTabbedPane.scrollBackward");
+            scrollBackwardButton.setName(BUTTON_NAME_SCROLL_BACKWARD);
 
             scrollForwardButton.setBackground(viewport.getBackground());
             scrollBackwardButton.setBackground(viewport.getBackground());
 
             listButton = createNoFocusButton(TabCloseButton.LIST_BUTTON);
-            listButton.setName("JideTabbedPane.showList");
+            listButton.setName(BUTTON_NAME_TAB_LIST);
             listButton.setBackground(viewport.getBackground());
 
             closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
-            closeButton.setName("JideTabbedPane.close");
+            closeButton.setName(BUTTON_NAME_CLOSE);
             closeButton.setBackground(viewport.getBackground());
         }
 
@@ -8736,7 +8739,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Gets the resource string used in DocumentPane. Subclass can override it to provide their own strings.
      *
      * @param key the resource key
-     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
