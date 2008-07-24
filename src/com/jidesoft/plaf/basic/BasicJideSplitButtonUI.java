@@ -219,67 +219,67 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
 
         JideSplitButton b = (JideSplitButton) menuItem;
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBAR_STYLE) {
-            if ((menuItem instanceof JMenu && model.isSelected())) {
-                if (menuItem.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION) != null) {
-                    Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+        if (b.getButtonStyle() == ButtonStyle.TOOLBAR_STYLE) {
+            if ((model.isSelected())) {
+                if (b.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION) != null) {
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
                     }
-                    rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_PRESSED);
+                    rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
                 }
                 else {
-                    getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
+                    getPainter().paintSelectedMenu(b, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
                 }
             }
             else if (model.isArmed() || model.isPressed()) {
-                Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_PRESSED);
+                Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                if (b.isButtonEnabled()) {
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
                 }
-                rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
             }
             else if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
                 if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
-                    Rectangle rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_PRESSED);
+                    Rectangle rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
                     }
                 }
                 else {
-                    Rectangle rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
+                    Rectangle rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
                 }
             }
             else if (((b.isRolloverEnabled() && isMouseOver()) || b.hasFocus()) && model.isEnabled()) {
-                if (isAlwaysDropdown(menuItem)) {
+                if (isAlwaysDropdown(b)) {
                     Rectangle rect = new Rectangle(0, 0, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
                 }
                 else {
                     // Draw a line border with background
-                    Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
                     }
-                    rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                    rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
                 }
             }
             else {
                 if (paintBackground) {
-                    Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
                     if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                         JideSwingUtilities.fillGradient(g, rect, SwingConstants.HORIZONTAL);
                     }
-                    rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
                     getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
                     if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                         JideSwingUtilities.fillGradient(g, rect, SwingConstants.HORIZONTAL);
@@ -287,22 +287,21 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
-            if ((menuItem instanceof JMenu && model.isSelected())) {
+        else if (b.getButtonStyle() == ButtonStyle.FLAT_STYLE) {
+            if ((model.isSelected())) {
                 // Draw a dark shadow border without bottom
-                getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
+                getPainter().paintSelectedMenu(b, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
             }
             else if (model.isArmed() || model.isPressed()) {
-                Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                if (((JideSplitButton) menuItem).isButtonEnabled()) {
+                Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                if (b.isButtonEnabled()) {
                     JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
                 }
                 rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                 JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
 
                 if (!b.isOpaque()) {
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     paintSunkenBorder(g, rect);
                     rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     paintRaisedBorder(g, rect);
@@ -312,12 +311,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 if ((isMouseOver() || b.hasFocus()) && model.isEnabled()) {
                     Rectangle rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
                         JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
                     }
                     if (!b.isOpaque()) {
-                        rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                        rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                         paintSunkenBorder(g, rect);
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         paintRaisedBorder(g, rect);
@@ -329,11 +328,11 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
                     }
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
 
                     if (!b.isOpaque()) {
-                        rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                        rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                         paintSunkenBorder(g, rect);
 //                        rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
 //                        paintRaisedBorder(g, rect);
@@ -344,46 +343,45 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             else {
                 if (((b.isRolloverEnabled() && isMouseOver()) || b.hasFocus()) && model.isEnabled()) {
                     // Draw a line border with background
-                    Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
                         JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
                     }
                     rect = new Rectangle(menuWidth - _splitButtonMargin - getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
 
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     paintRaisedBorder(g, rect);
                     rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     paintRaisedBorder(g, rect);
                 }
                 else {
                     if (b.isOpaque()) {
-                        Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                        if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                            getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
+                        Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                        if (b.isButtonEnabled()) {
+                            getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
                         }
-                        rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
+                        rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
                     }
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
-            if ((menuItem instanceof JMenu && model.isSelected())) {
+        else if (b.getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
+            if ((model.isSelected())) {
                 // Draw a dark shadow border without bottom
-                getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
+                getPainter().paintSelectedMenu(b, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
             }
             else if (model.isArmed() || model.isPressed()) {
-                Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_PRESSED);
+                Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                if (b.isButtonEnabled()) {
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
                 }
                 rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
-                getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
 
                 if (!b.isOpaque()) {
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     paintSunken2Border(g, rect);
                     rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     paintRaisedBorder(g, rect);
@@ -392,13 +390,13 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             else if (model instanceof SplitButtonModel && ((DefaultSplitButtonModel) model).isButtonSelected()) {
                 if (isMouseOver() && model.isEnabled()) {
                     Rectangle rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_PRESSED);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
                     }
                     if (!b.isOpaque()) {
-                        rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                        rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                         paintSunken2Border(g, rect);
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         paintRaisedBorder(g, rect);
@@ -408,13 +406,13 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     Rectangle rect = null;
                     if (b.isOpaque()) {
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
                     }
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
 
                     if (!b.isOpaque()) {
-                        rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                        rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                         paintSunken2Border(g, rect);
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         paintRaisedBorder(g, rect);
@@ -425,29 +423,29 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             else {
                 if (b.isRolloverEnabled() && isMouseOver() && model.isEnabled()) {
                     // Draw a line border with background
-                    Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                    if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (((JideSplitButton) b).isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
                     }
                     rect = new Rectangle(menuWidth - _splitButtonMargin - getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
-                    getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_ROLLOVER);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
 
-                    rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                    rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     paintRaised2Border(g, rect);
                     rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                     paintRaised2Border(g, rect);
                 }
                 else {
                     if (b.isOpaque()) {
-                        Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
-                        if (((JideSplitButton) menuItem).isButtonEnabled()) {
-                            getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
+                        Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                        if (b.isButtonEnabled()) {
+                            getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
                         }
-                        rect = getDropDownRect(menuItem, orientation, menuWidth, menuHeight);
-                        getPainter().paintButtonBackground(menuItem, g, rect, JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_DEFAULT);
+                        rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
                     }
                     else {
-                        Rectangle rect = getButtonRect(menuItem, orientation, menuWidth, menuHeight);
+                        Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                         paintRaisedBorder(g, rect);
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         paintRaisedBorder(g, rect);
@@ -456,6 +454,12 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             }
         }
 
+        paintArrow(menuItem, g);
+    }
+
+    protected void paintArrow(JMenuItem menuItem, Graphics g) {
+        int menuWidth = menuItem.getWidth();
+        int menuHeight = menuItem.getHeight();
         if (menuItem.isEnabled()) {
             JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
         }
