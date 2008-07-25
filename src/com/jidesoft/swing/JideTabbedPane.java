@@ -1428,6 +1428,20 @@ public class JideTabbedPane extends JTabbedPane {
         if (contentinsets != null && (contentinsets.top != 0 || contentinsets.bottom != 0 || contentinsets.left != 0 || contentinsets.right != 0)) {
             Insets insets = new Insets(0, 0, 0, 0);
             BasicJideTabbedPaneUI.rotateInsets(contentinsets, insets, tabPlacement);
+            switch (getTabPlacement()) {
+                case TOP:
+                    insets.top += getTabHeight();
+                    break;
+                case BOTTOM:
+                    insets.bottom += getTabHeight();
+                    break;
+                case LEFT:
+                    insets.left += getTabHeight();
+                    break;
+                case RIGHT:
+                    insets.right += getTabHeight();
+                    break;
+            }
             if (insets.top != 0) {
                 paintImmediately(0, 0, getWidth(), insets.top);
             }
