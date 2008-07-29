@@ -529,7 +529,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         if (index == 0) { // if first one
             super.remove(0); // the component
         }
-        else { // not first one. then remove itself and the divier before it
+        else { // not first one. then remove itself and the divider before it
             super.remove(index << 1); // component
         }
     }
@@ -690,7 +690,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the flag that tells whether to do even proportions for the initial proportional layout, in the absence of
      * explicit proportions.
      *
-     * @return ture or false.
+     * @return true or false.
      */
     public boolean isInitiallyEven() {
         return _initiallyEven;
@@ -709,7 +709,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Prepares dragging if it's not continuous layout. If it's continous layout, do nothing.
+     * Prepares dragging if it's not continuous layout. If it's continuous layout, do nothing.
      *
      * @param divider the divider
      */
@@ -770,7 +770,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Drags divider to right location. If it's continous layout, really drag the divider; if not, only drag the
+     * Drags divider to right location. If it's continuous layout, really drag the divider; if not, only drag the
      * shadow.
      *
      * @param divider  the divider
@@ -803,7 +803,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     }
 
     /**
-     * Finishs dragging. If it's not continous layout, clear up the shadow component.
+     * Finishes dragging. If it's not continuous layout, clear up the shadow component.
      *
      * @param divider  the divider
      * @param location new location
@@ -1194,6 +1194,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      *
      * @param divider          the divider
      * @param ignoreVisibility true to not check if the pane is visible.
+     * @param reversed         from left to right or reversed.
      * @return the location of previous divider if any
      */
     protected int getPreviousDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
@@ -1209,6 +1210,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                         else {
                             location = getDividerAt(i).getBounds().y;
                         }
+                        break;
                     }
                 }
             }
@@ -1223,6 +1225,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                         else {
                             location = getDividerAt(i).getBounds().y;
                         }
+                        break;
                     }
                 }
             }
@@ -1240,6 +1243,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      *
      * @param divider          the divider
      * @param ignoreVisibility true to not check if the pane is visible.
+     * @param reversed         from left to right or reversed.
      * @return the location of next divider if any
      */
     public int getNextDividerLocation(JideSplitPaneDivider divider, boolean ignoreVisibility, boolean reversed) {
@@ -1442,7 +1446,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     private boolean _oneTouchExpandable = false;
 
     /**
-     * The default width/height of the divider (when horizontally/vertically splite respectively).
+     * The default width/height of the divider (when horizontally/vertically split respectively).
      */
     private int oneTouchExpandableDividerSize = 8;
 
@@ -1479,7 +1483,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             _oneTouchExpandable = oneTouchExpandable;
 
             /*
-            * We need to widden/shrink the dividers width so that we can display/remove the one-touch buttons.
+            * We need to widen/shrink the dividers width so that we can display/remove the one-touch buttons.
             */
             LayoutManager layoutManager = getLayout();
             if (layoutManager instanceof JideBoxLayout) {
