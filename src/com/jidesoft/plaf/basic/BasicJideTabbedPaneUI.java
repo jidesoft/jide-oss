@@ -8197,7 +8197,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         editor.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                if (_tabPane.isTabEditing()) {
+                if (_tabPane != null && _tabPane.isTabEditing()) {
                     _tabPane.stopTabEditing();
                 }
             }
