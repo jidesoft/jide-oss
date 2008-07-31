@@ -275,6 +275,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the UI object which implements the L&F for this component.
      *
      * @return a <code>TabbedPaneUI</code> object
+     *
      * @see #setUI
      */
     @Override
@@ -311,6 +312,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the name of the UI class that implements the L&F for this component.
      *
      * @return the string "TabbedPaneUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -323,6 +325,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns if tabs are shrinked when avaliable space is not enough to hold all tabs.
      *
      * @return true if tab shrink is true; false otherwise
+     *
      * @deprecated Since we added more tab resize option, shrinkTabs is just one of those. You can call {@link
      *             #getTabResizeMode()}. If the value is {@link #RESIZE_MODE_FIT}, it means shrinkTabs is true.
      *             Otherwise, it's false.
@@ -418,6 +421,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks if tabs are displayed as box style.
      *
      * @return true if tab is box style; false otherwise
+     *
      * @deprecated As JideTabbedPane can now support many different style, box style is just one of them. So this is
      *             method is replaced by {@link #getTabShape()} method. If the return value is SHAPE_BOX, it is a box
      *             style tab.
@@ -1443,18 +1447,30 @@ public class JideTabbedPane extends JTabbedPane {
                     break;
             }
             if (insets.top != 0) {
-                paintImmediately(0, 0, getWidth(), insets.top);
+                repaintContentBorder(0, 0, getWidth(), insets.top);
             }
             if (insets.left != 0) {
-                paintImmediately(0, 0, insets.left, getHeight());
+                repaintContentBorder(0, 0, insets.left, getHeight());
             }
             if (insets.right != 0) {
-                paintImmediately(getWidth() - insets.right, 0, insets.right, getHeight());
+                repaintContentBorder(getWidth() - insets.right, 0, insets.right, getHeight());
             }
             if (insets.bottom != 0) {
-                paintImmediately(0, getHeight() - insets.bottom, getWidth(), insets.bottom);
+                repaintContentBorder(0, getHeight() - insets.bottom, getWidth(), insets.bottom);
             }
         }
+    }
+
+    /**
+     * Calls repaint on the specified rectangular area.
+     *
+     * @param x      the <i>x</i> coordinate
+     * @param y      the <i>y</i> coordinate
+     * @param width  the width
+     * @param height the height
+     */
+    protected void repaintContentBorder(int x, int y, int width, int height) {
+        repaint(x, y, width, height);
     }
 
     @Override
@@ -1576,6 +1592,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks the dragOverDisabled property. By default it is false.
      *
      * @return true or false.
+     *
      * @see #setDragOverDisabled(boolean)
      */
     public boolean isDragOverDisabled() {
