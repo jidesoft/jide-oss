@@ -1982,7 +1982,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             throw new RuntimeException(e);
         }
     }
-
+    
+    /**
+     * Returns whether the AWTEventEventListener should be used to handle event processing
+     * 
+     * @return true to use the AWT event listener; false otherwise
+     */
     protected boolean shouldAWTEventListenerBeUsed() {
         return SecurityUtils.isAWTEventListenerDisabled() || "true".equals(SecurityUtils.getProperty("jide.disableAWTEventListener", "false"));
     }
