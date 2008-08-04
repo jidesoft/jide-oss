@@ -1983,7 +1983,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
     }
 
-    private boolean shouldAWTEventListenerBeUsed() {
+    protected boolean shouldAWTEventListenerBeUsed() {
         return SecurityUtils.isAWTEventListenerDisabled() || "true".equals(SecurityUtils.getProperty("jide.disableAWTEventListener", "false"));
     }
 
