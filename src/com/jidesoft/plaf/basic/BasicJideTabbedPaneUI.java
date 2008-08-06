@@ -131,7 +131,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected boolean _ignoreContentBorderInsetsIfNoTabs;
 
-    // Transient variables (recalculated each time TabbedPane is layed out)
+    // Transient variables (recalculated each time TabbedPane is laid out)
 
     protected int _tabRuns[] = new int[10];
 
@@ -362,6 +362,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Invoked by <code>installUI</code> to create a layout manager object to manage the <code>JTabbedPane</code>.
      *
      * @return a layout manager object
+     *
      * @see TabbedPaneLayout
      * @see JTabbedPane#getTabLayoutPolicy
      */
@@ -721,7 +722,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     /**
-     * Reloads the mnemonics. This should be invoked when a memonic changes, when the title of a mnemonic changes, or
+     * Reloads the mnemonics. This should be invoked when a mnemonic changes, when the title of a mnemonic changes, or
      * when tabs are added/removed.
      */
     protected void updateMnemonics() {
@@ -988,7 +989,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
 
     /* This method will create and return a polygon shape for the given tab rectangle
-     * which has been cropped at the specified cropline with a torn edge visual.
+     * which has been cropped at the specified crop line with a torn edge visual.
      * e.g. A "File" tab which has cropped been cropped just after the "i":
      *             -------------
      *             |  .....     |
@@ -8071,34 +8072,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 _tabScroller.tabPanel.getParent().doLayout();
             }
             _tabPane.revalidate();
-            getTabPanel().repaint();
+            _tabPane.repaintTabAreaAndContentBorder();
         }
     }
 
     protected boolean isShowCloseButtonOnTab() {
         if (_tabPane.isUseDefaultShowCloseButtonOnTab()) {
-            if (_showCloseButtonOnTab) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return _showCloseButtonOnTab;
         }
-        else if (_tabPane.isShowCloseButtonOnTab()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        else return _tabPane.isShowCloseButtonOnTab();
     }
 
     protected boolean isShowCloseButton() {
-        if (_tabPane.isShowCloseButton()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return _tabPane.isShowCloseButton();
     }
 
     public void ensureCloseButtonCreated() {
@@ -8157,21 +8143,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected boolean isShowTabButtons() {
-        if (_tabPane.getTabCount() == 0) {
-            return false;
-        }
-        else {
-            return _tabPane.isShowTabArea() && _tabPane.isShowTabButtons();
-        }
+        return _tabPane.getTabCount() != 0 && _tabPane.isShowTabArea() && _tabPane.isShowTabButtons();
     }
 
     protected boolean isShrinkTabs() {
-        if (_tabPane.getTabCount() == 0) {
-            return false;
-        }
-        else {
-            return _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
-        }
+        return _tabPane.getTabCount() != 0 && _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
     }
 
     protected TabEditor _tabEditor;
