@@ -578,6 +578,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns the orientation.
      *
      * @return an integer giving the orientation
+     *
      * @see #setOrientation
      */
     public int getOrientation() {
@@ -701,6 +702,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * cause a request to be queued that will validate the <code>JideSplitPane</code> and all its descendants.
      *
      * @return true
+     *
      * @see JComponent#revalidate
      */
     @Override
@@ -1170,7 +1172,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     comp.setVisible(false);
                     anyPrevVisible = true;
                 }
-                else if (visibleNext && !visiblePrev) {
+                else /*if (visibleNext && !visiblePrev)*/ {
                     if (anyPrevVisible) {
                         comp.setVisible(true);
                         anyPrevVisible = false;
@@ -1274,8 +1276,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                         else {
                             location = getDividerAt(i).getBounds().y;
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -1371,6 +1373,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
          * Gets the state set of this object.
          *
          * @return an instance of AccessibleState containing the current state of the object
+         *
          * @see javax.accessibility.AccessibleState
          */
         @Override
@@ -1389,6 +1392,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
          * Gets the role of this object.
          *
          * @return an instance of AccessibleRole describing the role of the object
+         *
          * @see AccessibleRole
          */
         @Override
@@ -1512,6 +1516,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Returns whether one-touch expand/collapse is on.
      *
      * @return the value of the <code>oneTouchExpandable</code> property
+     *
      * @see #setOneTouchExpandable
      */
     public boolean isOneTouchExpandable() {
