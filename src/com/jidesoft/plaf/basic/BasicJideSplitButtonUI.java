@@ -476,17 +476,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     protected void paintArrow(JMenuItem menuItem, Graphics g) {
-        int menuWidth = 0;
-        int menuHeight = 0;
-        int orientation = JideSwingUtilities.getOrientationOf(menuItem);
-        if (orientation == SwingConstants.HORIZONTAL) {
-            menuWidth = menuItem.getWidth();
-            menuHeight = menuItem.getHeight();
-        }
-        else {
-            menuWidth = menuItem.getHeight();
-            menuHeight = menuItem.getWidth();
-        }
+        int menuWidth = menuItem.getWidth();
+        int menuHeight = menuItem.getHeight();
         if (menuItem.isEnabled()) {
             JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
         }
