@@ -733,12 +733,15 @@ public class BasicJideButtonUI extends JideButtonUI {
      * @return true or false.
      */
     public static boolean shouldWrapText(Component c) {
-        boolean wrapText = false;
-        if (c instanceof AbstractButton) {
-            if (((AbstractButton) c).getVerticalTextPosition() == SwingConstants.BOTTOM && ((AbstractButton) c).getHorizontalTextPosition() == SwingConstants.CENTER) {
-                wrapText = true;
-            }
-        }
-        return wrapText;
+        // return false for now before we support the text wrapping
+        return false;
+
+//        boolean wrapText = false;
+//        if (c instanceof AbstractButton) {
+//            if (((AbstractButton) c).getVerticalTextPosition() == SwingConstants.BOTTOM && ((AbstractButton) c).getHorizontalTextPosition() == SwingConstants.CENTER) {
+//                wrapText = true;
+//            }
+//        }
+//        return wrapText;
     }
 }
