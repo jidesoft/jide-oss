@@ -1177,6 +1177,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
                             "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
                             "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
+                            "StatusBar.childrenOpaque", false,
 
                             "OutlookTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
                             "FloorTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
