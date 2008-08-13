@@ -235,6 +235,10 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
+        if (!_tabPane.isTabShown()) {
+            return;
+        }
+
         Rectangle selRect = getTabBounds(selectedIndex, _calcRect);
 
         Rectangle viewRect = _tabScroller.viewport.getViewRect();
@@ -467,6 +471,10 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
+        if (!_tabPane.isTabShown()) {
+            return;
+        }
+
         Rectangle selRect = getTabBounds(selectedIndex, _calcRect);
 
         Rectangle viewRect = _tabScroller.viewport.getViewRect();
@@ -688,6 +696,10 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
+        if (!_tabPane.isTabShown()) {
+            return;
+        }
+
         Rectangle selRect = getTabBounds(selectedIndex, _calcRect);
 
         Rectangle viewRect = _tabScroller.viewport.getViewRect();
@@ -891,6 +903,10 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
 
         if (selectedIndex < 0) {
+            return;
+        }
+
+        if (!_tabPane.isTabShown()) {
             return;
         }
 

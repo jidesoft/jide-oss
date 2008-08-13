@@ -3943,6 +3943,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return;
         }
 
+        if (!_tabPane.isTabShown()) {
+            return;
+        }
+
         Rectangle selRect = getTabBounds(selectedIndex, _calcRect);
 
         g.setColor(getBorderEdgeColor());
@@ -3994,6 +3998,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         if (selectedIndex < 0) {
+            return;
+        }
+
+        if (!_tabPane.isTabShown()) {
             return;
         }
 
