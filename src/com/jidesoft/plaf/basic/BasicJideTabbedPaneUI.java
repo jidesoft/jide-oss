@@ -973,8 +973,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         layoutLabel(tabPlacement, metrics, tabIndex, title, icon,
                 tempTabRect, iconRect, textRect, isSelected);
 
-        paintText(g, tabPlacement, font, metrics,
-                tabIndex, title, textRect, isSelected);
+        paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
 
         paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
 
@@ -1187,12 +1186,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                              String title, Rectangle textRect,
                              boolean isSelected) {
         Graphics2D g2d = (Graphics2D) g.create();
-        if (isSelected && _tabPane.isBoldActiveTab()) {
-            g2d.setFont(font.deriveFont(Font.BOLD));
-        }
-        else {
-            g2d.setFont(font);
-        }
 
         String actualText = title;
 
