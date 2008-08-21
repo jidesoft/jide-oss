@@ -1,14 +1,14 @@
 package com.jidesoft.grouper.date;
 
-import com.jidesoft.converter.ConverterContext;
 import com.jidesoft.grouper.AbstractObjectGrouper;
 
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * An abstract Grouper which can take data type such as Date, Calendar or Long and provide {@link #getCalendarFieldAsInt(Object,int)}
- * and {@link #getCalendarField(Object,int)} methods to access the field of the Calendar.
+ * An abstract Grouper which can take data type such as Date, Calendar or Long and provide {@link
+ * #getCalendarFieldAsInt(Object,int)} and {@link #getCalendarField(Object,int)} methods to access the field of the
+ * Calendar.
  */
 abstract public class DateGrouper extends AbstractObjectGrouper {
     protected static Calendar INSTANCE = Calendar.getInstance();
@@ -55,10 +55,5 @@ abstract public class DateGrouper extends AbstractObjectGrouper {
 
     public Class<?> getType() {
         return int.class;
-    }
-
-    @Override
-    public ConverterContext getConverterContext() {
-        return null;
     }
 }

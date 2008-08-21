@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class GroupResources {
-    static final String BASENAME = "com.jidesoft.group.group";
+    static final String BASENAME = "com.jidesoft.grouper.group";
 
     static final ResourceBundle RB = ResourceBundle.getBundle(BASENAME);
 
