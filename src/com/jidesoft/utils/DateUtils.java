@@ -49,6 +49,17 @@ public class DateUtils {
     }
 
     /**
+     * Checks if the calendar object is same quarter as today.
+     *
+     * @param cal the calendar object
+     * @return true if the calendar object is the same quarter as today.
+     */
+    public static boolean isThisQuarter(Calendar cal) {
+        Calendar today = Calendar.getInstance();
+        return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && today.get(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
+    }
+
+    /**
      * Checks if the calendar object is same year as today.
      *
      * @param cal the calendar object
@@ -96,6 +107,23 @@ public class DateUtils {
         }
         else {
             return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getMaximum(Calendar.MONTH) == cal.get(Calendar.MONTH);
+        }
+    }
+
+    /**
+     * Checks if the calendar object is last quarter.
+     *
+     * @param cal the calendar object
+     * @return true if the calendar object is last quarter.
+     */
+    public static boolean isLastQuarter(Calendar cal) {
+        Calendar today = Calendar.getInstance();
+        int thisQuarter = today.get(Calendar.MONTH) / 3;
+        if (thisQuarter > 1) {
+            return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisQuarter - 1 == cal.get(Calendar.MONTH) / 3;
+        }
+        else {
+            return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getMaximum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
         }
     }
 
@@ -151,6 +179,23 @@ public class DateUtils {
     }
 
     /**
+     * Checks if the calendar object is next quarter.
+     *
+     * @param cal the calendar object
+     * @return true if the calendar object is next quarter.
+     */
+    public static boolean isNextQuarter(Calendar cal) {
+        Calendar today = Calendar.getInstance();
+        int thisQuarter = today.get(Calendar.MONTH) / 3;
+        if (thisQuarter < today.getMaximum(Calendar.MONTH) / 3) {
+            return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisQuarter + 1 == cal.get(Calendar.MONTH) / 3;
+        }
+        else {
+            return today.get(Calendar.YEAR) + 1 == cal.get(Calendar.YEAR) && today.getMinimum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
+        }
+    }
+
+    /**
      * Checks if the calendar object is next year.
      *
      * @param cal the calendar object
@@ -160,6 +205,28 @@ public class DateUtils {
         Calendar today = Calendar.getInstance();
         return today.get(Calendar.YEAR) + 1 == cal.get(Calendar.YEAR);
 
+    }
+
+    /**
+     * Checks if the calendar object is in the specified month, regardless of the year.
+     *
+     * @param cal   the calendar object.
+     * @param month the month, starting from 1 for January.
+     * @return true if the calendar object is the specified month.
+     */
+    public static boolean isAtMonth(Calendar cal, int month) {
+        return cal.get(Calendar.MONTH) == month;
+    }
+
+    /**
+     * Checks if the calendar object is in the specified quarter, regardless of the year.
+     *
+     * @param cal     the calendar object.
+     * @param quarter the quarter, starting from 1 for the first quarter (including January, February, and March).
+     * @return true if the calendar object is the specified quarter.
+     */
+    public static boolean isAtQuarter(Calendar cal, int quarter) {
+        return cal.get(Calendar.MONTH) / 3 + 1 == quarter;
     }
 
     /**
@@ -178,17 +245,17 @@ public class DateUtils {
 //        Calendar cal = Calendar.getInstance();
 //        for (int i = 0; i < 400; i++) {
 //            System.out.println(ObjectConverterManager.toString(cal));
-//            System.out.printf("isToday: %b, isThisWeek: %b, isThisMonth: %b, isThisYear: %b\n", isToday(cal), isThisWeek(cal), isThisMonth(cal), isThisYear(cal));
-//            System.out.printf("isYesterday: %b, isLastWeek: %b, isLastMonth: %b, isLastYear: %b\n", isYesterday(cal), isLastWeek(cal), isLastMonth(cal), isLastYear(cal));
-//            System.out.printf("isTomorrow: %b, isNextWeek: %b, isNextMonth: %b, isNextYear: %b\n", isTomorrow(cal), isNextWeek(cal), isNextMonth(cal), isNextYear(cal));
+//            System.out.printf("isToday: %b, isThisWeek: %b, isThisMonth: %b, isThisQuarter: %b, isThisYear: %b\n", isToday(cal), isThisWeek(cal), isThisMonth(cal), isThisQuarter(cal), isThisYear(cal));
+//            System.out.printf("isYesterday: %b, isLastWeek: %b, isLastMonth: %b, isLastQuarter: %b, isLastYear: %b\n", isYesterday(cal), isLastWeek(cal), isLastMonth(cal), isLastQuarter(cal), isLastYear(cal));
+//            System.out.printf("isTomorrow: %b, isNextWeek: %b, isNextMonth: %b, isNextQuarter: %b, isNextYear: %b\n", isTomorrow(cal), isNextWeek(cal), isNextMonth(cal), isNextQuarter(cal), isNextYear(cal));
 //            adjustDate(cal, -1);
 //        }
 //        cal = Calendar.getInstance();
 //        for (int i = 0; i < 400; i++) {
 //            System.out.println(ObjectConverterManager.toString(cal));
-//            System.out.printf("isToday: %b, isThisWeek: %b, isThisMonth: %b, isThisYear: %b\n", isToday(cal), isThisWeek(cal), isThisMonth(cal), isThisYear(cal));
-//            System.out.printf("isYesterday: %b, isLastWeek: %b, isLastMonth: %b, isLastYear: %b\n", isYesterday(cal), isLastWeek(cal), isLastMonth(cal), isLastYear(cal));
-//            System.out.printf("isTomorrow: %b, isNextWeek: %b, isNextMonth: %b, isNextYear: %b\n", isTomorrow(cal), isNextWeek(cal), isNextMonth(cal), isNextYear(cal));
+//            System.out.printf("isToday: %b, isThisWeek: %b, isThisMonth: %b, isThisQuarter: %b, isThisYear: %b\n", isToday(cal), isThisWeek(cal), isThisMonth(cal), isThisQuarter(cal), isThisYear(cal));
+//            System.out.printf("isYesterday: %b, isLastWeek: %b, isLastMonth: %b, isLastQuarter: %b, isLastYear: %b\n", isYesterday(cal), isLastWeek(cal), isLastMonth(cal), isLastQuarter(cal), isLastYear(cal));
+//            System.out.printf("isTomorrow: %b, isNextWeek: %b, isNextMonth: %b, isNextQuarter: %b, isNextYear: %b\n", isTomorrow(cal), isNextWeek(cal), isNextMonth(cal), isNextQuarter(cal), isNextYear(cal));
 //            adjustDate(cal, 1);
 //        }
 //    }
