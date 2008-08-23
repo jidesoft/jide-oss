@@ -1,9 +1,8 @@
 package com.jidesoft.icons;
 
 /**
- * <code>IconSet</code> is a class which works with JIDE Icon Set (<a
- * href="http://www.jidesoft.com/icon/">http://www.jidesoft.com/icon/</a>). It defines 141 icons in
- * 12 sections in this class. We could add more in the future. All JIDE icon set will follow the
+ * <code>IconSet</code> is a class which works with JIDE Icon Set (<a href="http://www.jidesoft.com/icon/">http://www.jidesoft.com/icon/</a>).
+ * It defines 141 icons in 12 sections in this class. We could add more in the future. All JIDE icon set will follow the
  * naming convension as defined here.
  *
  * @see com.jidesoft.icons.IconSetManager
@@ -80,7 +79,7 @@ public class IconSet {
 
     public static class Help {
         public final static String HELP = "Help-Help.png";
-        public final static String CONTENT = "Help-content.png";
+        public final static String CONTENT = "Help-Content.png";
         public final static String INDEX = "Help-Index.png";
     }
 
@@ -194,11 +193,10 @@ public class IconSet {
      * Creates an IconSet.
      *
      * @param iconSetName    the icon set name
-     * @param availableSizes all available sizes. It must be in order from the smallest to the
-     *                       biggest.
-     * @param packageName    the package name where the icons exist. All icons in JIDE icon set are
-     *                       defined under "com.jidesoft.icons.<iconSetName>". Then under this
-     *                       package, there are subfolders for each icon size.
+     * @param availableSizes all available sizes. It must be in order from the smallest to the biggest.
+     * @param packageName    the package name where the icons exist. All icons in JIDE icon set are defined under
+     *                       "com.jidesoft.icons.<iconSetName>". Then under this package, there are subfolders for each
+     *                       icon size.
      */
     public IconSet(String iconSetName, int[] availableSizes, String packageName) {
         _iconSetName = iconSetName;
@@ -216,14 +214,13 @@ public class IconSet {
     }
 
     /**
-     * Gets the next available size of the requested size. If the size is available in the icon set,
-     * it will be returned. Otherwise, the next size that is bigger than the requested size will be
-     * returned. For example, if there are 16, 24, 32, 48, 64 size available. If the requested size
-     * is 12, 16 will be returned. If 24 is requested, 24 will be returned. If 60 is requested, 64
-     * will be returned. If 128 is requested and it is not available, so 64 will be returned.
+     * Gets the next available size of the requested size. If the size is available in the icon set, it will be
+     * returned. Otherwise, the next size that is bigger than the requested size will be returned. For example, if there
+     * are 16, 24, 32, 48, 64 size available. If the requested size is 12, 16 will be returned. If 24 is requested, 24
+     * will be returned. If 60 is requested, 64 will be returned. If 128 is requested and it is not available, so 64
+     * will be returned.
      *
      * @param size the requested size
-     *
      * @return the next available size.
      */
     public int getNextAvailableSize(int size) {
