@@ -9,11 +9,10 @@ import javax.swing.event.EventListenerList;
 import java.util.*;
 
 /**
- * <code>CacheMap</code> is a two-level <code>HashMap</code>. It uses Class as the key and you can
- * map the key to an object and a context as a pair. We use context because we want to register
- * multiple objects with the same Class. {@link #register(Class,Object,Object)} is the method to
- * register a new entry. {@link #getRegisteredObject(Class,Object)} will allow you to look up the
- * object by specifying the Class and the context.
+ * <code>CacheMap</code> is a two-level <code>HashMap</code>. It uses Class as the key and you can map the key to an
+ * object and a context as a pair. We use context because we want to register multiple objects with the same Class.
+ * {@link #register(Class,Object,Object)} is the method to register a new entry. {@link
+ * #getRegisteredObject(Class,Object)} will allow you to look up the object by specifying the Class and the context.
  */
 public class CacheMap<T, K> {
 
@@ -57,7 +56,6 @@ public class CacheMap<T, K> {
      *
      * @param clazz the class
      * @param a     the array to receive the keys.
-     *
      * @return the secondary keys.
      */
     public K[] getKeys(Class<?> clazz, K[] a) {
@@ -84,12 +82,12 @@ public class CacheMap<T, K> {
     }
 
     /**
-     * Regsiters an object with the specified clazz and object.
+     * Registers an object with the specified clazz and object.
      *
      * @param clazz   the class which is used as the key.
      * @param object  the object, or the value of the mapping
-     * @param context the secondary key. It is used to register multiple objects to the same primary
-     *                key (the clazz parameter in this case).
+     * @param context the secondary key. It is used to register multiple objects to the same primary key (the clazz
+     *                parameter in this case).
      */
     public void register(Class<?> clazz, T object, K context) {
         if (clazz == null) {
@@ -102,7 +100,7 @@ public class CacheMap<T, K> {
     }
 
     /**
-     * Unregistered the object associated with the specified class and context.
+     * Unregisters the object associated with the specified class and context.
      *
      * @param clazz   the class
      * @param context the context
@@ -117,17 +115,15 @@ public class CacheMap<T, K> {
     }
 
     /**
-     * Gets registered object from CacheMap. The algorithm used to look up is <BR> 1. First check
-     * for exact match with clazz and context.<BR> 2. If didn't find, look for interfaces that clazz
-     * implements using the exact context.<BR> 3. If still didn't find, look for super class of
-     * clazz using the exact context. <BR> 4. If still didn't find, using the exact clazz with
-     * default context.<BR> 5. If still didn't find, return null.<BR> If found a match in step 1, 2,
-     * 3 or 4, it will return the registered object immediately.
+     * Gets registered object from CacheMap. The algorithm used to look up is <BR> 1. First check for exact match with
+     * clazz and context.<BR> 2. If didn't find, look for interfaces that clazz implements using the exact context.<BR>
+     * 3. If still didn't find, look for super class of clazz using the exact context. <BR> 4. If still didn't find,
+     * using the exact clazz with default context.<BR> 5. If still didn't find, return null.<BR> If found a match in
+     * step 1, 2, 3 or 4, it will return the registered object immediately.
      *
      * @param clazz   the class which is used as the primary key.
-     * @param context the context which is used as the secondary key. This parameter could be null
-     *                in which case the default context is used.
-     *
+     * @param context the context which is used as the secondary key. This parameter could be null in which case the
+     *                default context is used.
      * @return registered object the object associated with the class and the context.
      */
     public T getRegisteredObject(Class<?> clazz, K context) {
@@ -142,22 +138,18 @@ public class CacheMap<T, K> {
 
             classesToSearch.add(clazz);
 
-            // Direct superinterfaces, recursively
+            // Direct super interfaces, recursively
             Class<?>[] interfaces = clazz.getInterfaces();
-            for (Class<?> c : interfaces) {
-                classesToSearch.add(c);
-            }
+            classesToSearch.addAll(Arrays.asList(interfaces));
 
             Class superClass = clazz;
-            // Direct superclass, recursively
+            // Direct super class, recursively
             while (!superClass.isInterface()) {
                 superClass = superClass.getSuperclass();
                 if (superClass != null) {
                     classesToSearch.add(superClass);
                     interfaces = superClass.getInterfaces();
-                    for (Class<?> c : interfaces) {
-                        classesToSearch.add(c);
-                    }
+                    classesToSearch.addAll(Arrays.asList(interfaces));
                 }
                 else {
                     break;
@@ -240,8 +232,7 @@ public class CacheMap<T, K> {
     }
 
     /**
-     * Removes a listener from the list that's notified each time a change to the registration
-     * occurs.
+     * Removes a listener from the list that's notified each time a change to the registration occurs.
      *
      * @param l the RegistrationListener
      */
@@ -252,8 +243,8 @@ public class CacheMap<T, K> {
     /**
      * Returns an array of all the registration listeners registered on this registration.
      *
-     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no
-     *         registration listeners are currently registered
+     * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
+     *         listeners are currently registered
      *
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
@@ -263,11 +254,10 @@ public class CacheMap<T, K> {
     }
 
     /**
-     * Forwards the given notification event to all <code>RegistrationListeners</code> that
-     * registered themselves as listeners for this table model.
+     * Forwards the given notification event to all <code>RegistrationListeners</code> that registered themselves as
+     * listeners for this table model.
      *
      * @param e the event to be forwarded
-     *
      * @see #addRegistrationListener
      * @see RegistrationEvent
      * @see EventListenerList
