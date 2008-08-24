@@ -211,7 +211,8 @@ public class DateUtils {
      * Checks if the calendar object is in the specified month, regardless of the year.
      *
      * @param cal   the calendar object.
-     * @param month the month, starting from 1 for January.
+     * @param month the month, starting from 0 for January. You can use the value defined in Calendar such as
+     *              Calendar.JANUARY, Calendar.FEBRUARY, etc.
      * @return true if the calendar object is the specified month.
      */
     public static boolean isAtMonth(Calendar cal, int month) {
