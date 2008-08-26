@@ -106,7 +106,7 @@ public class DateUtils {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisMonth - 1 == cal.get(Calendar.MONTH);
         }
         else {
-            return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getMaximum(Calendar.MONTH) == cal.get(Calendar.MONTH);
+            return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getActualMaximum(Calendar.MONTH) == cal.get(Calendar.MONTH);
         }
     }
 
@@ -123,7 +123,7 @@ public class DateUtils {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisQuarter - 1 == cal.get(Calendar.MONTH) / 3;
         }
         else {
-            return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getMaximum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
+            return today.get(Calendar.YEAR) - 1 == cal.get(Calendar.YEAR) && today.getActualMaximum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
         }
     }
 
@@ -170,7 +170,7 @@ public class DateUtils {
     public static boolean isNextMonth(Calendar cal) {
         Calendar today = Calendar.getInstance();
         int thisMonth = today.get(Calendar.MONTH);
-        if (thisMonth < today.getMaximum(Calendar.MONTH)) {
+        if (thisMonth < today.getActualMaximum(Calendar.MONTH)) {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisMonth + 1 == cal.get(Calendar.MONTH);
         }
         else {
@@ -187,11 +187,11 @@ public class DateUtils {
     public static boolean isNextQuarter(Calendar cal) {
         Calendar today = Calendar.getInstance();
         int thisQuarter = today.get(Calendar.MONTH) / 3;
-        if (thisQuarter < today.getMaximum(Calendar.MONTH) / 3) {
+        if (thisQuarter < today.getActualMaximum(Calendar.MONTH) / 3) {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisQuarter + 1 == cal.get(Calendar.MONTH) / 3;
         }
         else {
-            return today.get(Calendar.YEAR) + 1 == cal.get(Calendar.YEAR) && today.getMinimum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
+            return today.get(Calendar.YEAR) + 1 == cal.get(Calendar.YEAR) && today.getActualMinimum(Calendar.MONTH) / 3 == cal.get(Calendar.MONTH) / 3;
         }
     }
 
