@@ -41,26 +41,26 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
 
     /**
      * The button will produce an affirmative action. Typical affirmative buttons are OK, Save, Print, Replace etc. This
-     * constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * constant is used as constraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String AFFIRMATIVE_BUTTON = "AFFIRMATIVE";
 
     /**
-     * The button will produce a cancel action. Typical cancel button is Cancel. This constant is used as contraint
+     * The button will produce a cancel action. Typical cancel button is Cancel. This constant is used as constraint
      * parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String CANCEL_BUTTON = "CANCEL";
 
     /**
-     * The button will open some help windows. This constant is used as contraint parameter in {@link
+     * The button will open some help windows. This constant is used as constraint parameter in {@link
      * #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String HELP_BUTTON = "HELP";
 
     /**
      * The button will produce an alternative action different neither an affirmative or cancel action. Typical
-     * alaternative button is Don't Save comparing with Save as affirmative action and Cancel as cancel action. This
-     * constant is used as contraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * alternative button is Don't Save comparing with Save as affirmative action and Cancel as cancel action. This
+     * constant is used as constraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String OTHER_BUTTON = "ALTERNATIVE";
 
@@ -102,7 +102,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
      * @param alignment     the alignment of the buttons. It can be one of <code>SwingConstants.LEFT</code> or
      *                      <code>SwingConstants.RIGHT</code> or <code>SwingConstants.TOP</code> or
      *                      <code>SwingConstants.BOTTOM</code> or <code>SwingConstants.CENTER</code>.
-     * @param sizeContraint size contraint of the button. It can be either <code>SAME_SIZE</code> or
+     * @param sizeContraint size constraint of the button. It can be either <code>SAME_SIZE</code> or
      *                      <code>NO_LESS_THAN</code>
      */
 
@@ -209,8 +209,8 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     /**
      * Adds button to ButonPanel with specified constraint. The valid constraints are {@link #AFFIRMATIVE_BUTTON},
      * {@link #CANCEL_BUTTON},{@link #OTHER_BUTTON} and {@link #HELP_BUTTON}. The main purpose of the constraints is to
-     * determine how the buttons are laid out on different platforms according to the OS convension. For example, on
-     * Windows, AFFIRMATIVE_BUTTON appears on the right hand side of CANCEL_BUTTON. On Mac OSX, AFFIRMATIVE_BUTTON will
+     * determine how the buttons are laid out on different platforms according to the OS convention. For example, on
+     * Windows, AFFIRMATIVE_BUTTON appears on the right hand side of CANCEL_BUTTON. On Mac OS X, AFFIRMATIVE_BUTTON will
      * appear on the left hand side of CANCEL_BUTTON.
      *
      * @param button     a button.
@@ -287,22 +287,38 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * Gets the size contraint.
-     *
-     * @return the size contraint.
+     * @deprecated use {@link #getSizeConstraint()}.
      */
+    @Deprecated
     public int getSizeContraint() {
+        return getSizeConstraint();
+    }
+
+    /**
+     * @deprecated use {@link #setSizeConstraint(int)}.
+     */
+    @Deprecated
+    public void setSizeContraint(int sizeContraint) {
+        setSizeConstraint(sizeContraint);
+    }
+
+    /**
+     * Gets the size constraint.
+     *
+     * @return the size constraint.
+     */
+    public int getSizeConstraint() {
         return _layout.getSizeConstraint();
     }
 
     /**
-     * Sets the size contraint. Valid values are {@link #NO_LESS_THAN} and {@link #SAME_SIZE}. The size constraint will
+     * Sets the size constraint. Valid values are {@link #NO_LESS_THAN} and {@link #SAME_SIZE}. The size constraint will
      * apply to all components except if the component client property {@link ButtonPanel#KEEP_PREFERRED_WIDTH} is set
      * to Boolean.TRUE.
      *
-     * @param sizeContraint the size contraint.
+     * @param sizeContraint the size constraint.
      */
-    public void setSizeContraint(int sizeContraint) {
+    public void setSizeConstraint(int sizeContraint) {
         _layout.setSizeConstraint(sizeContraint);
     }
 
@@ -343,18 +359,18 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * Gets the minimium button width.
+     * Gets the minimum button width.
      *
-     * @return the minimium button width.
+     * @return the minimum button width.
      */
     public int getMinButtonWidth() {
         return _layout.getMinButtonWidth();
     }
 
     /**
-     * Sets the minimium button width.
+     * Sets the minimum button width.
      *
-     * @param minButtonWidth the minimium button width.
+     * @param minButtonWidth the minimum button width.
      */
     public void setMinButtonWidth(int minButtonWidth) {
         _layout.setMinButtonWidth(minButtonWidth);
@@ -443,11 +459,12 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
 
     /**
      * Gets the button with the name. In order to use this method, you have to set a name to the button using {@link
-     * AbstractButton#setName(String)} method. Please note, the name is not the same as the contraint in the second
+     * AbstractButton#setName(String)} method. Please note, the name is not the same as the constraint in the second
      * parameter of {@link #add(java.awt.Component,Object)}.
      *
      * @param name the button name.
      * @return the button which has the name. null if there is no button with that name.
+     *
      * @throws IllegalArgumentException if the name is null or empty.
      */
     public Component getButtonByName(String name) {
