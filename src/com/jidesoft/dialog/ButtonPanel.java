@@ -40,8 +40,9 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     public final static String KEEP_PREFERRED_WIDTH = "keepPreferredWidth";
 
     /**
-     * The button will produce an affirmative action. Typical affirmative buttons are OK, Save, Print, Replace etc. This
-     * constant is used as constraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
+     * The button will produce an affirmative action. Typical affirmative buttons are OK, Save, Print, Replace etc. It
+     * doesn't have to be positive either. For example, both Yes and No are affirmative action. This constant is used as
+     * constraint parameter in {@link #addButton(javax.swing.AbstractButton,Object)} method.
      */
     public static final String AFFIRMATIVE_BUTTON = "AFFIRMATIVE";
 

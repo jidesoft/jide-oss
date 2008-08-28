@@ -233,7 +233,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             buttonPanel.setBorder(border);
         }
         boolean sameSize = UIDefaultsLookup.getBoolean("OptionPane.sameSizeButtons");
-        buttonPanel.setSizeContraint(sameSize ? ButtonPanel.SAME_SIZE : ButtonPanel.NO_LESS_THAN);
+        buttonPanel.setSizeConstraint(sameSize ? ButtonPanel.SAME_SIZE : ButtonPanel.NO_LESS_THAN);
         int padding = UIDefaultsLookup.getInt("OptionPane.buttonPadding");
         padding = padding == 0 ? 6 : padding;
         buttonPanel.setButtonGap(padding);
@@ -270,13 +270,13 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     configureButton(aButton);
 
                     if (ButtonNames.YES.equals(aButton.getName())
+                            || ButtonNames.NO.equals(aButton.getName())
                             || ButtonNames.OK.equals(aButton.getName())
                             || ButtonNames.CLOSE.equals(aButton.getName())
                             || ButtonNames.FINISH.equals(aButton.getName())) {
                         container.add(aButton, ButtonPanel.AFFIRMATIVE_BUTTON);
                     }
-                    else if (ButtonNames.NO.equals(aButton.getName())
-                            || ButtonNames.CANCEL.equals(aButton.getName())) {
+                    else if (ButtonNames.CANCEL.equals(aButton.getName())) {
                         container.add(aButton, ButtonPanel.CANCEL_BUTTON);
                     }
                     else if (ButtonNames.HELP.equals(aButton.getName())) {
@@ -625,7 +625,6 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      *
      * @param str
      * @param width
-     *
      * @return An array of Strings with lengh of "width"
      */
     private static String[] fitInWidth(String str, int width) {
@@ -679,7 +678,6 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param string string in which to target occurrences
      * @param target string to target
      * @param dest   replacement string
-     *
      * @return <code>string</code> with <code>dest</code> substituted for <code>target</code>
      */
     private static String replaceOccurrences(String string, String target, String dest) {
@@ -707,7 +705,6 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param targetOffset offset of the target string.
      * @param targetCount  count of the target string.
      * @param fromIndex    the index to begin searching from.
-     *
      * @return If the string argument occurs as a substring within this object, then the index of the first character of
      *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
@@ -768,7 +765,6 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * @param buf       - buffer to search for str
      * @param findStr   - string to located
      * @param fromIndex - index to search
-     *
      * @return If the string argument occurs as a substring within this object, then the index of the first character of
      *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
