@@ -22,16 +22,14 @@ import java.awt.event.ItemListener;
  */
 public class JideToggleButton extends JideButton implements Accessible {
     /**
-     * Creates an initially unselected toggle button
-     * without setting the text or image.
+     * Creates an initially unselected toggle button without setting the text or image.
      */
     public JideToggleButton() {
         this(null, null, false);
     }
 
     /**
-     * Creates an initially unselected toggle button
-     * with the specified image but no text.
+     * Creates an initially unselected toggle button with the specified image but no text.
      *
      * @param icon the image that the button should display
      */
@@ -40,12 +38,10 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     /**
-     * Creates a toggle button with the specified image
-     * and selection state, but no text.
+     * Creates a toggle button with the specified image and selection state, but no text.
      *
      * @param icon     the image that the button should display
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleButton(Icon icon, boolean selected) {
         this(null, icon, selected);
@@ -61,20 +57,17 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     /**
-     * Creates a toggle button with the specified text
-     * and selection state.
+     * Creates a toggle button with the specified text and selection state.
      *
      * @param text     the string displayed on the toggle button
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleButton(String text, boolean selected) {
         this(text, null, selected);
     }
 
     /**
-     * Creates a toggle button where properties are taken from the
-     * Action supplied.
+     * Creates a toggle button where properties are taken from the Action supplied.
      *
      * @since 1.3
      */
@@ -84,8 +77,7 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     /**
-     * Creates a toggle button that has the specified text and image,
-     * and that is initially unselected.
+     * Creates a toggle button that has the specified text and image, and that is initially unselected.
      *
      * @param text the string displayed on the button
      * @param icon the image that the button should display
@@ -95,13 +87,11 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     /**
-     * Creates a toggle button with the specified text, image, and
-     * selection state.
+     * Creates a toggle button with the specified text, image, and selection state.
      *
      * @param text     the text of the toggle button
      * @param icon     the image that the button should display
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleButton(String text, Icon icon, boolean selected) {
         // Create the model
@@ -118,14 +108,10 @@ public class JideToggleButton extends JideButton implements Accessible {
     /**
      * The ToggleButton model
      * <p/>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     public static class ToggleButtonModel extends DefaultButtonModel {
 
@@ -151,8 +137,7 @@ public class JideToggleButton extends JideButton implements Accessible {
         /**
          * Sets the selected state of the button.
          *
-         * @param b true selects the toggle button,
-         *          false deselects the toggle button.
+         * @param b true selects the toggle button, false deselects the toggle button.
          */
         @Override
         public void setSelected(boolean b) {
@@ -225,18 +210,62 @@ public class JideToggleButton extends JideButton implements Accessible {
         }
     }
 
+    // to support SELECTED_KEY
+    static boolean hasSelectedKey(Action a) {
+        return (a != null && a.getValue(Action.SELECTED_KEY) != null);
+    }
+
+    static boolean isSelected(Action a) {
+        return Boolean.TRUE.equals(a.getValue(Action.SELECTED_KEY));
+    }
+
+    /**
+     * Sets the selected state of the button from the action.  This is defined here, but not wired up.  Subclasses like
+     * JToggleButton and JCheckBoxMenuItem make use of it.
+     *
+     * @param a the Action
+     */
+    private void setSelectedFromAction(Action a) {
+        boolean selected = false;
+        if (a != null) {
+            selected = isSelected(a);
+        }
+        if (selected != isSelected()) {
+            // This won't notify ActionListeners, but that should be
+            // ok as the change is coming from the Action.
+            setSelected(selected);
+            // Make sure the change actually took effect
+            if (!selected && isSelected()) {
+                if (getModel() instanceof DefaultButtonModel) {
+                    ButtonGroup group = ((DefaultButtonModel) getModel()).getGroup();
+                    if (group != null) {
+                        group.clearSelection();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void actionPropertyChanged(Action action, String propertyName) {
+        super.actionPropertyChanged(action, propertyName);
+        if (Action.SELECTED_KEY.equals(propertyName) &&
+                hasSelectedKey(action)) {
+            setSelectedFromAction(action);
+        }
+    }
+
+    // to support SELECTED_KEY - end
+
 /////////////////
 // Accessibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JToggleButton.
-     * For toggle buttons, the AccessibleContext takes the form of an
-     * AccessibleJToggleButton.
-     * A new AccessibleJToggleButton instance is created if necessary.
+     * Gets the AccessibleContext associated with this JToggleButton. For toggle buttons, the AccessibleContext takes
+     * the form of an AccessibleJToggleButton. A new AccessibleJToggleButton instance is created if necessary.
      *
-     * @return an AccessibleJToggleButton that serves as the
-     *         AccessibleContext of this JToggleButton
+     * @return an AccessibleJToggleButton that serves as the AccessibleContext of this JToggleButton
      */
     @Override
     public AccessibleContext getAccessibleContext() {
@@ -247,19 +276,13 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JToggleButton</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to toggle button user-interface
-     * elements.
+     * This class implements accessibility support for the <code>JToggleButton</code> class.  It provides an
+     * implementation of the Java Accessibility API appropriate to toggle button user-interface elements.
      * <p/>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     protected class AccessibleJToggleButton extends AccessibleAbstractButton
             implements ItemListener {
@@ -270,8 +293,7 @@ public class JideToggleButton extends JideButton implements Accessible {
         }
 
         /**
-         * Fire accessible property change events when the state of the
-         * toggle button changes.
+         * Fire accessible property change events when the state of the toggle button changes.
          */
         public void itemStateChanged(ItemEvent e) {
             JideToggleButton tb = (JideToggleButton) e.getSource();
@@ -290,8 +312,7 @@ public class JideToggleButton extends JideButton implements Accessible {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         *         object
+         * @return an instance of AccessibleRole describing the role of the object
          */
         @Override
         public AccessibleRole getAccessibleRole() {
