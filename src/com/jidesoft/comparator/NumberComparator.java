@@ -3,17 +3,23 @@ package com.jidesoft.comparator;
 import java.util.Comparator;
 
 /**
- * Comparator for Number type. This is a singleton class. Call getInstance() to
- * get the comparator.
+ * Comparator for Number type. This is a singleton class. Call getInstance() to get the comparator.
  */
 public class NumberComparator implements Comparator {
+    /**
+     * Comparator Context to compare two values using the absolute value.
+     */
+    public static final ComparatorContext CONTEXT_ABSOLUTE = new ComparatorContext("AbsoluteValue");
+
     private static NumberComparator singleton = null;
+
+    private boolean _absolute = false;
 
     /**
      * Constructor.
      * <p/>
-     * Has protected access to prevent other clients creating instances of the
-     * class ... it is stateless so we need only one instance.
+     * Has protected access to prevent other clients creating instances of the class ... it is stateless so we need only
+     * one instance.
      */
     protected NumberComparator() {
     }
@@ -49,8 +55,15 @@ public class NumberComparator implements Comparator {
 
         if (o1 instanceof Number) {
             if (o2 instanceof Number) {
-                final double d1 = ((Number) o1).doubleValue();
-                final double d2 = ((Number) o2).doubleValue();
+                double d1 = ((Number) o1).doubleValue();
+                double d2 = ((Number) o2).doubleValue();
+
+                if (isAbsolute() && d1 < 0) {
+                    d1 = -d1;
+                }
+                if (isAbsolute() && d2 < 0) {
+                    d2 = -d2;
+                }
 
                 if (d1 < d2)
                     return -1;
@@ -81,5 +94,23 @@ public class NumberComparator implements Comparator {
                             o1.getClass().getName() + " and " + o2.getClass().getName()
             );
         }
+    }
+
+    /**
+     * Checks if if the values are compared using the absolute values.
+     *
+     * @return true or false.
+     */
+    public boolean isAbsolute() {
+        return _absolute;
+    }
+
+    /**
+     * Sets the flag to compare the values using the absolute value.
+     *
+     * @param absolute true or false.
+     */
+    public void setAbsolute(boolean absolute) {
+        _absolute = absolute;
     }
 }

@@ -229,6 +229,7 @@ public class ObjectComparatorManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
+     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -274,6 +275,7 @@ public class ObjectComparatorManager {
      *
      * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
      *         listeners are currently registered
+     *
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -306,6 +308,7 @@ public class ObjectComparatorManager {
             registerComparator(Object.class, new DefaultComparator());
             registerComparator(Boolean.class, new BooleanComparator());
             registerComparator(Calendar.class, new CalendarComparator());
+
             NumberComparator numberComparator = new NumberComparator();
             registerComparator(Number.class, numberComparator);
             registerComparator(double.class, numberComparator);
@@ -313,6 +316,18 @@ public class ObjectComparatorManager {
             registerComparator(long.class, numberComparator);
             registerComparator(int.class, numberComparator);
             registerComparator(short.class, numberComparator);
+            registerComparator(byte.class, numberComparator);
+
+            NumberComparator absoluteNumberComparator = new NumberComparator();
+            absoluteNumberComparator.setAbsolute(true);
+            registerComparator(Number.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(double.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(float.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(long.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(int.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(short.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(byte.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+
             registerComparator(Comparable.class, new FastComparableComparator());
             registerComparator(String.class, Collator.getInstance());
             registerComparator(CharSequence.class, new AlphanumComparator(), AlphanumComparator.CONTEXT);
