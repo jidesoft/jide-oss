@@ -211,6 +211,7 @@ public class ObjectConverterManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
+     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -255,6 +256,7 @@ public class ObjectConverterManager {
      *
      * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
      *         listeners are currently registered
+     *
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -391,6 +393,9 @@ public class ObjectConverterManager {
             ObjectConverterManager.registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
             registerConverter(Object[].class, new DefaultArrayConverter("; ", Object.class));
             registerConverter(String[].class, new DefaultArrayConverter("; ", String.class));
+            registerConverter(Date[].class, new DefaultArrayConverter("; ", Date.class));
+            registerConverter(Calendar[].class, new DefaultArrayConverter("; ", Calendar.class));
+            registerConverter(Number[].class, new DefaultArrayConverter("; ", Number.class));
 
             registerConverter(BigDecimal.class, new BigDecimalConverter());
         }
