@@ -4058,7 +4058,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             TabbedPaneLayout layout = (TabbedPaneLayout) _tabPane.getLayout();
             layout.calculateLayoutInfo();
         }
+    }
 
+    private void updateCloseButtons() {
         if (scrollableTabLayoutEnabled() && isShowCloseButton() && isShowCloseButtonOnTab()) {
             for (int i = 0; i < _closeButtons.length; i++) {
                 if (_tabPane.isShowCloseButtonOnSelectedTab()) {
@@ -4115,7 +4117,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             }
         }
-
     }
 
     // TabbedPaneUI methods
@@ -6306,6 +6307,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             }
                         }
                     }
+
+                    updateCloseButtons();
 
                     if (shouldChangeFocus) {
                         if (!requestFocusForVisibleComponent()) {
