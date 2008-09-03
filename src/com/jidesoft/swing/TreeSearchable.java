@@ -16,18 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>TreeSearchable</code> is an concrete implementation of {@link Searchable} that enables the
- * search function in JTree. <p>It's very simple to use it. Assuming you have a JTree, all you need
- * to do is to call
+ * <code>TreeSearchable</code> is an concrete implementation of {@link Searchable} that enables the search function in
+ * JTree. <p>It's very simple to use it. Assuming you have a JTree, all you need to do is to call
  * <code><pre>
  * JTree tree = ....;
  * TreeSearchable searchable = new TreeSearchable(tree);
  * </pre></code>
  * Now the JTree will have the search function.
  * <p/>
- * There is very little customization you need to do to TreeSearchable. The only thing you might
- * need is when the element in the JTree needs a special conversion to convert to string. If so, you
- * can overide convertElementToString() to provide you own algorithm to do the conversion.
+ * There is very little customization you need to do to TreeSearchable. The only thing you might need is when the
+ * element in the JTree needs a special conversion to convert to string. If so, you can overide convertElementToString()
+ * to provide you own algorithm to do the conversion.
  * <code><pre>
  * JTree tree = ....;
  * TreeSearchable searchable = new TreeSearchable(tree) {
@@ -37,8 +36,18 @@ import java.util.List;
  * };
  * </pre></code>
  * <p/>
- * Additional customization can be done on the base Searchable class such as background and
- * foreground color, keystrokes, case sensitivity,
+ * Additional customization can be done on the base Searchable class such as background and foreground color,
+ * keystrokes, case sensitivity. <p/> JTree actually has a simple searchable feature but has flaws. It will affect our
+ * searchable feature. To workaround it, you can override getNextMatch method and always return -1 when you create your
+ * JList. <code>
+ * <pre>
+ * JTree tree = new JTree(...) {
+ *    public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
+ *        return null;
+ *    }
+ * };
+ * </pre>
+ * </code>
  */
 public class TreeSearchable extends Searchable implements TreeModelListener, PropertyChangeListener {
 
@@ -66,11 +75,10 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     /**
      * Sets the recursive attribute.
      * <p/>
-     * If TreeSearchable is recursive, it will all tree nodes including those which are not visible
-     * to find the matching node. Obviously, if your tree has unlimited number of tree nodes or a
-     * potential huge number of tree nodes (such as a tree to represent file system), the recursive
-     * attribute should be false. To avoid this potential problem in this case, we default it to
-     * false.
+     * If TreeSearchable is recursive, it will all tree nodes including those which are not visible to find the matching
+     * node. Obviously, if your tree has unlimited number of tree nodes or a potential huge number of tree nodes (such
+     * as a tree to represent file system), the recursive attribute should be false. To avoid this potential problem in
+     * this case, we default it to false.
      *
      * @param recursive
      */
@@ -187,8 +195,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     }
 
     /**
-     * Gets the cached tree pathes list. If it has never been cached before, this method will create
-     * the cache.
+     * Gets the cached tree pathes list. If it has never been cached before, this method will create the cache.
      * <p/>
      * Tree pathes list is only used when recursive attriubute is true.
      *
@@ -202,11 +209,10 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     }
 
     /**
-     * Converts the element in JTree to string. The element by default is TreePath. The returned
-     * value will be <code>toString()</code> of the last path component in the TreePath.
+     * Converts the element in JTree to string. The element by default is TreePath. The returned value will be
+     * <code>toString()</code> of the last path component in the TreePath.
      *
      * @param object
-     *
      * @return the string representing the TreePath in the JTree.
      */
     @Override
