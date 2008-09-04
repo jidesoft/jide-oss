@@ -23,7 +23,6 @@ public class PortingUtils {
      * correct focused component.
      *
      * @param event
-     *
      * @return current focused component
      */
     public static Component getCurrentFocusComponent(AWTEvent event) {
@@ -34,7 +33,6 @@ public class PortingUtils {
      * Gets frame's state. In 1.3, used getState; in 1.4, uses getExtendedState.
      *
      * @param frame
-     *
      * @return frame's state
      */
     public static int getFrameState(Frame frame) {
@@ -55,7 +53,6 @@ public class PortingUtils {
      * Gets mouse modifiers. If 1.3, uses getModifiers; 1.4, getModifiersEx.
      *
      * @param e
-     *
      * @return mouse modifiers
      */
     public static int getMouseModifiers(MouseEvent e) {
@@ -88,7 +85,6 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
-     *
      * @return the rectange that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
@@ -114,7 +110,6 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
-     *
      * @return the rectange that has overlap with the screen bounds.
      */
     public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
@@ -139,7 +134,6 @@ public class PortingUtils {
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
      * @param invoker
-     *
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
@@ -162,7 +156,6 @@ public class PortingUtils {
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
      * @param invoker
-     *
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
@@ -187,7 +180,6 @@ public class PortingUtils {
      * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS.
      *
      * @param invoker
-     *
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
@@ -236,7 +228,6 @@ public class PortingUtils {
      *
      * @param invoker we will use this the invoker component to find out the current screen.
      * @param point   the point
-     *
      * @deprecated Please use {@link #ensureOnScreen(java.awt.Rectangle)} instead.
      */
     @Deprecated
@@ -355,7 +346,6 @@ public class PortingUtils {
      *
      * @param invoker the invoking component
      * @param bounds  the input bounds
-     *
      * @return the modified bounds.
      */
     public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
@@ -376,7 +366,6 @@ public class PortingUtils {
      * Modifies the position of rect so that it is completly on screen if that is possible.
      *
      * @param rect The rectange to move onto a single screen
-     *
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
@@ -439,7 +428,6 @@ public class PortingUtils {
      *
      * @param rect           the rect of the component.
      * @param considerInsets if consider the insets. The insets is for thing like Windows Task Bar.
-     *
      * @return the screen bounds that contains the rect.
      */
     public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
@@ -500,7 +488,16 @@ public class PortingUtils {
      * Notifies user something is wrong. We use Toolkit beep method by default.
      */
     public static void notifyUser() {
-        Toolkit.getDefaultToolkit().beep();
+        notifyUser(null);
+    }
+
+    /**
+     * Notifies user something is wrong. We use Toolkit beep method by default.
+     *
+     * @param component the component that has the error or null if the error is not associated with any component.
+     */
+    public static void notifyUser(Component component) {
+        UIManager.getLookAndFeel().provideErrorFeedback(component);
     }
 
     /**

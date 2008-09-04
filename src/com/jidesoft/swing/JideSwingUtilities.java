@@ -129,6 +129,24 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Creates a container which a label for the component.
+     *
+     * @param title      the label
+     * @param component  the component
+     * @param constraint the constraint as in BorderLayout. You can use all the contraints as in BorderLayout except
+     *                   CENTER.
+     * @return the container which has both the label and the component.
+     */
+    public static JPanel createLabeledComponent(JLabel title, Component component, Object constraint) {
+        JPanel ret = new NullPanel(new JideBorderLayout(3, 3));
+        ret.setOpaque(false);
+        ret.add(title, constraint);
+        title.setLabelFor(component);
+        ret.add(component);
+        return ret;
+    }
+
+    /**
      * Center the component to it's parent window.
      */
     public static void centerWindow(Window childToCenter) {

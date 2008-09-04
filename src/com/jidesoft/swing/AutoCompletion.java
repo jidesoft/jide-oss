@@ -5,6 +5,7 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
@@ -307,7 +308,7 @@ public class AutoCompletion {
                             if (isStrict()) {
                                 getTextComponent().setText(_saveText);
                                 e.consume();
-                                UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
+                                PortingUtils.notifyUser(_textComponent);
                             }
                         }
                     }
@@ -383,7 +384,7 @@ public class AutoCompletion {
                 }
                 else {
                     // User hit backspace with the cursor positioned on the start => beep
-                    UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
+                    PortingUtils.notifyUser(_textComponent);
                 }
                 highlightCompletedText(offs);
             }
@@ -427,7 +428,7 @@ public class AutoCompletion {
                             item = getSearchable().getElementAt(index);
                             offs = offs - str.length();
                             // imitate no insert (later on offs will be incremented by str.length(): selection won't move forward)
-                            UIManager.getLookAndFeel().provideErrorFeedback(_textComponent);
+                            PortingUtils.notifyUser(_textComponent);
                             setText(getSearchable().convertElementToString(item));
                             // select the completed part
                             highlightCompletedText(offs + str.length());
@@ -512,6 +513,7 @@ public class AutoCompletion {
      * Gets the strict completion property.
      *
      * @return the value of strict completion property.
+     *
      * @see #setStrictCompletion(boolean)
      */
     public boolean isStrictCompletion() {
