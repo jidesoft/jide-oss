@@ -397,6 +397,7 @@ public class CheckBoxList extends JList {
      * Returns an array of all of the selected indices in increasing order.
      *
      * @return all of the selected indices, in increasing order
+     *
      * @see #removeSelectionInterval
      * @see #addListSelectionListener
      */
@@ -533,6 +534,7 @@ public class CheckBoxList extends JList {
 
     /**
      * @return the values that are checked.
+     *
      * @deprecated We keep this method in order to be compatible with {@link CheckBoxListWithSelectable}. You should use
      *             {@link #getCheckBoxListSelectedValues()} instead. Or you can use {@link
      *             #getCheckBoxListSelectionModel()} to get the selection model and get the selected indices from
@@ -547,6 +549,7 @@ public class CheckBoxList extends JList {
      * Returns an array of the values for the selected cells. The returned values are sorted in increasing index order.
      *
      * @return the selected values or an empty list if nothing is selected
+     *
      * @see #isSelectedIndex
      * @see #getModel
      * @see #addListSelectionListener
@@ -579,6 +582,7 @@ public class CheckBoxList extends JList {
      * Returns the first selected index; returns -1 if there is no selected item.
      *
      * @return the value of <code>getMinSelectionIndex</code>
+     *
      * @see #getMinSelectionIndex
      * @see #addListSelectionListener
      */
@@ -591,6 +595,7 @@ public class CheckBoxList extends JList {
      * Returns the first selected value, or <code>null</code> if the selection is empty.
      *
      * @return the first selected value
+     *
      * @see #getMinSelectionIndex
      * @see #getModel
      * @see #addListSelectionListener
@@ -712,5 +717,11 @@ public class CheckBoxList extends JList {
      */
     public void selectNone() {
         getCheckBoxListSelectionModel().removeIndexInterval(0, getModel().getSize() - 1);
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return JideSwingUtilities.adjustPreferredScrollableViewportSize(this, super.getPreferredScrollableViewportSize());
+
     }
 }
