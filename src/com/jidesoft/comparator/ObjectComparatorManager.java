@@ -11,6 +11,7 @@ import com.jidesoft.converter.RegistrationListener;
 import java.text.Collator;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 
 /**
  * A global object that can register comparator with a type and a ComparatorContext.
@@ -308,6 +309,7 @@ public class ObjectComparatorManager {
             registerComparator(Object.class, new DefaultComparator());
             registerComparator(Boolean.class, new BooleanComparator());
             registerComparator(Calendar.class, new CalendarComparator());
+            registerComparator(Date.class, new DateComparator());
 
             NumberComparator numberComparator = new NumberComparator();
             registerComparator(Number.class, numberComparator);
@@ -330,6 +332,7 @@ public class ObjectComparatorManager {
 
             registerComparator(Comparable.class, new FastComparableComparator());
             registerComparator(String.class, Collator.getInstance());
+            registerComparator(String.class, new FastComparableComparator(), new ComparatorContext("IgnoreLocale"));
             registerComparator(CharSequence.class, new AlphanumComparator(), AlphanumComparator.CONTEXT);
             registerComparator(CharSequence.class, new AlphanumComparator(false), AlphanumComparator.CONTEXT_IGNORE_CASE);
         }
