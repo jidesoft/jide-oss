@@ -3159,10 +3159,21 @@ public class JideSwingUtilities implements SwingConstants {
         if (cellBonds != null && cellBonds.height < 3) {
             ListCellRenderer renderer = list.getCellRenderer();
             if (renderer != null) {
-                Component c = renderer.getListCellRendererComponent(list, " ", 0, false, false);
+                Component c = renderer.getListCellRendererComponent(list, "DUMMY STRING", 0, false, false);
                 if (c != null) {
                     Dimension preferredSize = c.getPreferredSize();
-                    if (preferredSize != null) list.setFixedCellHeight(preferredSize.height);
+                    if (preferredSize != null) {
+                        int height = preferredSize.height;
+                        if (height < 3) {
+                            try {
+                                height = list.getCellBounds(1, 1).height;
+                            }
+                            catch (Exception e) {
+                                height = 16;
+                            }
+                        }
+                        list.setFixedCellHeight(height);
+                    }
                 }
             }
         }
