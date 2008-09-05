@@ -202,14 +202,18 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                     }
 
-                    if (contentInsets.top > 0) {
-                        if (!_tabPane.isTabShown() || r.x >= viewRect.x + viewRect.width) {
+                    if (contentInsets.top > 0 && _tabPane.isTabShown()) {
+                        if (r.x >= viewRect.x + viewRect.width) {
                             g.drawLine(x, y, x + w - 1, y);// top
                         }
                         else {
                             g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
                             g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
                         }
+
+                        Rectangle bounds = _tabScroller.viewport.getBounds();
+                        g.drawLine(0, y, bounds.x, y);
+                        g.drawLine(bounds.x + bounds.width, y, x + w - 1, y);
                     }
                 }
                 else if (_tabPane.isTabShown()) {
@@ -220,6 +224,10 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
                         g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
                     }
+
+                    Rectangle bounds = _tabScroller.viewport.getBounds();
+                    g.drawLine(0, y, bounds.x, y);
+                    g.drawLine(bounds.x + bounds.width, y, x + w - 1, y);
                 }
 
             }
@@ -344,14 +352,18 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y, x + w - 1, y);// top
                 }
 
-                if (contentInsets.bottom > 0) {
-                    if (!_tabPane.isTabShown() || r.x >= viewRect.x + viewRect.width) {
+                if (contentInsets.bottom > 0 && _tabPane.isTabShown()) {
+                    if (r.x >= viewRect.x + viewRect.width) {
                         g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                     }
                     else {
                         g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
                         g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
                     }
+
+                    Rectangle bounds = _tabScroller.viewport.getBounds();
+                    g.drawLine(0, y + h - 1, bounds.x, y + h - 1);
+                    g.drawLine(bounds.x + bounds.width, y + h - 1, x + w - 1, y + h - 1);
                 }
             }
             else if (_tabPane.isTabShown()) {
@@ -362,6 +374,10 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
                     g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
                 }
+
+                Rectangle bounds = _tabScroller.viewport.getBounds();
+                g.drawLine(0, y + h - 1, bounds.x, y + h - 1);
+                g.drawLine(bounds.x + bounds.width, y + h - 1, x + w - 1, y + h - 1);
             }
         }
         else if (tabShape == JideTabbedPane.SHAPE_EXCEL) {
@@ -481,14 +497,18 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                 }
 
-                if (contentInsets.left > 0) {
-                    if (!_tabPane.isTabShown() || r.y >= viewRect.y + viewRect.height) {
+                if (contentInsets.left > 0 && _tabPane.isTabShown()) {
+                    if (r.y >= viewRect.y + viewRect.height) {
                         g.drawLine(x, y, x, y + h - 1);// left
                     }
                     else {
                         g.drawLine(x, y, x, selRect.y - selRect.width + 2);// left top
                         g.drawLine(x, selRect.y + selRect.height, x, y + h - 1);// left bottom
                     }
+
+                    Rectangle bounds = _tabScroller.viewport.getBounds();
+                    g.drawLine(x, 0, x, bounds.y);
+                    g.drawLine(x, bounds.y + bounds.height, x, y + h - 1);
                 }
             }
             else if (_tabPane.isTabShown()) {
@@ -499,6 +519,10 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y, x, selRect.y - selRect.width + 2);// left top
                     g.drawLine(x, selRect.y + selRect.height, x, y + h - 1);// left bottom
                 }
+
+                Rectangle bounds = _tabScroller.viewport.getBounds();
+                g.drawLine(x, 0, x, bounds.y);
+                g.drawLine(x, bounds.y + bounds.height, x, y + h - 1);
             }
         }
         else if (tabShape == JideTabbedPane.SHAPE_EXCEL) {
@@ -595,14 +619,18 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                 }
 
-                if (contentInsets.right > 0) {
-                    if (!_tabPane.isTabShown() || r.y >= viewRect.y + viewRect.height) {
+                if (contentInsets.right > 0 && _tabPane.isTabShown()) {
+                    if (r.y >= viewRect.y + viewRect.height) {
                         g.drawLine(x + w - 1, y, x + w - 1, y + h - 1);// right
                     }
                     else {
                         g.drawLine(x + w - 1, y, x + w - 1, selRect.y - selRect.width + 2);// right top
                         g.drawLine(x + w - 1, selRect.y + selRect.height, x + w - 1, y + h - 1);// right bottom
                     }
+
+                    Rectangle bounds = _tabScroller.viewport.getBounds();
+                    g.drawLine(x + w - 1, 0, x + w - 1, bounds.y);
+                    g.drawLine(x + w - 1, bounds.y + bounds.height, x + w - 1, y + h - 1);
                 }
             }
             else if (_tabPane.isTabShown()) {
@@ -613,6 +641,10 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x + w - 1, y, x + w - 1, selRect.y - selRect.width + 2);// right top
                     g.drawLine(x + w - 1, selRect.y + selRect.height, x + w - 1, y + h - 1);// right bottom
                 }
+
+                Rectangle bounds = _tabScroller.viewport.getBounds();
+                g.drawLine(x + w - 1, 0, x + w - 1, bounds.y);
+                g.drawLine(x + w - 1, bounds.y + bounds.height, x + w - 1, y + h - 1);
             }
         }
         else if (tabShape == JideTabbedPane.SHAPE_EXCEL) {
