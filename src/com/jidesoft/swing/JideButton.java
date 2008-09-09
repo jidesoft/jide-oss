@@ -105,6 +105,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "ButtonUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -133,18 +134,18 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     }
 
     /**
-     * return ture if it supports vertical orientation.
+     * return true if it supports vertical orientation.
      *
-     * @return ture if it supports vertical orientation
+     * @return true if it supports vertical orientation
      */
     public boolean supportVerticalOrientation() {
         return true;
     }
 
     /**
-     * return ture if it supports horizontal orientation.
+     * return true if it supports horizontal orientation.
      *
-     * @return ture if it supports horizontal orientation
+     * @return true if it supports horizontal orientation
      */
     public boolean supportHorizontalOrientation() {
         return true;
@@ -290,7 +291,8 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
      * ignore it.
      *
-     * @param state
+     * @param state the button state. Valid values are ThemePainter.STATE_DEFAULT, ThemePainter.STATE_ROLLOVER,
+     *              ThemePainter.STATE_SELECTED and ThemePainter.STATE_PRESSED.
      * @return the background for different states.
      */
     public Color getBackgroundOfState(int state) {
@@ -316,8 +318,9 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
      * ignore it.
      *
-     * @param state
-     * @param color
+     * @param state the button state. Valid values are ThemePainter.STATE_DEFAULT, ThemePainter.STATE_ROLLOVER,
+     *              ThemePainter.STATE_SELECTED and ThemePainter.STATE_PRESSED.
+     * @param color the new background for the state.
      */
     public void setBackgroundOfState(int state, Color color) {
         switch (state) {
@@ -345,7 +348,8 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
      * ignore it.
      *
-     * @param state
+     * @param state the button state. Valid values are ThemePainter.STATE_DEFAULT, ThemePainter.STATE_ROLLOVER,
+     *              ThemePainter.STATE_SELECTED and ThemePainter.STATE_PRESSED.
      * @return the foreground for different states.
      */
     public Color getForegroundOfState(int state) {
@@ -372,8 +376,9 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
      * use a ColorUIResource because UIResource is considered as a setting set by the L&F and any L&F can choose to
      * ignore it.
      *
-     * @param state
-     * @param color
+     * @param state the button state. Valid values are ThemePainter.STATE_DEFAULT, ThemePainter.STATE_ROLLOVER,
+     *              ThemePainter.STATE_SELECTED and ThemePainter.STATE_PRESSED.
+     * @param color the new foreground for the state.
      */
     public void setForegroundOfState(int state, Color color) {
         switch (state) {
