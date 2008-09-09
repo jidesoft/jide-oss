@@ -20,8 +20,8 @@ import java.util.logging.Logger;
 /**
  * Painter for Aqua style L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
- * Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class AquaPainter extends BasicPainter {
     private static final Logger LOGGER = Logger.getLogger(AquaPainter.class.getName());
@@ -33,8 +33,8 @@ public class AquaPainter extends BasicPainter {
     private final static Color ROLLOVER_BACKGROUND = new Color(238, 238, 238);
     private final static Color SELECTED_BACKGROUND = new Color(153, 153, 153);
     private final static Color PRESSED_BACKGROUND = new Color(195, 195, 195);
-    private static boolean  _errrorOccured;
-    
+    private static boolean _errorOccurred;
+
     public static ThemePainter getInstance() {
         if (_instance == null) {
             _instance = new AquaPainter();
@@ -79,60 +79,60 @@ public class AquaPainter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-      if(!_errrorOccured) {
-          try {
-              AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
-              return;
-          }
-          catch (Exception e) {
-            _errrorOccured=true;
-            LOGGER.warning(e.getLocalizedMessage());
-          }
+        if (!_errorOccurred) {
+            try {
+                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+                return;
+            }
+            catch (Exception e) {
+                _errorOccurred = true;
+                LOGGER.warning(e.getLocalizedMessage());
+            }
         }
         super.paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
     }
 
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-      if(!_errrorOccured) {
-          try {
-              AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
-            return;
-          }
-          catch (Exception e) {
-              _errrorOccured=true;
-              LOGGER.warning(e.getLocalizedMessage());
-          }
-      }
-      super.paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
+        if (!_errorOccurred) {
+            try {
+                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
+                return;
+            }
+            catch (Exception e) {
+                _errorOccurred = true;
+                LOGGER.warning(e.getLocalizedMessage());
+            }
+        }
+        super.paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
     }
 
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-      if(!_errrorOccured) {
-        try {
-            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
-            return;
+        if (!_errorOccurred) {
+            try {
+                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
+                return;
+            }
+            catch (Exception e) {
+                _errorOccurred = true;
+                LOGGER.warning(e.getLocalizedMessage());
+            }
         }
-        catch (Exception e) {
-            _errrorOccured=true;
-            LOGGER.warning(e.getLocalizedMessage());
-        }
-      }
-      super.paintDockableFrameTitlePane(c, g, rect, orientation, state);
+        super.paintDockableFrameTitlePane(c, g, rect, orientation, state);
     }
 
     @Override
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-      if(!_errrorOccured) {
-        try {
-            AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
-            return;
+        if (!_errorOccurred) {
+            try {
+                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+                return;
+            }
+            catch (Exception e) {
+                _errorOccurred = true;
+                LOGGER.warning(e.getLocalizedMessage());
+            }
         }
-        catch (Exception e) {
-            _errrorOccured=true;
-            LOGGER.warning(e.getLocalizedMessage());
-        }
-      }
-      super.paintCommandBarTitlePane(c, g, rect, orientation, state);
+        super.paintCommandBarTitlePane(c, g, rect, orientation, state);
     }
 }
 
