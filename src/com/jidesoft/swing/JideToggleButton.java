@@ -21,6 +21,8 @@ import java.awt.event.ItemListener;
  * An implementation of a two-state JideButton.
  */
 public class JideToggleButton extends JideButton implements Accessible {
+    private ItemListener _itemListener;
+
     /**
      * Creates an initially unselected toggle button without setting the text or image.
      */
@@ -69,7 +71,7 @@ public class JideToggleButton extends JideButton implements Accessible {
     /**
      * Creates a toggle button where properties are taken from the Action supplied.
      *
-     * @since 1.3
+     * @param a Action
      */
     public JideToggleButton(Action a) {
         this();
@@ -179,7 +181,7 @@ public class JideToggleButton extends JideButton implements Accessible {
                 return;
             }
 
-            if (b == false && isArmed()) {
+            if (!b && isArmed()) {
                 setSelected(!this.isSelected());
             }
 
@@ -249,10 +251,37 @@ public class JideToggleButton extends JideButton implements Accessible {
     @Override
     protected void actionPropertyChanged(Action action, String propertyName) {
         super.actionPropertyChanged(action, propertyName);
-        if (Action.SELECTED_KEY.equals(propertyName) &&
-                hasSelectedKey(action)) {
+        if (Action.SELECTED_KEY.equals(propertyName) && hasSelectedKey(action)) {
             setSelectedFromAction(action);
         }
+    }
+
+    @Override
+    protected void configurePropertiesFromAction(Action a) {
+        super.configurePropertiesFromAction(a);
+        if (hasSelectedKey(a)) {
+            setSelectedFromAction(a);
+        }
+    }
+
+    @Override
+    protected ItemListener createItemListener() {
+        if (_itemListener == null) {
+            _itemListener = new ItemListener() {
+                public void itemStateChanged(ItemEvent event) {
+                    fireItemStateChanged(event);
+                    Action action = getAction();
+                    if (action != null && hasSelectedKey(action)) {
+                        boolean selected = isSelected();
+                        boolean isActionSelected = isSelected(action);
+                        if (isActionSelected != selected) {
+                            action.putValue(Action.SELECTED_KEY, selected);
+                        }
+                    }
+                }
+            };
+        }
+        return _itemListener;
     }
 
     // to support SELECTED_KEY - end
@@ -296,9 +325,9 @@ public class JideToggleButton extends JideButton implements Accessible {
          * Fire accessible property change events when the state of the toggle button changes.
          */
         public void itemStateChanged(ItemEvent e) {
-            JideToggleButton tb = (JideToggleButton) e.getSource();
+            JideToggleButton button = (JideToggleButton) e.getSource();
             if (JideToggleButton.this.accessibleContext != null) {
-                if (tb.isSelected()) {
+                if (button.isSelected()) {
                     JideToggleButton.this.accessibleContext.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
                             null, AccessibleState.CHECKED);
                 }
