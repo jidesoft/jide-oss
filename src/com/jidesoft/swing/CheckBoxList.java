@@ -42,16 +42,18 @@ import java.util.List;
  * implementation, the selection state is kept at a separate ListSelectionModel which you can get using {@link
  * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
  * box is checked, you need to ask the getCheckBoxListSelectionModel() by using addListSelectionListener. The old
- * implementation kept the selection state at Selectable object in the ListModel. The new implementation is also inline
- * with that of {@link CheckBoxTree}.
+ * implementation kept the selection state at Selectable object in the ListModel. The new implementation also has the
+ * same design as that of {@link CheckBoxTree}.
  */
 public class CheckBoxList extends JList {
 
     protected CheckBoxListCellRenderer _listCellRenderer;
 
     public final static String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
+    public final static String PROPERTY_CLICK_IN_CHECKBOX_ONLY = "clickInCheckBoxOnly";
 
     private boolean _checkBoxEnabled = true;
+    private boolean _clickInCheckBoxOnly = true;
 
     private CheckBoxListSelectionModel _checkBoxListSelectionModel;
     protected Handler _handler;
@@ -153,7 +155,7 @@ public class CheckBoxList extends JList {
 
     protected static class Handler implements MouseListener, KeyListener, ListSelectionListener, PropertyChangeListener, ListDataListener {
         protected CheckBoxList _list;
-        int _hotspot = new JCheckBox().getPreferredSize().width;
+        int hotspot = new JCheckBox().getPreferredSize().width;
 
 
         public Handler(CheckBoxList list) {
@@ -176,10 +178,10 @@ public class CheckBoxList extends JList {
 
             if (bounds != null) {
                 if (_list.getComponentOrientation().isLeftToRight()) {
-                    return e.getX() < bounds.x + _hotspot;
+                    return e.getX() < bounds.x + hotspot;
                 }
                 else {
-                    return e.getX() > bounds.x + bounds.width - _hotspot;
+                    return e.getX() > bounds.x + bounds.width - hotspot;
                 }
             }
             else {
@@ -195,7 +197,7 @@ public class CheckBoxList extends JList {
                 return;
             }
 
-            if (clicksInCheckBox(e)) {
+            if (!_list.isClickInCheckBoxOnly() || clicksInCheckBox(e)) {
                 int index = _list.locationToIndex(e.getPoint());
                 toggleSelection(index);
                 e.consume();
@@ -207,7 +209,7 @@ public class CheckBoxList extends JList {
                 return;
             }
 
-            if (clicksInCheckBox(e)) {
+            if (!_list.isClickInCheckBoxOnly() || clicksInCheckBox(e)) {
                 e.consume();
             }
         }
@@ -302,9 +304,9 @@ public class CheckBoxList extends JList {
             /* Sync the SelectionModel with the DataModel.
              */
 
-            ListSelectionModel sm = _list.getCheckBoxListSelectionModel();
-            if (sm != null) {
-                sm.insertIndexInterval(minIndex, maxIndex - minIndex + 1, true);
+            ListSelectionModel listSelectionModel = _list.getCheckBoxListSelectionModel();
+            if (listSelectionModel != null) {
+                listSelectionModel.insertIndexInterval(minIndex, maxIndex - minIndex + 1, true);
             }
         }
 
@@ -312,9 +314,9 @@ public class CheckBoxList extends JList {
         public void intervalRemoved(ListDataEvent e) {
             /* Sync the SelectionModel with the DataModel.
              */
-            ListSelectionModel sm = _list.getCheckBoxListSelectionModel();
-            if (sm != null) {
-                sm.removeIndexInterval(e.getIndex0(), e.getIndex1());
+            ListSelectionModel listSelectionModel = _list.getCheckBoxListSelectionModel();
+            if (listSelectionModel != null) {
+                listSelectionModel.removeIndexInterval(e.getIndex0(), e.getIndex1());
             }
         }
 
@@ -326,17 +328,6 @@ public class CheckBoxList extends JList {
     @Override
     public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
         return -1;
-    }
-
-    /**
-     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
-     * and unselect. If false, user can't click but you as developer can programatically call API to select/unselect
-     * it.
-     *
-     * @return the value of property checkBoxEnabled.
-     */
-    public boolean isCheckBoxEnabled() {
-        return _checkBoxEnabled;
     }
 
     /**
@@ -364,6 +355,17 @@ public class CheckBoxList extends JList {
     }
 
     /**
+     * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
+     * and deselect. If false, user can't click but you as developer can programmatically call API to select/deselect
+     * it.
+     *
+     * @return the value of property checkBoxEnabled.
+     */
+    public boolean isCheckBoxEnabled() {
+        return _checkBoxEnabled;
+    }
+
+    /**
      * Sets the value of property checkBoxEnabled.
      *
      * @param checkBoxEnabled true to allow to check the check box. False to disable it which means user can see whether
@@ -371,11 +373,35 @@ public class CheckBoxList extends JList {
      */
     public void setCheckBoxEnabled(boolean checkBoxEnabled) {
         if (checkBoxEnabled != _checkBoxEnabled) {
-            Boolean oldValue = _checkBoxEnabled ? Boolean.TRUE : Boolean.FALSE;
-            Boolean newValue = checkBoxEnabled ? Boolean.TRUE : Boolean.FALSE;
+            boolean old = _checkBoxEnabled;
             _checkBoxEnabled = checkBoxEnabled;
-            firePropertyChange(PROPERTY_CHECKBOX_ENABLED, oldValue, newValue);
+            firePropertyChange(PROPERTY_CHECKBOX_ENABLED, old, _checkBoxEnabled);
             repaint();
+        }
+    }
+
+    /**
+     * Gets the value of property clickInCheckBoxOnly. If true, user can click on check boxes on each tree node to
+     * select and deselect. If false, user can't click but you as developer can programmatically call API to
+     * select/deselect it.
+     *
+     * @return the value of property clickInCheckBoxOnly.
+     */
+    public boolean isClickInCheckBoxOnly() {
+        return _clickInCheckBoxOnly;
+    }
+
+    /**
+     * Sets the value of property clickInCheckBoxOnly.
+     *
+     * @param clickInCheckBoxOnly true to allow to check the check box. False to disable it which means user can see
+     *                            whether a row is checked or not but they cannot change it.
+     */
+    public void setClickInCheckBoxOnly(boolean clickInCheckBoxOnly) {
+        if (clickInCheckBoxOnly != _clickInCheckBoxOnly) {
+            boolean old = _clickInCheckBoxOnly;
+            _clickInCheckBoxOnly = clickInCheckBoxOnly;
+            firePropertyChange(PROPERTY_CLICK_IN_CHECKBOX_ONLY, old, _clickInCheckBoxOnly);
         }
     }
 
@@ -402,24 +428,25 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public int[] getCheckBoxListSelectedIndices() {
-        ListSelectionModel sm = getCheckBoxListSelectionModel();
-        int iMin = sm.getMinSelectionIndex();
-        int iMax = sm.getMaxSelectionIndex();
+        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        int iMin = listSelectionModel.getMinSelectionIndex();
+        int iMax = listSelectionModel.getMaxSelectionIndex();
 
         if ((iMin < 0) || (iMax < 0)) {
             return new int[0];
         }
 
-        int[] rvTmp = new int[1 + (iMax - iMin)];
+        int[] temp = new int[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (sm.isSelectedIndex(i)) {
-                rvTmp[n++] = i;
+            if (listSelectionModel.isSelectedIndex(i)) {
+                temp[n] = i;
+                n++;
             }
         }
-        int[] rv = new int[n];
-        System.arraycopy(rvTmp, 0, rv, 0, n);
-        return rv;
+        int[] indices = new int[n];
+        System.arraycopy(temp, 0, indices, 0, n);
+        return indices;
     }
 
 
@@ -474,19 +501,19 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public void setCheckBoxListSelectedIndices(int[] indices) {
-        ListSelectionModel sm = getCheckBoxListSelectionModel();
+        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
         try {
-            sm.setValueIsAdjusting(true);
-            sm.clearSelection();
+            listSelectionModel.setValueIsAdjusting(true);
+            listSelectionModel.clearSelection();
             int size = getModel().getSize();
             for (int indice : indices) {
                 if (indice >= 0 && indice < size) {
-                    sm.addSelectionInterval(indice, indice);
+                    listSelectionModel.addSelectionInterval(indice, indice);
                 }
             }
         }
         finally {
-            sm.setValueIsAdjusting(false);
+            listSelectionModel.setValueIsAdjusting(false);
         }
     }
 
@@ -555,26 +582,27 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public Object[] getCheckBoxListSelectedValues() {
-        ListSelectionModel sm = getCheckBoxListSelectionModel();
-        ListModel dm = getModel();
+        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        ListModel model = getModel();
 
-        int iMin = sm.getMinSelectionIndex();
-        int iMax = sm.getMaxSelectionIndex();
+        int iMin = listSelectionModel.getMinSelectionIndex();
+        int iMax = listSelectionModel.getMaxSelectionIndex();
 
         if ((iMin < 0) || (iMax < 0)) {
             return new Object[0];
         }
 
-        Object[] rvTmp = new Object[1 + (iMax - iMin)];
+        Object[] temp = new Object[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (sm.isSelectedIndex(i)) {
-                rvTmp[n++] = dm.getElementAt(i);
+            if (listSelectionModel.isSelectedIndex(i)) {
+                temp[n] = model.getElementAt(i);
+                n++;
             }
         }
-        Object[] rv = new Object[n];
-        System.arraycopy(rvTmp, 0, rv, 0, n);
-        return rv;
+        Object[] indices = new Object[n];
+        System.arraycopy(temp, 0, indices, 0, n);
+        return indices;
     }
 
 
@@ -617,9 +645,9 @@ public class CheckBoxList extends JList {
             setSelectedIndex(-1);
         else {
             int i, c;
-            ListModel dm = getModel();
-            for (i = 0, c = dm.getSize(); i < c; i++)
-                if (anObject.equals(dm.getElementAt(i))) {
+            ListModel model = getModel();
+            for (i = 0, c = model.getSize(); i < c; i++)
+                if (anObject.equals(model.getElementAt(i))) {
                     setCheckBoxListSelectedIndex(i);
                     if (shouldScroll)
                         ensureIndexIsVisible(i);
@@ -641,9 +669,9 @@ public class CheckBoxList extends JList {
     public void addCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
         if (anObject != null) {
             int i, c;
-            ListModel dm = getModel();
-            for (i = 0, c = dm.getSize(); i < c; i++)
-                if (anObject.equals(dm.getElementAt(i))) {
+            ListModel model = getModel();
+            for (i = 0, c = model.getSize(); i < c; i++)
+                if (anObject.equals(model.getElementAt(i))) {
                     addCheckBoxListSelectedIndex(i);
                     if (shouldScroll)
                         ensureIndexIsVisible(i);
@@ -665,10 +693,10 @@ public class CheckBoxList extends JList {
                 map.put(o, "");
             }
             int i, c;
-            ListModel dm = getModel();
+            ListModel model = getModel();
             boolean changed = false;
-            for (i = 0, c = dm.getSize(); i < c; i++)
-                if (map.get(dm.getElementAt(i)) != null) {
+            for (i = 0, c = model.getSize(); i < c; i++)
+                if (map.get(model.getElementAt(i)) != null) {
                     addCheckBoxListSelectedIndex(i);
                     changed = true;
                 }
@@ -689,9 +717,9 @@ public class CheckBoxList extends JList {
     public void removeCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
         if (anObject != null) {
             int i, c;
-            ListModel dm = getModel();
-            for (i = 0, c = dm.getSize(); i < c; i++)
-                if (anObject.equals(dm.getElementAt(i))) {
+            ListModel model = getModel();
+            for (i = 0, c = model.getSize(); i < c; i++)
+                if (anObject.equals(model.getElementAt(i))) {
                     removeCheckBoxListSelectedIndex(i);
                     if (shouldScroll)
                         ensureIndexIsVisible(i);
@@ -713,7 +741,7 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Unselects all objects in this list except those are disabled.
+     * Deselects all objects in this list except those are disabled.
      */
     public void selectNone() {
         getCheckBoxListSelectionModel().removeIndexInterval(0, getModel().getSize() - 1);
