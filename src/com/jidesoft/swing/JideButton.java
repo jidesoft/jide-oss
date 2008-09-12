@@ -126,8 +126,8 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     }
 
     public void setOrientation(int orientation) {
-        int old = _orientation;
-        if (old != orientation) {
+        if (_orientation != orientation) {
+            int old = _orientation;
             _orientation = orientation;
             firePropertyChange(PROPERTY_ORIENTATION, old, orientation);
         }
