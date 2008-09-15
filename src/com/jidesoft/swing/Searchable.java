@@ -621,7 +621,7 @@ public abstract class Searchable {
             _searchText = searchingText;
 
             try {
-                _pattern = Pattern.compile(isFromStart() ? s : ".*" + s, isCaseSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
+                _pattern = Pattern.compile(isFromStart() ? "^" + s : s, isCaseSensitive() ? 0 : Pattern.CASE_INSENSITIVE);
                 return _pattern.matcher(text).find();
             }
             catch (PatternSyntaxException e) {
@@ -1332,6 +1332,7 @@ public abstract class Searchable {
      * <code>addSearchableListener</code>.
      *
      * @return all of the <code>SearchableListener</code>s added or an empty array if no listeners have been added
+     *
      * @see #addSearchableListener
      */
     public SearchableListener[] getSearchableListeners() {

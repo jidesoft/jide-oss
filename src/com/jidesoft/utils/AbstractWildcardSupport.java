@@ -21,7 +21,6 @@ abstract public class AbstractWildcardSupport implements WildcardSupport {
 
         StringBuffer buffer = new StringBuffer();
         int length = s.length();
-        buffer.append('^');
         for (int i = 0; i < length; i++) {
             char c = s.charAt(i);
             if (zeroOrOneQuantifier != 0 && c == zeroOrOneQuantifier) {
