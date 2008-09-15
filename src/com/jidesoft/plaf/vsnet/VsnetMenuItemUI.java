@@ -628,11 +628,19 @@ public class VsnetMenuItemUI extends MenuItemUI {
             Graphics2D g2d = (Graphics2D) g;
             g2d.rotate(-Math.PI / 2);
             g2d.translate(-menuHeight + 1, 0);
+            int save = iconRect.x;
+            //noinspection SuspiciousNameCombination
+            iconRect.x = iconRect.y;
+            iconRect.y = save;
         }
 
         paintIcon(b, g);
 
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.VERTICAL) {
+            int save = iconRect.x;
+            //noinspection SuspiciousNameCombination
+            iconRect.x = iconRect.y;
+            iconRect.y = save;
             //   Dimension size = b.getSize();
             Graphics2D g2d = (Graphics2D) g;
             g2d.rotate(Math.PI / 2);
