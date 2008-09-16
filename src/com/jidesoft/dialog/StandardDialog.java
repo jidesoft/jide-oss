@@ -5,6 +5,7 @@
 */
 package com.jidesoft.dialog;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.DelegateAction;
 import com.jidesoft.swing.JideSwingUtilities;
 
@@ -305,9 +306,42 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
      * recommended to use our {@link ButtonPanel}.
      *
      * @return the button panel.
+     *
      * @see ButtonPanel
      */
     abstract public ButtonPanel createButtonPanel();
+
+    /**
+     * Creates a standard OK/Cancel button panel.
+     *
+     * @return a button panel that has OK/Cancel button.
+     */
+    public ButtonPanel createOKCancelButtonPanel() {
+        ButtonPanel buttonPanel = new ButtonPanel();
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 6, 10));
+
+        AbstractAction okAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.okButtonText")) {
+            public void actionPerformed(ActionEvent e) {
+                setDialogResult(RESULT_AFFIRMED);
+                setVisible(false);
+            }
+        };
+        AbstractAction cancelAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.cancelButtonText")) {
+            public void actionPerformed(ActionEvent e) {
+                setDialogResult(RESULT_CANCELLED);
+                setVisible(false);
+            }
+        };
+        JButton okButton = new JButton(okAction);
+        buttonPanel.addButton(okButton, ButtonPanel.AFFIRMATIVE_BUTTON);
+        buttonPanel.addButton(new JButton(cancelAction), ButtonPanel.CANCEL_BUTTON);
+
+        setDefaultCancelAction(cancelAction);
+        setDefaultAction(okAction);
+        getRootPane().setDefaultButton(okButton);
+
+        return buttonPanel;
+    }
 
     protected StandardDialogPane createStandardDialogPane() {
         return new DefaultStandardDialogPane();
