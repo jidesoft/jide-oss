@@ -5,6 +5,8 @@
  */
 package com.jidesoft.converter;
 
+import com.jidesoft.utils.TypeUtils;
+
 import javax.swing.event.EventListenerList;
 import java.util.*;
 
@@ -137,6 +139,12 @@ public class CacheMap<T, K> {
             List<Class<?>> classesToSearch = new ArrayList();
 
             classesToSearch.add(clazz);
+            if (TypeUtils.isPrimitive(clazz)) {
+                classesToSearch.add(TypeUtils.convertPrimitiveToWrapperType(clazz));
+            }
+            else if (TypeUtils.isPrimitiveWrapper(clazz)) {
+                classesToSearch.add(TypeUtils.convertWrapperToPrimitiveType(clazz));
+            }
 
             // Direct super interfaces, recursively
             Class<?>[] interfaces = clazz.getInterfaces();

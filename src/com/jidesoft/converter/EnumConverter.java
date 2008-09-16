@@ -6,8 +6,8 @@
 package com.jidesoft.converter;
 
 /**
- * A typical way to define a constant is to use int as the value type. For example, in
- * SwingConstants, the following values are defined.
+ * A typical way to define a constant is to use int as the value type. For example, in SwingConstants, the following
+ * values are defined.
  * <code><pre>
  * public static final int CENTER  = 0;
  * public static final int TOP     = 1;
@@ -15,17 +15,15 @@ package com.jidesoft.converter;
  * public static final int BOTTOM  = 3;
  * public static final int RIGHT   = 4;
  * </pre></code>
- * Before JDK1.5, there is no enum type, so this is one way to define enumeration. When you use it,
- * you just need to define a int field say _locaton and the valid value for _location is one of the
- * values above. If you want to display it in UI and allow user to specify the value of _location,
- * problem comes. You don't want to use 0, 1, 2, 3, 4 as the value doesn't mean anything from user
- * point of view. You want user to be able to use meanful names such as "Center", "Top", "Left",
- * "Bottom", "Right". Obviously you need a converter here to convert from integer in an enum to
- * string, such as converting from 0 to "Center" and vice versa. That's what <tt>EnumConverter</tt>
- * for.
+ * Before JDK1.5, there is no enum type, so this is one way to define enumeration. When you use it, you just need to
+ * define a int field say _locaton and the valid value for _location is one of the values above. If you want to display
+ * it in UI and allow user to specify the value of _location, problem comes. You don't want to use 0, 1, 2, 3, 4 as the
+ * value doesn't mean anything from user point of view. You want user to be able to use meaningful names such as
+ * "Center", "Top", "Left", "Bottom", "Right". Obviously you need a converter here to convert from integer in an enum to
+ * string, such as converting from 0 to "Center" and vice verse. That's what <tt>EnumConverter</tt> for.
  * <p/>
- * Combining with EnumCellConverter, EnumCellEditor, you can easily use combobox to choose value for
- * _location like the example above using meanful strings.
+ * Combining with EnumCellConverter, EnumCellEditor, you can easily use combobox to choose value for _location like the
+ * example above using meaningful strings.
  */
 public class EnumConverter implements ObjectConverter {
     private String _name;
@@ -46,16 +44,15 @@ public class EnumConverter implements ObjectConverter {
     /**
      * Creates an EnumConverter.
      *
-     * @param name         the name of the converter. The name is used to create ConverterContext
-     *                     and later on the EditorContext.
+     * @param name         the name of the converter. The name is used to create ConverterContext and later on the
+     *                     EditorContext.
      * @param type         the type of the element in <code>objects</code> array.
-     * @param objects      the <code>objects</code> array. All elements in the <code>objects</code>
-     *                     array should have the same type.
-     * @param strings      the <code>strings</code> array. It contains the meanful names for the
-     *                     elements in <code>objects</code> array. They should one to one match with
-     *                     each other. The length of <code>strings</code> array should be the same
-     *                     as that of <code>objects</code> array. Otherwise IllegalArgumentExceptio
-     *                     will be thrown.
+     * @param objects      the <code>objects</code> array. All elements in the <code>objects</code> array should have
+     *                     the same type.
+     * @param strings      the <code>strings</code> array. It contains the meaningful names for the elements in
+     *                     <code>objects</code> array. They should one to one match with each other. The length of
+     *                     <code>strings</code> array should be the same as that of <code>objects</code> array.
+     *                     Otherwise IllegalArgumentExceptio will be thrown.
      * @param defaultValue the default value
      */
     public EnumConverter(String name, Class<?> type, Object[] objects, String[] strings, Object defaultValue) {
@@ -78,30 +75,28 @@ public class EnumConverter implements ObjectConverter {
         _default = defaultValue;
     }
 
-    transient private ConverterContext _conext;
+    transient private ConverterContext _context;
 
     /**
-     * Gets the converter context of this converter. The name of the context is the name of the
-     * converter where you pass in to EnumConverter's constructor.
+     * Gets the converter context of this converter. The name of the context is the name of the converter where you pass
+     * in to EnumConverter's constructor.
      *
      * @return the converter context of this converter.
      */
     public ConverterContext getContext() {
-        if (_conext == null) {
-            _conext = new ConverterContext(_name);
+        if (_context == null) {
+            _context = new ConverterContext(_name);
         }
-        return _conext;
+        return _context;
     }
 
     /**
-     * Converts the object to string. It will find the object from the <code>objects</code> array
-     * and find the matching string from <code>strings</code> array. If {@link #isStrict()} is true,
-     * null will be returned if nothing matches. Otherwise, it will return the string value of the
-     * object using toString.
+     * Converts the object to string. It will find the object from the <code>objects</code> array and find the matching
+     * string from <code>strings</code> array. If {@link #isStrict()} is true, null will be returned if nothing matches.
+     * Otherwise, it will return the string value of the object using toString.
      *
      * @param object  the object to be converted.
      * @param context the converter context.
-     *
      * @return the string for the object.
      */
     public String toString(Object object, ConverterContext context) {
@@ -120,14 +115,12 @@ public class EnumConverter implements ObjectConverter {
     }
 
     /**
-     * Converts the string to the object. It will find the string from the <code>strings</code>
-     * array and find the matching object from <code>objects</code> array. If {@link #isStrict()} is
-     * true, the default value will be returned if nothing matches. Otherwise, it will return the
-     * string itself that is passed in.
+     * Converts the string to the object. It will find the string from the <code>strings</code> array and find the
+     * matching object from <code>objects</code> array. If {@link #isStrict()} is true, the default value will be
+     * returned if nothing matches. Otherwise, it will return the string itself that is passed in.
      *
      * @param string  the string to be converted
      * @param context the converter context.
-     *
      * @return the object of the string.
      */
     public Object fromString(String string, ConverterContext context) {
@@ -164,8 +157,7 @@ public class EnumConverter implements ObjectConverter {
     }
 
     /**
-     * Gets the default value of the converter if it failed to find the matching object for a
-     * particular string.
+     * Gets the default value of the converter if it failed to find the matching object for a particular string.
      *
      * @return the default value.
      */
@@ -194,17 +186,15 @@ public class EnumConverter implements ObjectConverter {
     /**
      * Converts an object array to a String array using ObjectConverterManager.
      * <p/>
-     * This method can be used, for example, for Enum type, to provide a default string
-     * representation of the enum values.
+     * This method can be used, for example, for Enum type, to provide a default string representation of the enum
+     * values.
      * <code><pre>
      * ObjectConverter converter = new EnumConverter("Rank", Rank.values(),
      * EnumConverter.toStrings(Rank.values()));
      * </pre></code>
-     * Of course, you can still define your own string array for the enum values if the default one
-     * doesn't work well.
+     * Of course, you can still define your own string array for the enum values if the default one doesn't work well.
      *
      * @param values the object array.
-     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values) {
@@ -216,7 +206,6 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param values           the object array.
      * @param converterContext the converter context used when calling ObjectConverterManager.toString.
-     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values, ConverterContext converterContext) {
@@ -228,10 +217,9 @@ public class EnumConverter implements ObjectConverter {
     }
 
     /**
-     * Checks if the EnumConverter is strict about the value that passed to fromString and toString.
-     * If true, fromString will convert any String that doesn't match to the default value, toString
-     * will return null if the value doesn't match. If false, the string itself will be return from
-     * fromString. Default is true.
+     * Checks if the EnumConverter is strict about the value that passed to fromString and toString. If true, fromString
+     * will convert any String that doesn't match to the default value, toString will return null if the value doesn't
+     * match. If false, the string itself will be return from fromString. Default is true.
      *
      * @return true or false.
      */
@@ -240,8 +228,7 @@ public class EnumConverter implements ObjectConverter {
     }
 
     /**
-     * Sets if the EnumConverter is strict about the value that passed to fromString and toString.
-     * Default is true.
+     * Sets if the EnumConverter is strict about the value that passed to fromString and toString. Default is true.
      *
      * @param strict true or false.
      */

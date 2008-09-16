@@ -29,6 +29,15 @@ public class TypeUtils {
         return false;
     }
 
+    public static boolean isPrimitiveWrapper(Class<?> wrapperType) {
+        for (Object[] primitiveArrayType : PRIMITIVE_ARRAY_TYPES) {
+            if (primitiveArrayType[WRAPPER_TYPE_INDEX] == wrapperType) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Class<?> convertPrimitiveToWrapperType(Class<?> primitive) {
         for (Object[] primitiveArrayType : PRIMITIVE_ARRAY_TYPES) {
             if (primitiveArrayType[PRIMITIVE_TYPE_INDEX] == primitive) {
@@ -40,7 +49,7 @@ public class TypeUtils {
 
     public static Class<?> convertWrapperToPrimitiveType(Class<?> primitive) {
         for (Object[] primitiveArrayType : PRIMITIVE_ARRAY_TYPES) {
-            if (primitiveArrayType[PRIMITIVE_TYPE_INDEX] == primitive) {
+            if (primitiveArrayType[WRAPPER_TYPE_INDEX] == primitive) {
                 return (Class<?>) primitiveArrayType[PRIMITIVE_TYPE_INDEX];
             }
         }
