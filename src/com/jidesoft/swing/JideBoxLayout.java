@@ -11,18 +11,20 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * JideBoxLayout is very similar to BoxLayout in the way that all components are arragned either from left to right or
- * from top to bottom. Different \ from BoxLayout, there are three possible contraints when adding component to this
- * layout - FIX, FLEXIBLE and VARY. <ul> <li>FIX: use the preferred size of the compoent and size is fixed <li>FLEXIBLE:
- * respect the preferred size of the compoennt but size can be changed. <li>VARY: ignore preferred size. Its size is
- * calculated based how much area left. </ul> This is the default layout manager for {@link
+ * JideBoxLayout is very similar to BoxLayout in the way that all components are arranged either from left to right or
+ * from top to bottom. Different \ from BoxLayout, there are three possible constraints when adding component to this
+ * layout - FIX, FLEXIBLE and VARY. <ul> <li>FIX: use the preferred size of the component and size is fixed
+ * <li>FLEXIBLE: respect the preferred size of the component but size can be changed. <li>VARY: ignore preferred size.
+ * Its size is calculated based how much area left. </ul> This is the default layout manager for {@link
  * com.jidesoft.swing.JideSplitPane}.
  */
 public class JideBoxLayout implements LayoutManager2, Serializable {
 
-    private final boolean DEBUG = false;
+    private static final Logger LOGGER = Logger.getLogger(JideBoxLayout.class.getName());
 
     /**
      * True if resetToPreferredSizes has been invoked.
@@ -30,7 +32,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     private boolean doReset = true;
 
     /**
-     * Axis, 0 for horizontal, or 1 for veritcal.
+     * Axis, 0 for horizontal, or 1 for vertical.
      */
     protected int _axis;
     protected Container _target;
@@ -127,8 +129,8 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      */
     public void layoutContainer(Container container) {
         synchronized (container.getTreeLock()) {
-            if (DEBUG) {
-                System.out.println("===> Start <====");
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine(this + " layoutContainer started");
             }
             Dimension containerSize = container.getSize();
             if (containerSize.height <= 0 || containerSize.width <= 0) {
@@ -183,18 +185,24 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                 if (!ltr && resolveAxis(_axis, o) == X_AXIS) {
                     location -= _componentSizes[i];
                     setComponentToSize(comp, _componentSizes[i], location, insets, containerSize);
+                    if (LOGGER.isLoggable(Level.FINE)) {
+                        LOGGER.fine("layoutContainer index: " + i + " size: " + _componentSizes[i]);
+                    }
                     if (_componentSizes[i] != 0)
                         location -= _gap;
                 }
                 else {
                     setComponentToSize(comp, _componentSizes[i], location, insets, containerSize);
+                    if (LOGGER.isLoggable(Level.FINE)) {
+                        LOGGER.fine("layoutContainer index: " + i + " size: " + _componentSizes[i]);
+                    }
                     location += _componentSizes[i];
                     if (_componentSizes[i] != 0)
                         location += _gap;
                 }
             }
-            if (DEBUG) {
-                System.out.println("<==== End ====>");
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("layoutContainer ended");
             }
         }
     }
@@ -316,8 +324,8 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     }
 
     private void setComponentSize(int index, int size) {
-        if (DEBUG) {
-            System.out.println("setComponentSize index: " + index + " size: " + size);
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("setComponentSize index: " + index + " size: " + size);
         }
         _componentSizes[index] = size;
     }
@@ -330,12 +338,12 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      * @param component the component to be added
      */
     public void addLayoutComponent(String name, Component component) {
-        doReset = true;
+        layoutReset();
     }
 
     /**
-     * Returns the minimum size needed to contain the children. The width is the sum of all the childrens min widths and
-     * the height is the largest of the childrens minimum heights.
+     * Returns the minimum size needed to contain the children. The width is the sum of all the children min widths and
+     * the height is the largest of the children minimum heights.
      */
     public Dimension minimumLayoutSize(Container container) {
         int minPrimary = 0;
@@ -441,7 +449,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         _constraintMap.remove(comp);
 
         if (comp instanceof JideSplitPaneDivider)
-            doReset = true;
+            layoutReset();
     }
 
     //
@@ -460,7 +468,14 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
             _constraintMap.put(comp, FLEXIBLE);
         else
             _constraintMap.put(comp, constraints);
+        layoutReset();
+    }
+
+    private void layoutReset() {
         doReset = true;
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine(this + " layoutReset");
+        }
     }
 
     /**
@@ -488,7 +503,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      */
     public synchronized void invalidateLayout(Container c) {
         if (isResetWhenInvalidate() || componentCountChanged(c)) {
-            doReset = true;
+            layoutReset();
         }
     }
 
@@ -689,7 +704,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Given one of the 4 axis values, resolve it to an absolute axis. The relative axis values, PAGE_AXIS and LINE_AXIS
-     * are converted to their absolute couterpart given the target's ComponentOrientation value.  The absolute axes,
+     * are converted to their absolute counterpart given the target's ComponentOrientation value.  The absolute axes,
      * X_AXIS and Y_AXIS are returned unmodified.
      *
      * @param axis the axis to resolve

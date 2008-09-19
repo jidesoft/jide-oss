@@ -1563,9 +1563,32 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         return _rightOneTouchButtonImageIcon;
     }
 
-    /*
-     * End of one-touch expand/collapse addition.
+    /**
+     * Sets the divider locations.
      *
-     * Added on 05/14/2008.
+     * @param locations the new divider locations.
      */
+    public void setDividerLocations(int[] locations) {
+        for (int i = 0; i < locations.length; i++) {
+            int location = locations[i];
+            setDividerLocation(i, location);
+        }
+    }
+
+    /**
+     * Gets the divider locations.
+     *
+     * @return the divider locations.
+     */
+    public int[] getDividerLocations() {
+        int count = getPaneCount();
+        if (getPaneCount() == 0) {
+            return new int[0];
+        }
+        int[] locations = new int[count - 1];
+        for (int i = 0; i < count - 1; i++) {
+            locations[i] = getDividerLocation(i);
+        }
+        return locations;
+    }
 }
