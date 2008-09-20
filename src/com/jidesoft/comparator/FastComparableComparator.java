@@ -10,15 +10,11 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * A Comparator that compares Comparable objects.
- * Throws ClassCastExceptions if the objects are not
- * Comparable, or if they are null.
- * Different from {@link ComparableComparator}, it will not throw exception
- * when the two compareTo methods don't provide an inverse result of each other
- * as per the Comparable javadoc. We do so mainly to reduce one call to compareTo.
- * <br>
- * If both objects are null, they will be treated as equal. If one is null and the other
- * is not, the null value will be treated as smaller then non-null value.
+ * A Comparator that compares Comparable objects. Throws ClassCastExceptions if the objects are not Comparable, or if
+ * they are null. Different from {@link ComparableComparator}, it will not throw exception when the two compareTo
+ * methods don't provide an inverse result of each other as per the Comparable javadoc. We do so mainly to reduce one
+ * call to compareTo. <br> If both objects are null, they will be treated as equal. If one is null and the other is not,
+ * the null value will be treated as smaller then non-null value.
  *
  * @author bayard@generationjava.com
  * @author JIDE Software
@@ -29,10 +25,9 @@ public class FastComparableComparator implements Comparator, Serializable {
             new FastComparableComparator();
 
     /**
-     * Return a shared instance of a ComparableComparator.  Developers are
-     * encouraged to use the comparator returned from this method instead of
-     * constructing a new instance to reduce allocation and GC overhead when
-     * multiple comparable comparators may be used in the same VM.
+     * Return a shared instance of a ComparableComparator.  Developers are encouraged to use the comparator returned
+     * from this method instead of constructing a new instance to reduce allocation and GC overhead when multiple
+     * comparable comparators may be used in the same VM.
      *
      * @return an instance of ComparableComparator.
      */
@@ -41,7 +36,7 @@ public class FastComparableComparator implements Comparator, Serializable {
     }
 
     /**
-     * Constructs a ComparableComparator.
+     * Constructs a FastComparableComparator.
      */
     public FastComparableComparator() {
     }

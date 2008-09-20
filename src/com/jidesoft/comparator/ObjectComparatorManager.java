@@ -332,7 +332,11 @@ public class ObjectComparatorManager {
 
             registerComparator(Comparable.class, new FastComparableComparator());
             registerComparator(String.class, Collator.getInstance());
-            registerComparator(String.class, new FastComparableComparator(), new ComparatorContext("IgnoreLocale"));
+            Collator caseInsensitiveCollator = Collator.getInstance();
+            caseInsensitiveCollator.setStrength(Collator.PRIMARY);
+            registerComparator(String.class, caseInsensitiveCollator, new ComparatorContext("Ignorecase"));
+            registerComparator(CharSequence.class, new CharSequenceComparator(), CharSequenceComparator.CONTEXT);
+            registerComparator(CharSequence.class, new CharSequenceComparator(false), CharSequenceComparator.CONTEXT_IGNORE_CASE);
             registerComparator(CharSequence.class, new AlphanumComparator(), AlphanumComparator.CONTEXT);
             registerComparator(CharSequence.class, new AlphanumComparator(false), AlphanumComparator.CONTEXT_IGNORE_CASE);
         }
