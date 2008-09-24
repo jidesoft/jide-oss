@@ -7,6 +7,8 @@
 package com.jidesoft.utils;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <code>DateUtils</code> contains many useful methods related to Date and Calendar.
@@ -240,6 +242,82 @@ public class DateUtils {
     public static Calendar adjustDate(Calendar calendar, int differenceInDay) {
         calendar.setTimeInMillis(calendar.getTimeInMillis() + DAY_IN_MS * differenceInDay);
         return calendar;
+    }
+
+    /**
+     * Returns the minimum Date in the Date list.
+     *
+     * @param dates the list of Date to calculate the minimum.
+     * @return the minimum date in the Date list.
+     */
+    public static Date min(List<Date> dates) {
+        long min = Long.MAX_VALUE;
+        Date minDate = null;
+        for (Date value : dates) {
+            long v = value.getTime();
+            if (v < min) {
+                min = v;
+                minDate = value;
+            }
+        }
+        return minDate;
+    }
+
+    /**
+     * Returns the maximum Date in the Date list.
+     *
+     * @param dates the list of Date to calculate the maximum.
+     * @return the maximum date in the Date list.
+     */
+    public static Date max(List<Date> dates) {
+        long max = Long.MIN_VALUE;
+        Date maxDate = null;
+        for (Date value : dates) {
+            long v = value.getTime();
+            if (v > max) {
+                max = v;
+                maxDate = value;
+            }
+        }
+        return maxDate;
+    }
+
+    /**
+     * Returns the minimum Calendar in the Calendar list.
+     *
+     * @param calendars the list of Calendar to calculate the minimum.
+     * @return the minimum calendar in the Calendar list.
+     */
+    public static Calendar min(List<Calendar> calendars) {
+        long min = Long.MAX_VALUE;
+        Calendar minCalendar = null;
+        for (Calendar value : calendars) {
+            long v = value.getTimeInMillis();
+            if (v < min) {
+                min = v;
+                minCalendar = value;
+            }
+        }
+        return minCalendar;
+    }
+
+    /**
+     * Returns the maximum Calendar in the Calendar list.
+     *
+     * @param calendars the list of Calendar to calculate the maximum.
+     * @return the maximum calendar in the Calendar list.
+     */
+    public static Calendar max(List<Calendar> calendars) {
+        long max = Long.MIN_VALUE;
+        Calendar maxCalendar = null;
+        for (Calendar value : calendars) {
+            long v = value.getTimeInMillis();
+            if (v > max) {
+                max = v;
+                maxCalendar = value;
+            }
+        }
+        return maxCalendar;
     }
 
 //    public static void main(String[] args) {

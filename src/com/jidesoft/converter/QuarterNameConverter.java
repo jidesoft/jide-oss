@@ -29,11 +29,17 @@ public class QuarterNameConverter implements ObjectConverter {
     }
 
     public String toString(Object object, ConverterContext context) {
-        if (object == null || !(object instanceof Integer)) {
+        if (object == null || !(object instanceof Number)) {
             return "";
         }
         else {
-            return MessageFormat.format(getQuarterNamePattern(), ((Integer) object + 1));
+            int qty = ((Number) object).intValue();
+            if (qty >= 0 && qty < 4) {
+                return MessageFormat.format(getQuarterNamePattern(), (qty + 1));
+            }
+            else {
+                return "";
+            }
         }
     }
 
@@ -82,8 +88,8 @@ public class QuarterNameConverter implements ObjectConverter {
     }
 
     /**
-     * Sets the quarter name pattern. For example, if the int is 0, it will
-     * converted to "Qtr 1" if the pattern is "Qtr {0}".
+     * Sets the quarter name pattern. For example, if the int is 0, it will converted to "Qtr 1" if the pattern is "Qtr
+     * {0}".
      *
      * @param quarterName
      */

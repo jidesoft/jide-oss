@@ -7,8 +7,8 @@
 package com.jidesoft.converter;
 
 /**
- * Converter which converts year to int and converts it back. It is no difference from
- * a number converter except it doesn't use grouping when formatting.
+ * Converter which converts year to int and converts it back. It is no difference from a number converter except it
+ * doesn't use grouping when formatting.
  */
 public class YearNameConverter implements ObjectConverter {
 
@@ -24,7 +24,7 @@ public class YearNameConverter implements ObjectConverter {
     }
 
     public String toString(Object object, ConverterContext context) {
-        if (object == null || !(object instanceof Integer)) {
+        if (object == null || !(object instanceof Number)) {
             return "";
         }
         else {
@@ -38,8 +38,7 @@ public class YearNameConverter implements ObjectConverter {
 
     public Object fromString(String string, ConverterContext context) {
         try {
-            int year = Integer.parseInt(string);
-            return year;
+            return Integer.parseInt(string);
         }
         catch (NumberFormatException e) {
             return string;
