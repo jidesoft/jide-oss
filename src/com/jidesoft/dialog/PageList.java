@@ -5,18 +5,18 @@
  */
 package com.jidesoft.dialog;
 
+import com.jidesoft.swing.JideSwingUtilities;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of AbstractDialogPage or its subclasses. It is used by
- * MultiplePageDialog and Wizard.
+ * A list of AbstractDialogPage or its subclasses. It is used by MultiplePageDialog and Wizard.
  */
 public class PageList extends DefaultComboBoxModel {
     /**
-     * If you know the full title of any page, use this method to get
-     * the actual page from the list.
+     * If you know the full title of any page, use this method to get the actual page from the list.
      *
      * @param title the full title.
      * @return the page with the title.
@@ -82,8 +82,8 @@ public class PageList extends DefaultComboBoxModel {
     }
 
     /**
-     * Inserts a page after the page with the specified full title. If we cannot find
-     * the page with the specified title, the page will be added to the end as append(page).
+     * Inserts a page after the page with the specified full title. If we cannot find the page with the specified title,
+     * the page will be added to the end as append(page).
      *
      * @param page  page to be inserted.
      * @param title the title of the page after when the new page will be inserted.
@@ -137,6 +137,30 @@ public class PageList extends DefaultComboBoxModel {
      * @param page the dialog page.
      */
     public void setCurrentPage(AbstractDialogPage page) {
-        setSelectedItem(page);
+        setCurrentPage(page, null);
+    }
+
+    protected boolean setCurrentPage(AbstractDialogPage page, Object source) {
+        AbstractDialogPage oldPage = getCurrentPage();
+        if (oldPage != null && !oldPage.equals(page)) {
+            oldPage.setAllowClosing(true);
+            oldPage.firePageEvent(source, PageEvent.PAGE_CLOSING);
+            if (!oldPage.allowClosing()) {
+                return false;
+            }
+            oldPage.firePageEvent(source, PageEvent.PAGE_CLOSED);
+        }
+
+        if (!JideSwingUtilities.equals(oldPage, page)) {
+            setSelectedItem(page);
+        }
+        else {
+            AbstractDialogPage newPage = getCurrentPage();
+            if (newPage != null) {
+                newPage.firePageEvent(source, PageEvent.PAGE_OPENED);
+            }
+        }
+
+        return true;
     }
 }

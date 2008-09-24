@@ -407,7 +407,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
                         Object o = ((PageList) e.getSource()).getSelectedItem();
-                        if (o instanceof AbstractDialogPage && !o.equals(_pageList.getCurrentPage())) {
+                        if (o instanceof AbstractDialogPage) {
                             setCurrentPage((AbstractDialogPage) o);
                         }
                     }
@@ -481,28 +481,18 @@ public class MultiplePageDialogPane extends StandardDialogPane {
     }
 
     protected void setCurrentPage(AbstractDialogPage currentPage, Object source) {
-        if (_pageList.getCurrentPage() != null && !_pageList.getCurrentPage().equals(currentPage)) {
-            _pageList.getCurrentPage().setAllowClosing(true);
-            _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_CLOSING);
-            if (!_pageList.getCurrentPage().allowClosing()) {
-                return;
-            }
-            _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_CLOSED);
+        if (!_pageList.setCurrentPage(currentPage, source)) {
+            return;
         }
 
-        _pageList.setCurrentPage(currentPage);
-
-        if (_pageList.getCurrentPage() != null) {
+        if (currentPage != null) {
             showCurrentPage(currentPage);
-            if (_pageList.getCurrentPage() != null) {
-                _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_OPENED);
-            }
         }
     }
 
     /**
      * Displays the current page. If it is TAB_STYLE, this method will simply select the tab that has the current page.
-     * If it is any of the other styles, this method will show the page thiat is already added in a CardLayout in
+     * If it is any of the other styles, this method will show the page that is already added in a CardLayout in
      * createPagePanel method.
      *
      * @param currentPage

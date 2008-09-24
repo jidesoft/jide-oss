@@ -189,7 +189,7 @@ public class MultiplePageDialog extends StandardDialog {
 
     /**
      * Creates a modal or non-modal MultiplePageDialog without a title and with the specified owner <code>Dialog</code>.
-     *  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
+     * If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
      * default TAB_STYLE is used.
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
@@ -492,7 +492,7 @@ public class MultiplePageDialog extends StandardDialog {
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
                         Object o = ((PageList) e.getSource()).getSelectedItem();
-                        if (o instanceof AbstractDialogPage && !o.equals(_pageList.getCurrentPage())) {
+                        if (o instanceof AbstractDialogPage) {
                             setCurrentPage((AbstractDialogPage) o);
                         }
                     }
@@ -566,27 +566,31 @@ public class MultiplePageDialog extends StandardDialog {
     }
 
     protected void setCurrentPage(AbstractDialogPage currentPage, Object source) {
-        if (_pageList.getCurrentPage() != null && !_pageList.getCurrentPage().equals(currentPage)) {
-            _pageList.getCurrentPage().setAllowClosing(true);
-            _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_CLOSING);
-            if (!_pageList.getCurrentPage().allowClosing()) {
-                return;
-            }
-            _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_CLOSED);
+        if (!_pageList.setCurrentPage(currentPage, source)) {
+            return;
         }
 
-        _pageList.setCurrentPage(currentPage);
+        if (currentPage != null) {
+            showCurrentPage(currentPage);
+        }
+    }
 
-        if (_pageList.getCurrentPage() != null) {
-            if (getStyle() == TAB_STYLE) {
-                _tabbedPane.setSelectedComponent(_pageList.getCurrentPage());
-            }
-            else {
-                _cardLayout.show(_pagesPanel, currentPage.getFullTitle());
-            }
-            if (_pageList.getCurrentPage() != null) {
-                _pageList.getCurrentPage().firePageEvent(source, PageEvent.PAGE_OPENED);
-            }
+    /**
+     * Displays the current page. If it is TAB_STYLE, this method will simply select the tab that has the current page.
+     * If it is any of the other styles, this method will show the page that is already added in a CardLayout in
+     * createPagePanel method.
+     *
+     * @param currentPage
+     */
+    protected void showCurrentPage(AbstractDialogPage currentPage) {
+        if (getStyle() == TAB_STYLE) {
+            _tabbedPane.setSelectedComponent(currentPage);
+        }
+        else {
+            _cardLayout.show(_pagesPanel, currentPage.getFullTitle());
+        }
+        if (currentPage != null) {
+            currentPage.focusDefaultFocusComponent();
         }
     }
 
