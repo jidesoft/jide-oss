@@ -35,6 +35,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
+import java.io.Serializable;
 
 
 /*
@@ -65,7 +66,7 @@ public class CornerScroller extends JideButton {
         }
     }
 
-    private static class ScrollerIcon implements Icon, UIResource {
+    private static class ScrollerIcon implements Icon, UIResource, Serializable {
         public int getIconHeight() {
             return 16;
         }
