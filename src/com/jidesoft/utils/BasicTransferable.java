@@ -31,19 +31,19 @@ public class BasicTransferable implements Transferable, UIResource {
 
     static {
         try {
-            BasicTransferable.htmlFlavors = new DataFlavor[3];
-            BasicTransferable.htmlFlavors[0] = new DataFlavor("text/html;class=java.lang.String");
-            BasicTransferable.htmlFlavors[1] = new DataFlavor("text/html;class=java.io.Reader");
-            BasicTransferable.htmlFlavors[2] = new DataFlavor("text/html;charset=unicode;class=java.io.InputStream");
+            htmlFlavors = new DataFlavor[3];
+            htmlFlavors[0] = new DataFlavor("text/html;class=java.lang.String");
+            htmlFlavors[1] = new DataFlavor("text/html;class=java.io.Reader");
+            htmlFlavors[2] = new DataFlavor("text/html;charset=unicode;class=java.io.InputStream");
 
-            BasicTransferable.plainFlavors = new DataFlavor[3];
-            BasicTransferable.plainFlavors[0] = new DataFlavor("text/plain;class=java.lang.String");
-            BasicTransferable.plainFlavors[1] = new DataFlavor("text/plain;class=java.io.Reader");
-            BasicTransferable.plainFlavors[2] = new DataFlavor("text/plain;charset=unicode;class=java.io.InputStream");
+            plainFlavors = new DataFlavor[3];
+            plainFlavors[0] = new DataFlavor("text/plain;class=java.lang.String");
+            plainFlavors[1] = new DataFlavor("text/plain;class=java.io.Reader");
+            plainFlavors[2] = new DataFlavor("text/plain;charset=unicode;class=java.io.InputStream");
 
-            BasicTransferable.stringFlavors = new DataFlavor[2];
-            BasicTransferable.stringFlavors[0] = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=java.lang.String");
-            BasicTransferable.stringFlavors[1] = DataFlavor.stringFlavor;
+            stringFlavors = new DataFlavor[2];
+            stringFlavors[0] = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=java.lang.String");
+            stringFlavors[1] = DataFlavor.stringFlavor;
 
         }
         catch (ClassNotFoundException cle) {
@@ -66,9 +66,9 @@ public class BasicTransferable implements Transferable, UIResource {
     public DataFlavor[] getTransferDataFlavors() {
         DataFlavor[] richerFlavors = getRicherFlavors();
         int nRicher = (richerFlavors != null) ? richerFlavors.length : 0;
-        int nHTML = (isHTMLSupported()) ? BasicTransferable.htmlFlavors.length : 0;
-        int nPlain = (isPlainSupported()) ? BasicTransferable.plainFlavors.length : 0;
-        int nString = (isPlainSupported()) ? BasicTransferable.stringFlavors.length : 0;
+        int nHTML = (isHTMLSupported()) ? htmlFlavors.length : 0;
+        int nPlain = (isPlainSupported()) ? plainFlavors.length : 0;
+        int nString = (isPlainSupported()) ? stringFlavors.length : 0;
         int nFlavors = nRicher + nHTML + nPlain + nString;
         DataFlavor[] flavors = new DataFlavor[nFlavors];
 
@@ -79,15 +79,15 @@ public class BasicTransferable implements Transferable, UIResource {
             nDone += nRicher;
         }
         if (nHTML > 0) {
-            System.arraycopy(BasicTransferable.htmlFlavors, 0, flavors, nDone, nHTML);
+            System.arraycopy(htmlFlavors, 0, flavors, nDone, nHTML);
             nDone += nHTML;
         }
         if (nPlain > 0) {
-            System.arraycopy(BasicTransferable.plainFlavors, 0, flavors, nDone, nPlain);
+            System.arraycopy(plainFlavors, 0, flavors, nDone, nPlain);
             nDone += nPlain;
         }
         if (nString > 0) {
-            System.arraycopy(BasicTransferable.stringFlavors, 0, flavors, nDone, nString);
+            System.arraycopy(stringFlavors, 0, flavors, nDone, nString);
             nDone += nString;
         }
         return flavors;
@@ -195,7 +195,7 @@ public class BasicTransferable implements Transferable, UIResource {
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isHTMLFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = BasicTransferable.htmlFlavors;
+        DataFlavor[] flavors = htmlFlavors;
         for (DataFlavor flavor1 : flavors) {
             if (flavor1.equals(flavor)) {
                 return true;
@@ -228,7 +228,7 @@ public class BasicTransferable implements Transferable, UIResource {
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isPlainFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = BasicTransferable.plainFlavors;
+        DataFlavor[] flavors = plainFlavors;
         for (DataFlavor flavor1 : flavors) {
             if (flavor1.equals(flavor)) {
                 return true;
@@ -261,9 +261,9 @@ public class BasicTransferable implements Transferable, UIResource {
      * @return boolean indicating whether or not the data flavor is supported
      */
     protected boolean isStringFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = BasicTransferable.stringFlavors;
-        for (DataFlavor flavor1 : flavors) {
-            if (flavor1.equals(flavor)) {
+        DataFlavor[] flavors = stringFlavors;
+        for (DataFlavor f : flavors) {
+            if (f.equals(flavor)) {
                 return true;
             }
         }
