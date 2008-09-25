@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.SystemInfo;
+
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
@@ -214,11 +216,11 @@ public class JideToggleButton extends JideButton implements Accessible {
 
     // to support SELECTED_KEY
     static boolean hasSelectedKey(Action a) {
-        return (a != null && a.getValue(Action.SELECTED_KEY) != null);
+        return SystemInfo.isJdk6Above() && (a != null && a.getValue(Action.SELECTED_KEY) != null);
     }
 
     static boolean isSelected(Action a) {
-        return Boolean.TRUE.equals(a.getValue(Action.SELECTED_KEY));
+        return SystemInfo.isJdk6Above() && Boolean.TRUE.equals(a.getValue(Action.SELECTED_KEY));
     }
 
     /**
@@ -240,7 +242,7 @@ public class JideToggleButton extends JideButton implements Accessible {
             if (!selected && isSelected()) {
                 if (getModel() instanceof DefaultButtonModel) {
                     ButtonGroup group = ((DefaultButtonModel) getModel()).getGroup();
-                    if (group != null) {
+                    if (group != null && SystemInfo.isJdk6Above()) {
                         group.clearSelection();
                     }
                 }
@@ -250,9 +252,11 @@ public class JideToggleButton extends JideButton implements Accessible {
 
     @Override
     protected void actionPropertyChanged(Action action, String propertyName) {
-        super.actionPropertyChanged(action, propertyName);
-        if (Action.SELECTED_KEY.equals(propertyName) && hasSelectedKey(action)) {
-            setSelectedFromAction(action);
+        if (SystemInfo.isJdk6Above()) {
+            super.actionPropertyChanged(action, propertyName);
+            if (Action.SELECTED_KEY.equals(propertyName) && hasSelectedKey(action)) {
+                setSelectedFromAction(action);
+            }
         }
     }
 
