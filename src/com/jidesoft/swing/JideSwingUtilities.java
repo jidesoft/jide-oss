@@ -2589,32 +2589,9 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Gets the top level Window of the component.
      *
-     * @param component
+     * @param parentComponent
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
-     *
-     * @deprecated Please use {@link #getWindowForComponent(java.awt.Component)} instead. getWindowForComponent method
-     *             is the same as the same name method in JOptionPane. We have to copy it here because it's not public.
-     *             getWindowForComponent is better than this method is because it will give you a shared root frame even
-     *             when parentComponent is null. You can refer to {@link javax.swing.JOptionPane#getRootFrame()} for
-     *             more information.
      */
-    @Deprecated
-    public static Window getWindow(Component component) {
-        if (component == null) return null;
-
-        if (component instanceof Window) return (Window) component;
-
-        // Find framel
-        Container p = component.getParent();
-        while (p != null) {
-            if (p instanceof Window) {
-                return (Window) p;
-            }
-            p = p.getParent();
-        }
-        return null;
-    }
-
     public static Window getWindowForComponent(Component parentComponent)
             throws HeadlessException {
         if (parentComponent == null)

@@ -143,14 +143,6 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * @deprecated the method is changed to {@link #getGroupValue(Object,Class,GrouperContext)}.
-     */
-    @Deprecated
-    public static Object getValue(Object object, Class<?> clazz, GrouperContext context) {
-        return getGroupValue(object, clazz, context);
-    }
-
-    /**
      * Converts an object to string using grouper context sepcified.
      *
      * @param object  object to be converted.
@@ -174,6 +166,7 @@ public class ObjectGrouperManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
+     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -218,6 +211,7 @@ public class ObjectGrouperManager {
      *
      * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
      *         listeners are currently registered
+     *
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */

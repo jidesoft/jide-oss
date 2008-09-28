@@ -322,41 +322,6 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Returns if tabs are shrinked when avaliable space is not enough to hold all tabs.
-     *
-     * @return true if tab shrink is true; false otherwise
-     *
-     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those. You can call {@link
-     *             #getTabResizeMode()}. If the value is {@link #RESIZE_MODE_FIT}, it means shrinkTabs is true.
-     *             Otherwise, it's false.
-     */
-    @Deprecated
-    public boolean isShrinkTabs() {
-        return getTabResizeMode() == RESIZE_MODE_FIT;
-    }
-
-    /**
-     * Sets the value if if tabs are shrinked when avaliable space is not enough to hold all tabs. PropertyChangeEvent
-     * of SHRINK_TAB_PROPERTY will be fired.
-     *
-     * @param shrinkTab true to shrink tabs; false otherwise.
-     * @deprecated Since we added more tab resize option, shrinkTabs is just one of those. You can call {@link
-     *             #setTabResizeMode(int)} and set to {@link #RESIZE_MODE_FIT} which is equavilent to
-     *             setShrinkTabs(true). {@link #RESIZE_MODE_NONE} is equavilent to setShrinkTabs(false).
-     */
-    @Deprecated
-    public void setShrinkTabs(boolean shrinkTab) {
-        boolean oldValue = isShrinkTabs();
-
-        if (oldValue != shrinkTab) {
-            if (shrinkTab) {
-                setTabResizeMode(shrinkTab ? RESIZE_MODE_FIT : RESIZE_MODE_NONE);
-            }
-            firePropertyChange(SHRINK_TAB_PROPERTY, oldValue, isShrinkTabs());
-        }
-    }
-
-    /**
      * Checks if tab area will be hidden if there is only one tab. <br> If the showTabButtons option is true,
      * isHideOneTab will always return false so that there is a place to place those tab buttons.
      *
@@ -414,37 +379,6 @@ public class JideTabbedPane extends JTabbedPane {
         if (oldValue != showButtons) {
             _showTabButtons = showButtons;
             firePropertyChange(SHOW_TAB_BUTTONS_PROPERTY, oldValue, _showTabButtons);
-        }
-    }
-
-    /**
-     * Checks if tabs are displayed as box style.
-     *
-     * @return true if tab is box style; false otherwise
-     *
-     * @deprecated As JideTabbedPane can now support many different style, box style is just one of them. So this is
-     *             method is replaced by {@link #getTabShape()} method. If the return value is SHAPE_BOX, it is a box
-     *             style tab.
-     */
-    @Deprecated
-    public boolean isBoxStyleTab() {
-        return getTabShape() == SHAPE_BOX;
-    }
-
-    /**
-     * Sets the value if tabs are box style. PropertyChangeEvent of BOX_STYLE_PROPERTY will be fired.
-     *
-     * @param boxStyleTab true to show tab as box style; false otherwise.
-     * @deprecated As JideTabbedPane can now support many different style, box style is just one of them. So a better
-     *             way is to change style using {@link #setTabShape(int)} method.
-     */
-    @Deprecated
-    public void setBoxStyleTab(boolean boxStyleTab) {
-        boolean oldValue = isBoxStyleTab();
-
-        if (oldValue != boxStyleTab) {
-            setTabShape(SHAPE_BOX);
-            firePropertyChange(BOX_STYLE_PROPERTY, oldValue, isBoxStyleTab());
         }
     }
 

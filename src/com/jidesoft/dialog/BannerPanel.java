@@ -583,16 +583,4 @@ public class BannerPanel extends JPanel {
     public JComponent getSubtitleLabel() {
         return _subtitleLabel;
     }
-
-    /**
-     * Gets the component for the title icon.
-     *
-     * @return a JLabel or the third parameter you passed in using the constrcutor {@link
-     *         #BannerPanel(String,String,javax.swing.JComponent)}.
-     * @deprecated use {@link #getIconComponent()} instead. We also add a setter for it which was missing before.
-     */
-    @Deprecated
-    public JComponent getImageLabel() {
-        return _iconComponent;
-    }
 }

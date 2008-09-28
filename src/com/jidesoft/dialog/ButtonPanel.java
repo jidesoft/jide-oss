@@ -288,22 +288,6 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     /**
-     * @deprecated use {@link #getSizeConstraint()}.
-     */
-    @Deprecated
-    public int getSizeContraint() {
-        return getSizeConstraint();
-    }
-
-    /**
-     * @deprecated use {@link #setSizeConstraint(int)}.
-     */
-    @Deprecated
-    public void setSizeContraint(int sizeContraint) {
-        setSizeConstraint(sizeContraint);
-    }
-
-    /**
      * Gets the size constraint.
      *
      * @return the size constraint.

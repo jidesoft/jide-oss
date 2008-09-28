@@ -560,19 +560,6 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * @return the values that are checked.
-     *
-     * @deprecated We keep this method in order to be compatible with {@link CheckBoxListWithSelectable}. You should use
-     *             {@link #getCheckBoxListSelectedValues()} instead. Or you can use {@link
-     *             #getCheckBoxListSelectionModel()} to get the selection model and get the selected indices from
-     *             there.
-     */
-    @Deprecated
-    public Object[] getSelectedObjects() {
-        return getCheckBoxListSelectedValues();
-    }
-
-    /**
      * Returns an array of the values for the selected cells. The returned values are sorted in increasing index order.
      *
      * @return the selected values or an empty list if nothing is selected

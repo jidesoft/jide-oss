@@ -223,34 +223,6 @@ public class PortingUtils {
         }
     }
 
-    /**
-     * Makes the point parameter is within the screen bounds. If not, it will be modified to make sure it is in.
-     *
-     * @param invoker we will use this the invoker component to find out the current screen.
-     * @param point   the point
-     * @deprecated Please use {@link #ensureOnScreen(java.awt.Rectangle)} instead.
-     */
-    @Deprecated
-    public static void withinScreen(Component invoker, Point point) {
-        if (invoker != null && !(invoker instanceof JApplet)) {
-            GraphicsConfiguration gc = invoker.getGraphicsConfiguration();
-            Rectangle bounds = gc.getBounds();
-            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(invoker.getGraphicsConfiguration());
-            if (point.x < bounds.x + insets.left) {
-                point.x = bounds.x + insets.left;
-            }
-            if (point.x > bounds.x + bounds.width - insets.right) {
-                point.x = bounds.x + bounds.width - insets.right;
-            }
-            if (point.y < bounds.y + insets.top) {
-                point.y = bounds.y + insets.top;
-            }
-            if (point.y > bounds.y + bounds.height - insets.bottom) {
-                point.y = bounds.y + bounds.height - insets.bottom;
-            }
-        }
-    }
-
     private static Area SCREEN_AREA;
     private static Rectangle[] SCREENS;
     private static Insets[] INSETS;

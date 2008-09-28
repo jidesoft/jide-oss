@@ -69,44 +69,6 @@ public class Animator implements ActionListener {
     }
 
     /**
-     * Gets the AnimatorListener so that you can custom the behavior of the animator.<p> </p> Returns the last
-     * animatorListener in the EventListenerList
-     *
-     * @return the listener
-     * @deprecated Please use #getAnimatorListeners
-     */
-    @Deprecated
-    public AnimatorListener getAnimatorListener() {
-        AnimatorListener listener = null;
-        if (_listenerList != null) {
-            AnimatorListener[] listeners = getAnimatorListeners();
-            listener = listeners[listeners.length - 1];
-        }
-        return listener;
-    }
-
-    /**
-     * Sets the AnimatorListener so that you can custom the behavior of the animator.
-     *
-     * @param animatorListener the <code>AnimatorListener</code>. Null to clear all existing listeners.
-     * @deprecated Please use #addAnimatorListener which makes it possible to add multiple listeners.
-     */
-    @Deprecated
-    public void setAnimatorListener(AnimatorListener animatorListener) {
-        if (animatorListener == null) {
-            if (_listenerList != null) {
-                AnimatorListener[] listeners = getAnimatorListeners();
-                for (AnimatorListener listener : listeners) {
-                    _listenerList.remove(AnimatorListener.class, listener);
-                }
-            }
-        }
-        else {
-            addAnimatorListener(animatorListener);
-        }
-    }
-
-    /**
      * Adds an <code>AnimatorListener</code> to this Animator.
      *
      * @param l the <code>AnimatorListener</code> to be added
