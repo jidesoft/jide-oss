@@ -20,4 +20,6 @@ interface FolderToolBarListener {
     void desktopButtonClicked();
 
     void recentFolderSelected(File file);
+
+    void refreshButtonClicked();
 }

@@ -104,7 +104,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         SwingUtilities.invokeLater(runnable);
 
         /*
-         * _folderChooser ultimutly extends JComponent (and not JDialog) and thus has no root pane.
+         * _folderChooser ultimately extends JComponent (and not JDialog) and thus has no root pane.
          * As such, we need to do the following to set the default button.
          */
         _folderChooser.addHierarchyListener(new HierarchyListener() {
@@ -316,6 +316,23 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             public void desktopButtonClicked() {
                 File desktop = FileSystemView.getFileSystemView().getHomeDirectory();
                 ensureFileIsVisible(desktop, true);
+            }
+
+            public void refreshButtonClicked() {
+                File folder = _folderChooser.getSelectedFolder();
+                _folderChooser.updateUI();
+                while (true) {
+                    if (folder != null && folder.exists()) {
+                        _folderChooser.getUI().ensureFileIsVisible(_folderChooser, folder);
+                        break;
+                    }
+                    else {
+                        folder = folder.getParentFile();
+                        if (folder == null) {
+                            break;
+                        }
+                    }
+                }
             }
 
             public void recentFolderSelected(final File file) {

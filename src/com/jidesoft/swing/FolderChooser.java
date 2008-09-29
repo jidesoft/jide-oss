@@ -11,6 +11,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,8 +79,9 @@ public class FolderChooser extends JFileChooser {
      */
     public void setRecentList(List<String> recentList) {
         List<String> old = _recentList;
-        _recentList = recentList;
-        firePropertyChange(PROPERTY_RECENTLIST, old, recentList);
+        _recentList = new ArrayList<String>();
+        _recentList.addAll(recentList);
+        firePropertyChange(PROPERTY_RECENTLIST, old, _recentList);
     }
 
     /**
@@ -99,6 +101,7 @@ public class FolderChooser extends JFileChooser {
      * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "FolderChooserUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -153,6 +156,7 @@ public class FolderChooser extends JFileChooser {
      * user action, such as selecting the folder from a 'folder tree' in the UI.
      *
      * @return the selected folder in the <i>folder tree<i>
+     *
      * @see #setSelectedFolder
      */
     public File getSelectedFolder() {

@@ -145,9 +145,19 @@ class FolderToolBar extends JToolBar {
 
         _newFolderBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.new"));
 
+        Icon refreshIcon = BasicFolderChooserIconsFactory.getImageIcon(BasicFolderChooserIconsFactory.ToolBar.REFRESH);
+        JButton refreshBtn = new NoFocusButton(new ToolBarAction(null, refreshIcon) {
+            public void actionPerformed(ActionEvent e) {
+                refreshButtonClicked();
+            }
+        });
+
+        refreshBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.new"));
+
         addSeparator();
         add(_deleteFolderBtn);
         add(_newFolderBtn);
+        add(refreshBtn);
     }
 
 
@@ -207,6 +217,12 @@ class FolderToolBar extends JToolBar {
         }
     }
 
+    private void refreshButtonClicked() {
+        for (FolderToolBarListener listener : _listeners) {
+            listener.refreshButtonClicked();
+        }
+    }
+
     private void myDocumentsButtonClicked() {
         for (FolderToolBarListener listener : _listeners) {
             listener.myDocumentsButtonClicked();
@@ -226,7 +242,9 @@ class FolderToolBar extends JToolBar {
     }
 
     public void setRecentList(List<String> recentFoldersList) {
-        _recentFoldersList.setModel(new DefaultComboBoxModel((recentFoldersList.toArray())));
+        if (recentFoldersList != null) {
+            _recentFoldersList.setModel(new DefaultComboBoxModel((recentFoldersList.toArray())));
+        }
     }
 
     private abstract class ToolBarAction extends AbstractAction {

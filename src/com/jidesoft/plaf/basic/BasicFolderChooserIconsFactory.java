@@ -14,8 +14,7 @@ import com.jidesoft.icons.IconsFactory;
 import javax.swing.*;
 
 /**
- * A helper class to contain icons for demo of JIDE products.
- * Those icons are copyrighted by JIDE Software, Inc.
+ * A helper class to contain icons for demo of JIDE products. Those icons are copyrighted by JIDE Software, Inc.
  */
 public class BasicFolderChooserIconsFactory {
 
@@ -25,6 +24,7 @@ public class BasicFolderChooserIconsFactory {
         public final static String HOME = "icons/home.png";
         public final static String MY_DOCUMENT = "icons/myDocument.png";
         public final static String DESKTOP = "icons/desktop.png";
+        public final static String REFRESH = "icons/refresh.png";
     }
 
     public static ImageIcon getImageIcon(String name) {
