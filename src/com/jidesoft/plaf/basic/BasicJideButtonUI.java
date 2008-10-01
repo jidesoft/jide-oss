@@ -256,7 +256,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         textRect.x = textRect.y = textRect.width = textRect.height = 0;
         iconRect.x = iconRect.y = iconRect.width = iconRect.height = 0;
 
-        paintBackground(g, b, viewRect, textRect, iconRect);
+        paintBackground(g, b);
 
         Font f = c.getFont();
         g.setFont(f);
@@ -480,10 +480,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         paintText(g, (JComponent) b, textRect, text);
     }
 
-    // Method signature defined here overridden in subclasses.
-    // Perhaps this class should be abstract?
-    protected void paintBackground(Graphics g, AbstractButton b,
-                                   Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {
+    protected void paintBackground(Graphics g, AbstractButton b) {
         boolean paintDefaultBorder = true;
         boolean paintBackground;
         Object o = b.getClientProperty("JideButton.paintDefaultBorder");
@@ -497,15 +494,15 @@ public class BasicJideButtonUI extends JideButtonUI {
         else {
             paintBackground = b.isOpaque();
         }
-        Rectangle rect = new Rectangle(0, 0, b.getWidth(), b.getHeight());
+
         if (paintBackground) {
             g.setColor(b.getBackground());
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+            g.fillRect(0, 0, b.getWidth(), b.getHeight());
         }
 
         if (b.isContentAreaFilled()) {
             if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBAR_STYLE) {
-//            System.out.println(model.isSelected() + " " + model.isRollover() + " " + model.isArmed() + " " + model.isPressed());
+                Rectangle rect = new Rectangle(0, 0, b.getWidth(), b.getHeight());
                 int state = JideSwingUtilities.getButtonState(b);
                 if (state != ThemePainter.STATE_DEFAULT) {
                     getPainter().paintButtonBackground(b, g, rect, 0, state);
@@ -520,142 +517,115 @@ public class BasicJideButtonUI extends JideButtonUI {
                 }
             }
             else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.FLAT_STYLE) {
-                if (b.getModel().isSelected() && b.getModel().isPressed()) {
-                    g.setColor(_shadowColor);    // inner 3D border
-                    g.drawLine(0, 0, b.getWidth() - 1, 0);
-                    g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                    g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                    g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                    g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                }
-                else if (b.getModel().isSelected()) {
-                    JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
-                    g.setColor(_shadowColor);    // inner 3D border
-                    g.drawLine(0, 0, b.getWidth() - 1, 0);
-                    g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                    g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                    g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                    g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                }
-                else if (b.getModel().isPressed()) {
-                    JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
-                    g.setColor(_shadowColor);    // inner 3D border
-                    g.drawLine(0, 0, b.getWidth() - 1, 0);
-                    g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                    g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                    g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                    g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                }
-                else if (b.getModel().isRollover() || (b.hasFocus() && b.isFocusPainted())) {
-                    JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
-                    g.setColor(_lightHighlightColor);    // inner 3D border
-                    g.drawLine(0, 0, b.getWidth() - 1, 0);
-                    g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                    g.setColor(_shadowColor);     // black drop shadow  __|
-                    g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                    g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                }
-                else {
-                    if (paintBackground) {
-                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
-                    }
-                }
+                paintBackgroundInFlatStyle(g, b, paintBackground);
             }
             else if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.TOOLBOX_STYLE) {
-                if (b.getModel().isPressed()) {
-                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
-                    if (paintDefaultBorder) {
-                        g.setColor(_darkShadowColor);    // inner 3D border
-                        g.drawLine(0, 0, b.getWidth() - 2, 0);
-                        g.drawLine(0, 0, 0, b.getHeight() - 2);
-
-                        g.setColor(_shadowColor);    // inner 3D border
-                        g.drawLine(1, 1, b.getWidth() - 3, 1);
-                        g.drawLine(1, 1, 1, b.getHeight() - 3);
-
-                        g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                        g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                        g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                    }
-                }
-                else if (b.getModel().isSelected() && b.getModel().isRollover()) {
-                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_PRESSED);
-                    if (paintDefaultBorder) {
-                        g.setColor(_darkShadowColor);    // inner 3D border
-                        g.drawLine(0, 0, b.getWidth() - 2, 0);
-                        g.drawLine(0, 0, 0, b.getHeight() - 2);
-
-                        g.setColor(_shadowColor);    // inner 3D border
-                        g.drawLine(1, 1, b.getWidth() - 3, 1);
-                        g.drawLine(1, 1, 1, b.getHeight() - 3);
-
-                        g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                        g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                        g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                    }
-                }
-                else if (b.getModel().isSelected()) {
-                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_SELECTED);
-                    if (paintDefaultBorder) {
-                        g.setColor(_darkShadowColor);    // inner 3D border
-                        g.drawLine(0, 0, b.getWidth() - 2, 0);
-                        g.drawLine(0, 0, 0, b.getHeight() - 2);
-
-                        g.setColor(_shadowColor);    // inner 3D border
-                        g.drawLine(1, 1, b.getWidth() - 3, 1);
-                        g.drawLine(1, 1, 1, b.getHeight() - 3);
-
-                        g.setColor(_lightHighlightColor);     // black drop shadow  __|
-                        g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                        g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                    }
-                }
-                else if (b.getModel().isRollover() || (b.hasFocus() && b.isFocusPainted())) {
-                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_ROLLOVER);
-                    if (paintDefaultBorder) {
-                        g.setColor(_lightHighlightColor);    // inner 3D border
-                        g.drawLine(0, 0, b.getWidth() - 1, 0);
-                        g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                        g.setColor(_shadowColor);     // gray drop shadow  __|
-                        g.drawLine(1, b.getHeight() - 2, b.getWidth() - 2, b.getHeight() - 2);
-                        g.drawLine(b.getWidth() - 2, 1, b.getWidth() - 2, b.getHeight() - 2);
-
-                        g.setColor(_darkShadowColor);     // black drop shadow  __|
-                        g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                        g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                    }
-                }
-                else {
-                    if (paintBackground) {
-                        getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
-                    }
-                    else {
-                        g.setColor(_lightHighlightColor);    // inner 3D border
-                        g.drawLine(0, 0, b.getWidth() - 1, 0);
-                        g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                        g.setColor(_shadowColor);     // black drop shadow  __|
-                        g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                        g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                    }
-                }
-
-                if (paintBackground) {
-                    g.setColor(_lightHighlightColor);    // inner 3D border
-                    g.drawLine(0, 0, b.getWidth() - 1, 0);
-                    g.drawLine(0, 0, 0, b.getHeight() - 1);
-
-                    g.setColor(_shadowColor);     // black drop shadow  __|
-                    g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
-                    g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
-                }
+                paintBackgroundInToolboxStyle(g, b, paintBackground, paintDefaultBorder);
             }
         }
+    }
+
+    private void paintBackgroundInFlatStyle(Graphics g, AbstractButton b, boolean paintBackground) {
+        Rectangle rect = new Rectangle(0, 0, b.getWidth(), b.getHeight());
+        int state = JideSwingUtilities.getButtonState(b);
+        switch (state) {
+            case ThemePainter.STATE_SELECTED:
+                JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
+                g.setColor(_shadowColor);    // inner 3D border
+                g.drawLine(rect.x, rect.y, rect.width - 1, rect.y);
+                g.drawLine(rect.x, rect.y, rect.x, rect.height - 1);
+
+                g.setColor(_lightHighlightColor);     // black drop shadow  __|
+                g.drawLine(rect.x, rect.height - 1, rect.width - 1, rect.height - 1);
+                g.drawLine(rect.width - 1, rect.y, rect.width - 1, rect.height - 1);
+                break;
+            case ThemePainter.STATE_PRESSED:
+                JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
+                g.setColor(_shadowColor);    // inner 3D border
+                g.drawLine(rect.x, rect.y, rect.width - 1, rect.y);
+                g.drawLine(rect.x, rect.y, rect.x, rect.height - 1);
+
+                g.setColor(_lightHighlightColor);     // black drop shadow  __|
+                g.drawLine(rect.x, rect.height - 1, rect.width - 1, rect.height - 1);
+                g.drawLine(rect.width - 1, rect.y, rect.width - 1, rect.height - 1);
+                break;
+            case ThemePainter.STATE_ROLLOVER:
+                JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
+                g.setColor(_lightHighlightColor);    // inner 3D border
+                g.drawLine(rect.x, rect.y, rect.width - 1, rect.y);
+                g.drawLine(rect.x, rect.y, rect.x, rect.height - 1);
+
+                g.setColor(_shadowColor);     // black drop shadow  __|
+                g.drawLine(rect.x, rect.height - 1, rect.width - 1, rect.height - 1);
+                g.drawLine(rect.width - 1, rect.y, rect.width - 1, rect.height - 1);
+                break;
+            case ThemePainter.STATE_DEFAULT:
+                if (paintBackground) {
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
+                }
+                break;
+        }
+    }
+
+    private void paintBackgroundInToolboxStyle(Graphics g, AbstractButton b, boolean paintBackground, boolean paintDefaultBorder) {
+        Rectangle rect = new Rectangle(0, 0, b.getWidth(), b.getHeight());
+        int state = JideSwingUtilities.getButtonState(b);
+        if (state == ThemePainter.STATE_ROLLOVER) {
+            getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), state);
+            if (paintDefaultBorder) {
+                g.setColor(_lightHighlightColor);    // inner 3D border
+                g.drawLine(0, 0, b.getWidth() - 1, 0);
+                g.drawLine(0, 0, 0, b.getHeight() - 1);
+
+                g.setColor(_shadowColor);     // gray drop shadow  __|
+                g.drawLine(1, b.getHeight() - 2, b.getWidth() - 2, b.getHeight() - 2);
+                g.drawLine(b.getWidth() - 2, 1, b.getWidth() - 2, b.getHeight() - 2);
+
+                g.setColor(_darkShadowColor);     // black drop shadow  __|
+                g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
+                g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
+            }
+        }
+        else if (state != ThemePainter.STATE_DEFAULT) {
+            getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), state);
+            if (paintDefaultBorder) {
+                g.setColor(_darkShadowColor);    // inner 3D border
+                g.drawLine(0, 0, b.getWidth() - 2, 0);
+                g.drawLine(0, 0, 0, b.getHeight() - 2);
+
+                g.setColor(_shadowColor);    // inner 3D border
+                g.drawLine(1, 1, b.getWidth() - 3, 1);
+                g.drawLine(1, 1, 1, b.getHeight() - 3);
+
+                g.setColor(_lightHighlightColor);     // black drop shadow  __|
+                g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
+                g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
+            }
+        }
+        else {
+            if (paintBackground) {
+                getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
+            }
+            else {
+                g.setColor(_lightHighlightColor);    // inner 3D border
+                g.drawLine(0, 0, b.getWidth() - 1, 0);
+                g.drawLine(0, 0, 0, b.getHeight() - 1);
+
+                g.setColor(_shadowColor);     // black drop shadow  __|
+                g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
+                g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
+            }
+        }
+
+//        if (paintBackground) {
+//            g.setColor(_lightHighlightColor);    // inner 3D border
+//            g.drawLine(0, 0, b.getWidth() - 1, 0);
+//            g.drawLine(0, 0, 0, b.getHeight() - 1);
+//
+//            g.setColor(_shadowColor);     // black drop shadow  __|
+//            g.drawLine(0, b.getHeight() - 1, b.getWidth() - 1, b.getHeight() - 1);
+//            g.drawLine(b.getWidth() - 1, 0, b.getWidth() - 1, b.getHeight() - 1);
+//        }
     }
 
     protected void clearTextShiftOffset() {
