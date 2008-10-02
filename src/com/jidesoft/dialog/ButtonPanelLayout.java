@@ -186,6 +186,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *
      * @param target the container that needs to be laid out
      * @return the dimensions >= 0 && <= Integer.MAX_VALUE
+     *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see java.awt.Container
      * @see #minimumLayoutSize
@@ -216,6 +217,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *
      * @param target the container that needs to be laid out
      * @return the dimensions >= 0 && <= Integer.MAX_VALUE
+     *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see #preferredLayoutSize
      * @see #maximumLayoutSize
@@ -245,6 +247,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *
      * @param target the container that needs to be laid out
      * @return the dimenions >= 0 && <= Integer.MAX_VALUE
+     *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see #preferredLayoutSize
      * @see #minimumLayoutSize
@@ -275,6 +278,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *
      * @param target the container
      * @return the alignment >= 0.0f && <= 1.0f
+     *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public synchronized float getLayoutAlignmentX(Container target) {
@@ -289,6 +293,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      *
      * @param target the container
      * @return the alignment >= 0.0f && <= 1.0f
+     *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      */
     public synchronized float getLayoutAlignmentY(Container target) {
@@ -332,7 +337,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 if (alignment == SwingConstants.CENTER) {
                     Dimension size = preferredLayoutSize(target);
                     // layout left aligned button first
-                    int x = in.left + (alloc.width + size.width) / 2;
+                    int x = (alloc.width + size.width) / 2;
                     for (int i = 0; i < getButtonOrder().length(); i++) {
                         char c = getButtonOrder().charAt(getButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
@@ -351,7 +356,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
 
                     // layout right aligned button
                     // layout left aligned button first
-                    x = in.left + (alloc.width - size.width) / 2;
+                    x = (alloc.width - size.width) / 2;
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
                         char c = getOppositeButtonOrder().charAt(i);
                         if (c == 'A' || c == 'a') {
