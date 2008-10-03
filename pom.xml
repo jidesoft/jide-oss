@@ -66,24 +66,15 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <activation>
-                <os>
-                    <family>mac</family>
-                </os>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>aqua</groupId>
-                    <artifactId>aqua</artifactId>
-                    <version>5.0</version>
-                    <scope>system</scope>
-                    <systemPath>${basedir}/libs/laf.jar</systemPath>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+    <dependencies>
+        <dependency>
+            <groupId>aqua</groupId>
+            <artifactId>aqua</artifactId>
+            <version>5.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/laf.jar</systemPath>
+        </dependency>
+    </dependencies>
     <distributionManagement>
         <repository>
             <id>local-repository</id>
