@@ -170,7 +170,7 @@ public class JideTabbedPane extends JTabbedPane {
     public final static int RESIZE_MODE_NONE = 1;
 
     /**
-     * A tab resize mode. The fit resize mode means the tabs will shrink if the tabbed pane width shinks so there is no
+     * A tab resize mode. The fit resize mode means the tabs will shrink if the tabbed pane width shrinks so there is no
      * way to display the full contents of the tabs.
      */
     public final static int RESIZE_MODE_FIT = 2;
@@ -442,7 +442,7 @@ public class JideTabbedPane extends JTabbedPane {
     private boolean _autoRequestFocus = true;
 
     /**
-     * Checks if the UI should automatically request focus on selecte dcomponent when doing the layout. This method is
+     * Checks if the UI should automatically request focus on selected component when doing the layout. This method is
      * only used internally when the tab is being moved.
      *
      * @return true or false. Default is true.
@@ -793,8 +793,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets if the tab area is visible. If not visible, you can programatically call setSelectedIndex to change ta. User
-     * will not be able to do it by clicking on tabs since they are not visible.
+     * Sets if the tab area is visible. If not visible, you can programmatically call setSelectedIndex to change ta.
+     * User will not be able to do it by clicking on tabs since they are not visible.
      *
      * @param showTabArea true or false.
      */
@@ -1219,7 +1219,7 @@ public class JideTabbedPane extends JTabbedPane {
          *
          * @param tabIndex
          * @return the gradient ratio. The value should be between 0 and 1. 0 will produce the darkest and color and 1
-         *         will produce the lighest color. 0.5 will provide the same color.
+         *         will produce the lightest color. 0.5 will provide the same color.
          */
         float getGradientRatio(int tabIndex);
     }
@@ -1227,7 +1227,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * A ColorProvider that can supports gradient tab background. The ColorProvider can also do gradient but the other
      * color has to be be a lighter or darker version of the color of getBackgroundAt. GradientColorProvider allows you
-     * to specify an indenpendent color as the start color.
+     * to specify an independent color as the start color.
      */
     public static interface GradientColorProvider extends ColorProvider {
         /**
@@ -1512,7 +1512,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Sets the content border insets. It's the inserts around the JideTabbedPane's content. The direction of the insets
-     * is when the tabs are on top. We will rotate it automatically when the tabs are on other direcitons.
+     * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
      *
      * @param contentBorderInsets
      */

@@ -29,7 +29,7 @@ public class BasicJidePopupUI extends PopupUI {
 
     //    protected MouseInputAdapter _borderListener;
     protected PropertyChangeListener _propertyChangeListener;
-    protected LayoutManager _dockablelFrameLayout;
+    protected LayoutManager _dockableFrameLayout;
 
     protected JComponent _northPane;
     protected JComponent _southPane;
@@ -89,7 +89,7 @@ public class BasicJidePopupUI extends PopupUI {
             if (bg instanceof UIResource)
                 contentPane.setBackground(null);
         }
-        _popup.setLayout(_dockablelFrameLayout = createLayoutManager());
+        _popup.setLayout(_dockableFrameLayout = createLayoutManager());
         _popup.setBackground(UIDefaultsLookup.getColor("JideButton.background"));
 
         LookAndFeel.installBorder(_popup, "Popup.border");
@@ -153,7 +153,7 @@ public class BasicJidePopupUI extends PopupUI {
     }
 
     protected void uninstallDefaults() {
-        _dockablelFrameLayout = null;
+        _dockableFrameLayout = null;
         _popup.setLayout(null);
         LookAndFeel.uninstallBorder(_popup);
     }
@@ -217,9 +217,8 @@ public class BasicJidePopupUI extends PopupUI {
 
 
     /**
-     * Installs necessary mouse handlers on <code>newPane</code>
-     * and adds it to the frame.
-     * Reverse process for the <code>currentPane</code>.
+     * Installs necessary mouse handlers on <code>newPane</code> and adds it to the frame. Reverse process for the
+     * <code>currentPane</code>.
      */
     protected void replacePane(JComponent currentPane, JComponent newPane) {
         if (currentPane != null) {
@@ -312,7 +311,7 @@ public class BasicJidePopupUI extends PopupUI {
     protected void setupMenuOpenKey() {
         // PENDING(hania): Why are these WHEN_IN_FOCUSED_WINDOWs? Shouldn't
         // they be WHEN_ANCESTOR_OF_FOCUSED_COMPONENT?
-        // Also, no longer registering on the desktopicon, the previous
+        // Also, no longer registering on the DesktopIcon, the previous
         // action did nothing.
         InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         SwingUtilities.replaceUIInputMap(_popup,

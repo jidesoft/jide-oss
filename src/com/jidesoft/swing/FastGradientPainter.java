@@ -18,10 +18,9 @@ class FastGradientPainter {
     }
 
     /**
-     * Draws a rectangular gradient in a vertical or horizontal direction.
-     * The drawing operations are hardware optimized whenever possible using the
-     * Java2D hardware rendering facilities. The result is gradient rendering
-     * approaching the performance of flat color rendering.
+     * Draws a rectangular gradient in a vertical or horizontal direction. The drawing operations are hardware optimized
+     * whenever possible using the Java2D hardware rendering facilities. The result is gradient rendering approaching
+     * the performance of flat color rendering.
      *
      * @param g2         Graphics2D instance to use for rendering
      * @param s          shape confines of gradient
@@ -100,7 +99,7 @@ class FastGradientPainter {
 }
 
 /**
- * Containts all information pertaining to a particular gradient.
+ * Contains all information pertaining to a particular gradient.
  */
 class GradientInfo {
     GraphicsConfiguration gfxConfig;
@@ -133,8 +132,7 @@ class GradientInfo {
 }
 
 /**
- * A cache utilizing SoftReferences under the hood for memory efficient handling
- * of gradients.
+ * A cache utilizing SoftReferences under the hood for memory efficient handling of gradients.
  */
 class GradientCache {
     private GradientCacheEntry[] gradients;

@@ -16,33 +16,29 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * <code>TableSearchable</code> is an concrete implementation of {@link Searchable} that enables the
- * search function in JTable. <p>It's very simple to use it. Assuming you have a JTable, all you
- * need to do is to call
+ * <code>TableSearchable</code> is an concrete implementation of {@link Searchable} that enables the search function in
+ * JTable. <p>It's very simple to use it. Assuming you have a JTable, all you need to do is to call
  * <code><pre>
  * JTable table = ....;
  * TableSearchable searchable = new TableSearchable(table);
  * </pre></code>
  * Now the JTable will have the search function.
  * <p/>
- * As JTable is a two dimension data, the search is a little different from JList and JTree which
- * both have one dimension data. So there is a little work you need to do in order to convert from
- * two dimension data to one dimension data. We use the selection mode to determine how to convert.
- * There is a special property called mainIndex. You can set it using setMainIndex(). If the JTable
- * is in row selection mode, mainIndex will be the column that you want search at. Please note you
- * can change mainIndex at any time.
+ * As JTable is a two dimension data, the search is a little different from JList and JTree which both have one
+ * dimension data. So there is a little work you need to do in order to convert from two dimension data to one dimension
+ * data. We use the selection mode to determine how to convert. There is a special property called mainIndex. You can
+ * set it using setMainIndex(). If the JTable is in row selection mode, mainIndex will be the column that you want
+ * search at. Please note you can change mainIndex at any time.
  * <p/>
- * On the other hand, if the JTable is in column selection mode, mainIndex will be the row that you
- * want search at. There is one more case when cell selection is enabled. In this case, mainIndex
- * will be ignore; all cells will be searched.
+ * On the other hand, if the JTable is in column selection mode, mainIndex will be the row that you want search at.
+ * There is one more case when cell selection is enabled. In this case, mainIndex will be ignore; all cells will be
+ * searched.
  * <p/>
- * In three cases above, the keys for find next and find previous are different too. In row
- * selection mode, up/down arrow are the keys. In column selection mode, left/right arrow are keys.
- * In cell selection mode, both up and left arrow are keys to find previous occurence, both down and
- * right arrow are keys to find next occurence.
+ * In three cases above, the keys for find next and find previous are different too. In row selection mode, up/down
+ * arrow are the keys. In column selection mode, left/right arrow are keys. In cell selection mode, both up and left
+ * arrow are keys to find previous occurrence, both down and right arrow are keys to find next occurrencee.
  * <p/>
- * In addition, you might need to override convertElementToString() to provide you own algorithm to
- * do the conversion.
+ * In addition, you might need to override convertElementToString() to provide you own algorithm to do the conversion.
  * <code><pre>
  * JTable table = ....;
  * TableSearchable searchable = new TableSearchable(table) {
@@ -52,8 +48,8 @@ import java.beans.PropertyChangeListener;
  * };
  * </pre></code>
  * <p/>
- * Additional customization can be done on the base Searchable class such as background and
- * foreground color, keystrokes, case sensitivity,
+ * Additional customization can be done on the base Searchable class such as background and foreground color,
+ * keystrokes, case sensitivity,
  */
 public class TableSearchable extends Searchable implements TableModelListener, PropertyChangeListener {
 
@@ -103,16 +99,15 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     /**
-     * Selects the cell at the specified row and column index. If incremental is true, the previous
-     * selection will not be cleared. This method will use {@link JTable#changeSelection(int,int,boolean,boolean)}
-     * method to select the cell if the row and column index is in the range and the cell was not
-     * selected. The last two parameters of changeSelection is true and false respectively.
+     * Selects the cell at the specified row and column index. If incremental is true, the previous selection will not
+     * be cleared. This method will use {@link JTable#changeSelection(int,int,boolean,boolean)} method to select the
+     * cell if the row and column index is in the range and the cell was not selected. The last two parameters of
+     * changeSelection is true and false respectively.
      *
      * @param table       the table
      * @param rowIndex    the row index of the cell.
      * @param columnIndex the column index of the cell
-     * @param incremental false to clear all previous selection. True to keep the previous
-     *                    selection.
+     * @param incremental false to clear all previous selection. True to keep the previous selection.
      */
     protected void addTableSelection(JTable table, int rowIndex, int columnIndex, boolean incremental) {
         if (!incremental)
@@ -127,7 +122,6 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * Is the column selection allowed?
      *
      * @param table the table.
-     *
      * @return true if the table is the column selection.
      */
     protected boolean isColumnSelectionAllowed(JTable table) {
@@ -138,7 +132,6 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * Is the row selection allowed?
      *
      * @param table the table.
-     *
      * @return true if the table is the row selection.
      */
     protected boolean isRowSelectionAllowed(JTable table) {
@@ -146,9 +139,9 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     /**
-     * Are we trying to search on multicolumns (but NOT all columns)?
+     * Are we trying to search on multi-columns (but NOT all columns)?
      *
-     * @return true if the search is set to look at multicolumns (but NOT all columns).
+     * @return true if the search is set to look at multi-columns (but NOT all columns).
      */
     protected boolean isSearchSelectedRows() {
         return getSearchColumnIndices().length > 1;
@@ -263,8 +256,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     /**
      * Sets the main indexes. Main indexes are the columns index which you want to be searched.
      *
-     * @param columnIndices the index of the columns to be searched. If empty, all columns will be
-     *                      searched.
+     * @param columnIndices the index of the columns to be searched. If empty, all columns will be searched.
      */
     public void setSearchColumnIndices(int[] columnIndices) {
         if (columnIndices == null) {
@@ -281,8 +273,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     /**
      * Sets the main index. Main index is the column index which you want to be searched.
      *
-     * @param mainIndex the index of the column to be searched. If -1, all columns will be
-     *                  searched.
+     * @param mainIndex the index of the column to be searched. If -1, all columns will be searched.
      */
     public void setMainIndex(int mainIndex) {
         int[] temp = {mainIndex};
@@ -353,8 +344,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     /**
-     * Checks if the selected cell is editable. If yes, we will not activate Searchable when key is
-     * typed.
+     * Checks if the selected cell is editable. If yes, we will not activate Searchable when key is typed.
      *
      * @return true if the selected cell is editable.
      */

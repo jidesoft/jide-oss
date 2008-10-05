@@ -1100,7 +1100,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 //  - The editor gets moved to its initial location based on the cell location,
 //    generating a COMPONENT_MOVED ComponentEvent.
 //  - You add the MouseEventHandler, which includes a ComponentEvent listener on
-//    the owner's hierarcy, including the editor.
+//    the owner's hierarchy, including the editor.
 //  - ComponentEvent is asynchronous. The ComponentEvent generated from moving
 //    the editor to its initial position was placed on the event queue. So the
 //    ComponentEvent gets handled by the MouseEventHandler's ComponentEvent
@@ -1910,7 +1910,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _awtEventListener = new AWTEventListener() {
                 public void eventDispatched(AWTEvent event) {
                     if ("sun.awt.UngrabEvent".equals(event.getClass().getName())) {
-                        // this is really a hack so that it can detect event when closing the windows in Eclise RCP env.
+                        // this is really a hack so that it can detect event when closing the windows in Eclipse RCP env.
                         // Popup should be canceled in case of ungrab event
                         hidePopupImmediately(true);
                         return;
@@ -2085,11 +2085,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * A popup has detached and attached mode. When a popup is in attached, it will act like it's part of the owner
      * (which can be set using {@link #setOwner(java.awt.Component)}. When owner is moved, the popup will be moved. If
      * the owner is hidden, the popup will hidden. In the other word, it is attached with the owner. In detached mode,
-     * popup becomes an indenpendent floating window. It will stay at the same location regardless if owner is moved. It
+     * popup becomes an independent floating window. It will stay at the same location regardless if owner is moved. It
      * could still be visible when owner is hidden.
      * <p/>
      *
-     * @return true if it's detacted. Otherwise false.
+     * @return true if it's ddetached Otherwise false.
      */
     public boolean isDetached() {
         return _detached;

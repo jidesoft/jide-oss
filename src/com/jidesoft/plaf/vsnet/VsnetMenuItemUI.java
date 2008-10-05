@@ -466,7 +466,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 p.putClientProperty(VsnetMenuItemUI.MAX_TEXT_WIDTH, r.width);
             }
 
-            //Compare the accelarator widths.
+            //Compare the accelerator widths.
             if (acceleratorRect.width > maxAccValue) {
                 maxAccValue = acceleratorRect.width;
                 p.putClientProperty(VsnetMenuItemUI.MAX_ACC_WIDTH, acceleratorRect.width);
@@ -1060,7 +1060,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
         Rectangle labelRect = iconRect.union(textRect);
 
-        // Align the accelertor text and the check and arrow icons vertically
+        // Align the accelerator text and the check and arrow icons vertically
         // with the center of the label rect.
         acceleratorRect.y = labelRect.y + (labelRect.height >> 1) - (acceleratorRect.height >> 1);
 
@@ -1397,7 +1397,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 tmpIcon = b.getDisabledIcon();
             }
 
-            // create default diabled icon
+            // create default disabled icon
             if (tmpIcon == null) {
                 if (icon instanceof ImageIcon) {
                     icon = IconsFactory.createGrayImage(((ImageIcon) icon).getImage());

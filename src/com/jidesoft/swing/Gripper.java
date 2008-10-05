@@ -17,9 +17,9 @@ import java.awt.*;
 
 
 /**
- * Gripper is a component that you can drag. Actually the component itself doesn't allow you to
- * drag, it is up to the component who uses this Gripper to add mouse motion listener and do the dragging.
- * The Gripper will paint itself so that user can tell immediately that it is something dragable.
+ * Gripper is a component that you can drag. Actually the component itself doesn't allow you to drag, it is up to the
+ * component who uses this Gripper to add mouse motion listener and do the dragging. The Gripper will paint itself so
+ * that user can tell immediately that it is something dragable.
  */
 public class Gripper extends JComponent implements SwingConstants, Alignable, DragableHandle, UIResource {
 
@@ -30,8 +30,7 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
     private static final String uiClassID = "GripperUI";
 
     /**
-     * Identifies a change from rollover enabled to disabled or back
-     * to enabled.
+     * Identifies a change from rollover enabled to disabled or back to enabled.
      */
     public static final String ROLLOVER_ENABLED_CHANGED_PROPERTY = "rolloverEnabled";
 
@@ -54,15 +53,12 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
     }
 
     /**
-     * Creates a new separator with the specified horizontal or
-     * vertical orientation.
+     * Creates a new separator with the specified horizontal or vertical orientation.
      *
-     * @param orientation an integer specifying
-     *                    <code>SwingConstants.HORIZONTAL</code> or
+     * @param orientation an integer specifying <code>SwingConstants.HORIZONTAL</code> or
      *                    <code>SwingConstants.VERTICAL</code>
-     * @throws IllegalArgumentException if <code>orientation</code>
-     *                                  is neither <code>SwingConstants.HORIZONTAL</code> nor
-     *                                  <code>SwingConstants.VERTICAL</code>
+     * @throws IllegalArgumentException if <code>orientation</code> is neither <code>SwingConstants.HORIZONTAL</code>
+     *                                  nor <code>SwingConstants.VERTICAL</code>
      */
     public Gripper(int orientation) {
         setOrientation(orientation);
@@ -97,6 +93,7 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
      * Returns the name of the L&F class that renders this component.
      *
      * @return the string "GripperUI"
+     *
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
@@ -106,18 +103,18 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
     }
 
     /**
-     * return ture if it supports vertical orientation.
+     * return true if it supports vertical orientation.
      *
-     * @return ture if it supports vertical orientation
+     * @return true if it supports vertical orientation
      */
     public boolean supportVerticalOrientation() {
         return true;
     }
 
     /**
-     * return ture if it supports horizontal orientation.
+     * return true if it supports horizontal orientation.
      *
-     * @return ture if it supports horizontal orientation
+     * @return true if it supports horizontal orientation
      */
     public boolean supportHorizontalOrientation() {
         return true;
@@ -146,10 +143,8 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
     }
 
     /**
-     * Gets the cursor set in the component. If the component does
-     * not have a cursor set, the cursor of its parent is returned.
-     * If no cursor is set in the entire hierarchy,
-     * <code>Cursor.DEFAULT_CURSOR</code> is returned.
+     * Gets the cursor set in the component. If the component does not have a cursor set, the cursor of its parent is
+     * returned. If no cursor is set in the entire hierarchy, <code>Cursor.DEFAULT_CURSOR</code> is returned.
      *
      * @see #setCursor
      * @since JDK1.1
@@ -168,6 +163,7 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
      * Gets the <code>rolloverEnabled</code> property.
      *
      * @return the value of the <code>rolloverEnabled</code> property
+     *
      * @see #setRolloverEnabled
      */
     public boolean isRolloverEnabled() {
@@ -175,12 +171,9 @@ public class Gripper extends JComponent implements SwingConstants, Alignable, Dr
     }
 
     /**
-     * Sets the <code>rolloverEnabled</code> property, which
-     * must be <code>true</code> for rollover effects to occur.
-     * The default value for the <code>rolloverEnabled</code>
-     * property is <code>false</code>.
-     * Some look and feels might not implement rollover effects;
-     * they will ignore this property.
+     * Sets the <code>rolloverEnabled</code> property, which must be <code>true</code> for rollover effects to occur.
+     * The default value for the <code>rolloverEnabled</code> property is <code>false</code>. Some look and feels might
+     * not implement rollover effects; they will ignore this property.
      *
      * @param b if <code>true</code>, rollover effects should be painted
      * @see #isRolloverEnabled

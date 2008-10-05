@@ -156,6 +156,7 @@ public class JideMenu extends JMenu implements Alignable {
      * Gets the MenuCreator.
      *
      * @return the MenuCreator.
+     *
      * @deprecated use{@link PopupMenuCustomizer} and {@link #getPopupMenuCustomizer()} instead.
      */
     @Deprecated
@@ -224,7 +225,7 @@ public class JideMenu extends JMenu implements Alignable {
         int y = 0;
         JPopupMenu pm = getPopupMenu();
 
-        // Figure out the sizes needed to caclulate the menu position
+        // Figure out the sizes needed to calculate the menu position
         Dimension s = getSize();
         Dimension pmSize = pm.getPreferredSize();
 
@@ -391,7 +392,7 @@ public class JideMenu extends JMenu implements Alignable {
     /**
      * Checks if the
      *
-     * @return false if it's top leve menu. Otherwise, it will return what super.isOpaque().
+     * @return false if it's top level menu. Otherwise, it will return what super.isOpaque().
      */
     @Override
     public boolean isOpaque() {

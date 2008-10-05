@@ -98,7 +98,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             }
         });
 
-        Object inactiveTabForground = new ExtWindowsDesktopProperty(// Not exactly right
+        Object inactiveTabForeground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return ((Color) obj[0]).darker();
@@ -116,7 +116,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
         Object buttonBorder = new BasicBorders.MarginBorder();
 
         ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
+        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = {
                 // common
@@ -198,7 +198,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.selectedTabFont", controlSmallFont,
                 "JideTabbedPane.darkShadow", defaultTextColor,
                 "JideTabbedPane.selectedTabTextForeground", defaultTextColor,
-                "JideTabbedPane.unselectedTabTextForeground", inactiveTabForground,
+                "JideTabbedPane.unselectedTabTextForeground", inactiveTabForeground,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
                 "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
@@ -269,9 +269,9 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
                 "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
                 "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 0, 8, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 8, 0, 8, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 16, 0, 6, 9),
+                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 8, 9),
+                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 8, 0, 8, 9),
+                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 16, 0, 6, 9),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),

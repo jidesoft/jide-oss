@@ -154,7 +154,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     /**
-     * Gets the default action. Default action will be trigger when ENTEY key is pressed.
+     * Gets the default action. Default action will be trigger when ENTER key is pressed.
      *
      * @return the default action.
      */
@@ -163,7 +163,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     /**
-     * Sets the default action. Default action will be trigger when ENTEY key is pressed.
+     * Sets the default action. Default action will be trigger when ENTER key is pressed.
      *
      * @param defaultAction the default action.
      */

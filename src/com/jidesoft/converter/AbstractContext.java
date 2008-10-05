@@ -8,11 +8,10 @@ package com.jidesoft.converter;
 import java.io.Serializable;
 
 /**
- * <code>AbstractContext</code> is a generic context class. It has two fields: name and userObject.
- * The name is just the name of the context. You can use a meanful string to name it.
- * The userObject is customizable portion of Context. You can set whatever you want as userObject.
- * It's just a convention between whoever set it and whoever use it. For example, in <code>ConverterContext</code>,
- * we sometimes used it to pass in a <code>Format</code>.
+ * <code>AbstractContext</code> is a generic context class. It has two fields: name and userObject. The name is just the
+ * name of the context. You can use a meaningful string to name it. The userObject is customizable portion of Context.
+ * You can set whatever you want as userObject. It's just a convention between whoever set it and whoever use it. For
+ * example, in <code>ConverterContext</code>, we sometimes used it to pass in a <code>Format</code>.
  */
 abstract public class AbstractContext implements Serializable {
 
@@ -30,10 +29,10 @@ abstract public class AbstractContext implements Serializable {
     }
 
     /**
-     * Creates an abstract contex with a name and an object.
+     * Creates an abstract context with a name and an object.
      *
      * @param name   the name of the <code>AbstractContext</code>.
-     * @param object the user object. It can be used any object to pass informaton along.
+     * @param object the user object. It can be used any object to pass information along.
      */
     public AbstractContext(String name, Object object) {
         _name = name;
@@ -80,7 +79,7 @@ abstract public class AbstractContext implements Serializable {
      * Override equals. Two abstract context equals as long as the name is the same.
      *
      * @param o object to compare.
-     * @return if two objects euqnals.
+     * @return if two objects equal.
      */
     @Override
     public boolean equals(Object o) {

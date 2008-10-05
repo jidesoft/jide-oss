@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * KeyboardFocusManager focusManager =
  * KeyboardFocusManager.getCurrentKeyboardFocusManager();
  * <p/>
- * // instead of registering direclty use weak listener
+ * // instead of registering directly use weak listener
  * // focusManager.addPropertyChangeListener(focusOwnerListener);
  * <p/>
  * focusManager.addPropertyChangeListener(
@@ -22,17 +22,22 @@ import java.lang.reflect.Method;
  * <p/>
  * How does this work:
  * <p/>
- * Instead of registering propertyChangeListener directly to keyboardFocusManager, we wrap it inside WeakPropertyChangeListener and register this weak listener to keyboardFocusManager. This weak listener acts a delegate.
- * It receives the propertyChangeEvents from keyboardFocusManager and delegates it the wrapped listener.
+ * Instead of registering propertyChangeListener directly to keyboardFocusManager, we wrap it inside
+ * WeakPropertyChangeListener and register this weak listener to keyboardFocusManager. This weak listener acts a
+ * delegate. It receives the propertyChangeEvents from keyboardFocusManager and delegates it the wrapped listener.
  * <p/>
- * The interesting part of this weak listener, it hold a weakReference to the original propertyChangeListener. so this delegate is eligible for garbage collection which it is no longer reachable via references. When it gets garbage
- * collection, the weakReference will be pointing to null. On next propertyChangeEvent notification from keyboardFocusManager, it find that the weakReference is pointing to null, and unregisters itself from
+ * The interesting part of this weak listener, it hold a weakReference to the original propertyChangeListener. so this
+ * delegate is eligible for garbage collection which it is no longer reachable via references. When it gets garbage
+ * collection, the weakReference will be pointing to null. On next propertyChangeEvent notification from
+ * keyboardFocusManager, it find that the weakReference is pointing to null, and unregisters itself from
  * keyboardFocusManager. Thus the weak listener will also become eligible for garbage collection in next gc cycle.
  * <p/>
- * This concept is not something new. If you have a habit of looking into swing sources, you will find that AbstractButton actually adds a weak listener to its action. The weak listener class used for this is :
+ * This concept is not something new. If you have a habit of looking into swing sources, you will find that
+ * AbstractButton actually adds a weak listener to its action. The weak listener class used for this is :
  * javax.swing.AbstractActionPropertyChangeListener; This class is package-private, so you don't find it in javadoc.
  * <p/>
- * The full-fledged, generic implementation of weak listeners is available in Netbeans OpenAPI: WeakListeners.java . It is worth to have a look at it.
+ * The full-fledged, generic implementation of weak listeners is available in Netbeans OpenAPI: WeakListeners.java . It
+ * is worth to have a look at it.
  *
  * @author Santhosh Kumar T - santhosh@in.fiorano.com
  */

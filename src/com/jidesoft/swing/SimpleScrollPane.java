@@ -480,10 +480,10 @@ public class SimpleScrollPane extends JScrollPane implements ChangeListener, Mou
     }
 
     /**
-     * Sets the delay in ms betwen each unit scrolling. By default, it's 50. The big the nubmer, the slow the
+     * Sets the delay in ms between each unit scrolling. By default, it's 50. The big thenumberr, the slow the
      * scrolling.
      *
-     * @param repeatDelay thenew repeat delay.
+     * @param repeatDelay the new repeat delay.
      */
     public void setRepeatDelay(int repeatDelay) {
         if (repeatDelay != _repeatDelay) {

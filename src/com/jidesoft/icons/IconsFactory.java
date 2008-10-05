@@ -105,7 +105,7 @@ import java.util.StringTokenizer;
  * "File is generated at "... some directory ...\com.jidesoft.icons.TemplateIconsFactory.html".
  * Please copy it to the same directory as TemplateIconsFactory.java"
  * </code></pre>
- * if you follow the instrcution and copy the html file to the same location as the source code and open the html, you
+ * if you follow the instruction and copy the html file to the same location as the source code and open the html, you
  * will see the all image files defined in this IconsFactory are listed nicely in the page.
  */
 public class IconsFactory {
@@ -161,6 +161,7 @@ public class IconsFactory {
      * @param clazz    the Class<?>
      * @param fileName relative file name
      * @return the ImageIcon
+     *
      * @throws IOException when image file is not found.
      */
     public static ImageIcon findImageIcon(Class<?> clazz, String fileName) throws IOException {
@@ -605,7 +606,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets part of the image from input image icon. It bascially takes a snapshot of the input image at {x, y} location
+     * Gets part of the image from input image icon. It basically takes a snapshot of the input image at {x, y} location
      * and the size is width x height.
      *
      * @param c      the component where the returned icon will be used. The component is used as the ImageObserver. It
@@ -622,7 +623,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets part of the image from input image icon. It bascially takes a snapshot of the input image at {x, y} location
+     * Gets part of the image from input image icon. It basically takes a snapshot of the input image at {x, y} location
      * and the size is width x height, then resize it to a size of destWidth x destHeight.
      *
      * @param c          the component where the returned icon will be used. The component is used as the ImageObserver.
@@ -644,7 +645,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets part of the image from input image icon. It bascially takes a snapshot of the input image at {x, y} location
+     * Gets part of the image from input image icon. It basically takes a snapshot of the input image at {x, y} location
      * and the size is width x height.
      *
      * @param c         the component where the returned icon will be used. The component is used as the ImageObserver.
@@ -664,7 +665,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets part of the image from input image icon. It bascially takes a snapshot of the input image at {x, y} location
+     * Gets part of the image from input image icon. It basically takes a snapshot of the input image at {x, y} location
      * and the size is width x height, then resize it to a size of destWidth x destHeight. if the original icon is null
      * or the specified location is outside the original icon, EMPTY_ICON will be returned.
      *
@@ -694,7 +695,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     * Gets a new icon with the overlayIcon paints over the original icon.
      *
      * @param c           the component where the returned icon will be used. The component is used as the
      *                    ImageObserver. It could be null.
@@ -709,7 +710,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     * Gets a new icon with the overlayIcon paints over the original icon.
      *
      * @param c           the component where the returned icon will be used. The component is used as the
      *                    ImageObserver. It could be null.
@@ -770,7 +771,7 @@ public class IconsFactory {
     }
 
     /**
-     * Gets a new icon with the overlayIcon paints over the orginal icon.
+     * Gets a new icon with the overlayIcon paints over the original icon.
      *
      * @param c           the component where the returned icon will be used. The component is used as the
      *                    ImageObserver. It could be null.

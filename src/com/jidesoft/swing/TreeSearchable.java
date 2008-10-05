@@ -25,8 +25,8 @@ import java.util.List;
  * Now the JTree will have the search function.
  * <p/>
  * There is very little customization you need to do to TreeSearchable. The only thing you might need is when the
- * element in the JTree needs a special conversion to convert to string. If so, you can overide convertElementToString()
- * to provide you own algorithm to do the conversion.
+ * element in the JTree needs a special conversion to convert to string. If so, you can override
+ * convertElementToString() to provide you own algorithm to do the conversion.
  * <code><pre>
  * JTree tree = ....;
  * TreeSearchable searchable = new TreeSearchable(tree) {
@@ -66,7 +66,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     /**
      * Checks if the searchable is recursive.
      *
-     * @return true if searchabe is recursive.
+     * @return true if searchable is recursive.
      */
     public boolean isRecursive() {
         return _recursive;
@@ -164,9 +164,9 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     }
 
     /**
-     * Recursively go through the tree to populate the tree pathes into a list and cache them.
+     * Recursively go through the tree to populate the tree paths into a list and cache them.
      * <p/>
-     * Tree pathes list is only used when recursive attriubute is true.
+     * Tree paths list is only used when recursive attribute is true.
      */
     protected void populateTreePaths() {
         _treePathes = new ArrayList<TreePath>();
@@ -186,20 +186,20 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     }
 
     /**
-     * Reset the cached tree pathes list.
+     * Reset the cached tree paths list.
      * <p/>
-     * Tree pathes list is only used when recursive attriubute is true.
+     * Tree paths list is only used when recursive atattributes true.
      */
     protected void resetTreePathes() {
         _treePathes = null;
     }
 
     /**
-     * Gets the cached tree pathes list. If it has never been cached before, this method will create the cache.
+     * Gets the cached tree paths list. If it has never been cached before, this method will create the cache.
      * <p/>
-     * Tree pathes list is only used when recursive attriubute is true.
+     * Tree paths list is only used when recursive atattributes true.
      *
-     * @return the tree pathes list.
+     * @return the tree paths list.
      */
     protected List<TreePath> getTreePathes() {
         if (_treePathes == null) {

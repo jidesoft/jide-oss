@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Manages the optional folder toolbar that sits above the folderview's tree view panel
+ * Manages the optional folder toolbar that sits above the folder view's tree view panel
  */
 class FolderToolBar extends JToolBar {
     private final static FileSystemView _fsv = FileSystemView.getFileSystemView();

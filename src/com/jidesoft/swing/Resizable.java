@@ -100,7 +100,7 @@ public class Resizable {
 
     /**
      * Installs the listeners needed to perform resizing operations. You do not need to call this method directly.
-     * Construstor will call this method automatically.
+     * Constructor will call this method automatically.
      */
     protected void installListeners() {
         _mouseInputAdapter = createMouseInputListener();
@@ -109,8 +109,8 @@ public class Resizable {
     }
 
     /**
-     * Uninstalls the listeners that created to perform resizing operations. After uninstallation, the component will
-     * not be resizable anymore.
+     * Uninstalls the listeners that created to perform resizing operations. After the uninstallation, the component
+     * will not be resizable anymore.
      */
     public void uninstallListeners() {
         _component.removeMouseListener(_mouseInputAdapter);
@@ -120,7 +120,7 @@ public class Resizable {
 
     /**
      * Creates the MouseInputListener for resizing. Subclass can override this method to provide its own
-     * MouseInputListener to customize exsiting one.
+     * MouseInputListener to customize existing one.
      *
      * @return the MouseInputListener for resizing.
      */
@@ -138,7 +138,7 @@ public class Resizable {
     }
 
     /**
-     * This method is called when resizing opertion started.
+     * This method is called when resizing operation started.
      *
      * @param resizeCorner the resize corner.
      */
@@ -223,7 +223,7 @@ public class Resizable {
 
     /**
      * Returns the insets that should be used to calculate the resize area. Unless you have used setResizeInsets or
-     * overriden this method, it'll return the insets of the component.
+     * overridden this method, it'll return the insets of the component.
      *
      * @return the insets that should be used to calculate the resize area.
      */

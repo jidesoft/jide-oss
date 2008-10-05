@@ -41,7 +41,7 @@ import java.text.NumberFormat;
  * <p/>
  * All numeric and operator keys work as expected. Here are a few special keys that worth mentioning <ul> <li> 'C', 'c'
  * or ESC to clear current result <li> '!' to make current displayed number from positive to negative (or from negative
- * to positive) <li> ENTER is equalivent to '='.. </ul>
+ * to positive) <li> ENTER is equivalent to '='.. </ul>
  * <p/>
  * Another interesting way to use Calculator is to use it without using GUI.
  * <pre><code>
@@ -56,9 +56,9 @@ import java.text.NumberFormat;
  * </code></pre>
  * The print out will be "10 * 24 = 240".
  * <p/>
- * There are seveal methods you can use to get internal state of the Calculator. <ul> <li> {@link #getDisplayText()}: to
- * get the result that should be displayed. Please note, this method return a string. <li> {@link #getResult()}: to get
- * the last calculated result. This method returns a double value. <li> {@link #getOperator()}: to get the current
+ * There are several methods you can use to get internal state of the Calculator. <ul> <li> {@link #getDisplayText()}:
+ * to get the result that should be displayed. Please note, this method return a string. <li> {@link #getResult()}: to
+ * get the last calculated result. This method returns a double value. <li> {@link #getOperator()}: to get the current
  * operator <li> {@link #isOverflow()}: to check if there is an overflow. Usually if you try to divide by zero, you will
  * get an overflow. </ul>
  */
@@ -374,7 +374,7 @@ public class Calculator extends JPanel implements ActionListener {
      * Inputs a char to the calculator. Please note, not all chars are acceptable. Valid chars are defined in {@link
      * Calculator} class as CHAR_XXX constants.
      *
-     * @param c the char inputed char.
+     * @param c the char input char.
      */
     public void input(char c) {
         if (CHAR_CLEAR == Character.toLowerCase(c) || CHAR_CLEAR == Character.toUpperCase(c)) {
@@ -897,9 +897,9 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Gets the gap betwen buttons. Default is 2.
+     * Gets the gap between buttons. Default is 2.
      *
-     * @return the gap betwen buttons.
+     * @return the gapbetweenn buttons.
      */
     public int getButtonGap() {
         return _buttonGap;

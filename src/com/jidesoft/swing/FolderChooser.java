@@ -19,7 +19,7 @@ import java.util.List;
  * <p/>
  * In addition to supporting the basic folder choosing function, it also supports create new folder, delete an existing
  * folder. Another useful feature is recent list. It allows you to set a list of recent selected folders so that user
- * can choose them directly inatead of navigating to it in the file system tree.
+ * can choose them directly instead of navigating to it in the file system tree.
  * <p/>
  * The following code pops up a folder chooser for user to choose a folder.
  * <pre>

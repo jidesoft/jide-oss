@@ -15,7 +15,7 @@ import java.io.*;
 /**
  * A transferable implementation for the default data transfer of some Swing components.
  * <p/>
- * This is copy from the same class as JDK. The original class is pacakge local.
+ * This is copy from the same class as JDK. The original class is package local.
  *
  * @author Timothy Prinzing
  * @version 1.9 12/19/03
@@ -252,7 +252,7 @@ public class BasicTransferable implements Transferable, UIResource {
         return plainData;
     }
 
-    // --- string flavorss --------------------------------------------------------
+    // --- string flavors --------------------------------------------------------
 
     /**
      * Returns whether or not the specified data flavor is a String flavor that is supported.

@@ -364,7 +364,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         return d;
     }
 
-    // these rects are used for painting and preferredsize calculations.
+    // these rects are used for painting and preferred size calculations.
     // they used to be regenerated constantly.  Now they are reused.
     static Rectangle zeroRect = new Rectangle(0, 0, 0, 0);
     static Rectangle iconRect = new Rectangle();
@@ -458,7 +458,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 p.putClientProperty(EclipseMenuItemUI.MAX_TEXT_WIDTH, r.width);
             }
 
-            //Compare the accelarator widths.
+            //Compare the accelerator widths.
             if (acceleratorRect.width > maxAccValue) {
                 maxAccValue = acceleratorRect.width;
                 p.putClientProperty(EclipseMenuItemUI.MAX_ACC_WIDTH, acceleratorRect.width);
@@ -853,7 +853,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
                 horizontalTextPosition, viewRect, iconRect, textRect,
                 textIconGap);
 
-        // get viewRect which is the bounds of menuitem
+        // get viewRect which is the bounds of menu item
         viewRect.x = viewRect.y = 0;
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             //   Dimension size = b.getSize();
@@ -964,7 +964,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
 
         Rectangle labelRect = iconRect.union(textRect);
 
-        // Align the accelertor text and the check and arrow icons vertically
+        // Align the accelerator text and the check and arrow icons vertically
         // with the center of the label rect.
         acceleratorRect.y = labelRect.y + (labelRect.height >> 1) - (acceleratorRect.height >> 1);
 
@@ -1011,9 +1011,9 @@ public class EclipseMenuItemUI extends MenuItemUI {
             newPath[i] = menuItem;
         }
         else {
-            // A sibling menuitem is the current selection
+            // A sibling menu item is the current selection
             //
-            //  This probably needs to handle 'exit submenu into
+            //  This probably needs to handle 'exit sub-menu into
             // a menu item.  Search backwards along the current
             // selection until you find the parent popup menu,
             // then copy up to that and add yourself...

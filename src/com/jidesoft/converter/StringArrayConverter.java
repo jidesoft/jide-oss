@@ -5,16 +5,16 @@ public class StringArrayConverter implements ObjectConverter {
     private String _separator = ";";
 
     /**
-     * Creates a StringArrayConverter using default constructor. The semicolon (";") will be used as the
-     * separator when converting from string to array and vise versa.
+     * Creates a StringArrayConverter using default constructor. The semicolon (";") will be used as the separator when
+     * converting from string to array and vise versa.
      */
     public StringArrayConverter() {
     }
 
     /**
-     * Creates a StringArrayConverter with a specified separator. Please make sure the separator is not
-     * used in the charactor set used in each string element. For example, you want to use space as separator, then
-     * each string in the string arrray must not use space.
+     * Creates a StringArrayConverter with a specified separator. Please make sure the separator is not used in the
+     * character set used in each string element. For example, you want to use space as separator, then each string in
+     * the string array must not use space.
      *
      * @param separator the separator used to separate string to an array.
      */

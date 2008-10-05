@@ -345,7 +345,7 @@ public class MetalMenuItemUI extends MenuItemUI {
         return d;
     }
 
-    // these rects are used for painting and preferredsize calculations.
+    // these rects are used for painting and preferred size calculations.
     // they used to be regenerated constantly.  Now they are reused.
     static Rectangle zeroRect = new Rectangle(0, 0, 0, 0);
     static Rectangle iconRect = new Rectangle();
@@ -439,7 +439,7 @@ public class MetalMenuItemUI extends MenuItemUI {
                 p.putClientProperty(MetalMenuItemUI.MAX_TEXT_WIDTH, r.width);
             }
 
-            //Compare the accelarator widths.
+            //Compare the accelerator widths.
             if (acceleratorRect.width > maxAccValue) {
                 maxAccValue = acceleratorRect.width;
                 p.putClientProperty(MetalMenuItemUI.MAX_ACC_WIDTH, acceleratorRect.width);
@@ -890,7 +890,7 @@ public class MetalMenuItemUI extends MenuItemUI {
             }
         }
 
-        // Align the accelertor text and the check and arrow icons vertically
+        // Align the accelerator text and the check and arrow icons vertically
         // with the center of the label rect.
         acceleratorRect.y = labelRect.y + (labelRect.height / 2) - (acceleratorRect.height / 2);
         if (useCheckAndArrow()) {

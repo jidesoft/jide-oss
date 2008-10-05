@@ -275,7 +275,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         Object buttonBorder = new BasicBorders.MarginBorder();
 
         ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
+        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
                 "JideScrollPane.border", singleLineBorder,
@@ -411,12 +411,12 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "RangeSlider.upperRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 10, 9, 10),
                 "RangeSlider.middleRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 20, 9, 7),
 
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 0, 10, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 10, 0, 10, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 20, 0, 7, 9),
-                "RangeSlider.lowerVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 0, 9, 10, 9),
-                "RangeSlider.upperVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 10, 9, 10, 9),
-                "RangeSlider.middleVRIcon", IconsFactory.getIcon(null, sliderVerticalalImage, 20, 9, 7, 9),
+                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 10, 9),
+                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 0, 10, 9),
+                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 0, 7, 9),
+                "RangeSlider.lowerVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 9, 10, 9),
+                "RangeSlider.upperVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 9, 10, 9),
+                "RangeSlider.middleVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 9, 7, 9),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),

@@ -11,12 +11,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A <code>Contour</code> is a lightweight component which only paints the outline
- * of component when dragged. It is also used as a placeholder for some information during dragging.
+ * A <code>Contour</code> is a lightweight component which only paints the outline of component when dragged. It is also
+ * used as a placeholder for some information during dragging.
  * <p/>
- * Notes: this class has to be public so that JIDE can use it in different packages,
- * not meant to release to end user as a public API. JIDE will not gurantee the class
- * will remain as it is.
+ * Notes: this class has to be public so that JIDE can use it in different packages, not meant to release to end user as
+ * a public API. JIDE will not guarantee the class will remain as it is.
  */
 public class Contour extends JComponent implements IContour {
     public final static int PARTIAL_OUTLINE_MODE = 0;
@@ -60,8 +59,8 @@ public class Contour extends JComponent implements IContour {
     private int _tabHeight = 22;
 
     /**
-     * <code>true</code> if docking is allowed; <code>false</code> otherwise.
-     * Usually when user pressed ctrl key, dock is not allowed.
+     * <code>true</code> if docking is allowed; <code>false</code> otherwise. Usually when user pressed ctrl key, dock
+     * is not allowed.
      */
     private boolean _allowDocking = true;
 
@@ -91,18 +90,17 @@ public class Contour extends JComponent implements IContour {
     private int _attachedSide;
 
     /**
-     * When you dragged a component, several other components could be dragged.
-     * For example, if user drags on title bar of FrameContainer, all components in the
-     * FrameContainer are considered as dragged. If user drags on tab, only selected one
-     * is dragged.
+     * When you dragged a component, several other components could be dragged. For example, if user drags on title bar
+     * of FrameContainer, all components in the FrameContainer are considered as dragged. If user drags on tab, only
+     * selected one is dragged.
      * <p/>
      * <code>true</code> if all dragged components are affected; <code>false</code> otherwise.
      */
     private boolean _single;
 
     /**
-     * When user press and release ctrl key, the contour will toggle between dock and float mode.
-     * These three fields are used to remember previous state.
+     * When user press and release ctrl key, the contour will toggle between dock and float mode. These three fields are
+     * used to remember previous state.
      */
     private JComponent _saveDraggedComponent;
     private int _saveX, _saveY;
@@ -204,9 +202,8 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Draws vertial or hotizontal lines. Try to test if fillRect then drawLine four times.
-     * Other unit test show it's about fillRect is 75% faster than drawLine, so we decide
-     * to use fillRect to draw the contour.
+     * Draws vertical orhorizontall lines. Try to test if fillRect then drawLine four times. Other unit test show it's
+     * about fillRect is 75% faster than drawLine, so we decide to use fillRect to draw the contour.
      *
      * @param g
      * @param x1
@@ -340,7 +337,7 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Overwirte setBounds so that width and height are always even.
+     * Overwrite setBounds so that width and height are always even.
      *
      * @param r the new bounding rectangle for this component
      */
@@ -350,16 +347,14 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Overwirte setBounds so that width and height are always even.
+     * Overwrite setBounds so that width and height are always even.
      * <p/>
-     * It looks ugly for either dimension is odd when painting
-     * with <code>DOTTED_STROKE</code>
+     * It looks ugly for either dimension is odd when painting with <code>DOTTED_STROKE</code>
      *
      * @param x      the new <i>x</i>-coordinate of this component
      * @param y      the new <i>y</i>-coordinate of this component
      * @param width  the new <code>width</code> of this component
-     * @param height the new <code>height</code> of this
-     *               component
+     * @param height the new <code>height</code> of this component
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
@@ -608,10 +603,9 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * When you dragged a component, several other components could be dragged.
-     * For example, if user drags on title bar of FrameContainer, all components in the
-     * FrameContainer are considered as dragged. If user drags on tab, only selected one
-     * is dragged.
+     * When you dragged a component, several other components could be dragged. For example, if user drags on title bar
+     * of FrameContainer, all components in the FrameContainer are considered as dragged. If user drags on tab, only
+     * selected one is dragged.
      *
      * @return <code>true</code> if all dragged components are affected; <code>false</code> otherwise.
      */
@@ -629,7 +623,7 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Checks if docking is alloed.
+     * Checks if docking is allowed.
      *
      * @return <code>true</code> if docking is allowed; <code>false</code> otherwise.
      */
@@ -692,8 +686,8 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Stores information before the contour is hidden. Those information
-     * will be used to restore when the contour is set visible again.
+     * Stores information before the contour is hidden. Those information will be used to restore when the contour is
+     * set visible again.
      *
      * @param comp              the dragged component
      * @param saveX             X position of the contour
@@ -728,11 +722,9 @@ public class Contour extends JComponent implements IContour {
 //    private Container _savedContainer;
 
     /**
-     * Makes the component visible or invisible.
-     * Overrides <code>Component.setVisible</code>.
+     * Makes the component visible or invisible. Overrides <code>Component.setVisible</code>.
      *
-     * @param aFlag true to make the component visible; false to
-     *              make it invisible
+     * @param aFlag true to make the component visible; false to make it invisible
      */
     @Override
     public void setVisible(boolean aFlag) {
@@ -747,13 +739,11 @@ public class Contour extends JComponent implements IContour {
     }
 
     /**
-     * Determines whether this component should be visible when its
-     * parent is visible. Components are
-     * initially visible, with the exception of top level components such
-     * as <code>Frame</code> objects.
+     * Determines whether this component should be visible when its parent is visible. Components are initially visible,
+     * with the exception of top level components such as <code>Frame</code> objects.
      *
-     * @return <code>true</code> if the component is visible,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the component is visible, <code>false</code> otherwise
+     *
      * @see #setVisible
      * @since JDK1.0
      */

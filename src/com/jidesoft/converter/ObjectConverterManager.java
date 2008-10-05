@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * <code>ObjectConverterManager</code> is a center place to register ObjectConverters with a data type and an optinoal
+ * <code>ObjectConverterManager</code> is a center place to register ObjectConverters with a data type and an optional
  * ConverterContext. The ConverterContext is a switch when you need several different converters for the same data type.
  * If you only use one ObjectConverter for a particular data type, you can use null as the ConverterContext.
  * <p/>
@@ -154,7 +154,7 @@ public class ObjectConverterManager {
     }
 
     /**
-     * Converts an object to string using converter context sepcified.
+     * Converts an object to string using converter context specified.
      *
      * @param object  object to be converted.
      * @param clazz   type of the object
@@ -409,7 +409,7 @@ public class ObjectConverterManager {
     /**
      * If {@link #initDefaultConverter()} is called once, calling it again will have no effect because an internal flag
      * is set. This method will reset the internal flag so that you can call  {@link #initDefaultConverter()} in case
-     * you unresgister all converters using {@link #unregisterAllConverters()}.
+     * you unregister all converters using {@link #unregisterAllConverters()}.
      */
     public static void resetInit() {
         _inited = false;

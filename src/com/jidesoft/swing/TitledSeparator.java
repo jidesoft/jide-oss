@@ -19,7 +19,7 @@ import java.awt.*;
  * <code>TitledSeparator</code> is comprised of a title part and a graphical line. This component is preferred over
  * <code>TitledBorder</code> when no full border is desired. To see this component in action, please refer to the
  * TitledSeparator Demo. <p/> <b>Usage</b> <p/> This class presents a large number of constructors. As such,
- * configurating the <code>TitledSeparator</code> can be wholely achieved at construction time. The list below shows the
+ * configurating the <code>TitledSeparator</code> can be wholly achieved at construction time. The list below shows the
  * available constructors for this. <p/>
  * <code><pre>
  * TitledSeparator(String text)
@@ -206,9 +206,9 @@ public class TitledSeparator extends JPanel {
     }
 
     /**
-     * Creates a titled separator with the specified component, border type, alignment and vertcal alignment. The
+     * Creates a titled separator with the specified component, border type, alignment and vertical alignment. The
      * alignment determines whether the specified component will lye on the right or left of the separator line. The
-     * vertical alignment refers to the alignment of the separator line -- top, middle or bottom. When specifiying a
+     * vertical alignment refers to the alignment of the separator line -- top, middle or bottom. Whenspecifyingg a
      * border, the border is set with default values, for example: both <code>TYPE_PARTIAL_LINE</code> and
      * <code>TYPE_PARTIAL_LINE</code> are configured with a 'thickness' of one pixel. If the the border required is not
      * the default version, please use another constructor: TitledSeparator(component, border, alignment,
@@ -258,7 +258,7 @@ public class TitledSeparator extends JPanel {
     }
 
     /**
-     * Creates a titled separator with the specified component, border, alignment and vertcal alignment. The alignment
+     * Creates a titled separator with the specified component, border, alignment and vertical alignment. The alignment
      * determines whether the specified component will lye on the right or left of the separator line. The vertical
      * alignment refers to the alignment of the separator line -- top, middle or bottom.
      *
@@ -278,7 +278,7 @@ public class TitledSeparator extends JPanel {
     }
 
     /******************************************************************************************************************
-     *                                                  Getters/Setters.                                              *
+     *                                                  Getter's/Setters.                                              *
      ******************************************************************************************************************/
 
     /**
@@ -367,10 +367,10 @@ public class TitledSeparator extends JPanel {
     }
 
     /**
-     * Sets the bars verical alignment.
+     * Sets the bars vertical alignment.
      *
      * @param barAlignment Valid values are: SwingConstants.TOP, SwingConstants.CENTER or SwingConstants.BOTTOM.
-     * @beaninfo bound: true attribute: visualUpdate true description: Sets the bars verical alignment.
+     * @beaninfo bound: true attribute: visualUpdate true description: Sets the barsverticall alignment.
      * @see #getBarAlignment
      */
     public void setBarAlignment(int barAlignment) {
@@ -384,9 +384,9 @@ public class TitledSeparator extends JPanel {
     }
 
     /**
-     * Returns the bars verical alignment.
+     * Returns the bars vertical alignment.
      *
-     * @return the bars verical alignment. Valid values are: SwingConstants.TOP, SwingConstants.CENTER or
+     * @return the barsverticall alignment. Valid values are: SwingConstants.TOP, SwingConstants.CENTER or
      *         SwingConstants.BOTTOM.
      */
     public int getBarAlignment() {
@@ -401,7 +401,7 @@ public class TitledSeparator extends JPanel {
      * Responsible for configurating this <code>TitledSeparator<code>. This is the method through which all constructors
      * ultimately feed.<p>
      * <p/>
-     * Creates a titled separator with the specified component, border, alignment and vertcal alignment. The alignment
+     * Creates a titled separator with the specified component, border, alignment and vertical alignment. The alignment
      * determines whether the specified component will lye on the right or left of the separator line. The vertical
      * alignment refers to the alignment of the separator line -- top, middle or bottom.
      */

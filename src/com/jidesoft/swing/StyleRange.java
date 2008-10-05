@@ -8,16 +8,14 @@ package com.jidesoft.swing;
 import java.awt.*;
 
 /**
- * A data structure represents a style for a range of text. There are two categories of styles
- * that currently supports. One is the font style and color which includes bold, italic, superscript,
- * subscript as well as the color of the text. The other one is line color and style. The line style could be
- * straight line, dotted line, waved line or any customized style using Stroke. The line could be used as
- * underline or strikethrough line.
+ * A data structure represents a style for a range of text. There are two categories of styles that currently supports.
+ * One is the font style and color which includes bold, italic, superscript, subscript as well as the color of the text.
+ * The other one is line color and style. The line style could be straight line, dotted line, waved line or any
+ * customized style using Stroke. The line could be used as underline or strikethrough line.
  * <p/>
- * The name of StyleRange comes from SWT's StyleRange. We borrowed some design idea from it.
- * StyledLabel is actually very similar to SWT's StyledText. Saying
- * that, the features of the two components are not exactly the same since the purpose of the
- * two components are quite different.
+ * The name of StyleRange comes from SWT's StyleRange. We borrowed some design idea from it. StyledLabel is actually
+ * very similar to SWT's StyledText. Saying that, the features of the two components are not exactly the same since the
+ * purpose of the two components are quite different.
  */
 public class StyleRange {
     public static final int STYLE_STRIKE_THROUGH = 0x1;
@@ -74,8 +72,9 @@ public class StyleRange {
      * Creates a style range with a specified font style and additional style.
      *
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to connect two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int fontStyle, int additionalStyle) {
         this(0, -1, fontStyle, null, additionalStyle, null, null);
@@ -85,8 +84,9 @@ public class StyleRange {
      * Creates a style range with a specified font style and additional style.
      *
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param fontShrinkRatio the ratio that regular font size divides by subscript or superscript font size.
      */
     public StyleRange(int fontStyle, int additionalStyle, float fontShrinkRatio) {
@@ -133,8 +133,9 @@ public class StyleRange {
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int start, int length, int fontStyle, int additionalStyle) {
         this(start, length, fontStyle, null, additionalStyle, null, null);
@@ -146,8 +147,9 @@ public class StyleRange {
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param fontShrinkRatio the ratio that regular font size divides by subscript or superscript font size.
      */
     public StyleRange(int start, int length, int fontStyle, int additionalStyle, float fontShrinkRatio) {
@@ -159,8 +161,9 @@ public class StyleRange {
      *
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int fontStyle, Color fontColor, int additionalStyle, Color lineColor) {
         this(0, -1, fontStyle, fontColor, additionalStyle, lineColor, null);
@@ -172,8 +175,9 @@ public class StyleRange {
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
      * @param backgroundColor the background color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int fontStyle, Color fontColor, Color backgroundColor, int additionalStyle, Color lineColor) {
         this(0, -1, fontStyle, fontColor, backgroundColor, additionalStyle, lineColor, null);
@@ -186,8 +190,9 @@ public class StyleRange {
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int start, int length, int fontStyle, Color fontColor, int additionalStyle) {
         this(start, length, fontStyle, fontColor, additionalStyle, null, null);
@@ -201,8 +206,9 @@ public class StyleRange {
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
      * @param backgroundColor the background color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      */
     public StyleRange(int start, int length, int fontStyle, Color fontColor, Color backgroundColor, int additionalStyle) {
         this(start, length, fontStyle, fontColor, backgroundColor, additionalStyle, null, null);
@@ -213,8 +219,9 @@ public class StyleRange {
      *
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      */
     public StyleRange(int fontStyle, Color fontColor, int additionalStyle, Color lineColor, Stroke lineStroke) {
@@ -228,8 +235,9 @@ public class StyleRange {
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      */
     public StyleRange(int start, int length, int fontStyle, Color fontColor, int additionalStyle, Color lineColor) {
@@ -244,8 +252,9 @@ public class StyleRange {
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
      * @param backgroundColor the background color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      */
     public StyleRange(int start, int length, int fontStyle, Color fontColor, Color backgroundColor, int additionalStyle, Color lineColor) {
@@ -253,14 +262,16 @@ public class StyleRange {
     }
 
     /**
-     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a range.
+     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a
+     * range.
      *
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      * @param lineStroke      the stroke of the line.
      */
@@ -269,15 +280,17 @@ public class StyleRange {
     }
 
     /**
-     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a range.
+     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a
+     * range.
      *
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
      * @param backgroundColor the background color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      * @param lineStroke      the stroke of the line.
      */
@@ -286,14 +299,16 @@ public class StyleRange {
     }
 
     /**
-     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a range.
+     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a
+     * range.
      *
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use any | to concat two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use any | to concat two or more styles as long as it makes
+     *                        sense.
      * @param lineColor       the color of the line.
      * @param lineStroke      the stroke of the line.
      * @param fontShrinkRatio the ratio that regular font size divides by subscript or superscript font size.
@@ -303,15 +318,17 @@ public class StyleRange {
     }
 
     /**
-     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a range.
+     * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a
+     * range.
      *
      * @param start           the start index of the range in a string
      * @param length          the length of the range.
      * @param fontStyle       Valid values are Font.PLAIN, Font.ITALIC, Font.BOLD or Font.BOLD | Font.ITALIC.
      * @param fontColor       the color of the text.
      * @param backgroundColor the background color of the text.
-     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin with
-     *                        STYLE_. You can also use bitwise OR "|" to concat any two or more styles as long as it makes sense.
+     * @param additionalStyle Valid additional styles are defined as constants in {@link StyleRange}. The names begin
+     *                        with STYLE_. You can also use bitwise OR "|" to concat any two or more styles as long as
+     *                        it makes sense.
      * @param lineColor       the color of the line.
      * @param lineStroke      the stroke of the line.
      * @param fontShrinkRatio the ratio that regular font size divides by subscript or superscript font size.
@@ -378,10 +395,11 @@ public class StyleRange {
     }
 
     /**
-     * Gets the additional style. Possible additional styles are defined as constants in {@link StyleRange}.
-     * The names begin with STYLE_. The value could also be two or more styles concated by | as long as it makes sense.
-     * It could be more convenient to use methods {@link #isStrikethrough()}, {@link #isDoublestrikethrough()}, {@link #isDotted()}, {@link #isWaved()},
-     * {@link #isUnderlined()}, {@link #isSubscript()}, {@link #isSuperscript()} to see what's the additional style.
+     * Gets the additional style. Possible additional styles are defined as constants in {@link StyleRange}. The names
+     * begin with STYLE_. The value could also be two or more styles concatenated by | as long as it makes sense. It
+     * could be more convenient to use methods {@link #isStrikethrough()}, {@link #isDoublestrikethrough()}, {@link
+     * #isDotted()}, {@link #isWaved()}, {@link #isUnderlined()}, {@link #isSubscript()}, {@link #isSuperscript()} to
+     * see what's the additional style.
      *
      * @return the additional style.
      */

@@ -131,7 +131,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     }
 
     /**
-     * paint background dimed and bars over top
+     * paint background dimmed and bars over top
      */
     @Override
     protected void paintComponent(Graphics g) {

@@ -116,7 +116,7 @@ public abstract class Flashable {
     }
 
     /**
-     * Sets the inteveral, in ms. If the flashing is running, the new interval will take effect immediately. By default,
+     * Sets the interval, in ms. If the flashing is running, the new interval will take effect immediately. By default,
      * it is 300 ms.
      *
      * @param interval the new interval.
@@ -161,8 +161,8 @@ public abstract class Flashable {
     }
 
     /**
-     * Unstalls the <code>Flashable</code> from the component. Once uninstalled, you have to create a new Flashable in
-     * order to use the flahsing feature again. If you just want to stop flashing, you should use {@link
+     * Uninstalls the <code>Flashable</code> from the component. Once uninstalled, you have to create a new Flashable in
+     * order to use thflashingng feature again. If you just want to stop flashing, you should use {@link
      * #stopFlashing()}.
      */
     public void uninstall() {

@@ -142,6 +142,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * Returns the row footer.
      *
      * @return the <code>rowFooter</code> property
+     *
      * @see #setRowFooter
      */
     public JViewport getRowFooter() {
@@ -175,7 +176,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
-     * Overwride setRowHeader method in JScrollPane and synchronize the view with the main viewport. Swing tried to
+     * Override setRowHeader method in JScrollPane and synchronize the view with the main viewport. Swing tried to
      * implement this feature but it will break if the view position changes starts from rowHeader.
      *
      * @param rowHeader the new row header
@@ -211,6 +212,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * Returns the column footer.
      *
      * @return the <code>columnFooter</code> property
+     *
      * @see #setColumnFooter
      */
     public JViewport getColumnFooter() {
@@ -285,6 +287,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * @param key one of the values as shown above
      * @return one of the components listed below or <code>null</code> if <code>key</code> is invalid: <ul>
      *         <li>lowerLeft <li>lowerRight <li>upperLeft <li>upperRight </ul>
+     *
      * @see #setCorner
      */
     public Component getScrollBarCorner(String key) {

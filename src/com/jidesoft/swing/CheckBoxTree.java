@@ -170,17 +170,16 @@ public class CheckBoxTree extends JTree {
 
     @Override
     public void setCellRenderer(TreeCellRenderer x) {
-      if(x==null) {
-        x=getDefaultRenderer();
-      }
-      super.setCellRenderer(x);
-      if (_treeCellRenderer != null) {
-          _treeCellRenderer.setActualTreeRenderer(x);
-      }
+        if (x == null) {
+            x = getDefaultRenderer();
+        }
+        super.setCellRenderer(x);
+        if (_treeCellRenderer != null) {
+            _treeCellRenderer.setActualTreeRenderer(x);
+        }
     }
 
 
-    
     /**
      * Creates the cell renderer.
      *
@@ -374,7 +373,7 @@ public class CheckBoxTree extends JTree {
 
     /**
      * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
-     * and unselect. If false, user can't click but you as developer can programatically call API to select/unselect
+     * and deselect. If false, user can't click but you as developer can programmatically call API to select/deselect
      * it.
      *
      * @return the value of property checkBoxEnabled.

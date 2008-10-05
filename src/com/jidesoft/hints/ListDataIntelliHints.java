@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>ListDataIntelliHints</code> is a concrete implementation of {@link
- * com.jidesoft.hints.IntelliHints}. It provides hints from a known list of data. It is similar to
- * auto complete text field except the list will be filtered depending on what user types in so
- * far.
+ * <code>ListDataIntelliHints</code> is a concrete implementation of {@link com.jidesoft.hints.IntelliHints}. It
+ * provides hints from a known list of data. It is similar to auto complete text field except the list will be filtered
+ * depending on what user types in so far.
  */
 public class ListDataIntelliHints extends AbstractListIntelliHints {
 
@@ -95,7 +94,7 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
     }
 
     /**
-     * Checks if it used case sensitive search. By defaul it's false.
+     * Checks if it used case sensitive search. By default it's false.
      *
      * @return if it's case sensitive.
      */

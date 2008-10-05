@@ -9,15 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A <code>Contour</code> is a lightweight component which only paints the outline
- * of component when dragged. It is also used as a placeholder for some information during dragging.
+ * A <code>Contour</code> is a lightweight component which only paints the outline of component when dragged. It is also
+ * used as a placeholder for some information during dragging.
  * <p/>
- * Usually <code>Contour</code> is added to {@link JLayeredPane} of a {@link RootPaneContainer}
- * so that it looks like floating above other windows.
+ * Usually <code>Contour</code> is added to {@link JLayeredPane} of a {@link RootPaneContainer} so that it looks like
+ * floating above other windows.
  * <p/>
- * Notes: this class has to be public so that JIDE can use it in different packages,
- * not meant to release to end user as a public API. JIDE will not gurantee the class
- * will remain as it is.
+ * Notes: this class has to be public so that JIDE can use it in different packages, not meant to release to end user as
+ * a public API. JIDE will not guarantee the class will remain as it is.
  */
 public interface IContour {
 
@@ -109,10 +108,9 @@ public interface IContour {
     public void setAttachedSide(int attachedSide);
 
     /**
-     * When you dragged a component, several other components could be dragged.
-     * For example, if user drags on title bar of FrameContainer, all components in the
-     * FrameContainer are considered as dragged. If user drags on tab, only selected one
-     * is dragged.
+     * When you dragged a component, several other components could be dragged. For example, if user drags on title bar
+     * of FrameContainer, all components in the FrameContainer are considered as dragged. If user drags on tab, only
+     * selected one is dragged.
      *
      * @return <code>true</code> if all dragged components are affected; <code>false</code> otherwise.
      */
@@ -126,7 +124,7 @@ public interface IContour {
     public void setSingle(boolean single);
 
     /**
-     * Checks if docking is alloed.
+     * Checks if docking is allowed.
      *
      * @return <code>true</code> if docking is allowed; <code>false</code> otherwise.
      */
@@ -172,8 +170,8 @@ public interface IContour {
     public JComponent getSaveDraggedComponent();
 
     /**
-     * Stores information before the contour is hidden. Those information
-     * will be used to restore when the contour is set visible again.
+     * Stores information before the contour is hidden. Those information will be used to restore when the contour is
+     * set visible again.
      *
      * @param comp              the dragged component
      * @param saveX             X position of the contour
@@ -188,22 +186,18 @@ public interface IContour {
 //    private Container _savedContainer;
 
     /**
-     * Makes the component visible or invisible.
-     * Overrides <code>Component.setVisible</code>.
+     * Makes the component visible or invisible. Overrides <code>Component.setVisible</code>.
      *
-     * @param aFlag true to make the component visible; false to
-     *              make it invisible
+     * @param aFlag true to make the component visible; false to make it invisible
      */
     public void setVisible(boolean aFlag);
 
     /**
-     * Determines whether this component should be visible when its
-     * parent is visible. Components are
-     * initially visible, with the exception of top level components such
-     * as <code>Frame</code> objects.
+     * Determines whether this component should be visible when its parent is visible. Components are initially visible,
+     * with the exception of top level components such as <code>Frame</code> objects.
      *
-     * @return <code>true</code> if the component is visible,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the component is visible, <code>false</code> otherwise
+     *
      * @see #setVisible
      * @since JDK1.0
      */

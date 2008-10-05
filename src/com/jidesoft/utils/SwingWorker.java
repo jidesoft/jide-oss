@@ -180,7 +180,7 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
     private volatile StateValue state;
 
     /**
-     * everything is run inside this FutureTask. Also it is used as a delegatee for the Future API.
+     * everything is run inside this FutureTask. Also it is used as a delegate for the Future API.
      */
     private final FutureTask<T> future;
 
@@ -261,6 +261,7 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
      * Note: this method is executed in a background thread.
      *
      * @return the computed result
+     *
      * @throws Exception if unable to compute a result
      */
     protected abstract T doInBackground() throws Exception;

@@ -14,7 +14,7 @@ import javax.swing.*;
  * <code>JideLabel</code> also can be used in a vertical layout. If you call {@link #setOrientation(int)} and set it to
  * {@link javax.swing.SwingConstants#VERTICAL}, the text and icon on the label will be laid out vertically. As
  * <code>CommandBar</code> supports vertical layout, this is perfect for it. You can also control the rotating direction
- * by calling {@link #setClockwise(boolean)}. By default, it rotates clockwisely.
+ * by calling {@link #setClockwise(boolean)}. By default, it rotates clockwise.
  */
 public class JideLabel extends JLabel implements Alignable, AlignmentSupport {
     private static final String uiClassID = "JideLabelUI";
@@ -65,6 +65,7 @@ public class JideLabel extends JLabel implements Alignable, AlignmentSupport {
      * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "ButtonUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -91,18 +92,18 @@ public class JideLabel extends JLabel implements Alignable, AlignmentSupport {
     }
 
     /**
-     * return ture if it supports vertical orientation.
+     * return true if it supports vertical orientation.
      *
-     * @return ture if it supports vertical orientation
+     * @return true if it supports vertical orientation
      */
     public boolean supportVerticalOrientation() {
         return true;
     }
 
     /**
-     * return ture if it supports horizontal orientation.
+     * return true if it supports horizontal orientation.
      *
-     * @return ture if it supports horizontal orientation
+     * @return true if it supports horizontal orientation
      */
     public boolean supportHorizontalOrientation() {
         return true;

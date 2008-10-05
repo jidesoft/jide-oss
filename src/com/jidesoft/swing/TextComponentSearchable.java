@@ -30,7 +30,7 @@ import java.util.Iterator;
  * Now the JTextComponent will have the search function.
  * <p/>
  * There is very little customization you need to do to ListSearchable. The only thing you might need is when the
- * element in the JTextComponent needs a special conversion to convert to string. If so, you can overide
+ * element in the JTextComponent needs a special conversion to convert to string. If so, you can override
  * convertElementToString() to provide you own algorithm to do the conversion.
  * <code><pre>
  * JTextComponent textComponent = ....;

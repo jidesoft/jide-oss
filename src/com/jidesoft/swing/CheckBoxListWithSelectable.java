@@ -27,7 +27,7 @@ import java.util.Vector;
  * <p/>
  * To listen to the check box selection change, you can call addItemListener to add an ItemListener.
  * <p/>
- * Please note, there are two implementions of CheckBoxList. CheckBoxListWithSelectable is one. There is also another
+ * Please note, there are two implementations of CheckBoxList. CheckBoxListWithSelectable is one. There is also another
  * one call CheckBoxList. CheckBoxListWithSelectable is actually the old implementation. In 1.9.2, we introduced a new
  * implementation and renamed the old implementation to CheckBoxListWithSelectable. The main difference between the two
  * implementation is at how the selection state is kept. In new implementation, the selection state is kept at a
@@ -347,6 +347,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
      * Returns an array of all the <code>ItemListener</code>s added to this JList with addItemListener().
      *
      * @return all of the <code>ItemListener</code>s added or an empty array if no listeners have been added
+     *
      * @see #addItemListener
      */
     public ItemListener[] getItemListeners() {
@@ -423,7 +424,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     /**
-     * Unselects all objects in this list except those are disabled.
+     * Deselects all objects in this list except those are disabled.
      */
     public void selectNone() {
         for (int i = 0; i < getModel().getSize(); i++) {
@@ -456,7 +457,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
 
     /**
      * Gets the value of property checkBoxEnabled. If true, user can click on check boxes on each tree node to select
-     * and unselect. If false, user can't click but you as developer can programatically call API to select/unselect
+     * and deselect. If false, user can't click but you as developer can programmatically call API to select/deselect
      * it.
      *
      * @return the value of property checkBoxEnabled.

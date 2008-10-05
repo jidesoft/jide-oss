@@ -15,9 +15,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * <code>ComboBoxSearchable</code> is an concrete implementation of {@link Searchable}
- * that enables the search function in non-editable JComboBox.
- * <p>It's very simple to use it. Assuming you have a JComboBox, all you need to do is to
+ * <code>ComboBoxSearchable</code> is an concrete implementation of {@link Searchable} that enables the search function
+ * in non-editable JComboBox. <p>It's very simple to use it. Assuming you have a JComboBox, all you need to do is to
  * call
  * <code><pre>
  * JComboBox comboBox = ....;
@@ -25,8 +24,8 @@ import java.beans.PropertyChangeListener;
  * </pre></code>
  * Now the JComboBox will have the search function.
  * <p/>
- * There is very little customization you need to do to ComboBoxSearchable. The only thing you might
- * need is when the element in the JComboBox needs a special conversion to convert to string. If so, you can overide
+ * There is very little customization you need to do to ComboBoxSearchable. The only thing you might need is when the
+ * element in the JComboBox needs a special conversion to convert to string. If so, you can override
  * convertElementToString() to provide you own algorithm to do the conversion.
  * <code><pre>
  * JComboBox comboBox = ....;
@@ -37,8 +36,8 @@ import java.beans.PropertyChangeListener;
  * };
  * </pre></code>
  * <p/>
- * Additional customization can be done on the base Searchable class such as background and foreground color, keystrokes,
- * case sensitivity,
+ * Additional customization can be done on the base Searchable class such as background and foreground color,
+ * keystrokes, case sensitivity,
  */
 public class ComboBoxSearchable extends Searchable implements ListDataListener, PropertyChangeListener {
 
@@ -118,8 +117,8 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     }
 
     /**
-     * Converts the element in Jcombobox to string. The returned value will be the
-     * <code>toString()</code> of whatever element that returned from <code>list.getModel().getElementAt(i)</code>.
+     * Converts the element in JCombobox to string. The returned value will be the <code>toString()</code> of whatever
+     * element that returned from <code>list.getModel().getElementAt(i)</code>.
      *
      * @param object
      * @return the string representing the element in the JComboBox.

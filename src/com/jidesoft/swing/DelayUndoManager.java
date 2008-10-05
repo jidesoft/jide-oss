@@ -14,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An undo manager that aggregates UndoableEdits into one CompoundEdit if they are execuated very close to each other.
- * By default, the gap is 500 ms. You can control it by passing in a different number in the constructor.
+ * An undo manager that aggregates UndoableEdits into one CompoundEdit if they are executed very close to each other. By
+ * default, the gap is 500 ms. You can control it by passing in a different number in the constructor.
  */
 public class DelayUndoManager extends UndoManager {
     private int _delay = 500;

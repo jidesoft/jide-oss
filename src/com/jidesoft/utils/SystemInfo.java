@@ -54,8 +54,7 @@ final public class SystemInfo {
     private static boolean _isWindows98 = false;
 
     /**
-     * Variable for whether or not the operating system allows the application to be reduced to the
-     * system tray.
+     * Variable for whether or not the operating system allows the application to be reduced to the system tray.
      */
     private static boolean _supportsTray = false;
 
@@ -137,7 +136,7 @@ final public class SystemInfo {
     /**
      * Returns the version of java we're using.
      *
-     * @return the java verison.
+     * @return the java version.
      */
     public static String getJavaVersion() {
         return SecurityUtils.getProperty("java.version", "1.4.2");
@@ -153,9 +152,9 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns the verion of the java classwe're using.
+     * Returns the version of the java class we're using.
      *
-     * @return the java class verison.
+     * @return the java clasversionon.
      */
     public static String getJavaClassVerion() {
         return SecurityUtils.getProperty("java.class.version", "");
@@ -198,8 +197,7 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns true if this is Windows NT or Windows 2000 and hence can support a system tray
-     * feature.
+     * Returns true if this is Windows NT or Windows 2000 and hence can support a system tray feature.
      *
      * @return true of system tray is supported.
      */
@@ -219,17 +217,15 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is some version of Windows.
      *
-     * @return <tt>true</tt> if the application is running on some Windows version, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on some Windows version, <tt>false</tt> otherwise.
      */
     public static boolean isWindows() {
         return _isWindows;
     }
 
     /**
-     * Gets the state of the flag which indicates if the old Windows look and feel should be
-     * rendered. This flag is used by the component UI delegates as a hint to determine which style
-     * the component should be rendered.
+     * Gets the state of the flag which indicates if the old Windows look and feel should be rendered. This flag is used
+     * by the component UI delegates as a hint to determine which style the component should be rendered.
      *
      * @return true if Windows 95 and Windows NT 4 look and feel should be rendered.
      */
@@ -240,8 +236,7 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is some version of Windows NT.
      *
-     * @return <tt>true</tt> if the application is running on Windows NT or 2000, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on Windows NT or 2000, <tt>false</tt> otherwise.
      */
     public static boolean isWindowsNTor2000() {
         return _isWindowsNTor2000;
@@ -259,8 +254,7 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is some version of Windows Vista.
      *
-     * @return <tt>true</tt> if the application is running on Windows Vista, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on Windows Vista, <tt>false</tt> otherwise.
      */
     public static boolean isWindowsVista() {
         return _isWindowsVista;
@@ -287,8 +281,7 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is some version of Windows 2003.
      *
-     * @return <tt>true</tt> if the application is running on Windows 2003, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on Windows 2003, <tt>false</tt> otherwise.
      */
     public static boolean isWindows2003() {
         return _isWindows2003;
@@ -298,8 +291,7 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is Mac 9.1 or earlier.
      *
-     * @return <tt>true</tt> if the application is running on a Mac version prior to OSX,
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the application is running on a Mac version prior to OSX, <tt>false</tt> otherwise.
      */
     public static boolean isMacClassic() {
         return _isMacClassic;
@@ -317,8 +309,8 @@ final public class SystemInfo {
     /**
      * Returns whether or not the os is any Mac os.
      *
-     * @return <tt>true</tt> if the application is running on Mac OSX or any previous mac version,
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the application is running on Mac OSX or any previous mac version, <tt>false</tt>
+     *         otherwise.
      */
     public static boolean isAnyMac() {
         return _isMacClassic || _isMacOSX;
@@ -343,11 +335,10 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns whether or not the os is some version of Unix, defined here as only Solaris or
-     * Linux.
+     * Returns whether or not the os is some version of Unix, defined here as only Solaris or Linux.
      *
-     * @return <tt>true</tt> if the application is running on a type of UNIX such as Linux or
-     *         Solaris, <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the application is running on a type of UNIX such as Linux or Solaris, <tt>false</tt>
+     *         otherwise.
      */
     public static boolean isUnix() {
         return _isLinux || _isSolaris;
@@ -356,8 +347,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 1.3 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 1.3 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 1.3 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk13Above() {
         String s = getJavaVersion();
@@ -375,8 +365,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 1.4.2 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 1.4.2 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 1.4.2 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk142Above() {
         String s = getJavaVersion();
@@ -389,8 +378,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 1.4 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 1.4 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 1.4 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk14Above() {
         String s = getJavaVersion();
@@ -408,8 +396,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 1.5 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 1.5 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 1.5 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk15Above() {
         String s = getJavaVersion();
@@ -427,8 +414,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 6 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 6 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 6 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6Above() {
         String s = getJavaVersion();
@@ -446,8 +432,7 @@ final public class SystemInfo {
     /**
      * Returns whether or no the JDK version is 1.7 and above.
      *
-     * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt>
-     *         otherwise.
+     * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk7Above() {
         String s = getJavaVersion();
@@ -463,8 +448,8 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns whether the default locale is one of the three language - Chinese, Japanese or Korean
-     * - also known as CJK.
+     * Returns whether the default locale is one of the three language - Chinese, Japanese or Korean - also known as
+     * CJK.
      *
      * @return true if the default locale is in CJK.
      */
@@ -473,11 +458,9 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns whether the locale is one of the three language - Chinese, Japanese or Korean - also
-     * known as CJK.
+     * Returns whether the locale is one of the three language - Chinese, Japanese or Korean - also known as CJK.
      *
      * @param locale the locale to be checked.
-     *
      * @return true if the default locale is in CJK.
      */
     public static boolean isCJKLocale(Locale locale) {

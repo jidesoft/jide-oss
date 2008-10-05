@@ -157,7 +157,7 @@ public class AutoResizingTextArea extends JTextArea {
      * @param newRow the new row count.
      */
     protected void numberOfRowsUpdated(int oldRow, int newRow) {
-        // look for a parent scrollpane and revalidate its container
+        // look for a parent ScrollPane and revalidate its container
         // otherwise revalidate the text area's container
         JScrollPane scroll = getParentScrollPane();
         if (scroll != null) {

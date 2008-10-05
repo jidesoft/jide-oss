@@ -350,7 +350,7 @@ public class ObjectComparatorManager {
     /**
      * If {@link #initDefaultComparator()} is called once, calling it again will have no effect because an internal flag
      * is set. This method will reset the internal flag so that you can call  {@link #initDefaultComparator()} in case
-     * you unresgister all comparators using {@link #unregisterAllComparators()}.
+     * you unregister all comparators using {@link #unregisterAllComparators()}.
      */
     public static void resetInit() {
         _inited = false;

@@ -143,7 +143,7 @@ public class ObjectGrouperManager {
     }
 
     /**
-     * Converts an object to string using grouper context sepcified.
+     * Converts an object to string using grouper context specified.
      *
      * @param object  object to be converted.
      * @param clazz   type of the object
@@ -271,7 +271,7 @@ public class ObjectGrouperManager {
     /**
      * If {@link #initDefaultGrouper()} is called once, calling it again will have no effect because an internal flag is
      * set. This method will reset the internal flag so that you can call {@link #initDefaultGrouper()} in case you
-     * unresgister all groupers using {@link #unregisterAllGroupers()}.
+     * unregister all groupers using {@link #unregisterAllGroupers()}.
      */
     public static void resetInit() {
         _inited = false;

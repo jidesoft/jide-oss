@@ -25,7 +25,7 @@ public class JidePopupFactory {
     }
 
     /**
-     * Sets the type to automatically create. This forces all created popups to be of the specifeid type. By default, we
+     * Sets the type to automatically create. This forces all created popups to be of the specified type. By default, we
      * use LIGHT_WEIGHT_POPUP.
      *
      * @param poupType the popup type

@@ -3,7 +3,7 @@ package com.jidesoft.icons;
 /**
  * <code>IconSet</code> is a class which works with JIDE Icon Set (<a href="http://www.jidesoft.com/icon/">http://www.jidesoft.com/icon/</a>).
  * It defines 141 icons in 12 sections in this class. We could add more in the future. All JIDE icon set will follow the
- * naming convension as defined here.
+ * naming conversion as defined here.
  *
  * @see com.jidesoft.icons.IconSetManager
  */

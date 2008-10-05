@@ -13,9 +13,8 @@ import java.awt.*;
 /**
  * A utility class that create additional cursors used by JIDE products.
  * <p/>
- * Notes: this class has to be public so that JIDE can use it in different packages,
- * not meant to release to end user as a public API. JIDE will not gurantee the class
- * will remain as it is.
+ * Notes: this class has to be public so that JIDE can use it in different packages, not meant to release to end user as
+ * a public API. JIDE will not guarantee the class will remain as it is.
  */
 public class JideCursors {
 
@@ -115,8 +114,7 @@ public class JideCursors {
      * Returns a cursor object with the specified predefined type.
      *
      * @param type the type of predefined cursor
-     * @throws IllegalArgumentException if the specified cursor type is
-     *                                  invalid
+     * @throws IllegalArgumentException if the specified cursor type is invalid
      */
     static public Cursor getPredefinedCursor(int type) {
         if (type < FIRST_CUSTOM_CURSOR || type > LAST_CUSTOM_CURSOR) {

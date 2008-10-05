@@ -49,10 +49,10 @@ import java.util.regex.PatternSyntaxException;
  * several other features that are very handy.
  * <p/>
  * Multiple selection feature - If you press CTRL key and hold it while pressing up and down arrow, it will find
- * next/previous occurence while keeping existing selections. <br> Select all feature - If you type in a searching text
+ * next/previous occurrence while keeping existing selections. <br> Select all feature - If you type in a searching text
  * and press CTRL+A, all the occurrences of that searching string will be selected. This is a very handy feature. For
  * example you want to delete all rows in a table whose name column begins with "old". So you can type in "old" and
- * press CTRL+A, now all rows begining with "old" will be selected. Pressing delete will delete all of them. <br> Basic
+ * press CTRL+A, now all rows beginning with "old" will be selected. Pressing delete will delete all of them. <br> Basic
  * regular expression support - It allows '?' to match any letter or digit, or '*' to match several letters or digits.
  * Even though it's possible to implement full regular expression support, we don't want to do that. The reason is the
  * regular expression is very complex, it's probably not a good idea to let user type in such a complex expression in a
@@ -166,9 +166,9 @@ public abstract class Searchable {
      * Gets the selected index in the component. The concrete implementation should call methods on the component to
      * retrieve the current selected index. If the component supports multiple selection, it's OK just return the index
      * of the first selection. <p>Here are some examples. In the case of JList, the index is the row index. In the case
-     * of JTree, the index is the row index too. In the case of JTable, depending on the seleection mode, the index
-     * could be row index (in row selection mode), could be column index (in column selection mode) or could the cell
-     * index (in cell selection mode).
+     * of JTree, the index is the row index too. In the case of JTable, depending on the selection mode, the index could
+     * be row index (in row selection mode), could be column index (in column selection mode) or could the cell index
+     * (in cell selection mode).
      *
      * @return the selected index.
      */
@@ -509,7 +509,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Creates a FocusListener. We use it to hide the popup when the component losts focus.
+     * Creates a FocusListener. We use it to hide the popup when the component loses focus.
      *
      * @return a FocusListener.
      */
@@ -527,7 +527,7 @@ public abstract class Searchable {
 
     /**
      * Uninstall the listeners that installed before. This method is never called because we don't have the control of
-     * the life cyle of the component. However you can call this method if you don't want the searchable component not
+     * the life cycle of the component. However you can call this method if you don't want the searchable component not
      * searchable.
      */
     public void uninstallListeners() {
@@ -608,7 +608,7 @@ public abstract class Searchable {
                     (searchingText.equals(text) || searchingText.length() > 0 && (isFromStart() ? text.startsWith(searchingText) : text.indexOf(searchingText) != -1));
         }
         else {
-            // use the prvious pattern since nothing changed.
+            // use the previous pattern since nothing changed.
             if (_searchText != null && _searchText.equals(searchingText) && _pattern != null) {
                 return _pattern.matcher(text).find();
             }
@@ -1012,40 +1012,40 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks if the key is used as a key to find the first occurence.
+     * Checks if the key is used as a key to find the first occurrence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the first occurence. By default, home key is used.
+     * @return true if the key in KeyEvent is a key to find the firstoccurrencee. By default, home key is used.
      */
     protected boolean isFindFirstKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_HOME;
     }
 
     /**
-     * Checks if the key is used as a key to find the last occurence.
+     * Checks if the key is used as a key to find the last occurrence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the last occurence. By default, end key is used.
+     * @return true if the key in KeyEvent is a key to find the last occurrence. By default, end key is used.
      */
     protected boolean isFindLastKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_END;
     }
 
     /**
-     * Checks if the key is used as a key to find the previous occurence.
+     * Checks if the key is used as a key to find the previous occurrence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the previous occurence. By default, up arrow key is used.
+     * @return true if the key in KeyEvent is a key to find the previous occurrence. By default, up arrow key is used.
      */
     protected boolean isFindPreviousKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_UP;
     }
 
     /**
-     * Checks if the key is used as a key to find the next occurence.
+     * Checks if the key is used as a key to find the next occurrence.
      *
      * @param e
-     * @return true if the key in KeyEvent is a key to find the next occurence. By default, down arrow key is used.
+     * @return true if the key in KeyEvent is a key to find the next occurrence. By default, down arrow key is used.
      */
     protected boolean isFindNextKey(KeyEvent e) {
         return e.getKeyCode() == KeyEvent.VK_DOWN;
@@ -1053,7 +1053,7 @@ public abstract class Searchable {
 
     /**
      * Checks if the key is used as a navigation key. Navigation keys are keys which are used to navigate to other
-     * occurences of the searching string.
+     * occurrences of the searching string.
      *
      * @param e
      * @return true if the key in KeyEvent is a navigation key.
@@ -1115,7 +1115,7 @@ public abstract class Searchable {
     /**
      * Gets the foreground color when the searching text doesn't match with any of the elements in the component.
      *
-     * @return the forground color for mismatch. If you never call {@link #setMismatchForeground(java.awt.Color)}. red
+     * @return the foreground color for mismatch. If you never call {@link #setMismatchForeground(java.awt.Color)}. red
      *         color will be used.
      */
     public Color getMismatchForeground() {
@@ -1246,7 +1246,7 @@ public abstract class Searchable {
 
     /**
      * Checks if it supports wildcard in searching text. By default it is true which means user can type in "*" or "?"
-     * to match with any charactors or any charactor. If it's false, it will treat "*" or "?" as a regular charactor.
+     * to match with any characters or any character. If it's false, it will treat "*" or "?" as a regular character.
      *
      * @return true if it supports wildcard.
      */
@@ -1474,7 +1474,7 @@ public abstract class Searchable {
 
     /**
      * Checks the searching order. By default the searchable starts searching from top to bottom. If this flag is false,
-     * it searchs from bottom to top.
+     * it searches from bottom to top.
      *
      * @return the reverseOrder flag.
      */
@@ -1484,7 +1484,7 @@ public abstract class Searchable {
 
     /**
      * Sets the searching order. By default the searchable starts searching from top to bottom. If this flag is false,
-     * it searchs from bottom to top.
+     * it searches from bottom to top.
      *
      * @param reverseOrder
      */

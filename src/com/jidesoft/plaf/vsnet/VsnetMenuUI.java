@@ -839,7 +839,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
 
             Color oldColor = g.getColor();
 
-            // For Win95, the selected text color is the selection forground color
+            // For Win95, the selected text color is the selection foreground color
             if (model.isSelected()) {
                 if (/*SystemInfo.isClassicWindows() ||
                         */!((JMenu) menuItem).isTopLevelMenu()) {

@@ -455,7 +455,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
     /**
      * Configures any necessary colors/fonts for the specified button used representing the button portion of the
-     * optionpane.
+     * OptionPane.
      */
     protected void configureButton(JButton button) {
         Font buttonFont = (Font) UIDefaultsLookup.get("OptionPane.buttonFont");
@@ -480,7 +480,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
     /**
      * This class is used to create the default buttons. This indirection is used so that addButtonComponents can tell
-     * which Buttons were created by us vs subclassers or from the JOptionPane itself.
+     * which Buttons were created by us vs subclasses or from the JOptionPane itself.
      */
     protected static class ButtonFactory {
         private String name;
@@ -625,7 +625,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      *
      * @param str
      * @param width
-     * @return An array of Strings with lengh of "width"
+     * @return An array of Strings with length of "width"
      */
     private static String[] fitInWidth(String str, int width) {
         if (str == null) str = "";
@@ -734,7 +734,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                 pos++;
             }
 
-            // at end of char buffer didnt find
+            // at end of char buffer didn't find
             if (pos > max) {
                 return -1;
             }
@@ -746,7 +746,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             while (secondPos < end) {
                 if (source[secondPos++] != target[targetPos++]) {
                     pos++;
-                    // string doesnt match exit out of this loop and go back and
+                    // string doesn't match exit out of this loop and go back and
                     // continue looking at the next char
                     continue searchForNextChar;
                 }
@@ -769,14 +769,14 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      *         the first such substring is returned; if it does not occur as a substring, -1 is returned.
      */
     private static int indexOf(StringBuffer buf, String findStr, int fromIndex) {
-        // function in java's StringBuffer version 1.4 is synchronized
+        // function in Java's StringBuffer version 1.4 is synchronized
         // get character buffer from string buffer
         synchronized (buf) {
             int bufLen = buf.length();
             char[] charArray = new char[bufLen];
             buf.getChars(0, bufLen, charArray, 0);
 
-            // send into char indexof function
+            // send into char indexOf function
             return indexOf(charArray, 0, bufLen,
                     findStr.toCharArray(), 0, findStr.length(), fromIndex);
         }

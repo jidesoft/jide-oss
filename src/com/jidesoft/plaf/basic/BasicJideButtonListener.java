@@ -119,8 +119,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
     }
 
     /**
-     * Resets the binding for the mnemonic in the WHEN_IN_FOCUSED_WINDOW
-     * UI InputMap.
+     * Resets the binding for the mnemonic in the WHEN_IN_FOCUSED_WINDOW UI InputMap.
      *
      * @param b the button.
      */
@@ -152,23 +151,22 @@ public class BasicJideButtonListener extends BasicButtonListener {
     }
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Returns the ui that is of type <code>clazz</code>, or null if one can not be found.
      *
      * @param ui    the ComponentUI
-     * @param klass the class
+     * @param clazz the class
      * @return the UI of the ComponentUI if it is an instance of the type.
      */
-    static Object getUIOfType(ComponentUI ui, Class klass) {
-        if (klass.isInstance(ui)) {
+    static Object getUIOfType(ComponentUI ui, Class clazz) {
+        if (clazz.isInstance(ui)) {
             return ui;
         }
         return null;
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Returns the InputMap for condition <code>condition</code>. Called as part of
+     * <code>installKeyboardActions</code>.
      *
      * @param condition the condition.
      * @param c         the component
@@ -186,9 +184,8 @@ public class BasicJideButtonListener extends BasicButtonListener {
     }
 
     /**
-     * Actions for Buttons. Two type of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Actions for Buttons. Two type of action are supported: pressed: Moves the button to a pressed state released:
+     * Disarms the button.
      */
     private static class Actions extends UIAction {
         private static final String PRESS = "pressed";

@@ -78,8 +78,8 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      * @param sizeConstraint      the size constraint
      * @param buttonOrder         the button order represented as string
      * @param oppositeButtonOrder the button order on the opposite side represented as string
-     * @param buttonGap           the gap btween buttons
-     * @param groupGap            the gap btween button groups
+     * @param buttonGap           the gap between buttons
+     * @param groupGap            the gap between button groups
      * @throws java.awt.AWTError if the value of <code>axis</code> is invalid
      */
     public ButtonPanelLayout(Container target, int axis, int alignment,
@@ -246,7 +246,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
      * Returns the maximum dimensions the target container can use to lay out the components it contains.
      *
      * @param target the container that needs to be laid out
-     * @return the dimenions >= 0 && <= Integer.MAX_VALUE
+     * @return the dimensions >= 0 && <= Integer.MAX_VALUE
      *
      * @throws java.awt.AWTError if the target isn't the container specified to the BoxLayout constructor
      * @see #preferredLayoutSize
@@ -767,7 +767,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
 
     /**
      * Given one of the 4 axis values, resolve it to an absolute axis. The relative axis values, PAGE_AXIS and LINE_AXIS
-     * are converted to their absolute couterpart given the target's ComponentOrientation value.  The absolute axes,
+     * are converted to their absolute counterpart given the target's ComponentOrientation value.  The absolute axes,
      * X_AXIS and Y_AXIS are returned unmodified.
      *
      * @param axis the axis to resolve

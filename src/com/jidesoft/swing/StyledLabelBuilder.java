@@ -72,12 +72,12 @@ import java.util.List;
  * builder-approach: <code>StyledLabel label = StyledLabelBuilder.createStyledLabel("I'm your {first:bold} styled
  * {label:italic}!");</code> In the above example, the resulting label would have a a bold "first" and an italic
  * "label". Each annotation is started by a "{" and ended by a "}". The text you want to be styled accordingly is
- * seperated from its annotations by a ":". If your text needs to contain a ":" itself, you need to escape it using the
+ * separated from its annotations by a ":". If your text needs to contain a ":" itself, you need to escape it using the
  * "\" character. The same goes for "{" that are not supposed to start an annotation. You don't need to escape the "}"
- * at all. If it is used within the annotated string it'll be ignored. It only counts after the annotation seperator
+ * at all. If it is used within the annotated string it'll be ignored. It only counts after the annotation separator
  * (":"). There are multiply annotations available. Each annotation offers a shortcut made up from one or two of their
  * characters. For example: We used "bold" and "italic" in the example above, but we could've used "b" and "i" instead.
- * It is also possible to combine multiple styles by seperating them with a ",". As an example: <code>{This text is
+ * It is also possible to combine multiple styles by separating them with a ",". As an example: <code>{This text is
  * bold, italic and blue:b,i,f:blue}</code> Instead of writing "b,i" you can also write "bi" or "bolditalic". This
  * example brings us to colors. They've to be started with "f" or "font" for the font-color or "l" or "line" for the
  * line-color or "b" or "background" for the background color. There are a lot of ways to specify a color. You may use
@@ -280,7 +280,7 @@ public class StyledLabelBuilder {
                 continue;
             }
             switch (text[i]) {
-                case'{':
+                case '{':
                     ParsedStyleResult result = parseStylePart(text, i + 1, builder);
                     int realIndex = labelText.length();
                     labelText.append(result.text);
@@ -290,7 +290,7 @@ public class StyledLabelBuilder {
                             result.additionalStyle, result.lineColor));
                     i = result.endOffset;
                     break;
-                case'\\':
+                case '\\':
                     escaped = true;
                     break;
                 default:
@@ -423,7 +423,7 @@ public class StyledLabelBuilder {
      */
     private static Color toColor(String str) {
         switch (str.charAt(0)) {
-            case'(':
+            case '(':
                 int red, green, blue;
                 int index;
 
@@ -436,7 +436,7 @@ public class StyledLabelBuilder {
                 blue = nextColorInt(str, index + 1);
 
                 return new Color(red, green, blue);
-            case'#':
+            case '#':
                 // Shorthand?
                 if (str.length() == 4) {
                     return new Color(
@@ -448,7 +448,7 @@ public class StyledLabelBuilder {
                 else {
                     return new Color(Integer.parseInt(str.substring(1), 16));
                 }
-            case'0':
+            case '0':
                 return new Color(Integer.parseInt(str.substring(2), 16));
             default:
                 return (Color) colorNamesMap.get(str);

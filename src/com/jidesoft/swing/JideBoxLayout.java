@@ -388,8 +388,8 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
 
     /**
-     * Returns the preferred size needed to contain the children. The width is the sum of all the childrens preferred
-     * widths and the height is the largest of the childrens preferred heights.
+     * Returns the preferred size needed to contain the children. The width is the sum of all the children preferred
+     * widths and the height is the largest of the children preferred heights.
      */
     public Dimension preferredLayoutSize(Container container) {
         int prePrimary = 0;

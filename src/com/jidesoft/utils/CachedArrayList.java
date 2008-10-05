@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * This is a fast access ArrayList that sacrifices memory for speed. It will reduce the speed of indexOf method from
- * O(n) to O(1). However it will at least double the memory used by ArrayList. So use it approriately. <p><strong>Just
+ * O(n) to O(1). However it will at least double the memory used by ArrayList. So use it appropriately. <p><strong>Just
  * like ArrayList, this implementation is not synchronized.</strong> If you want a thread safe implementation, you can
  * use {@link com.jidesoft.utils.CachedVector}.
  */

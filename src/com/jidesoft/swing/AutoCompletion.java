@@ -28,12 +28,12 @@ import java.util.List;
  * <p/>
  * There are three constructors. The simplest one is {@link #AutoCompletion(javax.swing.JComboBox)}. It takes any
  * combobox and make it auto completion. If you are looking for an auto-complete combobox solution, this is all you
- * need. However <code>AutoCompletion</code> can do more than that. There are two more constrcutors. One is {@link
+ * need. However <code>AutoCompletion</code> can do more than that. There are two more constructors. One is {@link
  * #AutoCompletion(javax.swing.text.JTextComponent,Searchable)}. It will use {@link Searchable} which is another
  * component available in JIDE to make the JTextCompoent auto-complete. We used Searchable here because it provides a
  * common interface to access the element in JTree, JList or JTable. In the other word, the known list item we used to
  * auto-complete can be got from JTree or JList or even JTable or any other component as long as it has Searchable
- * interface implemented. The last constrcutor takes any java.util.List and use it as auto completion list.
+ * interface implemented. The last constructor takes any java.util.List and use it as auto completion list.
  * <p/>
  * The only option available on <code>AutoCompletion</code> is {@link #setStrict(boolean)}. If it's true, it will not
  * allow user to type in anything that is not in the known item list. If false, user can type in whatever he/she wants.
@@ -523,7 +523,7 @@ public class AutoCompletion {
     /**
      * Sets the strict completion property. If true, in case insensitive searching, it will always use the exact item in
      * the Searchable to replace whatever user types. For example, when Searchable has an item "Arial" and user types in
-     * "AR", if this flag is true, it will autocompleted as "Arial". If false, it will be autocompleted as "ARial". Of
+     * "AR", if this flag is true, it will auto-completed as "Arial". If false, it will be auto-completed as "ARial". Of
      * course, this flag will only make a difference if Searchable is case insensitive.
      *
      * @param strictCompletion
@@ -543,7 +543,7 @@ public class AutoCompletion {
 
     /**
      * Gets the underlying Searchable. If you use the constructor {@link #AutoCompletion(javax.swing.text.JTextComponent,Searchable)},
-     * the return value will be the Searcable you passed in. If you use the other two constrcutors, internally we will
+     * the return value will be the Searchable you passed in. If you use the other twoconstructorss, internally we will
      * still create a Searchable. If so, this Searchable will be returned.
      *
      * @return the Searchable.

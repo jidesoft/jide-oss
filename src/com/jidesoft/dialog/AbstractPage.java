@@ -295,8 +295,8 @@ public abstract class AbstractPage extends JPanel implements Laziness {
 
     /**
      * Allow this document closing. By default it return true. User can override this method to return based on
-     * conidition. A typical user case is: add a DocumentComponentListener. In documentComponentClosing, make this
-     * method return to false to prevent it from being closed.
+     * condition. A typical user case is: add a DocumentComponentListener. In documentComponentClosing, make this method
+     * return to false to prevent it from being closed.
      *
      * @return whether allow closing
      */

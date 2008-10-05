@@ -8,9 +8,8 @@ package com.jidesoft.grouper;
 import com.jidesoft.converter.AbstractContext;
 
 /**
- * The context object used by ObjectGrouper.
- * For the same type, we may need different way to group them. This context
- * is used so that user can register different groupers for the same type.
+ * The context object used by ObjectGrouper. For the same type, we may need different way to group them. This context is
+ * used so that user can register different groupers for the same type.
  */
 public class GrouperContext extends AbstractContext {
     /**
@@ -28,10 +27,10 @@ public class GrouperContext extends AbstractContext {
     }
 
     /**
-     * Creates a converter contex with a name and an object.
+     * Creates a converter context with a name and an object.
      *
      * @param name   the name of the grouper context.
-     * @param object the user object. It can be used as any object to pass informaton along.
+     * @param object the user object. It can be used as any object to pass information along.
      */
     public GrouperContext(String name, Object object) {
         super(name, object);

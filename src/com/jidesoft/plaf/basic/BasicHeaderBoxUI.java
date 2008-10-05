@@ -57,10 +57,10 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
                 AbstractButton b = (AbstractButton) e.getSource();
 
                 if (b.contains(e.getX(), e.getY())) {
-                    long multiClickThreshhold = b.getMultiClickThreshhold();
+                    long multiClickThreshold = b.getMultiClickThreshhold();
                     long lastTime = lastPressedTimestamp;
                     long currentTime = lastPressedTimestamp = e.getWhen();
-                    if (lastTime != -1 && currentTime - lastTime < multiClickThreshhold) {
+                    if (lastTime != -1 && currentTime - lastTime < multiClickThreshold) {
                         shouldDiscardRelease = true;
                         return;
                     }

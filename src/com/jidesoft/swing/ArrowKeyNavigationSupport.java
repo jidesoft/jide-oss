@@ -55,7 +55,7 @@ public class ArrowKeyNavigationSupport {
     }
 
     /**
-     * Installs the actions for arrow keys to allow user to nagivate components using arrow keys.
+     * Installs the actions for arrow keys to allow user to navigate components using arrow keys.
      *
      * @param container the container such as ButtonPanel, JPanel etc.
      */

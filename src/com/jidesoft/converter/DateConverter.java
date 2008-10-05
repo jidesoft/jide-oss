@@ -47,13 +47,12 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Converts the object to String. The object can be a Calendar, a Date or a Number. As long as
-     * the DateFormat can format it correctly, it will be converted to a String. If the object is
-     * already a String, we will return it directly as it is.
+     * Converts the object to String. The object can be a Calendar, a Date or a Number. As long as the DateFormat can
+     * format it correctly, it will be converted to a String. If the object is already a String, we will return it
+     * directly as it is.
      *
      * @param object  the object to be converted
      * @param context the converter context.
-     *
      * @return the string
      */
     public String toString(Object object, ConverterContext context) {
@@ -110,9 +109,8 @@ public class DateConverter implements ObjectConverter {
      *
      * @param string  the string to be converted.
      * @param context the context. It could be DATETIME_CONTEXT, DATE_CONTEXT or TIME_CONTEXT.
-     *
-     * @return the Date. If the string is null or empty, null will be returned. If the string cannot
-     *         be parsed as a date, the string itself will be returned.
+     * @return the Date. If the string is null or empty, null will be returned. If the string cannot be parsed as a
+     *         date, the string itself will be returned.
      */
     public Object fromString(String string, ConverterContext context) {
         if (string == null || string.trim().length() == 0) {
@@ -215,8 +213,7 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Gets DefaultTimeFormat to format an calendar. This is used only when context is {@link
-     * #TIME_CONTEXT}.
+     * Gets DefaultTimeFormat to format an calendar. This is used only when context is {@link #TIME_CONTEXT}.
      *
      * @return DefaultTimeFormat
      */
@@ -225,8 +222,7 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Sets DefaultTimeFormat to format an calendar. This is used only when context is {@link
-     * #TIME_CONTEXT}.
+     * Sets DefaultTimeFormat to format an calendar. This is used only when context is {@link #TIME_CONTEXT}.
      *
      * @param defaultTimeFormat the new default time format
      */
@@ -235,8 +231,7 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Gets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link
-     * #DATETIME_CONTEXT}.
+     * Gets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link #DATETIME_CONTEXT}.
      *
      * @return DefaultDatetimeFormat
      */
@@ -245,10 +240,9 @@ public class DateConverter implements ObjectConverter {
     }
 
     /**
-     * Sets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link
-     * #DATETIME_CONTEXT}.
+     * Sets DefaultDatetimeFormat to format an calendar. This is used only when context is {@link #DATETIME_CONTEXT}.
      *
-     * @param defaultDatetimeFormat the new defeault datetime format
+     * @param defaultDatetimeFormat the new defaultdatetime format
      */
     public void setDefaultDatetimeFormat(DateFormat defaultDatetimeFormat) {
         _defaultDatetimeFormat = defaultDatetimeFormat;

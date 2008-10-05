@@ -56,8 +56,8 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
 
     /**
      * Override to consider the overlayLocationInsets. If the overlayLocationInsets's edges are positive number, we will
-     * increase the preferred size so that the overlayout component can be shown. If they are negative, we will still
-     * keep the super.getPreferredSize.
+     * increase the preferred size so that the overlayo component can be shown. If they are negative, we will still keep
+     * the super.getPreferredSize.
      *
      * @return the preferred size of the DefaultOverlayable.
      */

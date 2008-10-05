@@ -22,7 +22,7 @@ abstract public class ColorConverter implements ObjectConverter {
     public static ConverterContext CONTEXT_HEX = new ConverterContext("Color.Hex");
 
     /**
-     * Create a default color contverter.
+     * Create a default color converter.
      */
     public ColorConverter() {
     }

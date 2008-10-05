@@ -4,8 +4,8 @@ import java.util.*;
 
 /**
  * This is a fast access Vector that sacrifices memory for speed. It will reduce the speed of indexOf method from O(n)
- * to O(1). However it will at least double the memory used by Vector. So use it approriately. <p><strong>Just like
- * Vector, this implementation is synchronized.</strong> In comparision, {@link CachedArrayList} is not synchronized.
+ * to O(1). However it will at least double the memory used by Vector. So use it appropriately. <p><strong>Just like
+ * Vector, this implementation is synchronized.</strong> Incomparisonn, {@link CachedArrayList} is not synchronized.
  */
 public class CachedVector<E> extends Vector<E> {
     private Map<Object, Integer> _indexCache;

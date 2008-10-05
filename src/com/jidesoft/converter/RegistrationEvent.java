@@ -34,7 +34,7 @@ public class RegistrationEvent extends EventObject {
     public static final int REGISTRATION_REMOVED = 1 + REGISTRATION_EVENT_FIRST;
 
     /**
-     * This event is delivered when the whole regisration is cleared
+     * This event is delivered when the whole registration is cleared
      */
     public static final int REGISTRATION_CLEARED = 2 + REGISTRATION_EVENT_FIRST;
 

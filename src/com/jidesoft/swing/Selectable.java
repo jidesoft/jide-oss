@@ -30,8 +30,8 @@ public interface Selectable {
 
     /**
      * Enabled selection change. Enabled false doesn't mean selected is false. If it is selected before,
-     * setEnable(false) won't make selected beceome false. In the other word, setEnabled won't change the
-     * the value of isSelected().
+     * setEnable(false) won't make selected become false. In the other word, setEnabled won't change the the value of
+     * isSelected().
      *
      * @param enabled
      */

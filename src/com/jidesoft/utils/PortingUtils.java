@@ -85,7 +85,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
-     * @return the rectange that is in the screen bounds.
+     * @return the rectangle that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
         Rectangle screenBounds = getScreenBounds(invoker);
@@ -110,7 +110,7 @@ public class PortingUtils {
      *
      * @param invoker
      * @param rect
-     * @return the rectange that has overlap with the screen bounds.
+     * @return the rectangle that has overlap with the screen bounds.
      */
     public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
         Rectangle screenBounds = getScreenBounds(invoker);
@@ -251,7 +251,7 @@ public class PortingUtils {
      *
      * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the
      *                 priority of the thread. If you are waiting for the result before the next step, you should use
-     *                 normal priority (which is 5). If you just want to calcualte when app starts, you can use a lower
+     *                 normal priority (which is 5). If you just want to calculate when app starts, you can use a lower
      *                 priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't
      *                 go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority
      *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
@@ -335,9 +335,9 @@ public class PortingUtils {
     }
 
     /**
-     * Modifies the position of rect so that it is completly on screen if that is possible.
+     * Modifies the position of rect so that it is completely on screen if that is possible.
      *
-     * @param rect The rectange to move onto a single screen
+     * @param rect Therectanglee to move onto a single screen
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
@@ -349,7 +349,7 @@ public class PortingUtils {
 
         waitForInitialization();
 
-        // check if rect is totaly on screen
+        // check if rect is total on screen
         if (SCREEN_AREA.contains(rect)) return rect;
         // see if the top left is on any of the screens
         Rectangle containgScreen = null;
@@ -360,7 +360,7 @@ public class PortingUtils {
                 break;
             }
         }
-        // if not see if rect partialy on any screen
+        // if not see if rect partial on any screen
         for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.intersects(rect)) {
                 containgScreen = screenBounds;
@@ -375,7 +375,7 @@ public class PortingUtils {
             return rect;
         }
         else {
-            // move rect so it is completly on a single screen
+            // move rect so it is completely on a single screen
             // check X
             int rectRight = rect.x + rect.width;
             int screenRight = containgScreen.x + containgScreen.width;
@@ -404,7 +404,7 @@ public class PortingUtils {
      */
     public static Rectangle getContainingScreenBounds(Rectangle rect, boolean considerInsets) {
         waitForInitialization();
-        // check if rect is totaly on screen
+        // check if rect is total on screen
 //        if (SCREEN_AREA.contains(rect)) return SCREEN_AREA;
 
         // see if the top left is on any of the screens
@@ -419,7 +419,7 @@ public class PortingUtils {
                 break;
             }
         }
-        // if not see if rect partialy on any screen
+        // if not see if rect partial on any screen
         for (int i = 0; i < SCREENS.length; i++) {
             Rectangle screenBounds = SCREENS[i];
             if (screenBounds.intersects(rect)) {

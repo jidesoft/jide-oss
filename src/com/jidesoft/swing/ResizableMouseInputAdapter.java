@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * Mouse input listenr to control the resizing of <code>Resizable</code> component.
+ * Mouse input listener to control the resizing of <code>Resizable</code> component.
  */
 public class ResizableMouseInputAdapter extends MouseInputAdapter {
 
@@ -413,7 +413,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
     }
 
     /**
-     * mouseMoved is for resize only. When mouse moves over borders and corners, it will change to differnt cursor to
+     * mouseMoved is for resize only. When mouse moves over borders and corners, it will change to different cursor to
      * indicate it's resizable.
      *
      * @param e mouse event

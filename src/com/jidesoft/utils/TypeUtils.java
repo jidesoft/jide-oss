@@ -4,7 +4,7 @@ package com.jidesoft.utils;
  * Utils methods for data type.
  */
 public class TypeUtils {
-    // indexes refering to columns in the PRIMITIVE_ARRAY_TYPES table.
+    // indexes referring to columns in the PRIMITIVE_ARRAY_TYPES table.
     private static final int WRAPPER_TYPE_INDEX = 0;
     private static final int PRIMITIVE_TYPE_INDEX = 1;
     private static final int PRIMITIVE_TYPE_KEY_INDEX = 2;

@@ -40,13 +40,13 @@ class BasicFileSystemTreeModel extends DefaultTreeModel {
     public void removePath(TreePath path, int index, Object deletedObject) {
         TreePath parentPath = path.getParentPath();
         Object source = parentPath.getLastPathComponent();
-        Object[] pathes = parentPath.getPath();
+        Object[] paths = parentPath.getPath();
         if (((LazyMutableTreeNode) source).isLoaded()) {
             ((DefaultMutableTreeNode) source).remove((MutableTreeNode) deletedObject);
         }
         fireTreeNodesRemoved(
                 source,
-                pathes,
+                paths,
                 new int[]{index},
                 new Object[]{deletedObject});
     }

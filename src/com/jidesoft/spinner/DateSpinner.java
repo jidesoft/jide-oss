@@ -75,7 +75,7 @@ public class DateSpinner extends JSpinner {
     }
 
     /**
-     * Sets the date format string used by this DateSpinner. Please note, this method call will receate the DateEditor
+     * Sets the date format string used by this DateSpinner. Please note, this method call will recreate the DateEditor
      * used by DateSpinner.
      *
      * @param format the format
@@ -115,7 +115,7 @@ public class DateSpinner extends JSpinner {
      * invoked on <code>JFormattedTextField</code>, typically when enter is pressed or focus leaves the
      * <code>JFormattedTextField</code>.
      *
-     * @param commit Used to indicate when edits are commited back to the JTextComponent
+     * @param commit Used to indicate when edits are committed back to the JTextComponent
      */
     public void setCommitsOnValidEdit(boolean commit) {
         _formatter.setCommitsOnValidEdit(commit);
@@ -124,7 +124,7 @@ public class DateSpinner extends JSpinner {
     /**
      * Returns when edits are published back to the <code>JFormattedTextField</code>.
      *
-     * @return true if edits are commited after evey valid edit
+     * @return true if edits are committed aftereveryy valid edit
      */
     public boolean getCommitsOnValidEdit() {
         return _formatter.getCommitsOnValidEdit();

@@ -110,6 +110,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      * Returns the name of the L&F class that renders this component.
      *
      * @return the string "JideSplitButtonUI"
+     *
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
@@ -130,7 +131,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
 
     /**
      * Sets the state of the button part of the JideSplitButton. Note that this method does not trigger an
-     * <code>actionEvent</code>. Call <code>doClick</code> to perform a programatic action change.
+     * <code>actionEvent</code>. Call <code>doClick</code> to perform a programmatic action change.
      *
      * @param b true if the button is selected, otherwise false
      */

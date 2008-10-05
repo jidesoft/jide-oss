@@ -159,7 +159,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
      * Setups the content panel. It will use the index panel and the pages panel created earlier and put it into another
      * panel.
      *
-     * @param indexPanel the index panel. It has the nagivation control to control which page to show.
+     * @param indexPanel the index panel. It has the navigation control to control which page to show.
      * @param pagesPanel the pages panel. It contains all the pages of this dialog.
      * @return the panel that contains both index panel and pages panel.
      */
@@ -1062,7 +1062,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
     /**
      * Gets the initial page title. Initial page is the page that will be selected when the dialog is just opened.
      * Please note the title is the full title. In most case it's just the title of the page. Only in TREE_STYLE, it
-     * should be a list of titles that concats with '.'.
+     * should be a list of titles that concatenate with '.'.
      *
      * @return the initial page title.
      */

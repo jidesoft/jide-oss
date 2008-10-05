@@ -1,8 +1,7 @@
 package com.jidesoft.grouper;
 
 /**
- * Default implenmentation of <code>ObjectGrouper</code>.
- * Its getGroupValue simply returns the value directly.
+ * Default implementation of <code>ObjectGrouper</code>. Its getGroupValue simply returns the value directly.
  */
 public class DefaultObjectGrouper extends AbstractObjectGrouper {
     private String _name;

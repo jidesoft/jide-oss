@@ -43,7 +43,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     @Override
     protected void installDefaults() {
         super.installDefaults();
-        // set the border of the tabbedpane
+        // set the border of the TabbedPane
         LookAndFeel.installBorder(_tabPane, "JideTabbedPane.border");
         _closeButtonMargin = UIDefaultsLookup.getInt("JideTabbedPane.closeButtonMargin");
         _closeButtonMarginSize = UIDefaultsLookup.getInt("JideTabbedPane.closeButtonMarginSize");
@@ -156,13 +156,11 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     /**
-     * Paints the tabs in the tab area. Invoked by paint(). The graphics
-     * parameter must be a valid <code>Graphics</code> object. Tab placement
-     * may be either: <code>JTabbedPane.TOP</code>,
-     * <code>JTabbedPane.BOTTOM</code>, <code>JTabbedPane.LEFT</code>, or
-     * <code>JTabbedPane.RIGHT</code>. The selected index must be a valid
-     * tabbed pane tab index (0 to tab count - 1, inclusive) or -1 if no tab is
-     * currently selected. The handling of invalid parameters is unspecified.
+     * Paints the tabs in the tab area. Invoked by paint(). The graphics parameter must be a valid <code>Graphics</code>
+     * object. Tab placement may be either: <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
+     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>. The selected index must be a valid tabbed pane
+     * tab index (0 to tab count - 1, inclusive) or -1 if no tab is currently selected. The handling of invalid
+     * parameters is unspecified.
      *
      * @param g             the graphics object to use for rendering
      * @param tabPlacement  the placement for the tabs within the JTabbedPane
@@ -392,8 +390,8 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
 
     /**
-     * this function draws the border around each tab note that this function
-     * does now draw the background of the tab. that is done elsewhere
+     * this function draws the border around each tab note that this function does now draw the background of the tab.
+     * that is done elsewhere
      */
     @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,

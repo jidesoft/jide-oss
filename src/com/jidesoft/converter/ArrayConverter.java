@@ -8,10 +8,9 @@ package com.jidesoft.converter;
 import java.util.StringTokenizer;
 
 /**
- * An abstract class that is extented by any converters that convert to/from an array-like format,
- * such as 1, 2, 3. Examples are Point. Point(100, 200) can convert to/from "100, 200"
- * <br>
- * You have the choice of what the separator is; separator is the ", " in the Point example above.
+ * An abstract class that is extended by any converters that convert to/from an array-like format, such as 1, 2, 3.
+ * Examples are Point. Point(100, 200) can convert to/from "100, 200" <br> You have the choice of what the separator is;
+ * separator is the ", " in the Point example above.
  */
 abstract public class ArrayConverter implements ObjectConverter {
 
@@ -26,10 +25,10 @@ abstract public class ArrayConverter implements ObjectConverter {
     /**
      * Creates an ArrayConverter.
      *
-     * @param separator    separator to separate values. It should contain at least non-empty charactor.
+     * @param separator    separator to separate values. It should contain at least non-empty character.
      * @param size         size of the array
-     * @param elementClass class of the array element. Assume all elements have the same class type.
-     *                     If not, use the constructor which takes Class<?>[] as parameter.
+     * @param elementClass class of the array element. Assume all elements have the same class type. If not, use the
+     *                     constructor which takes Class<?>[] as parameter.
      */
     public ArrayConverter(String separator, int size, Class<?> elementClass) {
         _separator = separator;
@@ -40,10 +39,10 @@ abstract public class ArrayConverter implements ObjectConverter {
     /**
      * Creates an ArrayConverter.
      *
-     * @param separator      separator to separate values. It should contain at least non-empty charactor.
+     * @param separator      separator to separate values. It should contain at least non-empty character.
      * @param size           size of the array
-     * @param elementClasses classes of the array element. The length must be the same as size.
-     *                       If not, IllegalArgumentException will be thrown.
+     * @param elementClasses classes of the array element. The length must be the same as size. If not,
+     *                       IllegalArgumentException will be thrown.
      */
     public ArrayConverter(String separator, int size, Class<?>[] elementClasses) {
         if (separator == null || separator.trim().length() == 0) {
@@ -65,7 +64,7 @@ abstract public class ArrayConverter implements ObjectConverter {
      *
      * @param objects an array of objects
      * @param context converter context
-     * @return string all objects concated with separators
+     * @return string all objects concatenated with separators
      */
     public String arrayToString(Object[] objects, ConverterContext context) {
         StringBuffer buffer = new StringBuffer();

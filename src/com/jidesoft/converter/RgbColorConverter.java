@@ -9,8 +9,8 @@ import java.awt.*;
 import java.util.StringTokenizer;
 
 /**
- * Converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0, 0)
- * and "255, 0, 255" is Color(255, 0, 255).
+ * Converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0, 0) and "255, 0, 255" is
+ * Color(255, 0, 255).
  */
 public class RgbColorConverter extends ColorConverter {
 
@@ -54,7 +54,7 @@ public class RgbColorConverter extends ColorConverter {
                 r = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ingore
+                // ignore
             }
         }
         if (token.hasMoreTokens()) {
@@ -63,7 +63,7 @@ public class RgbColorConverter extends ColorConverter {
                 g = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ingore
+                // ignore
             }
         }
         if (token.hasMoreTokens()) {
@@ -72,7 +72,7 @@ public class RgbColorConverter extends ColorConverter {
                 b = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ingore
+                // ignore
             }
         }
         return new Color(r, g, b);

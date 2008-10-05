@@ -8,9 +8,8 @@ package com.jidesoft.comparator;
 import com.jidesoft.converter.AbstractContext;
 
 /**
- * The context object used by <code>ObjectComparatorManager</code>.
- * For the same type, we may need different way to compare them. This context
- * is used so that user can register different comparators for the same type.
+ * The context object used by <code>ObjectComparatorManager</code>. For the same type, we may need different way to
+ * compare them. This context is used so that user can register different comparators for the same type.
  */
 public class ComparatorContext extends AbstractContext {
     /**
@@ -28,7 +27,7 @@ public class ComparatorContext extends AbstractContext {
     }
 
     /**
-     * Creates a comparator contex with a name and a user object.
+     * Creates a comparator context with a name and a user object.
      *
      * @param name   the name of the comparator context.
      * @param object the user object. It can be used as any object to pass informaton along.

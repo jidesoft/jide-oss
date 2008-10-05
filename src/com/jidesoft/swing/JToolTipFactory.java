@@ -27,8 +27,8 @@ public class JToolTipFactory {
     }
 
     /**
-     * Creates a new tooltip. If overlapping is true then the tooltip will take on the foreground/bakground color and
-     * font of the specified component (if the component is specifeid)
+     * Creates a new tooltip. If overlapping is true then the tooltip will take on the foreground/background color and
+     * font of the specified component (if the component isspecifiedd)
      *
      * @param c           the component the tooltip describes
      * @param overlapping whether the tooltip is for a normal or overlapping tooltip

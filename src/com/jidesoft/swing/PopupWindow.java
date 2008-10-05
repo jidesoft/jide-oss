@@ -74,7 +74,7 @@ public class PopupWindow {
         if (_delegate != null) {
             _delegate.getContentPane().add(component);
             _delegate.pack();
-            // workaournd for a problem. JWindow somehow offset the height by 1
+            // workaround for a problem. JWindow somehow offset the height by 1
             // See http://developer.java.sun.com/developer/bugParade/bugs/4511106.html
             // looks like call pack again solve the problem.
             _delegate.pack();
@@ -266,7 +266,7 @@ public class PopupWindow {
                     continue;
                 }
 //                // TODO: this is not the right way to do things. Leave it for future enhancement to popup panel
-//                // don't hide popup when button of abstract combobox is pressed so that that button can toggle visiblility of popup panel
+//                // don't hide popup when button of abstract combobox is pressed so that that button can toggle visibility of popup panel
 //                if(comp instanceof AbstractButton && comp.getParent() instanceof AbstractComboBox) {
 //                    if(_delegate.isAncestorOf(((AbstractComboBox) comp.getParent()).getPopupPanel())) {
 //                        continue;
@@ -306,7 +306,7 @@ public class PopupWindow {
     }
 
     /**
-     * Gets the visiblility of this popup.
+     * Gets the visibility of this popup.
      *
      * @return true if popup is visible
      */
@@ -344,6 +344,7 @@ public class PopupWindow {
      * Returns an array of all the <code>PopupMenuListener</code>s added to this JComboBox with addPopupMenuListener().
      *
      * @return all of the <code>PopupMenuListener</code>s added or an empty array if no listeners have been added
+     *
      * @since 1.4
      */
     public PopupMenuListener[] getPopupMenuListeners() {

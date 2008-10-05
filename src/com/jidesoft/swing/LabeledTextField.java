@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 
 /**
  * <code>LabeledTextField</code> is a combo component which includes text field and an optional JLabel in the front and
- * another optionial AbstractButton at the end.
+ * another optional AbstractButton at the end.
  */
 public class LabeledTextField extends JPanel {
 

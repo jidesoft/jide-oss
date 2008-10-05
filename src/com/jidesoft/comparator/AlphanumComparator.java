@@ -29,7 +29,7 @@ import java.util.Comparator;
 /**
  * This is an updated version from the same named class from http://www.davekoelle.com/alphanum.html. The enhancement
  * JIDE did to this class is <ul> <li>1. Use JDK 5 generic to support CharSequence <li>2. Add support to case
- * insensitive comparision. </ul>
+ * insensitive comparison. </ul>
  */
 public class AlphanumComparator implements Comparator<CharSequence> {
     private boolean _caseSensitive;

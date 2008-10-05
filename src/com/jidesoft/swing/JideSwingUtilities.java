@@ -103,7 +103,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Create a Panel around a component so that component aligns to buttom.
+     * Create a Panel around a component so that component aligns to bottom.
      *
      * @param object
      * @return a Panel
@@ -133,7 +133,7 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param title      the label
      * @param component  the component
-     * @param constraint the constraint as in BorderLayout. You can use all the contraints as in BorderLayout except
+     * @param constraint the constraint as in BorderLayout. You can use all the constraints as in BorderLayout except
      *                   CENTER.
      * @return the container which has both the label and the component.
      */
@@ -156,7 +156,7 @@ public class JideSwingUtilities implements SwingConstants {
 //        int width = (parentWindow.getWidth() - childToCenter.getWidth()) >> 1;
 //        int height = (parentWindow.getHeight() - childToCenter.getHeight()) >> 1;
 //
-//        // according to javadoc of setLocation, it's relavent to parent window. but it's not the case.
+//        // according to javadoc of setLocation, it's relevant to parent window. but it's not the case.
 //        Point location = parentWindow.getLocation();
 //        width += location.x;
 //        height += location.y;
@@ -264,10 +264,10 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Synchronizes the two viewports. The view position changes in the master view, the slave view's view position will
      * change too. Generally speaking, if you want the two viewports to synchronize vertically, they should have the
-     * same height. If horizonally, the same width.
+     * same height. If horizontally, the same width.
      *
      * @param masterViewport the master viewport
-     * @param slaveViewport  the slade viewport
+     * @param slaveViewport  the slave viewport
      * @param orientation    the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
      */
     public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation) {
@@ -605,7 +605,7 @@ public class JideSwingUtilities implements SwingConstants {
      * think Swing application ugly. To address this issue, we changed the code to force to use Tahoma font for all the
      * fonts in L&F instead of using the system font.
      * <p/>
-     * However this is a downside to this. Tahoma cannot display unicode characters such as Chinese, Japanese and
+     * However this is a downside to this. Tahoma cannot display Unicode characters such as Chinese, Japanese and
      * Korean. So if the locale is CJK ({@link SystemInfo#isCJKLocale()}, we shouldn't use Tahoma. If you are on JDK 1.5
      * and above, you shouldn't force to use Tahoma either because JDK fixed it in 1.5 and above.
      * <p/>
@@ -710,7 +710,7 @@ public class JideSwingUtilities implements SwingConstants {
         void action(Component c);
 
         /**
-         * The actino you want to perform to any components. If action(c) is called, this action is after it.
+         * The action you want to perform to any components. If action(c) is called, this action is after it.
          *
          * @param c the component.
          */
@@ -1534,7 +1534,7 @@ public class JideSwingUtilities implements SwingConstants {
                 textR.x + textR.width) - labelR_y;
 
         int dx, dy;
-        int dIcony; // because we will retate icon, so the position will
+        int dIcony; // because we will rotate icon, so the position will
         // be different from text. However after transform, they will be same
 
         if (verticalAlignment == TOP) {
@@ -1707,10 +1707,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Returns whether or not text should be drawn antialiased.
+     * Returns whether or not text should be drawn anti-aliased.
      *
      * @param c JComponent to test.
-     * @return Whether or not text should be drawn antialiased for the specified component.
+     * @return Whether or not text should be drawn anti-aliased for the specified component.
      */
     private static boolean drawTextAntialiased(Component c) {
         if (!AA_TEXT_DEFINED) {
@@ -1732,10 +1732,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Returns whether or not text should be drawn antialiased.
+     * Returns whether or not text should be drawn anti-aliased.
      *
      * @param aaText Whether or not aa text has been turned on for the component.
-     * @return Whether or not text should be drawn antialiased.
+     * @return Whether or not text should be drawn anti-aliased.
      */
     public static boolean drawTextAntialiased(boolean aaText) {
         if (!AA_TEXT_DEFINED) {
@@ -2034,7 +2034,7 @@ public class JideSwingUtilities implements SwingConstants {
      * containerContainsFocus, does the specified container contain the current focusOwner?
      *
      * @param cont the specified container
-     * @return Is the current focusOwner a descendent of the specified container, or the container itself?
+     * @return Is the current focusOwner a descendant of the specified container, or the container itself?
      */
     public static boolean containerContainsFocus(Container cont) {
         Component focusOwner =
@@ -2343,12 +2343,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Gets the first occurence of the component with specified type in the container. It used deep-first searching to
+     * Gets the first occurrence of the component with specified type in the container. It used deep-first searching to
      * find it.
      *
      * @param c
      * @param container
-     * @return the first occurence of the component with specified type in the container. Null if nothing is found.
+     * @return the first occurrence of the component with specified type in the container. Null if nothing is found.
      */
     public static Component getDescendantOfClass(Class c, Container container) {
         if (container == null || c == null)
@@ -2602,7 +2602,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the key listener is already registerd on the component.
+     * Checks if the key listener is already registered on the component.
      *
      * @param component the component
      * @param l         the listener
@@ -2674,7 +2674,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the property change listener is already registerd on the component.
+     * Checks if the property change listener is already registered on the component.
      *
      * @param component the component
      * @param l         the listener
@@ -2691,7 +2691,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Checks if the mouse listener is already registerd on the component.
+     * Checks if the mouse listener is already registered on the component.
      *
      * @param component the component
      * @param l         the listener
@@ -2726,14 +2726,14 @@ public class JideSwingUtilities implements SwingConstants {
             }
             component.addMouseListener(listener);
         }
-        // inex is too large, add to the end.
+        // index is too large, add to the end.
         if (index < 0 || index > listeners.length - 1) {
             component.addMouseListener(l);
         }
     }
 
     /**
-     * Checks if the mouse motion listener is already registerd on the component.
+     * Checks if the mouse motion listener is already registered on the component.
      *
      * @param component the component
      * @param l         the listener
@@ -2768,7 +2768,7 @@ public class JideSwingUtilities implements SwingConstants {
             }
             component.addMouseMotionListener(listener);
         }
-        // inex is too large, add to the end.
+        // index is too large, add to the end.
         if (index < 0 || index > listeners.length - 1) {
             component.addMouseMotionListener(l);
         }
@@ -2953,7 +2953,7 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param fontName  the font name
      * @param component the component where the font will be displayed.
-     * @return ture if the font is fixed width. Otherwise false.
+     * @return true if the font is fixed width. Otherwise false.
      */
     public static boolean isFixedWidthFont(String fontName, Component component) {
         if (fontName.endsWith(" Bold") || fontName.endsWith(" ITC") || fontName.endsWith(" MT") || fontName.endsWith(" LET")
@@ -3077,7 +3077,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Regsters all actions registered on the source component and registered them on the target component at the
+     * Registers all actions registered on the source component and registered them on the target component at the
      * specified condition.
      *
      * @param sourceComponent the source component.

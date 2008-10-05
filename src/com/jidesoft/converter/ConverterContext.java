@@ -6,9 +6,8 @@
 package com.jidesoft.converter;
 
 /**
- * The context object used by ObjectConverter.
- * For the same type, we may need different way to convert them. This context
- * is used so that user can register different converters for the same type.
+ * The context object used by ObjectConverter. For the same type, we may need different way to convert them. This
+ * context is used so that user can register different converters for the same type.
  */
 public class ConverterContext extends AbstractContext {
     /**
@@ -26,19 +25,19 @@ public class ConverterContext extends AbstractContext {
     }
 
     /**
-     * Creates a converter contex with a name and an object.
+     * Creates a converter context with a name and an object.
      *
      * @param name
-     * @param object the user object. It can be used as any object to pass informaton along.
+     * @param object the user object. It can be used as any object to pass information along.
      */
     public ConverterContext(String name, Object object) {
         super(name, object);
     }
 
     /**
-     * Checks if the context is for an array. By convension, we put "[]" at the end of the converter context's name
-     * if the context is for an array data type. Please note, this is a convension only. If developer chooses to not
-     * put "[]" at the end for their own customized context, this method will fail.
+     * Checks if the context is for an array. By conversion, we put "[]" at the end of the converter context's name if
+     * the context is for an array data type. Please note, this is a conversion only. If developer chooses to not put
+     * "[]" at the end for their own customized context, this method will fail.
      *
      * @param context the context.
      * @return true or false.

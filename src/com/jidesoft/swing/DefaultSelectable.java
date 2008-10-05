@@ -6,9 +6,8 @@
 package com.jidesoft.swing;
 
 /**
- * The element used by CheckBoxList's ListModel. In order to allow check box
- * in JList without messing up when list model changes, we use this class
- * to store the object itself and a boolean to indicated if the row is selected.
+ * The element used by CheckBoxList's ListModel. In order to allow check box in JList without messing up when list model
+ * changes, we use this class to store the object itself and a boolean to indicated if the row is selected.
  */
 public class DefaultSelectable implements Selectable {
     protected Object _object;
@@ -16,9 +15,8 @@ public class DefaultSelectable implements Selectable {
     protected boolean _enabled = true;
 
     /**
-     * Creates CheckBoxListElement with an actual object. In the case of CheckBoxList,
-     * instead of add the object directly to ListModel, you should wrap it in CheckBoxListElement and
-     * add CheckBoxListElement into ListModel.
+     * Creates CheckBoxListElement with an actual object. In the case of CheckBoxList, instead of add the object
+     * directly to ListModel, you should wrap it in CheckBoxListElement and add CheckBoxListElement into ListModel.
      *
      * @param object the actual object
      */
@@ -71,8 +69,8 @@ public class DefaultSelectable implements Selectable {
 
     /**
      * Enabled selection change. Enabled false doesn't mean selected is false. If it is selected before,
-     * setEnable(false) won't make selected beceome false. In the other word, setEnabled won't change the
-     * the value of isSelected().
+     * setEnable(false) won't make selected become false. In the other word, setEnabled won't change the the value of
+     * isSelected().
      *
      * @param enabled
      */
@@ -90,8 +88,8 @@ public class DefaultSelectable implements Selectable {
     }
 
     /**
-     * Overrides to consider the hash code of the object only. From outside point of view,
-     * this class should behave just like object itself. That's why we override hashCode.
+     * Overrides to consider the hash code of the object only. From outside point of view, this class should behave just
+     * like object itself. That's why we override hashCode.
      *
      * @return the hash code.
      */
@@ -101,8 +99,8 @@ public class DefaultSelectable implements Selectable {
     }
 
     /**
-     * Overrides to consider the toString() of object only. From outside point of view,
-     * this class should behave just like object itself. That's why we override toString.
+     * Overrides to consider the toString() of object only. From outside point of view, this class should behave just
+     * like object itself. That's why we override toString.
      *
      * @return toString() of object.
      */

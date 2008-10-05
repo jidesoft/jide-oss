@@ -16,9 +16,9 @@ import java.util.Vector;
 
 
 /**
- * <code>AbstractListIntelliHints</code> extends AbstractIntelliHints and further
- * implement most of the methods in interface {@link com.jidesoft.hints.IntelliHints}. In this class, it assumes the
- * hints can be represented as a JList, so it used JList in the hints popup.
+ * <code>AbstractListIntelliHints</code> extends AbstractIntelliHints and further implement most of the methods in
+ * interface {@link com.jidesoft.hints.IntelliHints}. In this class, it assumes the hints can be represented as a JList,
+ * so it used JList in the hints popup.
  *
  * @author Santhosh Kumar T - santhosh@in.fiorano.com
  * @author JIDE Software, Inc.
@@ -151,11 +151,10 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
     }
 
     /**
-     * Gets the delegate keystrokes. Since we know the hints popup is a JList, we return eight
-     * keystrokes so that they can be delegate to the JList. Those keystrokes are
-     * DOWN, UP, PAGE_DOWN, PAGE_UP, HOME and END.
+     * Gets the delegate keystrokes. Since we know the hints popup is a JList, we return eight keystrokes so that they
+     * can be delegate to the JList. Those keystrokes are DOWN, UP, PAGE_DOWN, PAGE_UP, HOME and END.
      *
-     * @return the keystokes that will be delegated to the JList when hints popup is visible.
+     * @return the keystrokes that will be delegated to the JList when hints popup is visible.
      */
     @Override
     public KeyStroke[] getDelegateKeyStrokes() {

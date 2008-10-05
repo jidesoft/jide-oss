@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * When UIManager.getUI(JComponent target) is called to retrieve a ComponentUI object for a target, we want to make sure
  * that ComponentUI is from the same classloader as the target classloader.
  * <p/>
- * The CacheCleanerLookAndFeel will install inself as a hook to intercept UIManager().getUI(). It will clean up the
+ * The CacheCleanerLookAndFeel will install itself as a hook to intercept UIManager().getUI(). It will clean up the
  * UIManager cache if needed and also update the UIManager L&F defaults table if needed. This is very useful if you have
  * to use multiple class loader and each class loader has its own version of JIDE jars.
  * <p/>
@@ -126,7 +126,7 @@ class CachedLookAndFeel extends LookAndFeel {
         if (componentUIClass != null) {
             // remove className <--> class definition
             defaults.remove(componentUIClass.getName());
-            // remove class definition <--> method definiton
+            // remove class definition <--> method definition
             defaults.remove(componentUIClass);
         }
     }

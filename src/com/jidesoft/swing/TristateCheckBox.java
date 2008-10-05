@@ -8,7 +8,7 @@ import java.awt.event.*;
 /**
  * Maintenance tip - There were some tricks to getting this code working:
  * <p/>
- * 1. You have to overwite addMouseListener() to do nothing 2. You have to add a mouse event on mousePressed by calling
+ * 1. You have to overwrite addMouseListener() to do nothing 2. You have to add a mouse event on mousePressed by calling
  * super.addMouseListener() 3. You have to replace the UIActionMap for the keyboard event "pressed" with your own one.
  * 4. You have to remove the UIActionMap for the keyboard event "released". 5. You have to grab focus when the next
  * state is entered, otherwise clicking on the component won't get the focus. 6. You have to make a TristateDecorator as

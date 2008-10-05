@@ -71,8 +71,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * Tests whether there is any unselected node in the subtree of given path.
      *
      * @param path check if the path is partially selected.
-     *
-     * @return true i fpartially. Otherwise false.
+     * @return true if partially. Otherwise false.
      */
     public boolean isPartiallySelected(TreePath path) {
         if (isPathSelected(path, true))
@@ -98,7 +97,6 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      *
      * @param path  check if the path is selected.
      * @param digIn whether we will check its descendants.
-     *
      * @return true if the path is selected.
      */
     public boolean isPathSelected(TreePath path, boolean digIn) {
@@ -148,7 +146,6 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      *
      * @param path1 the first path
      * @param path2 the second path
-     *
      * @return true if the first path is the descendant of the second path.
      */
     private boolean isDescendant(TreePath path1, TreePath path2) {
@@ -208,7 +205,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         }
 
         try {
-            // unselect all descendants of paths[]
+            // deselect all descendants of paths[]
             List<TreePath> toBeRemoved = new ArrayList<TreePath>();
             for (TreePath path : paths) {
                 TreePath[] selectionPaths = getSelectionPaths();
@@ -223,8 +220,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
                 delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
             }
 
-            // if all siblings are selected then unselect them and select parent recursively
-            // otherwize just select that path.
+            // if all siblings are selected then deselect them and select parent recursively
+            // otherwise just select that path.
             for (TreePath path : paths) {
                 TreePath temp = null;
                 while (areSiblingsSelected(path)) {
@@ -261,7 +258,6 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
      * tells whether all siblings of given path are selected.
      *
      * @param path the tree path
-     *
      * @return true if the siblings are all selected.
      */
     private boolean areSiblingsSelected(TreePath path) {
@@ -317,8 +313,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * If any ancestor node of given path is selected then unselect it and selection all its descendants except given
-     * path and descendants. Otherwise just unselect the given path
+     * If any ancestor node of given path is selected then deselect it and selection all its descendants except given
+     * path and descendants. Otherwise just deselect the given path
      *
      * @param path        the tree path
      * @param doFireEvent
@@ -380,7 +376,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     /**
-     * Single event mode is a mode that always fires only one event when you select or unselect a tree node.
+     * Single event mode is a mode that always fires only one event when you select or deselect a tree node.
      * <p/>
      * Taking this tree as an example,
      * <p/>

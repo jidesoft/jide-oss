@@ -333,7 +333,7 @@ public class BasicJideButtonUI extends JideButtonUI {
                 tmpIcon = b.getDisabledIcon();
             }
 
-            // create default diabled icon
+            // create default disabled icon
             if (tmpIcon == null) {
                 if (icon instanceof ImageIcon) {
                     icon = IconsFactory.createGrayImage(((ImageIcon) icon).getImage());
@@ -373,8 +373,8 @@ public class BasicJideButtonUI extends JideButtonUI {
     }
 
     /**
-     * As of Java 2 platform v 1.4 this method should not be used or overriden. Use the paintText method which takes the
-     * AbstractButton argument.
+     * As of Java 2 platform v 1.4 this method should not be used or overridden. Use the paintText method which takes
+     * the AbstractButton argument.
      */
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
