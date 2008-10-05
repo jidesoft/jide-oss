@@ -34,7 +34,6 @@ class FolderToolBar extends JToolBar {
     public FolderToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
         setFloatable(false);
         setupToolBar(showRecentFolders, recentFoldersList);
-
     }
 
     public void enableDelete() {
@@ -152,7 +151,7 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        refreshBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.new"));
+        refreshBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.refresh"));
 
         addSeparator();
         add(_deleteFolderBtn);

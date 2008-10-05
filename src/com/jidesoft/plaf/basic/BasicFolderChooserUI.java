@@ -23,10 +23,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -49,6 +46,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
 
     private Action _approveSelectionAction = new ApproveSelectionAction();
     public BasicFolderChooserUI.FolderChooserSelectionListener _selectionListener;
+    private FolderToolBarListener _folderToolbarListener;
 
     public BasicFolderChooserUI(FolderChooser chooser) {
         super(chooser);
@@ -199,7 +197,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
 
     protected JComponent createToolbar() {
         _toolbar = new FolderToolBar(true, _folderChooser.getRecentList());
-        _toolbar.addListener(new FolderToolBarListener() {
+        _folderToolbarListener = new FolderToolBarListener() {
             // ------------------------------------------------------------------------------
             // Implementation of FolderToolBarListener
             // ------------------------------------------------------------------------------
@@ -208,7 +206,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 // make sure user really wants to do this
                 String text, header;
                 TreePath path = _fileSystemTree.getSelectionPaths()[0];
-                java.util.List selection = getSelectedFolders(new TreePath[]{path});
+                List selection = getSelectedFolders(new TreePath[]{path});
 
                 final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
                 if (selection.size() > 1) {
@@ -270,7 +268,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             public void newFolderButtonClicked() {
                 // get the selected folder
                 TreePath[] paths = _fileSystemTree.getSelectionPaths();
-                java.util.List selection = getSelectedFolders(paths);
+                List selection = getSelectedFolders(paths);
                 if (selection.size() > 1 || selection.size() == 0)
                     return; // should never happen
 
@@ -367,12 +365,12 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             }
 
 
-            public java.util.List getSelectedFolders() {
+            public List getSelectedFolders() {
                 TreePath[] paths = _fileSystemTree.getSelectionPaths();
                 return getSelectedFolders(paths);
             }
 
-            public java.util.List getSelectedFolders(TreePath[] paths) {
+            public List getSelectedFolders(TreePath[] paths) {
                 if (paths == null || paths.length == 0)
                     return new ArrayList();
 
@@ -384,7 +382,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 return folders;
             }
 
-        });
+        };
+        _toolbar.addListener(_folderToolbarListener);
         updateToolbarButtons();
         return _toolbar;
     }
@@ -443,6 +442,13 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         super.installListeners(fc);
         _selectionListener = new FolderChooserSelectionListener();
         _fileSystemTree.addTreeSelectionListener(_selectionListener);
+        _fileSystemTree.registerKeyboardAction(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (_folderToolbarListener != null) {
+                    _folderToolbarListener.refreshButtonClicked();
+                }
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), JComponent.WHEN_FOCUSED);
     }
 
     @Override
