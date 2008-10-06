@@ -206,6 +206,34 @@ public class CacheMap<T, K> {
         return null;
     }
 
+    /**
+     * Gets the exact match registered object. Different from {@link #getRegisteredObject(Class, Object)} which will try
+     * different context and super classes and interfaces to find match. This method will do an exact match.
+     *
+     * @param clazz   the class which is used as the primary key.
+     * @param context the context which is used as the secondary key. This parameter could be null in which case the
+     *                default context is used.
+     * @return registered object the object associated with the class and the context.
+     */
+    public T getMatchRegisteredObject(Class<?> clazz, K context) {
+        if (clazz == null) {
+            return null;
+        }
+
+        if (context == null) {
+            context = _defaultContext;
+        }
+
+        Cache<K, T> cache = getCache(clazz);
+        if (cache != null) {
+            T object = cache.getObject(context);
+            if (object != null) {
+                return object;
+            }
+        }
+        return null;
+    }
+
     public List<T> getValues() {
         List<T> list = new ArrayList();
         Collection<Cache<K, T>> col = _cache.values();
