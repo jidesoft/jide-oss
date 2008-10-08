@@ -4043,14 +4043,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
 
     protected void ensureCurrentLayout() {
-        // this line cause layout when repaint. It looks like tabbed pane is always not valid.
-        // but without this line, it causes the viewport sometimes not resized correctly.
-        // such as the bug report at http://www.jidesoft.com/forum/viewtopic.php?p=25050#25050
-        if (!_tabPane.isValid()) {
-            _tabPane.validate();
-        }
-
-        /* If tabPane doesn't have a peer yet, the validate() call will
+        /*
+         * If tabPane doesn't have a peer yet, the validate() call will
          * silently fail.  We handle that by forcing a layout if tabPane
          * is still invalid.  See bug 4237677.
          */
