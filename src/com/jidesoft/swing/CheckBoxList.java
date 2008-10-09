@@ -193,6 +193,10 @@ public class CheckBoxList extends JList {
         }
 
         public void mousePressed(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
             if (!_list.isCheckBoxEnabled()) {
                 return;
             }
@@ -205,6 +209,10 @@ public class CheckBoxList extends JList {
         }
 
         public void mouseReleased(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
             if (!_list.isCheckBoxEnabled()) {
                 return;
             }

@@ -270,10 +270,18 @@ public class CheckBoxTree extends JTree {
         }
 
         public void mouseClicked(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
             preventToggleEvent(e);
         }
 
         public void mousePressed(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
             TreePath path = preventToggleEvent(e);
             if (path != null) {
                 toggleSelection(path);
@@ -282,6 +290,10 @@ public class CheckBoxTree extends JTree {
         }
 
         public void mouseReleased(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
             TreePath path = preventToggleEvent(e);
             if (path != null) {
                 e.consume();
