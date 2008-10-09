@@ -23,6 +23,7 @@
     <orderEntry type="library" exported="" name="junit" level="project" />
     <orderEntry type="library" exported="" name="abbot" level="project" />
     <orderEntry type="library" exported="" name="miglayout" level="project" />
+    <orderEntry type="library" exported="" name="swingexplorer" level="project" />
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
