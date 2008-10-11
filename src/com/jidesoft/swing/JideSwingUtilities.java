@@ -261,6 +261,8 @@ public class JideSwingUtilities implements SwingConstants {
         topContainer.applyComponentOrientation(co);
     }
 
+    private final static String CLIENT_PROPERTY_SYNCHRONIZE_VIEW = "synchronizeViewChangeListener";
+
     /**
      * Synchronizes the two viewports. The view position changes in the master view, the slave view's view position will
      * change too. Generally speaking, if you want the two viewports to synchronize vertically, they should have the
@@ -273,24 +275,36 @@ public class JideSwingUtilities implements SwingConstants {
     public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation) {
         final ChangeListener c1 = new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                if (orientation == HORIZONTAL) {
-                    Point v1 = masterViewport.getViewPosition();
-                    Point v2 = slaveViewport.getViewPosition();
-                    if (v1.x != v2.x) {
-                        slaveViewport.setViewPosition(new Point(v1.x, v2.y));
+                Dimension size = masterViewport.getSize();
+                if (size.width == 0 || size.height == 0) {
+                    return;
+                }
+                Object c2 = slaveViewport.getClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW);
+                try {
+                    if (c2 instanceof ChangeListener) slaveViewport.removeChangeListener((ChangeListener) c2);
+                    if (orientation == HORIZONTAL) {
+                        Point v1 = masterViewport.getViewPosition();
+                        Point v2 = slaveViewport.getViewPosition();
+                        if (v1.x != v2.x) {
+                            slaveViewport.setViewPosition(new Point(v1.x, v2.y));
+                        }
+                    }
+                    else if (orientation == VERTICAL) {
+                        Point v1 = masterViewport.getViewPosition();
+                        Point v2 = slaveViewport.getViewPosition();
+                        if (v1.y != v2.y) {
+                            slaveViewport.setViewPosition(new Point(v2.x, v1.y));
+                        }
                     }
                 }
-                else if (orientation == VERTICAL) {
-                    Point v1 = masterViewport.getViewPosition();
-                    Point v2 = slaveViewport.getViewPosition();
-                    if (v1.y != v2.y) {
-                        slaveViewport.setViewPosition(new Point(v2.x, v1.y));
-                    }
+                finally {
+                    if (c2 instanceof ChangeListener) slaveViewport.addChangeListener((ChangeListener) c2);
                 }
             }
         };
 
         masterViewport.addChangeListener(c1);
+        masterViewport.putClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW, c1);
     }
 
     public static int getButtonState(AbstractButton b) {
