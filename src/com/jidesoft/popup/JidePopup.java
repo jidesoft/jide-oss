@@ -1142,8 +1142,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         };
         _escapeActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                hidePopupImmediately(true);
                 Component owner = getActualOwner();
+                hidePopupImmediately(true);
                 if (owner != null) {
                     owner.requestFocus();
                 }
