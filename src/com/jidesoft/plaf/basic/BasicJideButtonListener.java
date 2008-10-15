@@ -114,7 +114,7 @@ public class BasicJideButtonListener extends BasicButtonListener {
         if (b.isRolloverEnabled()) {
             model.setRollover(false);
         }
-
+        model.setArmed(false);
         _mouseOver = false;
     }
 
