@@ -55,4 +55,19 @@ public class TypeUtils {
         }
         return primitive;
     }
+
+    /**
+     * Checks if the type is a numeric type.
+     *
+     * @param type the data type.
+     * @return true if it is numeric type including all subclasses of Number, double, int, float, short and long.
+     */
+    public static boolean isNumericType(Class<?> type) {
+        return Number.class.isAssignableFrom(type)
+                || type == double.class
+                || type == int.class
+                || type == float.class
+                || type == short.class
+                || type == long.class;
+    }
 }
