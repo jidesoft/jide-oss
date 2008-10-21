@@ -14,7 +14,7 @@ import java.awt.*;
  * components: a viewport, two scrollbars, a row header, a column header, a row footer, a column footer, and four
  * "corner" components.
  */
-class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneConstants {
+public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneConstants {
     /**
      * The row footer child.  Default is <code>null</code>.
      *
@@ -520,6 +520,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
         availR.y = insets.top;
         availR.width -= insets.left + insets.right;
         availR.height -= insets.top + insets.bottom;
+        
 
         /* If there's a visible column header remove the space it
          * needs from the top of availR.  The column header is treated
@@ -659,7 +660,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          * scrollbar is considered to be fixed width, arbitrary height.
          */
 
-        Rectangle vsbR = new Rectangle(0, isVsbCoversWholeHeight(scrollPane) ? -vpbInsets.top : availR.y - vpbInsets.top, 0, 0);
+        Rectangle vsbR = new Rectangle(0, isVsbCoversWholeHeight(scrollPane) ? insets.top : availR.y - vpbInsets.top, 0, 0);
 
         boolean vsbNeeded;
         if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
@@ -686,7 +687,7 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          * scrollbar is considered to be fixed height, arbitrary width.
          */
 
-        Rectangle hsbR = new Rectangle(isHsbCoversWholeWidth(scrollPane) ? -vpbInsets.left : availR.x - vpbInsets.left, 0, 0, 0);
+        Rectangle hsbR = new Rectangle(isHsbCoversWholeWidth(scrollPane) ? insets.left : availR.x - vpbInsets.left, 0, 0, 0);
         boolean hsbNeeded;
         if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
             hsbNeeded = true;
@@ -790,8 +791,8 @@ class JideScrollPaneLayout extends ScrollPaneLayout implements JideScrollPaneCon
          * We now have the final size of the viewport: availR.
          * Now fixup the header and scrollbar widths/heights.
          */
-        vsbR.height = isVsbCoversWholeHeight(scrollPane) ? scrollPane.getHeight() - 1 : availR.height + vpbInsets.top + vpbInsets.bottom;
-        hsbR.width = isHsbCoversWholeWidth(scrollPane) ? scrollPane.getWidth() - vsbR.width : availR.width + vpbInsets.left + vpbInsets.right;
+        vsbR.height = isVsbCoversWholeHeight(scrollPane) ? scrollPane.getHeight() - insets.bottom -insets.top : availR.height + vpbInsets.top + vpbInsets.bottom;
+        hsbR.width = isHsbCoversWholeWidth(scrollPane) ? scrollPane.getWidth() - vsbR.width-insets.left-insets.right : availR.width + vpbInsets.left + vpbInsets.right;
         rowHeadR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
         rowHeadR.y = availR.y - vpbInsets.top;
         colHeadR.width = availR.width + vpbInsets.left + vpbInsets.right;
