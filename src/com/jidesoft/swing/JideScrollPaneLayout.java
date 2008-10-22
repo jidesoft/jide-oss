@@ -834,6 +834,11 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             int height = isColumnFootersHeightUnified(scrollPane) ? columnFooterHeight : Math.min(colFootR.height, _colFoot.getPreferredSize().height);
             _colFoot.setBounds(adjustBounds(parent, new Rectangle(colFootR.x, colFootR.y, colFootR.width, height), ltr));
         }
+        else {
+          if(isColumnFootersHeightUnified(scrollPane)) {
+            columnFooterHeight=hsbR.height;
+          }
+        }
 
         if (vsb != null) {
             if (vsbNeeded) {
