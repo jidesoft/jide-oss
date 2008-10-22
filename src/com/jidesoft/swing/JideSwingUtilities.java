@@ -2569,8 +2569,7 @@ public class JideSwingUtilities implements SwingConstants {
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
                 if (comp != null) {
-                    comp.requestFocus();
-                    return true;
+                    return comp.requestFocusInWindow();
                 }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
@@ -2579,16 +2578,11 @@ public class JideSwingUtilities implements SwingConstants {
                 Component comp = policy.getComponentAfter(rootAncestor, container);
 
                 if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
-                    comp.requestFocus();
-                    return true;
+                    return comp.requestFocusInWindow();
                 }
             }
         }
-        if (component.isFocusable()) {
-            component.requestFocus();
-            return true;
-        }
-        return false;
+        return component.isFocusable() && component.requestFocusInWindow();
     }
 
     public static boolean isAncestorOfFocusOwner(Component component) {
