@@ -52,7 +52,7 @@ public class QuarterNameConverter implements ObjectConverter {
         try {
             Object[] values = new MessageFormat(quarterNamePattern).parse(string);
             if (values.length > 0) {
-                return Integer.parseInt("" + values[0]);
+                return Integer.parseInt("" + values[0]) - 1;
             }
         }
         catch (ParseException e) {
