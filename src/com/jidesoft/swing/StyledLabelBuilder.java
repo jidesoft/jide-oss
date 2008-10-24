@@ -284,10 +284,12 @@ public class StyledLabelBuilder {
                     ParsedStyleResult result = parseStylePart(text, i + 1, builder);
                     int realIndex = labelText.length();
                     labelText.append(result.text);
-                    label.addStyleRange(new StyleRange(
-                            realIndex, result.text.length(),
-                            result.fontStyle, result.fontColor, result.backgroundColor,
-                            result.additionalStyle, result.lineColor));
+                    if (result.text.length() > 0) {
+                        label.addStyleRange(new StyleRange(
+                                realIndex, result.text.length(),
+                                result.fontStyle, result.fontColor, result.backgroundColor,
+                                result.additionalStyle, result.lineColor));
+                    }
                     i = result.endOffset;
                     break;
                 case '\\':
@@ -520,20 +522,25 @@ public class StyledLabelBuilder {
         for (; (text[start] == ' ' || text[start] == '\t') && start < text.length; start++) ;
         for (; (text[end] == ' ' || text[end] == '\t') && start < end; end--) ;
         // need to remove escape chars
-        StringBuffer buffer = new StringBuffer(end - start);
-        boolean escaped = false;
-        for (int i = start; i <= end; i++) {
-            if (text[i] == '\\' && !escaped) {
-                escaped = true;
-            }
-            else {
-                buffer.append(text[i]);
-                if (escaped) {
-                    escaped = false;
+        if (end >= start) {
+            StringBuffer buffer = new StringBuffer(end - start);
+            boolean escaped = false;
+            for (int i = start; i <= end; i++) {
+                if (text[i] == '\\' && !escaped) {
+                    escaped = true;
+                }
+                else {
+                    buffer.append(text[i]);
+                    if (escaped) {
+                        escaped = false;
+                    }
                 }
             }
+            return buffer.toString();
         }
-        return buffer.toString();
+        else {
+            return "";
+        }
     }
 
     private static int findNextOf(char[] text, char[] chars, int start) {
