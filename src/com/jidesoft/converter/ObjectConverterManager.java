@@ -369,6 +369,7 @@ public class ObjectConverterManager {
             registerConverter(Integer.class, quarterNameConverter, QuarterNameConverter.CONTEXT);
 
             registerConverter(Font.class, new FontConverter());
+            registerConverter(String.class, new MultilineStringConverter(), MultilineStringConverter.CONTEXT);
 
             CurrencyConverter currencyConverter = new CurrencyConverter();
             registerConverter(Float.class, currencyConverter, CurrencyConverter.CONTEXT);

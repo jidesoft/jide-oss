@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 /**
  * Converter which converts Font to String and converts it back.
  */
-class FontConverter implements ObjectConverter {
+public class FontConverter implements ObjectConverter {
     public String toString(Object object, ConverterContext context) {
         if (object instanceof Font) {
             Font font = (Font) object;
@@ -77,9 +77,11 @@ class FontConverter implements ObjectConverter {
             }
             if (strings.length > 2) {
                 try {
-                    size = Integer.parseInt(strings[2].trim());
+                    double s = Double.parseDouble(strings[2].trim());
+                    size = (int) s;
                 }
                 catch (NumberFormatException e) {
+                    // ignore
                 }
             }
 
