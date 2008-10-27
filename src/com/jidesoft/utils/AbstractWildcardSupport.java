@@ -1,10 +1,12 @@
 package com.jidesoft.utils;
 
+import java.io.Serializable;
+
 /**
  * Abstract implementation of {@link WildcardSupport}. It implements the convert method but leave the other three
  * methods defining the wildcards to the subclass.
  */
-abstract public class AbstractWildcardSupport implements WildcardSupport {
+abstract public class AbstractWildcardSupport implements WildcardSupport, Serializable {
 
     public String convert(String s) {
         // if it doesn't have the two special characters we support, we don't need to use regular expression.
