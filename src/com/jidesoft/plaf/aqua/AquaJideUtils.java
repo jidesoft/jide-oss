@@ -251,6 +251,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
                 "Icon.floating", Boolean.FALSE,
 
+                "JideScrollPane.border", table.getBorder("ScrollPane.border"),
+
                 "JideSplitButton.font", controlFont,
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
