@@ -671,7 +671,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 background2 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground2");
             }
             else {
-                background1 = Color.WHITE;
+                background1 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
                 background2 = _background;
             }
 
