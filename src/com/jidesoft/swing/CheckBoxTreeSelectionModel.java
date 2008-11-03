@@ -1,5 +1,7 @@
 package com.jidesoft.swing;
 
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
@@ -16,7 +18,7 @@ import java.util.Vector;
  *
  * @author Santhosh Kumar T
  */
-public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
+public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implements TreeModelListener {
     private TreeModel _model;
     private boolean _digIn = true;
     private CheckBoxTree _tree;
@@ -24,7 +26,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     private boolean _singleEventMode = false;
 
     public CheckBoxTreeSelectionModel(TreeModel model) {
-        _model = model;
+        setModel(model);
         setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
     }
 
@@ -33,7 +35,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     public CheckBoxTreeSelectionModel(TreeModel model, boolean digIn) {
-        _model = model;
+        setModel(model);
         _digIn = digIn;
     }
 
@@ -42,7 +44,15 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
     }
 
     public void setModel(TreeModel model) {
-        _model = model;
+        if (_model != model) {
+            if (_model != null) {
+                _model.removeTreeModelListener(this);
+            }
+            _model = model;
+            if (_model != null) {
+                _model.addTreeModelListener(this);
+            }
+        }
     }
 
     /**
@@ -494,6 +504,60 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel {
         else {
             _toBeAdded.add(path);
             _toBeRemoved.remove(path);
+        }
+    }
+
+    public void treeNodesChanged(TreeModelEvent e) {
+        revalidateSelectedTreePaths();
+    }
+
+    public void treeNodesInserted(TreeModelEvent e) {
+
+    }
+
+    public void treeNodesRemoved(TreeModelEvent e) {
+        revalidateSelectedTreePaths();
+    }
+
+    private static boolean isTreePathValid(TreeModel treeModel, TreePath path) {
+        Object parent = treeModel.getRoot();
+        for (int i = 0; i < path.getPathCount(); i++) {
+            Object pathComponent = path.getPathComponent(i);
+            if (i == 0) {
+                if (pathComponent != parent) {
+                    return false;
+                }
+            }
+            else {
+                boolean found = false;
+                for (int j = 0; j < treeModel.getChildCount(parent); j++) {
+                    Object child = treeModel.getChild(parent, j);
+                    if (child == pathComponent) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+                parent = pathComponent;
+            }
+        }
+        return true;
+    }
+
+    public void treeStructureChanged(TreeModelEvent e) {
+        revalidateSelectedTreePaths();
+    }
+
+    private void revalidateSelectedTreePaths() {
+        TreePath[] treePaths = getSelectionPaths();
+        if (treePaths != null) {
+            for (TreePath treePath : treePaths) {
+                if (treePath != null && !isTreePathValid(_model, treePath)) {
+                    super.removeSelectionPath(treePath);
+                }
+            }
         }
     }
 }
