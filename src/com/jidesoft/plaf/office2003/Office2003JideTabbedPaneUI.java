@@ -215,6 +215,9 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         g.drawLine(0, y, bounds.x, y);
                         g.drawLine(bounds.x + bounds.width, y, x + w - 1, y);
                     }
+                    else if (contentInsets.top > 0 && !_tabPane.isTabShown()) {
+                        g.drawLine(x, y, x + w - 1, y);// bottom
+                    }
                 }
                 else if (_tabPane.isTabShown()) {
                     if (r.x >= viewRect.x + viewRect.width) {
@@ -365,6 +368,9 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(0, y + h - 1, bounds.x, y + h - 1);
                     g.drawLine(bounds.x + bounds.width, y + h - 1, x + w - 1, y + h - 1);
                 }
+                else if (contentInsets.bottom > 0 && !_tabPane.isTabShown()) {
+                    g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
+                }
             }
             else if (_tabPane.isTabShown()) {
                 if (r.x >= viewRect.x + viewRect.width) {
@@ -510,6 +516,9 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, 0, x, bounds.y);
                     g.drawLine(x, bounds.y + bounds.height, x, y + h - 1);
                 }
+                else if (contentInsets.left > 0 && !_tabPane.isTabShown()) {
+                    g.drawLine(x, y, x, y + h - 1);// left
+                }
             }
             else if (_tabPane.isTabShown()) {
                 if (r.y >= viewRect.y + viewRect.height) {
@@ -631,6 +640,9 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     Rectangle bounds = _tabScroller.viewport.getBounds();
                     g.drawLine(x + w - 1, 0, x + w - 1, bounds.y);
                     g.drawLine(x + w - 1, bounds.y + bounds.height, x + w - 1, y + h - 1);
+                }
+                else if (contentInsets.right > 0 && !_tabPane.isTabShown()) {
+                    g.drawLine(x + w - 1, y, x + w - 1, y + h - 1);// right
                 }
             }
             else if (_tabPane.isTabShown()) {
