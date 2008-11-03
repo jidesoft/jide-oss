@@ -44,12 +44,18 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel {
     public void insertIndexInterval(int index, int length, boolean before) {
         if (before) {
             boolean old = isSelectedIndex(index);
-            if (old) {
-                removeSelectionInterval(index, index);
+            super.setValueIsAdjusting(true);
+            try {
+                if (old) {
+                    removeSelectionInterval(index, index);
+                }
+                super.insertIndexInterval(index, length, before);
+                if (old) {
+                    addSelectionInterval(index + length, index + length);
+                }
             }
-            super.insertIndexInterval(index, length, before);
-            if (old) {
-                addSelectionInterval(index + length, index + length);
+            finally {
+                super.setValueIsAdjusting(false);
             }
         }
         else {
