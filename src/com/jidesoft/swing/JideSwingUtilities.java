@@ -2575,7 +2575,14 @@ public class JideSwingUtilities implements SwingConstants {
             Container rootAncestor = container.getFocusCycleRootAncestor();
             if (rootAncestor != null) {
                 FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
-                Component comp = policy.getComponentAfter(rootAncestor, container);
+                Component comp = null;
+                try {
+                    comp = policy.getComponentAfter(rootAncestor, container);
+                }
+                catch (Exception e) {
+                    // ClassCastException when docking frames on Solaris
+                    // http://jidesoft.com/forum/viewtopic.php?p=32569
+                }
 
                 if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
                     return comp.requestFocusInWindow();
