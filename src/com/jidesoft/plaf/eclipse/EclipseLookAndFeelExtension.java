@@ -61,7 +61,6 @@ public class EclipseLookAndFeelExtension extends BasicLookAndFeelExtension {
         if ((products & PRODUCT_ACTION) != 0) {
             table.put("CommandBarUI", eclipsePackageName + "EclipseCommandBarUI");
             table.put("CommandBarSeparatorUI", eclipsePackageName + "EclipseCommandBarSeparatorUI");
-            table.put("ChevronUI", "com.jidesoft.plaf.vsnet.VsnetChevronUI");
         }
     }
 }

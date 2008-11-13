@@ -89,9 +89,6 @@ public class JideMenu extends JMenu implements Alignable {
                 PopupMenuCustomizer customizer;
                 if ((customizer = getPopupMenuCustomizer()) != null) {
                     customizer.customize(getPopupMenu());
-                    if (getPopupMenu().getComponentCount() == 0) {
-                        return;
-                    }
                 }
             }
 
