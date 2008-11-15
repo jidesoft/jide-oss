@@ -21,9 +21,11 @@ import com.jidesoft.plaf.xerto.StatusBarBorder;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import java.awt.*;
 
@@ -253,6 +255,9 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                 }
             });
 
+            WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", UIDefaultsLookup.get("activeCaptionText"), toolkit);
+            WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", UIDefaultsLookup.get("activeCaption"), toolkit);
+
             uiDefaults = new Object[]{
                     // action
                     "CommandBar.font", toolbarFont,
@@ -270,8 +275,8 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "CommandBar.separatorSize", 5,
                     "CommandBar.titleBarSize", 17,
                     "CommandBar.titleBarButtonGap", 1,
-                    "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("activeCaption"),
-                    "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("activeCaptionText"),
+                    "CommandBar.titleBarBackground", activeTitleBackgroundColor,
+                    "CommandBar.titleBarForeground", SystemInfo.isWindowsVista() ? new ColorUIResource(Color.WHITE) : activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
 
                     "Chevron.size", 13,
