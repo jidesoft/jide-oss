@@ -1202,45 +1202,45 @@ public class LookAndFeelFactory implements ProductNames {
                             "DockableFrame.titleBorder", UIDefaultsLookup.getColor("Synthetica.docking.border.color"),
                             "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
 
-                            "DockableFrameTitlePane.hideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close")),
-                            "DockableFrameTitlePane.hideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.close.hover")),
-                            "DockableFrameTitlePane.hideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close")),
-                            "DockableFrameTitlePane.hideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.close.hover")),
+                            "DockableFrameTitlePane.hideIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.close")),
+                            "DockableFrameTitlePane.hideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.close.hover")),
+                            "DockableFrameTitlePane.hideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.close")),
+                            "DockableFrameTitlePane.hideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.close.hover")),
 
-                            "DockableFrameTitlePane.floatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock")),
-                            "DockableFrameTitlePane.floatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.undock.hover")),
-                            "DockableFrameTitlePane.floatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock")),
-                            "DockableFrameTitlePane.floatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.undock.hover")),
+                            "DockableFrameTitlePane.floatIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.undock")),
+                            "DockableFrameTitlePane.floatRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.undock.hover")),
+                            "DockableFrameTitlePane.floatActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.undock")),
+                            "DockableFrameTitlePane.floatRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.undock.hover")),
 
-                            "DockableFrameTitlePane.unfloatIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock")),
-                            "DockableFrameTitlePane.unfloatRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.dock.hover")),
-                            "DockableFrameTitlePane.unfloatActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock")),
-                            "DockableFrameTitlePane.unfloatRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.dock.hover")),
+                            "DockableFrameTitlePane.unfloatIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.dock")),
+                            "DockableFrameTitlePane.unfloatRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.dock.hover")),
+                            "DockableFrameTitlePane.unfloatActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.dock")),
+                            "DockableFrameTitlePane.unfloatRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.dock.hover")),
 
-                            "DockableFrameTitlePane.autohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
-                            "DockableFrameTitlePane.autohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
-                            "DockableFrameTitlePane.autohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
-                            "DockableFrameTitlePane.autohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
+                            "DockableFrameTitlePane.autohideIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.iconify")),
+                            "DockableFrameTitlePane.autohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.iconify.hover")),
+                            "DockableFrameTitlePane.autohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.iconify")),
+                            "DockableFrameTitlePane.autohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.iconify.hover")),
 
-                            "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
-                            "DockableFrameTitlePane.stopAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
-                            "DockableFrameTitlePane.stopAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
-                            "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
+                            "DockableFrameTitlePane.stopAutohideIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.restore")),
+                            "DockableFrameTitlePane.stopAutohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.restore.hover")),
+                            "DockableFrameTitlePane.stopAutohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.restore")),
+                            "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.restore.hover")),
 
-                            "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify")),
-                            "DockableFrameTitlePane.hideAutohideRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.iconify.hover")),
-                            "DockableFrameTitlePane.hideAutohideActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify")),
-                            "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.iconify.hover")),
+                            "DockableFrameTitlePane.hideAutohideIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.iconify")),
+                            "DockableFrameTitlePane.hideAutohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.iconify.hover")),
+                            "DockableFrameTitlePane.hideAutohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.iconify")),
+                            "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.iconify.hover")),
 
-                            "DockableFrameTitlePane.maximizeIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize")),
-                            "DockableFrameTitlePane.maximizeRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.maximize.hover")),
-                            "DockableFrameTitlePane.maximizeActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize")),
-                            "DockableFrameTitlePane.maximizeRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.maximize.hover")),
+                            "DockableFrameTitlePane.maximizeIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.maximize")),
+                            "DockableFrameTitlePane.maximizeRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.maximize.hover")),
+                            "DockableFrameTitlePane.maximizeActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.maximize")),
+                            "DockableFrameTitlePane.maximizeRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.maximize.hover")),
 
-                            "DockableFrameTitlePane.restoreIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore")),
-                            "DockableFrameTitlePane.restoreRolloverIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.restore.hover")),
-                            "DockableFrameTitlePane.restoreActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore")),
-                            "DockableFrameTitlePane.restoreRolloverActiveIcon", IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString("Synthetica.docking.titlebar.active.restore.hover")),
+                            "DockableFrameTitlePane.restoreIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.restore")),
+                            "DockableFrameTitlePane.restoreRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.restore.hover")),
+                            "DockableFrameTitlePane.restoreActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.restore")),
+                            "DockableFrameTitlePane.restoreRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("Synthetica.docking.titlebar.active.restore.hover")),
 
                             "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
                             "DockableFrameTitlePane.contentFilledButtons", Boolean.FALSE,
@@ -1256,6 +1256,16 @@ public class LookAndFeelFactory implements ProductNames {
             catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static Icon loadSyntheticaIcon(Class syntheticaClass, String key) {
+        try {
+            Method method = syntheticaClass.getMethod("loadIcon", String.class);
+            return (Icon) method.invoke(null, key);
+        }
+        catch (Exception e) {
+            return IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString(key));
         }
     }
 
