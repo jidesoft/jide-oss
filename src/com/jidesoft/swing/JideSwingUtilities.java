@@ -938,7 +938,10 @@ public class JideSwingUtilities implements SwingConstants {
     private static PropertyChangeListener _setOpaqueTrueListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getSource() instanceof JComponent) {
-                ((JComponent) evt.getSource()).setOpaque(true);
+                JComponent component = (JComponent) evt.getSource();
+                if (!component.isOpaque()) {
+                    component.setOpaque(true);
+                }
             }
         }
     };
