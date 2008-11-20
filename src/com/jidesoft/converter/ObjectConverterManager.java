@@ -397,6 +397,11 @@ public class ObjectConverterManager {
             registerConverter(Date[].class, new DefaultArrayConverter("; ", Date.class));
             registerConverter(Calendar[].class, new DefaultArrayConverter("; ", Calendar.class));
             registerConverter(Number[].class, new DefaultArrayConverter("; ", Number.class));
+            registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
+            registerConverter(float[].class, new DefaultArrayConverter("; ", float.class));
+            registerConverter(double[].class, new DefaultArrayConverter("; ", double.class));
+            registerConverter(long[].class, new DefaultArrayConverter("; ", long.class));
+            registerConverter(short[].class, new DefaultArrayConverter("; ", short.class));
 
             registerConverter(BigDecimal.class, new BigDecimalConverter());
         }
