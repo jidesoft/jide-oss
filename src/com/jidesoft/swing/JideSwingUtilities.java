@@ -3011,21 +3011,19 @@ public class JideSwingUtilities implements SwingConstants {
      * @param locale the new locales.
      */
     public static void setLocaleRecursively(final Component c, final Locale locale) {
-        if (c instanceof JComponent) {
-            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-                public boolean condition(Component c) {
-                    return true;
-                }
+        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
+            public boolean condition(Component c) {
+                return true;
+            }
 
-                public void action(Component c) {
-                    c.setLocale(locale);
-                }
+            public void action(Component c) {
+                c.setLocale(locale);
+            }
 
-                public void postAction(Component c) {
+            public void postAction(Component c) {
 
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
