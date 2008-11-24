@@ -83,10 +83,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
                     }
                 }
                 _checkBox.setEnabled(enabled);
-                if (selectionModel.isPathSelected(path, selectionModel.isDigIn()))
-                    _checkBox.setState(TristateCheckBox.SELECTED);
-                else
-                    _checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED);
+                updateCheckBoxState(_checkBox, path, selectionModel);
             }
         }
 
@@ -107,6 +104,23 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
         }
 
         return this;
+    }
+
+    /**
+     * Updates the check box state based on the selection in the selection model. By default, we check if the path is
+     * selected. If yes, we mark the check box as TristateCheckBox.SELECTED. If not, we will check if the path is
+     * partially selected, if yes, we set the check box as null or TristateCheckBox.DONT_CARE to indicate the path is
+     * partially selected. Otherwise, we set it to TristateCheckBox.NOT_SELECTED.
+     *
+     * @param checkBox       the TristateCheckBox for the particular tree path.
+     * @param path           the tree path.
+     * @param selectionModel the CheckBoxTreeSelectionModel.
+     */
+    protected void updateCheckBoxState(TristateCheckBox checkBox, TreePath path, CheckBoxTreeSelectionModel selectionModel) {
+        if (selectionModel.isPathSelected(path, selectionModel.isDigIn()))
+            checkBox.setState(TristateCheckBox.SELECTED);
+        else
+            checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED);
     }
 
     @Override
