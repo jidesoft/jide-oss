@@ -1181,6 +1181,15 @@ public class LookAndFeelFactory implements ProductNames {
                     };
                     overwriteDefaults(defaults, uiDefaults);
                 }
+
+                if ((products & PRODUCT_GRIDS) != 0) {
+                    Object[] uiDefaults = {
+                            "NestedTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUI",
+                            "EditableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaEditableTableHeaderUI",
+                    };
+                    overwriteDefaults(defaults, uiDefaults);
+                }
+
                 if ((products & PRODUCT_ACTION) != 0) {
                     Object[] uiDefaults = {
                             "CommandBar.background", toolbarBackground,
@@ -1193,6 +1202,7 @@ public class LookAndFeelFactory implements ProductNames {
                     };
                     overwriteDefaults(defaults, uiDefaults);
                 }
+
                 if ((products & PRODUCT_DOCK) != 0) {
                     Object[] uiDefaults = {
                             "Workspace.background", UIManager.getColor("control"),
