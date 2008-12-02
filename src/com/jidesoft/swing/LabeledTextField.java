@@ -189,18 +189,20 @@ public class LabeledTextField extends JPanel {
     public void updateUI() {
         super.updateUI();
         Border textFieldBorder = UIDefaultsLookup.getBorder("TextField.border");
-        boolean big = textFieldBorder.getBorderInsets(this).top >= 2;
-        if (big)
-            setBorder(textFieldBorder);
-        else
-            setBorder(BorderFactory.createCompoundBorder(textFieldBorder, BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        if (textFieldBorder != null) {
+            boolean big = textFieldBorder.getBorderInsets(this).top >= 2;
+            if (big)
+                setBorder(textFieldBorder);
+            else
+                setBorder(BorderFactory.createCompoundBorder(textFieldBorder, BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        }
         if (isEnabled()) {
             LookAndFeel.installColors(this, "TextField.background", "TextField.foreground");
         }
         else {
             LookAndFeel.installColors(this, "TextField.inactiveBackground", "TextField.foreground");
         }
-        if (_textField != null) {
+        if (textFieldBorder != null && _textField != null) {
             _textField.setBorder(BorderFactory.createEmptyBorder());
         }
     }
