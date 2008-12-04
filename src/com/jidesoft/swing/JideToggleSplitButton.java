@@ -16,22 +16,23 @@ import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-
 /**
  * An implementation of a two-state JideButton.
+ * <p/>
+ * <strong>Warning:</strong> {@code SplitButtonGroup} has to be used in place of {@code ButtonGroup} for {@code
+ * JideToggleSplitButton}s.
  */
+
 public class JideToggleSplitButton extends JideSplitButton implements Accessible {
     /**
-     * Creates an initially unselected toggle button
-     * without setting the text or image.
+     * Creates an initially unselected toggle button without setting the text or image.
      */
     public JideToggleSplitButton() {
         this(null, null, false);
     }
 
     /**
-     * Creates an initially unselected toggle button
-     * with the specified image but no text.
+     * Creates an initially unselected toggle button with the specified image but no text.
      *
      * @param icon the image that the button should display
      */
@@ -40,12 +41,10 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     }
 
     /**
-     * Creates a toggle button with the specified image
-     * and selection state, but no text.
+     * Creates a toggle button with the specified image and selection state, but no text.
      *
      * @param icon     the image that the button should display
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleSplitButton(Icon icon, boolean selected) {
         this(null, icon, selected);
@@ -61,20 +60,17 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     }
 
     /**
-     * Creates a toggle button with the specified text
-     * and selection state.
+     * Creates a toggle button with the specified text and selection state.
      *
      * @param text     the string displayed on the toggle button
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleSplitButton(String text, boolean selected) {
         this(text, null, selected);
     }
 
     /**
-     * Creates a toggle button where properties are taken from the
-     * Action supplied.
+     * Creates a toggle button where properties are taken from the Action supplied.
      *
      * @since 1.3
      */
@@ -84,8 +80,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     }
 
     /**
-     * Creates a toggle button that has the specified text and image,
-     * and that is initially unselected.
+     * Creates a toggle button that has the specified text and image, and that is initially unselected.
      *
      * @param text the string displayed on the button
      * @param icon the image that the button should display
@@ -95,13 +90,11 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     }
 
     /**
-     * Creates a toggle button with the specified text, image, and
-     * selection state.
+     * Creates a toggle button with the specified text, image, and selection state.
      *
      * @param text     the text of the toggle button
      * @param icon     the image that the button should display
-     * @param selected if true, the button is initially selected;
-     *                 otherwise, the button is initially unselected
+     * @param selected if true, the button is initially selected; otherwise, the button is initially unselected
      */
     public JideToggleSplitButton(String text, Icon icon, boolean selected) {
         // Create the model
@@ -118,14 +111,10 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     /**
      * The ToggleButton model
      * <p/>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     public static class ToggleSplitButtonModel extends DefaultSplitButtonModel {
 
@@ -151,8 +140,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         /**
          * Sets the selected state of the button.
          *
-         * @param b true selects the toggle button,
-         *          false deselects the toggle button.
+         * @param b true selects the toggle button, false deselects the toggle button.
          */
         @Override
         public void setButtonSelected(boolean b) {
@@ -230,13 +218,10 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JToggleButton.
-     * For toggle buttons, the AccessibleContext takes the form of an
-     * AccessibleJToggleButton.
-     * A new AccessibleJToggleButton instance is created if necessary.
+     * Gets the AccessibleContext associated with this JToggleButton. For toggle buttons, the AccessibleContext takes
+     * the form of an AccessibleJToggleButton. A new AccessibleJToggleButton instance is created if necessary.
      *
-     * @return an AccessibleJToggleButton that serves as the
-     *         AccessibleContext of this JToggleButton
+     * @return an AccessibleJToggleButton that serves as the AccessibleContext of this JToggleButton
      */
     @Override
     public AccessibleContext getAccessibleContext() {
@@ -247,19 +232,13 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JToggleButton</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to toggle button user-interface
-     * elements.
+     * This class implements accessibility support for the <code>JToggleButton</code> class.  It provides an
+     * implementation of the Java Accessibility API appropriate to toggle button user-interface elements.
      * <p/>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
+     * current serialization support is appropriate for short term storage or RMI between applications running the same
+     * version of Swing.  As of 1.4, support for long term storage of all JavaBeans<sup><font size="-2">TM</font></sup>
+     * has been added to the <code>java.beans</code> package. Please see {@link java.beans.XMLEncoder}.
      */
     protected class AccessibleJToggleButton extends AccessibleAbstractButton
             implements ItemListener {
@@ -270,8 +249,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         }
 
         /**
-         * Fire accessible property change events when the state of the
-         * toggle button changes.
+         * Fire accessible property change events when the state of the toggle button changes.
          */
         public void itemStateChanged(ItemEvent e) {
             JideToggleSplitButton tb = (JideToggleSplitButton) e.getSource();
@@ -290,8 +268,7 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         *         object
+         * @return an instance of AccessibleRole describing the role of the object
          */
         @Override
         public AccessibleRole getAccessibleRole() {
