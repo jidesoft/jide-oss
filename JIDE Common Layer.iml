@@ -14,8 +14,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="aqua" level="project" />
-    <orderEntry type="library" name="junit" level="project" />
-    <orderEntry type="library" name="abbot" level="project" />
+    <orderEntry type="library" exported="" name="junit" level="project" />
+    <orderEntry type="library" exported="" name="abbot" level="project" />
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
