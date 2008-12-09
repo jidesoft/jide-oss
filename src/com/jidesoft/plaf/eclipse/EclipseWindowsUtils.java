@@ -188,7 +188,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.buttonSize", 18,
                 "JideTabbedPane.buttonMargin", 5,
                 "JideTabbedPane.fitStyleBoundSize", 8,
-                "JideTabbedPane.fitStyleFirstTabMargin", 4,
+                "JideTabbedPane.fitStyleFirstTabMargin", 0,
                 "JideTabbedPane.fitStyleIconMinWidth", 24,
                 "JideTabbedPane.fitStyleTextMinWidth", 16,
                 "JideTabbedPane.compressedStyleNoIconRectSize", 24,
