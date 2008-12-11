@@ -951,9 +951,8 @@ public class MultiplePageDialogPane extends StandardDialogPane {
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
-
-        button.setRequestFocusEnabled(true);
-        button.setFocusable(true);
+        button.setRequestFocusEnabled(false);
+        button.setFocusable(false);
         return button;
     }
 
