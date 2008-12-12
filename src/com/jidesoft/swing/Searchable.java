@@ -363,7 +363,6 @@ public abstract class Searchable {
                 _textField.setForeground(getMismatchForeground());
                 _noMatch.setText(getResourceString("Searchable.noMatch"));
             }
-            updatePopupBounds();
             firePropertyChangeEvent(searchingText);
             if (index != -1) {
                 Object element = getElementAt(index);
