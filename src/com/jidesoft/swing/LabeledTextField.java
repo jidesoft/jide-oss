@@ -13,10 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -68,32 +65,40 @@ public class LabeledTextField extends JPanel {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    showMenu();
+                    showContextMenu();
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                }
-
-                protected void showMenu() {
-                    if (isEnabled()) {
-                        JPopupMenu menu = createContextMenu();
-                        PopupMenuCustomizer customizer = getPopupMenuCustomizer();
-                        if (customizer != null && menu != null) {
-                            customizer.customize(LabeledTextField.this, menu);
-                        }
-                        if (menu != null && menu.getComponentCount() > 0) {
-                            Point location = _label.getLocation();
-                            menu.show(LabeledTextField.this, location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
-                        }
-                    }
                 }
             });
         }
         _button = createButton();
         _textField = createTextField();
         initLayout(_label, _textField, _button);
+        registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showContextMenu();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_F10, KeyEvent.SHIFT_MASK), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         updateUI();
+    }
+
+    /**
+     * Shows the context menu.
+     */
+    protected void showContextMenu() {
+        if (isEnabled()) {
+            JPopupMenu menu = createContextMenu();
+            PopupMenuCustomizer customizer = getPopupMenuCustomizer();
+            if (customizer != null && menu != null) {
+                customizer.customize(LabeledTextField.this, menu);
+            }
+            if (menu != null && menu.getComponentCount() > 0) {
+                Point location = _label.getLocation();
+                menu.show(LabeledTextField.this, location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
+            }
+        }
     }
 
     /**
