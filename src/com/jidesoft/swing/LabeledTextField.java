@@ -32,6 +32,7 @@ public class LabeledTextField extends JPanel {
     protected String _hintText;
     protected JLabel _hintLabel;
     protected PopupMenuCustomizer _customizer;
+    protected KeyStroke _contextMenuKeyStroke;
 
     /**
      * The PopupMenuCustomizer for the context menu when clicking on the label/icon before the text field.
@@ -76,12 +77,23 @@ public class LabeledTextField extends JPanel {
         _button = createButton();
         _textField = createTextField();
         initLayout(_label, _textField, _button);
-        registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showContextMenu();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_F10, KeyEvent.SHIFT_MASK), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        registerContextMenuKeyStroke(getContextMenuKeyStroke());
         updateUI();
+    }
+
+    private void registerContextMenuKeyStroke(KeyStroke keyStroke) {
+        if (keyStroke != null) {
+            registerKeyboardAction(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    showContextMenu();
+                }
+            }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        }
+    }
+
+    private void unregisterContextMenuKeyStroke(KeyStroke keyStroke) {
+        if (keyStroke != null)
+            unregisterKeyboardAction(keyStroke);
     }
 
     /**
@@ -451,5 +463,34 @@ public class LabeledTextField extends JPanel {
      */
     public void setPopupMenuCustomizer(PopupMenuCustomizer customizer) {
         _customizer = customizer;
+    }
+
+    /**
+     * Gets the keystroke that will bring up the context menu. If you never set it before, it will return SHIFT-F10 for
+     * operating systems other than Mac OS X.
+     *
+     * @return the keystroke that will bring up the context menu.
+     */
+    public KeyStroke getContextMenuKeyStroke() {
+        if (_contextMenuKeyStroke == null) {
+            _contextMenuKeyStroke = !SystemInfo.isMacOSX() ? KeyStroke.getKeyStroke(KeyEvent.VK_F10, KeyEvent.SHIFT_MASK) : null;
+        }
+        return _contextMenuKeyStroke;
+    }
+
+    /**
+     * Changes the keystroke that brings up the context menu which is normally shown when user clicks on the label icon
+     * before the text field.
+     *
+     * @param contextMenuKeyStroke the new keystroke to bring up the context menu.
+     */
+    public void setContextMenuKeyStroke(KeyStroke contextMenuKeyStroke) {
+        if (_contextMenuKeyStroke != null) {
+            unregisterContextMenuKeyStroke(_contextMenuKeyStroke);
+        }
+        _contextMenuKeyStroke = contextMenuKeyStroke;
+        if (_contextMenuKeyStroke != null) {
+            registerContextMenuKeyStroke(_contextMenuKeyStroke);
+        }
     }
 }
