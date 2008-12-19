@@ -129,14 +129,20 @@ class ScrollPaneOverview extends JComponent {
 
         int maxSize = Math.max(MAX_SIZE, Math.max(_scrollPane.getWidth(), _scrollPane.getHeight()) / 2);
 
-        double compWidth = _viewComponent.getWidth();
-        double compHeight = _viewComponent.getHeight();
-        double scaleX = maxSize / compWidth;
-        double scaleY = maxSize / compHeight;
+        double width = _viewComponent.getWidth();
+        if (width == 0) {
+            return;
+        }
+        double height = _viewComponent.getHeight();
+        if (height == 0) {
+            return;
+        }
+        double scaleX = maxSize / width;
+        double scaleY = maxSize / height;
 
         _scale = Math.min(scaleX, scaleY);
 
-        _image = new BufferedImage((int) (_viewComponent.getWidth() * _scale), (int) (_viewComponent.getHeight() * _scale), BufferedImage.TYPE_INT_RGB);
+        _image = new BufferedImage((int) (width * _scale), (int) (height * _scale), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = _image.createGraphics();
 
         g.scale(_scale, _scale);
