@@ -1394,63 +1394,63 @@ public class LookAndFeelFactory implements ProductNames {
                 Class.forName("com.jidesoft.docking.Product");
                 _productsUsed |= PRODUCT_DOCK;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.action.Product");
                 _productsUsed |= PRODUCT_ACTION;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.document.Product");
                 _productsUsed |= PRODUCT_COMPONENTS;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.grid.Product");
                 _productsUsed |= PRODUCT_GRIDS;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.wizard.Product");
                 _productsUsed |= PRODUCT_DIALOGS;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.pivot.Product");
                 _productsUsed |= PRODUCT_PIVOT;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.shortcut.Product");
                 _productsUsed |= PRODUCT_SHORTCUT;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.editor.Product");
                 _productsUsed |= PRODUCT_CODE_EDITOR;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.rss.Product");
                 _productsUsed |= PRODUCT_FEEDREADER;
             }
-            catch (ClassNotFoundException e) {
+            catch (Throwable e) {
                 //
             }
         }
