@@ -363,6 +363,7 @@ public abstract class Searchable {
                 _textField.setForeground(getMismatchForeground());
                 _noMatch.setText(getResourceString("Searchable.noMatch"));
             }
+            updatePopupBounds();
             firePropertyChangeEvent(searchingText);
             if (index != -1) {
                 Object element = getElementAt(index);
@@ -378,7 +379,11 @@ public abstract class Searchable {
                 _textField.invalidate();
                 try {
                     if (!isHeavyweightComponentEnabled()) {
-                        _popup.setSize(_popup.getPreferredSize());
+                        Dimension size = _noMatch.getPreferredSize();
+                        size.width += _label.getPreferredSize().width;
+                        size.width += new JLabel(_textField.getText()).getPreferredSize().width + 24;
+                        size.height = _popup.getSize().height;
+                        _popup.setSize(size);
                         _popup.validate();
                     }
                     else {
