@@ -582,7 +582,8 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Sets the Window opacity using AWTUtilities.setWindowOpacity on JDK6u10 and later.
      *
-     * @param window the Window
+     * @param window  the Window
+     * @param opacity the opacity
      */
     public static void setWindowOpacity(Window window, float opacity) {
         try {
