@@ -430,6 +430,28 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or no the JDK version is 6u10 and above.
+     *
+     * @return <tt>true</tt> if the application is running on JDK 6u10 and above, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdk6u10Above() {
+        String s = getJavaVersion();
+        String sub = s.substring(0, 3);
+        String minor = s.substring(4, 5);
+        String build = s.substring(6, 8);
+        try {
+            double majorVersion = Double.parseDouble(sub);
+            double minorVersion = Double.parseDouble(minor);
+            double buildVersion = Double.parseDouble(build);
+            return majorVersion >= 1.6 && (minorVersion > 0 || buildVersion >= 10);
+        }
+        catch (NumberFormatException e) {
+            // ignore
+        }
+        return false;
+    }
+
+    /**
      * Returns whether or no the JDK version is 1.7 and above.
      *
      * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt> otherwise.

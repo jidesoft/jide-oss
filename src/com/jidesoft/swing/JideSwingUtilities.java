@@ -34,6 +34,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.AccessControlException;
 import java.util.*;
 
@@ -576,6 +577,22 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         return ret;
+    }
+
+    /**
+     * Sets the Window opacity using AWTUtilities.setWindowOpacity on JDK6u10 and later.
+     *
+     * @param window the Window
+     */
+    public static void setWindowOpacity(Window window, float opacity) {
+        try {
+            Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
+            Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpacity", Window.class, float.class);
+            mSetWindowOpacity.invoke(null, window, opacity);
+        }
+        catch (Exception ex) {
+            // ignore
+        }
     }
 
     private static class GetPropertyAction
