@@ -12,11 +12,15 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 
-/** A resizable undecorated dialog. */
+/**
+ * A resizable undecorated dialog.
+ */
 public class ResizableDialog extends JDialog implements ResizableSupport {
 
     private ResizablePanel _resizablePanel;
+    private boolean _routingKeyStrokes;
 
     public ResizableDialog() throws HeadlessException {
         initComponents();
@@ -72,7 +76,9 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
         initComponents();
     }
 
-    /** Initializes the resizable window. */
+    /**
+     * Initializes the resizable window.
+     */
     protected void initComponents() {
         setModal(false);
         setUndecorated(true);
@@ -115,6 +121,21 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
                     }
                 };
             }
+
+            @Override
+            protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
+                boolean processed = super.processKeyBinding(ks, e, condition, pressed);
+                if (processed || e.isConsumed() || !isRoutingKeyStrokes())
+                    return processed;
+
+                Component routingParent = getRoutingComponent();
+                if (routingParent == null) {
+                    return false;
+                }
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(
+                        routingParent, e);
+                return (e.isConsumed());
+            }
         };
         setContentPane(_resizablePanel);
 
@@ -137,8 +158,8 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
     }
 
     /**
-     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window
-     * won't be resizable.
+     * Sets the border of the resizable window. Do not pass in an empty border. Otherwise the window won't be
+     * resizable.
      *
      * @param border the border.
      */
@@ -163,5 +184,17 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
      */
     public Resizable getResizable() {
         return _resizablePanel.getResizable();
+    }
+
+    public Component getRoutingComponent() {
+        return getOwner();
+    }
+
+    public void setRoutingKeyStrokes(boolean routingKeyStrokes) {
+        _routingKeyStrokes = routingKeyStrokes;
+    }
+
+    public boolean isRoutingKeyStrokes() {
+        return _routingKeyStrokes;
     }
 }

@@ -12,6 +12,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * A resizable undecorated frame.
@@ -19,6 +20,7 @@ import java.awt.event.ComponentEvent;
 public class ResizableFrame extends JFrame implements ResizableSupport {
 
     private ResizablePanel _resizablePanel;
+    private boolean _routingKeyStrokes;
 
     public ResizableFrame() throws HeadlessException {
         initComponents();
@@ -78,6 +80,21 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                     }
                 };
             }
+
+            @Override
+            protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
+                boolean processed = super.processKeyBinding(ks, e, condition, pressed);
+                if (processed || e.isConsumed() || !isRoutingKeyStrokes())
+                    return processed;
+
+                Component routingParent = getRoutingComponent();
+                if (routingParent == null) {
+                    return false;
+                }
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(
+                        routingParent, e);
+                return (e.isConsumed());
+            }
         };
         setContentPane(_resizablePanel);
 
@@ -126,5 +143,17 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
      */
     public Resizable getResizable() {
         return _resizablePanel.getResizable();
+    }
+
+    public Component getRoutingComponent() {
+        return getOwner();
+    }
+
+    public void setRoutingKeyStrokes(boolean routingKeyStrokes) {
+        _routingKeyStrokes = routingKeyStrokes;
+    }
+
+    public boolean isRoutingKeyStrokes() {
+        return _routingKeyStrokes;
     }
 }

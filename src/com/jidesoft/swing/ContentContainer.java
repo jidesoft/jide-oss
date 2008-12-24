@@ -29,6 +29,8 @@ public class ContentContainer extends JPanel {
         setBorder(BorderFactory.createEmptyBorder());
         setOpaque(true);
         updateUI();
+        setFocusCycleRoot(false);
+        setFocusable(false);
     }
 
     @Override

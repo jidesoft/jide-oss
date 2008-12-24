@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
@@ -406,6 +407,16 @@ public class JideTabbedPane extends JTabbedPane {
         return _closeAction;
     }
 
+    public void setAutoFocusOnTabHideClose(boolean autoFocusonTabHideClose) {
+        _autoFocusonTabHideClose = autoFocusonTabHideClose;
+    }
+
+    public boolean isAutoFocusOnTabHideClose() {
+        return _autoFocusonTabHideClose;
+    }
+
+    boolean _autoFocusonTabHideClose = true;
+
     /**
      * Resets close action to default. Default action is to remove currently selected tab.
      */
@@ -415,28 +426,63 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _suppressStateChangedEvents = false;
 
+    public void setSuppressStateChangedEvents(boolean suppress) {
+        _suppressStateChangedEvents = suppress;
+    }
+
+    public boolean isSuppressStateChangedEvents() {
+        return _suppressStateChangedEvents;
+    }
+
     @Override
     protected void fireStateChanged() {
-        if (!_suppressStateChangedEvents) {
-            super.fireStateChanged();
-        }
+        if (_suppressStateChangedEvents)
+            return;
+
+        if (!isAutoFocusOnTabHideClose())
+            clearVisComp();
+        super.fireStateChanged();
+
     }
+
 
     // setSelectedIndex will be called during moving tab. So we use this flag to suppress it.
     private boolean _suppressSetSelectedIndex = false;
 
+    public boolean isSuppressSetSelectedIndex() {
+        return _suppressSetSelectedIndex;
+    }
+
+    public void setSuppressSetSelectedIndex(boolean suppressSetSelectedIndex) {
+        _suppressSetSelectedIndex = suppressSetSelectedIndex;
+    }
+
     @Override
     public void setSelectedIndex(int index) {
-        if (!_suppressSetSelectedIndex) {
-            boolean old = isFocusCycleRoot();
-            setFocusCycleRoot(true);
-            try {
-                super.setSelectedIndex(index);
-            }
-            finally {
-                setFocusCycleRoot(old);
-            }
+        if (_suppressSetSelectedIndex)
+            return;
+
+        boolean old = isFocusCycleRoot();
+        setFocusCycleRoot(true);
+        try {
+            super.setSelectedIndex(index);
         }
+        finally {
+            setFocusCycleRoot(old);
+        }
+    }
+
+    /*
+    * This is called by the popup menu in the scrollrect area
+    */
+    public void popupSelectedIndex(int index) {
+        setSelectedIndex(index);
+    }
+
+    public void setComponentAt(int index, Component component) {
+        super.setComponentAt(index, component);
+        if (!isAutoFocusOnTabHideClose())
+            clearVisComp();
     }
 
     private boolean _autoRequestFocus = true;
@@ -451,7 +497,7 @@ public class JideTabbedPane extends JTabbedPane {
         return _autoRequestFocus;
     }
 
-    private void setAutoRequestFocus(boolean autoRequestFocus) {
+    public void setAutoRequestFocus(boolean autoRequestFocus) {
         _autoRequestFocus = autoRequestFocus;
     }
 
@@ -474,7 +520,7 @@ public class JideTabbedPane extends JTabbedPane {
         // we will not let UI to auto request focus so we will have to do it here.
         // if the selected component has focus, we will request it after the tab is moved.
         if (selectedComponent != null) {
-            if (JideSwingUtilities.isAncestorOfFocusOwner(selectedComponent)) {
+            if (JideSwingUtilities.isAncestorOfFocusOwner(selectedComponent) && isAutoFocusOnTabHideClose()) {
                 shouldChangeFocus = true;
             }
         }
@@ -532,19 +578,19 @@ public class JideTabbedPane extends JTabbedPane {
             _suppressStateChangedEvents = false;
 
             if (shouldChangeFocus) {
-                Runnable runnable = new Runnable() {
-                    public void run() {
-                        if (!requestFocusForVisibleComponent()) {
-                            requestFocusInWindow();
-                        }
-                    }
-                };
-                SwingUtilities.invokeLater(runnable);
+                if (!requestFocusForVisibleComponent()) {
+                    System.out.println("---tabpane.requestfocus41");
+                    requestFocusInWindow();
+                }
             }
         }
     }
 
-    protected boolean requestFocusForVisibleComponent() {
+    // mtf - review if this is still needed
+    public boolean requestFocusForVisibleComponent() {
+        if (true)
+            return false;
+        System.out.println("---JideTabbedPane.requestFocusForVisibleComponent()");
         Component visibleComponent = getSelectedComponent();
         Component lastFocused = getLastFocusedComponent(visibleComponent);
         if (lastFocused != null && lastFocused.requestFocusInWindow()) {
@@ -567,8 +613,10 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
-
-    class IgnoreableSingleSelectionModel extends DefaultSingleSelectionModel {
+    /*
+      * Used to allow the tabswitching to be delayed until after drag/reorder opperations are done.
+      */
+    protected class IgnoreableSingleSelectionModel extends DefaultSingleSelectionModel {
         @Override
         protected void fireStateChanged() {
             if (!_suppressStateChangedEvents) {
@@ -577,6 +625,9 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
+    public void processMouseSelection(int tabIndex, MouseEvent e) {
+
+    }
 
     /**
      * Gets tab height.
@@ -793,8 +844,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets if the tab area is visible. If not visible, you can programmatically call setSelectedIndex to change ta.
-     * User will not be able to do it by clicking on tabs since they are not visible.
+     * Sets if the tab area is visible. If not visible, you can programatically call setSelectedIndex to change ta. User
+     * will not be able to do it by clicking on tabs since they are not visible.
      *
      * @param showTabArea true or false.
      */
@@ -887,9 +938,6 @@ public class JideTabbedPane extends JTabbedPane {
 
     @Override
     public void removeTabAt(int index) {
-
-        // There is a bug in JTabbedPane removeTabAt(int index) method,
-        // if the selected index is not the last one, and it is deleted, no ChangeEvent is fired
         int tabCount = getTabCount();
         int selected = getSelectedIndex();
         boolean enforce = false;
@@ -904,8 +952,14 @@ public class JideTabbedPane extends JTabbedPane {
         if (_closableMap.containsKey(titleAt)) {
             contains = true;
         }
+
         Component component = getComponentAt(index);
+        if (!isAutoFocusOnTabHideClose())
+            clearVisComp();
+
         super.removeTabAt(index);
+
+
         if (contains) {
             _closableMap.remove(titleAt);
         }
@@ -987,13 +1041,55 @@ public class JideTabbedPane extends JTabbedPane {
      * @param pageComponent
      * @return the last focused component of a particular page.
      */
+
     public Component getLastFocusedComponent(Component pageComponent) {
         if (pageComponent == null) {
             return null;
         }
+        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + pageComponent);
+
         PageLastFocusTracker tracker = (PageLastFocusTracker) (
                 getPageLastFocusTrackers().get(pageComponent));
-        return ((tracker != null) ? tracker.getLastFocusedComponent() : null);
+        final Component componentReturn = ((tracker != null) ? tracker.getLastFocusedComponent() : null);
+
+        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + componentReturn);
+        if (false) {
+            Component compTest = new JPanel() {
+                public void requestFocus() {
+                    System.out.println("---.requestFocus()22");
+                    componentReturn.requestFocus();
+                }
+
+                public boolean isRequestFocusEnabled() {
+                    System.out.println("---.isRequestFocusEnabled()");
+                    return true;
+                }
+
+                public Container getParent() {
+                    System.out.println("---.getParent()");
+                    return (Container) componentReturn;
+                }
+            };
+            if (componentReturn != null)
+                ((Container) componentReturn).add(compTest);
+            return compTest;
+        }
+        ;
+        return componentReturn;
+    }
+
+    protected void clearVisComp() {
+        // this is done so that the super removetab and fireselection do not attempt to manage focus
+        // A very dirty hack to access a private variable is jtabpane. Note - this only works on 1.6
+        try {
+            java.lang.reflect.Field field = JTabbedPane.class.getDeclaredField("visComp");
+            // set accessible true
+            field.setAccessible(true);
+            field.set(this, null);
+//			superVisComp = (Component) field.get(this);
+        }
+        catch (Exception e) {
+        }
     }
 
     /**
@@ -1002,6 +1098,11 @@ public class JideTabbedPane extends JTabbedPane {
      */
     @Override
     public void insertTab(String title, Icon icon, Component component, String tip, int index) {
+        // set the component to visible false initially because the layout manager will set it to visible when
+        // appropriate. This also limits the flicker from mixing lightweight/heavyweight components.
+        if (component != null && !component.isVisible())
+            component.setVisible(false);
+
         super.insertTab(title, icon, component, tip, index);
 
         if (component != null) {
@@ -1219,7 +1320,7 @@ public class JideTabbedPane extends JTabbedPane {
          *
          * @param tabIndex
          * @return the gradient ratio. The value should be between 0 and 1. 0 will produce the darkest and color and 1
-         *         will produce the lightest color. 0.5 will provide the same color.
+         *         will produce the lighest color. 0.5 will provide the same color.
          */
         float getGradientRatio(int tabIndex);
     }
@@ -1227,7 +1328,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * A ColorProvider that can supports gradient tab background. The ColorProvider can also do gradient but the other
      * color has to be be a lighter or darker version of the color of getBackgroundAt. GradientColorProvider allows you
-     * to specify an independent color as the start color.
+     * to specify an indenpendent color as the start color.
      */
     public static interface GradientColorProvider extends ColorProvider {
         /**
@@ -1454,6 +1555,18 @@ public class JideTabbedPane extends JTabbedPane {
                 Icon icon = tabbedPane.getIconForTab(index);
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
                 label.setToolTipText(tooltip);
+                Font fnt = tabbedPane.getFont();
+                if (tabbedPane.getSelectedIndex() == index) {
+                    fnt = tabbedPane.getSelectedTabFont();
+                }
+                else {
+                    fnt = tabbedPane.getFont();
+                }
+
+                if (tabbedPane.getSelectedIndex() == index && tabbedPane.isBoldActiveTab() && fnt.getStyle() != Font.BOLD) {
+                    fnt = fnt.deriveFont(Font.BOLD);
+                }
+                label.setFont(fnt);
                 label.setIcon(icon);
                 label.setEnabled(tabbedPane.isEnabledAt(index));
                 return label;

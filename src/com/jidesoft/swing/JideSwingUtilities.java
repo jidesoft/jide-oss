@@ -2189,13 +2189,45 @@ public class JideSwingUtilities implements SwingConstants {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String oldName = evt.getOldValue() == null ? "null" : evt.getOldValue().getClass().getName();
-                System.out.println(evt.getPropertyName() + ": " + oldName + " ==> " +
-                        (evt.getNewValue() == null ? "null" : evt.getNewValue().getClass().getName()));
+                if (evt.getOldValue() instanceof Component && ((Component) evt.getOldValue()).getName() != null)
+                    oldName = oldName + "'" + ((Component) evt.getOldValue()).getName() + "'";
+                String newName = evt.getNewValue() == null ? "null" : evt.getNewValue().getClass().getName();
+                if (evt.getNewValue() instanceof Component && ((Component) evt.getNewValue()).getName() != null)
+                    newName = newName + "'" + ((Component) evt.getNewValue()).getName() + "'";
+
+                System.out.println(evt.getPropertyName() + ": " + oldName + " ==> " + newName);
             }
         };
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", listener);
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("permanentFocusOwner", listener);
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("activeWindow", listener);
+    }
+
+    public static void runGCAndPrintFreeMemory() {
+        java.text.DecimalFormat memFormatter = new java.text.DecimalFormat("###,###,##0.####");
+        String memFree = memFormatter
+                .format(Runtime.getRuntime().freeMemory() / 1024);
+        String memTotal = memFormatter
+                .format(Runtime.getRuntime().totalMemory() / 1024);
+        String memUsed = memFormatter
+                .format((Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
+                        .freeMemory()) / 1024);
+        System.out.println("before gc: (Total [" + memTotal + "k] - Free ["
+                + memFree + "k]) = Used [" + memUsed + "k]");
+        System.runFinalization();
+        System.gc();
+        try {
+            // give the gc time.
+            Thread.sleep(100);
+        }
+        catch (InterruptedException ie) {
+        }
+        memFree = memFormatter.format(Runtime.getRuntime().freeMemory() / 1024);
+        memTotal = memFormatter.format(Runtime.getRuntime().totalMemory() / 1024);
+        memUsed = memFormatter.format((Runtime.getRuntime().totalMemory() - Runtime
+                .getRuntime().freeMemory()) / 1024);
+        System.out.println("after gc: (Total [" + memTotal + "k] - Free ["
+                + memFree + "k]) = Used [" + memUsed + "k]");
     }
 
     /**
@@ -3197,5 +3229,21 @@ public class JideSwingUtilities implements SwingConstants {
             size.height++;
             return size;
         }
+    }
+
+    /**
+     * The semantics in AWT of hidding a component, removing a component, and reparenting a component are inconsistent
+     * with respect to focus. By calling this function before any of the operations above focus is gauranteed a
+     * consistent degregation.
+     *
+     * @param component
+     */
+    public static void removeFromParentWithFocusTransfer(Component component) {
+        boolean wasVisible = component.isVisible();
+        component.setVisible(false);
+        if (component.getParent() != null) {
+            component.getParent().remove(component);
+        }
+        component.setVisible(wasVisible);
     }
 }

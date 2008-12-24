@@ -10,6 +10,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.popup.JidePopup;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.PartialLineBorder;
 import com.jidesoft.swing.Sticky;
 import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
@@ -954,7 +955,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
-        String title = _tabPane.getDisplayTitleAt(tabIndex);
+        String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
         Font font = null;
 
         if (isSelected && _tabPane.getSelectedTabFont() != null) {
@@ -970,10 +971,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         FontMetrics metrics = g.getFontMetrics(font);
 
+        while (title == null || title.length() < 3)
+            title += " ";
+
         layoutLabel(tabPlacement, metrics, tabIndex, title, icon,
                 tempTabRect, iconRect, textRect, isSelected);
 
-        paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
+        if (!_isEditing || (!isSelected))
+            paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
 
         paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
 
@@ -4395,7 +4400,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             else {
                 // plain text
-                String title = _tabPane.getDisplayTitleAt(tabIndex);
+                String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
                 height += SwingUtilities.computeStringWidth(metrics, title);
             }
 
@@ -4447,7 +4452,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             else {
                 // plain text
-                String title = _tabPane.getDisplayTitleAt(tabIndex);
+                String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
+                while (title == null || title.length() < 3)
+                    title += " ";
                 width += SwingUtilities.computeStringWidth(metrics, title);
             }
 
@@ -5081,6 +5088,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         public void actionPerformed(ActionEvent e) {
             JideTabbedPane pane = null;
             Object src = e.getSource();
+            int index = -1;
             boolean closeSelected = false;
             if (src instanceof JideTabbedPane) {
                 pane = (JideTabbedPane) src;
@@ -5102,17 +5110,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 pane.stopTabEditing();
             }
 
+            ActionEvent e2 = e;
+            if (src instanceof TabCloseButton) {
+                index = ((TabCloseButton) src).getIndex();
+                Component compSrc = pane.getComponentAt(index);
+                // note - We create a new action because we could be in the middle of a chain and
+                // if we just use setSource we could cause problems.
+                // also the AWT documentation pooh-pooh this. (for good reason)
+                if (compSrc != null)
+                    e2 = new ActionEvent(compSrc, e.getID(), e.getActionCommand(), e.getWhen(), e.getModifiers());
+            }
+
             if (pane.getCloseAction() != null) {
-                if (closeSelected) {
-                    pane.getCloseAction().actionPerformed(e);
-                }
-                else {
-                    int i = ((TabCloseButton) src).getIndex();
-                    if (i != -1) {
-                        pane.setSelectedIndex(i);
-                        pane.getCloseAction().actionPerformed(e);
-                    }
-                }
+                pane.getCloseAction().actionPerformed(e2);
             }
             else {
                 if (closeSelected) {
@@ -7561,7 +7571,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             else if (name.equals("indexForTitle")) {
                 int index = (Integer) e.getNewValue();
-                String title = _tabPane.getDisplayTitleAt(index);
+                String title = getCurrentDisplayTitleAt(_tabPane, index);
                 if (BasicHTML.isHTMLString(title)) {
                     if (htmlViews == null) { // Initialize vector
                         htmlViews = createHTMLVector();
@@ -7662,12 +7672,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public class TabSelectionHandler implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
             ensureCloseButtonCreated();
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    ensureActiveTabIsVisible(false);
-                }
-            };
-            SwingUtilities.invokeLater(runnable);
+//			 // mtf - there is no reason for this to be in a runnable that I can determine	            
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+            ensureActiveTabIsVisible(false);
+//                }
+//            };
+//            SwingUtilities.invokeLater(runnable);
         }
     }
 
@@ -7709,16 +7720,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
-                        if (_tabPane.isRequestFocusEnabled()) {
+                        if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
                             if (!_tabPane.requestFocusInWindow()) {
+                                System.out.println("---MouseHandler.mousePressed()" + "requestFocus32");
                                 _tabPane.requestFocus();
                             }
                         }
                     }
                     else {
                         _tabPane.setSelectedIndex(tabIndex);
+                        _tabPane.processMouseSelection(tabIndex, e);
                         final Component comp = _tabPane.getComponentAt(tabIndex);
-                        if (!comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
+                        if (_tabPane.isAutoFocusOnTabHideClose() && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
                             comp.addComponentListener(new ComponentAdapter() {
                                 @Override
                                 public void componentShown(ComponentEvent e) {
@@ -7843,7 +7856,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             int index = tp.indexOfComponent(child);
-            String title = tp.getDisplayTitleAt(index);
+            String title = getCurrentDisplayTitleAt(tp, index);
             boolean isHTML = BasicHTML.isHTMLString(title);
             if (isHTML) {
                 if (htmlViews == null) { // Initialize vector
@@ -7904,7 +7917,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         int count = _tabPane.getTabCount();
         if (count > 0) {
             for (int i = 0; i < count; i++) {
-                String title = _tabPane.getDisplayTitleAt(i);
+                String title = getCurrentDisplayTitleAt(_tabPane, i);
                 if (BasicHTML.isHTMLString(title)) {
                     htmlViews.addElement(BasicHTML.createHTMLView(_tabPane, title));
                 }
@@ -8165,6 +8178,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected String _oldPrefix;
 
     protected String _oldPostfix;
+    // mtf - changed
+    protected Component _originalFocusComponent;
 
     @Override
     public boolean isTabEditing() {
@@ -8175,6 +8190,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         TabEditor editor = new TabEditor();
         editor.getDocument().addDocumentListener(this);
         editor.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                _originalFocusComponent = e.getOppositeComponent();
+            }
+
             @Override
             public void focusLost(FocusEvent e) {
                 if (_tabPane != null && _tabPane.isTabEditing()) {
@@ -8227,7 +8247,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 getTabPanel().repaint();
             }
 
-            _tabPane.requestFocusInWindow();
+            if (_originalFocusComponent != null)
+                _originalFocusComponent.requestFocusInWindow();
+            else
+                _tabPane.requestFocusForVisibleComponent();
 
             _editingTab = -1;
             _oldValue = null;
@@ -8240,24 +8263,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return false;
         }
 
+//        _tabPane.popupSelectedIndex(tabIndex);
+
+
         if (_tabEditor == null)
             _tabEditor = createDefaultTabEditor();
 
         if (_tabEditor != null) {
             prepareEditor(_tabEditor, tabIndex);
+
             ((Container) getTabPanel()).add(_tabEditor);
-            Rectangle tabsTextBoundsAt = getTabsTextBoundsAt(tabIndex);
-            if (tabsTextBoundsAt.isEmpty()) {
-                return false;
-            }
-            _tabEditor.setBounds(SwingUtilities.convertRectangle(_tabPane, tabsTextBoundsAt, getTabPanel()));
-            _tabEditor.invalidate();
-            _tabEditor.validate();
+            resizeEditor(tabIndex);
 
             _editingTab = tabIndex;
             _isEditing = true;
 
-            getTabPanel().repaint();
             _tabEditor.requestFocusInWindow();
             _tabEditor.selectAll();
             return true;
@@ -8271,6 +8291,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void prepareEditor(TabEditor e, int tabIndex) {
+        Font font = null;
+        if (_tabPane.getSelectedTabFont() != null) {
+            font = _tabPane.getSelectedTabFont();
+        }
+        else {
+            font = _tabPane.getFont();
+        }
+        if (_tabPane.isBoldActiveTab() && font.getStyle() != Font.BOLD) {
+            font = font.deriveFont(Font.BOLD);
+        }
+        e.setFont(font);
+
         _oldValue = _tabPane.getTitleAt(tabIndex);
         if (_oldValue.startsWith("<HTML>") && _oldValue.endsWith("/HTML>")) {
             _oldPrefix = "<HTML>";
@@ -8297,10 +8329,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         Rectangle iconRect = new Rectangle(),
                 textRect = new Rectangle();
 
-        String title = _tabPane.getDisplayTitleAt(tabIndex);
-        if (title == null || title.length() < 3) {
-            title = "    ";
-        }
+        if (tabRect.width < 200) // random max size;
+            tabRect.width = 200;
+
+        String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
+        while (title == null || title.length() < 3)
+            title += " ";
+
         Icon icon = _tabPane.getIconForTab(tabIndex);
 
         Font font = _tabPane.getFont();
@@ -8330,10 +8365,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     private void updateTab() {
         if (_isEditing) {
-            getTabPanel().invalidate();
-            _tabEditor.validate();
-            _tabEditor.repaint();
-            getTabPanel().repaint();
+            resizeEditor(getEditingTabIndex());
         }
     }
 
@@ -8349,13 +8381,69 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         updateTab();
     }
 
+    protected void resizeEditor(int tabIndex) {
+        // note - this should use the logic of label paint text so that the text overlays exactly.
+        Rectangle tabsTextBoundsAt = getTabsTextBoundsAt(tabIndex);
+        if (tabsTextBoundsAt.isEmpty()) {
+            tabsTextBoundsAt = new Rectangle(14, 3); // note - 14 should be the font height but...
+        }
+
+        tabsTextBoundsAt.x = tabsTextBoundsAt.x - _tabEditor.getBorder().getBorderInsets(_tabEditor).left;
+        tabsTextBoundsAt.width = +tabsTextBoundsAt.width +
+                _tabEditor.getBorder().getBorderInsets(_tabEditor).left +
+                _tabEditor.getBorder().getBorderInsets(_tabEditor).right;
+        tabsTextBoundsAt.y = tabsTextBoundsAt.y - _tabEditor.getBorder().getBorderInsets(_tabEditor).top;
+        tabsTextBoundsAt.height = tabsTextBoundsAt.height +
+                _tabEditor.getBorder().getBorderInsets(_tabEditor).top +
+                _tabEditor.getBorder().getBorderInsets(_tabEditor).bottom;
+        _tabEditor.setBounds(SwingUtilities.convertRectangle(_tabPane, tabsTextBoundsAt, getTabPanel()));
+        _tabEditor.invalidate();
+        _tabEditor.validate();
+
+        getTabPanel().invalidate();
+        getTabPanel().validate();
+        getTabPanel().repaint();
+
+        // mtf - note - this is an exteme repaint but we need to paint any content borders
+        getTabPanel().getParent().getParent().repaint();
+    }
+
+    protected String getCurrentDisplayTitleAt(JideTabbedPane tp, int index) {
+        String returnTitle = tp.getDisplayTitleAt(index);
+        if ((_isEditing) && (index == _editingTab))
+            returnTitle = _tabEditor.getText();
+
+        return returnTitle;
+    }
+
     protected class TabEditor extends JTextField implements UIResource {
         TabEditor() {
-            setBorder(BorderFactory.createEmptyBorder());
+            setOpaque(false);
+//            setBorder(BorderFactory.createEmptyBorder());
+            setBorder(BorderFactory
+                    .createCompoundBorder(new PartialLineBorder(Color.BLACK, 1, true),
+                    BorderFactory.createEmptyBorder(0, 2, 0, 2)));
         }
 
         public boolean stopEditing() {
             return true;
+        }
+
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            Composite orgComposite = g2.getComposite();
+            Color orgColor = g2.getColor();
+
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.70f));
+            Object o = JideSwingUtilities.setupShapeAntialiasing(g);
+
+            g2.setColor(getBackground());
+            g.fillRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 1, 1);
+
+            JideSwingUtilities.restoreShapeAntialiasing(g, o);
+            g2.setColor(orgColor);
+            g2.setComposite(orgComposite);
+            super.paintComponent(g);
         }
     }
 

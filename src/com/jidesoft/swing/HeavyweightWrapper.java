@@ -18,6 +18,16 @@ import java.awt.event.ComponentListener;
 public class HeavyweightWrapper extends Panel {
     private Component _component;
     private boolean _heavyweight;
+    final private Dimension MIN_DIM = new Dimension(0, 0);
+
+    public HeavyweightWrapper(Component component) {
+        this(component, false);
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return MIN_DIM;
+    }
 
     public HeavyweightWrapper(Component component, boolean heavyweight) {
         _component = component;
@@ -44,11 +54,8 @@ public class HeavyweightWrapper extends Panel {
             });
         }
         setLayout(new BorderLayout());
+        setVisible(false);
         _heavyweight = heavyweight;
-    }
-
-    public HeavyweightWrapper(Component component) {
-        this(component, false);
     }
 
     public boolean isHeavyweight() {
@@ -60,6 +67,8 @@ public class HeavyweightWrapper extends Panel {
     }
 
     public void delegateAdd(Container parent, Object constraints) {
+        JideSwingUtilities.removeFromParentWithFocusTransfer(_component);
+
         if (isHeavyweight()) {
             if (_component.getParent() != this) {
                 add(_component);
@@ -76,6 +85,8 @@ public class HeavyweightWrapper extends Panel {
     }
 
     public void delegateRemove(Container parent) {
+        JideSwingUtilities.removeFromParentWithFocusTransfer(_component);
+
         if (isHeavyweight()) {
             remove(_component);
             parent.remove(this);
