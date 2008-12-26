@@ -1046,27 +1046,27 @@ public class JideTabbedPane extends JTabbedPane {
         if (pageComponent == null) {
             return null;
         }
-        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + pageComponent);
+//        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + pageComponent);
 
         PageLastFocusTracker tracker = (PageLastFocusTracker) (
                 getPageLastFocusTrackers().get(pageComponent));
         final Component componentReturn = ((tracker != null) ? tracker.getLastFocusedComponent() : null);
 
-        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + componentReturn);
+//        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + componentReturn);
         if (false) {
             Component compTest = new JPanel() {
                 public void requestFocus() {
-                    System.out.println("---.requestFocus()22");
+//                    System.out.println("---.requestFocus()22");
                     componentReturn.requestFocus();
                 }
 
                 public boolean isRequestFocusEnabled() {
-                    System.out.println("---.isRequestFocusEnabled()");
+//                    System.out.println("---.isRequestFocusEnabled()");
                     return true;
                 }
 
                 public Container getParent() {
-                    System.out.println("---.getParent()");
+//                    System.out.println("---.getParent()");
                     return (Container) componentReturn;
                 }
             };
