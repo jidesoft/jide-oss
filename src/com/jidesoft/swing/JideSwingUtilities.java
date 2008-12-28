@@ -953,18 +953,9 @@ public class JideSwingUtilities implements SwingConstants {
         });
     }
 
-    private static PropertyChangeListener _setOpaqueTrueListener = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getSource() instanceof JComponent) {
-                JComponent component = (JComponent) evt.getSource();
-                if (!component.isOpaque()) {
-                    component.setOpaque(true);
-                }
-            }
-        }
-    };
-
+    private static PropertyChangeListener _setOpaqueTrueListener;
     private static PropertyChangeListener _setOpaqueFalseListener;
+
     private static final String OPAQUE_LISTENER = "setOpaqueRecursively.opaqueListener";
 
     /**
@@ -1004,7 +995,11 @@ public class JideSwingUtilities implements SwingConstants {
                                 _setOpaqueTrueListener = new PropertyChangeListener() {
                                     public void propertyChange(PropertyChangeEvent evt) {
                                         if (evt.getSource() instanceof JComponent) {
-                                            ((JComponent) evt.getSource()).setOpaque(true);
+                                            Component component = ((Component) evt.getSource());
+                                            component.removePropertyChangeListener("opaque", this);
+                                            if (component instanceof JComponent)
+                                                ((JComponent) component).setOpaque(true);
+                                            component.addPropertyChangeListener("opaque", this);
                                         }
                                     }
                                 };
@@ -1017,7 +1012,13 @@ public class JideSwingUtilities implements SwingConstants {
                                 _setOpaqueFalseListener = new PropertyChangeListener() {
                                     public void propertyChange(PropertyChangeEvent evt) {
                                         if (evt.getSource() instanceof JComponent) {
-                                            ((JComponent) evt.getSource()).setOpaque(false);
+                                            if (evt.getSource() instanceof JComponent) {
+                                                Component component = ((Component) evt.getSource());
+                                                component.removePropertyChangeListener("opaque", this);
+                                                if (component instanceof JComponent)
+                                                    ((JComponent) component).setOpaque(false);
+                                                component.addPropertyChangeListener("opaque", this);
+                                            }
                                         }
                                     }
                                 };
