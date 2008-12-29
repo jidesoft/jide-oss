@@ -19,7 +19,7 @@ import java.io.Serializable;
 /**
  * Renderers an item in a tree using JCheckBox.
  */
-public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRenderer, Serializable {
+public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer, Serializable {
 
     protected static Border noFocusBorder;
 
@@ -52,6 +52,7 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
         _checkBox.setOpaque(false);
         setBorder(noFocusBorder);
         setLayout(new BorderLayout(0, 0));
+        setOpaque(false);
         _actualTreeRenderer = renderer;
     }
 

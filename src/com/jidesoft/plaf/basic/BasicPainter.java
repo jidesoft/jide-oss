@@ -374,32 +374,43 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintGripper(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        int w = Math.min(30, rect.width);
-        int h = rect.height;
+//        int w = Math.min(30, rect.width);
+//        int h = rect.height;
 
         // basic painter always use horizontal line to paint grippers. It's just they are short and more lines when paints vertical gripper
         // and long and fewer lines when paints horizontally.
         g.setColor(getGripperForeground());
+
+        // shrink the rect size
+        if (rect.width > rect.height) {
+            rect.x = rect.x + rect.width / 2 - 10;
+            rect.width = 22;
+        }
+        else {
+            rect.y = rect.y + rect.height / 2 - 10;
+            rect.height = 22;
+        }
+
         if (orientation == SwingConstants.HORIZONTAL) {
             if (rect.width <= 30) {
                 final int MARGIN = 3;
-                for (int i = 0; i < (h - 2 * MARGIN) / 2; i++) {
-                    g.drawLine(rect.x + 3, rect.y + MARGIN + i * 2, rect.x + w - MARGIN, rect.y + MARGIN + i * 2);
+                for (int i = 0; i < (rect.height - 2 * MARGIN) / 2; i++) {
+                    g.drawLine(rect.x + 3, rect.y + MARGIN + i * 2, rect.x + rect.width - MARGIN, rect.y + MARGIN + i * 2);
                 }
             }
             else { // for gripper in popup
                 final int MARGIN = 2;
-                for (int i = 0; i < (h - 2 * MARGIN) / 2; i++) {
-                    g.drawLine((rect.width - w) / 2, rect.y + MARGIN + i * 2, (rect.width + w) / 2, rect.y + MARGIN + i * 2);
+                for (int i = 0; i < (rect.height - 2 * MARGIN) / 2; i++) {
+                    g.drawLine((rect.width - rect.width) / 2, rect.y + MARGIN + i * 2, (rect.width + rect.width) / 2, rect.y + MARGIN + i * 2);
                 }
             }
         }
         else {
             final int MARGIN = 3;
-            int count = (w - 2 * MARGIN) / 2;
+            int count = (rect.width - 2 * MARGIN) / 2;
             for (int i = 0; i < count; i++) {
                 int x = rect.x + rect.width / 2 - count + i * 2;
-                g.drawLine(x, rect.y + MARGIN, x, rect.y + h - MARGIN);
+                g.drawLine(x, rect.y + MARGIN, x, rect.y + rect.height - MARGIN);
             }
         }
     }

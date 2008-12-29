@@ -203,6 +203,9 @@ public class JideSplitPaneDivider extends JPanel
                 setDividerSize(_jideSplitPane.getDividerSize());
                 oneTouchExpandableChanged();
             }
+            else if (JideSplitPane.GRIPPER_PROPERTY.equals(e.getPropertyName())) {
+                repaint();
+            }
         }
     }
 
@@ -252,13 +255,13 @@ public class JideSplitPaneDivider extends JPanel
             Rectangle rect = new Rectangle(size);
             if (_gripperPainter != null) {
                 if (rect.width > rect.height) {
-                    rect.x = rect.x + rect.width / 2 - 10;
-                    rect.width = 22;
+//                    rect.x = rect.x + rect.width / 2 - 10;
+//                    rect.width = 22;
                     _gripperPainter.paint(this, g, rect, SwingConstants.VERTICAL, 0);
                 }
                 else {
-                    rect.y = rect.y + rect.height / 2 - 10;
-                    rect.height = 22;
+//                    rect.y = rect.y + rect.height / 2 - 10;
+//                    rect.height = 22;
                     _gripperPainter.paint(this, g, rect, SwingConstants.HORIZONTAL, 0);
                 }
             }

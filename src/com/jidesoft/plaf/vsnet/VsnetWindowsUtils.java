@@ -182,7 +182,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "released ENTER", "released"
         }),
 
-                "JideSplitPane.dividerSize", 3,
+                "JideSplitPane.dividerSize", 4,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                 "JideSplitPaneDivider.background", defaultBackgroundColor,
                 "JideSplitPaneDivider.gripperPainter", gripperPainter,
