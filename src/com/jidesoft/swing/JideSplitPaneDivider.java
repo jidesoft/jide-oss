@@ -905,7 +905,7 @@ public class JideSplitPaneDivider extends JPanel
          *
          * @param collapse true or false.
          */
-        OneTouchActionHandler(boolean collapse) {
+        public OneTouchActionHandler(boolean collapse) {
             _collapse = collapse;
         }
 
