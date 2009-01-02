@@ -892,7 +892,7 @@ public class JideSplitPaneDivider extends JPanel
      * The actionListener that will listen for button presses on either the leftButton or the rightButton. This class is
      * responsible for one-touch expanding/collapsing of the divider.
      */
-    private class OneTouchActionHandler implements ActionListener {
+    protected class OneTouchActionHandler implements ActionListener {
 
         /**
          * If <code>collapse</code> is true, move the divider to the left/top; otherwise, move the divider to the
