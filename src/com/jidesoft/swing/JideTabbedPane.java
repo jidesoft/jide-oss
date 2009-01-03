@@ -579,7 +579,7 @@ public class JideTabbedPane extends JTabbedPane {
 
             if (shouldChangeFocus) {
                 if (!requestFocusForVisibleComponent()) {
-                    System.out.println("---tabpane.requestfocus41");
+//                    System.out.println("---tabpane.requestfocus41");
                     requestFocusInWindow();
                 }
             }
@@ -590,7 +590,7 @@ public class JideTabbedPane extends JTabbedPane {
     public boolean requestFocusForVisibleComponent() {
         if (true)
             return false;
-        System.out.println("---JideTabbedPane.requestFocusForVisibleComponent()");
+//        System.out.println("---JideTabbedPane.requestFocusForVisibleComponent()");
         Component visibleComponent = getSelectedComponent();
         Component lastFocused = getLastFocusedComponent(visibleComponent);
         if (lastFocused != null && lastFocused.requestFocusInWindow()) {
