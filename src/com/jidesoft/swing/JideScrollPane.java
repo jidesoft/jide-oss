@@ -7,6 +7,7 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.plaf.UIResource;
 
 /**
  * <code>JideScrollPane</code> is an enhanced version of <code>JScrollPane</code>. In <code>JScrollPane</code>, you can
@@ -378,7 +379,9 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public void updateUI() {
         super.updateUI();
         setLayout(new JideScrollPaneLayout.UIResource());
-        LookAndFeel.installBorder(this, "JideScrollPane.border");
+        if(getBorder() instanceof UIResource) {
+          LookAndFeel.installBorder(this, "JideScrollPane.border");
+        }
     }
 
     public boolean isVerticalScrollBarCoversWholeHeight() {
