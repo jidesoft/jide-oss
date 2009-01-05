@@ -6,6 +6,7 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.swing.FolderChooser;
+import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TreeSearchable;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ class BasicFileSystemTree extends JTree {
         setShowsRootHandles(false);
         setRootVisible(false);
         setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
-        setRowHeight(17);
+        setRowHeight(JideSwingUtilities.getLineHeight(this, 17));
         expandRow(0);
         FolderTreeListener treeListener = new FolderTreeListener();
         addTreeWillExpandListener(treeListener);

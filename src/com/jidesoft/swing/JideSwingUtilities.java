@@ -3233,8 +3233,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * The semantics in AWT of hidding a component, removing a component, and reparenting a component are inconsistent
-     * with respect to focus. By calling this function before any of the operations above focus is gauranteed a
+     * The semantics in AWT of hiding a component, removing a component, and reparenting a component are inconsistent
+     * with respect to focus. By calling this function before any of the operations above focus is guaranteed a
      * consistent degregation.
      *
      * @param component
@@ -3246,5 +3246,27 @@ public class JideSwingUtilities implements SwingConstants {
             component.getParent().remove(component);
         }
         component.setVisible(wasVisible);
+    }
+
+    /**
+     * Gets the line height for the font for the component
+     *
+     * @param c             the component
+     * @param defaultHeight the default height if the font on the specified component is null
+     * @return the line height for the font for the component (or the passed in the default value if the font on the
+     *         specified component is null)
+     */
+    public static int getLineHeight(Component c, int defaultHeight) {
+        Font f = c == null ? null : c.getFont();
+        if (f == null) {
+            return defaultHeight;
+        }
+        FontMetrics fm = c.getFontMetrics(f);
+        float h = fm.getHeight();
+
+        h += fm.getDescent();
+        h += fm.getAscent();
+
+        return (int) h;
     }
 }
