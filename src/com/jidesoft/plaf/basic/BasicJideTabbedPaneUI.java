@@ -1136,7 +1136,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _tabPane.putClientProperty("html", null);
 
         if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-//            iconRect.x = tabRect.x + _iconMargin;
+            iconRect.x = tabRect.x + _iconMargin;
 //            textRect.x = (icon != null ? iconRect.x + iconRect.width + _textIconGap : tabRect.x + _textPadding);
 //            iconRect.width = Math.min(iconRect.width, tabRect.width - _tabRectPadding);
 //            textRect.width = tabRect.width - _tabRectPadding - iconRect.width - (icon != null ? _textIconGap + _iconMargin : _noIconMargin);
@@ -7672,7 +7672,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public class TabSelectionHandler implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
             ensureCloseButtonCreated();
-//			 // mtf - there is no reason for this to be in a runnable that I can determine	            
+//			 // mtf - there is no reason for this to be in a runnable that I can determine
 //            Runnable runnable = new Runnable() {
 //                public void run() {
             ensureActiveTabIsVisible(false);
@@ -7722,7 +7722,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
                             if (!_tabPane.requestFocusInWindow()) {
-                                System.out.println("---MouseHandler.mousePressed()" + "requestFocus32");
                                 _tabPane.requestFocus();
                             }
                         }
@@ -8254,6 +8253,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
             _editingTab = -1;
             _oldValue = null;
+            _tabPane.doLayout();
         }
     }
 
@@ -8400,9 +8400,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _tabEditor.invalidate();
         _tabEditor.validate();
 
-        getTabPanel().invalidate();
-        getTabPanel().validate();
-        getTabPanel().repaint();
+//        getTabPanel().invalidate();
+//        getTabPanel().validate();
+//        getTabPanel().repaint();
+//        getTabPanel().doLayout();
+
+        _tabPane.doLayout();
 
         // mtf - note - this is an exteme repaint but we need to paint any content borders
         getTabPanel().getParent().getParent().repaint();
