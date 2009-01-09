@@ -336,6 +336,9 @@ public class LookAndFeelFactory implements ProductNames {
     private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector();
     private static Map<String, String> _installedLookAndFeels = new HashMap<String, String>(5);
 
+    public final static String LAF_INSTALLED = "installed";
+    public final static String LAF_NOT_INSTALLED = "not installed";
+
     protected LookAndFeelFactory() {
     }
 
@@ -803,8 +806,9 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if the L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isLnfInstalled(String lnfName) {
-        if (_installedLookAndFeels.containsKey(lnfName)) {
-            return _installedLookAndFeels.get(lnfName) != null;
+        String installed = _installedLookAndFeels.get(lnfName);
+        if (installed != null) {
+            return LAF_INSTALLED.equals(installed);
         }
         return loadLnfClass(lnfName) != null;
     }
@@ -831,17 +835,29 @@ public class LookAndFeelFactory implements ProductNames {
         return !(_installedLookAndFeels.containsKey(lnfName) && _installedLookAndFeels.get(lnfName) == null) && isAssignableFrom(lnfName, UIManager.getLookAndFeel().getClass());
     }
 
+    /**
+     * Tells the LookAndFeelFactory whether a L&F is installed. We will try to instantiate the class when {@link
+     * #isLnfInstalled(String)} is called to determine if the class is in the class path. However you can call this
+     * method to tell if the L&F is available without us instantiating the class.
+     *
+     * @param lnfName   the L&F name.
+     * @param installed true or false.
+     */
+    public static void setLnfInstalled(String lnfName, boolean installed) {
+        _installedLookAndFeels.put(lnfName, installed ? LAF_INSTALLED : LAF_NOT_INSTALLED);
+    }
+
     private static Class loadLnfClass(String lnfName) {
         try {
             Class clazz = getUIManagerClassLoader().loadClass(lnfName);
             Map map = new HashMap<String, String>(_installedLookAndFeels);
-            map.put(lnfName, lnfName);
+            map.put(lnfName, LAF_INSTALLED);
             _installedLookAndFeels = map;
             return clazz;
         }
         catch (ClassNotFoundException e) {
             Map map = new HashMap<String, String>(_installedLookAndFeels);
-            map.put(lnfName, null);
+            map.put(lnfName, LAF_NOT_INSTALLED);
             _installedLookAndFeels = map;
             return null;
         }
@@ -1478,5 +1494,10 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isCurrentLnfDecorated() {
         return !isLnfInUse(SYNTHETICA_LNF);
+    }
+
+    public static void main(String[] args) {
+//        LookAndFeelFactory.setLnfInstalled(AQUA_LNF, false);
+        System.out.println(LookAndFeelFactory.isLnfInstalled(AQUA_LNF));
     }
 }
