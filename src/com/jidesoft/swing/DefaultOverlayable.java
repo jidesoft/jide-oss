@@ -71,6 +71,17 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     }
 
     @Override
+    public Dimension getMinimumSize() {
+        Dimension size = getActualComponent() == null ? new Dimension(0, 0) : getActualComponent().getMinimumSize();
+        Insets insets = getOverlayLocationInsets();
+        if (insets != null) {
+            size.width += Math.max(0, insets.left) + Math.max(0, insets.right);
+            size.height += Math.max(0, insets.top) + Math.max(0, insets.bottom);
+        }
+        return size;
+    }
+
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
 
