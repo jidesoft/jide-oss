@@ -24,7 +24,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     private Insets _overlayLocationInsets = new Insets(0, 0, 0, 0);
     private List<JComponent> _overlayComponents;
     private Map<JComponent, Integer> _overlayLocations;
-//    private Map<JComponent, Component> _overlayRelativeComponent;
 
     public DefaultOverlayable() {
         initComponents();
@@ -51,7 +50,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         setLayout(null);
         _overlayComponents = new Vector();
         _overlayLocations = new Hashtable();
-//        _overlayRelativeComponent = new Hashtable();
     }
 
     /**
@@ -101,10 +99,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     }
 
     private Rectangle getOverlayComponentBounds(JComponent component) {
-//        Component relativeComponent = getOverlayRelativeComponent(component);
-//        if (relativeComponent == null) {
-//            relativeComponent = getActualComponent();
-//        }
         Component relativeComponent = getActualComponent();
 
         Rectangle bounds = relativeComponent.getBounds();
@@ -177,16 +171,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         }
     }
 
-//    public Component getOverlayRelativeComponent(JComponent component) {
-//        Component c = _overlayRelativeComponent.get(component);
-//        if (c != null) {
-//            return c;
-//        }
-//        else {
-//            return null;
-//        }
-//    }
-
     public void setOverlayLocation(JComponent component, int location) {
         setOverlayLocation(component, null, location);
     }
@@ -198,14 +182,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
             _overlayLocations.put(component, location);
             updated = true;
         }
-//        Component oldComponent = getOverlayRelativeComponent(component);
-//        if (oldComponent != relativeComponent) {
-//            _overlayRelativeComponent.put(component, relativeComponent);
-//            if(!JideSwingUtilities.isListenerRegistered(component, ComponentListener.class, this)) {
-//                component.addComponentListener(this);
-//            }
-//            updated = true;
-//        }
         if (updated) {
             updateLocation();
         }
@@ -242,7 +218,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         if (_overlayComponents.contains(component)) {
             _overlayComponents.remove(component);
             _overlayLocations.remove(component);
-//            _overlayRelativeComponent.remove(component);
             remove(component);
         }
     }
@@ -283,7 +258,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
             container.validate();
         }
     }
-
 
     public void setOverlayVisible(boolean visible) {
         JComponent[] components = getOverlayComponents();
