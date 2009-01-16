@@ -141,7 +141,12 @@ public class BannerPanel extends JPanel {
             setSubTitleFont(getFont());
         }
 
-        _subtitleLabel = new MultilineLabel(getSubtitle());
+        _subtitleLabel = new MultilineLabel(getSubtitle()) {
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(0, 0);
+            }
+        };
         _subtitleLabel.setFont(getSubTitleFont());
         if (getSubTitleColor() == null) {
             setSubTitleColor(getForeground());
@@ -150,7 +155,12 @@ public class BannerPanel extends JPanel {
         _subtitleLabel.setBorder(BorderFactory.createEmptyBorder(0, getSubTitleIndent(), 0, 0));
         _textPanel.add(_subtitleLabel, BorderLayout.CENTER);
 
-        _titleLabel = new JLabel(getTitle());
+        _titleLabel = new JLabel(getTitle()) {
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(0, super.getMinimumSize().height);
+            }
+        };
         if (getTitleFont() == null) {
             setTitleFont(SecurityUtils.createFont(getFont().getFontName(), Font.BOLD, getFont().getSize() + 2));
         }
