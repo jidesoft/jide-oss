@@ -1142,11 +1142,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         };
         _escapeActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Component owner = getActualOwner();
                 hidePopupImmediately(true);
-                if (owner != null) {
-                    owner.requestFocus();
-                }
             }
         };
         registerKeyboardAction(_escapeActionListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -1253,12 +1249,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (isFocusable() || getDefaultFocusComponent() != null) {
                 // only allow window to have focus when there is a default focus component.
                 if (getDefaultFocusComponent() != null) {
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            getDefaultFocusComponent().requestFocus();
-                        }
-                    };
-                    SwingUtilities.invokeLater(runnable);
+//                    Runnable runnable = new Runnable() {
+//                        public void run() {
+                    getDefaultFocusComponent().requestFocus();
+//                        }
+//                    };
+//                    SwingUtilities.invokeLater(runnable);
                 }
             }
         }
@@ -1289,13 +1285,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 // only allow window to have focus when there is a default focus component.
                 _window.setFocusable(true);
                 if (getDefaultFocusComponent() != null) {
-                    Runnable runnable = new Runnable() {
-                        public void run() {
-                            getDefaultFocusComponent().requestFocus();
-                        }
-                    };
-                    SwingUtilities.invokeLater(runnable);
+//                    Runnable runnable = new Runnable() {
+//                        public void run() {
+                    getDefaultFocusComponent().requestFocus();
                 }
+//                    };
+//                    SwingUtilities.invokeLater(runnable);
+//                }
             }
         }
 
