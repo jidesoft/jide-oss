@@ -970,7 +970,7 @@ public abstract class Searchable {
         Point componentLocation;
         if (_popup != null) {
             Dimension size = _popup.getPreferredSize();
-            switch (_popupLocation) {
+            switch (getPopupLocation()) {
                 case SwingConstants.BOTTOM:
                     try {
                         componentLocation = component.getLocationOnScreen();
