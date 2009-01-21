@@ -406,10 +406,12 @@ public abstract class Searchable {
                 _popup.hidePopupImmediately();
             }
             else {
-                _layeredPane.remove(_popup);
-                _layeredPane.validate();
-                _layeredPane.repaint();
-                _layeredPane = null;
+                if (_layeredPane != null) {
+                    _layeredPane.remove(_popup);
+                    _layeredPane.validate();
+                    _layeredPane.repaint();
+                    _layeredPane = null;
+                }
             }
             _popup = null;
             _searchableProvider = null;
