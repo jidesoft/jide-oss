@@ -621,17 +621,20 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
              */
 
             if (_fileSystemTree.getSelectionCount() > 0) {
-                String folderPath = (e.getNewLeadSelectionPath().getLastPathComponent()).toString();
-                File folder = new File(folderPath);
-                _folderChooser.setSelectedFolder(folder);
+                TreePath path = e.getNewLeadSelectionPath();
+                if (path != null) {
+                    String folderPath = (path.getLastPathComponent()).toString();
+                    File folder = new File(folderPath);
+                    _folderChooser.setSelectedFolder(folder);
 
-                /*
-                 * Ensure the _navigationTextField is in sync with the folder tree. That is, each time a folder is
-                 * selected in the tree, update the text field to reflect this.
-                 */
-                TreePath treePath = _fileSystemTree.getSelectionPath();
-                if (treePath != null) {
-                    _navigationTextField.setText("" + treePath.getLastPathComponent());
+                    /*
+                    * Ensure the _navigationTextField is in sync with the folder tree. That is, each time a folder is
+                    * selected in the tree, update the text field to reflect this.
+                    */
+                    TreePath treePath = _fileSystemTree.getSelectionPath();
+                    if (treePath != null) {
+                        _navigationTextField.setText("" + treePath.getLastPathComponent());
+                    }
                 }
             }
 
