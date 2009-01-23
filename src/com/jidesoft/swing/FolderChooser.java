@@ -94,7 +94,14 @@ public class FolderChooser extends JFileChooser {
         if (UIDefaultsLookup.get(uiClassID) == null) {
             LookAndFeelFactory.installJideExtension();
         }
+        JComponent c = getAccessory();
+        if (c != null) {
+            setAccessory(null);
+        }
         setUI(UIManager.getUI(this));
+        if (c != null) {
+            setAccessory(c);
+        }
     }
 
     /**
