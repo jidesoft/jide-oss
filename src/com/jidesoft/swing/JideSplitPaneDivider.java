@@ -971,6 +971,30 @@ public class JideSplitPaneDivider extends JPanel
         }
     }
 
+    /**
+     * Collapses the divider to the left side (or to the top if vertically).
+     */
+    public void collapse() {
+        if (_leftButton != null) {
+            _leftButton.doClick();
+        }
+        else {
+            new OneTouchActionHandler(true).actionPerformed(null);
+        }
+    }
+
+    /**
+     * Expands the divider to the right side (or to the bottom if vertically).
+     */
+    public void expand() {
+        if (_rightButton != null) {
+            _rightButton.doClick();
+        }
+        else {
+            new OneTouchActionHandler(false).actionPerformed(null);
+        }
+    }
+
     /*
      * End of one-touch expand/collapse addition.
      *
