@@ -3262,11 +3262,7 @@ public class JideSwingUtilities implements SwingConstants {
             return defaultHeight;
         }
         FontMetrics fm = c.getFontMetrics(f);
-        float h = fm.getHeight();
-
-        h += fm.getDescent();
-        h += fm.getAscent();
-
+        float h = fm.getHeight() + fm.getDescent();
         return (int) h;
     }
 }
