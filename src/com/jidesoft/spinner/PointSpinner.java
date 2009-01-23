@@ -20,8 +20,8 @@ import java.beans.PropertyChangeListener;
 public class PointSpinner extends JSpinner {
 
     /**
-     * Constructs a complete spinner with pair of next/previous buttons
-     * and an editor for the <code>SpinnerModel</code>.
+     * Constructs a complete spinner with pair of next/previous buttons and an editor for the
+     * <code>SpinnerModel</code>.
      *
      * @param model
      */
@@ -30,12 +30,13 @@ public class PointSpinner extends JSpinner {
         setEditor(createEditor(model));
         setOpaque(true);
         updateUI();
+        customizeSpinner();
     }
 
 
     /**
-     * Constructs a spinner with an <code>Integer SpinnerNumberModel</code>
-     * with initial value 0 and no minimum or maximum limits.
+     * Constructs a spinner with an <code>Integer SpinnerNumberModel</code> with initial value 0 and no minimum or
+     * maximum limits.
      */
     public PointSpinner() {
         this(new SpinnerPointModel());
@@ -116,5 +117,9 @@ public class PointSpinner extends JSpinner {
     public Object getPreviousValue() {
         updateField();
         return super.getPreviousValue();
+    }
+
+    protected void customizeSpinner() {
+        SpinnerWheelSupport.installMouseWheelSupport(this);
     }
 }
