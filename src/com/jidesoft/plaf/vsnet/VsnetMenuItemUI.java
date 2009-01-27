@@ -993,7 +993,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         if (menuItem.getComponentOrientation().isLeftToRight()) {
             // left a shadow for non-top level menu
             if (useCheckAndArrow()) {
-                iconRect.x = viewRect.x + (defaultShadowWidth - iconRect.width) >> 1;
+                iconRect.x = (defaultShadowWidth - iconRect.width) >> 1;
                 if (text != null && !text.equals("")) {
                     textRect.x = viewRect.x + defaultShadowWidth + textIconGap;
                 }
