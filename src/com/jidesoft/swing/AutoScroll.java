@@ -13,9 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 /**
- * Please note: we are still polishing this class and may change the public interface in the future.
- * Please do not use it for now until we remove this notice. You may choose to use it as long as you don't
- * complain when you find your code won't compile after upgrading to a new JIDE release.
+ * Please note: we are still polishing this class and may change the public interface in the future. Please do not use
+ * it for now until we remove this notice. You may choose to use it as long as you don't complain when you find your
+ * code won't compile after upgrading to a new JIDE release.
  */
 abstract public class AutoScroll {
     protected Timer _timer;
@@ -32,6 +32,7 @@ abstract public class AutoScroll {
     protected boolean _vertical = true;
 
     protected int _autoScrollInterval = 100;
+    private boolean _componentSelfScrollable = true;
 
     protected AutoScroll(Component component) {
         _component = component;
@@ -75,8 +76,7 @@ abstract public class AutoScroll {
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * This protected method is implementation specific and should be private. do not call or override.
      */
     public void stopAutoScrolling() {
         _autoScrolling = false;
@@ -95,6 +95,14 @@ abstract public class AutoScroll {
 
     public int getScrollDirection() {
         return _scrollDirection;
+    }
+
+    public boolean isComponentSelfScrollable() {
+        return _componentSelfScrollable;
+    }
+
+    public void setComponentSelfScrollable(boolean scrollable) {
+        _componentSelfScrollable = scrollable;
     }
 
     protected MouseEvent convertMouseEvent(MouseEvent e) {
@@ -125,7 +133,7 @@ abstract public class AutoScroll {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (e.getSource() == _component) {
+        if (_componentSelfScrollable && e.getSource() == _component) {
             return;
         }
         if (_component.isVisible()) {
@@ -137,7 +145,8 @@ abstract public class AutoScroll {
             else {
                 r = _component.getBounds();
             }
-            if (newEvent.getPoint().y >= r.y && newEvent.getPoint().y <= r.y + r.height - 1) {
+            if (newEvent.getPoint().y >= r.y && newEvent.getPoint().y <= r.y + r.height - 1 &&
+                    newEvent.getPoint().x >= r.x && newEvent.getPoint().x <= r.x + r.width - 1) {
                 _hasEntered = true;
                 if (_autoScrolling) {
                     stopAutoScrolling();
