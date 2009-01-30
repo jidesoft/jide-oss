@@ -47,13 +47,13 @@ public class TypeUtils {
         return primitive;
     }
 
-    public static Class<?> convertWrapperToPrimitiveType(Class<?> primitive) {
+    public static Class<?> convertWrapperToPrimitiveType(Class<?> wrapperType) {
         for (Object[] primitiveArrayType : PRIMITIVE_ARRAY_TYPES) {
-            if (primitiveArrayType[WRAPPER_TYPE_INDEX] == primitive) {
+            if (primitiveArrayType[WRAPPER_TYPE_INDEX] == wrapperType) {
                 return (Class<?>) primitiveArrayType[PRIMITIVE_TYPE_INDEX];
             }
         }
-        return primitive;
+        return wrapperType;
     }
 
     /**
