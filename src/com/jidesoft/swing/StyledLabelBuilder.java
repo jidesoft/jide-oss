@@ -273,6 +273,7 @@ public class StyledLabelBuilder {
     private static void setStyledText(StyledLabel label, char[] text, StyledLabelBuilder builder) {
         StringBuffer labelText = new StringBuffer(text.length);
         boolean escaped = false;
+        label.clearStyleRanges();
         for (int i = 0; i < text.length; i++) {
             if (escaped) {
                 labelText.append(text[i]);
