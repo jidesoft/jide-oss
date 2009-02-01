@@ -74,6 +74,7 @@ public class Calculator extends JPanel implements ActionListener {
     private boolean _backspaceOp1 = false;
     private boolean _backspaceOp2 = false;
     private boolean _clearOperatorPending = false;
+    private boolean _isFakedEqualPressed = false; // When it is true, it means the focus is lost. So the result should not be updated.
 
     public final static int OPERATOR_NONE = -1;
     public final static int OPERATOR_ADD = 0;
@@ -520,30 +521,32 @@ public class Calculator extends JPanel implements ActionListener {
         }
         double op1 = Double.parseDouble(_op1.toString());
         double op2 = Double.parseDouble(_op2.toString());
-        try {
-            switch (getOperator()) {
-                case OPERATOR_ADD:
-                    _result = op1 + op2;
-                    break;
-                case OPERATOR_MINUS:
-                    _result = op1 - op2;
-                    break;
-                case OPERATOR_MULTIPLY:
-                    _result = op1 * op2;
-                    break;
-                case OPERATOR_DIVIDE:
-                    if (op2 == 0) {
-                        _result = Double.NaN;
-                        _overflow = true;
-                    }
-                    else {
-                        _result = op1 / op2;
-                    }
-                    break;
+        if (!_isFakedEqualPressed) {
+            try {
+                switch (getOperator()) {
+                    case OPERATOR_ADD:
+                        _result = op1 + op2;
+                        break;
+                    case OPERATOR_MINUS:
+                        _result = op1 - op2;
+                        break;
+                    case OPERATOR_MULTIPLY:
+                        _result = op1 * op2;
+                        break;
+                    case OPERATOR_DIVIDE:
+                        if (op2 == 0) {
+                            _result = Double.NaN;
+                            _overflow = true;
+                        }
+                        else {
+                            _result = op1 / op2;
+                        }
+                        break;
+                }
             }
-        }
-        catch (Exception e) {
-            _overflow = true;
+            catch (Exception e) {
+                _overflow = true;
+            }
         }
 
         if (_overflow) {
@@ -726,6 +729,12 @@ public class Calculator extends JPanel implements ActionListener {
             input(CHAR_DIVIDE);
         }
         else if (_equalButton == source) {
+            if (e.getActionCommand().equals("Faked")) {
+                _isFakedEqualPressed = true;
+            }
+            else {
+                _isFakedEqualPressed = false;
+            }
             input(CHAR_EQUAL);
         }
         else if (_pointButton == source) {
@@ -767,7 +776,7 @@ public class Calculator extends JPanel implements ActionListener {
      * @param button the button
      */
     protected void fakePressButton(AbstractButton button) {
-        actionPerformed(new ActionEvent(button, 0, null));
+        actionPerformed(new ActionEvent(button, 0, "Faked"));
     }
 
     private void fakePressButton(char c) {
@@ -856,7 +865,7 @@ public class Calculator extends JPanel implements ActionListener {
      */
     public void commit() {
         if (!_clearOperatorPending) {
-            input(CHAR_EQUAL);
+            fakePressButton(CHAR_EQUAL);
         }
     }
 
