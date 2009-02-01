@@ -501,6 +501,15 @@ public class Calculator extends JPanel implements ActionListener {
         buf.deleteCharAt(buf.length() - 1);
     }
 
+    /**
+     * Update the result as if the equal was pressed. This method can be used while Enter key is pressed and you need
+     * keep the calculated result.
+     */
+    public void updateResult() {
+        _isFakedEqualPressed = false;
+        calculateResult(true);
+    }
+
     private void calculateResult(boolean equalPressed) {
         if (getOperator() == -1) {
             return;
