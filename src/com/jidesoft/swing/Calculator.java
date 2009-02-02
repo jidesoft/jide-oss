@@ -394,7 +394,7 @@ public class Calculator extends JPanel implements ActionListener {
                 _op1.setLength(0);
                 _clearOperatorPending = false;
             }
-            if (getOperator() == -1) {
+            if (getOperator() == OPERATOR_NONE) {
                 if (CHAR_POINT != c || _op1.indexOf("" + CHAR_POINT) == -1) {
                     _op1.append(c);
                     _backspaceOp1 = true;
@@ -420,32 +420,16 @@ public class Calculator extends JPanel implements ActionListener {
         else {
             switch (c) {
                 case CHAR_ADD:
-                    _op2.setLength(0);
-                    calculateResult(false);
-                    setOperator(OPERATOR_ADD);
-                    _negationOp1 = false;
-                    _clearOperatorPending = false;
+                    operatorPressed(OPERATOR_ADD);
                     break;
                 case CHAR_MINUS:
-                    _op2.setLength(0);
-                    calculateResult(false);
-                    setOperator(OPERATOR_MINUS);
-                    _negationOp1 = false;
-                    _clearOperatorPending = false;
+                    operatorPressed(OPERATOR_MINUS);
                     break;
                 case CHAR_MULTIPLY:
-                    _op2.setLength(0);
-                    calculateResult(false);
-                    setOperator(OPERATOR_MULTIPLY);
-                    _negationOp1 = false;
-                    _clearOperatorPending = false;
+                    operatorPressed(OPERATOR_MULTIPLY);
                     break;
                 case CHAR_DIVIDE:
-                    _op2.setLength(0);
-                    calculateResult(false);
-                    setOperator(OPERATOR_DIVIDE);
-                    _negationOp1 = false;
-                    _clearOperatorPending = false;
+                    operatorPressed(OPERATOR_DIVIDE);
                     break;
                 case CHAR_EQUAL:
                     calculateResult(true);
@@ -476,6 +460,32 @@ public class Calculator extends JPanel implements ActionListener {
                     break;
             }
         }
+    }
+
+    private void operatorPressed(int operator) {
+        if (_op1.length() == 0) { // _op1 does not have input yet, make it 0
+            _op1.append("0");
+        }
+        else if (getOperator() == OPERATOR_NONE) { // normal process
+            _op2.setLength(0);
+            calculateResult(false);
+        }
+        else {
+            if (_op2.length() == 0) { // two operators input continuously
+                beep();
+                return;
+            }
+            else { // enable 3+3+3
+                _isFakedEqualPressed = false;
+                calculateResult(true);
+                _op1.setLength(0);
+                _op1.append(((Double) _result).toString());
+                _op2.setLength(0);
+            }
+        }
+        setOperator(operator);
+        _negationOp1 = false;
+        _clearOperatorPending = false;
     }
 
     protected void beep() {
@@ -511,7 +521,7 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     private void calculateResult(boolean equalPressed) {
-        if (getOperator() == -1) {
+        if (getOperator() == OPERATOR_NONE) {
             return;
         }
 
