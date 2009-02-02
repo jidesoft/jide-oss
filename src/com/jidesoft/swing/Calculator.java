@@ -738,7 +738,7 @@ public class Calculator extends JPanel implements ActionListener {
             input(CHAR_DIVIDE);
         }
         else if (_equalButton == source) {
-            if (e.getActionCommand().equals("Faked")) {
+            if (e.getActionCommand() != null && e.getActionCommand().equals("Faked")) {
                 _isFakedEqualPressed = true;
             }
             else {
@@ -785,7 +785,7 @@ public class Calculator extends JPanel implements ActionListener {
      * @param button the button
      */
     protected void fakePressButton(AbstractButton button) {
-        actionPerformed(new ActionEvent(button, 0, "Faked"));
+        actionPerformed(new ActionEvent(button, 0, null));
     }
 
     private void fakePressButton(char c) {
@@ -874,7 +874,7 @@ public class Calculator extends JPanel implements ActionListener {
      */
     public void commit() {
         if (!_clearOperatorPending) {
-            fakePressButton(CHAR_EQUAL);
+            actionPerformed(new ActionEvent(_equalButton, 0, "Faked"));
         }
     }
 
