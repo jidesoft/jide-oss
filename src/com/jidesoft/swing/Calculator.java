@@ -153,7 +153,7 @@ public class Calculator extends JPanel implements ActionListener {
         char c = keyEvent.getKeyChar();
         return (keyEvent.getModifiers() & ~KeyEvent.SHIFT_MASK) != 0 // if it has any modify, ignore it
                 || Character.isDigit(c) || isOperator(keyEvent)
-                || isEnter(keyEvent)
+                || isEnterOrEqual(keyEvent)
                 || c == KeyEvent.VK_PERIOD || c == CHAR_CLEAR || Character.toLowerCase(c) == CHAR_CLEAR
                 || c == KeyEvent.VK_ESCAPE
                 || c == KeyEvent.VK_BACK_SPACE;
@@ -172,15 +172,15 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Checks if the key event a key event for enter. In the other words, if it is {@link KeyEvent#VK_ENTER}, this
-     * method will return true.
+     * Checks if the key event a key event for enter. In the other words, if it is {@link KeyEvent#VK_ENTER} or {@link
+     * KeyEvent#VK_EQUALS}, this method will return true.
      *
      * @param keyEvent the key event.
-     * @return true if it is a valid key event is an enter key.
+     * @return true if it is a valid key event is an enter key or an equal key.
      */
-    public static boolean isEnter(KeyEvent keyEvent) {
+    public static boolean isEnterOrEqual(KeyEvent keyEvent) {
         char c = keyEvent.getKeyChar();
-        return c == KeyEvent.VK_ENTER;
+        return c == KeyEvent.VK_ENTER || c == KeyEvent.VK_EQUALS;
     }
 
     /**
