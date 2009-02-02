@@ -14,6 +14,8 @@ import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -2187,8 +2189,33 @@ public class JideSwingUtilities implements SwingConstants {
      * For internal usage only.
      */
     public static void traceFocus() {
+        traceFocus(false);
+    }
+
+    /**
+     * For internal usage only.
+     */
+    public static void traceFocus(final boolean useBorders) {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
+                if (useBorders) {
+                    Component oldValue = (Component) evt.getOldValue();
+                    if (oldValue instanceof JComponent) {
+                        Border oldBorder = ((JComponent) oldValue).getBorder();
+                        if (oldBorder instanceof TraceDebugBorder)
+                            ((JComponent) oldValue).setBorder(((TraceDebugBorder) oldBorder).getInsideBorder());
+                    }
+
+                    Component newValue = (Component) evt.getNewValue();
+                    if (newValue instanceof JComponent) {
+                        Border oldBorder = (Border) ((JComponent) newValue).getBorder();
+                        if (oldBorder == null)
+                            oldBorder = new EmptyBorder(0, 0, 0, 0);
+                        if (!(oldBorder instanceof TraceDebugBorder))
+                            ((JComponent) newValue).setBorder(new TraceDebugBorder(oldBorder));
+                    }
+                }
+
                 String oldName = evt.getOldValue() == null ? "null" : evt.getOldValue().getClass().getName();
                 if (evt.getOldValue() instanceof Component && ((Component) evt.getOldValue()).getName() != null)
                     oldName = oldName + "'" + ((Component) evt.getOldValue()).getName() + "'";
@@ -2203,6 +2230,21 @@ public class JideSwingUtilities implements SwingConstants {
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("permanentFocusOwner", listener);
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("activeWindow", listener);
     }
+
+    public static class TraceDebugBorder extends CompoundBorder {
+        public TraceDebugBorder(Border insideBorder) {
+            super(BorderFactory.createLineBorder(Color.RED, 1), insideBorder);
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return getInsideBorder().getBorderInsets(c);
+        }
+
+        public Insets getBorderInsets(Component c, Insets insets) {
+            return getInsideBorder().getBorderInsets(c);
+        }
+    }
+
 
     public static void runGCAndPrintFreeMemory() {
         java.text.DecimalFormat memFormatter = new java.text.DecimalFormat("###,###,##0.####");
@@ -2330,7 +2372,7 @@ public class JideSwingUtilities implements SwingConstants {
     public static boolean passesFocusabilityTest(Component comp) {
         return ((comp != null) &&
                 comp.isEnabled() && comp.isDisplayable() &&
-                comp.isVisible() && comp.isFocusable());
+                comp.isVisible() && comp.isFocusable() && comp.isShowing());
     }
 
     /**
@@ -2622,8 +2664,12 @@ public class JideSwingUtilities implements SwingConstants {
             if (container.isFocusCycleRoot()) {
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
+                System.out.println("---JideSwingUtilities.compositeRequestFocus()" + container + " = " + comp);
+                if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0)
+                    System.out.println("---JideSwingUtilities.compositeRequestFocus()" + "why?");
                 if (comp != null) {
-                    return comp.requestFocusInWindow();
+                    comp.requestFocus();
+                    return true;
                 }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
@@ -2639,11 +2685,16 @@ public class JideSwingUtilities implements SwingConstants {
                 }
 
                 if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
-                    return comp.requestFocusInWindow();
+                    comp.requestFocus();
+                    return true;
                 }
             }
         }
-        return component.isFocusable() && component.requestFocusInWindow();
+        if (!passesFocusabilityTest(component))
+            return false;
+
+        component.requestFocus();
+        return true;
     }
 
     public static boolean isAncestorOfFocusOwner(Component component) {
@@ -2994,25 +3045,23 @@ public class JideSwingUtilities implements SwingConstants {
      * If c is a JRootPane descendant return its outermost JRootPane ancestor. If c is a RootPaneContainer then return
      * its JRootPane.
      *
-     * @param c the component.
      * @return the outermost JRootPane for Component c or {@code null}.
      */
     public static JRootPane getOutermostRootPane(Component c) {
         if (c instanceof RootPaneContainer && c.getParent() == null) {
             return ((RootPaneContainer) c).getRootPane();
         }
-        JRootPane lastRootPane;
+        JRootPane lastRootPane = null;
         for (; c != null; c = SwingUtilities.getRootPane(c)) {
             if (c instanceof JRootPane) {
                 lastRootPane = (JRootPane) c;
                 if (c.getParent().getParent() == null) {
                     return lastRootPane;
                 }
-                if (c.getParent() instanceof JDialog || c.getParent() instanceof JWindow
-                        || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet) {
+                if (c.getParent() instanceof JDialog || c.getParent() instanceof JWindow || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet) {
                     return lastRootPane;
                 }
-                c = c.getParent().getParent();
+                c = c.getParent();
             }
         }
         return null;
@@ -3264,7 +3313,11 @@ public class JideSwingUtilities implements SwingConstants {
             return defaultHeight;
         }
         FontMetrics fm = c.getFontMetrics(f);
-        float h = fm.getHeight() + fm.getDescent();
+        float h = fm.getHeight();
+
+        h += fm.getDescent();
+        h += fm.getAscent();
+
         return (int) h;
     }
 }

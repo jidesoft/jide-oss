@@ -4856,7 +4856,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (lastFocused != null && lastFocused.requestFocusInWindow()) {
             return true;
         }
-        else if (visibleComponent != null && visibleComponent.isFocusTraversable()) {
+        else
+        if (visibleComponent != null && JideSwingUtilities.passesFocusabilityTest(visibleComponent)) { //  visibleComponent.isFocusTraversable()) {
             JideSwingUtilities.compositeRequestFocus(visibleComponent);
             return true;
         }
@@ -7760,8 +7761,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     lastFocused.requestFocus();
                                 }
                             }
-                            else if (_tabPane.isRequestFocusEnabled()) {
-                                if (!_tabPane.requestFocusInWindow()) {
+                            else {
+                                // first try to find a default component.
+                                boolean foundInTab = JideSwingUtilities.compositeRequestFocus(comp);
+                                if (!foundInTab && !_tabPane.requestFocusInWindow()) {
                                     _tabPane.requestFocus();
                                 }
                             }
