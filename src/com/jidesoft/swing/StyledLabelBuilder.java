@@ -258,6 +258,13 @@ public class StyledLabelBuilder {
         return label;
     }
 
+    /**
+     * Before your call this method, you need call {link@ #parseToVoidStyledTextConfusion(String)} to make sure the text
+     * will not contain confusion "\" or "{"
+     *
+     * @param label the styledLabel to be set with the text
+     * @param text  the styled text
+     */
     public static void setStyledText(StyledLabel label, String text) {
         setStyledText(label, text.toCharArray());
     }
@@ -266,6 +273,13 @@ public class StyledLabelBuilder {
         setStyledText(label, text.toCharArray(), builder);
     }
 
+    /**
+     * Before your call this method, you need call {link@ #parseToVoidStyledTextConfusion(String)} to make sure the text
+     * will not contain confusion "\" or "{"
+     *
+     * @param label the styledLabel to be set with the text
+     * @param text  the styled text
+     */
     public static void setStyledText(StyledLabel label, char[] text) {
         setStyledText(label, text, null);
     }
@@ -302,6 +316,19 @@ public class StyledLabelBuilder {
             }
         }
         label.setText(labelText.toString());
+    }
+
+    /**
+     * This method need to be invoked to format your string before you invoke {@link #setStyledText(StyledLabel,
+     * String)} or {@link #setStyledText(StyledLabel, char[])}
+     *
+     * @param originalString the original string.
+     * @return a parsed string with "\" replaced by "\\" and "{" replaced by "\{".
+     */
+    public static String parseToVoidStyledTextConfusion(String originalString) {
+        String destString = originalString.replaceAll("\\\\", "\\\\\\\\");
+        destString = destString.replaceAll("\\{", "\\\\{");
+        return destString;
     }
 
     private static ParsedStyleResult parseStylePart(char[] text, int start, StyledLabelBuilder builder) {
