@@ -2664,13 +2664,11 @@ public class JideSwingUtilities implements SwingConstants {
             if (container.isFocusCycleRoot()) {
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
-                System.out.println("---JideSwingUtilities.compositeRequestFocus()" + container + " = " + comp);
                 if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0)
-                    System.out.println("---JideSwingUtilities.compositeRequestFocus()" + "why?");
-                if (comp != null) {
-                    comp.requestFocus();
-                    return true;
-                }
+                    if (comp != null) {
+                        comp.requestFocus();
+                        return true;
+                    }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
             if (rootAncestor != null) {
