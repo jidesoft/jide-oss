@@ -36,14 +36,14 @@ public class BooleanConverter implements ObjectConverter {
             return Boolean.TRUE;
         }
         else
-        if (string.equalsIgnoreCase("true")) { // in case the application runs under different locale, we still condier "true" is true.
+        if (string.equalsIgnoreCase("true")) { // in case the application runs under different locale, we still consider "true" is true.
             return Boolean.TRUE;
         }
         else if (string.equalsIgnoreCase(getFalse())) {
             return Boolean.FALSE;
         }
         else
-        if (string.equalsIgnoreCase("false")) { // in case the application runs under different locale, we still condier "false" is false.
+        if (string.equalsIgnoreCase("false")) { // in case the application runs under different locale, we still consider "false" is false.
             return Boolean.FALSE;
         }
         else {
