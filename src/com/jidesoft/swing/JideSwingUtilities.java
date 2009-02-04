@@ -3043,23 +3043,25 @@ public class JideSwingUtilities implements SwingConstants {
      * If c is a JRootPane descendant return its outermost JRootPane ancestor. If c is a RootPaneContainer then return
      * its JRootPane.
      *
+     * @param c the component.
      * @return the outermost JRootPane for Component c or {@code null}.
      */
     public static JRootPane getOutermostRootPane(Component c) {
         if (c instanceof RootPaneContainer && c.getParent() == null) {
             return ((RootPaneContainer) c).getRootPane();
         }
-        JRootPane lastRootPane = null;
+        JRootPane lastRootPane;
         for (; c != null; c = SwingUtilities.getRootPane(c)) {
             if (c instanceof JRootPane) {
                 lastRootPane = (JRootPane) c;
                 if (c.getParent().getParent() == null) {
                     return lastRootPane;
                 }
-                if (c.getParent() instanceof JDialog || c.getParent() instanceof JWindow || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet) {
+                if (c.getParent() instanceof JDialog || c.getParent() instanceof JWindow
+                        || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet) {
                     return lastRootPane;
                 }
-                c = c.getParent();
+                c = c.getParent().getParent();
             }
         }
         return null;
