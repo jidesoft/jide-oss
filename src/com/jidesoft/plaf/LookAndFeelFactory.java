@@ -1056,7 +1056,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Adds your own UIDefaults customizer. This customizer will be called after installJideExtension() is called.
+     * Adds your own UIDefaults customizer. You need to add it before installJideExtension() is called but the actual
+     * customize() code will be called after installJideExtension() is called.
      * <code><pre>
      * For example, we use "JideButton.font" as the UIDefault for the JideButton font. If you want
      * to use another font, you can do
@@ -1065,6 +1066,7 @@ public class LookAndFeelFactory implements ProductNames {
      *         defaults.put("JideButton.font", whateverFont);
      *     }
      * });
+     * LookAndFeelFactory.installJideExtension();
      * </pre></code>
      *
      * @param uiDefaultsCustomizer the UIDefaultsCustomizer
