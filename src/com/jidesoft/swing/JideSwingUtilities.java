@@ -3316,7 +3316,6 @@ public class JideSwingUtilities implements SwingConstants {
         float h = fm.getHeight();
 
         h += fm.getDescent();
-        h += fm.getAscent();
 
         return (int) h;
     }
