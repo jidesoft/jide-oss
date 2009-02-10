@@ -332,9 +332,9 @@ public class LookAndFeelFactory implements ProductNames {
         void initialize(UIDefaults defaults);
     }
 
-    private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector();
-    private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector();
-    private static Map<String, String> _installedLookAndFeels = new HashMap<String, String>(5);
+    private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector<UIDefaultsCustomizer>();
+    private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector<UIDefaultsInitializer>();
+    private static Map<String, String> _installedLookAndFeels;
 
     public final static String LAF_INSTALLED = "installed";
     public final static String LAF_NOT_INSTALLED = "not installed";
@@ -832,7 +832,9 @@ public class LookAndFeelFactory implements ProductNames {
      * @return true or false.
      */
     public static boolean isLnfInUse(String lnfName) {
-        return !(_installedLookAndFeels.containsKey(lnfName) && _installedLookAndFeels.get(lnfName) == null) && isAssignableFrom(lnfName, UIManager.getLookAndFeel().getClass());
+        return !(_installedLookAndFeels.containsKey(lnfName)
+                && (_installedLookAndFeels.get(lnfName) == null || _installedLookAndFeels.get(lnfName).equals(LAF_NOT_INSTALLED)))
+                && isAssignableFrom(lnfName, UIManager.getLookAndFeel().getClass());
     }
 
     /**
@@ -850,13 +852,13 @@ public class LookAndFeelFactory implements ProductNames {
     private static Class loadLnfClass(String lnfName) {
         try {
             Class clazz = getUIManagerClassLoader().loadClass(lnfName);
-            Map map = new HashMap<String, String>(_installedLookAndFeels);
+            Map<String, String> map = new HashMap<String, String>(_installedLookAndFeels);
             map.put(lnfName, LAF_INSTALLED);
             _installedLookAndFeels = map;
             return clazz;
         }
         catch (ClassNotFoundException e) {
-            Map map = new HashMap<String, String>(_installedLookAndFeels);
+            Map<String, String> map = new HashMap<String, String>(_installedLookAndFeels);
             map.put(lnfName, LAF_NOT_INSTALLED);
             _installedLookAndFeels = map;
             return null;
