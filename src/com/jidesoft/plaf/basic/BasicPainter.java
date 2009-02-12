@@ -360,7 +360,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        g.setColor(UIDefaultsLookup.getColor("JideLabel.background"));
+        g.setColor(UIDefaultsLookup.getColor("Label.background"));
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
@@ -571,18 +571,18 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             int tabShape = tabbedPane.getTabShape();
             int colorTheme = tabbedPane.getColorTheme();
             if (tabShape == JideTabbedPane.SHAPE_BOX) {
-                g.setColor(UIDefaultsLookup.getColor("JideLabel.background"));
+                g.setColor(UIDefaultsLookup.getColor("Label.background"));
             }
             else {
                 if (colorTheme == JideTabbedPane.COLOR_THEME_WIN2K) {
-                    g.setColor(UIDefaultsLookup.getColor("JideLabel.background"));
+                    g.setColor(UIDefaultsLookup.getColor("Label.background"));
 
                 }
                 else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
                     g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
                 }
                 else {
-                    g.setColor(UIDefaultsLookup.getColor("JideLabel.background"));
+                    g.setColor(UIDefaultsLookup.getColor("Label.background"));
                 }
             }
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -653,7 +653,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (baseColor instanceof UIResource) {
             baseColor = UIDefaultsLookup.getColor("HeaderBox.background");
             if (baseColor == null) {
-                baseColor = UIDefaultsLookup.getColor("JideLabel.background");
+                baseColor = UIDefaultsLookup.getColor("Label.background");
             }
         }
         if (state == STATE_PRESSED || state == STATE_SELECTED || state == STATE_ROLLOVER) {
