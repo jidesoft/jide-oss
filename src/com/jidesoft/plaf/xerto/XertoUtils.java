@@ -278,7 +278,7 @@ public class XertoUtils {
         return new Color(r, g, b);
     }
 
-    public static Color getHeighlightColor(Color bottomColor) {
+    public static Color getHighlightColor(Color bottomColor) {
         float[] oHSB = new float[3];
         Color.RGBtoHSB(bottomColor.getRed(), bottomColor.getGreen(), bottomColor.getBlue(), oHSB);
         oHSB[1] -= 0.07f;

@@ -16,8 +16,8 @@ import java.awt.*;
 /**
  * Painter for Xerto L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
- * Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class XertoPainter extends BasicPainter {
 
@@ -48,8 +48,8 @@ public class XertoPainter extends BasicPainter {
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
-        Color gradientBot = c.getBackground();
-        Color gradientTop = XertoUtils.getHeighlightColor(gradientBot);
+        Color gradientBot = XertoUtils.getHighlightColor(c.getBackground());
+        Color gradientTop = XertoUtils.getLighterColor(c.getBackground());
         JideSwingUtilities.fillGradient(g2d, rect, gradientTop, gradientBot, true);
     }
 
