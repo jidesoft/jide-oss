@@ -31,7 +31,9 @@ public interface IntelliHints {
     JComponent createHintsComponent();
 
     /**
-     * Update hints depending on the context.
+     * Update hints depending on the context. This method will be triggered for every key typed event in the text
+     * component. Subclass can override it to provide your own list of hints and call setListData to set it and returns
+     * true after that.
      *
      * @param context the current context
      * @return true or false. If it is false, hint popup will not be shown.
@@ -46,9 +48,9 @@ public interface IntelliHints {
     Object getSelectedHint();
 
     /**
-     * Accepts the selected hint.
+     * Accepts the selected hint. Subclass can implements to decide how the new hint be set to the text component.
      *
-     * @param hint
+     * @param hint the hint to be accepted.
      */
     void acceptHint(Object hint);
 }
