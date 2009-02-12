@@ -6,6 +6,8 @@
 
 package com.jidesoft.plaf.vsnet;
 
+import com.jidesoft.utils.ColorUtils;
+
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
 import java.awt.*;
@@ -15,13 +17,14 @@ public class HeaderCellBorder implements Border, UIResource {
     }
 
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        g.setColor(new Color(226, 222, 205));
+        Color baseColor = c.getBackground();
+        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.45f));
         g.drawLine(0, height - 3, width, height - 3);
 
-        g.setColor(new Color(214, 210, 194));
+        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.43f));
         g.drawLine(0, height - 2, width, height - 2);
 
-        g.setColor(new Color(203, 199, 184));
+        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
         g.drawLine(0, height - 1, width, height - 1);
         g.drawLine(width - 1, 0, width - 1, height - 1);
     }
