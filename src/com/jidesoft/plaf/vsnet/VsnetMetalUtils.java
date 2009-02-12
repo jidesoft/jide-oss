@@ -269,6 +269,8 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "MeterProgressBar.cellLength", 2,
                 "MeterProgressBar.cellSpacing", 2,
 
+                "HeaderBox.background", defaultBackgroundColor,
+
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
 

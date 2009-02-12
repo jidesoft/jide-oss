@@ -240,6 +240,8 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "ButtonPanel.groupGap", 5,
                 "ButtonPanel.minButtonWidth", 57,
 
+                "HeaderBox.background", defaultBackgroundColor,
+
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
 

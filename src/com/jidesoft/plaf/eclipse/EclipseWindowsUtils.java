@@ -305,6 +305,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "Cursor.dragText", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.DROP_TEXT),
                 "Cursor.dragTextStop", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.NODROP_TEXT),
 
+                "HeaderBox.background", defaultBackgroundColor,
 
                 "Icon.floating", Boolean.FALSE,
 

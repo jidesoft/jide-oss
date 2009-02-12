@@ -373,6 +373,8 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "Gripper.foreground", gripperForeground,
                 "Gripper.painter", gripperPainter,
 
+                "HeaderBox.background", defaultBackgroundColor,
+
                 "Icon.floating", Boolean.FALSE,
 
                 "Resizable.resizeBorder", resizeBorder,
