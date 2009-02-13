@@ -334,7 +334,7 @@ public class LookAndFeelFactory implements ProductNames {
 
     private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector<UIDefaultsCustomizer>();
     private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector<UIDefaultsInitializer>();
-    private static Map<String, String> _installedLookAndFeels;
+    private static Map<String, String> _installedLookAndFeels = new HashMap<String, String>();
 
     public final static String LAF_INSTALLED = "installed";
     public final static String LAF_NOT_INSTALLED = "not installed";
@@ -484,7 +484,6 @@ public class LookAndFeelFactory implements ProductNames {
         uiDefaults.put(JIDE_STYLE_INSTALLED, _style);
 
         _lookAndFeel = lnf;
-        _installedLookAndFeels = new HashMap<String, String>();
         UIDefaultsInitializer[] initializers = getUIDefaultsInitializers();
         for (UIDefaultsInitializer initializer : initializers) {
             if (initializer != null) {
