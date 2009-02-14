@@ -5114,7 +5114,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             ActionEvent e2 = e;
             if (src instanceof TabCloseButton) {
                 index = ((TabCloseButton) src).getIndex();
-                Component compSrc = pane.getComponentAt(index);
+                Component compSrc = index != -1 ? pane.getComponentAt(index) : pane.getSelectedComponent();
                 // note - We create a new action because we could be in the middle of a chain and
                 // if we just use setSource we could cause problems.
                 // also the AWT documentation pooh-pooh this. (for good reason)
