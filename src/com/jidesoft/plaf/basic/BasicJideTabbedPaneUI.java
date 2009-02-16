@@ -465,7 +465,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _textIconGap = UIDefaultsLookup.getInt("JideTabbedPane.textIconGap");
         _tabInsets = UIDefaultsLookup.getInsets("JideTabbedPane.tabInsets");
         _selectedTabPadInsets = UIDefaultsLookup.getInsets("TabbedPane.selectedTabPadInsets");
+        if (_selectedTabPadInsets == null) _selectedTabPadInsets = new InsetsUIResource(0, 0, 0, 0);
         _tabAreaInsets = UIDefaultsLookup.getInsets("JideTabbedPane.tabAreaInsets");
+        if (_tabAreaInsets == null) _tabAreaInsets = new InsetsUIResource(0, 0, 0, 0);
         Insets insets = _tabPane.getContentBorderInsets();
         if (insets == null || insets instanceof UIResource) {
             _tabPane.setContentBorderInsets(UIDefaultsLookup.getInsets("JideTabbedPane.contentBorderInsets"));
