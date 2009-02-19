@@ -225,7 +225,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         setRootPane(createRootPane());
         setLayout(new BorderLayout());
         setRootPaneCheckingEnabled(true);
-        setFocusable(false);
+//        setFocusable(false);
         updateUI();
     }
 
