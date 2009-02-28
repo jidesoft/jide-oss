@@ -15,17 +15,17 @@ import java.util.List;
  * provides hints from a known list of data. It is similar to auto complete text field except the list will be filtered
  * depending on what user types in so far.
  */
-public class ListDataIntelliHints extends AbstractListIntelliHints {
+public class ListDataIntelliHints<T> extends AbstractListIntelliHints {
 
     private boolean _caseSensitive = false;
-    private List<?> _completionList;
+    private List<T> _completionList;
 
-    public ListDataIntelliHints(JTextComponent comp, List<?> completionList) {
+    public ListDataIntelliHints(JTextComponent comp, List<T> completionList) {
         super(comp);
         setCompletionList(completionList);
     }
 
-    public ListDataIntelliHints(JTextComponent comp, String[] completionList) {
+    public ListDataIntelliHints(JTextComponent comp, T[] completionList) {
         super(comp);
         setCompletionList(completionList);
     }
@@ -35,29 +35,29 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
      *
      * @return the list of hints.
      */
-    public List<?> getCompletionList() {
+    public List<T> getCompletionList() {
         return _completionList;
     }
 
     /**
      * Sets a new list of hints.
      *
-     * @param completionList
+     * @param completionList a new list of hints.
      */
-    public void setCompletionList(List<?> completionList) {
+    public void setCompletionList(List<T> completionList) {
         _completionList = completionList;
     }
 
     /**
      * Sets a new list of hints.
      *
-     * @param completionList
+     * @param completionList a new array of hints.
      */
-    public void setCompletionList(String[] completionList) {
-        final String[] list = completionList;
-        _completionList = new AbstractList() {
+    public void setCompletionList(T[] completionList) {
+        final T[] list = completionList;
+        _completionList = new AbstractList<T>() {
             @Override
-            public Object get(int index) {
+            public T get(int index) {
                 return list[index];
             }
 
@@ -72,25 +72,37 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
         if (context == null) {
             return false;
         }
-        String s = context.toString();
-        int substringLen = s.length();
-        List<String> possibleStrings = new ArrayList<String>();
-        for (Object o : getCompletionList()) {
-            String listEntry = (String) o;
-            if (substringLen > listEntry.length())
-                continue;
-
-            if (!isCaseSensitive()) {
-                if (s.equalsIgnoreCase(listEntry.substring(0, substringLen)))
-                    possibleStrings.add(listEntry);
-            }
-            else if (listEntry.startsWith(s))
-                possibleStrings.add(listEntry);
+        List<T> possibleHints = new ArrayList<T>();
+        for (T o : getCompletionList()) {
+            if (compare(context, o)) possibleHints.add(o);
         }
 
-        Object[] objects = possibleStrings.toArray();
+        Object[] objects = possibleHints.toArray();
         setListData(objects);
         return objects.length > 0;
+    }
+
+    /**
+     * Compares the context with the object in the completion list.
+     *
+     * @param context the context returned from {@link #getContext()} method.
+     * @param o       the object in the completion list.
+     * @return true if the context matches with the object. Otherwise false.
+     */
+    protected boolean compare(Object context, T o) {
+        boolean match = false;
+        String listEntry = o == null ? "" : o.toString();
+        String s = context.toString();
+        int substringLen = s.length();
+        if (substringLen <= listEntry.length()) {
+            if (!isCaseSensitive()) {
+                if (s.equalsIgnoreCase(listEntry.substring(0, substringLen)))
+                    match = true;
+            }
+            else if (listEntry.startsWith(s))
+                match = true;
+        }
+        return match;
     }
 
     /**
@@ -105,7 +117,7 @@ public class ListDataIntelliHints extends AbstractListIntelliHints {
     /**
      * Sets the case sensitive flag. By default, it's false meaning it's a case insensitive search.
      *
-     * @param caseSensitive
+     * @param caseSensitive true or false.
      */
     public void setCaseSensitive(boolean caseSensitive) {
         _caseSensitive = caseSensitive;
