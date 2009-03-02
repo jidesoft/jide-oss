@@ -9,7 +9,6 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.IOException;
 import java.security.AccessControlException;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
@@ -57,39 +56,13 @@ public class SecurityUtils {
         return fontString.replace(' ', '_');
     }
 
-    private static FontStruct getFontStruct(String text) {
-        if (text == null || text.length() == 0) {
-            return null;
-        }
-        text = text.replace('_', ' ');
-        FontStruct fontStruct = new FontStruct();
-        if (text.endsWith(BOLD)) {
-            fontStruct.style = Font.BOLD;
-            fontStruct.font = text.substring(0, text.length() - BOLD.length());
-        }
-        else if (text.endsWith(ITALIC)) {
-            fontStruct.style = Font.ITALIC;
-            fontStruct.font = text.substring(0, text.length() - ITALIC.length());
-        }
-        else if (text.endsWith(BOLD)) {
-            fontStruct.style = Font.BOLD | Font.ITALIC;
-            fontStruct.font = text.substring(0, text.length() - BOLD_ITALIC.length());
-        }
-        else {
-            fontStruct.style = Font.PLAIN;
-            fontStruct.font = text;
-        }
-        return fontStruct;
-
-    }
-
     /**
-     * Creates font. If there is no permission to access font file, it will try to create the font
-     * directly from font file that is bundled as part of jar.
+     * Creates font. If there is no permission to access font file, it will try to create the font directly from font
+     * file that is bundled as part of jar.
      *
-     * @param name
-     * @param style
-     * @param size
+     * @param name  the font name.
+     * @param style the font style.
+     * @param size  the font size.
      * @return the font.
      */
     public static Font createFont(String name, int style, int size) {
@@ -110,6 +83,7 @@ public class SecurityUtils {
                         value = FontFilesResource.getResourceBundle(Locale.getDefault()).getString(name);
                     }
                     catch (MissingResourceException me2) {
+                        // ignore
                     }
                 }
                 if (value == null) {
@@ -136,38 +110,12 @@ public class SecurityUtils {
         return null;
     }
 
-    private static Hashtable<String, String> _safeProperties = null;
-
-    private static Hashtable getSafeProperties() {
-        if (_safeProperties == null) {
-            _safeProperties = new Hashtable<String, String>(13);
-            _safeProperties.put("java.version", "");
-            _safeProperties.put("java.vendor", "");
-            _safeProperties.put("java.vendor.url", "");
-            _safeProperties.put("java.class.version", "");
-            _safeProperties.put("os.name", "");
-            _safeProperties.put("os.version", "");
-            _safeProperties.put("os.arch", "");
-            _safeProperties.put("file.separator", "");
-            _safeProperties.put("path.separator", "");
-            _safeProperties.put("line.separator", "");
-            _safeProperties.put("java.specification.version", "");
-            _safeProperties.put("java.specification.vendor", "");
-            _safeProperties.put("java.specification.name", "");
-            _safeProperties.put("java.vm.specification.vendor", "");
-            _safeProperties.put("java.vm.specification.name", "");
-            _safeProperties.put("java.vm.version", "");
-            _safeProperties.put("java.vm.vendor", "");
-            _safeProperties.put("java.vm.name", "");
-        }
-        return _safeProperties;
-    }
 
     /**
      * Gets the system property.
      *
-     * @param key
-     * @param defaultValue
+     * @param key          the property key
+     * @param defaultValue the default value for the property.
      * @return the system property.
      */
     public static String getProperty(String key, String defaultValue) {
@@ -183,8 +131,8 @@ public class SecurityUtils {
 
     /**
      * Checks if AWTEventListener is disabled. This flag can be set by user. If false, JIDE code will read the value and
-     * not use AWTEventListener. The reason we need this flag is because AWTEventListener needs a special security permission.
-     * If applet, it will throw security if the user policy doesn't have the correct permission.
+     * not use AWTEventListener. The reason we need this flag is because AWTEventListener needs a special security
+     * permission. If applet, it will throw security if the user policy doesn't have the correct permission.
      *
      * @return true if AWTEventListener is disabled.
      */
@@ -193,12 +141,35 @@ public class SecurityUtils {
     }
 
     /**
-     * Enables or disables the usage of AWTEventListener. If you wantto change it, you should change the value at
-     * the beginning of your main method.
+     * Enables or disables the usage of AWTEventListener. If you want to change it, you should change the value at the
+     * beginning of your main method.
      *
-     * @param AWTEventListenerDisabled
+     * @param AWTEventListenerDisabled true or false.
      */
     public static void setAWTEventListenerDisabled(boolean AWTEventListenerDisabled) {
         _AWTEventListenerDisabled = AWTEventListenerDisabled;
+    }
+
+    private static boolean _translucentWindowFeatureDisabled = !SystemInfo.isJdk6u10Above() || !SystemInfo.isWindows();
+
+    /**
+     * Checks if the translucent window feature is disabled. It is disabled by default if the JDK version is less than
+     * JDK6 u10 or theOS is not Windows.
+     *
+     * @return true or false.
+     */
+    public static boolean isTranslucentWindowFeatureDisabled() {
+        return _translucentWindowFeatureDisabled;
+    }
+
+    /**
+     * Disables or enables the usage of the translucent window feature available since JDK6u10. This feature is used in
+     * Alert for fading animation.
+     *
+     * @param translucentWindowFeatureDisabled
+     *         true or false.
+     */
+    public static void setTranslucentWindowFeatureDisabled(boolean translucentWindowFeatureDisabled) {
+        _translucentWindowFeatureDisabled = translucentWindowFeatureDisabled;
     }
 }
