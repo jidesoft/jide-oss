@@ -135,6 +135,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
         if (_actualListRenderer != null) {
             JComponent listCellRendererComponent = (JComponent) _actualListRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (!cellHasFocus) listCellRendererComponent.setBorder(noFocusBorder);
             if (list instanceof CheckBoxList) {
                 if (!((CheckBoxList) list).isCheckBoxVisible(index)) {
                     return listCellRendererComponent;
