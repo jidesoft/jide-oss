@@ -7715,7 +7715,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public class MouseHandler extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (!_tabPane.isEnabled()) {
+            if (_tabPane == null || !_tabPane.isEnabled()) {
                 return;
             }
 
