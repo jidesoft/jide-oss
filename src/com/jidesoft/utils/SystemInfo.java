@@ -438,7 +438,8 @@ final public class SystemInfo {
         String s = getJavaVersion();
         String sub = s.substring(0, 3);
         String minor = s.substring(4, 5);
-        String build = s.substring(6, 8);
+        int bidx = s.indexOf("_");
+        String build = (bidx > 0) ? s.substring(bidx + 1) : "0";
         try {
             double majorVersion = Double.parseDouble(sub);
             double minorVersion = Double.parseDouble(minor);
