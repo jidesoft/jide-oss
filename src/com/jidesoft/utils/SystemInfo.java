@@ -6,6 +6,8 @@
 package com.jidesoft.utils;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 
 /**
@@ -78,6 +80,13 @@ final public class SystemInfo {
      */
     private static boolean _isSolaris = false;
 
+    private final static boolean _isJdk13Above;
+    private final static boolean _isJdk14Above;
+    private final static boolean _isJdk142Above;
+    private final static boolean _isJdk15Above;
+    private final static boolean _isJdk6Above;
+    private final static boolean _isJdk6u10Above;
+
     /**
      * Make sure the constructor can never be called.
      */
@@ -131,6 +140,14 @@ final public class SystemInfo {
                 _isMacClassic = true;
             }
         }
+
+        JavaVersion currentVersion = new JavaVersion(getJavaVersion());
+        _isJdk13Above = currentVersion.compareTo(new JavaVersion(1.3, 0, 0)) >= 0;
+        _isJdk14Above = currentVersion.compareTo(new JavaVersion(1.4, 0, 0)) >= 0;
+        _isJdk142Above = currentVersion.compareTo(new JavaVersion(1.4, 2, 0)) >= 0;
+        _isJdk15Above = currentVersion.compareTo(new JavaVersion(1.5, 0, 0)) >= 0;
+        _isJdk6Above = currentVersion.compareTo(new JavaVersion(1.6, 0, 0)) >= 0;
+        _isJdk6u10Above = currentVersion.compareTo(new JavaVersion(1.6, 0, 10)) >= 0;
     }
 
     /**
@@ -350,16 +367,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.3 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk13Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        try {
-            double version = Double.parseDouble(sub);
-            return version >= 1.3;
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _isJdk13Above;
     }
 
     /**
@@ -368,11 +376,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4.2 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk142Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 5);
-
-        return sub.compareTo("1.4.2") >= 0;
-
+        return _isJdk142Above;
     }
 
     /**
@@ -381,16 +385,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk14Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        try {
-            double version = Double.parseDouble(sub);
-            return version >= 1.4;
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _isJdk14Above;
     }
 
     /**
@@ -399,16 +394,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.5 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk15Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        try {
-            double version = Double.parseDouble(sub);
-            return version >= 1.5;
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _isJdk15Above;
     }
 
     /**
@@ -417,16 +403,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        try {
-            double version = Double.parseDouble(sub);
-            return version >= 1.6;
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _isJdk6Above;
     }
 
     /**
@@ -435,21 +412,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6u10 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6u10Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        String minor = s.substring(4, 5);
-        int bidx = s.indexOf("_");
-        String build = (bidx > 0) ? s.substring(bidx + 1) : "0";
-        try {
-            double majorVersion = Double.parseDouble(sub);
-            double minorVersion = Double.parseDouble(minor);
-            double buildVersion = Double.parseDouble(build);
-            return majorVersion >= 1.6 && (minorVersion > 0 || buildVersion >= 10);
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _isJdk6u10Above;
     }
 
     /**
@@ -497,4 +460,57 @@ final public class SystemInfo {
                 || locale.equals(Locale.KOREAN);
     }
 
+    private static class JavaVersion implements Comparable<JavaVersion> {
+        /**
+         * For example: 1.6.0_12:
+         * Group 1 = major version (1.6)
+         * Group 3 = minor version (0)
+         * Group 5 = build number (12)
+         */
+        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_(\\d+))?");
+
+        private double majorVersion;
+        private int minorVersion;
+        private int buildNumber;
+
+        public JavaVersion(String version) {
+            majorVersion = 1.4;
+            minorVersion = 0;
+            buildNumber = 0;
+            try {
+                Matcher matcher = SUN_JAVA_VERSION.matcher(version);
+                if(matcher.matches()) {
+                    int groups = matcher.groupCount();
+                    majorVersion = Double.parseDouble(matcher.group(1));
+                    if (groups >= 3 && matcher.group(3) != null) {
+                        minorVersion = Integer.parseInt(matcher.group(3));
+                    }
+                    if(groups >= 5 && matcher.group(5) != null) {
+                        buildNumber = Integer.parseInt(matcher.group(5));
+                    }
+                }
+            }
+            catch (NumberFormatException e) {
+                System.err.println("Please check the installation of your JDK. The version number " + version + " is not right.");
+            }
+        }
+
+        public JavaVersion(double major, int minor, int build) {
+            this.majorVersion = major;
+            this.minorVersion = minor;
+            this.buildNumber = build;
+        }
+
+        public int compareTo(JavaVersion other) {
+            double majorResult = this.majorVersion - other.majorVersion;
+            if(majorResult != 0) {
+                return majorResult < 0 ? -1 : 1;
+            }
+            int result = this.minorVersion - other.minorVersion;
+            if(result != 0) {
+                return result;
+            }
+            return this.buildNumber - other.buildNumber;
+        }
+    }
 }
