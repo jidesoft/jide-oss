@@ -80,12 +80,7 @@ final public class SystemInfo {
      */
     private static boolean _isSolaris = false;
 
-    private final static boolean _isJdk13Above;
-    private final static boolean _isJdk14Above;
-    private final static boolean _isJdk142Above;
-    private final static boolean _isJdk15Above;
-    private final static boolean _isJdk6Above;
-    private final static boolean _isJdk6u10Above;
+    private final static JavaVersion _currentVersion;
 
     /**
      * Make sure the constructor can never be called.
@@ -141,13 +136,7 @@ final public class SystemInfo {
             }
         }
 
-        JavaVersion currentVersion = new JavaVersion(getJavaVersion());
-        _isJdk13Above = currentVersion.compareTo(new JavaVersion(1.3, 0, 0)) >= 0;
-        _isJdk14Above = currentVersion.compareTo(new JavaVersion(1.4, 0, 0)) >= 0;
-        _isJdk142Above = currentVersion.compareTo(new JavaVersion(1.4, 2, 0)) >= 0;
-        _isJdk15Above = currentVersion.compareTo(new JavaVersion(1.5, 0, 0)) >= 0;
-        _isJdk6Above = currentVersion.compareTo(new JavaVersion(1.6, 0, 0)) >= 0;
-        _isJdk6u10Above = currentVersion.compareTo(new JavaVersion(1.6, 0, 10)) >= 0;
+        _currentVersion = new JavaVersion(getJavaVersion());
     }
 
     /**
@@ -367,7 +356,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.3 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk13Above() {
-        return _isJdk13Above;
+        return _currentVersion.compareVersion(1.3, 0, 0) >= 0;
     }
 
     /**
@@ -376,7 +365,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4.2 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk142Above() {
-        return _isJdk142Above;
+        return _currentVersion.compareVersion(1.4, 2, 0) >= 0;
     }
 
     /**
@@ -385,7 +374,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk14Above() {
-        return _isJdk14Above;
+        return _currentVersion.compareVersion(1.4, 0, 0) >= 0;
     }
 
     /**
@@ -394,7 +383,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.5 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk15Above() {
-        return _isJdk15Above;
+        return _currentVersion.compareVersion(1.5, 0, 0) >= 0;
     }
 
     /**
@@ -403,7 +392,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6Above() {
-        return _isJdk6Above;
+        return _currentVersion.compareVersion(1.6, 0, 0) >= 0;
     }
 
     /**
@@ -412,7 +401,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6u10 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6u10Above() {
-        return _isJdk6u10Above;
+        return _currentVersion.compareVersion(1.6, 0, 10) >= 0;
     }
 
     /**
@@ -421,16 +410,43 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk7Above() {
-        String s = getJavaVersion();
-        String sub = s.substring(0, 3);
-        try {
-            double version = Double.parseDouble(sub);
-            return version >= 1.7;
-        }
-        catch (NumberFormatException e) {
-            // ignore
-        }
-        return false;
+        return _currentVersion.compareVersion(1.7, 0, 0) >= 0;
+    }
+
+    /**
+     * Returns whether or not the JDK version is exactly the version you are expecting
+     *
+     * @param majorVersion your intended major version for JDK6u10, it should be 1.6
+     * @param minorVersion your intended major version for JDK6u10, it should be 0
+     * @param build        your intended major version for JDK6u10, it should be 10
+     * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdkVersion(double majorVersion, int minorVersion, int build) {
+        return _currentVersion.compareVersion(majorVersion, minorVersion, build) == 0;
+    }
+
+    /**
+     * Returns whether or not the JDK version is above the version, including the version, you are expecting
+     *
+     * @param majorVersion your intended major version for JDK6u10, it should be 1.6
+     * @param minorVersion your intended major version for JDK6u10, it should be 0
+     * @param build        your intended major version for JDK6u10, it should be 10
+     * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdkVersionAbove(double majorVersion, int minorVersion, int build) {
+        return _currentVersion.compareVersion(majorVersion, minorVersion, build) >= 0;
+    }
+
+    /**
+     * Returns whether or not the JDK version is below the version, including the version, you are expecting
+     *
+     * @param majorVersion your intended major version for JDK6u10, it should be 1.6
+     * @param minorVersion your intended major version for JDK6u10, it should be 0
+     * @param build        your intended major version for JDK6u10, it should be 10
+     * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdkVersionBelow(double majorVersion, int minorVersion, int build) {
+        return _currentVersion.compareVersion(majorVersion, minorVersion, build) <= 0;
     }
 
     /**
@@ -460,7 +476,7 @@ final public class SystemInfo {
                 || locale.equals(Locale.KOREAN);
     }
 
-    private static class JavaVersion implements Comparable<JavaVersion> {
+    private static class JavaVersion {
         /**
          * For example: 1.6.0_12:
          * Group 1 = major version (1.6)
@@ -469,24 +485,24 @@ final public class SystemInfo {
          */
         private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_(\\d+))?");
 
-        private double majorVersion;
-        private int minorVersion;
-        private int buildNumber;
+        private double _majorVersion;
+        private int _minorVersion;
+        private int _buildNumber;
 
         public JavaVersion(String version) {
-            majorVersion = 1.4;
-            minorVersion = 0;
-            buildNumber = 0;
+            _majorVersion = 1.4;
+            _minorVersion = 0;
+            _buildNumber = 0;
             try {
                 Matcher matcher = SUN_JAVA_VERSION.matcher(version);
                 if(matcher.matches()) {
                     int groups = matcher.groupCount();
-                    majorVersion = Double.parseDouble(matcher.group(1));
+                    _majorVersion = Double.parseDouble(matcher.group(1));
                     if (groups >= 3 && matcher.group(3) != null) {
-                        minorVersion = Integer.parseInt(matcher.group(3));
+                        _minorVersion = Integer.parseInt(matcher.group(3));
                     }
                     if(groups >= 5 && matcher.group(5) != null) {
-                        buildNumber = Integer.parseInt(matcher.group(5));
+                        _buildNumber = Integer.parseInt(matcher.group(5));
                     }
                 }
             }
@@ -496,21 +512,21 @@ final public class SystemInfo {
         }
 
         public JavaVersion(double major, int minor, int build) {
-            this.majorVersion = major;
-            this.minorVersion = minor;
-            this.buildNumber = build;
+            _majorVersion = major;
+            _minorVersion = minor;
+            _buildNumber = build;
         }
 
-        public int compareTo(JavaVersion other) {
-            double majorResult = this.majorVersion - other.majorVersion;
-            if(majorResult != 0) {
+        public int compareVersion(double major, int minor, int build) {
+            double majorResult = _majorVersion - major;
+            if (majorResult != 0) {
                 return majorResult < 0 ? -1 : 1;
             }
-            int result = this.minorVersion - other.minorVersion;
-            if(result != 0) {
+            int result = _minorVersion - minor;
+            if (result != 0) {
                 return result;
             }
-            return this.buildNumber - other.buildNumber;
+            return _buildNumber - build;
         }
     }
 }
