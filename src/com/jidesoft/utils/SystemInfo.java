@@ -6,8 +6,8 @@
 package com.jidesoft.utils;
 
 import java.util.Locale;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -492,12 +492,9 @@ final public class SystemInfo {
 
     private static class JavaVersion {
         /**
-         * For example: 1.6.0_12:
-         * Group 1 = major version (1.6)
-         * Group 3 = minor version (0)
-         * Group 5 = build number (12)
+         * For example: 1.6.0_12: Group 1 = major version (1.6) Group 3 = minor version (0) Group 5 = build number (12)
          */
-        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_(\\d+))?");
+        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_(\\d+))?(\\D*+)");
 
         private double _majorVersion;
         private int _minorVersion;
@@ -509,13 +506,13 @@ final public class SystemInfo {
             _buildNumber = 0;
             try {
                 Matcher matcher = SUN_JAVA_VERSION.matcher(version);
-                if(matcher.matches()) {
+                if (matcher.matches()) {
                     int groups = matcher.groupCount();
                     _majorVersion = Double.parseDouble(matcher.group(1));
                     if (groups >= 3 && matcher.group(3) != null) {
                         _minorVersion = Integer.parseInt(matcher.group(3));
                     }
-                    if(groups >= 5 && matcher.group(5) != null) {
+                    if (groups >= 5 && matcher.group(5) != null) {
                         _buildNumber = Integer.parseInt(matcher.group(5));
                     }
                 }
