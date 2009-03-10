@@ -80,7 +80,7 @@ final public class SystemInfo {
      */
     private static boolean _isSolaris = false;
 
-    private final static JavaVersion _currentVersion;
+    private static JavaVersion _currentVersion;
 
     /**
      * Make sure the constructor can never be called.
@@ -135,8 +135,6 @@ final public class SystemInfo {
                 _isMacClassic = true;
             }
         }
-
-        _currentVersion = new JavaVersion(getJavaVersion());
     }
 
     /**
@@ -350,12 +348,19 @@ final public class SystemInfo {
         return _isLinux || _isSolaris;
     }
 
+    private static void checkJdkVersion() {
+        if (_currentVersion == null) {
+            _currentVersion = new JavaVersion(getJavaVersion());
+        }
+    }
+
     /**
      * Returns whether or no the JDK version is 1.3 and above.
      *
      * @return <tt>true</tt> if the application is running on JDK 1.3 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk13Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.3, 0, 0) >= 0;
     }
 
@@ -365,6 +370,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4.2 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk142Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.4, 2, 0) >= 0;
     }
 
@@ -374,6 +380,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.4 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk14Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.4, 0, 0) >= 0;
     }
 
@@ -383,6 +390,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.5 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk15Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.5, 0, 0) >= 0;
     }
 
@@ -392,6 +400,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.6, 0, 0) >= 0;
     }
 
@@ -401,6 +410,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 6u10 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk6u10Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.6, 0, 10) >= 0;
     }
 
@@ -410,6 +420,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt> otherwise.
      */
     public static boolean isJdk7Above() {
+        checkJdkVersion();
         return _currentVersion.compareVersion(1.7, 0, 0) >= 0;
     }
 
@@ -422,6 +433,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
      */
     public static boolean isJdkVersion(double majorVersion, int minorVersion, int build) {
+        checkJdkVersion();
         return _currentVersion.compareVersion(majorVersion, minorVersion, build) == 0;
     }
 
@@ -434,6 +446,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
      */
     public static boolean isJdkVersionAbove(double majorVersion, int minorVersion, int build) {
+        checkJdkVersion();
         return _currentVersion.compareVersion(majorVersion, minorVersion, build) >= 0;
     }
 
@@ -446,6 +459,7 @@ final public class SystemInfo {
      * @return <tt>true</tt> if the application is running on the input version, <tt>false</tt> otherwise.
      */
     public static boolean isJdkVersionBelow(double majorVersion, int minorVersion, int build) {
+        checkJdkVersion();
         return _currentVersion.compareVersion(majorVersion, minorVersion, build) <= 0;
     }
 
