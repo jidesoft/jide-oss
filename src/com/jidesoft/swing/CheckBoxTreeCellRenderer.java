@@ -57,7 +57,9 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
     }
 
     private TristateCheckBox createCheckBox() {
-        return new NullTristateCheckBox();
+        TristateCheckBox checkBox = new TristateCheckBox();
+        checkBox.setOpaque(false);
+        return checkBox;
     }
 
     public TreeCellRenderer getActualTreeRenderer() {
