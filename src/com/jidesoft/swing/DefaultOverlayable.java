@@ -74,12 +74,14 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     public void setPreferredSize(Dimension preferredSize) {
         super.setPreferredSize(preferredSize);
         if (getActualComponent() != null) {
-            Insets insets = getOverlayLocationInsets();
-            if (insets != null) {
-                preferredSize.width -= Math.max(0, insets.left) + Math.max(0, insets.right);
-                preferredSize.width = Math.max(0, preferredSize.width);
-                preferredSize.height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
-                preferredSize.height = Math.max(0, preferredSize.height);
+            if (preferredSize != null) {
+                Insets insets = getOverlayLocationInsets();
+                if (insets != null) {
+                    preferredSize.width -= Math.max(0, insets.left) + Math.max(0, insets.right);
+                    preferredSize.width = Math.max(0, preferredSize.width);
+                    preferredSize.height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
+                    preferredSize.height = Math.max(0, preferredSize.height);
+                }
             }
             getActualComponent().setPreferredSize(preferredSize);
         }
@@ -100,12 +102,14 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
     public void setMinimumSize(Dimension minimumSize) {
         super.setMinimumSize(minimumSize);
         if (getActualComponent() != null) {
-            Insets insets = getOverlayLocationInsets();
-            if (insets != null) {
-                minimumSize.width -= Math.max(0, insets.left) + Math.max(0, insets.right);
-                minimumSize.width = Math.max(0, minimumSize.width);
-                minimumSize.height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
-                minimumSize.height = Math.max(0, minimumSize.height);
+            if (minimumSize != null) {
+                Insets insets = getOverlayLocationInsets();
+                if (insets != null) {
+                    minimumSize.width -= Math.max(0, insets.left) + Math.max(0, insets.right);
+                    minimumSize.width = Math.max(0, minimumSize.width);
+                    minimumSize.height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
+                    minimumSize.height = Math.max(0, minimumSize.height);
+                }
             }
             getActualComponent().setMinimumSize(minimumSize);
         }
