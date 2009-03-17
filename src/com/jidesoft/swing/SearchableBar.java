@@ -139,7 +139,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             public void actionPerformed(ActionEvent e) {
                 _highlightsButton.setSelected(false);
                 String text = getSearchingText();
-                int cursor = _searchable.getCursor();
+                int cursor = _searchable.getSelectedIndex();
+                _searchable.setCursor(cursor);
                 int found = _searchable.findNext(text);
                 if (found != -1 && _searchable.isRepeats() && found <= cursor) {
                     select(found, text, false);
@@ -159,7 +160,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             public void actionPerformed(ActionEvent e) {
                 _highlightsButton.setSelected(false);
                 String text = getSearchingText();
-                int cursor = _searchable.getCursor();
+                int cursor = _searchable.getSelectedIndex();
+                _searchable.setCursor(cursor);
                 int found = _searchable.findPrevious(text);
                 if (found != -1 && _searchable.isRepeats() && found >= cursor) {
                     select(found, text, false);
