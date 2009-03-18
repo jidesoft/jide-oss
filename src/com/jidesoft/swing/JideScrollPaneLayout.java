@@ -152,6 +152,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * Returns the <code>JViewport</code> object that is the row footer.
      *
      * @return the <code>JViewport</code> object that is the row footer
+     *
      * @see JideScrollPane#getRowFooter
      */
     public JViewport getRowFooter() {
@@ -162,6 +163,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * Returns the <code>JViewport</code> object that is the column footer.
      *
      * @return the <code>JViewport</code> object that is the column footer
+     *
      * @see JideScrollPane#getColumnFooter
      */
     public JViewport getColumnFooter() {
@@ -174,6 +176,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * @param key the <code>String</code> specifying the corner
      * @return the <code>Component</code> at the specified corner, as defined in {@link ScrollPaneConstants}; if
      *         <code>key</code> is not one of the four corners, <code>null</code> is returned
+     *
      * @see JScrollPane#getCorner
      */
     public Component getScrollBarCorner(String key) {
@@ -202,6 +205,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      *
      * @param parent the <code>Container</code> that will be laid out
      * @return a <code>Dimension</code> object specifying the preferred size of the viewport and any scrollbars
+     *
      * @see ViewportLayout
      * @see LayoutManager
      */
@@ -520,20 +524,18 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         availR.y = insets.top;
         availR.width -= insets.left + insets.right;
         availR.height -= insets.top + insets.bottom;
-        
 
         /* If there's a visible column header remove the space it
-         * needs from the top of availR.  The column header is treated
-         * as if it were fixed height, arbitrary width.
-         */
+        * needs from the top of availR.  The column header is treated
+        * as if it were fixed height, arbitrary width.
+        */
 
         Rectangle colHeadR = new Rectangle(0, availR.y, 0, 0);
 
         int upperHeight = getUpperHeight();
 
         if ((colHead != null) && (colHead.isVisible())) {
-            int colHeadHeight = Math.min(availR.height,
-                    upperHeight);
+            int colHeadHeight = Math.min(availR.height, upperHeight);
             colHeadR.height = colHeadHeight;
             availR.y += colHeadHeight;
             availR.height -= colHeadHeight;
@@ -554,7 +556,6 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             if (lowerLeft != null && lowerLeft.isVisible()) {
                 rowHeadWidth = Math.max(rowHeadWidth, lowerLeft.getPreferredSize().width);
             }
-            rowHeadWidth = Math.min(availR.width, rowHeadWidth);
 
             rowHeadR.width = rowHeadWidth;
             availR.width -= rowHeadWidth;
@@ -587,8 +588,13 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         Rectangle rowFootR = new Rectangle(0, 0, 0, 0);
 
         if ((_rowFoot != null) && (_rowFoot.isVisible())) {
-            int rowFootWidth = Math.min(availR.width,
-                    _rowFoot.getPreferredSize().width);
+            int rowFootWidth = _rowFoot.getPreferredSize().width;
+            if (upperRight != null && upperRight.isVisible()) {
+                rowFootWidth = Math.max(rowFootWidth, upperRight.getPreferredSize().width);
+            }
+            if (lowerRight != null && lowerRight.isVisible()) {
+                rowFootWidth = Math.max(rowFootWidth, lowerRight.getPreferredSize().width);
+            }
             rowFootR.width = rowFootWidth;
             availR.width -= rowFootWidth;
             rowFootR.x = availR.x + availR.width;
@@ -604,8 +610,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         int lowerHeight = getLowerHeight();
 
         if ((_colFoot != null) && (_colFoot.isVisible())) {
-            int colFootHeight = Math.min(availR.height,
-                    lowerHeight);
+            int colFootHeight = Math.min(availR.height, lowerHeight);
             colFootR.height = colFootHeight;
             availR.height -= colFootHeight;
             colFootR.y = availR.y + availR.height;
@@ -791,8 +796,8 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
          * We now have the final size of the viewport: availR.
          * Now fixup the header and scrollbar widths/heights.
          */
-        vsbR.height = isVsbCoversWholeHeight(scrollPane) ? scrollPane.getHeight() - insets.bottom -insets.top : availR.height + vpbInsets.top + vpbInsets.bottom;
-        hsbR.width = isHsbCoversWholeWidth(scrollPane) ? scrollPane.getWidth() - vsbR.width-insets.left-insets.right : availR.width + vpbInsets.left + vpbInsets.right;
+        vsbR.height = isVsbCoversWholeHeight(scrollPane) ? scrollPane.getHeight() - insets.bottom - insets.top : availR.height + vpbInsets.top + vpbInsets.bottom;
+        hsbR.width = isHsbCoversWholeWidth(scrollPane) ? scrollPane.getWidth() - vsbR.width - insets.left - insets.right : availR.width + vpbInsets.left + vpbInsets.right;
         rowHeadR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
         rowHeadR.y = availR.y - vpbInsets.top;
         colHeadR.width = availR.width + vpbInsets.left + vpbInsets.right;
@@ -835,9 +840,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             _colFoot.setBounds(adjustBounds(parent, new Rectangle(colFootR.x, colFootR.y, colFootR.width, height), ltr));
         }
         else {
-          if(isColumnFootersHeightUnified(scrollPane)) {
-            columnFooterHeight=hsbR.height;
-          }
+            if (isColumnFootersHeightUnified(scrollPane)) {
+                columnFooterHeight = hsbR.height;
+            }
         }
 
         if (vsb != null) {
