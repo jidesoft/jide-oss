@@ -39,6 +39,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
 import java.util.*;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.OutputStream;
+
+import org.w3c.dom.Document;
 
 /**
  * A utilities class for Swing.
@@ -53,6 +58,15 @@ public class JideSwingUtilities implements SwingConstants {
      * Whether or not the system property 'swing.aatext' is defined.
      */
     private static final boolean AA_TEXT_DEFINED;
+
+    /**
+     * The default XML encoding.
+     */
+    private static String DEFAULT_XML_ENCODING = "UTF-8";
+    /**
+     * The default XML version.
+     */
+    private static final String DEFAULT_XML_VERSION = "1.0";
 
     /**
      * Key used in client properties to indicate whether or not the component should use aa text.
@@ -596,6 +610,98 @@ public class JideSwingUtilities implements SwingConstants {
         catch (Exception ex) {
             // ignore
         }
+    }
+
+    /**
+     * Save XML document to designated file
+     *
+     * @param document the XML ready to be saved
+     * @param fileName the file name to be saved to
+     * @param encoding the encoding type
+     * @throws IOException possibly IO exceptions during file writing.
+     */
+    public static void saveXMLDocumentToFile(Document document, String fileName, String encoding) throws IOException {
+        if (SystemInfo.isJdk15Above()) {
+            com.sun.org.apache.xml.internal.serialize.OutputFormat outputFormat = new com.sun.org.apache.xml.internal.serialize.OutputFormat(document);
+            FileWriter writer = new FileWriter(fileName);
+            com.sun.org.apache.xml.internal.serialize.XMLSerializer ser = new com.sun.org.apache.xml.internal.serialize.XMLSerializer(writer, outputFormat);
+            outputFormat.setEncoding(encoding);
+            outputFormat.setVersion(getDefaultXmlVersion());
+            outputFormat.setIndenting(true);
+            outputFormat.setIndent(4);
+            ser.serialize(document);
+            writer.close();
+        }
+        else {
+            org.apache.xml.serialize.OutputFormat outputFormat = new org.apache.xml.serialize.OutputFormat(document);
+            FileWriter writer = new FileWriter(fileName);
+            org.apache.xml.serialize.XMLSerializer ser = new org.apache.xml.serialize.XMLSerializer(writer, outputFormat);
+            outputFormat.setEncoding(encoding);
+            outputFormat.setVersion(getDefaultXmlVersion());
+            outputFormat.setIndenting(true);
+            outputFormat.setIndent(4);
+            ser.serialize(document);
+            writer.close();
+        }
+    }
+
+    /**
+     * Save XML document to designated output stream.
+     *
+     * @param document the XML ready to be saved
+     * @param out the output stream to be saved to
+     * @param encoding the encoding type
+     * @throws IOException possibly IO exceptions during stream output.
+     */
+    public static void saveXMLDocumentToStream(Document document, OutputStream out, String encoding) throws IOException {
+        if (SystemInfo.isJdk15Above()) {
+            com.sun.org.apache.xml.internal.serialize.OutputFormat outputFormat = new com.sun.org.apache.xml.internal.serialize.OutputFormat(document);
+            com.sun.org.apache.xml.internal.serialize.XMLSerializer ser = new com.sun.org.apache.xml.internal.serialize.XMLSerializer(out, outputFormat);
+            outputFormat.setEncoding(encoding);
+            outputFormat.setVersion(getDefaultXmlVersion());
+            outputFormat.setIndenting(true);
+            outputFormat.setIndent(4);
+            ser.serialize(document);
+            out.close();
+        }
+        else {
+            org.apache.xml.serialize.OutputFormat outputFormat = new org.apache.xml.serialize.OutputFormat(document);
+            org.apache.xml.serialize.XMLSerializer ser = new org.apache.xml.serialize.XMLSerializer(out, outputFormat);
+            outputFormat.setEncoding(encoding);
+            outputFormat.setVersion(getDefaultXmlVersion());
+            outputFormat.setIndenting(true);
+            outputFormat.setIndent(4);
+            ser.serialize(document);
+            out.close();
+        }
+    }
+
+    /**
+     * @return The default XML encoding.
+     */
+    public static String getDefaultXmlEncoding() {
+        return DEFAULT_XML_ENCODING;
+    }
+
+    /**
+     * @param defaultXmlEncoding the default XML encoding
+     */
+    public static void setDefaultXmlEncoding(String defaultXmlEncoding) {
+        JideSwingUtilities.DEFAULT_XML_ENCODING = defaultXmlEncoding;
+    }
+
+    /**
+     * @return The default XML version.
+     */
+    public static String getDefaultXmlVersion() {
+        return DEFAULT_XML_VERSION;
+    }
+
+    /**
+     * @param defaultXmlVersion the default XML version
+     */
+    public static void setDefaultXmlVersion(String defaultXmlVersion) {
+        JideSwingUtilities.DEFAULT_XML_ENCODING = defaultXmlVersion;
     }
 
     private static class GetPropertyAction
