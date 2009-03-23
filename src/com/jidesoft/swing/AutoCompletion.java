@@ -447,7 +447,7 @@ public class AutoCompletion {
                 }
                 else {
                     String existingText = super.getText(0, getLength());
-                    int matchIndex = existingText.length();
+                    int matchIndex = existingText.length() <= text.length() ? existingText.length() : text.length();
                     // try to find a match
                     for (int i = 0; i < existingText.length(); i++) {
                         if (!existingText.substring(0, matchIndex).equalsIgnoreCase(text.substring(0, matchIndex))) {
