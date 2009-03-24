@@ -297,7 +297,11 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
          * @param e the mouse event
          */
         public void mouseReleased(MouseEvent e) {
-            if (!isMouseOver()) {
+            JMenu menu = (JMenu) menuItem;
+            if (!menu.isEnabled()) {
+                return;
+            }
+            if (!isClickOnButton(e, menu)) {
                 // these two lines order matters. In this order, it would not trigger actionPerformed.
                 menuItem.getModel().setArmed(false);
                 menuItem.getModel().setPressed(false);
