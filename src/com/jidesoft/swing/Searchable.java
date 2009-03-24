@@ -20,7 +20,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -136,6 +138,8 @@ public abstract class Searchable {
      */
     public final static String CLIENT_PROPERTY_SEARCHABLE = "Searchable";
 
+    private Set<Integer> _selection;
+
     /**
      * Creates a Searchable.
      *
@@ -144,6 +148,7 @@ public abstract class Searchable {
     public Searchable(JComponent component) {
         _previousSearchText = null;
         _component = component;
+        _selection = new HashSet<Integer>();
         installListeners();
         updateClientProperty(_component, this);
     }
@@ -158,6 +163,7 @@ public abstract class Searchable {
         _searchableProvider = searchableProvider;
         _previousSearchText = null;
         _component = component;
+        _selection = new HashSet();
         installListeners();
         updateClientProperty(_component, this);
     }
@@ -354,8 +360,9 @@ public abstract class Searchable {
         @Override
         protected void select(int index, KeyEvent e, String searchingText) {
             if (index != -1) {
-                setSelectedIndex(index, e != null && isIncrementalSelectKey(e));
-                Searchable.this.setCursor(index);
+                boolean incremental = e != null && isIncrementalSelectKey(e);
+                setSelectedIndex(index, incremental);
+                Searchable.this.setCursor(index, incremental);
                 _textField.setForeground(getForeground());
                 _noMatch.setText("");
             }
@@ -654,6 +661,22 @@ public abstract class Searchable {
      * @param cursor the new position of the cursor.
      */
     public void setCursor(int cursor) {
+        setCursor(cursor, false);
+    }
+
+    /**
+     * Sets the cursor which is the index of current location when searching. The value will be used in findNext and
+     * findPrevious. We will call this method automatically inside this class. However, if you ever call {@link
+     * #setSelectedIndex(int, boolean)} method from your code, you should call this method with the same parameters.
+     *
+     * @param cursor      the new position of the cursor.
+     * @param incremental a flag to enable multiple selection. If the flag is true, the element at the index should be
+     *                    added to current selection. If false, you should clear previous selection and then select the
+     *                    element.
+     */
+    public void setCursor(int cursor, boolean incremental) {
+        if (!incremental || _cursor < 0) _selection.clear();
+        if (_cursor >= 0) _selection.add(cursor);
         _cursor = cursor;
     }
 
@@ -668,7 +691,7 @@ public abstract class Searchable {
         int count = getElementCount();
         if (count == 0)
             return s.length() > 0 ? -1 : 0;
-        int selectedIndex = (_cursor != -1 ? _cursor : getSelectedIndex());
+        int selectedIndex = getCurrentIndex();
         for (int i = selectedIndex + 1; i < count; i++) {
             Object element = getElementAt(i);
             if (compare(element, str))
@@ -686,6 +709,16 @@ public abstract class Searchable {
         return selectedIndex == -1 ? -1 : (compare(getElementAt(selectedIndex), str) ? selectedIndex : -1);
     }
 
+    protected int getCurrentIndex() {
+        if (_selection.contains(getSelectedIndex())) {
+            return _cursor != -1 ? _cursor : getSelectedIndex();
+        }
+        else {
+            _selection.clear();
+            return getSelectedIndex();
+        }
+    }
+
     /**
      * Finds the previous matching index from the cursor.
      *
@@ -697,7 +730,7 @@ public abstract class Searchable {
         int count = getElementCount();
         if (count == 0)
             return s.length() > 0 ? -1 : 0;
-        int selectedIndex = (_cursor != -1 ? _cursor : getSelectedIndex());
+        int selectedIndex = getCurrentIndex();
         for (int i = selectedIndex - 1; i >= 0; i--) {
             Object element = getElementAt(i);
             if (compare(element, str))
@@ -728,7 +761,7 @@ public abstract class Searchable {
         }
 
         String str = isCaseSensitive() ? s : s.toLowerCase();
-        int selectedIndex = (_cursor != -1 ? _cursor : getSelectedIndex());
+        int selectedIndex = getCurrentIndex();
         if (selectedIndex < 0)
             selectedIndex = 0;
         int count = getElementCount();
@@ -764,7 +797,7 @@ public abstract class Searchable {
         }
 
         String str = isCaseSensitive() ? s : s.toLowerCase();
-        int selectedIndex = (_cursor != -1 ? _cursor : getSelectedIndex());
+        int selectedIndex = getCurrentIndex();
         if (selectedIndex < 0)
             selectedIndex = 0;
         int count = getElementCount();

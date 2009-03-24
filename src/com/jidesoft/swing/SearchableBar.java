@@ -543,7 +543,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     protected void select(int index, String searchingText, boolean incremental) {
         if (index != -1) {
             _searchable.setSelectedIndex(index, incremental);
-            _searchable.setCursor(index);
+            _searchable.setCursor(index, incremental);
             _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
         }
         else {
