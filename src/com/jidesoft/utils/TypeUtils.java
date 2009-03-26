@@ -63,11 +63,11 @@ public class TypeUtils {
      * @return true if it is numeric type including all subclasses of Number, double, int, float, short and long.
      */
     public static boolean isNumericType(Class<?> type) {
-        return Number.class.isAssignableFrom(type)
+        return type != null && (Number.class.isAssignableFrom(type)
                 || type == double.class
                 || type == int.class
                 || type == float.class
                 || type == short.class
-                || type == long.class;
+                || type == long.class);
     }
 }
