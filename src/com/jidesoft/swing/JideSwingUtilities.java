@@ -463,12 +463,10 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
         else {
@@ -3318,5 +3316,17 @@ public class JideSwingUtilities implements SwingConstants {
         h += fm.getDescent();
 
         return (int) h;
+    }
+
+    /**
+     * Adds a separator to the popup menu if there are menu items on it already.
+     *
+     * @param popup the popup menu.
+     */
+    public static void addSeparatorIfNecessary(JPopupMenu popup) {
+        int count = popup.getComponentCount();
+        if (count > 0 && !(popup.getComponent(count - 1) instanceof JSeparator)) {
+            popup.addSeparator();
+        }
     }
 }
