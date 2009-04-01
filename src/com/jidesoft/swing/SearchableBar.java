@@ -529,6 +529,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     private void setStatus(String message, Icon icon) {
         _statusLabel.setIcon(icon);
         _statusLabel.setText(message);
+        _statusLabel.setToolTipText(message);
     }
 
     /**
