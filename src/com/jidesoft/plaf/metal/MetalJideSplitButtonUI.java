@@ -22,6 +22,8 @@ import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
     private int _splitButtonMarginOnMenu = 18;
 
     protected PropertyChangeListener _propertyChangeListener;
+    private FocusListener _focusListener;
 
     @Override
     protected String getPropertyPrefix() {
@@ -84,15 +87,32 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         if (_propertyChangeListener != null)
             menuItem.addPropertyChangeListener(_propertyChangeListener);
         super.installListeners();
+        if (_focusListener == null) {
+            _focusListener = new FocusListener() {
+                public void focusGained(FocusEvent e) {
+                    menuItem.repaint();
+                }
+
+                public void focusLost(FocusEvent e) {
+                    menuItem.repaint();
+                }
+            };
+        }
+        menuItem.addFocusListener(_focusListener);
     }
 
     @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
+
         if (_propertyChangeListener != null)
             menuItem.removePropertyChangeListener(_propertyChangeListener);
-
         _propertyChangeListener = null;
+
+        if (_focusListener != null) {
+            menuItem.removeFocusListener(_focusListener);
+        }
+        _focusListener = null;
     }
 
     protected PropertyChangeListener createSplitButtonPropertyChangeListener(JComponent c) {
