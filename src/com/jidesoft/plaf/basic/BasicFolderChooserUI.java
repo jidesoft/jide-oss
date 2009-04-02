@@ -204,7 +204,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
 
             public void deleteFolderButtonClicked() {
                 // make sure user really wants to do this
-                String text, header;
+                String text;
                 TreePath path = _fileSystemTree.getSelectionPaths()[0];
                 List selection = getSelectedFolders(new TreePath[]{path});
 
@@ -249,16 +249,21 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
              * @return <code>true</code> only if the file and all children were successfully deleted.
              */
             public final boolean recursiveDelete(File file) {
-                if (isFileSystem(file) && file.isDirectory()) {
-                    // delete all children first
-                    File[] children = FileSystemView.getFileSystemView().getFiles(file, false);
-                    for (File f : children) {
-                        if (!recursiveDelete(f)) {
-                            return false;
+                if (isFileSystem(file)) {
+                    if (file.isDirectory()) {
+                        // delete all children first
+                        File[] children = FileSystemView.getFileSystemView().getFiles(file, false);
+                        for (File f : children) {
+                            if (!recursiveDelete(f)) {
+                                return false;
+                            }
                         }
+                        // delete this file.
+                        return file.delete();
                     }
-                    // delete this file.
-                    return file.delete();
+                    else {
+                        return file.delete();
+                    }
                 }
                 else {
                     return false;
@@ -319,8 +324,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             public void refreshButtonClicked() {
                 File folder = _folderChooser.getSelectedFolder();
                 _folderChooser.updateUI();
-                while (true) {
-                    if (folder != null && folder.exists()) {
+                while (folder != null) {
+                    if (folder.exists()) {
                         _folderChooser.getUI().ensureFileIsVisible(_folderChooser, folder);
                         break;
                     }
