@@ -6,9 +6,9 @@
 package com.jidesoft.swing;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.popup.JidePopup;
 import com.jidesoft.swing.event.SearchableEvent;
 import com.jidesoft.swing.event.SearchableListener;
-import com.jidesoft.popup.JidePopup;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -552,13 +552,16 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _statusLabel.setIcon(null);
         _statusLabel.setText("");
         _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
+        hideMessage();
     }
 
     private void setStatus(String message, Icon icon) {
         _statusLabel.setIcon(icon);
         _statusLabel.setText(message);
         _statusLabel.setToolTipText(message);
-        showMessage(message);
+        if (!_statusLabel.isShowing() || _statusLabel.getWidth() < 25) {
+            showMessage(message);
+        }
     }
 
     /**
@@ -788,7 +791,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         return Resource.getResourceBundle(Locale.getDefault()).getString(key);
     }
 
-    public void showMessage(String message) {
+    private void showMessage(String message) {
         hideMessage();
 
         _messagePopup = com.jidesoft.popup.JidePopupFactory.getSharedInstance().createPopup();
@@ -801,7 +804,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
         _messagePopup.getContentPane().setLayout(new BorderLayout());
         _messagePopup.getContentPane().add(label);
-        _messagePopup.setOwner(this);
+        _messagePopup.setOwner(_textField);
 
         _messagePopup.setDefaultMoveOperation(JidePopup.HIDE_ON_MOVED);
         _messagePopup.setTransient(true);
