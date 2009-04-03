@@ -72,14 +72,14 @@ public class CacheMap<T, K> {
     }
 
     protected Cache<K, T> initCache(Class<?> clazz) {
-        Cache<K, T> editors = getCache(clazz);
-        if (editors != null) {
-            return editors;
+        Cache<K, T> cache = getCache(clazz);
+        if (cache != null) {
+            return cache;
         }
         else {
-            editors = new Cache();
-            _cache.put(clazz, editors);
-            return editors;
+            cache = new Cache<K, T>();
+            _cache.put(clazz, cache);
+            return cache;
         }
     }
 
@@ -136,7 +136,7 @@ public class CacheMap<T, K> {
         Cache<K, T> cache = getCache(clazz);
 
         if (cache == null || !cache.containsKey(context)) {
-            List<Class<?>> classesToSearch = new ArrayList();
+            List<Class<?>> classesToSearch = new ArrayList<Class<?>>();
 
             classesToSearch.add(clazz);
             if (TypeUtils.isPrimitive(clazz)) {
@@ -235,7 +235,7 @@ public class CacheMap<T, K> {
     }
 
     public List<T> getValues() {
-        List<T> list = new ArrayList();
+        List<T> list = new ArrayList<T>();
         Collection<Cache<K, T>> col = _cache.values();
         for (Cache<K, T> o : col) {
             Collection<T> col2 = o.values();
