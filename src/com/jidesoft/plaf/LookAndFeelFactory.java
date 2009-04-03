@@ -8,6 +8,7 @@ package com.jidesoft.plaf;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.eclipse.Eclipse3xMetalUtils;
 import com.jidesoft.plaf.eclipse.Eclipse3xWindowsUtils;
@@ -557,7 +558,7 @@ public class LookAndFeelFactory implements ProductNames {
                         uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
                         uiDefaults.put("DockableFrameTitlePane.buttonGap", 4); // gap between buttons
-                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 1, 0)));
+                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 2, 0)));
                         uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
                         uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
                     }
@@ -576,6 +577,7 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
             }
+            uiDefaults.put("Theme.painter", BasicPainter.getInstance());
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
