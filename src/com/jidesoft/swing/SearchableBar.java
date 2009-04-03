@@ -8,6 +8,7 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.event.SearchableEvent;
 import com.jidesoft.swing.event.SearchableListener;
+import com.jidesoft.popup.JidePopup;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -86,6 +87,10 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
     private int _visibleButtons = SHOW_ALL & ~SHOW_REPEATS; // default is show all but repeats
     private boolean _compact;
+
+    private JidePopup _messagePopup;
+    private MouseMotionListener _mouseMotionListener;
+    private KeyListener _keyListener;
 
     /**
      * Creates a searchable bar.
@@ -174,6 +179,29 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                     select(found, text, false);
                     clearStatus();
                 }
+            }
+        };
+
+        _mouseMotionListener = new MouseMotionListener() {
+            public void mouseMoved(MouseEvent e) {
+                hideMessage();
+            }
+
+            public void mouseDragged(MouseEvent e) {
+
+            }
+        };
+        _keyListener = new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                hideMessage();
+            }
+
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            public void keyReleased(KeyEvent e) {
+
             }
         };
 
@@ -530,6 +558,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _statusLabel.setIcon(icon);
         _statusLabel.setText(message);
         _statusLabel.setToolTipText(message);
+        showMessage(message);
     }
 
     /**
@@ -757,5 +786,41 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      */
     protected String getResourceString(String key) {
         return Resource.getResourceBundle(Locale.getDefault()).getString(key);
+    }
+
+    public void showMessage(String message) {
+        hideMessage();
+
+        _messagePopup = com.jidesoft.popup.JidePopupFactory.getSharedInstance().createPopup();
+        JLabel label = new JLabel(message);
+        label.setOpaque(true);
+        label.setFont(UIDefaultsLookup.getFont("Label.font").deriveFont(Font.BOLD, 11));
+        label.setBackground(new Color(253, 254, 226));
+        label.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
+        label.setForeground(UIDefaultsLookup.getColor("ToolTip.foreground"));
+
+        _messagePopup.getContentPane().setLayout(new BorderLayout());
+        _messagePopup.getContentPane().add(label);
+        _messagePopup.setOwner(this);
+
+        _messagePopup.setDefaultMoveOperation(JidePopup.HIDE_ON_MOVED);
+        _messagePopup.setTransient(true);
+        _messagePopup.showPopup();
+
+        addMouseMotionListener(_mouseMotionListener);
+        _textField.addKeyListener(_keyListener);
+    }
+
+    private void hideMessage() {
+        if (_messagePopup != null) {
+            _messagePopup.hidePopupImmediately();
+            _messagePopup = null;
+        }
+        if (_mouseMotionListener != null) {
+            removeMouseMotionListener(_mouseMotionListener);
+        }
+        if (_keyListener != null) {
+            _textField.removeKeyListener(_keyListener);
+        }
     }
 }
