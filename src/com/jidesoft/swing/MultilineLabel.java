@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import javax.swing.plaf.UIResource;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
@@ -47,6 +48,11 @@ public class MultilineLabel extends JTextArea {
         setFocusable(false);
         setOpaque(false);
         putClientProperty("Synthetica.opaque", false);
+
+        // add this for Nimbus to disable all the painting of a component in Nimbus
+        putClientProperty("Nimbus.Overrides.InheritDefaults", false);
+        putClientProperty("Nimbus.Overrides", new UIDefaults());
+
         setCaret(new DefaultCaret() {
             @Override
             protected void adjustVisibility(Rectangle nloc) {
@@ -54,7 +60,15 @@ public class MultilineLabel extends JTextArea {
         });
 
         LookAndFeel.installBorder(this, "Label.border");
-        LookAndFeel.installColorsAndFont(this, "Label.background", "Label.foreground", "Label.font");
+        Color fg = getForeground();
+        if (fg == null || fg instanceof UIResource) {
+            setForeground(UIManager.getColor("Label.foreground"));
+        }
+        Font f = getFont();
+        if (f == null || f instanceof UIResource) {
+            setFont(UIManager.getFont("Label.font"));
+        }
+        setBackground(null);
     }
 
     /**
