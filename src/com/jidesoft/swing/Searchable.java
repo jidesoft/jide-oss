@@ -225,7 +225,7 @@ public abstract class Searchable {
      */
     protected class SearchField extends JTextField {
         SearchField() {
-            putClientProperty("Synthetica.opaque", false);
+            JideSwingUtilities.setTextComponentTransparent(this);
         }
 
         @Override
@@ -285,7 +285,6 @@ public abstract class Searchable {
             //setup text field
             _textField = new SearchField();
             _textField.setFocusable(false);
-            _textField.setOpaque(false);
             _textField.setBorder(BorderFactory.createEmptyBorder());
             _textField.setForeground(foreground);
             _textField.setCursor(getCursor());

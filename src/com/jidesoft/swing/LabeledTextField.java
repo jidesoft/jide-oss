@@ -10,6 +10,7 @@ import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -187,8 +188,7 @@ public class LabeledTextField extends JPanel {
     protected JTextField createTextField() {
         JTextField textField = new OverlayTextField();
         SelectAllUtils.install(textField);
-        textField.setOpaque(false);
-        textField.putClientProperty("Synthetica.opaque", false);
+        JideSwingUtilities.setTextComponentTransparent(textField);
         textField.setColumns(20);
         return textField;
     }
@@ -212,6 +212,9 @@ public class LabeledTextField extends JPanel {
                 setBorder(textFieldBorder);
             else
                 setBorder(BorderFactory.createCompoundBorder(textFieldBorder, BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        }
+        else {
+            setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
         }
         if (isEnabled()) {
             LookAndFeel.installColors(this, "TextField.background", "TextField.foreground");

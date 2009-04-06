@@ -463,10 +463,12 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
-        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
+        else
+        if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
-        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+        else
+        if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
         else {
@@ -3328,5 +3330,22 @@ public class JideSwingUtilities implements SwingConstants {
         if (count > 0 && !(popup.getComponent(count - 1) instanceof JSeparator)) {
             popup.addSeparator();
         }
+    }
+
+    /**
+     * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
+     * in case the L&F doesn't respect the opaque flag.
+     *
+     * @param textComponent the text component to be set to transparent.
+     */
+    public static void setTextComponentTransparent(JTextComponent textComponent) {
+        textComponent.setOpaque(false);
+
+        // add this for the Synthetica
+        textComponent.putClientProperty("Synthetica.opaque", false);
+        // add this for Nimbus to disable all the painting of a component in Nimbus
+        textComponent.putClientProperty("Nimbus.Overrides.InheritDefaults", false);
+        textComponent.putClientProperty("Nimbus.Overrides", new UIDefaults());
+
     }
 }

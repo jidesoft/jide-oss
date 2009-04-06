@@ -46,12 +46,7 @@ public class MultilineLabel extends JTextArea {
         setEditable(false);
         setRequestFocusEnabled(false);
         setFocusable(false);
-        setOpaque(false);
-        putClientProperty("Synthetica.opaque", false);
-
-        // add this for Nimbus to disable all the painting of a component in Nimbus
-        putClientProperty("Nimbus.Overrides.InheritDefaults", false);
-        putClientProperty("Nimbus.Overrides", new UIDefaults());
+        JideSwingUtilities.setTextComponentTransparent(this);
 
         setCaret(new DefaultCaret() {
             @Override
