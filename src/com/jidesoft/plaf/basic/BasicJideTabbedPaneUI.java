@@ -5123,6 +5123,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (compSrc != null)
                     e2 = new ActionEvent(compSrc, e.getID(), e.getActionCommand(), e.getWhen(), e.getModifiers());
             }
+            else if ("middleMouseButtonClicked".equals(e.getActionCommand())) {
+                closeSelected = true;
+                index = e.getID();
+                Component compSrc = index != -1 ? pane.getComponentAt(index) : pane.getSelectedComponent();
+                // note - We create a new action because we could be in the middle of a chain and
+                // if we just use setSource we could cause problems.
+                // also the AWT documentation pooh-pooh this. (for good reason)
+                if (compSrc != null)
+                    e2 = new ActionEvent(compSrc, e.getID(), e.getActionCommand(), e.getWhen(), e.getModifiers());
+            }
 
             if (pane.getCloseAction() != null) {
                 pane.getCloseAction().actionPerformed(e2);
@@ -7714,12 +7724,28 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      */
     public class MouseHandler extends MouseAdapter {
         @Override
+        public void mouseClicked(MouseEvent e) {
+            if (_tabPane == null || !_tabPane.isEnabled()) {
+                return;
+            }
+
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
+                Action action = getActionMap().get("closeTabAction");
+                if (action != null && tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
+                    ActionEvent event = new ActionEvent(_tabPane, tabIndex, "middleMouseButtonClicked");
+                    action.actionPerformed(event);
+                }
+            }
+        }
+
+        @Override
         public void mousePressed(MouseEvent e) {
             if (_tabPane == null || !_tabPane.isEnabled()) {
                 return;
             }
 
-            if (SwingUtilities.isLeftMouseButton(e) || _tabPane.isRightClickSelect()) {
+            if (SwingUtilities.isLeftMouseButton(e) || SwingUtilities.isMiddleMouseButton(e) || _tabPane.isRightClickSelect()) {
                 int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
