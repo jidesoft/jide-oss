@@ -7738,7 +7738,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 Action action = getActionMap().get("closeTabAction");
-                if (action != null && tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex) && _tabPane.isCloseTabOnMouseMiddleButton()) {
+                if (action != null && tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex) && _tabPane.isCloseTabOnMouseMiddleButton() && _tabPane.isTabClosableAt(tabIndex)) {
                     ActionEvent event = new ActionEvent(_tabPane, tabIndex, "middleMouseButtonClicked");
                     action.actionPerformed(event);
                 }
