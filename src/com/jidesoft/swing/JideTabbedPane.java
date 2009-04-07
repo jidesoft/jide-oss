@@ -231,6 +231,8 @@ public class JideTabbedPane extends JTabbedPane {
 
     private static final Logger LOGGER_EVENT = Logger.getLogger(TabEditingEvent.class.getName());
 
+    private boolean closeTabOnMouseMiddleButton = false;
+
     /**
      * Creates an empty <code>TabbedPane</code> with a default tab placement of <code>JTabbedPane.TOP</code>.
      *
@@ -1774,7 +1776,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * If true, the selected tab will be changed on mouse wheel. It is false by default.
      *
-     * @param scrollSelectedTabOnWheel
+     * @param scrollSelectedTabOnWheel the flag
      */
     public void setScrollSelectedTabOnWheel(boolean scrollSelectedTabOnWheel) {
         boolean oldValue = isScrollSelectedTabOnWheel();
@@ -1782,5 +1784,21 @@ public class JideTabbedPane extends JTabbedPane {
             _scrollSelectedTabOnWheel = scrollSelectedTabOnWheel;
             firePropertyChange(SCROLL_TAB_ON_WHEEL_PROPERTY, oldValue, _scrollSelectedTabOnWheel);
         }
+    }
+
+    /**
+     * Get the flag if clicking middle mouse button can close the tab. It is false by default.
+     * @return the flag.
+     */
+    public boolean isCloseTabOnMouseMiddleButton() {
+        return closeTabOnMouseMiddleButton;
+    }
+
+    /**
+     * Set the flag if clicking middle mouse button can close the tab. It is false by default.
+     * @param closeTabOnMouseMiddleButton the flag
+     */
+    public void setCloseTabOnMouseMiddleButton(boolean closeTabOnMouseMiddleButton) {
+        this.closeTabOnMouseMiddleButton = closeTabOnMouseMiddleButton;
     }
 }

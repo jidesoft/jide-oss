@@ -251,7 +251,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public static final String BUTTON_NAME_SCROLL_BACKWARD = "JideTabbedPane.scrollBackward";
     public static final String BUTTON_NAME_SCROLL_FORWARD = "JideTabbedPane.scrollForward";
 
-
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideTabbedPaneUI();
     }
@@ -7732,7 +7731,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 Action action = getActionMap().get("closeTabAction");
-                if (action != null && tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
+                if (action != null && tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex) && _tabPane.isCloseTabOnMouseMiddleButton()) {
                     ActionEvent event = new ActionEvent(_tabPane, tabIndex, "middleMouseButtonClicked");
                     action.actionPerformed(event);
                 }
@@ -7745,7 +7744,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 return;
             }
 
-            if (SwingUtilities.isLeftMouseButton(e) || SwingUtilities.isMiddleMouseButton(e) || _tabPane.isRightClickSelect()) {
+            if (SwingUtilities.isLeftMouseButton(e) || _tabPane.isRightClickSelect()) {
                 int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
