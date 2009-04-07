@@ -5123,7 +5123,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     e2 = new ActionEvent(compSrc, e.getID(), e.getActionCommand(), e.getWhen(), e.getModifiers());
             }
             else if ("middleMouseButtonClicked".equals(e.getActionCommand())) {
-                closeSelected = true;
                 index = e.getID();
                 Component compSrc = index != -1 ? pane.getComponentAt(index) : pane.getSelectedComponent();
                 // note - We create a new action because we could be in the middle of a chain and
@@ -5137,7 +5136,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 pane.getCloseAction().actionPerformed(e2);
             }
             else {
-                if (closeSelected) {
+                if ("middleMouseButtonClicked".equals(e.getActionCommand())) {
+                    index = e.getID();
+                    if (index >= 0)
+                        pane.removeTabAt(index);
+                    if (pane.getTabCount() == 0) {
+                        pane.updateUI();
+                    }
+                }
+                else if (closeSelected) {
                     if (pane.getSelectedIndex() >= 0)
                         pane.removeTabAt(pane.getSelectedIndex());
                     if (pane.getTabCount() == 0) {
