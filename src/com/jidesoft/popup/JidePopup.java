@@ -1866,17 +1866,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         if (_window != null) {
             _previousSize = _window.getSize();
             _window.setVisible(false);
-            firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
             _window.removeAll();
             _window.dispose();
             _window = null;
+            firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
         }
 
         if (_panel != null) {
             _previousSize = _panel.getSize();
             _panel.setVisible(false);
-            firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
+            Container parent = _panel.getParent();
+            if (parent != null) {
+                parent.remove(_panel);
+            }
             _panel = null;
+            firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
         }
 
         SwingUtilities.invokeLater(new Runnable() {
