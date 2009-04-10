@@ -8,8 +8,6 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,28 +74,6 @@ public class JideMenu extends JMenu implements Alignable {
 
     protected void initMenu() {
 //        setDelay(DELAY);
-        addMenuListener(new MenuListener() {
-            public void menuSelected(MenuEvent e) {
-                MenuCreator menuCreator;
-                if ((menuCreator = getMenuCreator()) != null) {
-                    menuCreator.createMenu();
-                    if (getPopupMenu().getComponentCount() == 0) {
-                        return;
-                    }
-                }
-
-                PopupMenuCustomizer customizer;
-                if ((customizer = getPopupMenuCustomizer()) != null) {
-                    customizer.customize(getPopupMenu());
-                }
-            }
-
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            public void menuCanceled(MenuEvent e) {
-            }
-        });
     }
 
     /**
@@ -455,9 +431,22 @@ public class JideMenu extends JMenu implements Alignable {
 
     @Override
     public void setPopupMenuVisible(boolean b) {
-        if (b && getPopupMenu().getComponentCount() == 0) {
+        MenuCreator menuCreator;
+        if (b && (menuCreator = getMenuCreator()) != null) {
+            menuCreator.createMenu();
+        }
+
+        PopupMenuCustomizer customizer;
+        if (b && (customizer = getPopupMenuCustomizer()) != null) {
+            customizer.customize(getPopupMenu());
+            if (getPopupMenu().getComponentCount() == 0) {
+                return;
+            }
+        }
+        else if (b && getPopupMenu().getComponentCount() == 0) {
             return;
         }
+
 
         if (!DISABLE_TIMER) {
             if (isTopLevelMenu()) {
