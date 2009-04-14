@@ -373,19 +373,19 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             // Then spin through the panes and set their sizes according to the
             // proportions.
             double[] proportions = _proportions;
-            double last = 1.0;
-            for (double p : proportions) last -= p;
-            double total = 0.0;
-            for (int i = 0; i < getComponentCount(); i += 2) {
-                int j = i / 2;
-                if (getComponent(i).isVisible())
-                    total += (j < proportions.length) ? proportions[j] : last;
-            }
+//            double last = 1.0;
+//            for (double p : proportions) last -= p;
+//            double total = 0.0;
+//            for (int i = 0; i < getComponentCount(); i += 2) {
+//                int j = i / 2;
+//                if (getComponent(i).isVisible())
+//                    total += (j < proportions.length) ? proportions[j] : last;
+//            }
             int size = availableSize;
             for (int i = 0; i < proportions.length; ++i) {
                 int j = i * 2;
                 if (getComponent(j).isVisible()) {
-                    double d = proportions[i] / total;
+                    double d = proportions[i]/* / total*/;
                     if (d <= 1.0)
                         _componentSizes[j] = (int) (0.5 + size * d);
                 }
