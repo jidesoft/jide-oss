@@ -55,7 +55,7 @@ public class DateConverter implements ObjectConverter {
      * @param context the converter context.
      * @return the string
      */
-    public String toString(Object object, ConverterContext context) {
+    synchronized public String toString(Object object, ConverterContext context) {
         if (object == null) {
             return "";
         }
@@ -112,7 +112,7 @@ public class DateConverter implements ObjectConverter {
      * @return the Date. If the string is null or empty, null will be returned. If the string cannot be parsed as a
      *         date, the string itself will be returned.
      */
-    public Object fromString(String string, ConverterContext context) {
+    synchronized public Object fromString(String string, ConverterContext context) {
         if (string == null || string.trim().length() == 0) {
             return null;
         }
