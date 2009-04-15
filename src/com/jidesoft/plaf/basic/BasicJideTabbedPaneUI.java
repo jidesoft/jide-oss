@@ -855,11 +855,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         Rectangle iconRect = new Rectangle(),
                 textRect = new Rectangle();
 
-        // getClip bounds sometime fails, it is safer to go against the components width and height
-        Rectangle tempR = g.getClipBounds();
-        Rectangle clipRect = new Rectangle(tempR.x, tempR.y, c.getWidth(), c.getHeight());
+        Rectangle rect = new Rectangle(0, 0, c.getWidth(), c.getHeight());
 
-        paintTabAreaBackground(g, clipRect, tabPlacement);
+        paintTabAreaBackground(g, rect, tabPlacement);
 
         // Paint tabRuns of tabs from back to front
         for (int i = _runCount - 1; i >= 0; i--) {
@@ -867,7 +865,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             int next = _tabRuns[(i == _runCount - 1) ? 0 : i + 1];
             int end = (next != 0 ? next - 1 : tabCount - 1);
             for (int j = start; j <= end; j++) {
-                if (_rects[j].intersects(clipRect) && j != selectedIndex) {
+                if (_rects[j].intersects(rect) && j != selectedIndex) {
                     paintTab(g, tabPlacement, _rects, j, iconRect, textRect);
                 }
             }
@@ -876,7 +874,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         // Paint selected tab if its in the front run
         // since it may overlap other tabs
         if (selectedIndex >= 0 && getRunForTab(tabCount, selectedIndex) == 0) {
-            if (_rects[selectedIndex].intersects(clipRect)) {
+            if (_rects[selectedIndex].intersects(rect)) {
                 paintTab(g, tabPlacement, _rects, selectedIndex, iconRect, textRect);
             }
         }
