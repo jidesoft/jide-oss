@@ -6,6 +6,7 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.utils.SystemInfo;
+import com.jidesoft.swing.FolderChooser;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -29,7 +30,7 @@ class FolderToolBar extends JToolBar {
     private JButton _newFolderBtn;
     private JComboBox _recentFoldersList;
 
-    private List<FolderToolBarListener> _listeners = new ArrayList(1);
+    private List<FolderToolBarListener> _listeners = new ArrayList<FolderToolBarListener>(1);
 
     public FolderToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
         setFloatable(false);
@@ -54,6 +55,8 @@ class FolderToolBar extends JToolBar {
 
     /**
      * Creates the toolbar buttons and dropdown
+     * @param showRecentFolders the flag if show recent folders
+     * @param recentFoldersList the recent folders list
      */
     private void setupToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
 
@@ -112,7 +115,8 @@ class FolderToolBar extends JToolBar {
         });
 
         final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
-        desktopBtn.setToolTipText(SystemInfo.isWindows() ? resourceBundle.getString("FolderChooser.toolbar.desktop") : resourceBundle.getString("FolderChooser.toolbar.home"));
+        desktopBtn.setToolTipText(SystemInfo.isWindows() ? resourceBundle.getString(FolderChooser.DESKTOP_BUTTON) : resourceBundle.getString("FolderChooser.toolbar.home"));
+        desktopBtn.setName(FolderChooser.DESKTOP_BUTTON);
         add(desktopBtn);
 
         if (SystemInfo.isWindows()) {
@@ -121,7 +125,8 @@ class FolderToolBar extends JToolBar {
                     myDocumentsButtonClicked();
                 }
             });
-            myDocumentsBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.mydocuments"));
+            myDocumentsBtn.setToolTipText(resourceBundle.getString(FolderChooser.MY_DOCUMENTS_BUTTON));
+            myDocumentsBtn.setName(FolderChooser.MY_DOCUMENTS_BUTTON);
             add(myDocumentsBtn);
         }
         // dredge up appropriate icons
@@ -133,7 +138,8 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        _deleteFolderBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.delete"));
+        _deleteFolderBtn.setToolTipText(resourceBundle.getString(FolderChooser.DELETE_BUTTON));
+        _deleteFolderBtn.setName(FolderChooser.DELETE_BUTTON);
 
         Icon newFolderIcon = BasicFolderChooserIconsFactory.getImageIcon(BasicFolderChooserIconsFactory.ToolBar.NEW);
         _newFolderBtn = new NoFocusButton(new ToolBarAction(null, newFolderIcon) {
@@ -142,7 +148,8 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        _newFolderBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.new"));
+        _newFolderBtn.setToolTipText(resourceBundle.getString(FolderChooser.NEW_BUTTON));
+        _newFolderBtn.setName(FolderChooser.NEW_BUTTON);
 
         Icon refreshIcon = BasicFolderChooserIconsFactory.getImageIcon(BasicFolderChooserIconsFactory.ToolBar.REFRESH);
         JButton refreshBtn = new NoFocusButton(new ToolBarAction(null, refreshIcon) {
@@ -151,7 +158,8 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        refreshBtn.setToolTipText(resourceBundle.getString("FolderChooser.toolbar.refresh"));
+        refreshBtn.setToolTipText(resourceBundle.getString(FolderChooser.REFRESH_BUTTON));
+        refreshBtn.setName(FolderChooser.REFRESH_BUTTON);
 
         addSeparator();
         add(_deleteFolderBtn);

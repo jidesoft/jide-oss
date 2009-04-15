@@ -379,7 +379,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 if (paths == null || paths.length == 0)
                     return new ArrayList();
 
-                List folders = new ArrayList(paths.length);
+                List<File> folders = new ArrayList<File>(paths.length);
                 for (TreePath path : paths) {
                     BasicFileSystemTreeNode f = (BasicFileSystemTreeNode) path.getLastPathComponent();
                     folders.add(f.getFile());
@@ -514,14 +514,14 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         if (!file.isDirectory()) {
             return null;
         }
-        Stack stack = new Stack();
-        List list = new ArrayList();
+        Stack<File> stack = new Stack<File>();
+        List<Object> list = new ArrayList<Object>();
         list.add(_fileSystemTree.getModel().getRoot());
-        FileSystemView fsv = _folderChooser.getFileSystemView();
+        FileSystemView view = _folderChooser.getFileSystemView();
         File[] alternativeRoots = null;
         File root = null;
         if (SystemInfo.isWindows()) {
-            File[] roots = fsv.getRoots();
+            File[] roots = view.getRoots();
             root = roots[0];
             if (isFileSystem(root) && root.isDirectory()) {
                 alternativeRoots = root.listFiles();
@@ -544,7 +544,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         while (parent != null);
 
         while (!stack.empty()) {
-            list.add(BasicFileSystemTreeNode.createFileSystemTreeNode((File) stack.pop(), _folderChooser));
+            list.add(BasicFileSystemTreeNode.createFileSystemTreeNode(stack.pop(), _folderChooser));
         }
         return new TreePath(list.toArray());
     }
@@ -606,6 +606,17 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     setNavigationFieldVisible(false);
                 }
             }
+            else if (FolderChooser.PROPERTY_BUTTON_TO_REMOVE.equals(evt.getPropertyName())) {
+                Component[] components = _toolbar.getComponents();
+                for (int i = components.length - 1; i >= 0; i--) {
+                    Component component = components[i];
+                    if (component instanceof JButton) {
+                        if (_folderChooser.isButtonToBeRemoved(component.getName())) {
+                            _toolbar.remove(i);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -658,13 +669,13 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             return;
         }
 
-        java.util.List files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         for (int i = 0, c = selectedPaths.length; i < c; i++) {
             File f = ((BasicFileSystemTreeNode) selectedPaths[i].getLastPathComponent()).getFile();
             files.add(f);
         }
 
-        _folderChooser.setSelectedFiles((File[]) files.toArray(new File[files.size()]));
+        _folderChooser.setSelectedFiles(files.toArray(new File[files.size()]));
     }
 
     @Override
