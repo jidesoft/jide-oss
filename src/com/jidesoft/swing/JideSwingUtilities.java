@@ -2170,6 +2170,13 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Clears the gradient cache used for fast gradient painting
+     */
+    public static void clearGradientCache() {
+        FastGradientPainter.clearGradientCache();
+    }
+
+    /**
      * Gets the top modal dialog of current window.
      *
      * @param w

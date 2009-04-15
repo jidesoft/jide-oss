@@ -18,6 +18,13 @@ class FastGradientPainter {
     }
 
     /**
+     * Clears the gradient cache
+     */
+    public static void clearGradientCache() {
+        gradientCache.clear();
+    }
+
+    /**
      * Draws a rectangular gradient in a vertical or horizontal direction. The drawing operations are hardware optimized
      * whenever possible using the Java2D hardware rendering facilities. The result is gradient rendering approaching
      * the performance of flat color rendering.
@@ -191,8 +198,18 @@ class GradientCache {
         return null;
     }
 
+    void clear() {
+        GradientCacheEntry[] a = getGradients();
+        for(int i=0;i<a.length;i++) {
+          a[i]=null;
+        }
+        size=0;
+        threshold = 16;
+        gradients = new GradientCacheEntry[16];
+    }
+
     private boolean entryNotInCache(GradientCacheEntry e, GradientInfo info) {
-        while (e != null && e.getInfo() != null) { // to fix a NPE 
+        while (e != null && e.getInfo() != null) { // to fix a NPE
             if (e.length == info.length && e.getInfo().isEquivalent(info)) {
                 return false;
             }
