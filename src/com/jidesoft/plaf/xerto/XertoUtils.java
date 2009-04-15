@@ -15,25 +15,32 @@ public class XertoUtils {
     // =================================================================================================================
     // Xerto Color Methods
 
-    private static final Color BASE_COLOR;
-    private static final Color CONTROL_COLOR;
-    private static final Color LIGHT_CONTROL_COLOR;
-    private static final Color MID_CONTROL_COLOR;
-    private static final Color CONTROL_VERY_LIGHT_SHADOW_COLOR;
-    private static final Color CONTROL_LIGHT_SHADOW_COLOR;
-    private static final Color CONTROL_MID_SHADOW_COLOR;
-    private static final Color CONTROL_DARK_SHADOW_COLOR;
+    private static Color BASE_COLOR;
+    private static Color CONTROL_COLOR;
+    private static Color LIGHT_CONTROL_COLOR;
+    private static Color MID_CONTROL_COLOR;
+    private static Color CONTROL_VERY_LIGHT_SHADOW_COLOR;
+    private static Color CONTROL_LIGHT_SHADOW_COLOR;
+    private static Color CONTROL_MID_SHADOW_COLOR;
+    private static Color CONTROL_DARK_SHADOW_COLOR;
 
-    private static final Color SELECTION_COLOR;
-    private static final Color INACTIVE_CAPTION_COLOR;
-    private static final Color SELECTED_TAB_BACKGROUND_COLOR;
-    private static final Color TAB_FORGROUND_COLOR;
-    private static final Color FRAME_ACTIVE_TITLE_TOP_COLOR;
-    private static final Color FRAME_ACTIVE_TITLE_BOTTOM_COLOR;
-    private static final Color FRAME_INACTIVE_TITLE_TOP_COLOR;
-    private static final Color FRAME_INACTIVE_TITLE_BOTTOM_COLOR;
+    private static Color SELECTION_COLOR;
+    private static Color INACTIVE_CAPTION_COLOR;
+    private static Color SELECTED_TAB_BACKGROUND_COLOR;
+    private static Color TAB_FORGROUND_COLOR;
+    private static Color FRAME_ACTIVE_TITLE_TOP_COLOR;
+    private static Color FRAME_ACTIVE_TITLE_BOTTOM_COLOR;
+    private static Color FRAME_INACTIVE_TITLE_TOP_COLOR;
+    private static Color FRAME_INACTIVE_TITLE_BOTTOM_COLOR;
 
     static {
+        updateColors();
+    }
+    
+    /**
+     * Updates the colors based on the  current UIDefaults
+     */
+    public static void updateColors() {
         UIDefaults uiDefaults = UIManager.getDefaults();
         BASE_COLOR = uiDefaults.getColor("activeCaption");
         CONTROL_COLOR = uiDefaults.getColor("control");
@@ -59,7 +66,6 @@ public class XertoUtils {
         FRAME_INACTIVE_TITLE_TOP_COLOR = Color.getHSBColor(oControlHSB[0], oControlHSB[1], 0.75f);
         FRAME_INACTIVE_TITLE_BOTTOM_COLOR = Color.getHSBColor(oControlHSB[0], oControlHSB[1], 0.5f);
     }
-
 
     public static Color getBaseColor() {
         return BASE_COLOR;
