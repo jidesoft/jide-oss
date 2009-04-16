@@ -107,7 +107,6 @@ class FolderToolBar extends JToolBar {
             final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
             add(new JLabel(resourceBundle.getString("FolderChooser.toolbar.recent")));
             add(_recentFoldersList);
-            addSeparator();
         }
         else {
             add(Box.createHorizontalGlue());
@@ -167,7 +166,6 @@ class FolderToolBar extends JToolBar {
         refreshBtn.setToolTipText(resourceBundle.getString(REFRESH_BUTTON_NAME));
         refreshBtn.setName(REFRESH_BUTTON_NAME);
 
-        addSeparator();
         add(_deleteFolderBtn);
         add(_newFolderBtn);
         add(refreshBtn);

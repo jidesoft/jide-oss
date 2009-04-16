@@ -608,25 +608,20 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             }
             else if (FolderChooser.PROPERTY_AVAILABLE_BUTTONS.equals(evt.getPropertyName())) {
                 Component[] components = _toolbar.getComponents();
-                for (int i = components.length - 1; i >= 0; i--) {
-                    Component component = components[i];
+                for (Component component : components) {
                     if (component instanceof JButton) {
                         String name = component.getName();
                         int buttons = _folderChooser.getAvailableButtons();
                         boolean visible = _toolbar.isButtonVisible(name, buttons);
                         component.setVisible(visible);
                     }
-                    else if (component instanceof JToolBar.Separator) {
-                        if (i + 3 < components.length) {
-                            boolean visible = false;
-                            if (components[i + 1].isVisible() || components[i + 2].isVisible()) {
-                                visible = true;
-                            }
-                            if (components[i + 3] instanceof JButton && components[i + 3].isVisible()) { // for delete/new/refresh group
-                                visible = true;
-                            }
-                            component.setVisible(visible);
-                        }
+                }
+            }
+            else if (FolderChooser.PROPERTY_RECENTLIST_VISIBLE.equals(evt.getPropertyName())) {
+                Component[] components = _toolbar.getComponents();
+                for (Component component : components) {
+                    if (component instanceof JComboBox || component instanceof JLabel) {
+                        component.setVisible(_folderChooser.isRecentListVisible());
                     }
                 }
             }

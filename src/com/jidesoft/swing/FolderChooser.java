@@ -38,6 +38,7 @@ public class FolderChooser extends JFileChooser {
     private List<String> _recentList;
 
     public final static String PROPERTY_RECENTLIST = "recentList";
+    public final static String PROPERTY_RECENTLIST_VISIBLE = "recentListVisible";
 
     public static final int BUTTON_ALL = 0xFFFFFFFF;
     public static final int BUTTON_DELETE = 0x1;
@@ -53,6 +54,7 @@ public class FolderChooser extends JFileChooser {
      */
     public final static String PROPERTY_AVAILABLE_BUTTONS = "availableButtons";
     private int _availableButtons = BUTTON_ALL;
+    private boolean _recentListVisible = true;
 
     public FolderChooser() {
     }
@@ -278,4 +280,25 @@ public class FolderChooser extends JFileChooser {
     *
     * Added on 05/27/2008 in response to http://www.jidesoft.com/forum/viewtopic.php?p=22885#22885
     */
+
+    /**
+     * Get the visibility of the recent list combobox.
+     * @return the visibility of the combobox.
+     */
+    public boolean isRecentListVisible() {
+        return _recentListVisible;
+    }
+
+    /**
+     * Set the visibility of the recent list combobox.
+     * @param recentListVisible the visibility of the combobox
+     */
+    public void setRecentListVisible(boolean recentListVisible) {
+        if (_recentListVisible == recentListVisible) {
+            return;
+        }
+        boolean oldValue = isRecentListVisible();
+        _recentListVisible = recentListVisible;
+        firePropertyChange(PROPERTY_RECENTLIST_VISIBLE, oldValue, recentListVisible);
+    }
 }
