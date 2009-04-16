@@ -606,14 +606,15 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     setNavigationFieldVisible(false);
                 }
             }
-            else if (FolderChooser.PROPERTY_BUTTON_TO_REMOVE.equals(evt.getPropertyName())) {
+            else if (FolderChooser.PROPERTY_AVAILABLE_BUTTONS.equals(evt.getPropertyName())) {
                 Component[] components = _toolbar.getComponents();
                 for (int i = components.length - 1; i >= 0; i--) {
                     Component component = components[i];
                     if (component instanceof JButton) {
-                        if (_folderChooser.isButtonToBeRemoved(component.getName())) {
-                            _toolbar.remove(i);
-                        }
+                        String name = component.getName();
+                        int buttons = _folderChooser.getAvailableButtons();
+                        boolean visible = _toolbar.isButtonVisible(name, buttons);
+                        component.setVisible(visible);
                     }
                 }
             }

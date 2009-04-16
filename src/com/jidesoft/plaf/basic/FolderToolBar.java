@@ -32,6 +32,12 @@ class FolderToolBar extends JToolBar {
 
     private List<FolderToolBarListener> _listeners = new ArrayList<FolderToolBarListener>(1);
 
+    private final static String DELETE_BUTTON_NAME = "FolderChooser.toolbar.delete";
+    private final static String NEW_BUTTON_NAME = "FolderChooser.toolbar.new";
+    private final static String REFRESH_BUTTON_NAME = "FolderChooser.toolbar.refresh";
+    private final static String DESKTOP_BUTTON_NAME = "FolderChooser.toolbar.desktop";
+    private final static String MY_DOCUMENTS_BUTTON_NAME = "FolderChooser.toolbar.mydocuments";
+
     public FolderToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
         setFloatable(false);
         setupToolBar(showRecentFolders, recentFoldersList);
@@ -115,8 +121,8 @@ class FolderToolBar extends JToolBar {
         });
 
         final ResourceBundle resourceBundle = FolderChooserResource.getResourceBundle(Locale.getDefault());
-        desktopBtn.setToolTipText(SystemInfo.isWindows() ? resourceBundle.getString(FolderChooser.DESKTOP_BUTTON) : resourceBundle.getString("FolderChooser.toolbar.home"));
-        desktopBtn.setName(FolderChooser.DESKTOP_BUTTON);
+        desktopBtn.setToolTipText(SystemInfo.isWindows() ? resourceBundle.getString(DESKTOP_BUTTON_NAME) : resourceBundle.getString("FolderChooser.toolbar.home"));
+        desktopBtn.setName(DESKTOP_BUTTON_NAME);
         add(desktopBtn);
 
         if (SystemInfo.isWindows()) {
@@ -125,8 +131,8 @@ class FolderToolBar extends JToolBar {
                     myDocumentsButtonClicked();
                 }
             });
-            myDocumentsBtn.setToolTipText(resourceBundle.getString(FolderChooser.MY_DOCUMENTS_BUTTON));
-            myDocumentsBtn.setName(FolderChooser.MY_DOCUMENTS_BUTTON);
+            myDocumentsBtn.setToolTipText(resourceBundle.getString(MY_DOCUMENTS_BUTTON_NAME));
+            myDocumentsBtn.setName(MY_DOCUMENTS_BUTTON_NAME);
             add(myDocumentsBtn);
         }
         // dredge up appropriate icons
@@ -138,8 +144,8 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        _deleteFolderBtn.setToolTipText(resourceBundle.getString(FolderChooser.DELETE_BUTTON));
-        _deleteFolderBtn.setName(FolderChooser.DELETE_BUTTON);
+        _deleteFolderBtn.setToolTipText(resourceBundle.getString(DELETE_BUTTON_NAME));
+        _deleteFolderBtn.setName(DELETE_BUTTON_NAME);
 
         Icon newFolderIcon = BasicFolderChooserIconsFactory.getImageIcon(BasicFolderChooserIconsFactory.ToolBar.NEW);
         _newFolderBtn = new NoFocusButton(new ToolBarAction(null, newFolderIcon) {
@@ -148,8 +154,8 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        _newFolderBtn.setToolTipText(resourceBundle.getString(FolderChooser.NEW_BUTTON));
-        _newFolderBtn.setName(FolderChooser.NEW_BUTTON);
+        _newFolderBtn.setToolTipText(resourceBundle.getString(NEW_BUTTON_NAME));
+        _newFolderBtn.setName(NEW_BUTTON_NAME);
 
         Icon refreshIcon = BasicFolderChooserIconsFactory.getImageIcon(BasicFolderChooserIconsFactory.ToolBar.REFRESH);
         JButton refreshBtn = new NoFocusButton(new ToolBarAction(null, refreshIcon) {
@@ -158,13 +164,32 @@ class FolderToolBar extends JToolBar {
             }
         });
 
-        refreshBtn.setToolTipText(resourceBundle.getString(FolderChooser.REFRESH_BUTTON));
-        refreshBtn.setName(FolderChooser.REFRESH_BUTTON);
+        refreshBtn.setToolTipText(resourceBundle.getString(REFRESH_BUTTON_NAME));
+        refreshBtn.setName(REFRESH_BUTTON_NAME);
 
         addSeparator();
         add(_deleteFolderBtn);
         add(_newFolderBtn);
         add(refreshBtn);
+    }
+
+    boolean isButtonVisible(String buttonName, int availableButtons) {
+        if (DELETE_BUTTON_NAME.equals(buttonName)) {
+            return (availableButtons & FolderChooser.BUTTON_DELETE) != 0;
+        }
+        else if (NEW_BUTTON_NAME.equals(buttonName)) {
+            return (availableButtons & FolderChooser.BUTTON_NEW) != 0;
+        }
+        else if (REFRESH_BUTTON_NAME.equals(buttonName)) {
+            return (availableButtons & FolderChooser.BUTTON_REFRESH) != 0;
+        }
+        else if (DESKTOP_BUTTON_NAME.equals(buttonName)) {
+            return (availableButtons & FolderChooser.BUTTON_DESKTOP) != 0;
+        }
+        else if (MY_DOCUMENTS_BUTTON_NAME.equals(buttonName)) {
+            return (availableButtons & FolderChooser.BUTTON_MY_DOCUMENTS) != 0;
+        }
+        return true;
     }
 
 

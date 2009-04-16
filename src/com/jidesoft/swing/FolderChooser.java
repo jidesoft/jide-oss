@@ -39,19 +39,20 @@ public class FolderChooser extends JFileChooser {
 
     public final static String PROPERTY_RECENTLIST = "recentList";
 
-    public final static String DELETE_BUTTON = "FolderChooser.toolbar.delete";
-    public final static String NEW_BUTTON = "FolderChooser.toolbar.new";
-    public final static String REFRESH_BUTTON = "FolderChooser.toolbar.refresh";
-    public final static String DESKTOP_BUTTON = "FolderChooser.toolbar.desktop";
-    public final static String MY_DOCUMENTS_BUTTON = "FolderChooser.toolbar.mydocuments";
+    public static final int BUTTON_ALL = 0xFFFFFFFF;
+    public static final int BUTTON_DELETE = 0x1;
+    public static final int BUTTON_NEW = 0x2;
+    public static final int BUTTON_REFRESH = 0x4;
+    public static final int BUTTON_DESKTOP = 0x8;
+    public static final int BUTTON_MY_DOCUMENTS = 0x10;
 
     /**
-     * Property for <code>_buttonToRemove</code>.
+     * Property for <code>_availableButtons</code>.
      *
-     * @see #removeToolBarButton(String)
+     * @see #setAvailableButtons(int)
      */
-    public final static String PROPERTY_BUTTON_TO_REMOVE = "buttonToRemove";
-    private boolean[] _buttonToRemove = new boolean[] {false, false, false, false, false};
+    public final static String PROPERTY_AVAILABLE_BUTTONS = "availableButtons";
+    private int _availableButtons = BUTTON_ALL;
 
     public FolderChooser() {
     }
@@ -252,46 +253,24 @@ public class FolderChooser extends JFileChooser {
     }
 
     /**
-     * Remove a button from current button list, for example, delete button for safety reason.
-     * @param buttonName the name of the button. It should be one of the followings: DELETE_BUTTON, NEW_BUTTON, REFRESH_BUTTON,
-     * DESKTOP_BUTTON, MY_DOCUMENTS_BUTTON.
+     * Get the visibilities of each buttons on the title bar of dockable frame.
+     * @return the visibilities of each buttons. It's a bit wise OR of values specified at BUTTON_XXX.
      */
-    public void removeToolBarButton(String buttonName) {
-        int index = getIndexFromButtonName(buttonName);
-        if (index >= 0 && index < 5) {
-            _buttonToRemove[index] = true;
-        }
-        firePropertyChange(PROPERTY_BUTTON_TO_REMOVE, null, _buttonToRemove);
+    public int getAvailableButtons() {
+        return _availableButtons;
     }
 
     /**
-     * Check if the designated button will be removed by configuration from {@link #removeToolBarButton(String)}.
-     * @param buttonName the name of the button. It should be one of the followings: DELETE_BUTTON, NEW_BUTTON, REFRESH_BUTTON,
-     * DESKTOP_BUTTON, MY_DOCUMENTS_BUTTON.
-     * @return true if the button is set to be removed. Otherwise false.
+     * Set the visibilities of each buttons on the title bar of dockable frame.
+     * @param availableButtons the visibilities of each buttons. It's a bit wise OR of values specified at BUTTON_XXX.
      */
-    public boolean isButtonToBeRemoved(String buttonName) {
-        int index = getIndexFromButtonName(buttonName);
-        return index >= 0 && index < 5 && _buttonToRemove[index];
-    }
-
-    private int getIndexFromButtonName(String buttonName) {
-        if (DELETE_BUTTON.equals(buttonName)) {
-            return 0;
+    public void setAvailableButtons(int availableButtons) {
+        if (getAvailableButtons() == availableButtons) {
+            return;
         }
-        else if (NEW_BUTTON.equals(buttonName)) {
-            return 1;
-        }
-        else if (REFRESH_BUTTON.equals(buttonName)) {
-            return 2;
-        }
-        else if (DESKTOP_BUTTON.equals(buttonName)) {
-            return 3;
-        }
-        else if (MY_DOCUMENTS_BUTTON.equals(buttonName)) {
-            return 4;
-        }
-        return -1;
+        int oldValue = getAvailableButtons();
+        _availableButtons = availableButtons;
+        firePropertyChange(PROPERTY_AVAILABLE_BUTTONS, oldValue, availableButtons);
     }
 
     /*
