@@ -616,6 +616,18 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                         boolean visible = _toolbar.isButtonVisible(name, buttons);
                         component.setVisible(visible);
                     }
+                    else if (component instanceof JToolBar.Separator) {
+                        if (i + 3 < components.length) {
+                            boolean visible = false;
+                            if (components[i + 1].isVisible() || components[i + 2].isVisible()) {
+                                visible = true;
+                            }
+                            if (components[i + 3] instanceof JButton && components[i + 3].isVisible()) { // for delete/new/refresh group
+                                visible = true;
+                            }
+                            component.setVisible(visible);
+                        }
+                    }
                 }
             }
         }
