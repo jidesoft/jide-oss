@@ -11,6 +11,9 @@ import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+/**
+ * For usage of this class, please refer to http://weblogs.java.net/blog/alexfromsun/archive/2006/02/debugging_swing.html
+ */
 public class ThreadCheckingRepaintManager extends RepaintManager {
     private int tabCount = 0;
     private boolean checkIsShowing = false;
