@@ -36,7 +36,7 @@ import java.beans.PropertyChangeListener;
  * <p/>
  * In three cases above, the keys for find next and find previous are different too. In row selection mode, up/down
  * arrow are the keys. In column selection mode, left/right arrow are keys. In cell selection mode, both up and left
- * arrow are keys to find previous occurrence, both down and right arrow are keys to find next occurrencee.
+ * arrow are keys to find previous occurrence, both down and right arrow are keys to find next occurrence.
  * <p/>
  * In addition, you might need to override convertElementToString() to provide you own algorithm to do the conversion.
  * <code><pre>
@@ -54,6 +54,7 @@ import java.beans.PropertyChangeListener;
 public class TableSearchable extends Searchable implements TableModelListener, PropertyChangeListener {
 
     private int[] _searchColumnIndices = {0};
+    private boolean _fireEventOnTableChangedEvent = true;
 
     public TableSearchable(JTable table) {
         super(table);
@@ -319,7 +320,9 @@ public class TableSearchable extends Searchable implements TableModelListener, P
 
     public void tableChanged(TableModelEvent e) {
         hidePopup();
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        if (isFireEventOnTableChangedEvent()) {
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        }
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
@@ -352,5 +355,33 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         int selectedRow = ((JTable) _component).getSelectedRow();
         int selectedColumn = ((JTable) _component).getSelectedColumn();
         return selectedRow != -1 && selectedColumn != -1 && ((JTable) _component).isCellEditable(selectedRow, selectedColumn);
+    }
+
+    /**
+     * Get the flag if TableSearchable should fire SEARCHABLE_MODEL_CHANGE event when it gets table changed event.
+     * <p/>
+     * The default value is true. That means, every time TableSearchable gets table changed event, SEARCHABLE_MODEL_CHANGE
+     * will be fired, which will make the current selection be changed. In some cases, if your searchable table is updated
+     * very frequently by your program and your customer wants to take action simultaneously. It would be better for you
+     * to set this option to false.
+     * <p/>
+     * @return the flag if TableSearchable should fire SEARCHABLE_MODEL_CHANGE event when it gets table changed event.
+     */
+    public boolean isFireEventOnTableChangedEvent() {
+        return _fireEventOnTableChangedEvent;
+    }
+
+    /**
+     * Set the flag if TableSearchable should fire SEARCHABLE_MODEL_CHANGE event when it gets table changed event.
+     * <p/>
+     * The default value is true. That means, every time TableSearchable gets table changed event, SEARCHABLE_MODEL_CHANGE
+     * will be fired, which will make the current selection be changed. In some cases, if your searchable table is updated
+     * very frequently by your program and your customer wants to take action simultaneously. It would be better for you
+     * to set this option to false.
+     * <p/>
+     * @param fireEventOnTableChangedEvent the flag if TableSearchable should fire SEARCHABLE_MODEL_CHANGE event when it gets table changed event.
+     */
+    public void setFireEventOnTableChangedEvent(boolean fireEventOnTableChangedEvent) {
+        _fireEventOnTableChangedEvent = fireEventOnTableChangedEvent;
     }
 }

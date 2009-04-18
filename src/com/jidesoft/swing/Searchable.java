@@ -163,7 +163,7 @@ public abstract class Searchable {
         _searchableProvider = searchableProvider;
         _previousSearchText = null;
         _component = component;
-        _selection = new HashSet();
+        _selection = new HashSet<Integer>();
         installListeners();
         updateClientProperty(_component, this);
     }
@@ -215,7 +215,7 @@ public abstract class Searchable {
     /**
      * Converts the element that returns from getElementAt() to string.
      *
-     * @param element
+     * @param element the element to be converted
      * @return the string representing the element in the component.
      */
     protected abstract String convertElementToString(Object element);
@@ -422,8 +422,8 @@ public abstract class Searchable {
             _popup = null;
             _searchableProvider = null;
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_END));
+            setCursor(-1);
         }
-        setCursor(-1);
     }
 
     public SearchableProvider getSearchableProvider() {
@@ -567,7 +567,7 @@ public abstract class Searchable {
      * Adds the property change listener. The only property change event that will be fired is the "searchText" property
      * which will be fired when user types in a different search text in the popup.
      *
-     * @param propertychangelistener
+     * @param propertychangelistener the listener
      */
     public void addPropertyChangeListener(PropertyChangeListener propertychangelistener) {
         _propertyChangeSupport.addPropertyChangeListener(propertychangelistener);
@@ -576,7 +576,7 @@ public abstract class Searchable {
     /**
      * Removes the property change listener.
      *
-     * @param propertychangelistener
+     * @param propertychangelistener the listener
      */
     public void removePropertyChangeListener(PropertyChangeListener propertychangelistener) {
         _propertyChangeSupport.removePropertyChangeListener(propertychangelistener);
@@ -593,8 +593,8 @@ public abstract class Searchable {
     /**
      * Checks if the element matches the searching text.
      *
-     * @param element
-     * @param searchingText
+     * @param element the element to be checked
+     * @param searchingText the searching text
      * @return true if matches.
      */
     protected boolean compare(Object element, String searchingText) {
@@ -606,8 +606,8 @@ public abstract class Searchable {
      * Checks if the element string matches the searching text. Different from {@link #compare(Object,String)}, this
      * method is after the element has been converted to string using {@link #convertElementToString(Object)}.
      *
-     * @param text
-     * @param searchingText
+     * @param text the text to be checked
+     * @param searchingText the searching text
      * @return true if matches.
      */
     protected boolean compare(String text, String searchingText) {
@@ -674,15 +674,17 @@ public abstract class Searchable {
      *                    element.
      */
     public void setCursor(int cursor, boolean incremental) {
-        if (!incremental || _cursor < 0) _selection.clear();
-        if (_cursor >= 0) _selection.add(cursor);
+        if (!incremental || cursor < 0) _selection.clear();
+        if (cursor >= 0) {
+            _selection.add(cursor);
+        }
         _cursor = cursor;
     }
 
     /**
      * Finds the next matching index from the cursor.
      *
-     * @param s
+     * @param s the searching text
      * @return the next index that the element matches the searching text.
      */
     public int findNext(String s) {
@@ -721,7 +723,7 @@ public abstract class Searchable {
     /**
      * Finds the previous matching index from the cursor.
      *
-     * @param s
+     * @param s the searching text
      * @return the previous index that the element matches the searching text.
      */
     public int findPrevious(String s) {
@@ -751,7 +753,7 @@ public abstract class Searchable {
      * is the reverseOrder flag is true, it will finds the previous matching index from the cursor. If it reaches the
      * beginning, it will restart from the end.
      *
-     * @param s
+     * @param s the searching text
      * @return the next index that the element matches the searching text.
      */
     public int findFromCursor(String s) {
@@ -768,7 +770,7 @@ public abstract class Searchable {
             return -1; // no match
 
         // find from cursor
-        for (int i = selectedIndex; i < count; i++) {
+        for (int i = selectedIndex + 1; i < count; i++) {
             Object element = getElementAt(i);
             if (compare(element, str))
                 return i;
@@ -787,7 +789,7 @@ public abstract class Searchable {
     /**
      * Finds the previous matching index from the cursor. If it reaches the beginning, it will restart from the end.
      *
-     * @param s
+     * @param s the searching text
      * @return the next index that the element matches the searching text.
      */
     public int reverseFindFromCursor(String s) {
@@ -823,7 +825,7 @@ public abstract class Searchable {
     /**
      * Finds the first element that matches the searching text.
      *
-     * @param s
+     * @param s the searching text
      * @return the first element that matches with the searching text.
      */
     public int findFirst(String s) {
@@ -845,7 +847,7 @@ public abstract class Searchable {
     /**
      * Finds the last element that matches the searching text.
      *
-     * @param s
+     * @param s the searching text
      * @return the last element that matches the searching text.
      */
     public int findLast(String s) {
@@ -900,7 +902,7 @@ public abstract class Searchable {
      * key (in the case of JList, JTree, JTable) or types in designated keystroke (in the case of JTextComponent). So
      * this method is only used when you want to show the popup manually.
      *
-     * @param searchingText
+     * @param searchingText the searching text
      */
     public void showPopup(String searchingText) {
         if (_searchableProvider == null) {
@@ -927,7 +929,7 @@ public abstract class Searchable {
     /**
      * Creates the popup to hold the searching text.
      *
-     * @param searchingText
+     * @param searchingText the searching text
      * @return the searching popup.
      */
     protected SearchPopup createSearchPopup(String searchingText) {
@@ -1052,7 +1054,7 @@ public abstract class Searchable {
     /**
      * Checks if the key is used as a key to find the first occurrence.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to find the firstoccurrencee. By default, home key is used.
      */
     protected boolean isFindFirstKey(KeyEvent e) {
@@ -1062,7 +1064,7 @@ public abstract class Searchable {
     /**
      * Checks if the key is used as a key to find the last occurrence.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to find the last occurrence. By default, end key is used.
      */
     protected boolean isFindLastKey(KeyEvent e) {
@@ -1072,7 +1074,7 @@ public abstract class Searchable {
     /**
      * Checks if the key is used as a key to find the previous occurrence.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to find the previous occurrence. By default, up arrow key is used.
      */
     protected boolean isFindPreviousKey(KeyEvent e) {
@@ -1082,7 +1084,7 @@ public abstract class Searchable {
     /**
      * Checks if the key is used as a key to find the next occurrence.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to find the next occurrence. By default, down arrow key is used.
      */
     protected boolean isFindNextKey(KeyEvent e) {
@@ -1093,7 +1095,7 @@ public abstract class Searchable {
      * Checks if the key is used as a navigation key. Navigation keys are keys which are used to navigate to other
      * occurrences of the searching string.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a navigation key.
      */
     protected boolean isNavigationKey(KeyEvent e) {
@@ -1103,7 +1105,7 @@ public abstract class Searchable {
     /**
      * Checks if the key in KeyEvent should activate the search popup.
      *
-     * @param e
+     * @param e the key event
      * @return true if the keyChar is a letter or a digit or '*' or '?'.
      */
     protected boolean isActivateKey(KeyEvent e) {
@@ -1116,7 +1118,7 @@ public abstract class Searchable {
      * for navigation purpose ({@link #isNavigationKey(java.awt.event.KeyEvent)} return false), the popup will be
      * hidden.
      *
-     * @param e
+     * @param e the key event
      * @return true if the keyCode in the KeyEvent is escape key, enter key, or any of the arrow keys such as page up,
      *         page down, home, end, left, right, up and down.
      */
@@ -1132,7 +1134,7 @@ public abstract class Searchable {
     /**
      * Checks if the key will trigger selecting all.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to trigger selecting all.
      */
     protected boolean isSelectAllKey(KeyEvent e) {
@@ -1142,7 +1144,7 @@ public abstract class Searchable {
     /**
      * Checks if the key will trigger incremental selection.
      *
-     * @param e
+     * @param e the key event
      * @return true if the key in KeyEvent is a key to trigger incremental selection. By default, ctrl down key is
      *         used.
      */
@@ -1168,7 +1170,7 @@ public abstract class Searchable {
     /**
      * Sets the foreground for mismatch.
      *
-     * @param mismatchForeground
+     * @param mismatchForeground mismatch forground
      */
     public void setMismatchForeground(Color mismatchForeground) {
         _mismatchForeground = mismatchForeground;
@@ -1186,7 +1188,7 @@ public abstract class Searchable {
     /**
      * Sets the case sensitive flag. By default, it's false meaning it's a case insensitive search.
      *
-     * @param caseSensitive
+     * @param caseSensitive the flag if searching is case sensitive
      */
     public void setCaseSensitive(boolean caseSensitive) {
         _caseSensitive = caseSensitive;
@@ -1230,7 +1232,7 @@ public abstract class Searchable {
      * Sets the repeat flag. By default, it's false meaning it will stop searching when reaching the end or reaching the
      * beginning.
      *
-     * @param repeats
+     * @param repeats the repeat flag
      */
     public void setRepeats(boolean repeats) {
         _repeats = repeats;
@@ -1253,7 +1255,7 @@ public abstract class Searchable {
     /**
      * Sets the foreground color used by popup.
      *
-     * @param foreground
+     * @param foreground the foreground
      */
     public void setForeground(Color foreground) {
         _foreground = foreground;
@@ -1276,7 +1278,7 @@ public abstract class Searchable {
     /**
      * Sets the background color used by popup.
      *
-     * @param background
+     * @param background the background
      */
     public void setBackground(Color background) {
         _background = background;
@@ -1295,7 +1297,7 @@ public abstract class Searchable {
     /**
      * Enable or disable the usage of wildcard.
      *
-     * @param wildcardEnabled
+     * @param wildcardEnabled the flag if wildcard is enabled
      * @see #isWildcardEnabled()
      */
     public void setWildcardEnabled(boolean wildcardEnabled) {
@@ -1341,7 +1343,7 @@ public abstract class Searchable {
     /**
      * Sets the text that appears in the search popup.
      *
-     * @param searchLabel
+     * @param searchLabel the search label
      */
     public void setSearchLabel(String searchLabel) {
         _searchLabel = searchLabel;
@@ -1524,7 +1526,7 @@ public abstract class Searchable {
      * Sets the searching order. By default the searchable starts searching from top to bottom. If this flag is false,
      * it searches from bottom to top.
      *
-     * @param reverseOrder
+     * @param reverseOrder the flag if searching from top to bottom or from bottom to top
      */
     public void setReverseOrder(boolean reverseOrder) {
         _reverseOrder = reverseOrder;
@@ -1534,7 +1536,7 @@ public abstract class Searchable {
      * Gets the localized string from resource bundle. Subclass can override it to provide its own string. Available
      * keys are defined in swing.properties that begin with "Searchable.".
      *
-     * @param key
+     * @param key the resource string key
      * @return the localized string.
      */
     protected String getResourceString(String key) {
@@ -1573,7 +1575,7 @@ public abstract class Searchable {
      * #getPopupLocation()}. If you never set, we will use the searchable component or its scroll pane (if exists) as
      * the popupLocationRelativeTo component.
      *
-     * @param popupLocationRelativeTo
+     * @param popupLocationRelativeTo the relative component
      */
     public void setPopupLocationRelativeTo(Component popupLocationRelativeTo) {
         _popupLocationRelativeTo = popupLocationRelativeTo;
