@@ -898,8 +898,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         int selectedIndex = _tabPane.getSelectedIndex();
         boolean isSelected = selectedIndex == tabIndex;
-        Graphics2D g2 = null;
-        Polygon cropShape = null;
         Shape save = null;
         int cropx = 0;
         int cropy = 0;
@@ -983,11 +981,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         paintFocusIndicator(g, tabPlacement, rects, tabIndex,
                 iconRect, textRect, isSelected);
-
-        if (cropShape != null) {
-            paintCroppedTabEdge(g, tabPlacement, tabIndex, isSelected, cropx, cropy);
-            g2.setClip(save);
-        }
     }
 
 
