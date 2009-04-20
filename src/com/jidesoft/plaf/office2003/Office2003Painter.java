@@ -1159,7 +1159,9 @@ public class Office2003Painter extends BasicPainter {
         else {
             // set color of the tab area
             if (c.isOpaque()) {
-                if (c instanceof JideTabbedPane && ((JideTabbedPane) c).getTabShape() != JideTabbedPane.SHAPE_BOX) {
+                Object o = c.getClientProperty("JideTabbedPane.gradientTabArea");
+                boolean useGradient = o instanceof Boolean ? (Boolean) o : UIDefaultsLookup.getBoolean("JideTabbedPane.gradientTabArea", true);
+                if (c instanceof JideTabbedPane && useGradient) {
                     Graphics2D g2d = (Graphics2D) g;
                     Color startColor = getTabAreaBackgroundDk();
                     Color endColor = getTabAreaBackgroundLt();
