@@ -422,8 +422,8 @@ public abstract class Searchable {
             _popup = null;
             _searchableProvider = null;
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_END));
-            setCursor(-1);
         }
+        setCursor(-1);
     }
 
     public SearchableProvider getSearchableProvider() {
@@ -674,10 +674,8 @@ public abstract class Searchable {
      *                    element.
      */
     public void setCursor(int cursor, boolean incremental) {
-        if (!incremental || cursor < 0) _selection.clear();
-        if (cursor >= 0) {
-            _selection.add(cursor);
-        }
+        if (!incremental || _cursor < 0) _selection.clear();
+        if (_cursor >= 0) _selection.add(cursor);
         _cursor = cursor;
     }
 
@@ -770,7 +768,7 @@ public abstract class Searchable {
             return -1; // no match
 
         // find from cursor
-        for (int i = selectedIndex + 1; i < count; i++) {
+        for (int i = selectedIndex; i < count; i++) {
             Object element = getElementAt(i);
             if (compare(element, str))
                 return i;
