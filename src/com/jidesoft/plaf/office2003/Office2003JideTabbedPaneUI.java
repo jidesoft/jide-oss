@@ -229,7 +229,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     }
 
                     Rectangle bounds = _tabScroller.viewport.getBounds();
-                    g.drawLine(0, y, bounds.x, y);
+                    g.drawLine(x, y, bounds.x, y);
                     g.drawLine(bounds.x + bounds.width, y, x + w - 1, y);
                 }
 
@@ -365,7 +365,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     }
 
                     Rectangle bounds = _tabScroller.viewport.getBounds();
-                    g.drawLine(0, y + h - 1, bounds.x, y + h - 1);
+                    g.drawLine(x, y + h - 1, bounds.x, y + h - 1);
                     g.drawLine(bounds.x + bounds.width, y + h - 1, x + w - 1, y + h - 1);
                 }
                 else if (contentInsets.bottom > 0 && !_tabPane.isTabShown()) {
@@ -382,7 +382,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
 
                 Rectangle bounds = _tabScroller.viewport.getBounds();
-                g.drawLine(0, y + h - 1, bounds.x, y + h - 1);
+                g.drawLine(x, y + h - 1, bounds.x, y + h - 1);
                 g.drawLine(bounds.x + bounds.width, y + h - 1, x + w - 1, y + h - 1);
             }
         }
@@ -530,7 +530,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
 
                 Rectangle bounds = _tabScroller.viewport.getBounds();
-                g.drawLine(x, 0, x, bounds.y);
+                g.drawLine(x, y, x, bounds.y);
                 g.drawLine(x, bounds.y + bounds.height, x, y + h - 1);
             }
         }
@@ -655,7 +655,7 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
 
                 Rectangle bounds = _tabScroller.viewport.getBounds();
-                g.drawLine(x + w - 1, 0, x + w - 1, bounds.y);
+                g.drawLine(x + w - 1, y, x + w - 1, bounds.y);
                 g.drawLine(x + w - 1, bounds.y + bounds.height, x + w - 1, y + h - 1);
             }
         }
