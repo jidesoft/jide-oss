@@ -159,13 +159,15 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
     @Override
     public KeyStroke[] getDelegateKeyStrokes() {
         if (_keyStrokes == null) {
-            _keyStrokes = new KeyStroke[6];
+            _keyStrokes = new KeyStroke[8];
             _keyStrokes[0] = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0);
             _keyStrokes[1] = KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0);
             _keyStrokes[2] = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0);
             _keyStrokes[3] = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0);
-            _keyStrokes[4] = KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0);
-            _keyStrokes[5] = KeyStroke.getKeyStroke(KeyEvent.VK_END, 0);
+            _keyStrokes[4] = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, KeyEvent.CTRL_DOWN_MASK);
+            _keyStrokes[5] = KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, KeyEvent.CTRL_DOWN_MASK);
+            _keyStrokes[6] = KeyStroke.getKeyStroke(KeyEvent.VK_HOME, KeyEvent.CTRL_DOWN_MASK);
+            _keyStrokes[7] = KeyStroke.getKeyStroke(KeyEvent.VK_END, KeyEvent.CTRL_DOWN_MASK);
         }
         return _keyStrokes;
     }
