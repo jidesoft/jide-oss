@@ -361,7 +361,7 @@ public class ObjectConverterManager {
             registerConverter(Calendar.class, new MonthConverter(), MonthConverter.CONTEXT_MONTH);
             registerConverter(Color.class, new RgbColorConverter());
             registerConverter(Color.class, new HexColorConverter(), ColorConverter.CONTEXT_HEX);
-            registerConverter(Color.class, new AlphaColorConverter(), ColorConverter.CONTEXT_ALPHA);
+            registerConverter(Color.class, new RgbColorConverter(true), ColorConverter.CONTEXT_RGBA);
 
             registerConverter(String[].class, new StringArrayConverter());
 

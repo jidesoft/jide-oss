@@ -14,10 +14,24 @@ import java.util.StringTokenizer;
  */
 public class RgbColorConverter extends ColorConverter {
 
+    private boolean _alphaIncluded = false;
+
     /**
      * Creates a RgbColorConverter.
      */
     public RgbColorConverter() {
+    }
+
+    public RgbColorConverter(boolean alphaIncluded) {
+        _alphaIncluded = alphaIncluded;
+    }
+
+    public boolean isAlphaIncluded() {
+        return _alphaIncluded;
+    }
+
+    public void setAlphaIncluded(boolean alphaIncluded) {
+        _alphaIncluded = alphaIncluded;
     }
 
     public String toString(Object object, ConverterContext context) {
@@ -27,6 +41,9 @@ public class RgbColorConverter extends ColorConverter {
             colorText.append(color.getRed()).append(", ");
             colorText.append(color.getGreen()).append(", ");
             colorText.append(color.getBlue());
+            if (isAlphaIncluded()) {
+                colorText.append(",").append(color.getAlpha());
+            }
             return new String(colorText);
         }
         else {
@@ -47,7 +64,7 @@ public class RgbColorConverter extends ColorConverter {
             return null;
         }
         StringTokenizer token = new StringTokenizer(string, ",; ");
-        int r = 0, g = 0, b = 0;
+        int r = 0, g = 0, b = 0, a = 255;
         if (token.hasMoreTokens()) {
             String s = token.nextToken();
             try {
@@ -75,6 +92,16 @@ public class RgbColorConverter extends ColorConverter {
                 // ignore
             }
         }
-        return new Color(r, g, b);
+        if (isAlphaIncluded() && token.hasMoreTokens()) {
+            String s = token.nextToken();
+            try {
+                a = Integer.parseInt(s, 10) % 256;
+            }
+            catch (NumberFormatException e) {
+                // ignore
+            }
+        }
+
+        return new Color(r, g, b, a);
     }
 }

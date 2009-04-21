@@ -23,7 +23,7 @@ abstract public class ColorConverter implements ObjectConverter {
     /**
      * ConverterContext for color to convert to RGB and alpha string.
      */
-    public static ConverterContext CONTEXT_ALPHA = new ConverterContext("Color.Alpha");
+    public static ConverterContext CONTEXT_RGBA = new ConverterContext("Color.rgba");
 
     /**
      * Create a default color converter.
