@@ -362,6 +362,7 @@ public class ObjectConverterManager {
             registerConverter(Color.class, new RgbColorConverter());
             registerConverter(Color.class, new HexColorConverter(), ColorConverter.CONTEXT_HEX);
             registerConverter(Color.class, new RgbColorConverter(true), ColorConverter.CONTEXT_RGBA);
+            registerConverter(Color.class, new HexColorConverter(true), ColorConverter.CONTEXT_HEX_WITH_ALPHA);
 
             registerConverter(String[].class, new StringArrayConverter());
 

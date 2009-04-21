@@ -20,10 +20,17 @@ abstract public class ColorConverter implements ObjectConverter {
      * ConverterContext for color to convert to HEX string.
      */
     public static ConverterContext CONTEXT_HEX = new ConverterContext("Color.Hex");
+
     /**
      * ConverterContext for color to convert to RGB and alpha string.
      */
     public static ConverterContext CONTEXT_RGBA = new ConverterContext("Color.rgba");
+
+
+    /**
+     * ConverterContext for color to convert to HEX string.
+     */
+    public static ConverterContext CONTEXT_HEX_WITH_ALPHA = new ConverterContext("Color.HexWithAlpha");
 
     /**
      * Create a default color converter.

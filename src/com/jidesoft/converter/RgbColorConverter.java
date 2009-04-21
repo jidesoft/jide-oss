@@ -9,27 +9,51 @@ import java.awt.*;
 import java.util.StringTokenizer;
 
 /**
- * Converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0, 0) and "255, 0, 255" is
+ * If alpha value is not included, converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0, 0) and "255, 0, 255" is
  * Color(255, 0, 255).
+
+ * If alpha value is included, converts Color to/from "XXX, XXX, XXX, XXX" format. For example "0, 0, 0, 255" is Color(0, 0, 0, 255) and "255, 0, 255, 100" is
+ * Color(255, 0, 255, 100).
  */
 public class RgbColorConverter extends ColorConverter {
 
     private boolean _alphaIncluded = false;
 
     /**
-     * Creates a RgbColorConverter.
+     * Creates a RgbColorConverter. This is the default constructor and will not include alpha value.
      */
     public RgbColorConverter() {
     }
 
+    /**
+     * Creates a RgbColorConverter. With this constructor, you can create a converter with alpha value included.
+     *
+     * @param alphaIncluded the flag if alpha value will be included in this converter
+     */
     public RgbColorConverter(boolean alphaIncluded) {
         _alphaIncluded = alphaIncluded;
     }
 
+    /**
+     * Get the flag if this converter should consider alpha value.
+     * <p/>
+     * If you use default constructor, the default value of this flag is false.
+     * <p/>
+     * @see {@link RgbColorConverter}
+     *
+     * @return true if this converter should consider alpha value.
+     */
     public boolean isAlphaIncluded() {
         return _alphaIncluded;
     }
 
+    /**
+     * Set the flag if this converter should consider alpha value.
+     * <p/>
+     * @see {@link #isAlphaIncluded()}
+     *
+     * @param alphaIncluded the flag if this converter should consider alpha value.
+     */
     public void setAlphaIncluded(boolean alphaIncluded) {
         _alphaIncluded = alphaIncluded;
     }
@@ -42,7 +66,7 @@ public class RgbColorConverter extends ColorConverter {
             colorText.append(color.getGreen()).append(", ");
             colorText.append(color.getBlue());
             if (isAlphaIncluded()) {
-                colorText.append(",").append(color.getAlpha());
+                colorText.append(", ").append(color.getAlpha());
             }
             return new String(colorText);
         }
