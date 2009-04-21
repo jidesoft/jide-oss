@@ -6819,8 +6819,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
-        _tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth,
-                totalHeight));
+        _tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
 
     }
 
@@ -7682,13 +7681,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public class TabSelectionHandler implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
             ensureCloseButtonCreated();
-//			 // mtf - there is no reason for this to be in a runnable that I can determine
-//            Runnable runnable = new Runnable() {
-//                public void run() {
-            ensureActiveTabIsVisible(false);
-//                }
-//            };
-//            SwingUtilities.invokeLater(runnable);
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    ensureActiveTabIsVisible(false);
+                }
+            };
+            SwingUtilities.invokeLater(runnable);
         }
     }
 
@@ -7905,7 +7903,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             ensureCloseButtonCreated();
-//            ensureActiveTabIsVisible(true);
         }
 
         public void componentRemoved(ContainerEvent e) {
