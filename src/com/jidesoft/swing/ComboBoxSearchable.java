@@ -85,17 +85,19 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
 
     @Override
     protected void setSelectedIndex(int index, boolean incremental) {
+        if (((JComboBox) _component).getSelectedIndex() != index) {
+            ((JComboBox) _component).setSelectedIndex(index);
+        }
         if (isShowPopupDuringSearching()) {
             try {
-                if (!((JComboBox) _component).isPopupVisible()) {
+                if (!((JComboBox) _component).isPopupVisible() &&
+                        KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null &&
+                        SwingUtilities.isDescendingFrom(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner(), _component)) {
                     ((JComboBox) _component).showPopup();
                 }
             }
             catch (IllegalComponentStateException e) {
             }
-        }
-        if (((JComboBox) _component).getSelectedIndex() != index) {
-            ((JComboBox) _component).setSelectedIndex(index);
         }
     }
 
