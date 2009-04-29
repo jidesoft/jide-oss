@@ -1,5 +1,5 @@
 /*
- * @(#)ModelCheckIcon.java 4/29/2009
+ * @(#)MenuCheckIcon.java 4/29/2009
  *
  * Copyright 2002 - 2009 JIDE Software Inc. All rights reserved.
  *
@@ -13,12 +13,12 @@ import javax.swing.plaf.UIResource;
 import java.io.Serializable;
 import java.awt.*;
 
-public class ModelCheckIcon implements Icon, UIResource, Serializable {
+public class MenuCheckIcon implements Icon, UIResource, Serializable {
 
     private ImageIcon _icon;
     private static final long serialVersionUID = -6303936713472505092L;
 
-    public ModelCheckIcon(ImageIcon icon) {
+    public MenuCheckIcon(ImageIcon icon) {
         if (icon == null) {
             throw new IllegalArgumentException("The icon should not be null.");
         }

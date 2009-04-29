@@ -7,7 +7,7 @@ package com.jidesoft.plaf.xerto;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.icons.ModelCheckIcon;
+import com.jidesoft.icons.MenuCheckIcon;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
@@ -97,7 +97,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "PopupMenuSeparator.foreground", separatorColor,
                 "PopupMenuSeparator.background", menuBackground,
 
-                "CheckBoxMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                "CheckBoxMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "CheckBoxMenuItem.selectionBackground", menuSelectionBackground,
                 "CheckBoxMenuItem.selectionForeground", menuTextColor,
                 "CheckBoxMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -108,7 +108,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "CheckBoxMenuItem.acceleratorFont", menuFont,
                 "CheckBoxMenuItem.textIconGap", 8,
 
-                "RadioButtonMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                "RadioButtonMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "RadioButtonMenuItem.selectionBackground", menuSelectionBackground,
                 "RadioButtonMenuItem.selectionForeground", menuTextColor,
                 "RadioButtonMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -129,7 +129,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "Menu.mouseHoverBackground", menuSelectionBackground,
                 "Menu.mouseHoverBorder", new BorderUIResource(BorderFactory.createLineBorder(new Color(10, 36, 106))),
                 "Menu.margin", new InsetsUIResource(2, 7, 1, 7),
-                "Menu.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                "Menu.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "Menu.textIconGap", 2,
                 "Menu.font", menuFont,
                 "Menu.acceleratorFont", menuFont,
@@ -138,7 +138,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
                 "PopupMenu.border", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(102, 102, 102)), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
 
-                "MenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                "MenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "MenuItem.selectionBackground", menuSelectionBackground,
                 "MenuItem.selectionForeground", menuTextColor,
                 "MenuItem.acceleratorSelectionForeground", menuTextColor,

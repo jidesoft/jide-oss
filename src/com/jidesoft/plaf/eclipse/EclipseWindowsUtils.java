@@ -7,7 +7,7 @@ package com.jidesoft.plaf.eclipse;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.icons.ModelCheckIcon;
+import com.jidesoft.icons.MenuCheckIcon;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
@@ -566,7 +566,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "PopupMenuSeparator.foreground", defaultHighlightColor,
                     "PopupMenuSeparator.background", defaultShadowColor,
 
-                    "CheckBoxMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_ECLIPSE)),
+                    "CheckBoxMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_ECLIPSE)),
                     "CheckBoxMenuItem.selectionBackground", selectionBackgroundColor,
                     "CheckBoxMenuItem.selectionForeground", selectionTextColor,
                     "CheckBoxMenuItem.acceleratorSelectionForeground", selectionTextColor,
@@ -576,7 +576,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "CheckBoxMenuItem.font", menuFont,
                     "CheckBoxMenuItem.acceleratorFont", menuFont,
 
-                    "RadioButtonMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_RADIOBUTTON_ECLIPSE)),
+                    "RadioButtonMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_RADIOBUTTON_ECLIPSE)),
                     "RadioButtonMenuItem.selectionBackground", selectionBackgroundColor,
                     "RadioButtonMenuItem.selectionForeground", selectionTextColor,
                     "RadioButtonMenuItem.acceleratorSelectionForeground", selectionTextColor,
@@ -595,13 +595,13 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "Menu.mouseSelectedBorder", new BorderUIResource(BorderFactory.createEmptyBorder()),
                     "Menu.margin", new InsetsUIResource(4, 6, 2, 6),
                     "Menu.textIconGap", 4,
-                    "Menu.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "Menu.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "Menu.font", menuFont,
                     "Menu.acceleratorFont", menuFont,
 
                     "PopupMenu.border", menuBorder,
 
-                    "MenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "MenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "MenuItem.selectionBackground", selectionBackgroundColor,
                     "MenuItem.selectionForeground", selectionTextColor,
                     "MenuItem.acceleratorSelectionForeground", selectionTextColor,

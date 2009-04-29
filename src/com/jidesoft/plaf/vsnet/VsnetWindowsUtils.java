@@ -7,7 +7,7 @@ package com.jidesoft.plaf.vsnet;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
-import com.jidesoft.icons.ModelCheckIcon;
+import com.jidesoft.icons.MenuCheckIcon;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
@@ -629,7 +629,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "PopupMenuSeparator.foreground", separatorColor,
                     "PopupMenuSeparator.background", menuBackground,
 
-                    "CheckBoxMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "CheckBoxMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "CheckBoxMenuItem.selectionBackground", menuSelectionBackground,
                     "CheckBoxMenuItem.selectionForeground", menuTextColor,
                     "CheckBoxMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -640,7 +640,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "CheckBoxMenuItem.acceleratorFont", menuFont,
                     "CheckBoxMenuItem.textIconGap", 8,
 
-                    "RadioButtonMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "RadioButtonMenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "RadioButtonMenuItem.selectionBackground", menuSelectionBackground,
                     "RadioButtonMenuItem.selectionForeground", menuTextColor,
                     "RadioButtonMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -659,14 +659,14 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "Menu.mouseHoverBackground", menuSelectionBackground,
                     "Menu.mouseHoverBorder", new BorderUIResource(BorderFactory.createLineBorder(new Color(10, 36, 106))),
                     "Menu.margin", new InsetsUIResource(3, 7, 2, 7),
-                    "Menu.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "Menu.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "Menu.textIconGap", 2,
                     "Menu.font", menuFont,
                     "Menu.acceleratorFont", menuFont,
                     "Menu.submenuPopupOffsetX", 0,
                     "Menu.submenuPopupOffsetY", 0,
 
-                    "MenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
+                    "MenuItem.checkIcon", new MenuCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "MenuItem.selectionBackground", menuSelectionBackground,
                     "MenuItem.selectionForeground", menuTextColor,
                     "MenuItem.acceleratorSelectionForeground", menuTextColor,
