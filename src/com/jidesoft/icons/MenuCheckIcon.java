@@ -13,6 +13,12 @@ import javax.swing.plaf.UIResource;
 import java.io.Serializable;
 import java.awt.*;
 
+/**
+ * Icon wrapper class for check icons. The only thing this class does is to check the selection before it really paints
+ * its wrapped icon. The reason we provide this class is that similar mechanism resides in Swing and we cannot override it.
+ * So if we just update the UI with normal icons, the icon could be displayed unexpectedly. With this icon wrapper class,
+ * you can get exactly the same behavior with Swing default icons.
+ */
 public class MenuCheckIcon implements Icon, UIResource, Serializable {
 
     private ImageIcon _icon;
