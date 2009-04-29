@@ -1137,16 +1137,19 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 manager.clearSelectedPath();
             }
             else {
-                Container cnt = menu.getParent();
+                //Container cnt = menu.getParent();
+                Container cnt = getFirstParentMenuElement(menu);
+
                 if (cnt != null && cnt instanceof MenuElement) {
-                    ArrayList parents = new ArrayList();
+                    ArrayList<Component> parents = new ArrayList<Component>();
                     while (cnt instanceof MenuElement) {
                         parents.add(0, cnt);
                         if (cnt instanceof JPopupMenu) {
                             cnt = (Container) ((JPopupMenu) cnt).getInvoker();
                         }
                         else {
-                            cnt = cnt.getParent();
+                            //cnt = cnt.getParent();
+                            cnt = getFirstParentMenuElement(cnt);
                         }
                     }
 
@@ -1177,6 +1180,19 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 setupPostTimer(menu);
             }
         }
+    }
+
+    protected static Container getFirstParentMenuElement(Component comp) {
+        Container parent = comp.getParent();
+
+        while (parent != null) {
+            if (parent instanceof MenuElement)
+                return parent;
+
+            parent = parent.getParent();
+        }
+
+        return null;
     }
 
 
