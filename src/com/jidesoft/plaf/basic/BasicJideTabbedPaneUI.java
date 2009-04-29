@@ -8222,6 +8222,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             @Override
             public void focusLost(FocusEvent e) {
                 if (_tabPane != null && _tabPane.isTabEditing()) {
+                	_originalFocusComponent = e.getOppositeComponent();
                     _tabPane.stopTabEditing();
                 }
             }
