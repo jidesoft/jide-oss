@@ -7,6 +7,7 @@ package com.jidesoft.plaf.xerto;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.icons.ModelCheckIcon;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
@@ -35,7 +36,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes class defaults with menu components UIDefaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initClassDefaultsWithMenu(UIDefaults table) {
         VsnetLookAndFeelExtension.initClassDefaultsWithMenu(table);
@@ -45,7 +46,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes class defaults with menu components UIDefaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initClassDefaults(UIDefaults table) {
         VsnetLookAndFeelExtension.initClassDefaults(table);
@@ -71,7 +72,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes components defaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initComponentDefaultsWithMenu(UIDefaults table) {
         /// always want shading
@@ -96,7 +97,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "PopupMenuSeparator.foreground", separatorColor,
                 "PopupMenuSeparator.background", menuBackground,
 
-                "CheckBoxMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                "CheckBoxMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "CheckBoxMenuItem.selectionBackground", menuSelectionBackground,
                 "CheckBoxMenuItem.selectionForeground", menuTextColor,
                 "CheckBoxMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -107,7 +108,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "CheckBoxMenuItem.acceleratorFont", menuFont,
                 "CheckBoxMenuItem.textIconGap", 8,
 
-                "RadioButtonMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                "RadioButtonMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "RadioButtonMenuItem.selectionBackground", menuSelectionBackground,
                 "RadioButtonMenuItem.selectionForeground", menuTextColor,
                 "RadioButtonMenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -128,7 +129,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "Menu.mouseHoverBackground", menuSelectionBackground,
                 "Menu.mouseHoverBorder", new BorderUIResource(BorderFactory.createLineBorder(new Color(10, 36, 106))),
                 "Menu.margin", new InsetsUIResource(2, 7, 1, 7),
-                "Menu.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                "Menu.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "Menu.textIconGap", 2,
                 "Menu.font", menuFont,
                 "Menu.acceleratorFont", menuFont,
@@ -137,7 +138,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
                 "PopupMenu.border", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(102, 102, 102)), BorderFactory.createEmptyBorder(1, 1, 1, 1))),
 
-                "MenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                "MenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                 "MenuItem.selectionBackground", menuSelectionBackground,
                 "MenuItem.selectionForeground", menuTextColor,
                 "MenuItem.acceleratorSelectionForeground", menuTextColor,
@@ -164,7 +165,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes components defaults with menu components UIDefaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initComponentDefaults(UIDefaults table) {
         /// always want shading

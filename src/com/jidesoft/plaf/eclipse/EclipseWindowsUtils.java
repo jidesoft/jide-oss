@@ -7,6 +7,7 @@ package com.jidesoft.plaf.eclipse;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.icons.ModelCheckIcon;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
@@ -37,7 +38,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
     /**
      * Initializes class defaults with menu components UIDefaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initClassDefaultsWithMenu(UIDefaults table) {
         EclipseLookAndFeelExtension.initClassDefaultsWithMenu(table);
@@ -47,7 +48,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
     /**
      * Initializes class defaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initClassDefaults(UIDefaults table) {
         EclipseLookAndFeelExtension.initClassDefaults(table);
@@ -65,7 +66,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
     /**
      * Initializes components defaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -102,13 +103,6 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
             }
         });
 
-        Object inactiveTabForeground = new ExtWindowsDesktopProperty(// Not exactly right
-                new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return ((Color) obj[0]).darker();
-            }
-        });
-
         Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new ColorUIResource(EclipseUtils.getFocusedButtonColor((Color) obj[0]));
@@ -128,7 +122,6 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         });
 
         WindowsDesktopProperty selectionBackgroundColor = new WindowsDesktopProperty("win.item.highlightColor", UIDefaultsLookup.get("controlShadow"), toolkit);
-        WindowsDesktopProperty selectionTextColor = new WindowsDesktopProperty("win.item.highlightTextColor", UIDefaultsLookup.get("textHighlightText"), toolkit);
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -544,7 +537,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
     /**
      * Initializes components defaults with menu components UIDefaults.
      *
-     * @param table
+     * @param table ui default table
      */
     public static void initComponentDefaultsWithMenu(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -573,7 +566,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "PopupMenuSeparator.foreground", defaultHighlightColor,
                     "PopupMenuSeparator.background", defaultShadowColor,
 
-                    "CheckBoxMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_ECLIPSE),
+                    "CheckBoxMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_ECLIPSE)),
                     "CheckBoxMenuItem.selectionBackground", selectionBackgroundColor,
                     "CheckBoxMenuItem.selectionForeground", selectionTextColor,
                     "CheckBoxMenuItem.acceleratorSelectionForeground", selectionTextColor,
@@ -583,7 +576,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "CheckBoxMenuItem.font", menuFont,
                     "CheckBoxMenuItem.acceleratorFont", menuFont,
 
-                    "RadioButtonMenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_RADIOBUTTON_ECLIPSE),
+                    "RadioButtonMenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_RADIOBUTTON_ECLIPSE)),
                     "RadioButtonMenuItem.selectionBackground", selectionBackgroundColor,
                     "RadioButtonMenuItem.selectionForeground", selectionTextColor,
                     "RadioButtonMenuItem.acceleratorSelectionForeground", selectionTextColor,
@@ -602,13 +595,13 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "Menu.mouseSelectedBorder", new BorderUIResource(BorderFactory.createEmptyBorder()),
                     "Menu.margin", new InsetsUIResource(4, 6, 2, 6),
                     "Menu.textIconGap", 4,
-                    "Menu.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                    "Menu.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "Menu.font", menuFont,
                     "Menu.acceleratorFont", menuFont,
 
                     "PopupMenu.border", menuBorder,
 
-                    "MenuItem.checkIcon", JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET),
+                    "MenuItem.checkIcon", new ModelCheckIcon(JideIconsFactory.getImageIcon(JideIconsFactory.MENU_CHECKBOX_VSNET)),
                     "MenuItem.selectionBackground", selectionBackgroundColor,
                     "MenuItem.selectionForeground", selectionTextColor,
                     "MenuItem.acceleratorSelectionForeground", selectionTextColor,
