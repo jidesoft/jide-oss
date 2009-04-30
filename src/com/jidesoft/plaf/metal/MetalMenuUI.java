@@ -127,8 +127,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
     }
 
     /**
-     * The ActionMap for BasicMenUI can not be shared, this is subclassed
-     * to create a new one for each invocation.
+     * The ActionMap for BasicMenUI can not be shared, this is subclassed to create a new one for each invocation.
      */
     @Override
     ActionMap getActionMap() {
@@ -209,7 +208,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         return null;
     }
 
-    protected void setupPostTimer(JMenu menu) {
+    protected static void setupPostTimer(JMenu menu) {
         Timer timer = new Timer(menu.getDelay(), new PostAction(menu, false));
         timer.setRepeats(false);
         timer.start();
@@ -310,14 +309,11 @@ public class MetalMenuUI extends MetalMenuItemUI {
     }
 
     /**
-     * Instantiated and used by a menu item to handle the current menu selection
-     * from mouse events. A MouseInputHandler processes and forwards all mouse events
-     * to a shared instance of the MenuSelectionManager.
+     * Instantiated and used by a menu item to handle the current menu selection from mouse events. A MouseInputHandler
+     * processes and forwards all mouse events to a shared instance of the MenuSelectionManager.
      * <p/>
-     * This class is protected so that it can be subclassed by other look and
-     * feels to implement their own mouse handling behavior. All overridden
-     * methods should call the parent methods so that the menu selection
-     * is correct.
+     * This class is protected so that it can be subclassed by other look and feels to implement their own mouse
+     * handling behavior. All overridden methods should call the parent methods so that the menu selection is correct.
      *
      * @see javax.swing.MenuSelectionManager
      * @since 1.4
@@ -326,20 +322,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
         public void mouseClicked(MouseEvent e) {
         }
 
-        /**
-         * Invoked when the mouse has been clicked on the menu. This
-         * method clears or sets the selection path of the
-         * MenuSelectionManager.
-         *
-         * @param e the mouse event
-         */
         public void mousePressed(MouseEvent e) {
-            // PORTING: add, 3
-            if (!SwingUtilities.isLeftMouseButton(e)) {
-                return;
-            }
-
-            // PORTING: add, 3
             if (!(menuItem instanceof JMenu)) {
                 return;
             }
@@ -350,26 +333,38 @@ public class MetalMenuUI extends MetalMenuItemUI {
 
             MenuSelectionManager manager =
                     MenuSelectionManager.defaultManager();
-
-            // PORTING: change, 1
             if (menu.getParent() instanceof JMenuBar || menu.getParent() instanceof TopLevelMenuContainer) {
                 if (menu.isSelected()) {
                     manager.clearSelectedPath();
                 }
                 else {
-                    Container cnt = menu.getParent();
-                    // PORTING: add 6
-                    if (cnt != null && cnt.getParent() instanceof MenuElement) {
-                        MenuElement me[] = new MenuElement[3];
-                        me[0] = (MenuElement) cnt.getParent();
-                        me[1] = ((MenuElement) cnt);
-                        me[2] = menu;
+                    //Container cnt = menu.getParent();
+                    Container cnt = getFirstParentMenuElement(menu);
+
+                    if (cnt != null && cnt instanceof MenuElement) {
+                        ArrayList<Component> parents = new ArrayList<Component>();
+                        while (cnt instanceof MenuElement) {
+                            parents.add(0, cnt);
+                            if (cnt instanceof JPopupMenu) {
+                                cnt = (Container) ((JPopupMenu) cnt).getInvoker();
+                            }
+                            else {
+                                //cnt = cnt.getParent();
+                                cnt = getFirstParentMenuElement(cnt);
+                            }
+                        }
+
+                        MenuElement me[] = new MenuElement[parents.size() + 1];
+                        for (int i = 0; i < parents.size(); i++) {
+                            Container container = (Container) parents.get(i);
+                            me[i] = (MenuElement) container;
+                        }
+                        me[parents.size()] = menu;
                         manager.setSelectedPath(me);
                     }
-                    else if (cnt != null && cnt instanceof MenuElement) {
-                        MenuElement me[] = new MenuElement[2];
-                        me[0] = (MenuElement) cnt;
-                        me[1] = menu;
+                    else {
+                        MenuElement me[] = new MenuElement[1];
+                        me[0] = menu;
                         manager.setSelectedPath(me);
                     }
                 }
@@ -389,9 +384,21 @@ public class MetalMenuUI extends MetalMenuItemUI {
             }
         }
 
+        protected Container getFirstParentMenuElement(Component comp) {
+            Container parent = comp.getParent();
+
+            while (parent != null) {
+                if (parent instanceof MenuElement)
+                    return parent;
+
+                parent = parent.getParent();
+            }
+
+            return null;
+        }
+
         /**
-         * Invoked when the mouse has been released on the menu. Delegates the
-         * mouse event to the MenuSelectionManager.
+         * Invoked when the mouse has been released on the menu. Delegates the mouse event to the MenuSelectionManager.
          *
          * @param e the mouse event
          */
@@ -416,10 +423,9 @@ public class MetalMenuUI extends MetalMenuItemUI {
         }
 
         /**
-         * Invoked when the cursor enters the menu. This method sets the selected
-         * path for the MenuSelectionManager and handles the case
-         * in which a menu item is used to pop up an additional menu, as in a
-         * hierarchical menu system.
+         * Invoked when the cursor enters the menu. This method sets the selected path for the MenuSelectionManager and
+         * handles the case in which a menu item is used to pop up an additional menu, as in a hierarchical menu
+         * system.
          *
          * @param e the mouse event; not used
          */
@@ -467,8 +473,8 @@ public class MetalMenuUI extends MetalMenuItemUI {
         }
 
         /**
-         * Invoked when a mouse button is pressed on the menu and then dragged.
-         * Delegates the mouse event to the MenuSelectionManager.
+         * Invoked when a mouse button is pressed on the menu and then dragged. Delegates the mouse event to the
+         * MenuSelectionManager.
          *
          * @param e the mouse event
          * @see java.awt.event.MouseMotionListener#mouseDragged
@@ -485,8 +491,8 @@ public class MetalMenuUI extends MetalMenuItemUI {
     }
 
     /**
-     * As of Java 2 platform 1.4, this previously undocumented class
-     * is now obsolete. KeyBindings are now managed by the popup menu.
+     * As of Java 2 platform 1.4, this previously undocumented class is now obsolete. KeyBindings are now managed by the
+     * popup menu.
      */
     public class ChangeHandler implements ChangeListener {
         public JMenu menu;
@@ -600,8 +606,8 @@ public class MetalMenuUI extends MetalMenuItemUI {
         }
 
         /**
-         * Handles the mnemonics for the menu items. Will also handle duplicate mnemonics.
-         * Perhaps this should be moved into BasicPopupMenuUI. See 4670831
+         * Handles the mnemonics for the menu items. Will also handle duplicate mnemonics. Perhaps this should be moved
+         * into BasicPopupMenuUI. See 4670831
          */
         public void menuKeyPressed(MenuKeyEvent e) {
             if (DEBUG) {

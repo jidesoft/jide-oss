@@ -21,9 +21,9 @@ import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -267,8 +267,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
+        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.FLAT_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -348,8 +347,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
                 }
             }
         }
-        else
-        if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
+        else if (menuItem instanceof ButtonStyle && ((ButtonStyle) menuItem).getButtonStyle() == ButtonStyle.TOOLBOX_STYLE) {
             if ((menuItem instanceof JMenu && model.isSelected())) {
                 // Draw a dark shadow border without bottom
                 getPainter().paintSelectedMenu(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), JideSwingUtilities.getOrientationOf(menuItem), ThemePainter.STATE_SELECTED);
@@ -927,12 +925,20 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
                 manager.clearSelectedPath();
             }
             else {
-                Container cnt = menu.getParent();
+                //Container cnt = menu.getParent();
+                Container cnt = getFirstParentMenuElement(menu);
+
                 if (cnt != null && cnt instanceof MenuElement) {
-                    ArrayList parents = new ArrayList();
+                    ArrayList<Component> parents = new ArrayList<Component>();
                     while (cnt instanceof MenuElement) {
                         parents.add(0, cnt);
-                        cnt = cnt.getParent();
+                        if (cnt instanceof JPopupMenu) {
+                            cnt = (Container) ((JPopupMenu) cnt).getInvoker();
+                        }
+                        else {
+                            //cnt = cnt.getParent();
+                            cnt = getFirstParentMenuElement(cnt);
+                        }
                     }
 
                     MenuElement me[] = new MenuElement[parents.size() + 1];
@@ -959,9 +965,22 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
                 appendPath(selectedPath, menu.getPopupMenu());
             }
             else {
-//                setupPostTimer(menu); // TODO
+                setupPostTimer(menu);
             }
         }
+    }
+
+    protected static Container getFirstParentMenuElement(Component comp) {
+        Container parent = comp.getParent();
+
+        while (parent != null) {
+            if (parent instanceof MenuElement)
+                return parent;
+
+            parent = parent.getParent();
+        }
+
+        return null;
     }
 
     private class PropertyChangeHandler implements PropertyChangeListener {

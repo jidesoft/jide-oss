@@ -8,6 +8,7 @@ package com.jidesoft.plaf.eclipse;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.swing.TopLevelMenuContainer;
 import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -377,12 +378,6 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         public void mouseClicked(MouseEvent e) {
         }
 
-        /**
-         * Invoked when the mouse has been clicked on the menu. This method clears or sets the selection path of the
-         * MenuSelectionManager.
-         *
-         * @param e the mouse event
-         */
         public void mousePressed(MouseEvent e) {
             if (!(menuItem instanceof JMenu)) {
                 return;
@@ -394,23 +389,38 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
 
             MenuSelectionManager manager =
                     MenuSelectionManager.defaultManager();
-            if (menu.isTopLevelMenu()) {
+            if (menu.getParent() instanceof JMenuBar || menu.getParent() instanceof TopLevelMenuContainer) {
                 if (menu.isSelected()) {
                     manager.clearSelectedPath();
                 }
                 else {
-                    Container cnt = menu.getParent();
-                    if (cnt != null && cnt.getParent() instanceof MenuElement) {
-                        MenuElement me[] = new MenuElement[3];
-                        me[0] = (MenuElement) cnt.getParent();
-                        me[1] = ((MenuElement) cnt);
-                        me[2] = menu;
+                    //Container cnt = menu.getParent();
+                    Container cnt = getFirstParentMenuElement(menu);
+
+                    if (cnt != null && cnt instanceof MenuElement) {
+                        ArrayList<Component> parents = new ArrayList<Component>();
+                        while (cnt instanceof MenuElement) {
+                            parents.add(0, cnt);
+                            if (cnt instanceof JPopupMenu) {
+                                cnt = (Container) ((JPopupMenu) cnt).getInvoker();
+                            }
+                            else {
+                                //cnt = cnt.getParent();
+                                cnt = getFirstParentMenuElement(cnt);
+                            }
+                        }
+
+                        MenuElement me[] = new MenuElement[parents.size() + 1];
+                        for (int i = 0; i < parents.size(); i++) {
+                            Container container = (Container) parents.get(i);
+                            me[i] = (MenuElement) container;
+                        }
+                        me[parents.size()] = menu;
                         manager.setSelectedPath(me);
                     }
-                    else if (cnt != null && cnt instanceof MenuElement) {
-                        MenuElement me[] = new MenuElement[2];
-                        me[0] = (MenuElement) cnt;
-                        me[1] = menu;
+                    else {
+                        MenuElement me[] = new MenuElement[1];
+                        me[0] = menu;
                         manager.setSelectedPath(me);
                     }
                 }
@@ -428,6 +438,19 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
                     setupPostTimer(menu);
                 }
             }
+        }
+
+        protected Container getFirstParentMenuElement(Component comp) {
+            Container parent = comp.getParent();
+
+            while (parent != null) {
+                if (parent instanceof MenuElement)
+                    return parent;
+
+                parent = parent.getParent();
+            }
+
+            return null;
         }
 
         /**

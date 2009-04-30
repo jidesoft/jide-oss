@@ -608,12 +608,20 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
                 manager.clearSelectedPath();
             }
             else {
-                Container cnt = menu.getParent();
+                //Container cnt = menu.getParent();
+                Container cnt = getFirstParentMenuElement(menu);
+
                 if (cnt != null && cnt instanceof MenuElement) {
-                    ArrayList parents = new ArrayList();
+                    ArrayList<Component> parents = new ArrayList<Component>();
                     while (cnt instanceof MenuElement) {
                         parents.add(0, cnt);
-                        cnt = cnt.getParent();
+                        if (cnt instanceof JPopupMenu) {
+                            cnt = (Container) ((JPopupMenu) cnt).getInvoker();
+                        }
+                        else {
+                            //cnt = cnt.getParent();
+                            cnt = getFirstParentMenuElement(cnt);
+                        }
                     }
 
                     MenuElement me[] = new MenuElement[parents.size() + 1];
@@ -643,5 +651,18 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
                 setupPostTimer(menu);
             }
         }
+    }
+
+    protected static Container getFirstParentMenuElement(Component comp) {
+        Container parent = comp.getParent();
+
+        while (parent != null) {
+            if (parent instanceof MenuElement)
+                return parent;
+
+            parent = parent.getParent();
+        }
+
+        return null;
     }
 }
