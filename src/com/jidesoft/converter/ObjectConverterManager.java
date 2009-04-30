@@ -308,6 +308,8 @@ public class ObjectConverterManager {
             registerConverter(String.class, new DefaultObjectConverter());
             registerConverter(char[].class, new PasswordConverter(), PasswordConverter.CONTEXT);
 
+            registerConverter(Number.class, new ScaleNumberConverter(2), ScaleNumberConverter.CONTEXT);
+
             IntegerConverter integerConverter = new IntegerConverter();
             registerConverter(Integer.class, integerConverter);
             registerConverter(int.class, integerConverter);
