@@ -68,12 +68,12 @@ public class HexColorConverter extends ColorConverter {
         if (object instanceof Color) {
             Color color = (Color) object;
             StringBuffer colorText = new StringBuffer("#");
-            colorText.append(getHexString(color.getRed()));
-            colorText.append(getHexString(color.getGreen()));
-            colorText.append(getHexString(color.getBlue()));
             if (isAlphaIncluded()) {
                 colorText.append(getHexString(color.getAlpha()));
             }
+            colorText.append(getHexString(color.getRed()));
+            colorText.append(getHexString(color.getGreen()));
+            colorText.append(getHexString(color.getBlue()));
             return new String(colorText);
         }
         else {
@@ -96,25 +96,32 @@ public class HexColorConverter extends ColorConverter {
         if (string.startsWith("#")) {
             string = string.substring(1);
         }
-        if (string.length() > 6) {
-            string = string.substring(string.length() - 6);
+        if (isAlphaIncluded()) {
+            if (string.length() > 8) {
+                string = string.substring(string.length() - 8);
+            }
         }
-        int value = 0;
+        else {
+            if (string.length() > 6) {
+                string = string.substring(string.length() - 6);
+            }
+        }
+        long value;
         try {
-            value = Integer.parseInt(string, 16);
+            value = Long.parseLong(string, 16);
         }
         catch (NumberFormatException e) {
             return null;
         }
         if (isAlphaIncluded()) {
-            int r = (value >> 16) & 0xFF;
-            int g = (value >> 8) & 0xFF;
-            int b = value & 0xFF;
-            int a = (value >> 24) & 0xFF;
+            int r = (int) (value >> 16) & 0xFF;
+            int g = (int) (value >> 8) & 0xFF;
+            int b = (int) value & 0xFF;
+            int a = (int) (value >> 24) & 0xFF;
             return new Color(r, g, b, a);
         }
         else {
-            return new Color(value);
+            return new Color((int)value);
         }
     }
 }
