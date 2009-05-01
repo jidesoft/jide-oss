@@ -9,6 +9,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Currency;
+import java.math.RoundingMode;
 
 /**
  * Converter which converts Number to String and converts it back. You can pass in a NumberFormat as UserObject of
@@ -16,6 +18,8 @@ import java.util.Locale;
  */
 abstract public class NumberConverter implements ObjectConverter {
     private NumberFormat _numberFormat;
+
+    public static final ConverterContext CONTEXT_FRACTION_NUMBER = new ConverterContext("Fraction Number");
 
     /**
      * Creates a number converter with no NumberFormat.
@@ -69,8 +73,8 @@ abstract public class NumberConverter implements ObjectConverter {
     protected NumberFormat getNumberFormat() {
         if (_numberFormat == null) {
             _numberFormat = DecimalFormat.getInstance();
+            _numberFormat.setGroupingUsed(isGroupingUsed());
         }
-        _numberFormat.setGroupingUsed(isGroupingUsed());
         return _numberFormat;
     }
 
@@ -128,5 +132,45 @@ abstract public class NumberConverter implements ObjectConverter {
      */
     public static void setGroupingUsed(boolean groupingUsed) {
         _groupingUsed = groupingUsed;
+    }
+
+    /**
+     * Set the fraction digits of this converter.
+     * @param minDigits minimum fraction digits
+     * @param maxDigits maximum fraction digits
+     */
+    public void setFractionDigits(int minDigits, int maxDigits) {
+        NumberFormat numberFormat = getNumberFormat();
+        numberFormat.setMinimumFractionDigits(minDigits);
+        numberFormat.setMaximumFractionDigits(maxDigits);
+    }
+
+    /**
+     * Set the currency of this converter.
+     * @param currency currency
+     */
+    public void setCurrency(Currency currency) {
+        NumberFormat numberFormat = getNumberFormat();
+        numberFormat.setCurrency(currency);
+    }
+
+    /**
+     * Set the integer digits of this converter.
+     * @param minDigits minimum integer digits
+     * @param maxDigits maximum integer digits
+     */
+    public void setIntegerDigits(int minDigits, int maxDigits) {
+        NumberFormat numberFormat = getNumberFormat();
+        numberFormat.setMinimumIntegerDigits(minDigits);
+        numberFormat.setMaximumIntegerDigits(maxDigits);
+    }
+
+    /**
+     * Set the rounding mode of this converter.
+     * @param mode rounding mode
+     */
+    public void setRoundingMode(RoundingMode mode) {
+        NumberFormat numberFormat = getNumberFormat();
+        numberFormat.setRoundingMode(mode);
     }
 }
