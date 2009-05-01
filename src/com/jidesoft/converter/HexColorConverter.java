@@ -8,10 +8,9 @@ package com.jidesoft.converter;
 import java.awt.*;
 
 /**
- * If alpha value is not included, converts Color to/from #xxxxxx format. For example #000000 is Color(0, 0, 0)
- * and #FF00FF is Color(255, 0, 255).
- * If alpha value is included, converts Color to/from #xxxxxxxx format. For example #FF000000 is Color(0, 0, 0, 255)
- * and #64FF00FF is Color(255, 0, 255, 100).
+ * If alpha value is not included, converts Color to/from #xxxxxx format. For example #000000 is Color(0, 0, 0) and
+ * #FF00FF is Color(255, 0, 255). If alpha value is included, converts Color to/from #xxxxxxxx format. For example
+ * #FF000000 is Color(0, 0, 0, 255) and #64FF00FF is Color(255, 0, 255, 100).
  */
 public class HexColorConverter extends ColorConverter {
 
@@ -37,9 +36,10 @@ public class HexColorConverter extends ColorConverter {
      * <p/>
      * If you use default constructor, the default value of this flag is false.
      * <p/>
-     * @see {@link HexColorConverter}
      *
      * @return true if this converter should consider alpha value.
+     *
+     * @see {@link HexColorConverter}
      */
     public boolean isAlphaIncluded() {
         return _alphaIncluded;
@@ -48,9 +48,9 @@ public class HexColorConverter extends ColorConverter {
     /**
      * Set the flag if this converter should consider alpha value.
      * <p/>
-     * @see {@link #isAlphaIncluded()}
      *
      * @param alphaIncluded the flag if this converter should consider alpha value.
+     * @see {@link #isAlphaIncluded()}
      */
     public void setAlphaIncluded(boolean alphaIncluded) {
         _alphaIncluded = alphaIncluded;
@@ -113,15 +113,6 @@ public class HexColorConverter extends ColorConverter {
         catch (NumberFormatException e) {
             return null;
         }
-        if (isAlphaIncluded()) {
-            int r = (int) (value >> 16) & 0xFF;
-            int g = (int) (value >> 8) & 0xFF;
-            int b = (int) value & 0xFF;
-            int a = (int) (value >> 24) & 0xFF;
-            return new Color(r, g, b, a);
-        }
-        else {
-            return new Color((int)value);
-        }
+        return new Color((int) value, isAlphaIncluded());
     }
 }
