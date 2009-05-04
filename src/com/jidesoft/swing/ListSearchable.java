@@ -50,6 +50,7 @@ import java.awt.*;
  * </code>
  */
 public class ListSearchable extends Searchable implements ListDataListener, PropertyChangeListener {
+    private boolean _useRendererAsConverter = false;
 
     public ListSearchable(JList list) {
         super(list);
@@ -106,19 +107,21 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
      */
     @Override
     protected String convertElementToString(Object object) {
-        ListCellRenderer renderer = ((JList) _component).getCellRenderer();
-        // try to get the string displayed on the list first so we can search exactly on what the customers are looking at
-        // if cannot get it, still go object.toString().
-        if (renderer != null) {
-            Component component = renderer.getListCellRendererComponent((JList) _component, object, 0, false, false);
-            if (component != null) {
-                if (component instanceof JLabel) {
-                    return ((JLabel) component).getText();
-                }
-                else if (component instanceof CheckBoxListCellRenderer) {
-                    ListCellRenderer actualRenderer = ((CheckBoxListCellRenderer) component).getActualListRenderer();
-                    if (actualRenderer != null && actualRenderer instanceof JLabel) {
-                        return ((JLabel) actualRenderer).getText();
+        if (isUseRendererAsConverter()) {
+            ListCellRenderer renderer = ((JList) _component).getCellRenderer();
+            // try to get the string displayed on the list first so we can search exactly on what the customers are looking at
+            // if cannot get it, still go object.toString().
+            if (renderer != null) {
+                Component component = renderer.getListCellRendererComponent((JList) _component, object, 0, false, false);
+                if (component != null) {
+                    if (component instanceof JLabel) {
+                        return ((JLabel) component).getText();
+                    }
+                    else if (component instanceof CheckBoxListCellRenderer) {
+                        ListCellRenderer actualRenderer = ((CheckBoxListCellRenderer) component).getActualListRenderer();
+                        if (actualRenderer != null && actualRenderer instanceof JLabel) {
+                            return ((JLabel) actualRenderer).getText();
+                        }
                     }
                 }
             }
@@ -164,5 +167,28 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
             }
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
         }
+    }
+
+    /**
+     * Get the flag if the ListSearchable should use the renderer in the list as its converter.
+     * <p/>
+     * The default value for this field is false so we can get higher performance. For AutoFilterBox, we will set it
+     * to false automatically.
+     *
+     * @return true if you want to use the renderer as its converter. Otherwise false.
+     */
+    public boolean isUseRendererAsConverter() {
+        return _useRendererAsConverter;
+    }
+
+    /**
+     * Set the flag if the ListSearchable should use the renderer in the list as its converter.
+     * <p/>
+     * @see #isUseRendererAsConverter()
+     *
+     * @param useRendererAsConverter the flag
+     */
+    public void setUseRendererAsConverter(boolean useRendererAsConverter) {
+        _useRendererAsConverter = useRendererAsConverter;
     }
 }
