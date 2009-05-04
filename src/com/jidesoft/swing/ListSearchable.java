@@ -12,6 +12,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.*;
 
 /**
  * <code>ListSearchable</code> is an concrete implementation of {@link Searchable} that enables the search function in
@@ -100,11 +101,28 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
      * Converts the element in Jlist to string. The returned value will be the <code>toString()</code> of whatever
      * element that returned from <code>list.getModel().getElementAt(i)</code>.
      *
-     * @param object
+     * @param object the object to be converted to string
      * @return the string representing the element in the JList.
      */
     @Override
     protected String convertElementToString(Object object) {
+        ListCellRenderer renderer = ((JList) _component).getCellRenderer();
+        // try to get the string displayed on the list first so we can search exactly on what the customers are looking at
+        // if cannot get it, still go object.toString().
+        if (renderer != null) {
+            Component component = renderer.getListCellRendererComponent((JList) _component, object, 0, false, false);
+            if (component != null) {
+                if (component instanceof JLabel) {
+                    return ((JLabel) component).getText();
+                }
+                else if (component instanceof CheckBoxListCellRenderer) {
+                    ListCellRenderer actualRenderer = ((CheckBoxListCellRenderer) component).getActualListRenderer();
+                    if (actualRenderer != null && actualRenderer instanceof JLabel) {
+                        return ((JLabel) actualRenderer).getText();
+                    }
+                }
+            }
+        }
         if (object != null) {
             return object.toString();
         }
