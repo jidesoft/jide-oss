@@ -1009,17 +1009,7 @@ public class LookAndFeelFactory implements ProductNames {
     public static void installDefaultLookAndFeel() {
         try {
             String lnfName = SecurityUtils.getProperty("swing.defaultlaf", null);
-            Class<?> lnfClass = null;
-            if (lnfName != null) {
-                try {
-                    lnfClass = getUIManagerClassLoader().loadClass(lnfName);
-                }
-                catch (ClassNotFoundException e) {
-                    // ignore
-                }
-            }
-
-            if (lnfClass == null) {
+            if (lnfName == null) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             }
             else {
@@ -1027,7 +1017,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         catch (Exception e) {
-            // ignore
+            e.printStackTrace();
         }
     }
 
