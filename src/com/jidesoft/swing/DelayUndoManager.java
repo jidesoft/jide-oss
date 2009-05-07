@@ -18,10 +18,12 @@ import java.util.logging.Logger;
  * default, the gap is 500 ms. You can control it by passing in a different number in the constructor.
  */
 public class DelayUndoManager extends UndoManager {
+    private static final long serialVersionUID = -2910365359251677780L;
+
     private int _delay = 500;
     private CompoundEdit _cache;
 
-    private static Logger LOGGER = Logger.getLogger(DelayUndoManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DelayUndoManager.class.getName());
     protected Timer _timer;
 
     public DelayUndoManager() {

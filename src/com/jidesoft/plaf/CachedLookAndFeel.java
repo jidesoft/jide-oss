@@ -107,7 +107,7 @@ class CachedLookAndFeel extends LookAndFeel {
             Method installJideExtension = lafFactory.getDeclaredMethod("installJideExtension", new Class[]{int.class});
             int style = LookAndFeelFactory.getDefaultStyle();
             UIManager.put(LookAndFeelFactory.JIDE_EXTENSION_INSTALLLED, null); // force population
-            installJideExtension.invoke(null, new Object[]{style});
+            installJideExtension.invoke(null, style);
 
         }
         catch (Exception e) {
@@ -132,13 +132,15 @@ class CachedLookAndFeel extends LookAndFeel {
     }
 
     static class CustomUIDefaults extends UIDefaults {
+        private static final long serialVersionUID = -6034471887061473005L;
+
         @Override
         public ComponentUI getUI(JComponent target) {
             UIDefaults defaults = UIManager.getDefaults();
 
             // to increase the performance, UIManager is caching the
             // className <--> class definition object
-            // It does not differentiate between classNames from different classloaders
+            // It does not differentiate between classNames from different class loaders
             // This means that the cached class definition may  not match the current
             // classloader and will cause ClassCastException later on.
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4675772

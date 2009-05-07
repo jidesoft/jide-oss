@@ -233,7 +233,7 @@ public class PortingUtils {
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
      * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
      * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call
-     * {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
+     * call {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
      * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
      * methods, the thread is done so user will not notice any slowness.
      */
@@ -264,8 +264,8 @@ public class PortingUtils {
                     SCREEN_AREA = new Area();
                     SCREEN_BOUNDS = new Rectangle();
                     GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    List<Rectangle> screensList = new ArrayList();
-                    List<Insets> insetsList = new ArrayList();
+                    List<Rectangle> screensList = new ArrayList<Rectangle>();
+                    List<Insets> insetsList = new ArrayList<Insets>();
                     GraphicsDevice[] screenDevices = environment.getScreenDevices();
                     for (GraphicsDevice device : screenDevices) {
                         GraphicsConfiguration configuration = device.getDefaultConfiguration();
@@ -436,7 +436,7 @@ public class PortingUtils {
         }
 
         Rectangle bounds = new Rectangle(containgScreen);
-        if (considerInsets) {
+        if (considerInsets && insets != null) {
             bounds.x += insets.left;
             bounds.y += insets.top;
             bounds.width -= insets.left + insets.right;
@@ -508,6 +508,7 @@ public class PortingUtils {
             component.setPreferredSize(size);
         }
         else if (component instanceof JComponent) {
+            //noinspection RedundantCast
             ((JComponent) component).setPreferredSize(size);
         }
     }
@@ -525,6 +526,7 @@ public class PortingUtils {
             component.setMinimumSize(size);
         }
         else if (component instanceof JComponent) {
+            //noinspection RedundantCast
             ((JComponent) component).setMinimumSize(size);
         }
     }

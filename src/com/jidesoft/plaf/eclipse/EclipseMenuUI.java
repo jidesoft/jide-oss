@@ -749,8 +749,9 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
                         // the same mnemonic has been invoked then select the next
                         // menu item in the cycle.
                         MenuElement newItem = null;
-
-                        newItem = items[indexes[(currentIndex + 1) % matches]];
+                        if (indexes != null) {
+                            newItem = items[indexes[(currentIndex + 1) % matches]];
+                        }
 
                         MenuElement newPath[] = new MenuElement[path.length + 2];
                         System.arraycopy(path, 0, newPath, 0, path.length);

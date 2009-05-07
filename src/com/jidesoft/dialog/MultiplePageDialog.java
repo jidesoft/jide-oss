@@ -583,13 +583,13 @@ public class MultiplePageDialog extends StandardDialog {
      * @param currentPage
      */
     protected void showCurrentPage(AbstractDialogPage currentPage) {
-        if (getStyle() == TAB_STYLE) {
-            _tabbedPane.setSelectedComponent(currentPage);
-        }
-        else {
-            _cardLayout.show(_pagesPanel, currentPage.getFullTitle());
-        }
         if (currentPage != null) {
+            if (getStyle() == TAB_STYLE) {
+                _tabbedPane.setSelectedComponent(currentPage);
+            }
+            else {
+                _cardLayout.show(_pagesPanel, currentPage.getFullTitle());
+            }
             currentPage.focusDefaultFocusComponent();
         }
     }
@@ -744,13 +744,11 @@ public class MultiplePageDialog extends StandardDialog {
                     treeNode = (DefaultMutableTreeNode) treeNode.getChildAt(0);
                 }
 
-                if (treeNode != null) {
-                    Object userObject = treeNode.getUserObject();
-                    if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage())) {
-                        setCurrentPage((AbstractDialogPage) userObject, tree);
-                        if (getCurrentPage() != userObject) {
-                            // TODO select the old path.
-                        }
+                Object userObject = treeNode.getUserObject();
+                if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage())) {
+                    setCurrentPage((AbstractDialogPage) userObject, tree);
+                    if (getCurrentPage() != userObject) {
+                        // TODO select the old path.
                     }
                 }
             }

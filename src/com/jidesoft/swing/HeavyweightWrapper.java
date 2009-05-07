@@ -31,14 +31,10 @@ public class HeavyweightWrapper extends Panel {
 
     public HeavyweightWrapper(Component component, boolean heavyweight) {
         _component = component;
-        ((JComponent) _component).putClientProperty("HeavyweightWrapper", this);
         if (_component != null) {
+            ((JComponent) _component).putClientProperty("HeavyweightWrapper", this);
             _component.addComponentListener(new ComponentListener() {
                 public void componentResized(ComponentEvent e) {
-//                    Rectangle rect = e.getComponent().getBounds();
-//                    Rectangle parentRect = SwingUtilities.convertRectangle(HeavyweightWrapper.this, rect, HeavyweightWrapper.this.getParent());
-//                    System.out.println(rect + " " + parentRect);
-//                    HeavyweightWrapper.this.setBounds(parentRect);
                 }
 
                 public void componentMoved(ComponentEvent e) {

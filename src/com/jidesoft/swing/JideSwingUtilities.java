@@ -238,7 +238,7 @@ public class JideSwingUtilities implements SwingConstants {
 
         if (component instanceof Frame) return (Frame) component;
 
-        // Find framel
+        // Find frame
         Container p = component.getParent();
         while (p != null) {
             if (p instanceof Frame) {
@@ -463,12 +463,10 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
-        else
-        if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
         else {
@@ -555,8 +553,12 @@ public class JideSwingUtilities implements SwingConstants {
                 scratchImage = new BufferedImage(w, h, type);
                 g2 = scratchImage.createGraphics();
             }
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
-            g2.drawImage(ret, 0, 0, w, h, 0, 0, prevW, prevH, null);
+
+            if (g2 != null) {
+                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
+                g2.drawImage(ret, 0, 0, w, h, 0, 0, prevW, prevH, null);
+            }
+
             prevW = w;
             prevH = h;
 
@@ -694,13 +696,13 @@ public class JideSwingUtilities implements SwingConstants {
 
     public static void printUIDefaults() {
         Enumeration e = UIManager.getDefaults().keys();
-        java.util.List list = new ArrayList();
+        java.util.List<String> list = new ArrayList<String>();
 
         System.out.println("Non-string keys ---");
         while (e.hasMoreElements()) {
             Object key = e.nextElement();
             if (key instanceof String) {
-                list.add(key);
+                list.add((String) key);
             }
             else {
                 System.out.println(key + " => " + UIDefaultsLookup.get(key));
@@ -709,7 +711,7 @@ public class JideSwingUtilities implements SwingConstants {
 
         System.out.println();
 
-        Object[] array = list.toArray(new Object[list.size()]);
+        String[] array = list.toArray(new String[list.size()]);
         Arrays.sort(array);
         System.out.println("String keys ---");
         for (Object key : array) {
@@ -859,6 +861,7 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param c       component
      * @param handler handler to be called
+     * @return the component that matches the condition specified in GetHandler.
      */
     public static Component getRecursively(final Component c, final GetHandler handler) {
         return getRecursively0(c, handler);
@@ -1651,7 +1654,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @return the map that contains all components that were double buffered.
      */
     public static Map<Component, Boolean> disableDoubleBuffered(final Component c) {
-        final Map<Component, Boolean> map = new HashMap();
+        final Map<Component, Boolean> map = new HashMap<Component, Boolean>();
         if (c instanceof JComponent) {
             JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
                 public boolean condition(Component c) {
@@ -1680,7 +1683,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @return the map that contains all components that weren't double buffered.
      */
     public static Map<Component, Boolean> enableDoubleBuffered(final Component c) {
-        final Map<Component, Boolean> map = new HashMap();
+        final Map<Component, Boolean> map = new HashMap<Component, Boolean>();
         if (c instanceof JComponent) {
             JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
                 public boolean condition(Component c) {
@@ -1885,7 +1888,7 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static Object setupAntialiasing(Component c, Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        Object oldHints = null;
+        Object oldHints;
         if (SystemInfo.isJdk6Above()) {
             oldHints = getRenderingHints(g2d, renderingHints, null);
             if (renderingHints != null) {
@@ -2079,7 +2082,7 @@ public class JideSwingUtilities implements SwingConstants {
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         Component permFocusOwner =
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
-        boolean focusOwned = false;
+        boolean focusOwned;
         focusOwned = ((focusOwner != null) && SwingUtilities.isDescendingFrom(focusOwner, cont));
         if (!focusOwned) {
             focusOwned = ((permFocusOwner != null) &&
@@ -2134,7 +2137,7 @@ public class JideSwingUtilities implements SwingConstants {
 
     public static void fillNormalGradient(Graphics2D g2d, Shape s, Color startColor, Color endColor, boolean isVertical) {
         Rectangle rect = s.getBounds();
-        GradientPaint paint = null;
+        GradientPaint paint;
         if (isVertical) {
             paint = new GradientPaint(rect.x, rect.y, startColor, rect.x, rect.height + rect.y, endColor, true); // turn cyclic to true will be faster
         }
@@ -2215,7 +2218,7 @@ public class JideSwingUtilities implements SwingConstants {
 
                     Component newValue = (Component) evt.getNewValue();
                     if (newValue instanceof JComponent) {
-                        Border oldBorder = (Border) ((JComponent) newValue).getBorder();
+                        Border oldBorder = ((JComponent) newValue).getBorder();
                         if (oldBorder == null)
                             oldBorder = new EmptyBorder(0, 0, 0, 0);
                         if (!(oldBorder instanceof TraceDebugBorder))
@@ -2239,6 +2242,8 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static class TraceDebugBorder extends CompoundBorder {
+        private static final long serialVersionUID = -1396250213346461982L;
+
         public TraceDebugBorder(Border insideBorder) {
             super(BorderFactory.createLineBorder(Color.RED, 1), insideBorder);
         }
@@ -2425,7 +2430,7 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static void throwInvocationTargetException(InvocationTargetException e) {
         // in most cases, target exception will be RuntimeException
-        // but to be on saferside(it may be Error) we explicitly check it
+        // but to be on safer side (it may be Error) we explicitly check it
         if (e.getTargetException() instanceof RuntimeException) {
             throw (RuntimeException) e.getTargetException();
         }
@@ -2497,6 +2502,7 @@ public class JideSwingUtilities implements SwingConstants {
             }
         }
         catch (NumberFormatException e) {
+            // ignore
         }
 
         return defaultFontSize;
@@ -2534,7 +2540,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static Object getControlFont(Toolkit toolkit, UIDefaults table) {
-        Object controlFont = null;
+        Object controlFont;
         // read the font size from system property.
         float defaultFontSize = getDefaultFontSize();
 
@@ -2568,7 +2574,7 @@ public class JideSwingUtilities implements SwingConstants {
             return getControlFont(toolkit, table);
         }
         else {
-            Object boldFont = null;
+            Object boldFont;
             // read the font size from system property.
             float defaultFontSize = getDefaultFontSize();
 
@@ -2671,11 +2677,10 @@ public class JideSwingUtilities implements SwingConstants {
             if (container.isFocusCycleRoot()) {
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
-                if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0)
-                    if (comp != null) {
-                        comp.requestFocus();
-                        return true;
-                    }
+                if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0) {
+                    comp.requestFocus();
+                    return true;
+                }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
             if (rootAncestor != null) {
@@ -2762,7 +2767,7 @@ public class JideSwingUtilities implements SwingConstants {
             }
             component.addKeyListener(listener);
         }
-        // inex is too large, add to the end.
+        // index is too large, add to the end.
         if (index > listeners.length - 1) {
             component.addKeyListener(l);
         }
@@ -2792,7 +2797,7 @@ public class JideSwingUtilities implements SwingConstants {
             }
             model.addTableModelListener(listener);
         }
-        // inex is too large, add to the end.
+        // index is too large, add to the end.
         if (index < 0 || index > listeners.length - 1) {
             model.addTableModelListener(l);
         }
@@ -3029,7 +3034,7 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         // fix for bug #4202966 -- hania
-        // When retargetting a mouse event, we need to translate
+        // When re-targeting a mouse event, we need to translate
         // the event's coordinates relative to the target.
 
         Point p = SwingUtilities.convertPoint((Component) e.getSource(),
@@ -3284,9 +3289,8 @@ public class JideSwingUtilities implements SwingConstants {
         }
         else {
             // in JDK1.4.2, the vertical scroll bar is shown because of the wrong size is calculated.
-            Dimension size = defaultViewportSize;
-            size.height++;
-            return size;
+            defaultViewportSize.height++;
+            return defaultViewportSize;
         }
     }
 
