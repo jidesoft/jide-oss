@@ -18,11 +18,11 @@ import java.awt.*;
  * a public API. JIDE will not guarantee the class will remain as it is.
  */
 public class Contour extends JComponent implements IContour {
-    public final static int PARTIAL_OUTLINE_MODE = 0;
+    public static final int PARTIAL_OUTLINE_MODE = 0;
 
-    public final static int MIX_OUTLINE_MODE = 1;
+    public static final int MIX_OUTLINE_MODE = 1;
 
-    public final static int FULL_OUTLINE_MODE = 2;
+    public static final int FULL_OUTLINE_MODE = 2;
 
     // Five values below should be configurable
 

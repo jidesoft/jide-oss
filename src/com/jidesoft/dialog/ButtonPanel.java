@@ -37,7 +37,7 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
      * Client property key. If this client property is set to Boolean.TRUE, the button panel will always use the
      * component's preferred width instead of using minButtonWidth.
      */
-    public final static String KEEP_PREFERRED_WIDTH = "keepPreferredWidth";
+    public static final String KEEP_PREFERRED_WIDTH = "keepPreferredWidth";
 
     /**
      * The button will produce an affirmative action. Typical affirmative buttons are OK, Save, Print, Replace etc. It

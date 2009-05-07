@@ -6,17 +6,12 @@
 package com.jidesoft.validation;
 
 /**
- * ValidationResult is the object that returns from the {@link Validator#validating(ValidationObject)}.
- * There are three things on the result.
- * <ul>
- * <li> valid: whether the result is valid. It can be true or false.
- * <li> id: an int value of the result. It's better to reserve value 0 for valid result.
- * For invalid result, you can use whatever value as long as it's consistent across your application.
- * <li> message: a String value of result. You can use this string value to put a message to indicate why the validation
- * failed.
- * </ul>
- * Users can extend this class to create their own ValidationResult to provide
- * additional information that needed to be returned from Validator.
+ * ValidationResult is the object that returns from the {@link Validator#validating(ValidationObject)}. There are three
+ * things on the result. <ul> <li> valid: whether the result is valid. It can be true or false. <li> id: an int value of
+ * the result. It's better to reserve value 0 for valid result. For invalid result, you can use whatever value as long
+ * as it's consistent across your application. <li> message: a String value of result. You can use this string value to
+ * put a message to indicate why the validation failed. </ul> Users can extend this class to create their own
+ * ValidationResult to provide additional information that needed to be returned from Validator.
  */
 public class ValidationResult {
     private int _id;
@@ -27,17 +22,18 @@ public class ValidationResult {
     /**
      * When validation fails, reverts back to the previous valid value.
      */
-    public final static int FAIL_BEHAVIOR_REVERT = 0;
+    public static final int FAIL_BEHAVIOR_REVERT = 0;
 
     /**
-     * When validation fails, do not stop cell editing until user enters a valid value or press ESCAPE to cancel the editing.
+     * When validation fails, do not stop cell editing until user enters a valid value or press ESCAPE to cancel the
+     * editing.
      */
-    public final static int FAIL_BEHAVIOR_PERSIST = 1;
+    public static final int FAIL_BEHAVIOR_PERSIST = 1;
 
     /**
      * When validation fails, reset the value to null.
      */
-    public final static int FAIL_BEHAVIOR_RESET = 2;
+    public static final int FAIL_BEHAVIOR_RESET = 2;
 
     /**
      * The shared ValidationResult when the validation result is valid.
@@ -184,7 +180,8 @@ public class ValidationResult {
     }
 
     /**
-     * Sets the behavior if validation fails. Valid values are {@link #FAIL_BEHAVIOR_PERSIST}, {@link #FAIL_BEHAVIOR_REVERT}, and {@link #FAIL_BEHAVIOR_REVERT}.
+     * Sets the behavior if validation fails. Valid values are {@link #FAIL_BEHAVIOR_PERSIST}, {@link
+     * #FAIL_BEHAVIOR_REVERT}, and {@link #FAIL_BEHAVIOR_REVERT}.
      *
      * @param failBehavior
      */

@@ -110,7 +110,7 @@ public abstract class Searchable {
     protected KeyListener _keyListener;
     protected FocusListener _focusListener;
 
-    public final static String PROPERTY_SEARCH_TEXT = "searchText";
+    public static final String PROPERTY_SEARCH_TEXT = "searchText";
 
     private int _cursor = -1;
 
@@ -136,7 +136,7 @@ public abstract class Searchable {
      * The client property for Searchable instance. When Searchable is installed on a component, this client property
      * has the Searchable.
      */
-    public final static String CLIENT_PROPERTY_SEARCHABLE = "Searchable";
+    public static final String CLIENT_PROPERTY_SEARCHABLE = "Searchable";
 
     private Set<Integer> _selection;
 
@@ -593,7 +593,7 @@ public abstract class Searchable {
     /**
      * Checks if the element matches the searching text.
      *
-     * @param element the element to be checked
+     * @param element       the element to be checked
      * @param searchingText the searching text
      * @return true if matches.
      */
@@ -606,7 +606,7 @@ public abstract class Searchable {
      * Checks if the element string matches the searching text. Different from {@link #compare(Object,String)}, this
      * method is after the element has been converted to string using {@link #convertElementToString(Object)}.
      *
-     * @param text the text to be checked
+     * @param text          the text to be checked
      * @param searchingText the searching text
      * @return true if matches.
      */

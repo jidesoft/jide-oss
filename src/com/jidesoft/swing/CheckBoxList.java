@@ -49,8 +49,8 @@ public class CheckBoxList extends JList {
 
     protected CheckBoxListCellRenderer _listCellRenderer;
 
-    public final static String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
-    public final static String PROPERTY_CLICK_IN_CHECKBOX_ONLY = "clickInCheckBoxOnly";
+    public static final String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
+    public static final String PROPERTY_CLICK_IN_CHECKBOX_ONLY = "clickInCheckBoxOnly";
 
     private boolean _checkBoxEnabled = true;
     private boolean _clickInCheckBoxOnly = true;

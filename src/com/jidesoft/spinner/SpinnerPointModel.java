@@ -14,8 +14,8 @@ import java.awt.*;
  */
 public class SpinnerPointModel extends AbstractSpinnerModel {
 
-    public final static int FIELD_X = 0;
-    public final static int FIELD_Y = 1;
+    public static final int FIELD_X = 0;
+    public static final int FIELD_Y = 1;
 
     private Point point;
     private int field = FIELD_X;
@@ -37,8 +37,8 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * The <i>current element</i> of the sequence.  This element is usually displayed by the
-     * <code>editor</code> part of a <code>JSpinner</code>.
+     * The <i>current element</i> of the sequence.  This element is usually displayed by the <code>editor</code> part of
+     * a <code>JSpinner</code>.
      *
      * @return the current spinner value.
      *
@@ -49,15 +49,13 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * Changes current value of the model, typically this value is displayed by the
-     * <code>editor</code> part of a  <code>JSpinner</code>. If the <code>SpinnerModel</code>
-     * implementation doesn't support the specified value then an <code>IllegalArgumentException</code>
-     * is thrown.  For example a <code>SpinnerModel</code> for numbers might only support values
-     * that are integer multiples of ten. In that case, <code>model.setValue(new Number(11))</code>
+     * Changes current value of the model, typically this value is displayed by the <code>editor</code> part of a
+     * <code>JSpinner</code>. If the <code>SpinnerModel</code> implementation doesn't support the specified value then
+     * an <code>IllegalArgumentException</code> is thrown.  For example a <code>SpinnerModel</code> for numbers might
+     * only support values that are integer multiples of ten. In that case, <code>model.setValue(new Number(11))</code>
      * would throw an exception.
      *
      * @param value new value
-     *
      * @throws IllegalArgumentException if <code>value</code> isn't allowed
      * @see #getValue
      */
@@ -68,8 +66,8 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * The <i>current element</i> of the sequence.  This element is usually displayed by the
-     * <code>editor</code> part of a <code>JSpinner</code>.
+     * The <i>current element</i> of the sequence.  This element is usually displayed by the <code>editor</code> part of
+     * a <code>JSpinner</code>.
      *
      * @return the current spinner value.
      *
@@ -105,9 +103,8 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * Return the object in the sequence that comes after the object returned by
-     * <code>getValue()</code>. If the end of the sequence has been reached then return null.
-     * Calling this method does not effect <code>value</code>.
+     * Return the object in the sequence that comes after the object returned by <code>getValue()</code>. If the end of
+     * the sequence has been reached then return null. Calling this method does not effect <code>value</code>.
      *
      * @return the next legal value or null if one doesn't exist
      *
@@ -126,9 +123,8 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * Return the object in the sequence that comes before the object returned by
-     * <code>getValue()</code>.  If the end of the sequence has been reached then return null.
-     * Calling this method does not effect <code>value</code>.
+     * Return the object in the sequence that comes before the object returned by <code>getValue()</code>.  If the end
+     * of the sequence has been reached then return null. Calling this method does not effect <code>value</code>.
      *
      * @return the previous legal value or null if one doesn't exist
      *

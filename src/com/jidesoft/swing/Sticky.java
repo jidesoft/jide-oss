@@ -12,8 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * <code>Sticky</code> is a helper class to make JList or JTree changing selection when mouse moves.
- * To use it, you simply call
+ * <code>Sticky</code> is a helper class to make JList or JTree changing selection when mouse moves. To use it, you
+ * simply call
  * <pre><code>
  * JList list = new JList();
  * new Sticky(list);
@@ -26,7 +26,7 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class Sticky {
     private JComponent _target;
-    private final static StrickyMouseMotionListener STICKY_MOUSE_MOTION_LISTENER = new StrickyMouseMotionListener();
+    private static final StrickyMouseMotionListener STICKY_MOUSE_MOTION_LISTENER = new StrickyMouseMotionListener();
 
     public Sticky(JList list) {
         _target = list;
@@ -44,8 +44,8 @@ public class Sticky {
     }
 
     /**
-     * Installs the listener to make the list or tree sticky. This method is called by constructor, so you
-     * don't need to call it unless you called {@link #uninstall()} to remove the listener.
+     * Installs the listener to make the list or tree sticky. This method is called by constructor, so you don't need to
+     * call it unless you called {@link #uninstall()} to remove the listener.
      */
     public void install() {
         _target.addMouseMotionListener(STICKY_MOUSE_MOTION_LISTENER);
@@ -96,8 +96,8 @@ public class Sticky {
     }
 
     /**
-     * A utility method used by the event listeners.  Given a mouse event, it changes
-     * the list selection to the list item below the mouse.
+     * A utility method used by the event listeners.  Given a mouse event, it changes the list selection to the list
+     * item below the mouse.
      */
     private static void updateListSelectionForEvent(MouseEvent anEvent, JList list, boolean shouldScroll) {
         // XXX - only seems to be called from this class. shouldScroll flag is
@@ -120,8 +120,8 @@ public class Sticky {
     }
 
     /**
-     * A utility method used by the event listeners.  Given a mouse event, it changes
-     * the list selection to the list item below the mouse.
+     * A utility method used by the event listeners.  Given a mouse event, it changes the list selection to the list
+     * item below the mouse.
      */
     private static void updateTreeSelectionForEvent(MouseEvent anEvent, JTree tree, boolean shouldScroll) {
         Point location = anEvent.getPoint();
@@ -139,8 +139,8 @@ public class Sticky {
     }
 
     /**
-     * A utility method used by the event listeners.  Given a mouse event, it changes
-     * the table selection to the table item below the mouse.
+     * A utility method used by the event listeners.  Given a mouse event, it changes the table selection to the table
+     * item below the mouse.
      */
     private static void updateTableSelectionForEvent(MouseEvent anEvent, JTable table, boolean shouldScroll) {
         // XXX - only seems to be called from this class. shouldScroll flag is

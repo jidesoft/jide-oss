@@ -44,7 +44,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
     private FocusListener _focusListener;
 
-    private final static String propertyPrefix = "JideSplitButton";
+    private static final String propertyPrefix = "JideSplitButton";
 
     @Override
     protected String getPropertyPrefix() {

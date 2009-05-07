@@ -632,18 +632,18 @@ public class JideSplitPaneDivider extends JPanel
     /**
      * Indicates that the pane of the left of this component has been collapse by the one-touch button.
      */
-    public final static int COLLAPSED_STATE = 0;
+    public static final int COLLAPSED_STATE = 0;
 
     /**
      * Indicates that this divider has not been expanded or collapsed.
      */
-    public final static int DEFAULT_STATE = 1;
+    public static final int DEFAULT_STATE = 1;
 
     /**
      * Indicates that the pane of the right of this component has been collapse by the one-touch button. Hence, the pane
      * on the left has been "expanded".
      */
-    public final static int EXPANDED_STATE = 2;
+    public static final int EXPANDED_STATE = 2;
 
     /**
      * Indicates the current state of this divider. Either expanded, collapsed or in its default state.

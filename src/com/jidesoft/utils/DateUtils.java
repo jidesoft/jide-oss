@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DateUtils {
 
-    private final static long DAY_IN_MS = 24 * 60 * 60 * 1000;
+    private static final long DAY_IN_MS = 24 * 60 * 60 * 1000;
 
     /**
      * Checks if the calendar object is same date as today.

@@ -18,8 +18,8 @@ import java.util.Comparator;
  */
 public class CharSequenceComparator implements Comparator, Serializable {
     private boolean _caseSensitive;
-    public final static ComparatorContext CONTEXT = new ComparatorContext("IgnoreLocale");
-    public final static ComparatorContext CONTEXT_IGNORE_CASE = new ComparatorContext("IgnoreLocale_Ignorecase");
+    public static final ComparatorContext CONTEXT = new ComparatorContext("IgnoreLocale");
+    public static final ComparatorContext CONTEXT_IGNORE_CASE = new ComparatorContext("IgnoreLocale_Ignorecase");
 
     /**
      * Constructs a CharSequenceComparator.

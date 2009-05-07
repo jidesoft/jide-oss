@@ -14,17 +14,17 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
     /**
      * Indicates that the button part of the split button has been selected.
      */
-    public final static int BUTTON_SELECTED = 1 << 6;
+    public static final int BUTTON_SELECTED = 1 << 6;
 
     /**
      * Indicates that the button part of the split button is enabled or disabled.
      */
-    public final static int BUTTON_ENABLED = 1 << 7;
+    public static final int BUTTON_ENABLED = 1 << 7;
 
     /**
      * Indicates that the button part of the split button is rollover.
      */
-    public final static int BUTTON_ROLLOVER = 1 << 8;
+    public static final int BUTTON_ROLLOVER = 1 << 8;
 
 
     public DefaultSplitButtonModel() {
@@ -34,8 +34,7 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
     /**
      * Selects or deselects the button part of the JideSplitButton.
      *
-     * @param b true selects the button,
-     *          false deselects the button
+     * @param b true selects the button, false deselects the button
      */
     public void setButtonSelected(boolean b) {
         if (this.isButtonSelected() == b) {
@@ -70,8 +69,7 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
     /**
      * Selects or deselects the button part of the JideSplitButton.
      *
-     * @param b true selects the button,
-     *          false deselects the button
+     * @param b true selects the button, false deselects the button
      */
     public void setButtonEnabled(boolean b) {
         if (this.isButtonEnabled() == b) {
@@ -101,8 +99,7 @@ public class DefaultSplitButtonModel extends DefaultButtonModel implements Split
     /**
      * Sets the button part of the JideSplitButton as rollover.
      *
-     * @param b true set the button as rollover,
-     *          false set the button as not rollover
+     * @param b true set the button as rollover, false set the button as not rollover
      */
     public void setButtonRollover(boolean b) {
         if (this.isButtonRollover() == b) {

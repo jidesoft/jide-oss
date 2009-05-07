@@ -24,8 +24,8 @@ class VsnetUtils {
         return ColorUtils.getDerivedColor(color, 0.93f);
     }
 
-    final static Color DARK_GREEN = new Color(0, 128, 0);
-    final static Color DARK_MAGENTA = new Color(128, 0, 128);
+    static final Color DARK_GREEN = new Color(0, 128, 0);
+    static final Color DARK_MAGENTA = new Color(128, 0, 128);
 
     static Color getMenuSelectionColor(Color color) {
         if (DARK_GREEN.equals(color) || DARK_MAGENTA.equals(color)) {

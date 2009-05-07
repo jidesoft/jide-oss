@@ -63,34 +63,34 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Bound property name.
      */
-    public final static String CONTENT_PANE_PROPERTY = "contentPane";
+    public static final String CONTENT_PANE_PROPERTY = "contentPane";
 
     /**
      * Bound property name.
      */
-    public final static String MENU_BAR_PROPERTY = "JMenuBar";
+    public static final String MENU_BAR_PROPERTY = "JMenuBar";
 
     /**
      * Bound property name.
      */
-    public final static String LAYERED_PANE_PROPERTY = "layeredPane";
+    public static final String LAYERED_PANE_PROPERTY = "layeredPane";
 
     /**
      * Bound property name.
      */
-    public final static String ROOT_PANE_PROPERTY = "rootPane";
+    public static final String ROOT_PANE_PROPERTY = "rootPane";
 
     /**
      * Bound property name.
      */
-    public final static String GLASS_PANE_PROPERTY = "glassPane";
+    public static final String GLASS_PANE_PROPERTY = "glassPane";
 
     /**
      * Bound property name.
      */
-    public final static String VISIBLE_PROPERTY = "visible";
+    public static final String VISIBLE_PROPERTY = "visible";
 
-    public final static String TRANSIENT_PROPERTY = "transient";
+    public static final String TRANSIENT_PROPERTY = "transient";
 
     /**
      * Constrained property name indicated that this frame has
@@ -100,14 +100,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Constrained property name indicating that the popup is attachable.
      */
-    public final static String ATTACHABLE_PROPERTY = "attachable";
+    public static final String ATTACHABLE_PROPERTY = "attachable";
 
     private boolean _attachable = true;
 
     /**
      * Bound property name for gripper.
      */
-    public final static String MOVABLE_PROPERTY = "movable";
+    public static final String MOVABLE_PROPERTY = "movable";
 
     /**
      * If the gripper should be shown. Gripper is something on divider to indicate it can be dragged.
@@ -117,7 +117,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Bound property name for if the popup is detached.
      */
-    public final static String DETACHED_PROPERTY = "detached";
+    public static final String DETACHED_PROPERTY = "detached";
 
     protected boolean _detached;
 
@@ -145,21 +145,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Bound property name for resizable.
      */
-    public final static String RESIZABLE_PROPERTY = "resizable";
+    public static final String RESIZABLE_PROPERTY = "resizable";
 
     private boolean _resizable = true;
 
 //    /**
 //     * Bound property name for movable.
 //     */
-//    public final static String MOVABLE_PROPERTY = "movable";
+//    public static final String MOVABLE_PROPERTY = "movable";
 //
 //    private boolean _movable;
 
     /**
      * Bound property name for owner.
      */
-    public final static String OWNER_PROPERTY = "owner";
+    public static final String OWNER_PROPERTY = "owner";
 
     private Component _owner;
 

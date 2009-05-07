@@ -57,7 +57,7 @@ import java.util.Iterator;
  */
 public class TextComponentSearchable extends Searchable implements DocumentListener, PropertyChangeListener {
     private Highlighter.HighlightPainter _highlightPainter;
-    private final static Color DEFAULT_HIGHLIGHT_COLOR = new Color(204, 204, 255);
+    private static final Color DEFAULT_HIGHLIGHT_COLOR = new Color(204, 204, 255);
     private Color _highlightColor = null;
     private int _selectedIndex = -1;
     private HighlighCache _highlighCache;

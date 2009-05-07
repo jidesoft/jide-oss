@@ -219,9 +219,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public DropTarget _dt;
 
     // the left margin of the first tab according to the style
-    public final static int DEFAULT_LEFT_MARGIN = 0;
-    public final static int OFFICE2003_LEFT_MARGIN = 18;
-    public final static int EXCEL_LEFT_MARGIN = 6;
+    public static final int DEFAULT_LEFT_MARGIN = 0;
+    public static final int OFFICE2003_LEFT_MARGIN = 18;
+    public static final int EXCEL_LEFT_MARGIN = 6;
 
 
     protected int _rectSizeExtend = 0;//when the style is eclipse,
@@ -4848,8 +4848,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (lastFocused != null && lastFocused.requestFocusInWindow()) {
             return true;
         }
-        else
-        if (visibleComponent != null && JideSwingUtilities.passesFocusabilityTest(visibleComponent)) { //  visibleComponent.isFocusTraversable()) {
+        else if (visibleComponent != null && JideSwingUtilities.passesFocusabilityTest(visibleComponent)) { //  visibleComponent.isFocusTraversable()) {
             JideSwingUtilities.compositeRequestFocus(visibleComponent);
             return true;
         }
@@ -5090,8 +5089,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 pane = (JideTabbedPane) ((TabCloseButton) src).getParent();
                 closeSelected = true;
             }
-            else
-            if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof ScrollableTabPanel) {
+            else if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof ScrollableTabPanel) {
                 pane = (JideTabbedPane) SwingUtilities.getAncestorOfClass(JideTabbedPane.class, (TabCloseButton) src);
                 closeSelected = false;
             }
@@ -6233,8 +6231,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 scrollbutton.setBounds(0, 0, 0, 0);
                             }
                         }
-                        else
-                        if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
+                        else if (child != _tabPane.getTabLeadingComponent() && child != _tabPane.getTabTrailingComponent()) {
                             if (_tabPane.isShowTabContent()) {
                                 // All content children...
                                 child.setBounds(cx, cy, cw, ch);
@@ -8222,7 +8219,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             @Override
             public void focusLost(FocusEvent e) {
                 if (_tabPane != null && _tabPane.isTabEditing()) {
-                	_originalFocusComponent = e.getOppositeComponent();
+                    _originalFocusComponent = e.getOppositeComponent();
                     _tabPane.stopTabEditing();
                 }
             }
@@ -8683,8 +8680,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         else if (tabShape == JideTabbedPane.SHAPE_ECLIPSE3X) {
             return 15;
         }
-        else
-        if (_tabPane.getTabShape() == JideTabbedPane.SHAPE_FLAT || _tabPane.getTabShape() == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
+        else if (_tabPane.getTabShape() == JideTabbedPane.SHAPE_FLAT || _tabPane.getTabShape() == JideTabbedPane.SHAPE_ROUNDED_FLAT) {
             return 2;
         }
         else if (tabShape == JideTabbedPane.SHAPE_WINDOWS

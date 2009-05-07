@@ -76,11 +76,11 @@ public class Calculator extends JPanel implements ActionListener {
     private boolean _clearOperatorPending = false;
     private boolean _isFakedEqualPressed = false; // When it is true, it means the focus is lost. So the result should not be updated.
 
-    public final static int OPERATOR_NONE = -1;
-    public final static int OPERATOR_ADD = 0;
-    public final static int OPERATOR_MINUS = 1;
-    public final static int OPERATOR_MULTIPLY = 2;
-    public final static int OPERATOR_DIVIDE = 3;
+    public static final int OPERATOR_NONE = -1;
+    public static final int OPERATOR_ADD = 0;
+    public static final int OPERATOR_MINUS = 1;
+    public static final int OPERATOR_MULTIPLY = 2;
+    public static final int OPERATOR_DIVIDE = 3;
 
     private AbstractButton _addButton;
     private AbstractButton _minusButton;
@@ -115,8 +115,8 @@ public class Calculator extends JPanel implements ActionListener {
     public static final char CHAR_8 = '8';
     public static final char CHAR_9 = '9';
 
-    public final static String PROPERTY_DISPLAY_TEXT = "displayText";
-    public final static String PROPERTY_OPERATOR = "operator";
+    public static final String PROPERTY_DISPLAY_TEXT = "displayText";
+    public static final String PROPERTY_OPERATOR = "operator";
 
     private int _buttonWidth = 24;
     private int _buttonHeight = 24;

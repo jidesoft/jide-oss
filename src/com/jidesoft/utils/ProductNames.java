@@ -9,21 +9,21 @@ package com.jidesoft.utils;
  * A list of product names from JIDE Software, Inc.
  */
 public interface ProductNames {
-    public final static String PRODUCT_NAME_COMMON = "JIDE Common Layer";
-    public final static String PRODUCT_NAME_DOCK = "JIDE Docking Framework";
-    public final static String PRODUCT_NAME_COMPONENTS = "JIDE Components";
-    public final static String PRODUCT_NAME_GRIDS = "JIDE Grids";
-    public final static String PRODUCT_NAME_DIALOGS = "JIDE Dialogs";
-    public final static String PRODUCT_NAME_ACTION = "JIDE Action Framework";
-    public final static String PRODUCT_NAME_SHORTCUT = "JIDE Shortcut Editor";
-    public final static String PRODUCT_NAME_PIVOT = "JIDE Pivot Grid";
-    public final static String PRODUCT_NAME_CODE_EDITOR = "JIDE Code Editor";
-    public final static String PRODUCT_NAME_FEEDREADER = "JIDE Feed Reader";
-    public final static String PRODUCT_NAME_DASHBOARD = "JIDE Dashboard";
-    public final static String PRODUCT_NAME_DATAGRIDS = "JIDE Data Grids";
-    public final static String PRODUCT_NAME_JDAF = "JIDE Desktop Application Framework";
+    public static final String PRODUCT_NAME_COMMON = "JIDE Common Layer";
+    public static final String PRODUCT_NAME_DOCK = "JIDE Docking Framework";
+    public static final String PRODUCT_NAME_COMPONENTS = "JIDE Components";
+    public static final String PRODUCT_NAME_GRIDS = "JIDE Grids";
+    public static final String PRODUCT_NAME_DIALOGS = "JIDE Dialogs";
+    public static final String PRODUCT_NAME_ACTION = "JIDE Action Framework";
+    public static final String PRODUCT_NAME_SHORTCUT = "JIDE Shortcut Editor";
+    public static final String PRODUCT_NAME_PIVOT = "JIDE Pivot Grid";
+    public static final String PRODUCT_NAME_CODE_EDITOR = "JIDE Code Editor";
+    public static final String PRODUCT_NAME_FEEDREADER = "JIDE Feed Reader";
+    public static final String PRODUCT_NAME_DASHBOARD = "JIDE Dashboard";
+    public static final String PRODUCT_NAME_DATAGRIDS = "JIDE Data Grids";
+    public static final String PRODUCT_NAME_JDAF = "JIDE Desktop Application Framework";
 
-    public final static String COMPONENT_PRODUCTS = PRODUCT_NAME_DOCK + ", " +
+    public static final String COMPONENT_PRODUCTS = PRODUCT_NAME_DOCK + ", " +
             PRODUCT_NAME_ACTION + ", " +
             PRODUCT_NAME_COMPONENTS + ", " +
             PRODUCT_NAME_GRIDS + ", " +
@@ -36,7 +36,7 @@ public interface ProductNames {
             "and " +
             PRODUCT_NAME_DATAGRIDS;
 
-    public final static String SOLUTION_PRODUCTS = PRODUCT_NAME_JDAF;
+    public static final String SOLUTION_PRODUCTS = PRODUCT_NAME_JDAF;
 
     public static final int PRODUCT_COMMON = 0;
     public static final int PRODUCT_DOCK = 0x1;

@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * to check if it is installed.
  */
 public abstract class Flashable {
-    public final static String CLIENT_PROPERTY_FLASHABLE = "jide.flashable";
+    public static final String CLIENT_PROPERTY_FLASHABLE = "jide.flashable";
     private int _interval = 500;
 
     protected JComponent _component;

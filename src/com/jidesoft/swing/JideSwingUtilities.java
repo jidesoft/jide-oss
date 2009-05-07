@@ -264,7 +264,7 @@ public class JideSwingUtilities implements SwingConstants {
         topContainer.applyComponentOrientation(co);
     }
 
-    private final static String CLIENT_PROPERTY_SYNCHRONIZE_VIEW = "synchronizeViewChangeListener";
+    private static final String CLIENT_PROPERTY_SYNCHRONIZE_VIEW = "synchronizeViewChangeListener";
 
     /**
      * Synchronizes the two viewports. The view position changes in the master view, the slave view's view position will

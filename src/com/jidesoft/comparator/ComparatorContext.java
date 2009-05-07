@@ -15,7 +15,7 @@ public class ComparatorContext extends AbstractContext {
     /**
      * Default comparator context with empty name and no user object.
      */
-    public final static ComparatorContext DEFAULT_CONTEXT = new ComparatorContext("");
+    public static final ComparatorContext DEFAULT_CONTEXT = new ComparatorContext("");
 
     /**
      * Creates a comparator context with a name.

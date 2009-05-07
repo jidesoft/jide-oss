@@ -1,7 +1,7 @@
 package com.jidesoft.converter;
 
 public class StringArrayConverter implements ObjectConverter {
-    public final static ConverterContext CONTEXT = new ConverterContext("StringArrayConverter");
+    public static final ConverterContext CONTEXT = new ConverterContext("StringArrayConverter");
     private String _separator = ";";
 
     /**

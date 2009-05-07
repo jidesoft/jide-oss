@@ -21,7 +21,7 @@ public interface Alignable {
     /**
      * Property name to indicate the orientation is changed.
      */
-    public final static String PROPERTY_ORIENTATION = "orientation";
+    public static final String PROPERTY_ORIENTATION = "orientation";
 
     /**
      * Checks if the component support vertical orientation. doesn't consider the component orientation, it should

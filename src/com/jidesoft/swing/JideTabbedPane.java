@@ -57,82 +57,82 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Bound property name for shrink tabs.
      */
-    public final static String SHRINK_TAB_PROPERTY = "shrinkTab";
+    public static final String SHRINK_TAB_PROPERTY = "shrinkTab";
 
     /**
      * Bound property name for hide tab area if there is only one tab.
      */
-    public final static String HIDE_IF_ONE_TAB_PROPERTY = "hideIfOneTab";
+    public static final String HIDE_IF_ONE_TAB_PROPERTY = "hideIfOneTab";
 
     /**
      * Bound property name for show tab button.
      */
-    public final static String SHOW_TAB_BUTTONS_PROPERTY = "showTabButtons";
+    public static final String SHOW_TAB_BUTTONS_PROPERTY = "showTabButtons";
 
     /**
      * Bound property name for box style
      */
-    public final static String BOX_STYLE_PROPERTY = "boxStyle";
+    public static final String BOX_STYLE_PROPERTY = "boxStyle";
 
     /**
      * Bound property name for show icons on tab
      */
-    public final static String SHOW_ICONS_PROPERTY = "showIconsOnTab";
+    public static final String SHOW_ICONS_PROPERTY = "showIconsOnTab";
 
     /**
      * Bound property name for using default show icons on tab value from UIDefaults
      */
-    public final static String USE_DEFAULT_SHOW_ICONS_PROPERTY = "useDefaultShowIconsOnTab";
+    public static final String USE_DEFAULT_SHOW_ICONS_PROPERTY = "useDefaultShowIconsOnTab";
 
     /**
      * Bound property name for if showing close button on tab
      */
-    public final static String SHOW_CLOSE_BUTTON_ON_TAB_PROPERTY = "showCloseButtonOnTab";
+    public static final String SHOW_CLOSE_BUTTON_ON_TAB_PROPERTY = "showCloseButtonOnTab";
 
     /**
      * Bound property name for if showing close button
      */
-    public final static String SHOW_CLOSE_BUTTON_PROPERTY = "showCloseButton";
+    public static final String SHOW_CLOSE_BUTTON_PROPERTY = "showCloseButton";
 
     /**
      * Bound property name for if the tab area is visible.
      */
-    public final static String SHOW_TAB_AREA_PROPERTY = "showTabArea";
+    public static final String SHOW_TAB_AREA_PROPERTY = "showTabArea";
 
     /**
      * Bound property name for if the tab area is visible.
      */
-    public final static String SHOW_TAB_CONTENT_PROPERTY = "showTabContent";
+    public static final String SHOW_TAB_CONTENT_PROPERTY = "showTabContent";
 
     /**
      * Bound property name for tab closable.
      */
-    public final static String TAB_CLOSABLE_PROPERTY = "tabClosable";
+    public static final String TAB_CLOSABLE_PROPERTY = "tabClosable";
 
     /**
      * Bound property name for using default show close button on tab value from UIDefaults
      */
-    public final static String USE_DEFAULT_SHOW_CLOSE_BUTTON_ON_TAB_PROPERTY = "useDefaultShowCloseButtonOnTab";
+    public static final String USE_DEFAULT_SHOW_CLOSE_BUTTON_ON_TAB_PROPERTY = "useDefaultShowCloseButtonOnTab";
 
     /**
      * Bound property name for if the active tab title is in bold
      */
-    public final static String BOLDACTIVETAB_PROPERTY = "boldActiveTab";
+    public static final String BOLDACTIVETAB_PROPERTY = "boldActiveTab";
 
     /**
      * Bound property name for gripper.
      */
-    public final static String GRIPPER_PROPERTY = "gripper";
+    public static final String GRIPPER_PROPERTY = "gripper";
 
-    public final static String PROPERTY_TAB_SHAPE = "tabShape";
-    public final static String PROPERTY_COLOR_THEME = "colorTheme";
-    public final static String PROPERTY_TAB_RESIZE_MODE = "tabResizeMode";
-    public final static String PROPERTY_TAB_LEADING_COMPONENT = "tabLeadingComponent";
-    public final static String PROPERTY_TAB_TRAILING_COMPONENT = "tabTrailingComponent";
-    public final static String PROPERTY_TAB_COLOR_PROVIDER = "tabColorProvider";
-    public final static String PROPERTY_CONTENT_BORDER_INSETS = "contentBorderInsets";
-    public final static String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
-    public final static String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
+    public static final String PROPERTY_TAB_SHAPE = "tabShape";
+    public static final String PROPERTY_COLOR_THEME = "colorTheme";
+    public static final String PROPERTY_TAB_RESIZE_MODE = "tabResizeMode";
+    public static final String PROPERTY_TAB_LEADING_COMPONENT = "tabLeadingComponent";
+    public static final String PROPERTY_TAB_TRAILING_COMPONENT = "tabTrailingComponent";
+    public static final String PROPERTY_TAB_COLOR_PROVIDER = "tabColorProvider";
+    public static final String PROPERTY_CONTENT_BORDER_INSETS = "contentBorderInsets";
+    public static final String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
+    public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
 
     /**
      * @see #getUIClassID
@@ -163,59 +163,59 @@ public class JideTabbedPane extends JTabbedPane {
      * #getDefaultTabResizeMode()} which is defined in UIDefault "JideTabbedPane.defaultResizeMode". You can change this
      * in UIDefault. It will affect the resize mode of all <code>JideTabbedPane</code>s.
      */
-    public final static int RESIZE_MODE_DEFAULT = 0;
+    public static final int RESIZE_MODE_DEFAULT = 0;
 
     /**
      * A tab resize mode. The none resize mode means the tab will not resize when tabbed pane width changes.
      */
-    public final static int RESIZE_MODE_NONE = 1;
+    public static final int RESIZE_MODE_NONE = 1;
 
     /**
      * A tab resize mode. The fit resize mode means the tabs will shrink if the tabbed pane width shrinks so there is no
      * way to display the full contents of the tabs.
      */
-    public final static int RESIZE_MODE_FIT = 2;
+    public static final int RESIZE_MODE_FIT = 2;
 
     /**
      * A tab resize mode. All tabs will be at a fixed width. The fixed width is defined as UIDefault
      * "JideTabbedPane.fixedStyleRectSize" which is an integer.
      */
-    public final static int RESIZE_MODE_FIXED = 3;
+    public static final int RESIZE_MODE_FIXED = 3;
 
     /**
      * A tab resize mode. In this mode, the select tab will have full tab width. Non-selected tab will only display the
      * icon. The actual width of non-selected tab is determined by UIDefault "JideTabbedPane.compressedStyleNoIconRectSize"
      * which is an integer.
      */
-    public final static int RESIZE_MODE_COMPRESSED = 4;
+    public static final int RESIZE_MODE_COMPRESSED = 4;
 
     private int _tabResizeMode = RESIZE_MODE_DEFAULT;
 
     /**
      * color style
      */
-    public final static int COLOR_THEME_DEFAULT = 0;
-    public final static int COLOR_THEME_WIN2K = 1;
-    public final static int COLOR_THEME_OFFICE2003 = 2;
-    public final static int COLOR_THEME_VSNET = 3;
-    public final static int COLOR_THEME_WINXP = 4;
+    public static final int COLOR_THEME_DEFAULT = 0;
+    public static final int COLOR_THEME_WIN2K = 1;
+    public static final int COLOR_THEME_OFFICE2003 = 2;
+    public static final int COLOR_THEME_VSNET = 3;
+    public static final int COLOR_THEME_WINXP = 4;
 
     // color style
     private int _colorTheme = COLOR_THEME_DEFAULT;
 
     // tab shape
-    public final static int SHAPE_DEFAULT = 0;
-    public final static int SHAPE_WINDOWS = 1;
-    public final static int SHAPE_VSNET = 2;
-    public final static int SHAPE_BOX = 3;
-    public final static int SHAPE_OFFICE2003 = 4;
-    public final static int SHAPE_FLAT = 5;
-    public final static int SHAPE_ECLIPSE = 6;
-    public final static int SHAPE_ECLIPSE3X = 7;
-    public final static int SHAPE_EXCEL = 8;
-    public final static int SHAPE_ROUNDED_VSNET = 9;
-    public final static int SHAPE_ROUNDED_FLAT = 10;
-    public final static int SHAPE_WINDOWS_SELECTED = 11;
+    public static final int SHAPE_DEFAULT = 0;
+    public static final int SHAPE_WINDOWS = 1;
+    public static final int SHAPE_VSNET = 2;
+    public static final int SHAPE_BOX = 3;
+    public static final int SHAPE_OFFICE2003 = 4;
+    public static final int SHAPE_FLAT = 5;
+    public static final int SHAPE_ECLIPSE = 6;
+    public static final int SHAPE_ECLIPSE3X = 7;
+    public static final int SHAPE_EXCEL = 8;
+    public static final int SHAPE_ROUNDED_VSNET = 9;
+    public static final int SHAPE_ROUNDED_FLAT = 10;
+    public static final int SHAPE_WINDOWS_SELECTED = 11;
 
     private int _tabShape = SHAPE_DEFAULT;
 
@@ -1788,6 +1788,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Get the flag if clicking middle mouse button can close the tab. It is false by default.
+     *
      * @return the flag.
      */
     public boolean isCloseTabOnMouseMiddleButton() {
@@ -1796,6 +1797,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Set the flag if clicking middle mouse button can close the tab. It is false by default.
+     *
      * @param closeTabOnMouseMiddleButton the flag
      */
     public void setCloseTabOnMouseMiddleButton(boolean closeTabOnMouseMiddleButton) {

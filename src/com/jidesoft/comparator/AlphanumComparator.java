@@ -34,8 +34,8 @@ import java.util.Comparator;
 public class AlphanumComparator implements Comparator<CharSequence> {
     private boolean _caseSensitive;
 
-    public final static ComparatorContext CONTEXT = new ComparatorContext("Alphanum");
-    public final static ComparatorContext CONTEXT_IGNORE_CASE = new ComparatorContext("Alphanum_Ignorecase");
+    public static final ComparatorContext CONTEXT = new ComparatorContext("Alphanum");
+    public static final ComparatorContext CONTEXT_IGNORE_CASE = new ComparatorContext("Alphanum_Ignorecase");
 
 
     /**

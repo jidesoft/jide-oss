@@ -37,8 +37,8 @@ public class FolderChooser extends JFileChooser {
 
     private List<String> _recentList;
 
-    public final static String PROPERTY_RECENTLIST = "recentList";
-    public final static String PROPERTY_RECENTLIST_VISIBLE = "recentListVisible";
+    public static final String PROPERTY_RECENTLIST = "recentList";
+    public static final String PROPERTY_RECENTLIST_VISIBLE = "recentListVisible";
 
     public static final int BUTTON_ALL = 0xFFFFFFFF;
     public static final int BUTTON_DELETE = 0x1;
@@ -52,7 +52,7 @@ public class FolderChooser extends JFileChooser {
      *
      * @see #setAvailableButtons(int)
      */
-    public final static String PROPERTY_AVAILABLE_BUTTONS = "availableButtons";
+    public static final String PROPERTY_AVAILABLE_BUTTONS = "availableButtons";
     private int _availableButtons = BUTTON_ALL;
     private boolean _recentListVisible = true;
 
@@ -222,7 +222,7 @@ public class FolderChooser extends JFileChooser {
      *
      * @see #setNavigationFieldVisible
      */
-    public final static String PROPERTY_NAVIGATION_FIELD_VISIBLE = "navigationFieldVisible";
+    public static final String PROPERTY_NAVIGATION_FIELD_VISIBLE = "navigationFieldVisible";
 
     /**
      * Indicates whether the navigation text field is visible.
@@ -256,6 +256,7 @@ public class FolderChooser extends JFileChooser {
 
     /**
      * Get the visibilities of each buttons on the title bar of dockable frame.
+     *
      * @return the visibilities of each buttons. It's a bit wise OR of values specified at BUTTON_XXX.
      */
     public int getAvailableButtons() {
@@ -264,6 +265,7 @@ public class FolderChooser extends JFileChooser {
 
     /**
      * Set the visibilities of each buttons on the title bar of dockable frame.
+     *
      * @param availableButtons the visibilities of each buttons. It's a bit wise OR of values specified at BUTTON_XXX.
      */
     public void setAvailableButtons(int availableButtons) {
@@ -283,6 +285,7 @@ public class FolderChooser extends JFileChooser {
 
     /**
      * Get the visibility of the recent list combobox.
+     *
      * @return the visibility of the combobox.
      */
     public boolean isRecentListVisible() {
@@ -291,6 +294,7 @@ public class FolderChooser extends JFileChooser {
 
     /**
      * Set the visibility of the recent list combobox.
+     *
      * @param recentListVisible the visibility of the combobox
      */
     public void setRecentListVisible(boolean recentListVisible) {

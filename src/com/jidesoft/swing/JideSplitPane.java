@@ -33,49 +33,49 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Vertical split indicates the <code>Component</code>s are split along the y axis.  For example the two or more
      * <code>Component</code>s will be split one on top of the other.
      */
-    public final static int VERTICAL_SPLIT = 0;
+    public static final int VERTICAL_SPLIT = 0;
 
     /**
      * Horizontal split indicates the <code>Component</code>s are split along the x axis.  For example the two or more
      * <code>Component</code>s will be split one to the left of the other.
      */
-    public final static int HORIZONTAL_SPLIT = 1;
+    public static final int HORIZONTAL_SPLIT = 1;
 
 
     /**
      * Bound property name for orientation (horizontal or vertical).
      */
-    public final static String ORIENTATION_PROPERTY = "orientation";
+    public static final String ORIENTATION_PROPERTY = "orientation";
 
     /**
      * Bound property name for border size.
      */
-    public final static String DIVIDER_SIZE_PROPERTY = "dividerSize";
+    public static final String DIVIDER_SIZE_PROPERTY = "dividerSize";
 
     /**
      * Bound property name for border size.
      */
-    public final static String PROPERTY_DIVIDER_LOCATION = "dividerLocation";
+    public static final String PROPERTY_DIVIDER_LOCATION = "dividerLocation";
 
     /**
      * Bound property name for continuousLayout.
      */
-    public final static String CONTINUOUS_LAYOUT_PROPERTY = "continuousLayout";
+    public static final String CONTINUOUS_LAYOUT_PROPERTY = "continuousLayout";
 
     /**
      * Bound property name for gripper.
      */
-    public final static String GRIPPER_PROPERTY = "gripper";
+    public static final String GRIPPER_PROPERTY = "gripper";
 
     /**
      * Bound property name for proportional layout.
      */
-    public final static String PROPORTIONAL_LAYOUT_PROPERTY = "proportionalLayout";
+    public static final String PROPORTIONAL_LAYOUT_PROPERTY = "proportionalLayout";
 
     /**
      * Bound property name for the proportions used in the layout.
      */
-    public final static String PROPORTIONS_PROPERTY = "proportions";
+    public static final String PROPORTIONS_PROPERTY = "proportions";
 
     public static final String PROPERTY_HEAVYWEIGHT_COMPONENT_ENABLED = "heavyweightComponentEnabled";
 
@@ -1438,7 +1438,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      *
      * @see #setOneTouchExpandable
      */
-    public final static String ONE_TOUCH_EXPANDABLE_PROPERTY = "oneTouchExpandable";
+    public static final String ONE_TOUCH_EXPANDABLE_PROPERTY = "oneTouchExpandable";
 
     /**
      * Flag indicating whether the SplitPane's divider should be one-touch expandable/collapsible. The default value of

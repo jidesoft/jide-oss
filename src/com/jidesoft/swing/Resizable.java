@@ -19,16 +19,16 @@ import java.awt.*;
  */
 public class Resizable {
 
-    public final static int NONE = 0x0;
-    public final static int UPPER_LEFT = 0x1;
-    public final static int UPPER = 0x2;
-    public final static int UPPER_RIGHT = 0x4;
-    public final static int RIGHT = 0x8;
-    public final static int LOWER_RIGHT = 0x10;
-    public final static int LOWER = 0x20;
-    public final static int LOWER_LEFT = 0x40;
-    public final static int LEFT = 0x80;
-    public final static int ALL = 0xFF;
+    public static final int NONE = 0x0;
+    public static final int UPPER_LEFT = 0x1;
+    public static final int UPPER = 0x2;
+    public static final int UPPER_RIGHT = 0x4;
+    public static final int RIGHT = 0x8;
+    public static final int LOWER_RIGHT = 0x10;
+    public static final int LOWER = 0x20;
+    public static final int LOWER_LEFT = 0x40;
+    public static final int LEFT = 0x80;
+    public static final int ALL = 0xFF;
 
     private int _resizableCorners = 0xFF;
 
@@ -244,7 +244,7 @@ public class Resizable {
     }
 
     public static class ResizeCorner extends JComponent {
-        final static int SIZE = 16;
+        static final int SIZE = 16;
         private int _corner = LOWER_RIGHT;
 
         public ResizeCorner() {

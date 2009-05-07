@@ -24,8 +24,8 @@ public class XmlUtils {
     private static final Pattern mutatorPattern =
             Pattern.compile("^set([A-Z0-9_][A-Za-z0-9_]*)$");
 
-    private final static int MUTATOR = 2;
-    private final static int ANYOTHER = 0;
+    private static final int MUTATOR = 2;
+    private static final int ANYOTHER = 0;
 
     public static void readElement(Object object, Element element) {
         if (object == null) {

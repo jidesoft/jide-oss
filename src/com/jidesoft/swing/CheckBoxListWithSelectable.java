@@ -38,7 +38,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
 
     protected CheckBoxListCellRenderer _listCellRenderer;
 
-    public final static String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
+    public static final String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
 
     private boolean _checkBoxEnabled = true;
 

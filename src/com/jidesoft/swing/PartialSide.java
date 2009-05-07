@@ -3,11 +3,11 @@ package com.jidesoft.swing;
 /**
  */
 public interface PartialSide {
-    final static int NORTH = 1;
-    final static int SOUTH = 2;
-    final static int EAST = 4;
-    final static int WEST = 8;
-    final static int HORIZONTAL = NORTH | SOUTH;
-    final static int VERTICAL = EAST | WEST;
-    final static int ALL = VERTICAL | HORIZONTAL;
+    static final int NORTH = 1;
+    static final int SOUTH = 2;
+    static final int EAST = 4;
+    static final int WEST = 8;
+    static final int HORIZONTAL = NORTH | SOUTH;
+    static final int VERTICAL = EAST | WEST;
+    static final int ALL = VERTICAL | HORIZONTAL;
 }

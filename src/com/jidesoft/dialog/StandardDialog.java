@@ -38,12 +38,12 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     /**
      * Dialog result.
      */
-    public final static int RESULT_CANCELLED = -1;
+    public static final int RESULT_CANCELLED = -1;
 
     /**
      * Dialog result.
      */
-    public final static int RESULT_AFFIRMED = 0;
+    public static final int RESULT_AFFIRMED = 0;
 
 
     // indicate user press OK or Cancel.

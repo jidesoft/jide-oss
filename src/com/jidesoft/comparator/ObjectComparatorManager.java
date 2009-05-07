@@ -18,9 +18,9 @@ import java.util.Date;
  */
 public class ObjectComparatorManager {
 
-    private final static CacheMap<Comparator<?>, ComparatorContext> _cache = new CacheMap<Comparator<?>, ComparatorContext>(new ComparatorContext(""));
+    private static final CacheMap<Comparator<?>, ComparatorContext> _cache = new CacheMap<Comparator<?>, ComparatorContext>(new ComparatorContext(""));
 
-    private final static Comparator<Object> _defaultComparator = new DefaultComparator();
+    private static final Comparator<Object> _defaultComparator = new DefaultComparator();
 
     public static void registerComparator(Class<?> clazz, Comparator comparator) {
         registerComparator(clazz, comparator, ComparatorContext.DEFAULT_CONTEXT);

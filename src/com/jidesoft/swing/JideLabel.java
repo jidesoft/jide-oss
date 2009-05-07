@@ -18,7 +18,7 @@ import javax.swing.*;
  */
 public class JideLabel extends JLabel implements Alignable, AlignmentSupport {
     private static final String uiClassID = "JideLabelUI";
-    public final static String PROPERTY_CLOCKWISE = "clockwise";
+    public static final String PROPERTY_CLOCKWISE = "clockwise";
 
     private boolean _clockwise = true;
     private int _orientation;

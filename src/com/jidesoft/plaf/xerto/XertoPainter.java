@@ -22,12 +22,12 @@ import java.awt.*;
 public class XertoPainter extends BasicPainter {
 
     private static XertoPainter _instance;
-    private final static ImageIcon SELECTED = IconsFactory.getImageIcon(XertoPainter.class, "icons/selected.gif");
-    private final static ImageIcon SELECTED_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/selected_c.gif");
-    private final static ImageIcon ROLLOVER = IconsFactory.getImageIcon(XertoPainter.class, "icons/rollover.gif");
-    private final static ImageIcon ROLLOVER_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/rollover_c.gif");
-    private final static ImageIcon PRESSED = IconsFactory.getImageIcon(XertoPainter.class, "icons/pressed.gif");
-    private final static ImageIcon PRESSED_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/pressed_c.gif");
+    private static final ImageIcon SELECTED = IconsFactory.getImageIcon(XertoPainter.class, "icons/selected.gif");
+    private static final ImageIcon SELECTED_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/selected_c.gif");
+    private static final ImageIcon ROLLOVER = IconsFactory.getImageIcon(XertoPainter.class, "icons/rollover.gif");
+    private static final ImageIcon ROLLOVER_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/rollover_c.gif");
+    private static final ImageIcon PRESSED = IconsFactory.getImageIcon(XertoPainter.class, "icons/pressed.gif");
+    private static final ImageIcon PRESSED_C = IconsFactory.getImageIcon(XertoPainter.class, "icons/pressed_c.gif");
 
     public static ThemePainter getInstance() {
         if (_instance == null) {

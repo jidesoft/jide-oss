@@ -1,47 +1,26 @@
 package com.jidesoft.utils;
 
 /**
- * Encodes and decodes to and from Base64 notation.
- * <p/>
- * <p/>
- * Change Log:
- * </p>
- * <ul>
- * <li>v2.1 - Cleaned up javadoc comments and unused variables and methods. Added
- * some convenience methods for reading and writing to and from files.</li>
- * <li>v2.0.2 - Now specifies UTF-8 encoding in places where the code fails on systems
- * with other encodings (like EBCDIC).</li>
- * <li>v2.0.1 - Fixed an error when decoding a single byte, that is, when the
- * encoded data was a single byte.</li>
- * <li>v2.0 - I got rid of methods that used booleans to set options.
- * Now everything is more consolidated and cleaner. The code now detects
- * when data that's being decoded is gzip-compressed and will decompress it
- * automatically. Generally things are cleaner. You'll probably have to
- * change some method calls that you were making to support the new
- * options format (<tt>int</tt>s that you "OR" together).</li>
- * <li>v1.5.1 - Fixed bug when decompressing and decoding to a
- * byte[] using <tt>decode( String s, boolean gzipCompressed )</tt>.
- * Added the ability to "suspend" encoding in the Output Stream so
- * you can turn on and off the encoding if you need to embed base64
- * data in an otherwise "normal" stream (like an XML file).</li>
- * <li>v1.5 - Output stream pases on flush() command but doesn't do anything itself.
- * This helps when using GZIP streams.
- * Added the ability to GZip-compress objects before encoding them.</li>
- * <li>v1.4 - Added helper methods to read/write files.</li>
- * <li>v1.3.6 - Fixed OutputStream.flush() so that 'position' is reset.</li>
- * <li>v1.3.5 - Added flag to turn on and off line breaks. Fixed bug in input stream
- * where last buffer being read, if not completely full, was not returned.</li>
- * <li>v1.3.4 - Fixed when "improperly padded stream" error was thrown at the wrong time.</li>
- * <li>v1.3.3 - Fixed I/O streams which were totally messed up.</li>
- * </ul>
- * <p/>
- * <p/>
- * I am placing this code in the Public Domain. Do with it as you will.
- * This software comes with no guarantees or warranties but with
- * plenty of well-wishing instead!
- * Please visit <a href="http://iharder.net/base64">http://iharder.net/base64</a>
- * periodically to check for updates or to contribute improvements.
- * </p>
+ * Encodes and decodes to and from Base64 notation. <p/> <p/> Change Log: </p> <ul> <li>v2.1 - Cleaned up javadoc
+ * comments and unused variables and methods. Added some convenience methods for reading and writing to and from
+ * files.</li> <li>v2.0.2 - Now specifies UTF-8 encoding in places where the code fails on systems with other encodings
+ * (like EBCDIC).</li> <li>v2.0.1 - Fixed an error when decoding a single byte, that is, when the encoded data was a
+ * single byte.</li> <li>v2.0 - I got rid of methods that used booleans to set options. Now everything is more
+ * consolidated and cleaner. The code now detects when data that's being decoded is gzip-compressed and will decompress
+ * it automatically. Generally things are cleaner. You'll probably have to change some method calls that you were making
+ * to support the new options format (<tt>int</tt>s that you "OR" together).</li> <li>v1.5.1 - Fixed bug when
+ * decompressing and decoding to a byte[] using <tt>decode( String s, boolean gzipCompressed )</tt>. Added the ability
+ * to "suspend" encoding in the Output Stream so you can turn on and off the encoding if you need to embed base64 data
+ * in an otherwise "normal" stream (like an XML file).</li> <li>v1.5 - Output stream pases on flush() command but
+ * doesn't do anything itself. This helps when using GZIP streams. Added the ability to GZip-compress objects before
+ * encoding them.</li> <li>v1.4 - Added helper methods to read/write files.</li> <li>v1.3.6 - Fixed OutputStream.flush()
+ * so that 'position' is reset.</li> <li>v1.3.5 - Added flag to turn on and off line breaks. Fixed bug in input stream
+ * where last buffer being read, if not completely full, was not returned.</li> <li>v1.3.4 - Fixed when "improperly
+ * padded stream" error was thrown at the wrong time.</li> <li>v1.3.3 - Fixed I/O streams which were totally messed
+ * up.</li> </ul> <p/> <p/> I am placing this code in the Public Domain. Do with it as you will. This software comes
+ * with no guarantees or warranties but with plenty of well-wishing instead! Please visit <a
+ * href="http://iharder.net/base64">http://iharder.net/base64</a> periodically to check for updates or to contribute
+ * improvements. </p>
  *
  * @author Robert Harder
  * @author rob@iharder.net
@@ -55,30 +34,30 @@ public class Base64 {
     /**
      * No options specified. Value is zero.
      */
-    public final static int NO_OPTIONS = 0;
+    public static final int NO_OPTIONS = 0;
 
     /**
      * Specify encoding.
      */
-    public final static int ENCODE = 1;
+    public static final int ENCODE = 1;
 
 
     /**
      * Specify decoding.
      */
-    public final static int DECODE = 0;
+    public static final int DECODE = 0;
 
 
     /**
      * Specify that data should be gzip-compressed.
      */
-    public final static int GZIP = 2;
+    public static final int GZIP = 2;
 
 
     /**
      * Don't break lines when encoding (violates strict Base64 specification)
      */
-    public final static int DONT_BREAK_LINES = 8;
+    public static final int DONT_BREAK_LINES = 8;
 
 /* ********  P R I V A T E   F I E L D S  ******** */
 
@@ -86,32 +65,32 @@ public class Base64 {
     /**
      * Maximum line length (76) of Base64 output.
      */
-    private final static int MAX_LINE_LENGTH = 76;
+    private static final int MAX_LINE_LENGTH = 76;
 
 
     /**
      * The equals sign (=) as a byte.
      */
-    private final static byte EQUALS_SIGN = (byte) '=';
+    private static final byte EQUALS_SIGN = (byte) '=';
 
 
     /**
      * The new line character (\n) as a byte.
      */
-    private final static byte NEW_LINE = (byte) '\n';
+    private static final byte NEW_LINE = (byte) '\n';
 
 
     /**
      * Preferred encoding.
      */
-    private final static String PREFERRED_ENCODING = "UTF-8";
+    private static final String PREFERRED_ENCODING = "UTF-8";
 
 
     /**
      * The 64 valid Base64 values.
      */
-    private final static byte[] ALPHABET;
-    private final static byte[] _NATIVE_ALPHABET = /* May be something funny like EBCDIC */
+    private static final byte[] ALPHABET;
+    private static final byte[] _NATIVE_ALPHABET = /* May be something funny like EBCDIC */
             {
                     (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
                     (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
@@ -139,10 +118,10 @@ public class Base64 {
 
 
     /**
-     * Translates a Base64 value to either its 6-bit reconstruction value
-     * or a negative number indicating some other meaning.
+     * Translates a Base64 value to either its 6-bit reconstruction value or a negative number indicating some other
+     * meaning.
      */
-    private final static byte[] DECODABET =
+    private static final byte[] DECODABET =
             {
                     -9, -9, -9, -9, -9, -9, -9, -9, -9,                 // Decimal  0 -  8
                     -5, -5,                                      // Whitespace: Tab and Linefeed
@@ -178,9 +157,9 @@ public class Base64 {
             };
 
     // I think I end up not using the BAD_ENCODING indicator.
-    //private final static byte BAD_ENCODING    = -9; // Indicates error in encoding
-    private final static byte WHITE_SPACE_ENC = -5; // Indicates white space in encoding
-    private final static byte EQUALS_SIGN_ENC = -1; // Indicates equals sign in encoding
+    //private static final byte BAD_ENCODING    = -9; // Indicates error in encoding
+    private static final byte WHITE_SPACE_ENC = -5; // Indicates white space in encoding
+    private static final byte EQUALS_SIGN_ENC = -1; // Indicates equals sign in encoding
 
 
     /**
@@ -193,18 +172,16 @@ public class Base64 {
 
 
     /**
-     * Encodes up to the first three bytes of array <var>threeBytes</var>
-     * and returns a four-byte array in Base64 notation.
-     * The actual number of significant bytes in your array is
-     * given by <var>numSigBytes</var>.
-     * The array <var>threeBytes</var> needs only be as big as
-     * <var>numSigBytes</var>.
-     * Code can reuse a byte array by passing a four-byte array as <var>b4</var>.
+     * Encodes up to the first three bytes of array <var>threeBytes</var> and returns a four-byte array in Base64
+     * notation. The actual number of significant bytes in your array is given by <var>numSigBytes</var>. The array
+     * <var>threeBytes</var> needs only be as big as <var>numSigBytes</var>. Code can reuse a byte array by passing a
+     * four-byte array as <var>b4</var>.
      *
      * @param b4          A reusable byte array to reduce array instantiation
      * @param threeBytes  the array to convert
      * @param numSigBytes the number of significant bytes in your array
      * @return four byte array in Base64 notation.
+     *
      * @since 1.5.1
      */
     private static byte[] encode3to4(byte[] b4, byte[] threeBytes, int numSigBytes) {
@@ -214,17 +191,12 @@ public class Base64 {
 
 
     /**
-     * Encodes up to three bytes of the array <var>source</var>
-     * and writes the resulting four Base64 bytes to <var>destination</var>.
-     * The source and destination arrays can be manipulated
-     * anywhere along their length by specifying
-     * <var>srcOffset</var> and <var>destOffset</var>.
-     * This method does not check to make sure your arrays
-     * are large enough to accomodate <var>srcOffset</var> + 3 for
-     * the <var>source</var> array or <var>destOffset</var> + 4 for
-     * the <var>destination</var> array.
-     * The actual number of significant bytes in your array is
-     * given by <var>numSigBytes</var>.
+     * Encodes up to three bytes of the array <var>source</var> and writes the resulting four Base64 bytes to
+     * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their length by
+     * specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to make sure your arrays
+     * are large enough to accomodate <var>srcOffset</var> + 3 for the <var>source</var> array or <var>destOffset</var>
+     * + 4 for the <var>destination</var> array. The actual number of significant bytes in your array is given by
+     * <var>numSigBytes</var>.
      *
      * @param source      the array to convert
      * @param srcOffset   the index where conversion begins
@@ -232,6 +204,7 @@ public class Base64 {
      * @param destination the array to hold the conversion
      * @param destOffset  the index where output will be put
      * @return the <var>destination</var> array
+     *
      * @since 1.3
      */
     private static byte[] encode3to4(
@@ -281,14 +254,13 @@ public class Base64 {
 
 
     /**
-     * Serializes an object and returns the Base64-encoded
-     * version of that serialized object. If the object
-     * cannot be serialized or there is another error,
-     * the method will return <tt>null</tt>.
-     * The object is not GZip-compressed before being encoded.
+     * Serializes an object and returns the Base64-encoded version of that serialized object. If the object cannot be
+     * serialized or there is another error, the method will return <tt>null</tt>. The object is not GZip-compressed
+     * before being encoded.
      *
      * @param serializableObject The object to encode
      * @return The Base64-encoded object
+     *
      * @since 1.4
      */
     public static String encodeObject(java.io.Serializable serializableObject) {
@@ -297,10 +269,8 @@ public class Base64 {
 
 
     /**
-     * Serializes an object and returns the Base64-encoded
-     * version of that serialized object. If the object
-     * cannot be serialized or there is another error,
-     * the method will return <tt>null</tt>.
+     * Serializes an object and returns the Base64-encoded version of that serialized object. If the object cannot be
+     * serialized or there is another error, the method will return <tt>null</tt>.
      * <p/>
      * Valid options:<pre>
      *   GZIP: gzip-compresses object before encoding it.
@@ -315,6 +285,7 @@ public class Base64 {
      * @param serializableObject The object to encode
      * @param options            Specified options
      * @return The Base64-encoded object
+     *
      * @see Base64#GZIP
      * @see Base64#DONT_BREAK_LINES
      * @since 2.0
@@ -384,8 +355,7 @@ public class Base64 {
 
 
     /**
-     * Encodes a byte array into Base64 notation.
-     * Does not GZip-compress data.
+     * Encodes a byte array into Base64 notation. Does not GZip-compress data.
      *
      * @param source The data to convert
      * @since 1.4
@@ -420,8 +390,7 @@ public class Base64 {
 
 
     /**
-     * Encodes a byte array into Base64 notation.
-     * Does not GZip-compress data.
+     * Encodes a byte array into Base64 notation. Does not GZip-compress data.
      *
      * @param source The data to convert
      * @param off    Offset in array where conversion should begin
@@ -551,24 +520,19 @@ public class Base64 {
 
 
     /**
-     * Decodes four bytes from array <var>source</var>
-     * and writes the resulting bytes (up to three of them)
-     * to <var>destination</var>.
-     * The source and destination arrays can be manipulated
-     * anywhere along their length by specifying
-     * <var>srcOffset</var> and <var>destOffset</var>.
-     * This method does not check to make sure your arrays
-     * are large enough to accomodate <var>srcOffset</var> + 4 for
-     * the <var>source</var> array or <var>destOffset</var> + 3 for
-     * the <var>destination</var> array.
-     * This method returns the actual number of bytes that
-     * were converted from the Base64 encoding.
+     * Decodes four bytes from array <var>source</var> and writes the resulting bytes (up to three of them) to
+     * <var>destination</var>. The source and destination arrays can be manipulated anywhere along their length by
+     * specifying <var>srcOffset</var> and <var>destOffset</var>. This method does not check to make sure your arrays
+     * are large enough to accomodate <var>srcOffset</var> + 4 for the <var>source</var> array or <var>destOffset</var>
+     * + 3 for the <var>destination</var> array. This method returns the actual number of bytes that were converted from
+     * the Base64 encoding.
      *
      * @param source      the array to convert
      * @param srcOffset   the index where conversion begins
      * @param destination the array to hold the conversion
      * @param destOffset  the index where output will be put
      * @return the number of decoded bytes converted
+     *
      * @since 1.3
      */
     private static int decode4to3(byte[] source, int srcOffset, byte[] destination, int destOffset) {
@@ -631,14 +595,14 @@ public class Base64 {
 
 
     /**
-     * Very low-level access to decoding ASCII characters in
-     * the form of a byte array. Does not support automatically
+     * Very low-level access to decoding ASCII characters in the form of a byte array. Does not support automatically
      * gunzipping or any other "fancy" features.
      *
      * @param source The Base64 encoded data
      * @param off    The offset of where to begin decoding
      * @param len    The length of characters to decode
      * @return decoded data
+     *
      * @since 1.3
      */
     public static byte[] decode(byte[] source, int off, int len) {
@@ -684,11 +648,11 @@ public class Base64 {
 
 
     /**
-     * Decodes data from Base64 notation, automatically
-     * detecting gzip-compressed data and decompressing it.
+     * Decodes data from Base64 notation, automatically detecting gzip-compressed data and decompressing it.
      *
      * @param s the string to decode
      * @return the decoded data
+     *
      * @since 1.4
      */
     public static byte[] decode(String s) {
@@ -758,11 +722,12 @@ public class Base64 {
 
 
     /**
-     * Attempts to decode Base64 data and deserialize a Java
-     * Object within. Returns <tt>null</tt> if there was an error.
+     * Attempts to decode Base64 data and deserialize a Java Object within. Returns <tt>null</tt> if there was an
+     * error.
      *
      * @param encodedObject The Base64 data to decode
      * @return The decoded and deserialized object
+     *
      * @since 1.5
      */
     public static Object decodeToObject(String encodedObject) {
@@ -810,6 +775,7 @@ public class Base64 {
      * @param dataToEncode byte array of data to encode in base64 form
      * @param filename     Filename for saving encoded data
      * @return <tt>true</tt> if successful, <tt>false</tt> otherwise
+     *
      * @since 2.1
      */
     public static boolean encodeToFile(byte[] dataToEncode, String filename) {
@@ -843,6 +809,7 @@ public class Base64 {
      * @param dataToDecode Base64-encoded data as a string
      * @param filename     Filename for saving decoded data
      * @return <tt>true</tt> if successful, <tt>false</tt> otherwise
+     *
      * @since 2.1
      */
     public static boolean decodeToFile(String dataToDecode, String filename) {
@@ -870,11 +837,11 @@ public class Base64 {
 
 
     /**
-     * Convenience method for reading a base64-encoded
-     * file and decoding it.
+     * Convenience method for reading a base64-encoded file and decoding it.
      *
      * @param filename Filename for reading encoded data
      * @return decoded byte array or null if unsuccessful
+     *
      * @since 2.1
      */
     public static byte[] decodeFromFile(String filename) {
@@ -924,11 +891,11 @@ public class Base64 {
 
 
     /**
-     * Convenience method for reading a binary file
-     * and base64-encoding it.
+     * Convenience method for reading a binary file and base64-encoding it.
      *
      * @param filename Filename for reading binary data
      * @return base64-encoded string or null if unsuccessful
+     *
      * @since 2.1
      */
     public static String encodeFromFile(String filename) {
@@ -972,8 +939,7 @@ public class Base64 {
 
 
     /**
-     * A {@link Base64.InputStream} will read data from another
-     * <tt>java.io.InputStream</tt>, given in the constructor,
+     * A {@link Base64.InputStream} will read data from another <tt>java.io.InputStream</tt>, given in the constructor,
      * and encode/decode to/from Base64 notation on the fly.
      *
      * @see Base64
@@ -1001,8 +967,7 @@ public class Base64 {
 
 
         /**
-         * Constructs a {@link Base64.InputStream} in
-         * either ENCODE or DECODE mode.
+         * Constructs a {@link Base64.InputStream} in either ENCODE or DECODE mode.
          * <p/>
          * Valid options:<pre>
          *   ENCODE or DECODE: Encode or Decode as data is read.
@@ -1031,10 +996,10 @@ public class Base64 {
         }   // end constructor
 
         /**
-         * Reads enough of the input stream to convert
-         * to/from Base64 and returns the next byte.
+         * Reads enough of the input stream to convert to/from Base64 and returns the next byte.
          *
          * @return next byte
+         *
          * @since 1.3
          */
         @Override
@@ -1140,15 +1105,14 @@ public class Base64 {
 
 
         /**
-         * Calls {@link #read()} repeatedly until the end of stream
-         * is reached or <var>len</var> bytes are read.
-         * Returns number of bytes read into array or -1 if
-         * end of stream is encountered.
+         * Calls {@link #read()} repeatedly until the end of stream is reached or <var>len</var> bytes are read. Returns
+         * number of bytes read into array or -1 if end of stream is encountered.
          *
          * @param dest array to hold values
          * @param off  offset for array
          * @param len  max number of bytes to read into array
          * @return bytes read into array or -1 if end of stream is encountered.
+         *
          * @since 1.3
          */
         @Override
@@ -1177,8 +1141,7 @@ public class Base64 {
 
 
     /**
-     * A {@link Base64.OutputStream} will write data to another
-     * <tt>java.io.OutputStream</tt>, given in the constructor,
+     * A {@link Base64.OutputStream} will write data to another <tt>java.io.OutputStream</tt>, given in the constructor,
      * and encode/decode to/from Base64 notation on the fly.
      *
      * @see Base64
@@ -1206,8 +1169,7 @@ public class Base64 {
 
 
         /**
-         * Constructs a {@link Base64.OutputStream} in
-         * either ENCODE or DECODE mode.
+         * Constructs a {@link Base64.OutputStream} in either ENCODE or DECODE mode.
          * <p/>
          * Valid options:<pre>
          *   ENCODE or DECODE: Encode or Decode as data is read.
@@ -1239,13 +1201,9 @@ public class Base64 {
 
 
         /**
-         * Writes the byte to the output stream after
-         * converting to/from Base64 notation.
-         * When encoding, bytes are buffered three
-         * at a time before the output stream actually
-         * gets a write() call.
-         * When decoding, bytes are buffered four
-         * at a time.
+         * Writes the byte to the output stream after converting to/from Base64 notation. When encoding, bytes are
+         * buffered three at a time before the output stream actually gets a write() call. When decoding, bytes are
+         * buffered four at a time.
          *
          * @param theByte the byte to write
          * @since 1.3
@@ -1296,8 +1254,7 @@ public class Base64 {
 
 
         /**
-         * Calls {@link #write(int)} repeatedly until <var>len</var>
-         * bytes are written.
+         * Calls {@link #write(int)} repeatedly until <var>len</var> bytes are written.
          *
          * @param theBytes array from which to read bytes
          * @param off      offset for array
@@ -1320,8 +1277,7 @@ public class Base64 {
 
 
         /**
-         * Method added by PHIL. [Thanks, PHIL. -Rob]
-         * This pads the buffer without closing the stream.
+         * Method added by PHIL. [Thanks, PHIL. -Rob] This pads the buffer without closing the stream.
          */
         public void flushBase64() throws java.io.IOException {
             if (position > 0) {
@@ -1357,9 +1313,8 @@ public class Base64 {
 
 
         /**
-         * Suspends encoding of the stream.
-         * May be helpful if you need to embed a piece of
-         * base640-encoded data in a stream.
+         * Suspends encoding of the stream. May be helpful if you need to embed a piece of base640-encoded data in a
+         * stream.
          *
          * @since 1.5.1
          */
@@ -1370,9 +1325,8 @@ public class Base64 {
 
 
         /**
-         * Resumes encoding of the stream.
-         * May be helpful if you need to embed a piece of
-         * base640-encoded data in a stream.
+         * Resumes encoding of the stream. May be helpful if you need to embed a piece of base640-encoded data in a
+         * stream.
          *
          * @since 1.5.1
          */

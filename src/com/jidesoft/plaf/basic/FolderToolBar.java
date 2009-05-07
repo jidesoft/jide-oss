@@ -5,8 +5,8 @@
  */
 package com.jidesoft.plaf.basic;
 
-import com.jidesoft.utils.SystemInfo;
 import com.jidesoft.swing.FolderChooser;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  * Manages the optional folder toolbar that sits above the folder view's tree view panel
  */
 class FolderToolBar extends JToolBar {
-    private final static FileSystemView _fsv = FileSystemView.getFileSystemView();
+    private static final FileSystemView _fsv = FileSystemView.getFileSystemView();
 
     private JButton _deleteFolderBtn;
     private JButton _newFolderBtn;
@@ -32,11 +32,11 @@ class FolderToolBar extends JToolBar {
 
     private List<FolderToolBarListener> _listeners = new ArrayList<FolderToolBarListener>(1);
 
-    private final static String DELETE_BUTTON_NAME = "FolderChooser.toolbar.delete";
-    private final static String NEW_BUTTON_NAME = "FolderChooser.toolbar.new";
-    private final static String REFRESH_BUTTON_NAME = "FolderChooser.toolbar.refresh";
-    private final static String DESKTOP_BUTTON_NAME = "FolderChooser.toolbar.desktop";
-    private final static String MY_DOCUMENTS_BUTTON_NAME = "FolderChooser.toolbar.mydocuments";
+    private static final String DELETE_BUTTON_NAME = "FolderChooser.toolbar.delete";
+    private static final String NEW_BUTTON_NAME = "FolderChooser.toolbar.new";
+    private static final String REFRESH_BUTTON_NAME = "FolderChooser.toolbar.refresh";
+    private static final String DESKTOP_BUTTON_NAME = "FolderChooser.toolbar.desktop";
+    private static final String MY_DOCUMENTS_BUTTON_NAME = "FolderChooser.toolbar.mydocuments";
 
     public FolderToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
         setFloatable(false);
@@ -61,6 +61,7 @@ class FolderToolBar extends JToolBar {
 
     /**
      * Creates the toolbar buttons and dropdown
+     *
      * @param showRecentFolders the flag if show recent folders
      * @param recentFoldersList the recent folders list
      */

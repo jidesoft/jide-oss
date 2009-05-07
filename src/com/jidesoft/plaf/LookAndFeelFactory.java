@@ -180,7 +180,7 @@ public class LookAndFeelFactory implements ProductNames {
      *
      * @see #VSNET_STYLE
      */
-    public final static int VSNET_STYLE_WITHOUT_MENU = 0;
+    public static final int VSNET_STYLE_WITHOUT_MENU = 0;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -208,7 +208,7 @@ public class LookAndFeelFactory implements ProductNames {
      * System.setProperty("shadingtheme", "true");
      * </pre></code>
      */
-    public final static int VSNET_STYLE = 1;
+    public static final int VSNET_STYLE = 1;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -225,7 +225,7 @@ public class LookAndFeelFactory implements ProductNames {
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE_STYLE);
      * </pre></code>
      */
-    public final static int ECLIPSE_STYLE = 2;
+    public static final int ECLIPSE_STYLE = 2;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -249,7 +249,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Office2003 style doesn't work on any operating systems other than Windows mainly because the design of Office2003
      * style is so centric to Windows that it doesn't look good on other operating systems.
      */
-    public final static int OFFICE2003_STYLE = 3;
+    public static final int OFFICE2003_STYLE = 3;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is created by Xerto
@@ -268,7 +268,7 @@ public class LookAndFeelFactory implements ProductNames {
      * L&F based on Synth. To use it, you basically replace WindowsLookAndFeel to the L&F you want to use in
      * setLookAndFeel line above.
      */
-    public final static int XERTO_STYLE = 4;
+    public static final int XERTO_STYLE = 4;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as XERTO_STYLE
@@ -280,7 +280,7 @@ public class LookAndFeelFactory implements ProductNames {
      *
      * @see #XERTO_STYLE
      */
-    public final static int XERTO_STYLE_WITHOUT_MENU = 6;
+    public static final int XERTO_STYLE_WITHOUT_MENU = 6;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -295,7 +295,7 @@ public class LookAndFeelFactory implements ProductNames {
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE3X_STYLE);
      * </pre></code>
      */
-    public final static int ECLIPSE3X_STYLE = 5;
+    public static final int ECLIPSE3X_STYLE = 5;
 
     private static int _style = -1;
     private static int _defaultStyle = -1;
@@ -306,14 +306,14 @@ public class LookAndFeelFactory implements ProductNames {
      * UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED) will return true. You can also use {@link
      * #isJideExtensionInstalled()} to check the value instead of using UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED).
      */
-    public final static String JIDE_EXTENSION_INSTALLLED = "jidesoft.extendsionInstalled";
+    public static final String JIDE_EXTENSION_INSTALLLED = "jidesoft.extendsionInstalled";
 
     /**
      * If installJideExtension is called, a JIDE style will be installed on UIDefaults table. If so,
      * UIManagerLookup.getInt(JIDE_STYLE_INSTALLED) will return you the style that is installed. For example, if the
      * value is 1, it means VSNET_STYLE is installed because 1 is the value of VSNET_STYLE.
      */
-    public final static String JIDE_STYLE_INSTALLED = "jidesoft.extendsionStyle";
+    public static final String JIDE_STYLE_INSTALLED = "jidesoft.extendsionStyle";
 
     /**
      * An interface to make the customization of UIDefaults easier. This customizer will be called after
@@ -337,8 +337,8 @@ public class LookAndFeelFactory implements ProductNames {
     private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector<UIDefaultsInitializer>();
     private static Map<String, String> _installedLookAndFeels = new HashMap<String, String>();
 
-    public final static String LAF_INSTALLED = "installed";
-    public final static String LAF_NOT_INSTALLED = "not installed";
+    public static final String LAF_INSTALLED = "installed";
+    public static final String LAF_NOT_INSTALLED = "not installed";
 
     protected LookAndFeelFactory() {
     }

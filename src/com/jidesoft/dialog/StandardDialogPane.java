@@ -41,8 +41,8 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     private Action _defaultAction;
 
     private Component _initFocusedComponent;
-    public final static String PROPERTY_CANCEL_ACTION = "defaultCancelAction";
-    public final static String PROPERTY_DEFAULT_ACTION = "defaultAction";
+    public static final String PROPERTY_CANCEL_ACTION = "defaultCancelAction";
+    public static final String PROPERTY_DEFAULT_ACTION = "defaultAction";
 
     public StandardDialogPane() throws HeadlessException {
     }
@@ -223,6 +223,7 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
      * recommended to use our {@link ButtonPanel}.
      *
      * @return the button panel.
+     *
      * @see ButtonPanel
      */
     abstract public ButtonPanel createButtonPanel();

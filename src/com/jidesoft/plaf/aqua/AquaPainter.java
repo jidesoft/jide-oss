@@ -27,12 +27,12 @@ public class AquaPainter extends BasicPainter {
     private static final Logger LOGGER = Logger.getLogger(AquaPainter.class.getName());
 
     private static AquaPainter _instance;
-    private final static ImageIcon SELECTED = IconsFactory.getImageIcon(AquaPainter.class, "icons/selected.gif");
-    private final static ImageIcon ROLLOVER = IconsFactory.getImageIcon(AquaPainter.class, "icons/rollover.gif");
-    private final static ImageIcon PRESSED = IconsFactory.getImageIcon(AquaPainter.class, "icons/pressed.gif");
-    private final static Color ROLLOVER_BACKGROUND = new Color(238, 238, 238);
-    private final static Color SELECTED_BACKGROUND = new Color(153, 153, 153);
-    private final static Color PRESSED_BACKGROUND = new Color(195, 195, 195);
+    private static final ImageIcon SELECTED = IconsFactory.getImageIcon(AquaPainter.class, "icons/selected.gif");
+    private static final ImageIcon ROLLOVER = IconsFactory.getImageIcon(AquaPainter.class, "icons/rollover.gif");
+    private static final ImageIcon PRESSED = IconsFactory.getImageIcon(AquaPainter.class, "icons/pressed.gif");
+    private static final Color ROLLOVER_BACKGROUND = new Color(238, 238, 238);
+    private static final Color SELECTED_BACKGROUND = new Color(153, 153, 153);
+    private static final Color PRESSED_BACKGROUND = new Color(195, 195, 195);
     private static boolean _errorOccurred;
 
     public static ThemePainter getInstance() {

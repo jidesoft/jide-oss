@@ -104,9 +104,9 @@ public class EclipseUtils {
         g.setStroke(oldStroke);
     }
 
-    final static double RATIO1 = 0.67;
-    final static double RATIO2 = 0.78;
-    final static double RATIO3 = 0.86;
+    static final double RATIO1 = 0.67;
+    static final double RATIO2 = 0.78;
+    static final double RATIO3 = 0.86;
 
     static int getLightColor(int x, double ratio) {
         return (int) ((255 - x) * ratio + x);

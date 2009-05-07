@@ -11,7 +11,7 @@ package com.jidesoft.converter;
  * displayed in the UI.
  */
 public class MultilineStringConverter implements ObjectConverter {
-    public final static ConverterContext CONTEXT = new ConverterContext("MultilineString");
+    public static final ConverterContext CONTEXT = new ConverterContext("MultilineString");
 
     public String toString(Object object, ConverterContext context) {
         if (object instanceof String) {

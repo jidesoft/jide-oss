@@ -9,12 +9,12 @@ package com.jidesoft.swing;
  * The definitions of various button style. This is used by <code>JideButton</code> and <code>JideSplitButton</code>.
  */
 public interface ButtonStyle {
-    public final static String BUTTON_STYLE_PROPERTY = "buttonStyle";
+    public static final String BUTTON_STYLE_PROPERTY = "buttonStyle";
 
-    final static int TOOLBAR_STYLE = 0;
-    final static int TOOLBOX_STYLE = 1;
-    final static int FLAT_STYLE = 2;
-    final static int HYPERLINK_STYLE = 3;
+    static final int TOOLBAR_STYLE = 0;
+    static final int TOOLBOX_STYLE = 1;
+    static final int FLAT_STYLE = 2;
+    static final int HYPERLINK_STYLE = 3;
 
     // we used the same definition as Mac OS X.
     // http://developer.apple.com/technotes/tn2007/tn2196.html#JBUTTON_BUTTONTYPE

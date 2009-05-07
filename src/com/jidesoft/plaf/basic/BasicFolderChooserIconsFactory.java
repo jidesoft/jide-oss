@@ -19,12 +19,12 @@ import javax.swing.*;
 public class BasicFolderChooserIconsFactory {
 
     public static class ToolBar {
-        public final static String NEW = "icons/new.png";
-        public final static String DELETE = "icons/delete.png";
-        public final static String HOME = "icons/home.png";
-        public final static String MY_DOCUMENT = "icons/myDocument.png";
-        public final static String DESKTOP = "icons/desktop.png";
-        public final static String REFRESH = "icons/refresh.png";
+        public static final String NEW = "icons/new.png";
+        public static final String DELETE = "icons/delete.png";
+        public static final String HOME = "icons/home.png";
+        public static final String MY_DOCUMENT = "icons/myDocument.png";
+        public static final String DESKTOP = "icons/desktop.png";
+        public static final String REFRESH = "icons/refresh.png";
     }
 
     public static ImageIcon getImageIcon(String name) {

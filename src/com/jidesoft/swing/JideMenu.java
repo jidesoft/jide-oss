@@ -427,7 +427,7 @@ public class JideMenu extends JMenu implements Alignable {
     private static HideTimer _timer;
 
     // use this flag to disable the hide timer as there are quite a few bugs on it that we don't know how to solve.
-    private final static boolean DISABLE_TIMER = true;
+    private static final boolean DISABLE_TIMER = true;
 
     @Override
     public void setPopupMenuVisible(boolean b) {

@@ -9,180 +9,180 @@ package com.jidesoft.icons;
  */
 public class IconSet {
     public static class File {
-        public final static String NEW = "File-New.png";
-        public final static String OPEN = "File-Open.png";
-        public final static String SAVE = "File-Save.png";
-        public final static String SAVE_AS = "File-SaveAs.png";
-        public final static String SAVE_ALL = "File-SaveAll.png";
-        public final static String IMPORT = "File-Import.png";
-        public final static String EXPORT = "File-Export.png";
-        public final static String PRINT = "File-Print.png";
-        public final static String PRINT_PREVIEW = "File-PrintPreview.png";
-        public final static String PAGE_SETUP = "File-PageSetup.png";
-        public final static String PROPERTY = "File-Property.png";
-        public final static String EXIT = "File-Exit.png";
-        public final static String CLOSE = "File-Close.png";
+        public static final String NEW = "File-New.png";
+        public static final String OPEN = "File-Open.png";
+        public static final String SAVE = "File-Save.png";
+        public static final String SAVE_AS = "File-SaveAs.png";
+        public static final String SAVE_ALL = "File-SaveAll.png";
+        public static final String IMPORT = "File-Import.png";
+        public static final String EXPORT = "File-Export.png";
+        public static final String PRINT = "File-Print.png";
+        public static final String PRINT_PREVIEW = "File-PrintPreview.png";
+        public static final String PAGE_SETUP = "File-PageSetup.png";
+        public static final String PROPERTY = "File-Property.png";
+        public static final String EXIT = "File-Exit.png";
+        public static final String CLOSE = "File-Close.png";
     }
 
     public static class Edit {
-        public final static String CUT = "Edit-Cut.png";
-        public final static String COPY = "Edit-Copy.png";
-        public final static String PASTE = "Edit-Paste.png";
-        public final static String DELETE = "Edit-Delete.png";
-        public final static String UNDO = "Edit-Undo.png";
-        public final static String REDO = "Edit-Redo.png";
-        public final static String REFRESH = "Edit-Refresh.png";
-        public final static String HISTORY = "Edit-History.png";
+        public static final String CUT = "Edit-Cut.png";
+        public static final String COPY = "Edit-Copy.png";
+        public static final String PASTE = "Edit-Paste.png";
+        public static final String DELETE = "Edit-Delete.png";
+        public static final String UNDO = "Edit-Undo.png";
+        public static final String REDO = "Edit-Redo.png";
+        public static final String REFRESH = "Edit-Refresh.png";
+        public static final String HISTORY = "Edit-History.png";
     }
 
     public static class FindReplace {
-        public final static String FIND = "FindReplace-Find.png";
-        public final static String FIND_AGAIN = "FindReplace-FindAgain.png";
-        public final static String FIND_NEXT = "FindReplace-FindNext.png";
-        public final static String FIND_PREVIOUS = "FindReplace-FindPrevious.png";
-        public final static String REPLACE = "FindReplace-Replace.png";
+        public static final String FIND = "FindReplace-Find.png";
+        public static final String FIND_AGAIN = "FindReplace-FindAgain.png";
+        public static final String FIND_NEXT = "FindReplace-FindNext.png";
+        public static final String FIND_PREVIOUS = "FindReplace-FindPrevious.png";
+        public static final String REPLACE = "FindReplace-Replace.png";
     }
 
     public static class Text {
-        public final static String ALIGN_CENTER = "Text-AlignCenter.png";
-        public final static String ALIGN_RIGHT = "Text-AlignRight.png";
-        public final static String ALIGH_LEFT = "Text-AlighLeft.png";
-        public final static String JUSTIFIED = "Text-Justified.png";
-        public final static String BOLD = "Text-Bold.png";
-        public final static String ITALIC = "Text-Italic.png";
-        public final static String UNDERLINED = "Text-Underlined.png";
-        public final static String SUPERSCRIPT = "Text-Superscript.png";
-        public final static String SUBSCRIPT = "Text-Subscript.png";
-        public final static String STRIKETHROUGH = "Text-Strikethrough.png";
+        public static final String ALIGN_CENTER = "Text-AlignCenter.png";
+        public static final String ALIGN_RIGHT = "Text-AlignRight.png";
+        public static final String ALIGH_LEFT = "Text-AlighLeft.png";
+        public static final String JUSTIFIED = "Text-Justified.png";
+        public static final String BOLD = "Text-Bold.png";
+        public static final String ITALIC = "Text-Italic.png";
+        public static final String UNDERLINED = "Text-Underlined.png";
+        public static final String SUPERSCRIPT = "Text-Superscript.png";
+        public static final String SUBSCRIPT = "Text-Subscript.png";
+        public static final String STRIKETHROUGH = "Text-Strikethrough.png";
     }
 
     public static class View {
-        public final static String ZOOM = "View-Zoom.png";
-        public final static String ZOOM_IN = "View-ZoomIn.png";
-        public final static String ZOOM_OUT = "View-ZoomOut.png";
-        public final static String FIT_SIZE = "View-FitSize.png";
-        public final static String ACTUAL_SIZE = "View-ActualSize.png";
-        public final static String VIEW_FULL_SCREEN = "View-ViewFullScreen.png";
-        public final static String LEAVE_FULL_SCREEN = "View-LeaveFullScreen.png";
-        public final static String SORT_ASCENDING = "View-SortAscending.png";
-        public final static String SORT_DESCENDING = "View-SortDescending.png";
-        public final static String TREE_EXPAND = "View-TreeExpand.png";
-        public final static String TREE_COLLAPSE = "View-TreeCollapse.png";
-        public final static String TREE_EXPAND_ALL = "View-TreeExpandAll.png";
-        public final static String TREE_COLLAPSE_ALL = "View-TreeCollapseAll.png";
-        public final static String EXPAND = "View-Expand.png";
-        public final static String COLLAPSE = "View-Collapse.png";
-        public final static String TILT_HORIZONTALLY = "View-TiltHorizontally.png";
-        public final static String TILT_VERTICALLY = "View-TiltVertically.png";
-        public final static String CASCADE_WINDOW = "View-CascadeWindow.png";
+        public static final String ZOOM = "View-Zoom.png";
+        public static final String ZOOM_IN = "View-ZoomIn.png";
+        public static final String ZOOM_OUT = "View-ZoomOut.png";
+        public static final String FIT_SIZE = "View-FitSize.png";
+        public static final String ACTUAL_SIZE = "View-ActualSize.png";
+        public static final String VIEW_FULL_SCREEN = "View-ViewFullScreen.png";
+        public static final String LEAVE_FULL_SCREEN = "View-LeaveFullScreen.png";
+        public static final String SORT_ASCENDING = "View-SortAscending.png";
+        public static final String SORT_DESCENDING = "View-SortDescending.png";
+        public static final String TREE_EXPAND = "View-TreeExpand.png";
+        public static final String TREE_COLLAPSE = "View-TreeCollapse.png";
+        public static final String TREE_EXPAND_ALL = "View-TreeExpandAll.png";
+        public static final String TREE_COLLAPSE_ALL = "View-TreeCollapseAll.png";
+        public static final String EXPAND = "View-Expand.png";
+        public static final String COLLAPSE = "View-Collapse.png";
+        public static final String TILT_HORIZONTALLY = "View-TiltHorizontally.png";
+        public static final String TILT_VERTICALLY = "View-TiltVertically.png";
+        public static final String CASCADE_WINDOW = "View-CascadeWindow.png";
     }
 
     public static class Help {
-        public final static String HELP = "Help-Help.png";
-        public final static String CONTENT = "Help-Content.png";
-        public final static String INDEX = "Help-Index.png";
+        public static final String HELP = "Help-Help.png";
+        public static final String CONTENT = "Help-Content.png";
+        public static final String INDEX = "Help-Index.png";
     }
 
     public static class Overlay {
-        public final static String ADD = "Overlay-Add.png";
-        public final static String REMOVE = "Overlay-Remove.png";
-        public final static String DELETE = "Overlay-Delete.png";
-        public final static String NEW = "Overlay-New.png";
-        public final static String DIRTY = "Overlay-Dirty.png";
-        public final static String WARNING = "Overlay-Warning.png";
-        public final static String ERROR = "Overlay-Error.png";
-        public final static String VALID = "Overlay-Valid.png";
-        public final static String INFO = "Overlay-Info.png";
-        public final static String QUESTION = "Overlay-Question.png";
-        public final static String LOCK = "Overlay-Lock.png";
-        public final static String UNLOCK = "Overlay-Unlock.png";
-        public final static String FLAG = "Overlay-Flag.png";
-        public final static String SHARE = "Overlay-Share.png";
-        public final static String EDIT = "Overlay-Edit.png";
+        public static final String ADD = "Overlay-Add.png";
+        public static final String REMOVE = "Overlay-Remove.png";
+        public static final String DELETE = "Overlay-Delete.png";
+        public static final String NEW = "Overlay-New.png";
+        public static final String DIRTY = "Overlay-Dirty.png";
+        public static final String WARNING = "Overlay-Warning.png";
+        public static final String ERROR = "Overlay-Error.png";
+        public static final String VALID = "Overlay-Valid.png";
+        public static final String INFO = "Overlay-Info.png";
+        public static final String QUESTION = "Overlay-Question.png";
+        public static final String LOCK = "Overlay-Lock.png";
+        public static final String UNLOCK = "Overlay-Unlock.png";
+        public static final String FLAG = "Overlay-Flag.png";
+        public static final String SHARE = "Overlay-Share.png";
+        public static final String EDIT = "Overlay-Edit.png";
     }
 
     public static class Software {
-        public final static String FILE = "Software-File.png";
-        public final static String DOCUMENT = "Software-Document.png";
-        public final static String DATABASE = "Software-Database.png";
-        public final static String INTERNET = "Software-Internet.png";
-        public final static String TEXT = "Software-Text.png";
-        public final static String HOME = "Software-Home.png";
-        public final static String TRASH = "Software-Trash.png";
-        public final static String TRASH_FULL = "Software-TrashFull.png";
-        public final static String USER = "Software-User.png";
-        public final static String BOOKMARK = "Software-Bookmark.png";
-        public final static String FOLDER = "Software-Folder.png";
-        public final static String PICTURE = "Software-Picture.png";
-        public final static String FRAME = "Software-Frame.png";
-        public final static String MAIL = "Software-Mail.png";
-        public final static String APPLICATION = "Software-Application.png";
-        public final static String REPORT = "Software-Report.png";
-        public final static String CHART = "Software-Chart.png";
-        public final static String CALENDAR = "Software-Calendar.png";
+        public static final String FILE = "Software-File.png";
+        public static final String DOCUMENT = "Software-Document.png";
+        public static final String DATABASE = "Software-Database.png";
+        public static final String INTERNET = "Software-Internet.png";
+        public static final String TEXT = "Software-Text.png";
+        public static final String HOME = "Software-Home.png";
+        public static final String TRASH = "Software-Trash.png";
+        public static final String TRASH_FULL = "Software-TrashFull.png";
+        public static final String USER = "Software-User.png";
+        public static final String BOOKMARK = "Software-Bookmark.png";
+        public static final String FOLDER = "Software-Folder.png";
+        public static final String PICTURE = "Software-Picture.png";
+        public static final String FRAME = "Software-Frame.png";
+        public static final String MAIL = "Software-Mail.png";
+        public static final String APPLICATION = "Software-Application.png";
+        public static final String REPORT = "Software-Report.png";
+        public static final String CHART = "Software-Chart.png";
+        public static final String CALENDAR = "Software-Calendar.png";
     }
 
     public static class Hardware {
-        public final static String NETWORK = "Hardware-Network.png";
-        public final static String COMPUTER = "Hardware-Computer.png";
-        public final static String SERVER = "Hardware-Server.png";
-        public final static String HARD_DRIVE = "Hardware-HardDrive.png";
-        public final static String MONITOR = "Hardware-Monitor.png";
-        public final static String FLOPPY = "Hardware-Floppy.png";
-        public final static String MOUSE = "Hardware-Mouse.png";
-        public final static String KEYBOARD = "Hardware-Keyboard.png";
-        public final static String CLOCK = "Hardware-Clock.png";
-        public final static String CALCULATOR = "Hardware-Calculator.png";
-        public final static String CAMERA = "Hardware-Camera.png";
-        public final static String PRINTER = "Hardware-Printer.png";
-        public final static String SCANNER = "Hardware-Scanner.png";
-        public final static String PHONE = "Hardware-Phone.png";
-        public final static String SPEAKER = "Hardware-Speaker.png";
-        public final static String CD = "Hardware-CD.png";
-        public final static String GAME_CONTROLLER = "Hardware-GameController.png";
-        public final static String PDA = "Hardware-PDA.png";
+        public static final String NETWORK = "Hardware-Network.png";
+        public static final String COMPUTER = "Hardware-Computer.png";
+        public static final String SERVER = "Hardware-Server.png";
+        public static final String HARD_DRIVE = "Hardware-HardDrive.png";
+        public static final String MONITOR = "Hardware-Monitor.png";
+        public static final String FLOPPY = "Hardware-Floppy.png";
+        public static final String MOUSE = "Hardware-Mouse.png";
+        public static final String KEYBOARD = "Hardware-Keyboard.png";
+        public static final String CLOCK = "Hardware-Clock.png";
+        public static final String CALCULATOR = "Hardware-Calculator.png";
+        public static final String CAMERA = "Hardware-Camera.png";
+        public static final String PRINTER = "Hardware-Printer.png";
+        public static final String SCANNER = "Hardware-Scanner.png";
+        public static final String PHONE = "Hardware-Phone.png";
+        public static final String SPEAKER = "Hardware-Speaker.png";
+        public static final String CD = "Hardware-CD.png";
+        public static final String GAME_CONTROLLER = "Hardware-GameController.png";
+        public static final String PDA = "Hardware-PDA.png";
     }
 
     public static class Direction {
-        public final static String LEFT = "Direction-Left.png";
-        public final static String RIGHT = "Direction-Right.png";
-        public final static String UP = "Direction-Up.png";
-        public final static String DOWN = "Direction-Down.png";
-        public final static String TOP = "Direction-Top.png";
-        public final static String BOTTOM = "Direction-Bottom.png";
-        public final static String FIRST = "Direction-First.png";
-        public final static String LAST = "Direction-Last.png";
-        public final static String BOTTOM_LEFT = "Direction-BottomLeft.png";
-        public final static String BOTTOM_RIGHT = "Direction-BottomRight.png";
-        public final static String TOP_LEFT = "Direction-TopLeft.png";
-        public final static String TOP_RIGHT = "Direction-TopRight.png";
+        public static final String LEFT = "Direction-Left.png";
+        public static final String RIGHT = "Direction-Right.png";
+        public static final String UP = "Direction-Up.png";
+        public static final String DOWN = "Direction-Down.png";
+        public static final String TOP = "Direction-Top.png";
+        public static final String BOTTOM = "Direction-Bottom.png";
+        public static final String FIRST = "Direction-First.png";
+        public static final String LAST = "Direction-Last.png";
+        public static final String BOTTOM_LEFT = "Direction-BottomLeft.png";
+        public static final String BOTTOM_RIGHT = "Direction-BottomRight.png";
+        public static final String TOP_LEFT = "Direction-TopLeft.png";
+        public static final String TOP_RIGHT = "Direction-TopRight.png";
     }
 
     public static class MediaControl {
-        public final static String BEGINNING = "MediaControl-Beginning.png";
-        public final static String END = "MediaControl-End.png";
-        public final static String FAST_FORWARD = "MediaControl-FastForward.png";
-        public final static String PASUE = "MediaControl-Pasue.png";
-        public final static String PLAY = "MediaControl-Play.png";
-        public final static String REWIND = "MediaControl-Rewind.png";
-        public final static String STEP_BACK = "MediaControl-StepBack.png";
-        public final static String STEP_FORWARD = "MediaControl-StepForward.png";
-        public final static String STOP = "MediaControl-Stop.png";
-        public final static String RECORD = "MediaControl-Record.png";
-        public final static String EJECT = "MediaControl-Eject.png";
-        public final static String SHUTDOWN = "MediaControl-Shutdown.png";
-        public final static String STANDBY = "MediaControl-Standby.png";
+        public static final String BEGINNING = "MediaControl-Beginning.png";
+        public static final String END = "MediaControl-End.png";
+        public static final String FAST_FORWARD = "MediaControl-FastForward.png";
+        public static final String PASUE = "MediaControl-Pasue.png";
+        public static final String PLAY = "MediaControl-Play.png";
+        public static final String REWIND = "MediaControl-Rewind.png";
+        public static final String STEP_BACK = "MediaControl-StepBack.png";
+        public static final String STEP_FORWARD = "MediaControl-StepForward.png";
+        public static final String STOP = "MediaControl-Stop.png";
+        public static final String RECORD = "MediaControl-Record.png";
+        public static final String EJECT = "MediaControl-Eject.png";
+        public static final String SHUTDOWN = "MediaControl-Shutdown.png";
+        public static final String STANDBY = "MediaControl-Standby.png";
     }
 
     public static class Movement {
-        public final static String MOVE_LEFT = "Movement-MoveLeft.png";
-        public final static String MOVE_RIGHT = "Movement-MoveRight.png";
-        public final static String MOVE_UP = "Movement-MoveUp.png";
-        public final static String MOVE_DOWN = "Movement-MoveDown.png";
-        public final static String MOVE_TO_TOP = "Movement-MoveToTop.png";
-        public final static String MOVE_TO_BOTTOM = "Movement-MoveToBottom.png";
-        public final static String MOVE_TO_BEGINNING = "Movement-MoveToBeginning.png";
-        public final static String MOVE_TO_END = "Movement-MoveToEnd.png";
+        public static final String MOVE_LEFT = "Movement-MoveLeft.png";
+        public static final String MOVE_RIGHT = "Movement-MoveRight.png";
+        public static final String MOVE_UP = "Movement-MoveUp.png";
+        public static final String MOVE_DOWN = "Movement-MoveDown.png";
+        public static final String MOVE_TO_TOP = "Movement-MoveToTop.png";
+        public static final String MOVE_TO_BOTTOM = "Movement-MoveToBottom.png";
+        public static final String MOVE_TO_BEGINNING = "Movement-MoveToBeginning.png";
+        public static final String MOVE_TO_END = "Movement-MoveToEnd.png";
     }
 
     private String _iconSetName;

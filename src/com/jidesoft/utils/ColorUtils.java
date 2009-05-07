@@ -15,12 +15,11 @@ import java.awt.*;
 public class ColorUtils {
 
     /**
-     * Gets a derived color from an existing color. The derived color is either lighter or darker
-     * version of the given color with the same hue.
+     * Gets a derived color from an existing color. The derived color is either lighter or darker version of the given
+     * color with the same hue.
      *
      * @param color the given color.
      * @param ratio the ratio.
-     *
      * @return the derived color.
      */
     public static Color getDerivedColor(Color color, float ratio) {
@@ -47,7 +46,6 @@ public class ColorUtils {
      * Converts a color from RBG to HSL color space.
      *
      * @param colorRGB
-     *
      * @return color space in HSL.
      */
     public static float[] RGBtoHSL(Color colorRGB) {
@@ -108,7 +106,6 @@ public class ColorUtils {
      * Converts from HSL color space to RGB color.
      *
      * @param hsl
-     *
      * @return the RGB color.
      */
     public static int HSLtoRGB(float[] hsl) {
@@ -142,22 +139,19 @@ public class ColorUtils {
             //Red
             if (tempr < 1.0 / 6.0) r = temp1 + (temp2 - temp1) * 6.0f * tempr;
             else if (tempr < 0.5) r = temp2;
-            else
-            if (tempr < 2.0 / 3.0) r = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempr) * 6.0f;
+            else if (tempr < 2.0 / 3.0) r = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempr) * 6.0f;
             else r = temp1;
 
             //Green
             if (tempg < 1.0 / 6.0) g = temp1 + (temp2 - temp1) * 6.0f * tempg;
             else if (tempg < 0.5) g = temp2;
-            else
-            if (tempg < 2.0 / 3.0) g = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempg) * 6.0f;
+            else if (tempg < 2.0 / 3.0) g = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempg) * 6.0f;
             else g = temp1;
 
             //Blue
             if (tempb < 1.0 / 6.0) b = temp1 + (temp2 - temp1) * 6.0f * tempb;
             else if (tempb < 0.5) b = temp2;
-            else
-            if (tempb < 2.0 / 3.0) b = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempb) * 6.0f;
+            else if (tempb < 2.0 / 3.0) b = temp1 + (temp2 - temp1) * ((2.0f / 3.0f) - tempb) * 6.0f;
             else b = temp1;
         }
 
@@ -171,8 +165,8 @@ public class ColorUtils {
         return result;
     }
 
-    final static float OFFSET_180 = 180f;
-    final static float OFFSET_100 = 100f;
+    static final float OFFSET_180 = 180f;
+    static final float OFFSET_100 = 100f;
 
     public static int[] calculateDifferent(float[] from, float[] to) {
         int[] diff = new int[3];
@@ -241,7 +235,6 @@ public class ColorUtils {
      *
      * @param hasalpha
      * @param colors
-     *
      * @return
      */
     public static Color[] toColors(boolean hasalpha, int... colors) {
@@ -256,7 +249,6 @@ public class ColorUtils {
      * Converts from a color to gray scale color.
      *
      * @param c a color.
-     *
      * @return a color in gray scale.
      */
     public static Color toGrayscale(Color c) {

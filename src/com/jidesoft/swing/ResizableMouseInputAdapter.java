@@ -34,7 +34,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
      */
     private int _resizeCorner;
 
-    protected final static int RESIZE_NONE = 0;
+    protected static final int RESIZE_NONE = 0;
 
     private boolean _discardRelease = false;
 
@@ -444,8 +444,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
             if (e.getX() <= i.left) {
                 if (isResizable(Resizable.UPPER_LEFT) && i.top > 0 && e.getY() < _resizable.getResizeCornerSize() + i.top)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.NW_RESIZE_CURSOR : Cursor.NE_RESIZE_CURSOR));
-                else
-                if (isResizable(Resizable.LOWER_LEFT) && i.bottom > 0 && e.getY() > _resizable.getComponent().getHeight() - _resizable.getResizeCornerSize() - i.bottom)
+                else if (isResizable(Resizable.LOWER_LEFT) && i.bottom > 0 && e.getY() > _resizable.getComponent().getHeight() - _resizable.getResizeCornerSize() - i.bottom)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.SW_RESIZE_CURSOR : Cursor.SE_RESIZE_CURSOR));
                 else if (isResizable(Resizable.LEFT))
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.W_RESIZE_CURSOR : Cursor.E_RESIZE_CURSOR));
@@ -455,8 +454,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
             else if (e.getX() >= _resizable.getComponent().getWidth() - i.right) {
                 if (isResizable(Resizable.UPPER_RIGHT) && i.top > 0 && e.getY() < _resizable.getResizeCornerSize() + i.top)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.NE_RESIZE_CURSOR : Cursor.NW_RESIZE_CURSOR));
-                else
-                if (isResizable(Resizable.LOWER_LEFT) && i.bottom > 0 && e.getY() > _resizable.getComponent().getHeight() - _resizable.getResizeCornerSize() - i.bottom)
+                else if (isResizable(Resizable.LOWER_LEFT) && i.bottom > 0 && e.getY() > _resizable.getComponent().getHeight() - _resizable.getResizeCornerSize() - i.bottom)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.SE_RESIZE_CURSOR : Cursor.SW_RESIZE_CURSOR));
                 else if (isResizable(Resizable.RIGHT))
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.E_RESIZE_CURSOR : Cursor.W_RESIZE_CURSOR));
@@ -466,8 +464,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
             else if (e.getY() <= i.top) {
                 if (isResizable(Resizable.UPPER_LEFT) && i.left > 0 && e.getX() < _resizable.getResizeCornerSize() + i.left)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.NW_RESIZE_CURSOR : Cursor.NE_RESIZE_CURSOR));
-                else
-                if (isResizable(Resizable.UPPER_RIGHT) && i.right > 0 && e.getX() > _resizable.getComponent().getWidth() - _resizable.getResizeCornerSize() - i.right)
+                else if (isResizable(Resizable.UPPER_RIGHT) && i.right > 0 && e.getX() > _resizable.getComponent().getWidth() - _resizable.getResizeCornerSize() - i.right)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.NE_RESIZE_CURSOR : Cursor.NW_RESIZE_CURSOR));
                 else if (isResizable(Resizable.UPPER))
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
@@ -477,8 +474,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
             else if (e.getY() >= _resizable.getComponent().getHeight() - i.bottom) {
                 if (isResizable(Resizable.LOWER_LEFT) && i.left > 0 && e.getX() < _resizable.getResizeCornerSize() + i.left)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.SW_RESIZE_CURSOR : Cursor.SE_RESIZE_CURSOR));
-                else
-                if (isResizable(Resizable.LOWER_RIGHT) && i.right > 0 && e.getX() > _resizable.getComponent().getWidth() - _resizable.getResizeCornerSize() - i.right)
+                else if (isResizable(Resizable.LOWER_RIGHT) && i.right > 0 && e.getX() > _resizable.getComponent().getWidth() - _resizable.getResizeCornerSize() - i.right)
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(ltr ? Cursor.SE_RESIZE_CURSOR : Cursor.SW_RESIZE_CURSOR));
                 else if (isResizable(Resizable.LOWER))
                     _resizable.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));

@@ -32,8 +32,8 @@ import java.util.Vector;
  */
 public class CheckBoxTree extends JTree {
 
-    public final static String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
-    public final static String PROPERTY_DIG_IN = "digIn";
+    public static final String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
+    public static final String PROPERTY_DIG_IN = "digIn";
 
 
     protected CheckBoxTreeCellRenderer _treeCellRenderer;

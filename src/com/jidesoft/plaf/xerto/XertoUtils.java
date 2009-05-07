@@ -36,7 +36,7 @@ public class XertoUtils {
     static {
         updateColors();
     }
-    
+
     /**
      * Updates the colors based on the  current UIDefaults
      */
@@ -264,8 +264,8 @@ public class XertoUtils {
     final public static double RATIO2 = 0.78;
     final public static double RATIO3 = 0.86;
 
-    final static Color DARK_GREEN = new Color(0, 128, 0);
-    final static Color DARK_MAGENTA = new Color(128, 0, 128);
+    static final Color DARK_GREEN = new Color(0, 128, 0);
+    static final Color DARK_MAGENTA = new Color(128, 0, 128);
 
     public static int getLightColor(int x, double ratio) {
         return (int) ((255 - x) * ratio + x);

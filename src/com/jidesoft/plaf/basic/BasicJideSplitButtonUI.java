@@ -46,7 +46,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
     private FocusListener _focusListener;
 
-    private final static String propertyPrefix = "JideSplitButton";
+    private static final String propertyPrefix = "JideSplitButton";
 
     public static ComponentUI createUI(JComponent x) {
         return new BasicJideSplitButtonUI();

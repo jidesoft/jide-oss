@@ -13,7 +13,7 @@ import java.awt.*;
  * This class is an implementation of the DockableFrame border.
  */
 public class SlidingFrameBorder implements Border, UIResource {
-    public final static int SHADOW_SIZE = 10;
+    public static final int SHADOW_SIZE = 10;
     protected Color _highlight;
     protected Color _lightHighlight;
     protected Color _shadow;
@@ -40,8 +40,7 @@ public class SlidingFrameBorder implements Border, UIResource {
     }
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
+     * Returns whether or not the border is opaque.  If the border is opaque, it is responsible for filling in it's own
      * background when painting.
      */
     public boolean isBorderOpaque() {

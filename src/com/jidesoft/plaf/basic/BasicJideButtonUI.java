@@ -37,7 +37,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // Has the shared instance defaults been initialized?
     private boolean defaults_initialized = false;
 
-    private final static String propertyPrefix = "JideButton" + ".";
+    private static final String propertyPrefix = "JideButton" + ".";
 
     protected ThemePainter _painter;
 

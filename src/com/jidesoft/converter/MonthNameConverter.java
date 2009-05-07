@@ -59,7 +59,7 @@ public class MonthNameConverter implements ObjectConverter {
         }
     }
 
-    final static Calendar CAL = Calendar.getInstance();
+    static final Calendar CAL = Calendar.getInstance();
 
     static {
         CAL.set(Calendar.DAY_OF_MONTH, 1);

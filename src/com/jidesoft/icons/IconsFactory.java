@@ -64,15 +64,15 @@ import java.util.StringTokenizer;
  * <pre><code>
  * class TemplateIconsFactory {
  *    public static class Group1 {
- *        public final static String IMAGE1 = "icons/image11.png";
- *        public final static String IMAGE2 = "icons/image12.png";
- *        public final static String IMAGE3 = "icons/image13.png";
+ *        public static final String IMAGE1 = "icons/image11.png";
+ *        public static final String IMAGE2 = "icons/image12.png";
+ *        public static final String IMAGE3 = "icons/image13.png";
  *    }
  * <p/>
  *    public static class Group2 {
- *        public final static String IMAGE1 = "icons/image21.png";
- *        public final static String IMAGE2 = "icons/image22.png";
- *        public final static String IMAGE3 = "icons/image23.png";
+ *        public static final String IMAGE1 = "icons/image21.png";
+ *        public static final String IMAGE2 = "icons/image22.png";
+ *        public static final String IMAGE3 = "icons/image23.png";
  *    }
  * <p/>
  *    public static ImageIcon getImageIcon(String name) {
@@ -399,7 +399,7 @@ public class IconsFactory {
         return new ImageIcon(MaskFilter.createImage(image, oldColor, newColor));
     }
 
-    final static double DEGREE_90 = 90.0 * Math.PI / 180.0;
+    static final double DEGREE_90 = 90.0 * Math.PI / 180.0;
 
     /**
      * Creates a rotated version of the input image.

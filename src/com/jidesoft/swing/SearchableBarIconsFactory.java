@@ -15,21 +15,21 @@ import javax.swing.*;
 public class SearchableBarIconsFactory {
 
     public static class Buttons {
-        public final static String CLOSE = "icons/close.png";
-        public final static String CLOSE_ROLLOVER = "icons/closeR.png";
-        public final static String HIGHLIGHTS = "icons/highlights.png";
-        public final static String HIGHLIGHTS_SELECTED = "icons/highlightsS.png";
-        public final static String HIGHLIGHTS_DISABLED = "icons/highlightsD.png";
-        public final static String HIGHLIGHTS_ROLLOVER = "icons/highlightsR.png";
-        public final static String HIGHLIGHTS_ROLLOVER_SELECTED = "icons/highlightsRS.png";
-        public final static String NEXT = "icons/next.png";
-        public final static String NEXT_ROLLOVER = "icons/nextR.png";
-        public final static String NEXT_DISABLED = "icons/nextD.png";
-        public final static String PREVIOUS = "icons/previous.png";
-        public final static String PREVIOUS_ROLLOVER = "icons/previousR.png";
-        public final static String PREVIOUS_DISABLED = "icons/previousD.png";
-        public final static String ERROR = "icons/error.png";
-        public final static String REPEAT = "icons/repeat.png";
+        public static final String CLOSE = "icons/close.png";
+        public static final String CLOSE_ROLLOVER = "icons/closeR.png";
+        public static final String HIGHLIGHTS = "icons/highlights.png";
+        public static final String HIGHLIGHTS_SELECTED = "icons/highlightsS.png";
+        public static final String HIGHLIGHTS_DISABLED = "icons/highlightsD.png";
+        public static final String HIGHLIGHTS_ROLLOVER = "icons/highlightsR.png";
+        public static final String HIGHLIGHTS_ROLLOVER_SELECTED = "icons/highlightsRS.png";
+        public static final String NEXT = "icons/next.png";
+        public static final String NEXT_ROLLOVER = "icons/nextR.png";
+        public static final String NEXT_DISABLED = "icons/nextD.png";
+        public static final String PREVIOUS = "icons/previous.png";
+        public static final String PREVIOUS_ROLLOVER = "icons/previousR.png";
+        public static final String PREVIOUS_DISABLED = "icons/previousD.png";
+        public static final String ERROR = "icons/error.png";
+        public static final String REPEAT = "icons/repeat.png";
     }
 
     public static ImageIcon getImageIcon(String name) {
