@@ -2195,6 +2195,8 @@ public class JideSwingUtilities implements SwingConstants {
         return w;
     }
 
+    protected static boolean tracingFocus = false;
+
     /**
      * For internal usage only.
      */
@@ -2206,7 +2208,9 @@ public class JideSwingUtilities implements SwingConstants {
      * For internal usage only.
      */
     public static void traceFocus(final boolean useBorders) {
-        PropertyChangeListener listener = new PropertyChangeListener() {
+    	if (tracingFocus)
+    		return;
+    	PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (useBorders) {
                     Component oldValue = (Component) evt.getOldValue();
@@ -2239,6 +2243,7 @@ public class JideSwingUtilities implements SwingConstants {
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("focusOwner", listener);
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("permanentFocusOwner", listener);
         DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("activeWindow", listener);
+        tracingFocus = true;
     }
 
     public static class TraceDebugBorder extends CompoundBorder {
