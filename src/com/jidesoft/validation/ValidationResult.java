@@ -12,6 +12,10 @@ package com.jidesoft.validation;
  * as it's consistent across your application. <li> message: a String value of result. You can use this string value to
  * put a message to indicate why the validation failed. </ul> Users can extend this class to create their own
  * ValidationResult to provide additional information that needed to be returned from Validator.
+ * <p/>
+ * If you used a constructor without failBehavior parameter, the default value for behavior is {@link
+ * #FAIL_BEHAVIOR_REVERT}, which means JideTable will not accept the new input and just revert the
+ * value in the cell to the old value and stop cell editing as normal.
  */
 public class ValidationResult {
     private int _id;
@@ -20,7 +24,7 @@ public class ValidationResult {
     private String _message;
 
     /**
-     * When validation fails, reverts back to the previous valid value.
+     * When validation fails, reverts back to the previous valid value and stop cell editting as normal.
      */
     public static final int FAIL_BEHAVIOR_REVERT = 0;
 
@@ -50,7 +54,7 @@ public class ValidationResult {
     /**
      * Creates an invalid ValidationResult with an id and no message.
      *
-     * @param id
+     * @param id the result id. You can create the id by your definition
      */
     public ValidationResult(int id) {
         this(id, false, null);
@@ -59,7 +63,7 @@ public class ValidationResult {
     /**
      * Creates an empty ValidationResult.
      *
-     * @param valid
+     * @param valid a boolean value to indicate if the value input is valid
      */
     public ValidationResult(boolean valid) {
         this(0, valid, null);
@@ -68,8 +72,8 @@ public class ValidationResult {
     /**
      * Creates an invalid ValidationResult with an id and a message.
      *
-     * @param id
-     * @param message
+     * @param id the result id. You can create the id by your definition
+     * @param message the message you want to display to the customer
      */
     public ValidationResult(int id, String message) {
         this(id, false, message);
@@ -78,9 +82,9 @@ public class ValidationResult {
     /**
      * Creates an ValidationResult with an id and a message.
      *
-     * @param id
-     * @param valid
-     * @param message
+     * @param id the result id. You can create the id by your definition
+     * @param valid a boolean value to indicate if the value input is valid
+     * @param message the message you want to display to the customer
      */
     public ValidationResult(int id, boolean valid, String message) {
         _id = id;
@@ -91,9 +95,9 @@ public class ValidationResult {
     /**
      * Creates an ValidationResult with an id and an error behavior.
      *
-     * @param id
-     * @param valid
-     * @param failBehavoir
+     * @param id the result id. You can create the id by your definition
+     * @param valid a boolean value to indicate if the value input is valid
+     * @param failBehavoir the behavior
      */
     public ValidationResult(int id, boolean valid, int failBehavoir) {
         _id = id;
@@ -104,10 +108,10 @@ public class ValidationResult {
     /**
      * Creates an ValidationResult with an id, a message and an error behavior.
      *
-     * @param id
-     * @param valid
-     * @param failBehavoir
-     * @param message
+     * @param id the result id. You can create the id by your definition
+     * @param valid a boolean value to indicate if the value input is valid
+     * @param failBehavoir the behavior
+     * @param message the message you want to display to the customer
      */
     public ValidationResult(int id, boolean valid, int failBehavoir, String message) {
         _id = id;
@@ -128,7 +132,7 @@ public class ValidationResult {
     /**
      * Sets the id of the ValidationResult.
      *
-     * @param id
+     * @param id the result id. You can create the id by your definition
      */
     public void setId(int id) {
         _id = id;
@@ -146,7 +150,7 @@ public class ValidationResult {
     /**
      * Sets the validation state.
      *
-     * @param valid
+     * @param valid a boolean value to indicate if the value input is valid
      */
     public void setValid(boolean valid) {
         _valid = valid;
@@ -181,9 +185,13 @@ public class ValidationResult {
 
     /**
      * Sets the behavior if validation fails. Valid values are {@link #FAIL_BEHAVIOR_PERSIST}, {@link
-     * #FAIL_BEHAVIOR_REVERT}, and {@link #FAIL_BEHAVIOR_REVERT}.
+     * #FAIL_BEHAVIOR_REVERT}, and {@link #FAIL_BEHAVIOR_RESET}.
+     * <p/>
+     * If you used a constructor without this parameter, the default value for behavior is {@link
+     * #FAIL_BEHAVIOR_REVERT}, which means JideTable will not accept the new input and just revert the
+     * value in the cell to the old value and stop cell editing as normal.
      *
-     * @param failBehavior
+     * @param failBehavior the behavior
      */
     public void setFailBehavior(int failBehavior) {
         _failBehavior = failBehavior;
