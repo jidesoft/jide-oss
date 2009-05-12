@@ -552,7 +552,7 @@ public class CheckBoxList extends JList {
     }
 
     private void setSelectedObjects(Map<Object, String> selected) {
-        List<Integer> indices = new ArrayList();
+        List<Integer> indices = new ArrayList<Integer>();
         for (int i = 0; i < getModel().getSize(); i++) {
             Object elementAt = getModel().getElementAt(i);
             if (selected.get(elementAt) != null) {
@@ -683,7 +683,7 @@ public class CheckBoxList extends JList {
      */
     public void addCheckBoxListSelectedValues(Object[] objects) {
         if (objects != null) {
-            Map<Object, String> map = new HashMap();
+            Map<Object, String> map = new HashMap<Object, String>();
             for (Object o : objects) {
                 map.put(o, "");
             }
@@ -732,14 +732,18 @@ public class CheckBoxList extends JList {
      * Selects all objects in this list except those are disabled.
      */
     public void selectAll() {
-        getCheckBoxListSelectionModel().setSelectionInterval(0, getModel().getSize() - 1);
+        if (getModel().getSize() > 0) {
+            getCheckBoxListSelectionModel().setSelectionInterval(0, getModel().getSize() - 1);
+        }
     }
 
     /**
      * Deselects all objects in this list except those are disabled.
      */
     public void selectNone() {
-        getCheckBoxListSelectionModel().removeIndexInterval(0, getModel().getSize() - 1);
+        if (getModel().getSize() > 0) {
+            getCheckBoxListSelectionModel().removeIndexInterval(0, getModel().getSize() - 1);
+        }
     }
 
     @Override
