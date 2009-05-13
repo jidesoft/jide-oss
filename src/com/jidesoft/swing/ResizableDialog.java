@@ -121,19 +121,21 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
             }
 
             @Override
-            protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
-                boolean processed = super.processKeyBinding(ks, e, condition, pressed);
-                if (processed || e.isConsumed() || !isRoutingKeyStrokes())
-                    return processed;
+            protected void processKeyEvent(KeyEvent e) {
+                super.processKeyEvent(e);
+                
+                if (e.isConsumed() || !isRoutingKeyStrokes())
+                    return ;
 
                 Component routingParent = getRoutingComponent();
                 if (routingParent == null) {
-                    return false;
+                    return ;
                 }
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(
-                        routingParent, e);
-                return (e.isConsumed());
+                routingParent.dispatchEvent(e);
+
+                return;
             }
+
         };
         setContentPane(_resizablePanel);
 
