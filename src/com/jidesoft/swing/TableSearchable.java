@@ -125,6 +125,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * @return true if the table is the column selection.
      */
     protected boolean isColumnSelectionAllowed(JTable table) {
+        // NOTES: must sync with TableShrinkSearchableSupport#isColumnSelectionAllowed.
         return getSearchColumnIndices().length == 1 && (table.getColumnSelectionAllowed() && !table.getRowSelectionAllowed());
     }
 
@@ -135,6 +136,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
      * @return true if the table is the row selection.
      */
     protected boolean isRowSelectionAllowed(JTable table) {
+        // NOTES: must sync with TableShrinkSearchableSupport#isRowSelectionAllowed.
         return getSearchColumnIndices().length == 1 && (!table.getColumnSelectionAllowed() && table.getRowSelectionAllowed());
     }
 
@@ -318,8 +320,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     }
 
     public void tableChanged(TableModelEvent e) {
-        hidePopup();
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        if (isProcessModelChangeEvent()) {
+            hidePopup();
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        }
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

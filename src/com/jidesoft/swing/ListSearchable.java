@@ -51,7 +51,6 @@ import java.awt.*;
  */
 public class ListSearchable extends Searchable implements ListDataListener, PropertyChangeListener {
     private boolean _useRendererAsConverter = false;
-    private boolean _processModelChangeEvent = true;
 
     public ListSearchable(JList list) {
         super(list);
@@ -200,34 +199,5 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
      */
     public void setUseRendererAsConverter(boolean useRendererAsConverter) {
         _useRendererAsConverter = useRendererAsConverter;
-    }
-
-    /**
-     * Get the flag if we should process model change event.
-     * <p/>
-     * By default, the value is true, which means the model change event should be processed.
-     * <p/>
-     * In <code>ListShrinkSearchableSupport</code> case, since we will fire this event while applying filters. This flag
-     * will be switched to false before we fire the event and set it back to true.
-     * <p/>
-     * In normal case, please do not set this flag.
-     *
-     * @return true if we should process model change event. Otherwise false.
-     */
-    public boolean isProcessModelChangeEvent() {
-        return _processModelChangeEvent;
-    }
-
-    /**
-     * Set the flag if we should process model change event.
-     * <p/>
-     * In normal case, please do not set this flag.
-     * <p/>
-     * @see #isProcessModelChangeEvent()
-     *
-     * @param processModelChangeEvent the flag
-     */
-    public void setProcessModelChangeEvent(boolean processModelChangeEvent) {
-        _processModelChangeEvent = processModelChangeEvent;
     }
 }

@@ -140,6 +140,8 @@ public abstract class Searchable {
 
     private Set<Integer> _selection;
 
+    private boolean _processModelChangeEvent = true;
+
     /**
      * Creates a Searchable.
      *
@@ -204,7 +206,7 @@ public abstract class Searchable {
      *                    added to current selection. If false, you should clear previous selection and then select the
      *                    element.
      */
-    public void publicSetSelectedIndex(int index, boolean incremental) {
+    public void adjustSelectedIndex(int index, boolean incremental) {
         setSelectedIndex(index, incremental);
     }
 
@@ -436,11 +438,7 @@ public abstract class Searchable {
             }
             _popup = null;
             _searchableProvider = null;
-            Object currentElement = null;
-            if (getCurrentIndex() >= 0 && getCurrentIndex() < getElementCount()) {
-                currentElement = getElementAt(getCurrentIndex());
-            }
-            fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_END, "", currentElement, _previousSearchText));
+            fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_END, "", getCurrentIndex(), _previousSearchText));
         }
         setCursor(-1);
     }
@@ -604,11 +602,7 @@ public abstract class Searchable {
     public void firePropertyChangeEvent(String searchingText) {
         if (!searchingText.equals(_previousSearchText)) {
             _propertyChangeSupport.firePropertyChange(PROPERTY_SEARCH_TEXT, _previousSearchText, searchingText);
-            Object currentElement = null;
-            if (getCurrentIndex() >= 0 && getCurrentIndex() < getElementCount()) {
-                currentElement = getElementAt(getCurrentIndex());
-            }
-            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_CHANGE, searchingText, currentElement, _previousSearchText));
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_CHANGE, searchingText, getCurrentIndex(), _previousSearchText));
             _previousSearchText = searchingText;
         }
     }
@@ -1649,5 +1643,34 @@ public abstract class Searchable {
             }
             component.putClientProperty(CLIENT_PROPERTY_SEARCHABLE, searchable);
         }
+    }
+
+    /**
+     * Get the flag if we should process model change event.
+     * <p/>
+     * By default, the value is true, which means the model change event should be processed.
+     * <p/>
+     * In <code>ListShrinkSearchableSupport</code> case, since we will fire this event while applying filters. This flag
+     * will be switched to false before we fire the event and set it back to true.
+     * <p/>
+     * In normal case, please do not set this flag.
+     *
+     * @return true if we should process model change event. Otherwise false.
+     */
+    public boolean isProcessModelChangeEvent() {
+        return _processModelChangeEvent;
+    }
+
+    /**
+     * Set the flag if we should process model change event.
+     * <p/>
+     * In normal case, please do not set this flag.
+     * <p/>
+     * @see #isProcessModelChangeEvent()
+     *
+     * @param processModelChangeEvent the flag
+     */
+    public void setProcessModelChangeEvent(boolean processModelChangeEvent) {
+        _processModelChangeEvent = processModelChangeEvent;
     }
 }
