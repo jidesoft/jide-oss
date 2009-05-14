@@ -194,6 +194,21 @@ public abstract class Searchable {
     protected abstract void setSelectedIndex(int index, boolean incremental);
 
     /**
+     * Sets the selected index. The reason we have this method is just for back compatibility. All the method do is just
+     * to invoke {@link #setSelectedIndex(int, boolean)}.
+     * <p/>
+     * Please do NOT try to override this method. Always override {@link #setSelectedIndex(int, boolean)} instead.
+     *
+     * @param index       the index to be selected
+     * @param incremental a flag to enable multiple selection. If the flag is true, the element at the index should be
+     *                    added to current selection. If false, you should clear previous selection and then select the
+     *                    element.
+     */
+    public void publicSetSelectedIndex(int index, boolean incremental) {
+        setSelectedIndex(index, incremental);
+    }
+
+    /**
      * Gets the total element count in the component. Different concrete implementation could have different
      * interpretation of the count. This is totally OK as long as it's consistent in all the methods. For example, the
      * index parameter in other methods should be always a valid value within the total count.
@@ -309,6 +324,7 @@ public abstract class Searchable {
 
                 protected void applyText() {
                     String text = _textField.getText().trim();
+                    firePropertyChangeEvent(text);
                     if (text.length() != 0) {
                         int found = findFromCursor(text);
                         if (found == -1) {
@@ -370,7 +386,6 @@ public abstract class Searchable {
                 _noMatch.setText(getResourceString("Searchable.noMatch"));
             }
             updatePopupBounds();
-            firePropertyChangeEvent(searchingText);
             if (index != -1) {
                 Object element = getElementAt(index);
                 fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_MATCH, searchingText, element, convertElementToString(element)));
@@ -421,7 +436,11 @@ public abstract class Searchable {
             }
             _popup = null;
             _searchableProvider = null;
-            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_END));
+            Object currentElement = null;
+            if (getCurrentIndex() >= 0 && getCurrentIndex() < getElementCount()) {
+                currentElement = getElementAt(getCurrentIndex());
+            }
+            fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_END, "", currentElement, _previousSearchText));
         }
         setCursor(-1);
     }
@@ -585,7 +604,11 @@ public abstract class Searchable {
     public void firePropertyChangeEvent(String searchingText) {
         if (!searchingText.equals(_previousSearchText)) {
             _propertyChangeSupport.firePropertyChange(PROPERTY_SEARCH_TEXT, _previousSearchText, searchingText);
-            fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_CHANGE, searchingText, _previousSearchText));
+            Object currentElement = null;
+            if (getCurrentIndex() >= 0 && getCurrentIndex() < getElementCount()) {
+                currentElement = getElementAt(getCurrentIndex());
+            }
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_CHANGE, searchingText, currentElement, _previousSearchText));
             _previousSearchText = searchingText;
         }
     }
