@@ -77,7 +77,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     /**
      * Sets the property which determines if the popup should be shown during searching.
      *
-     * @param showPopupDuringSearching
+     * @param showPopupDuringSearching the flag indicating if we should show popup during searching
      */
     public void setShowPopupDuringSearching(boolean showPopupDuringSearching) {
         _showPopupDuringSearching = showPopupDuringSearching;
@@ -97,6 +97,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
                 }
             }
             catch (IllegalComponentStateException e) {
+                //null
             }
         }
     }
@@ -122,7 +123,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
      * Converts the element in JCombobox to string. The returned value will be the <code>toString()</code> of whatever
      * element that returned from <code>list.getModel().getElementAt(i)</code>.
      *
-     * @param object
+     * @param object the object to be converted
      * @return the string representing the element in the JComboBox.
      */
     @Override
@@ -136,6 +137,9 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     }
 
     public void contentsChanged(ListDataEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         if (e.getIndex0() == -1 && e.getIndex1() == -1) {
         }
         else {
@@ -145,11 +149,17 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     }
 
     public void intervalAdded(ListDataEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
 
     public void intervalRemoved(ListDataEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
