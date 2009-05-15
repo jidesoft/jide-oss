@@ -112,7 +112,7 @@ public class BasicHeaderBoxUI extends HeaderBoxUI {
         public void mouseExited(MouseEvent e) {
             AbstractButton b = (AbstractButton) e.getSource();
             ButtonModel model = b.getModel();
-            if (b.isRolloverEnabled() && !b.contains(e.getPoint())) {
+            if (b.isRolloverEnabled()) {
                 model.setRollover(false);
             }
             model.setArmed(false);
