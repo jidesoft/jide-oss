@@ -17,6 +17,8 @@ import java.io.Serializable;
  * Renders an item in a list using JCheckBox.
  */
 public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer, Serializable {
+    private static final long serialVersionUID = 2003073492549917883L;
+
     /**
      * The checkbox that is used to paint the check box in cell renderer
      */
@@ -127,13 +129,13 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
         if (_actualListRenderer != null) {
             JComponent listCellRendererComponent = (JComponent) _actualListRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if (list instanceof CheckBoxList) {
-                if (!((CheckBoxList) list).isCheckBoxVisible(index)) {
+            if (list instanceof CheckBoxListWithSelectable) {
+                if (!((CheckBoxListWithSelectable) list).isCheckBoxVisible(index)) {
                     return listCellRendererComponent;
                 }
             }
-            else if (list instanceof CheckBoxListWithSelectable) {
-                if (!((CheckBoxListWithSelectable) list).isCheckBoxVisible(index)) {
+            if (list instanceof CheckBoxList) {
+                if (!((CheckBoxList) list).isCheckBoxVisible(index)) {
                     return listCellRendererComponent;
                 }
             }
@@ -172,7 +174,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
      * the checkbox. You can subclass it to set an icon, change alignment etc. Since "this" is a JCheckBox, you can call
      * all methods available on JCheckBox in the overridden method.
      *
-     * @param value
+     * @param value the value on the cell renderer.
      */
     protected void customizeDefaultCellRenderer(Object value) {
         if (value instanceof Icon) {

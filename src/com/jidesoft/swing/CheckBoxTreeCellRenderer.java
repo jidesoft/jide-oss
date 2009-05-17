@@ -8,7 +8,6 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import java.awt.*;
@@ -20,8 +19,7 @@ import java.io.Serializable;
  * Renderers an item in a tree using JCheckBox.
  */
 public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer, Serializable {
-
-    protected static Border noFocusBorder;
+    private static final long serialVersionUID = 30207434500313004L;
 
     /**
      * The checkbox that is used to paint the check box in cell renderer
@@ -43,14 +41,10 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
     }
 
     public CheckBoxTreeCellRenderer(TreeCellRenderer renderer) {
-        if (noFocusBorder == null) {
-            noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-        }
         _protoType = new TristateCheckBox();
         _checkBox = createCheckBox();
         _emptyBox = (JComponent) Box.createHorizontalStrut(_protoType.getPreferredSize().width);
         _checkBox.setOpaque(false);
-        setBorder(noFocusBorder);
         setLayout(new BorderLayout(0, 0));
         setOpaque(false);
         _actualTreeRenderer = renderer;
