@@ -8,7 +8,6 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
@@ -18,9 +17,6 @@ import java.io.Serializable;
  * Renders an item in a list using JCheckBox.
  */
 public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer, Serializable {
-
-    protected static Border noFocusBorder;
-
     /**
      * The checkbox that is used to paint the check box in cell renderer
      */
@@ -33,11 +29,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
     protected ListCellRenderer _actualListRenderer;
 
     public CheckBoxListCellRenderer(ListCellRenderer renderer) {
-        if (noFocusBorder == null) {
-            noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-        }
         setOpaque(true);
-        setBorder(noFocusBorder);
         setLayout(new BorderLayout(0, 0));
         add(_checkBox, BorderLayout.BEFORE_LINE_BEGINS);
         _actualListRenderer = renderer;
@@ -135,7 +127,6 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
         if (_actualListRenderer != null) {
             JComponent listCellRendererComponent = (JComponent) _actualListRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if (!cellHasFocus) listCellRendererComponent.setBorder(noFocusBorder);
             if (list instanceof CheckBoxList) {
                 if (!((CheckBoxList) list).isCheckBoxVisible(index)) {
                     return listCellRendererComponent;
