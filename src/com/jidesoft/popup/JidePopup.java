@@ -568,6 +568,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     protected class AccessiblePopup extends AccessibleJComponent
             implements AccessibleValue {
+        private static final long serialVersionUID = -1095213042773793649L;
 
         /**
          * Get the accessible name of this object.
@@ -1075,6 +1076,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *              parameter.
      * @return a ResizablePanel
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     protected ResizablePanel createLightweightPopupContainer(Component owner) {
         ResizablePanel panel = new ResizablePanel() {
             @Override
@@ -1362,6 +1364,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         _relativeY = 0;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void beginDragging(JComponent f, int mouseX, int mouseY, double relativeX, double relativeY) {
         _relativeX = relativeX;
         _relativeY = relativeY;
@@ -1442,6 +1445,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         while (c != null);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void drag(JComponent f, int newX, int newY, int mouseModifiers) {
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             int x = newX - (int) (_currentPanel.getWidth() * _relativeX);
@@ -1519,7 +1523,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 //                if (event.getID() == MouseEvent.MOUSE_PRESSED) {
 //                    MouseEvent e = (MouseEvent) event;
 //                    Object source = SwingUtilities.getDeepestComponentAt(e.getComponent(), e.getX(), e.getY());
-//                    if (!isAncestorOf((Container) source, JidePopup.this.getTopLevelAncestor())) { // todo: add a flag to not hidepopup in some cases
+//                    if (!isAncestorOf((Container) source, JidePopup.this.getTopLevelAncestor())) { // todo: add a flag to not hidePopup in some cases
 //                        hidePopup();
 //                    }
 //                    else {
@@ -1651,21 +1655,23 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     protected void handleMouseDragged(MouseEvent e) {
         if (isDragging()) {
             Point screenPoint = e.getPoint();
-            convertPointToScreen(screenPoint, ((Component) e.getSource()), true);
-            drag(null, screenPoint.x, screenPoint.y, e.getModifiersEx());
-            e.consume();
+            if (e.getSource() instanceof Component) {
+                convertPointToScreen(screenPoint, ((Component) e.getSource()), true);
+                drag(null, screenPoint.x, screenPoint.y, e.getModifiersEx());
+                e.consume();
+            }
         }
     }
 
     protected void handleMouseEntered(MouseEvent e) {
         if (_popupType == LIGHT_WEIGHT_POPUP) {
-            if ((_panel != null) &&
+            if ((_panel != null) && e.getSource() instanceof Component &&
                     _panel.isAncestorOf(((Component) e.getSource())) && getTimeout() != 0) {
                 stopTimeoutTimer();
             }
         }
         else if (_popupType == HEAVY_WEIGHT_POPUP) {
-            if ((_window != null) &&
+            if ((_window != null) && e.getSource() instanceof Component &&
                     _window.isAncestorOf(((Component) e.getSource())) && getTimeout() != 0) {
                 stopTimeoutTimer();
             }
@@ -1674,13 +1680,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void handleMouseExited(MouseEvent e) {
         if (_popupType == LIGHT_WEIGHT_POPUP) {
-            if ((_panel != null) &&
+            if ((_panel != null) && e.getSource() instanceof Component &&
                     _panel.isAncestorOf(((Component) e.getSource())) && getTimeout() != 0) {
                 startTimeoutTimer();
             }
         }
         else if (_popupType == HEAVY_WEIGHT_POPUP) {
-            if ((_window != null) &&
+            if ((_window != null) && e.getSource() instanceof Component &&
                     _window.isAncestorOf(((Component) e.getSource())) && getTimeout() != 0) {
                 startTimeoutTimer();
             }
@@ -1708,7 +1714,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void handleWindowEvent(WindowEvent e) {
         Component owner = getActualOwner();
-        if (e.getSource() != getTopLevelAncestor() && isAncestorOf(owner, e.getWindow())) { // check if it's embeded in browser
+        if (e.getSource() != getTopLevelAncestor() && isAncestorOf(owner, e.getWindow())) { // check if it's embedded in browser
             if (e.getID() == WindowEvent.WINDOW_CLOSING || e.getID() == WindowEvent.WINDOW_ICONIFIED) {
                 hidePopup(true);
             }
@@ -1764,7 +1770,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             ancestorHidden();
         }
         else if (e.getID() == ComponentEvent.COMPONENT_MOVED && isAncestorOf(owner, e.getSource())) {
-            // this line is for Linux because the jframe moves when combobox is shown inside JidePopup
+            // this line is for Linux because the JFrame moves when combobox is shown inside JidePopup
 //            System.out.println("_actualOwnerLocation " + _actualOwnerLocation + " _actualOwner " + _actualOwner + " _actualOwner.getLocationOnScreen() " + (_actualOwner != null ? _actualOwner.getLocationOnScreen() : null));
             if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
                 ancestorMoved();
@@ -2475,7 +2481,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * component. If it returns true, the popup will not be hidden. If false, the popup will be hidden as we consider
      * the mouse click is outside the popup.
      *
-     * @param e
+     * @param e the mouse event
      * @return true or false.
      */
     public boolean isClickOnPopup(MouseEvent e) {
