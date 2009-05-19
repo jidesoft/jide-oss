@@ -14,11 +14,12 @@ public class ConverterContext extends AbstractContext {
      * Default converter context with empty name and no user object.
      */
     public static ConverterContext DEFAULT_CONTEXT = new ConverterContext("");
+    private static final long serialVersionUID = 8015351559541303641L;
 
     /**
      * Creates a converter context with a name.
      *
-     * @param name
+     * @param name the name of the converter context
      */
     public ConverterContext(String name) {
         super(name);
@@ -27,7 +28,7 @@ public class ConverterContext extends AbstractContext {
     /**
      * Creates a converter context with a name and an object.
      *
-     * @param name
+     * @param name the name of the converter context
      * @param object the user object. It can be used as any object to pass information along.
      */
     public ConverterContext(String name, Object object) {
