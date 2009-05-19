@@ -829,10 +829,6 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
         else {
             d.width += getRightMargin();
-
-            if (isDownArrowVisible(b.getParent())) {
-                d.width += 7;
-            }
         }
 
         if (isHorizontal)

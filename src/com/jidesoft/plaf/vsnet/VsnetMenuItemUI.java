@@ -486,10 +486,14 @@ public class VsnetMenuItemUI extends MenuItemUI {
         Insets insets = b.getInsets();
 
         if (useCheckAndArrow()) {
+            insets.left = 0;
+            insets.right = 0;
             r.width += 5;
         }
 
         if (isDownArrowVisible(parent)) {
+            insets.left = 0;
+            insets.right = 0;
             r.width += 7;
         }
 
@@ -565,11 +569,13 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
         viewRect.setBounds(0, 0, menuWidth, menuHeight);
 
-        viewRect.x += i.left;
-        viewRect.width -= (i.right + viewRect.x);
         if (isDownArrowVisible(b.getParent())) {
             viewRect.x += 3;
             viewRect.width -= 7;
+        }
+        else {
+            viewRect.x += i.left;
+            viewRect.width -= (i.right + viewRect.x);
         }
         viewRect.y += i.top;
         viewRect.height -= (i.bottom + viewRect.y);
@@ -918,7 +924,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
         viewRect.width += getRightMargin(); // this line is mainly for JideSplitButton
 
-        Insets insets = menuItem.getInsets();
+        Insets insets = isDownArrowVisible(menuItem.getParent()) ? new Insets(0, 0, 0, 0) : menuItem.getInsets();
         // get viewRect which is the bounds of menuitem
         viewRect.x = insets.left;
         viewRect.y = insets.top;
