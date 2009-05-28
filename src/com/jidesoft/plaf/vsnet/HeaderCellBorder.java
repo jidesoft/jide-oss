@@ -17,14 +17,13 @@ public class HeaderCellBorder implements Border, UIResource {
     }
 
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        Color baseColor = c.getBackground();
-        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.45f));
+        g.setColor(new Color(0, 0, 0, 27));
         g.drawLine(0, height - 3, width, height - 3);
 
-        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.43f));
+        g.setColor(new Color(0, 0, 0, 37));
         g.drawLine(0, height - 2, width, height - 2);
 
-        g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
+        g.setColor(new Color(0, 0, 0, 52));
         g.drawLine(0, height - 1, width, height - 1);
         g.drawLine(width - 1, 0, width - 1, height - 1);
     }
