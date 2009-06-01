@@ -134,7 +134,13 @@ public class JideCursors {
      */
     protected static Cursor createCursor(int type) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension bestSize = toolkit.getBestCursorSize(32, 32);
+        Dimension bestSize;
+        try {
+            bestSize = toolkit.getBestCursorSize(32, 32);
+        }
+        catch (HeadlessException e) {
+            bestSize = new Dimension(32, 32);
+        }
         int maxColor = toolkit.getMaximumCursorColors();
         switch (type) {
             case HSPLIT_CURSOR: {
