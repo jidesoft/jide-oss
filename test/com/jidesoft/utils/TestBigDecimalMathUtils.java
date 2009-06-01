@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import java.math.BigDecimal;
 
 public class TestBigDecimalMathUtils extends TestCase {
-    public void performRootTests() {
+    public void testPerformRoot() {
         BigDecimal dec = new BigDecimal("25029.33333");
         assertEquals(new BigDecimal("158.20662"), round(BigDecimalMathUtils.sqrt(dec), 5));
 
