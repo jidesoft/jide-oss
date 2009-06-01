@@ -5,93 +5,14 @@
  */
 package com.jidesoft.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.DefaultKeyboardFocusManager;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FocusTraversalPolicy;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
-import java.awt.Paint;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Toolkit;
-import java.awt.Transparency;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessControlException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.logging.Logger;
+import com.jidesoft.dialog.ButtonPanel;
+import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.plaf.WindowsDesktopProperty;
+import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.CellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JApplet;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.JWindow;
-import javax.swing.KeyStroke;
-import javax.swing.ListCellRenderer;
-import javax.swing.RootPaneContainer;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -108,21 +29,25 @@ import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.View;
 import javax.swing.tree.TreeCellRenderer;
-
-import com.jidesoft.dialog.ButtonPanel;
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.WindowsDesktopProperty;
-import com.jidesoft.plaf.basic.ThemePainter;
-import com.jidesoft.utils.SecurityUtils;
-import com.jidesoft.utils.SystemInfo;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.AccessControlException;
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * A utilities class for Swing.
  */
 public class JideSwingUtilities implements SwingConstants {
-	
+
     private static final Logger LOGGER_FOCUS = Logger.getLogger(JideSwingUtilities.class.getName() + ".focus");
-	
+
     /**
      * Whether or not text is drawn anti-aliased.  This is only used if <code>AA_TEXT_DEFINED</code> is true.
      */
@@ -2287,9 +2212,9 @@ public class JideSwingUtilities implements SwingConstants {
      * For internal usage only.
      */
     public static void traceFocus(final boolean useBorders) {
-    	if (tracingFocus)
-    		return;
-    	PropertyChangeListener listener = new PropertyChangeListener() {
+        if (tracingFocus)
+            return;
+        PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (useBorders) {
                     Component oldValue = (Component) evt.getOldValue();
@@ -2611,7 +2536,7 @@ public class JideSwingUtilities implements SwingConstants {
                 menuFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
             }
             else {
-                menuFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+                menuFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : font.getSize());
             }
         }
 
@@ -2646,7 +2571,7 @@ public class JideSwingUtilities implements SwingConstants {
                 controlFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
             }
             else {
-                controlFont = font;
+                controlFont = defaultFontSize == -1f ? font : new WindowsDesktopProperty("win.defaultGUI.font", font, toolkit, defaultFontSize);
             }
         }
 
@@ -2680,7 +2605,7 @@ public class JideSwingUtilities implements SwingConstants {
                     boldFont = SecurityUtils.createFontUIResource("Tahoma", Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
                 }
                 else {
-                    boldFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
+                    boldFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : font.getSize());
                 }
             }
             return boldFont;
@@ -2756,27 +2681,27 @@ public class JideSwingUtilities implements SwingConstants {
      * @return if request focus is success or not.
      */
     public static boolean compositeRequestFocus(Component component) {
-    	LOGGER_FOCUS.fine("compositeRequestFocus " + component);
+        LOGGER_FOCUS.fine("compositeRequestFocus " + component);
         if (component instanceof Container) {
-        	LOGGER_FOCUS.fine("compositeRequestFocus " + "is container.");
+            LOGGER_FOCUS.fine("compositeRequestFocus " + "is container.");
             Container container = (Container) component;
             if (container.isFocusCycleRoot()) {
-            	LOGGER_FOCUS.fine("compositeRequestFocus " + "is focuscycleroot.");
+                LOGGER_FOCUS.fine("compositeRequestFocus " + "is focuscycleroot.");
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
                 LOGGER_FOCUS.fine("compositeRequestFocus " + "default component = " + comp);
-                
+
                 if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0) {
-                	LOGGER_FOCUS.fine("compositeRequestFocus " + "default component passesFocusabilityTest =" + passesFocusabilityTest(comp));
-                	LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
+                    LOGGER_FOCUS.fine("compositeRequestFocus " + "default component passesFocusabilityTest =" + passesFocusabilityTest(comp));
+                    LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
                     comp.requestFocus();
                     return true;
                 }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
             if (rootAncestor != null) {
-            	LOGGER_FOCUS.fine("compositeRequestFocus " + "using rootAncestor =" + rootAncestor);
-            	FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
+                LOGGER_FOCUS.fine("compositeRequestFocus " + "using rootAncestor =" + rootAncestor);
+                FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
                 Component comp = null;
                 try {
                     comp = policy.getComponentAfter(rootAncestor, container);
@@ -2786,21 +2711,21 @@ public class JideSwingUtilities implements SwingConstants {
                     // http://jidesoft.com/forum/viewtopic.php?p=32569
                 }
 
-            	LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter =" + comp);
+                LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter =" + comp);
                 if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
-                	LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter passesFocusabilityTest =" + passesFocusabilityTest(comp));
-                	LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
+                    LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter passesFocusabilityTest =" + passesFocusabilityTest(comp));
+                    LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
                     comp.requestFocus();
                     return true;
                 }
             }
         }
         if (!passesFocusabilityTest(component)) {
-        	LOGGER_FOCUS.fine("compositeRequestFocus " + "returingfalse because !passesFocusabilityTest" + component);
+            LOGGER_FOCUS.fine("compositeRequestFocus " + "returingfalse because !passesFocusabilityTest" + component);
             return false;
         }
-        
-    	LOGGER_FOCUS.fine("compositeRequestFocus " + "component=" + component);
+
+        LOGGER_FOCUS.fine("compositeRequestFocus " + "component=" + component);
         component.requestFocus();
         return true;
     }
