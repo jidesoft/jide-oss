@@ -7753,9 +7753,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (tabIndex >= 0 && _tabPane.isEnabledAt(tabIndex)) {
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
-                            if (!_tabPane.requestFocusInWindow()) {
+//                            if (!_tabPane.requestFocusInWindow()) {
                                 _tabPane.requestFocus();
-                            }
+//                            }
                         }
                     }
                     else {
@@ -7772,14 +7772,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     Component lastFocused = _tabPane.getLastFocusedComponent(comp);
                                     if (lastFocused != null) {
                                         // this code works in JDK6 but on JDK5
-                                        if (!lastFocused.requestFocusInWindow()) {
+//                                        if (!lastFocused.requestFocusInWindow()) {
                                             lastFocused.requestFocus();
-                                        }
+//                                        }
                                     }
                                     else if (_tabPane.isRequestFocusEnabled()) {
-                                        if (!_tabPane.requestFocusInWindow()) {
+//                                        if (!_tabPane.requestFocusInWindow()) {
                                             _tabPane.requestFocus();
-                                        }
+//                                        }
                                     }
                                 }
                             });
@@ -7788,14 +7788,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             Component lastFocused = _tabPane.getLastFocusedComponent(comp);
                             if (lastFocused != null) {
                                 // this code works in JDK6 but on JDK5
-                                if (!lastFocused.requestFocusInWindow()) {
+//                                if (!lastFocused.requestFocusInWindow()) {
                                     lastFocused.requestFocus();
-                                }
+//                                }
                             }
                             else {
                                 // first try to find a default component.
                                 boolean foundInTab = JideSwingUtilities.compositeRequestFocus(comp);
-                                if (!foundInTab && !_tabPane.requestFocusInWindow()) {
+                                if (!foundInTab) { // && !_tabPane.requestFocusInWindow()) {
                                     _tabPane.requestFocus();
                                 }
                             }
@@ -7803,7 +7803,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
             }
-            startEditing(e); // start editing tab
+            if (!isTabEditing())
+            	startEditing(e); // start editing tab
         }
 
     }
@@ -8247,7 +8248,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
             @Override
             public void focusLost(FocusEvent e) {
-            	System.out.println("---.focusLost()" + e);
             }
         });
         editor.addActionListener(new ActionListener() {
@@ -8296,7 +8296,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_originalFocusComponent != null)
-                _originalFocusComponent.requestFocusInWindow();
+                _originalFocusComponent.requestFocus(); // InWindow();
             else
                 _tabPane.requestFocusForVisibleComponent();
 
