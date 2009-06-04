@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  * <code>JTabbedPane</code>, it <ul> <li> has an option to hide tab area if there is only one component in tabbed pane.
  * <li> has an option to resize tab width so that all tabs can be fitted in one row. <li> has an option to show a close
  * button along with scroll left and scroll right buttons in tab area. </ul> Except methods to set additional options
- * specified above, the uage of <code>JideTabbedPane</code> is the same as <code>JTabbedPane</code>.
+ * specified above, the usage of <code>JideTabbedPane</code> is the same as <code>JTabbedPane</code>.
  */
 public class JideTabbedPane extends JTabbedPane {
 
@@ -513,7 +513,12 @@ public class JideTabbedPane extends JTabbedPane {
         if (selectedIndex == tabIndex) { // do nothing
             return;
         }
+        if (tabIndex == -1 || selectedIndex == -1)
+        	return;
 
+        if (isTabEditing())
+        	stopTabEditing();
+        
         Component selectedComponent = getComponentAt(selectedIndex);
 
         boolean old = isAutoRequestFocus();
@@ -803,6 +808,7 @@ public class JideTabbedPane extends JTabbedPane {
     public void setTabEditingAllowed(boolean allowed) {
         _tabEditingAllowed = allowed;
     }
+    
 
     /**
      * Checks if the tab editing is allowed.
@@ -811,6 +817,16 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public boolean isTabEditingAllowed() {
         return _tabEditingAllowed && getTabLayoutPolicy() == SCROLL_TAB_LAYOUT;
+    }
+    
+    transient protected TabEditingValidator _tabEditValidator;
+    
+    public void setTabEditingValidator(TabEditingValidator tabEditValidator) {
+    	_tabEditValidator = tabEditValidator;    	
+    }
+    
+    public TabEditingValidator getTabEditingValidator() {
+    	return _tabEditValidator;
     }
 
     /**
