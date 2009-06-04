@@ -5070,6 +5070,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    protected void stopOrCancelEditing() {
+    	boolean isEditValid = true;
+        if (_tabPane != null && _tabPane.isTabEditing() && _tabPane.getTabEditingValidator() != null) {
+    		isEditValid = _tabPane.getTabEditingValidator().isValid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
+    	}
+        if (isEditValid)
+        	_tabPane.stopTabEditing();
+        else 
+        	_tabPane.cancelTabEditing();
+    }
 
     private static class CloseTabAction extends AbstractAction {
         public CloseTabAction() {
@@ -5098,7 +5108,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (pane.isTabEditing()) {
-                pane.stopTabEditing();
+            	((BasicJideTabbedPaneUI) pane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
             }
 
             ActionEvent e2 = e;
@@ -7677,6 +7687,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      */
     public class TabSelectionHandler implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
+        	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
             ensureCloseButtonCreated();
             Runnable runnable = new Runnable() {
                 public void run() {
@@ -7896,7 +7907,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_tabPane.isTabEditing()) {
-                _tabPane.stopTabEditing();
+            	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -7925,7 +7936,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_tabPane.isTabEditing()) {
-                _tabPane.stopTabEditing();
+            	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -8208,8 +8219,26 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected TabEditor createDefaultTabEditor() {
-        TabEditor editor = new TabEditor();
+        final TabEditor editor = new TabEditor();
         editor.getDocument().addDocumentListener(this);
+        editor.setInputVerifier(new InputVerifier() {
+			@Override
+			public boolean verify(JComponent input) {
+				return true;
+			}
+			public boolean shouldYieldFocus(JComponent input) {
+            	boolean shouldStopEditing = true;
+                if (_tabPane != null && _tabPane.isTabEditing() && _tabPane.getTabEditingValidator() != null) {
+            		shouldStopEditing = _tabPane.getTabEditingValidator().alertIfInvalid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
+            	}
+                
+                if (shouldStopEditing && _tabPane != null && _tabPane.isTabEditing()) {
+            		_tabPane.stopTabEditing();
+                }
+                
+            	return shouldStopEditing;
+			}
+        });
         editor.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -8218,15 +8247,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (_tabPane != null && _tabPane.isTabEditing()) {
-                    _originalFocusComponent = e.getOppositeComponent();
-                    _tabPane.stopTabEditing();
-                }
+            	System.out.println("---.focusLost()" + e);
             }
         });
         editor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                _tabPane.stopTabEditing();
+            	editor.transferFocus();
             }
         });
         editor.addKeyListener(new KeyAdapter() {
@@ -8287,8 +8313,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
 //        _tabPane.popupSelectedIndex(tabIndex);
-
-
         if (_tabEditor == null)
             _tabEditor = createDefaultTabEditor();
 
@@ -8479,12 +8503,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
                 && _tabPane.isTabEditingAllowed() && (e.getClickCount() == 2)) {
-            e.consume();
-            _tabPane.editTabAt(tabIndex);
+        	boolean shouldEdit = true;
+        	if (_tabPane.getTabEditingValidator() != null) 
+        		shouldEdit = _tabPane.getTabEditingValidator().shouldStartEdit(tabIndex, e);
+        	
+        	if (shouldEdit) {
+        		e.consume();
+        		_tabPane.editTabAt(tabIndex);
+        	}
         }
         if (e.getClickCount() == 1) {
             if (_tabPane.isTabEditing()) {
-                _tabPane.stopTabEditing();
+            	boolean shouldStopEdit = true;
+            	if (_tabPane.getTabEditingValidator() != null)
+            		shouldStopEdit = _tabPane.getTabEditingValidator().alertIfInvalid(tabIndex, _oldPrefix + _tabEditor.getText() + _oldPostfix);
+            	
+            	if (shouldStopEdit)
+            		_tabPane.stopTabEditing();
             }
         }
     }
