@@ -958,12 +958,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null) {
-                _panel.setSize(_previousSize);
+                setPreferredSize(_previousSize);
                 _previousSize = null;
             }
-            else {
-                packPopup();
-            }
+            packPopup();
 
             if (_insets != null) {
                 Point p = getPopupLocation(new Point(x, y), _panel.getSize(), owner);
@@ -997,12 +995,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null) {
-                _window.setSize(_previousSize);
+                setPreferredSize(_previousSize);
                 _previousSize = null;
             }
-            else {
-                packPopup();
-            }
+            packPopup();
 
             if (_insets != null) {
                 Point p = getPopupLocation(new Point(x, y), _window.getSize(), owner);
@@ -2506,6 +2502,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         else {
             return getOwner();
         }
+    }
+
+    /**
+     * Sets the preferred popup size. This method can be used when you want to keep the popup size to be the same as
+     * when it was closed.
+     *
+     * @param size the size of the popup when it was shown last time.
+     */
+    public void setPreferredPopupSize(Dimension size) {
+        _previousSize = size;
     }
 
     public static boolean isPopupAncestorOf(JidePopup popup, Component c) {
