@@ -239,11 +239,40 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             boolean reversed = !ltr && getOrientation() == HORIZONTAL_SPLIT;
             int prevIndex = reversed ? 2 * index + 2 : 2 * index;
             int nextIndex = reversed ? 2 * index : 2 * index + 2;
-            int nextDividerIndex = index + 1;
-            int prevDividerIndex = index - 1;
+            int nextDividerIndex = reversed ? index - 1 : index + 1;
+            int prevDividerIndex = reversed ? index + 1 : index - 1;
+            int flexibleNextIndex;
+            int flexiblePrevIndex;
             List<Integer> componentIndexChanged = new ArrayList<Integer>();
 
             if (reversed) {
+                while (nextIndex >= 0 && _componentSizes[nextIndex] == 0) {
+                    nextIndex -= 2;
+                    nextDividerIndex --;
+                }
+
+                while (prevIndex < _componentSizes.length && _componentSizes[prevIndex] == 0) {
+                    prevIndex += 2;
+                    prevDividerIndex ++;
+                }
+
+                flexibleNextIndex = nextIndex;
+                while (flexibleNextIndex >= 0 &&
+                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || _componentSizes[flexibleNextIndex] == 0)) {
+                    flexibleNextIndex -= 2;
+                }
+                if (flexibleNextIndex < 0) {
+                    return -1;
+                }
+
+                flexiblePrevIndex = prevIndex;
+                while (flexiblePrevIndex < _componentSizes.length &&
+                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || _componentSizes[flexiblePrevIndex] == 0)) {
+                    flexiblePrevIndex += 2;
+                }
+                if (flexiblePrevIndex >= _componentSizes.length) {
+                    return -1;
+                }
             }
             else {
                 while (nextIndex < _componentSizes.length && _componentSizes[nextIndex] == 0) {
@@ -256,7 +285,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     prevDividerIndex --;
                 }
 
-                int flexibleNextIndex = nextIndex;
+                flexibleNextIndex = nextIndex;
                 while (flexibleNextIndex < _componentSizes.length &&
                         (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || _componentSizes[flexibleNextIndex] == 0)) {
                     flexibleNextIndex += 2;
@@ -265,7 +294,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     return -1;
                 }
 
-                int flexiblePrevIndex = prevIndex;
+                flexiblePrevIndex = prevIndex;
                 while (flexiblePrevIndex >= 0 &&
                         (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || _componentSizes[flexiblePrevIndex] == 0)) {
                     flexiblePrevIndex -= 2;
@@ -273,96 +302,96 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 if (flexiblePrevIndex < 0) {
                     return -1;
                 }
+            }
 
-                if (isOriginator
-                        && getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX
-                        && getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
-                    return -1;
+            if (isOriginator
+                    && getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX
+                    && getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
+                return -1;
+            }
+
+            if (location > oldLocation) {
+                int size = _componentSizes[2 * index + 1];
+                if (getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX) {
+                    size += _componentSizes[nextIndex];
                 }
-
-                if (location > oldLocation) {
-                    int size = _componentSizes[nextIndex - 1];
-                    if (getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX) {
-                        size += _componentSizes[nextIndex];
+                else {
+                    if (getOrientation() == HORIZONTAL_SPLIT) {
+                        size += _target.getComponent(nextIndex).getMinimumSize().getWidth();
                     }
                     else {
-                        if (getOrientation() == HORIZONTAL_SPLIT) {
-                            size += _target.getComponent(nextIndex).getMinimumSize().getWidth();
-                        }
-                        else {
-                            size += _target.getComponent(nextIndex).getMinimumSize().getHeight();
-                        }
-                    }
-
-                    int nextDividerLocation = getDividerLocation(nextDividerIndex);
-                    if (nextDividerLocation < 0) {
-                        if (getOrientation() == HORIZONTAL_SPLIT) {
-                            location = Math.min(location, _target.getWidth() - size);
-                        }
-                        else {
-                            location = Math.min(location, _target.getHeight() - size);
-                        }
-                    }
-                    else if (location + size > nextDividerLocation) {
-                        int actualLocation = setDividerLocation(nextDividerIndex, location + size, false);
-                        if (actualLocation == -1) {
-                            return -1;
-                        }
-                        location = actualLocation - size;
-                    }
-                    if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
-                        _componentSizes[nextIndex] -= location - oldLocation;
-                        componentIndexChanged.add(nextIndex);
-                    }
-                    if (isOriginator) {
-                        _componentSizes[flexiblePrevIndex] += location - oldLocation;
-                        componentIndexChanged.add(flexiblePrevIndex);
-                    }
-                    else if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
-                        _componentSizes[prevIndex] += location - oldLocation;
-                        componentIndexChanged.add(prevIndex);
+                        size += _target.getComponent(nextIndex).getMinimumSize().getHeight();
                     }
                 }
-                else if (location < oldLocation) {
-                    int size = 0;
-                    if (prevDividerIndex >= 0) {
-                        size = _componentSizes[prevIndex - 1];
-                    }
-                    if (getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
-                        size += _componentSizes[prevIndex];
+
+                int nextDividerLocation = getDividerLocation(nextDividerIndex);
+                if (nextDividerLocation < 0) {
+                    if (getOrientation() == HORIZONTAL_SPLIT) {
+                        location = Math.min(location, _target.getWidth() - size);
                     }
                     else {
-                        if (getOrientation() == HORIZONTAL_SPLIT) {
-                            size += _target.getComponent(prevIndex).getMinimumSize().getWidth();
-                        }
-                        else {
-                            size += _target.getComponent(prevIndex).getMinimumSize().getHeight();
-                        }
+                        location = Math.min(location, _target.getHeight() - size);
                     }
+                }
+                else if (location + size > nextDividerLocation) {
+                    int actualLocation = setDividerLocation(nextDividerIndex, location + size, false);
+                    if (actualLocation == -1) {
+                        return -1;
+                    }
+                    location = actualLocation - size;
+                }
+                if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
+                    _componentSizes[nextIndex] -= location - oldLocation;
+                    componentIndexChanged.add(nextIndex);
+                }
+                if (isOriginator) {
+                    _componentSizes[flexiblePrevIndex] += location - oldLocation;
+                    componentIndexChanged.add(flexiblePrevIndex);
+                }
+                else if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
+                    _componentSizes[prevIndex] += location - oldLocation;
+                    componentIndexChanged.add(prevIndex);
+                }
+            }
+            else if (location < oldLocation) {
+                int size = 0;
+                if (prevDividerIndex >= 0) {
+                    size = _componentSizes[prevIndex - 1];
+                }
+                if (getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
+                    size += _componentSizes[prevIndex];
+                }
+                else {
+                    if (getOrientation() == HORIZONTAL_SPLIT) {
+                        size += _target.getComponent(prevIndex).getMinimumSize().getWidth();
+                    }
+                    else {
+                        size += _target.getComponent(prevIndex).getMinimumSize().getHeight();
+                    }
+                }
 
-                    int prevDividerLocation = getDividerLocation(prevDividerIndex);
-                    if (prevDividerLocation < 0) {
-                        location = Math.max(location, size);
+                int prevDividerLocation = getDividerLocation(prevDividerIndex);
+                if (prevDividerLocation < 0) {
+                    location = Math.max(location, size);
+                }
+                else if (location - size < prevDividerLocation) {
+                    int actualLocation = setDividerLocation(prevDividerIndex, location - size, false);
+                    if (actualLocation == -1) {
+                        return -1;
                     }
-                    else if (location - size < prevDividerLocation) {
-                        int actualLocation = setDividerLocation(prevDividerIndex, location - size, false);
-                        if (actualLocation == -1) {
-                            return -1;
-                        }
-                        location = actualLocation + size;
-                    }
-                    if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
-                        _componentSizes[prevIndex] -= oldLocation - location;
-                        componentIndexChanged.add(prevIndex);
-                    }
-                    if (isOriginator) {
-                        _componentSizes[flexibleNextIndex] += oldLocation - location;
-                        componentIndexChanged.add(flexiblePrevIndex);
-                    }
-                    else if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
-                        _componentSizes[nextIndex] += oldLocation - location;
-                        componentIndexChanged.add(nextIndex);
-                    }
+                    location = actualLocation + size;
+                }
+                if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
+                    _componentSizes[prevIndex] -= oldLocation - location;
+                    componentIndexChanged.add(prevIndex);
+                }
+                if (isOriginator) {
+                    _componentSizes[flexibleNextIndex] += oldLocation - location;
+                    componentIndexChanged.add(flexiblePrevIndex);
+                }
+                else if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
+                    _componentSizes[nextIndex] += oldLocation - location;
+                    componentIndexChanged.add(nextIndex);
                 }
             }
 
