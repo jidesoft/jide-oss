@@ -490,15 +490,17 @@ final public class SystemInfo {
                 || locale.equals(Locale.KOREAN);
     }
 
-    private static class JavaVersion {
+    public static class JavaVersion {
         /**
          * For example: 1.6.0_12: Group 1 = major version (1.6) Group 3 = minor version (0) Group 5 = build number (12)
          */
-        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_(\\d+))?(\\D*+)");
+        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_([^-]+))?(.*)");
+        private static Pattern SUN_JAVA_VERSION_SIMPLE = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(.*)");
 
         private double _majorVersion;
         private int _minorVersion;
         private int _buildNumber;
+        private String _patch;
 
         public JavaVersion(String version) {
             _majorVersion = 1.4;
@@ -513,12 +515,33 @@ final public class SystemInfo {
                         _minorVersion = Integer.parseInt(matcher.group(3));
                     }
                     if (groups >= 5 && matcher.group(5) != null) {
-                        _buildNumber = Integer.parseInt(matcher.group(5));
+                        try {
+                            _buildNumber = Integer.parseInt(matcher.group(5));
+                        }
+                        catch (NumberFormatException e) {
+                            _patch = matcher.group(5);
+                        }
+                    }
+                    if (groups >= 6 && matcher.group(6) != null) {
+                        String s = matcher.group(6);
+                        if (s != null && s.trim().length() > 0) _patch = s;
                     }
                 }
             }
             catch (NumberFormatException e) {
-                System.err.println("Please check the installation of your JDK. The version number " + version + " is not right.");
+                try {
+                    Matcher matcher = SUN_JAVA_VERSION_SIMPLE.matcher(version);
+                    if (matcher.matches()) {
+                        int groups = matcher.groupCount();
+                        _majorVersion = Double.parseDouble(matcher.group(1));
+                        if (groups >= 3 && matcher.group(3) != null) {
+                            _minorVersion = Integer.parseInt(matcher.group(3));
+                        }
+                    }
+                }
+                catch (NumberFormatException e1) {
+                    System.err.println("Please check the installation of your JDK. The version number " + version + " is not right.");
+                }
             }
         }
 
@@ -538,6 +561,22 @@ final public class SystemInfo {
                 return result;
             }
             return _buildNumber - build;
+        }
+
+        public double getMajorVersion() {
+            return _majorVersion;
+        }
+
+        public int getMinorVersion() {
+            return _minorVersion;
+        }
+
+        public int getBuildNumber() {
+            return _buildNumber;
+        }
+
+        public String getPatch() {
+            return _patch;
         }
     }
 }
