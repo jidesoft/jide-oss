@@ -5071,14 +5071,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void stopOrCancelEditing() {
-    	boolean isEditValid = true;
+        boolean isEditValid = true;
         if (_tabPane != null && _tabPane.isTabEditing() && _tabPane.getTabEditingValidator() != null) {
-    		isEditValid = _tabPane.getTabEditingValidator().isValid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
-    	}
+            isEditValid = _tabPane.getTabEditingValidator().isValid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
+        }
         if (isEditValid)
-        	_tabPane.stopTabEditing();
-        else 
-        	_tabPane.cancelTabEditing();
+            _tabPane.stopTabEditing();
+        else
+            _tabPane.cancelTabEditing();
     }
 
     private static class CloseTabAction extends AbstractAction {
@@ -5108,7 +5108,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (pane.isTabEditing()) {
-            	((BasicJideTabbedPaneUI) pane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
+                ((BasicJideTabbedPaneUI) pane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
             }
 
             ActionEvent e2 = e;
@@ -7603,6 +7603,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                 }
                 updateMnemonics();
+
+                if (scrollableTabLayoutEnabled()) {
+                    _tabScroller.viewport.setViewSize(new Dimension(
+                            _tabPane.getWidth(), _tabScroller.viewport.getViewSize().height));
+                    ensureActiveTabIsVisible(false);
+                }
             }
             else if (name.equals("tabLayoutPolicy")) {
                 _tabPane.updateUI();
@@ -7687,14 +7693,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      */
     public class TabSelectionHandler implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
-        	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
+            ((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
             ensureCloseButtonCreated();
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    ensureActiveTabIsVisible(false);
-                }
-            };
-            SwingUtilities.invokeLater(runnable);
+            ensureActiveTabIsVisible(false);
         }
     }
 
@@ -7754,7 +7755,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
                         if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
 //                            if (!_tabPane.requestFocusInWindow()) {
-                                _tabPane.requestFocus();
+                            _tabPane.requestFocus();
 //                            }
                         }
                     }
@@ -7773,12 +7774,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     if (lastFocused != null) {
                                         // this code works in JDK6 but on JDK5
 //                                        if (!lastFocused.requestFocusInWindow()) {
-                                            lastFocused.requestFocus();
+                                        lastFocused.requestFocus();
 //                                        }
                                     }
                                     else if (_tabPane.isRequestFocusEnabled()) {
 //                                        if (!_tabPane.requestFocusInWindow()) {
-                                            _tabPane.requestFocus();
+                                        _tabPane.requestFocus();
 //                                        }
                                     }
                                 }
@@ -7789,7 +7790,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             if (lastFocused != null) {
                                 // this code works in JDK6 but on JDK5
 //                                if (!lastFocused.requestFocusInWindow()) {
-                                    lastFocused.requestFocus();
+                                lastFocused.requestFocus();
 //                                }
                             }
                             else {
@@ -7804,7 +7805,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
             }
             if (!isTabEditing())
-            	startEditing(e); // start editing tab
+                startEditing(e); // start editing tab
         }
 
     }
@@ -7908,7 +7909,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_tabPane.isTabEditing()) {
-            	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
+                ((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -7937,7 +7938,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_tabPane.isTabEditing()) {
-            	((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
+                ((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
             }
 
             ensureCloseButtonCreated();
@@ -8223,22 +8224,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         final TabEditor editor = new TabEditor();
         editor.getDocument().addDocumentListener(this);
         editor.setInputVerifier(new InputVerifier() {
-			@Override
-			public boolean verify(JComponent input) {
-				return true;
-			}
-			public boolean shouldYieldFocus(JComponent input) {
-            	boolean shouldStopEditing = true;
+            @Override
+            public boolean verify(JComponent input) {
+                return true;
+            }
+
+            public boolean shouldYieldFocus(JComponent input) {
+                boolean shouldStopEditing = true;
                 if (_tabPane != null && _tabPane.isTabEditing() && _tabPane.getTabEditingValidator() != null) {
-            		shouldStopEditing = _tabPane.getTabEditingValidator().alertIfInvalid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
-            	}
-                
-                if (shouldStopEditing && _tabPane != null && _tabPane.isTabEditing()) {
-            		_tabPane.stopTabEditing();
+                    shouldStopEditing = _tabPane.getTabEditingValidator().alertIfInvalid(_editingTab, _oldPrefix + _tabEditor.getText() + _oldPostfix);
                 }
-                
-            	return shouldStopEditing;
-			}
+
+                if (shouldStopEditing && _tabPane != null && _tabPane.isTabEditing()) {
+                    _tabPane.stopTabEditing();
+                }
+
+                return shouldStopEditing;
+            }
         });
         editor.addFocusListener(new FocusAdapter() {
             @Override
@@ -8252,7 +8254,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         });
         editor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	editor.transferFocus();
+                editor.transferFocus();
             }
         });
         editor.addKeyListener(new KeyAdapter() {
@@ -8503,23 +8505,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
                 && _tabPane.isTabEditingAllowed() && (e.getClickCount() == 2)) {
-        	boolean shouldEdit = true;
-        	if (_tabPane.getTabEditingValidator() != null) 
-        		shouldEdit = _tabPane.getTabEditingValidator().shouldStartEdit(tabIndex, e);
-        	
-        	if (shouldEdit) {
-        		e.consume();
-        		_tabPane.editTabAt(tabIndex);
-        	}
+            boolean shouldEdit = true;
+            if (_tabPane.getTabEditingValidator() != null)
+                shouldEdit = _tabPane.getTabEditingValidator().shouldStartEdit(tabIndex, e);
+
+            if (shouldEdit) {
+                e.consume();
+                _tabPane.editTabAt(tabIndex);
+            }
         }
         if (e.getClickCount() == 1) {
             if (_tabPane.isTabEditing()) {
-            	boolean shouldStopEdit = true;
-            	if (_tabPane.getTabEditingValidator() != null)
-            		shouldStopEdit = _tabPane.getTabEditingValidator().alertIfInvalid(tabIndex, _oldPrefix + _tabEditor.getText() + _oldPostfix);
-            	
-            	if (shouldStopEdit)
-            		_tabPane.stopTabEditing();
+                boolean shouldStopEdit = true;
+                if (_tabPane.getTabEditingValidator() != null)
+                    shouldStopEdit = _tabPane.getTabEditingValidator().alertIfInvalid(tabIndex, _oldPrefix + _tabEditor.getText() + _oldPostfix);
+
+                if (shouldStopEdit)
+                    _tabPane.stopTabEditing();
             }
         }
     }
