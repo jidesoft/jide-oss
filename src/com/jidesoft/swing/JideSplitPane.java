@@ -11,9 +11,11 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.accessibility.*;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * <code>JideSplitPane</code> is used to divide multiple <code>Component</code>s.
@@ -179,6 +181,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * Layout manager used by JideSplitPane.
      */
     private class JideSplitPaneLayout extends JideBoxLayout {
+        private static final long serialVersionUID = -1826651835409198865L;
+
         public JideSplitPaneLayout(Container target) {
             super(target);
             setResetWhenInvalidate(false);
@@ -227,79 +231,166 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         }
 
         @SuppressWarnings({"RedundantCast"})
-        void setDividerLocation(int index, int location) {
+        int setDividerLocation(int index, int location, boolean isOriginator) {
             int oldLocation = getDividerLocation(index);
             if (oldLocation == -1 || oldLocation == location)
-                return;
+                return -1;
             boolean ltr = getComponentOrientation().isLeftToRight();
             boolean reversed = !ltr && getOrientation() == HORIZONTAL_SPLIT;
-            int prevIndex;
-            int nextIndex;
-            if (reversed) {
-                prevIndex = 2 * index + 2;
-                nextIndex = 2 * index;
-                for (int i = nextIndex; i >= 0; i--) {
-                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                        break;
-                    }
-                    nextIndex--;
-                }
-                for (int i = prevIndex; i < _target.getComponentCount(); i++) {
-                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                        break;
-                    }
-                    prevIndex++;
-                }
+            int prevIndex = reversed ? 2 * index + 2 : 2 * index;
+            int nextIndex = reversed ? 2 * index : 2 * index + 2;
+            int nextDividerIndex = index + 1;
+            int prevDividerIndex = index - 1;
+            List<Integer> componentIndexChanged = new ArrayList<Integer>();
 
-                if (nextIndex < 0 || prevIndex >= _componentSizes.length) {
-                    return;
-                }
+            if (reversed) {
             }
             else {
-                prevIndex = 2 * index;
-                nextIndex = 2 * index + 2;
-                for (int i = prevIndex; i >= 0; i--) {
-                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                        break;
-                    }
-                    prevIndex--;
+                while (nextIndex < _componentSizes.length && _componentSizes[nextIndex] == 0) {
+                    nextIndex += 2;
+                    nextDividerIndex ++;
                 }
-                for (int i = nextIndex; i < _target.getComponentCount(); i++) {
-                    if (_target.getComponent(i).isVisible() && getConstraintMap().get(_target.getComponent(i)) != JideBoxLayout.FIX) {
-                        break;
-                    }
-                    nextIndex++;
+
+                while (prevIndex >= 0 && _componentSizes[prevIndex] == 0) {
+                    prevIndex -= 2;
+                    prevDividerIndex --;
                 }
-                if (prevIndex < 0 || nextIndex >= _componentSizes.length) {
-                    return;
+
+                int flexibleNextIndex = nextIndex;
+                while (flexibleNextIndex < _componentSizes.length &&
+                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || _componentSizes[flexibleNextIndex] == 0)) {
+                    flexibleNextIndex += 2;
+                }
+                if (flexibleNextIndex >= _componentSizes.length) {
+                    return -1;
+                }
+
+                int flexiblePrevIndex = prevIndex;
+                while (flexiblePrevIndex >= 0 &&
+                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || _componentSizes[flexiblePrevIndex] == 0)) {
+                    flexiblePrevIndex -= 2;
+                }
+                if (flexiblePrevIndex < 0) {
+                    return -1;
+                }
+
+                if (isOriginator
+                        && getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX
+                        && getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
+                    return -1;
+                }
+
+                if (location > oldLocation) {
+                    int size = _componentSizes[nextIndex - 1];
+                    if (getConstraintMap().get(_target.getComponent(nextIndex)) == JideBoxLayout.FIX) {
+                        size += _componentSizes[nextIndex];
+                    }
+                    else {
+                        if (getOrientation() == HORIZONTAL_SPLIT) {
+                            size += _target.getComponent(nextIndex).getMinimumSize().getWidth();
+                        }
+                        else {
+                            size += _target.getComponent(nextIndex).getMinimumSize().getHeight();
+                        }
+                    }
+
+                    int nextDividerLocation = getDividerLocation(nextDividerIndex);
+                    if (nextDividerLocation < 0) {
+                        if (getOrientation() == HORIZONTAL_SPLIT) {
+                            location = Math.min(location, _target.getWidth() - size);
+                        }
+                        else {
+                            location = Math.min(location, _target.getHeight() - size);
+                        }
+                    }
+                    else if (location + size > nextDividerLocation) {
+                        int actualLocation = setDividerLocation(nextDividerIndex, location + size, false);
+                        if (actualLocation == -1) {
+                            return -1;
+                        }
+                        location = actualLocation - size;
+                    }
+                    if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
+                        _componentSizes[nextIndex] -= location - oldLocation;
+                        componentIndexChanged.add(nextIndex);
+                    }
+                    if (isOriginator) {
+                        _componentSizes[flexiblePrevIndex] += location - oldLocation;
+                        componentIndexChanged.add(flexiblePrevIndex);
+                    }
+                    else if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
+                        _componentSizes[prevIndex] += location - oldLocation;
+                        componentIndexChanged.add(prevIndex);
+                    }
+                }
+                else if (location < oldLocation) {
+                    int size = 0;
+                    if (prevDividerIndex >= 0) {
+                        size = _componentSizes[prevIndex - 1];
+                    }
+                    if (getConstraintMap().get(_target.getComponent(prevIndex)) == JideBoxLayout.FIX) {
+                        size += _componentSizes[prevIndex];
+                    }
+                    else {
+                        if (getOrientation() == HORIZONTAL_SPLIT) {
+                            size += _target.getComponent(prevIndex).getMinimumSize().getWidth();
+                        }
+                        else {
+                            size += _target.getComponent(prevIndex).getMinimumSize().getHeight();
+                        }
+                    }
+
+                    int prevDividerLocation = getDividerLocation(prevDividerIndex);
+                    if (prevDividerLocation < 0) {
+                        location = Math.max(location, size);
+                    }
+                    else if (location - size < prevDividerLocation) {
+                        int actualLocation = setDividerLocation(prevDividerIndex, location - size, false);
+                        if (actualLocation == -1) {
+                            return -1;
+                        }
+                        location = actualLocation + size;
+                    }
+                    if (getConstraintMap().get(_target.getComponent(prevIndex)) != JideBoxLayout.FIX) {
+                        _componentSizes[prevIndex] -= oldLocation - location;
+                        componentIndexChanged.add(prevIndex);
+                    }
+                    if (isOriginator) {
+                        _componentSizes[flexibleNextIndex] += oldLocation - location;
+                        componentIndexChanged.add(flexiblePrevIndex);
+                    }
+                    else if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
+                        _componentSizes[nextIndex] += oldLocation - location;
+                        componentIndexChanged.add(nextIndex);
+                    }
                 }
             }
 
-            _componentSizes[prevIndex] += location - oldLocation;
-            _componentSizes[nextIndex] -= location - oldLocation;
-            Component comp1 = _target.getComponent(prevIndex);
-            Component comp2 = _target.getComponent(nextIndex);
+            firePropertyChange(PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+            revalidate();
+
             if (isProportionalLayout()) {
                 replaceProportions();
-                return;
+                return location;
             }
-            ComponentOrientation o = _target.getComponentOrientation();
-            if (resolveAxis(_axis, o) == X_AXIS) {
-                if (comp1 instanceof JComponent) {
-                    ((JComponent) comp1).setPreferredSize(new Dimension(_componentSizes[prevIndex], comp1.getPreferredSize().height));
-                }
-                if (comp2 instanceof JComponent) {
-                    ((JComponent) comp2).setPreferredSize(new Dimension(_componentSizes[nextIndex], comp2.getPreferredSize().height));
+
+            if (getOrientation() == HORIZONTAL_SPLIT) {
+                for (int changedIndex : componentIndexChanged) {
+                    Component component = _target.getComponent(changedIndex);
+                    if (component instanceof JComponent) {
+                        ((JComponent) component).setPreferredSize(new Dimension(_componentSizes[changedIndex], component.getPreferredSize().height));
+                    }
                 }
             }
             else {
-                if (comp1 instanceof JComponent) {
-                    ((JComponent) comp1).setPreferredSize(new Dimension(comp1.getPreferredSize().width, _componentSizes[prevIndex]));
-                }
-                if (comp2 instanceof JComponent) {
-                    ((JComponent) comp2).setPreferredSize(new Dimension(comp2.getPreferredSize().width, _componentSizes[nextIndex]));
+                for (int changedIndex : componentIndexChanged) {
+                    Component component = _target.getComponent(changedIndex);
+                    if (component instanceof JComponent) {
+                        ((JComponent) component).setPreferredSize(new Dimension(component.getPreferredSize().width, _componentSizes[changedIndex]));
+                    }
                 }
             }
+            return location;
         }
 
         /**
@@ -920,10 +1011,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * @param location     new location
      */
     public void setDividerLocation(int dividerIndex, int location) {
-        int old = ((JideSplitPaneLayout) getLayout()).getDividerLocation(dividerIndex);
-        ((JideSplitPaneLayout) getLayout()).setDividerLocation(dividerIndex, location);
-        firePropertyChange(PROPERTY_DIVIDER_LOCATION, old, location);
-        revalidate();
+        ((JideSplitPaneLayout) getLayout()).setDividerLocation(dividerIndex, location, true);
     }
 
     /**
@@ -1369,6 +1457,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * implementation of the Java Accessibility API appropriate to split pane user-interface elements.
      */
     protected class AccessibleJideSplitPane extends AccessibleJComponent {
+        private static final long serialVersionUID = -6167624875135108683L;
+
         /**
          * Gets the state set of this object.
          *
@@ -1478,7 +1568,6 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      *
      * @param oneTouchExpandable <code>true</code> to specify that the split pane should provide a collapse/expand
      *                           widget
-     * @beaninfo bound: true description: UI widget on the divider to quickly expand/collapse the divider.
      * @see #isOneTouchExpandable
      */
     public void setOneTouchExpandable(boolean oneTouchExpandable) {

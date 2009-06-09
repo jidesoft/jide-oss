@@ -468,18 +468,41 @@ public class JideSplitPaneDivider extends JPanel
                 maxLocation = -1;
             }
             else {
-                if (leftC.isVisible()) {
-                    minLocation = getPreviousDividerLocation(false, reversed) + leftC.getMinimumSize().width;
+                int index = _jideSplitPane.indexOf(JideSplitPaneDivider.this);
+                int modelLeftWidth = 0;
+                int modelRightWidth = 0;
+                for (int i = 0; i < index; i++) {
+                    Component component = _jideSplitPane.getComponent(i);
+                    if (component instanceof JideSplitPaneDivider) {
+                        modelLeftWidth += component.getSize().getWidth();
+                    }
+                    else if (component.isVisible()) {
+                        if (((JideBoxLayout) _jideSplitPane.getLayout()).getConstraintMap().get(component) == JideBoxLayout.FIX) {
+                            modelLeftWidth += component.getWidth();
+                        }
+                        else {
+                            modelLeftWidth += component.getMinimumSize().getWidth();
+                        }
+                    }
                 }
-                else {
-                    minLocation = getPreviousDividerLocation(true, reversed);
+
+                for (int i = index + 1; i < _jideSplitPane.getComponentCount(); i++) {
+                    Component component = _jideSplitPane.getComponent(i);
+                    if (component instanceof JideSplitPaneDivider) {
+                        modelRightWidth += component.getSize().getWidth();
+                    }
+                    else if (component.isVisible()) {
+                        if (((JideBoxLayout) _jideSplitPane.getLayout()).getConstraintMap().get(component) == JideBoxLayout.FIX) {
+                            modelRightWidth += component.getWidth();
+                        }
+                        else {
+                            modelRightWidth += component.getMinimumSize().getWidth();
+                        }
+                    }
                 }
-                if (rightC.isVisible()) {
-                    maxLocation = Math.max(0, getNextDividerLocation(false, reversed) - (getSize().width) - rightC.getMinimumSize().width);
-                }
-                else {
-                    maxLocation = Math.max(0, getNextDividerLocation(true, reversed) - (getSize().width));
-                }
+
+                minLocation = reversed ? modelRightWidth : modelLeftWidth;
+                maxLocation = _jideSplitPane.getWidth() - ((reversed ? modelLeftWidth : modelRightWidth) + (int) getSize().getWidth());
                 if (maxLocation < minLocation) minLocation = maxLocation = 0;
             }
         }
@@ -579,18 +602,41 @@ public class JideSplitPaneDivider extends JPanel
                 maxLocation = -1;
             }
             else {
-                if (leftC.isVisible()) {
-                    minLocation = getPreviousDividerLocation(false, false) + leftC.getMinimumSize().height;
+                int index = _jideSplitPane.indexOf(JideSplitPaneDivider.this);
+                int modelUpHeight = 0;
+                int modelDownHeight = 0;
+                for (int i = 0; i < index; i++) {
+                    Component component = _jideSplitPane.getComponent(i);
+                    if (component instanceof JideSplitPaneDivider) {
+                        modelUpHeight += component.getSize().getHeight();
+                    }
+                    else if (component.isVisible()) {
+                        if (((JideBoxLayout) _jideSplitPane.getLayout()).getConstraintMap().get(component) == JideBoxLayout.FIX) {
+                            modelUpHeight += component.getHeight();
+                        }
+                        else {
+                            modelUpHeight += component.getMinimumSize().getHeight();
+                        }
+                    }
                 }
-                else {
-                    minLocation = 0;
+
+                for (int i = index + 1; i < _jideSplitPane.getComponentCount(); i++) {
+                    Component component = _jideSplitPane.getComponent(i);
+                    if (component instanceof JideSplitPaneDivider) {
+                        modelDownHeight += component.getSize().getHeight();
+                    }
+                    else if (component.isVisible()) {
+                        if (((JideBoxLayout) _jideSplitPane.getLayout()).getConstraintMap().get(component) == JideBoxLayout.FIX) {
+                            modelDownHeight += component.getHeight();
+                        }
+                        else {
+                            modelDownHeight += component.getMinimumSize().getHeight();
+                        }
+                    }
                 }
-                if (rightC.isVisible()) {
-                    maxLocation = Math.max(0, getNextDividerLocation(false, false) - getSize().height - rightC.getMinimumSize().height);
-                }
-                else {
-                    maxLocation = Math.max(0, getNextDividerLocation(true, false) - getSize().height);
-                }
+
+                minLocation = modelUpHeight;
+                maxLocation = _jideSplitPane.getHeight() - modelDownHeight - (int) getSize().getHeight();
                 if (maxLocation < minLocation) minLocation = maxLocation = 0;
             }
         }
