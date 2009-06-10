@@ -9,6 +9,8 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * <code>MarqueePane</code> is a subclass of <code>JScrollPane</code> with automation of scrolling. In <code>MarqueePane</code>, you can
@@ -20,6 +22,7 @@ public class MarqueePane extends JScrollPane {
     private int _stepSize = 2;
     private boolean _startOver = false;
     private int _scrollDirection = SCROLL_LEFT;
+    private Timer _scrollTimer = null;
 
     public static final int SCROLL_LEFT = 0;
     public static final int SCROLL_RIGHT = 1;
@@ -28,24 +31,27 @@ public class MarqueePane extends JScrollPane {
 
     public MarqueePane(Component view, int vsbPolicy, int hsbPolicy) {
         super(view, vsbPolicy, hsbPolicy);
+        startAutoScrolling();
     }
 
     public MarqueePane(Component view) {
         super(view);
+        startAutoScrolling();
     }
 
     public MarqueePane(int vsbPolicy, int hsbPolicy) {
         super(vsbPolicy, hsbPolicy);
+        startAutoScrolling();
     }
 
     public MarqueePane() {
         super();
+        startAutoScrolling();
     }
 
     @Override
     public void updateUI() {
         super.updateUI();
-        startTimer();
         setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
@@ -135,49 +141,56 @@ public class MarqueePane extends JScrollPane {
         _freezingTimeReachingEnd = freezingTimeReachingEnd;
     }
 
-    private void startTimer() {
-        Thread updateThread = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            BoundedRangeModel rangeModel;
-                            if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_RIGHT) {
-                                rangeModel = getHorizontalScrollBar().getModel();
-                            }
-                            else {
-                                rangeModel = getVerticalScrollBar().getModel();
-                            }
-                            int value = rangeModel.getValue();
-                            if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_UP) {
-                                if (value + _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum()) {
-                                    rangeModel.setValue(0);
-                                }
-                                else {
-                                    rangeModel.setValue(value + _stepSize);
-                                }
-                                _startOver = rangeModel.getValue() + 2 * _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum();
-                            }
-                            else {
-                                if (value - _stepSize <= rangeModel.getMinimum()) {
-                                    rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
-                                }
-                                else {
-                                    rangeModel.setValue(value - _stepSize);
-                                }
-                                _startOver = rangeModel.getValue() - 2 * _stepSize <= rangeModel.getMinimum();
-                            }
-                        }
-                    });
-                    try {
-                        Thread.sleep(_startOver ? getFreezingTimeReachingEnd() : getScrollFrequency());
+    /**
+     * Stop auto scrolling. The view will stay where it is.
+     */
+    public void stopAutoScrolling() {
+        if (_scrollTimer != null) {
+            if (_scrollTimer.isRunning()) {
+                _scrollTimer.stop();
+            }
+            _scrollTimer = null;
+        }
+    }
+
+    /**
+     * Start auto scrolling. 
+     */
+    public void startAutoScrolling() {
+        stopAutoScrolling();
+        _scrollTimer = new Timer(getScrollFrequency(), new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BoundedRangeModel rangeModel;
+                if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_RIGHT) {
+                    rangeModel = getHorizontalScrollBar().getModel();
+                }
+                else {
+                    rangeModel = getVerticalScrollBar().getModel();
+                }
+                int value = rangeModel.getValue();
+                if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_UP) {
+                    if (value + _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum()) {
+                        rangeModel.setValue(0);
                     }
-                    catch (Exception exc) {
-                        // empty
+                    else {
+                        rangeModel.setValue(value + _stepSize);
                     }
+                    _startOver = rangeModel.getValue() + 2 * _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum();
+                }
+                else {
+                    if (value - _stepSize <= rangeModel.getMinimum()) {
+                        rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
+                    }
+                    else {
+                        rangeModel.setValue(value - _stepSize);
+                    }
+                    _startOver = rangeModel.getValue() - 2 * _stepSize <= rangeModel.getMinimum();
+                }
+                if (_scrollTimer != null) {
+                    _scrollTimer.setDelay(_startOver ? getFreezingTimeReachingEnd() : getScrollFrequency());
                 }
             }
-        }, "updateThread");
-        updateThread.start();
+        });
+        _scrollTimer.start();
     }
 }
