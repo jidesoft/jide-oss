@@ -68,18 +68,18 @@ public class BasicJideLabelUI extends BasicLabelUI {
     @Override
     public void paint(Graphics g, JComponent c) {
         if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.VERTICAL) {
-            paintVertically(g, c);
+            boolean clockwise = true;
+            if (c instanceof JideLabel) {
+                clockwise = ((JideLabel) c).isClockwise();
+            }
+            paintVertically(g, c,clockwise);
         }
         else {
             super.paint(g, c);
         }
     }
 
-    public void paintVertically(Graphics g, JComponent c) {
-        boolean clockwise = true;
-        if (c instanceof JideLabel) {
-            clockwise = ((JideLabel) c).isClockwise();
-        }
+    public void paintVertically(Graphics g, JComponent c,boolean clockwise) {
 
         JLabel label = (JLabel) c;
         String text = label.getText();
@@ -135,10 +135,9 @@ public class BasicJideLabelUI extends BasicLabelUI {
         g2.setTransform(tr);
     }
 
-    @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
-        if (JideLabel.PROPERTY_ORIENTATION.equals(e.getPropertyName())) {
+        if (JideLabel.PROPERTY_ORIENTATION==e.getPropertyName()) {
             if (e.getSource() instanceof JLabel) {
                 JLabel label = (JLabel) e.getSource();
                 label.revalidate();
