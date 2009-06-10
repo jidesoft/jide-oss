@@ -9,17 +9,18 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
- * <code>MarqueePane</code> is a subclass of <code>JScrollPane</code> with automation of scrolling. In <code>MarqueePane</code>, you can
- * define the direction you want the component inside the <code>MarqueePane</code> to scroll to and the scrolling speed.
+ * <code>MarqueePane</code> is a subclass of <code>JScrollPane</code> with automation of scrolling. In
+ * <code>MarqueePane</code>, you can define the direction you want the component inside the <code>MarqueePane</code> to
+ * scroll to and the scrolling speed.
  */
 public class MarqueePane extends JScrollPane {
-    private int _scrollFrequency = 100;
+    private int _scrollDelay = 100;
     private int _freezingTimeReachingEnd = 500;
-    private int _stepSize = 2;
+    private int _scrollAmount = 2;
     private boolean _startOver = false;
     private int _scrollDirection = SCROLL_DIRECTION_LEFT;
     private Timer _scrollTimer = null;
@@ -56,43 +57,44 @@ public class MarqueePane extends JScrollPane {
      *
      * @return the scroll frequency.
      */
-    public int getScrollFrequency() {
-        return _scrollFrequency;
+    public int getScrollDelay() {
+        return _scrollDelay;
     }
 
     /**
      * Set the scroll frequency which indicating how frequent the Marquee will get repaint.
      *
-     * @param scrollFrequency the scroll frequency
+     * @param scrollDelay the scroll frequency
      */
-    public void setScrollFrequency(int scrollFrequency) {
-        _scrollFrequency = scrollFrequency;
+    public void setScrollDelay(int scrollDelay) {
+        _scrollDelay = scrollDelay;
     }
 
     /**
-     * Get the step size each repaint will scroll.
+     * Get the scroll amount between two repaints.
      * <p/>
      * The default value is 2.
      *
      * @return the step size.
      */
-    public int getStepSize() {
-        return _stepSize;
+    public int getScrollAmount() {
+        return _scrollAmount;
     }
 
     /**
-     * Set the step size each repaint will scroll.
+     * Set the scroll amount between two repaints.
      *
-     * @param stepSize the step size
+     * @param scrollAmount the step size
      */
-    public void setStepSize(int stepSize) {
-        _stepSize = stepSize;
+    public void setScrollAmount(int scrollAmount) {
+        _scrollAmount = scrollAmount;
     }
 
     /**
      * Get the scroll direction.
      * <p/>
-     * The value could be <code>SCROLL_LEFT</code>, <code>SCROLL_RIGHT</code>, <code>SCROLL_UP</code>, <code>SCROLL_DOWN</code>
+     * The value could be <code>SCROLL_LEFT</code>, <code>SCROLL_RIGHT</code>, <code>SCROLL_UP</code>,
+     * <code>SCROLL_DOWN</code>
      * <p/>
      * The default value is <code>SCROLL_LEFT</code>.
      *
@@ -144,11 +146,11 @@ public class MarqueePane extends JScrollPane {
     }
 
     /**
-     * Start auto scrolling. 
+     * Start auto scrolling.
      */
     public void startAutoScrolling() {
         stopAutoScrolling();
-        _scrollTimer = new Timer(getScrollFrequency(), new ActionListener() {
+        _scrollTimer = new Timer(getScrollDelay(), new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BoundedRangeModel rangeModel;
                 if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_RIGHT) {
@@ -159,25 +161,25 @@ public class MarqueePane extends JScrollPane {
                 }
                 int value = rangeModel.getValue();
                 if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
-                    if (value + _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum()) {
+                    if (value + _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum()) {
                         rangeModel.setValue(0);
                     }
                     else {
-                        rangeModel.setValue(value + _stepSize);
+                        rangeModel.setValue(value + _scrollAmount);
                     }
-                    _startOver = rangeModel.getValue() + 2 * _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum();
+                    _startOver = rangeModel.getValue() + 2 * _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum();
                 }
                 else {
-                    if (value - _stepSize <= rangeModel.getMinimum()) {
+                    if (value - _scrollAmount <= rangeModel.getMinimum()) {
                         rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
                     }
                     else {
-                        rangeModel.setValue(value - _stepSize);
+                        rangeModel.setValue(value - _scrollAmount);
                     }
-                    _startOver = rangeModel.getValue() - 2 * _stepSize <= rangeModel.getMinimum();
+                    _startOver = rangeModel.getValue() - 2 * _scrollAmount <= rangeModel.getMinimum();
                 }
                 if (_scrollTimer != null) {
-                    _scrollTimer.setDelay(_startOver ? getFreezingTimeReachingEnd() : getScrollFrequency());
+                    _scrollTimer.setDelay(_startOver ? getFreezingTimeReachingEnd() : getScrollDelay());
                 }
             }
         });
