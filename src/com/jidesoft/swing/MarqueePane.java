@@ -21,26 +21,16 @@ public class MarqueePane extends JScrollPane {
     private int _freezingTimeReachingEnd = 500;
     private int _stepSize = 2;
     private boolean _startOver = false;
-    private int _scrollDirection = SCROLL_LEFT;
+    private int _scrollDirection = SCROLL_DIRECTION_LEFT;
     private Timer _scrollTimer = null;
 
-    public static final int SCROLL_LEFT = 0;
-    public static final int SCROLL_RIGHT = 1;
-    public static final int SCROLL_UP = 2;
-    public static final int SCROLL_DOWN = 3;
-
-    public MarqueePane(Component view, int vsbPolicy, int hsbPolicy) {
-        super(view, vsbPolicy, hsbPolicy);
-        startAutoScrolling();
-    }
+    public static final int SCROLL_DIRECTION_LEFT = 0;
+    public static final int SCROLL_DIRECTION_RIGHT = 1;
+    public static final int SCROLL_DIRECTION_UP = 2;
+    public static final int SCROLL_DIRECTION_DOWN = 3;
 
     public MarqueePane(Component view) {
         super(view);
-        startAutoScrolling();
-    }
-
-    public MarqueePane(int vsbPolicy, int hsbPolicy) {
-        super(vsbPolicy, hsbPolicy);
         startAutoScrolling();
     }
 
@@ -161,14 +151,14 @@ public class MarqueePane extends JScrollPane {
         _scrollTimer = new Timer(getScrollFrequency(), new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 BoundedRangeModel rangeModel;
-                if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_RIGHT) {
+                if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_RIGHT) {
                     rangeModel = getHorizontalScrollBar().getModel();
                 }
                 else {
                     rangeModel = getVerticalScrollBar().getModel();
                 }
                 int value = rangeModel.getValue();
-                if (getScrollDirection() == SCROLL_LEFT || getScrollDirection() == SCROLL_UP) {
+                if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
                     if (value + _stepSize + rangeModel.getExtent() >= rangeModel.getMaximum()) {
                         rangeModel.setValue(0);
                     }
