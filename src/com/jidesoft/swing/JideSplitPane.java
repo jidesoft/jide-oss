@@ -135,6 +135,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
     private boolean _heavyweightComponentEnabled = false;
     public WindowAdapter _windowDeactivatedListener;
+    private int _dividerStepSize = 0;
 
     /**
      * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
@@ -175,6 +176,31 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
         // setup listener
         installListeners();
+    }
+
+    /**
+     * Get the step size while dragging the divider.
+     * <p/>
+     * The default value of the step size is 0, which means no constraints on the dragging position
+     *
+     * @return the step size.
+     */
+    public int getDividerStepSize() {
+        return _dividerStepSize;
+    }
+
+    /**
+     * Set the step size while dragging the divider.
+     * <p/>
+     * The step size cannot be negative.
+     *
+     * @param dividerStepSize the step size
+     */
+    public void setDividerStepSize(int dividerStepSize) {
+        if (dividerStepSize < 0) {
+            return;
+        }
+        _dividerStepSize = dividerStepSize;
     }
 
     /**

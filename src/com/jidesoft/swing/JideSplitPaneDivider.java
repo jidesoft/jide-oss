@@ -527,6 +527,11 @@ public class JideSplitPaneDivider extends JPanel
         protected int positionForMouseEvent(MouseEvent e) {
             int newX = (e.getSource() == JideSplitPaneDivider.this) ? (e.getX() + getLocation().x) : e.getX();
             newX = Math.min(maxLocation, Math.max(minLocation, newX - offset));
+            if (_jideSplitPane.getDividerStepSize() != 0) {
+                int distanceFromCurrent = newX - getX();
+                newX -= (distanceFromCurrent % _jideSplitPane.getDividerStepSize());
+            }
+
             return newX;
         }
 
@@ -541,6 +546,10 @@ public class JideSplitPaneDivider extends JPanel
         protected int getNeededLocation(int x, int y) {
             int newX;
             newX = Math.min(maxLocation, Math.max(minLocation, x - offset));
+            if (_jideSplitPane.getDividerStepSize() != 0) {
+                int distanceFromCurrent = newX - getX();
+                newX -= (distanceFromCurrent % _jideSplitPane.getDividerStepSize());
+            }
             return newX;
         }
 
@@ -649,6 +658,10 @@ public class JideSplitPaneDivider extends JPanel
         protected int getNeededLocation(int x, int y) {
             int newY;
             newY = Math.min(maxLocation, Math.max(minLocation, y - offset));
+            if (_jideSplitPane.getDividerStepSize() != 0) {
+                int distanceFromCurrent = newY - getY();
+                newY -= (distanceFromCurrent % _jideSplitPane.getDividerStepSize());
+            }
             return newY;
         }
 
@@ -660,6 +673,10 @@ public class JideSplitPaneDivider extends JPanel
         protected int positionForMouseEvent(MouseEvent e) {
             int newY = (e.getSource() == JideSplitPaneDivider.this) ? (e.getY() + getLocation().y) : e.getY();
             newY = Math.min(maxLocation, Math.max(minLocation, newY - offset));
+            if (_jideSplitPane.getDividerStepSize() != 0) {
+                int distanceFromCurrent = newY - getY();
+                newY -= (distanceFromCurrent % _jideSplitPane.getDividerStepSize());
+            }
             return newY;
         }
     } // End of BasicSplitPaneDividier.VerticalDragController
