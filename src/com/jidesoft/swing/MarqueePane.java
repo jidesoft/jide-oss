@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 /**
  * <code>MarqueePane</code> is a subclass of <code>JScrollPane</code> with automation of scrolling. In
@@ -19,11 +20,14 @@ import java.awt.event.ActionListener;
  */
 public class MarqueePane extends JScrollPane {
     private int _scrollDelay = 100;
-    private int _freezingTimeReachingEnd = 500;
+    private int _stayTime = 2000;
     private int _scrollAmount = 2;
-    private boolean _startOver = false;
+    private boolean _reachStayPosition = false;
     private int _scrollDirection = SCROLL_DIRECTION_LEFT;
     private Timer _scrollTimer = null;
+
+    private int[] _stayPositions = null;
+    private int _nextStayPosition = -1;
 
     public static final int SCROLL_DIRECTION_LEFT = 0;
     public static final int SCROLL_DIRECTION_RIGHT = 1;
@@ -120,17 +124,17 @@ public class MarqueePane extends JScrollPane {
      *
      * @return the freezing time.
      */
-    public int getFreezingTimeReachingEnd() {
-        return _freezingTimeReachingEnd;
+    public int getStayTime() {
+        return _stayTime;
     }
 
     /**
      * Set freezing time while scrolling reaches the end.
      *
-     * @param freezingTimeReachingEnd the freezing time
+     * @param stayTime the freezing time
      */
-    public void setFreezingTimeReachingEnd(int freezingTimeReachingEnd) {
-        _freezingTimeReachingEnd = freezingTimeReachingEnd;
+    public void setStayTime(int stayTime) {
+        _stayTime = stayTime;
     }
 
     /**
@@ -160,29 +164,97 @@ public class MarqueePane extends JScrollPane {
                     rangeModel = getVerticalScrollBar().getModel();
                 }
                 int value = rangeModel.getValue();
+                int[] stayPositions = getStayPositions();
+                if (_nextStayPosition == -1 && stayPositions != null && stayPositions.length > 0) {
+                    if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
+                        for (int i = 0; i < stayPositions.length; i++) {
+                            if (stayPositions[i] >= value) {
+                                _nextStayPosition = i;
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        for (int i = stayPositions.length - 1; i >= 0; i--) {
+                            if (stayPositions[i] <= value) {
+                                _nextStayPosition = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
-                    if (value + _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum()) {
-                        rangeModel.setValue(0);
+                    if (value + rangeModel.getExtent() == rangeModel.getMaximum()) {
+                        rangeModel.setValue(rangeModel.getMinimum());
+                    }
+                    else if (value + _scrollAmount + rangeModel.getExtent() > rangeModel.getMaximum()) {
+                        rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
                     }
                     else {
                         rangeModel.setValue(value + _scrollAmount);
                     }
-                    _startOver = rangeModel.getValue() + 2 * _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum();
+                    _reachStayPosition = rangeModel.getValue() + _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum();
+                    if (!_reachStayPosition && _nextStayPosition >= 0 && stayPositions != null) {
+                        if (value < stayPositions[_nextStayPosition] && value + _scrollAmount >= stayPositions[_nextStayPosition]) {
+                            rangeModel.setValue(stayPositions[_nextStayPosition]);
+                            _reachStayPosition = true;
+                        }
+                        if (_reachStayPosition) {
+                            _nextStayPosition = (_nextStayPosition + 1) % stayPositions.length;
+                        }
+                    }
+                    else {
+                        _nextStayPosition = -1;
+                    }
                 }
                 else {
-                    if (value - _scrollAmount <= rangeModel.getMinimum()) {
+                    if (value == rangeModel.getMinimum()) {
+                        int maximum = rangeModel.getMaximum();
+                        int extent = rangeModel.getExtent();
                         rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
+                        // In the very beginning, range model need to be reset so we need adjust the value with it.
+                        if (maximum != rangeModel.getMaximum() || extent != rangeModel.getExtent()) {
+                            rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
+                        }
+                    }
+                    else if (value - _scrollAmount < rangeModel.getMinimum()) {
+                        rangeModel.setValue(rangeModel.getMinimum());
                     }
                     else {
                         rangeModel.setValue(value - _scrollAmount);
                     }
-                    _startOver = rangeModel.getValue() - 2 * _scrollAmount <= rangeModel.getMinimum();
+                    _reachStayPosition = rangeModel.getValue() == rangeModel.getMinimum() || rangeModel.getValue() == rangeModel.getMaximum();
+                    if (!_reachStayPosition && _nextStayPosition >= 0 && stayPositions != null) {
+                        if (value > stayPositions[_nextStayPosition] && value - _scrollAmount <= stayPositions[_nextStayPosition]) {
+                            rangeModel.setValue(stayPositions[_nextStayPosition]);
+                            _reachStayPosition = true;
+                        }
+                        if (_reachStayPosition) {
+                            _nextStayPosition = _nextStayPosition - 1; // if it is -1, it will recalculate automatically
+                        }
+                    }
+                    else {
+                        _nextStayPosition = -1; // let it recalculate the next valid value since we don't have control on the stayPositions the customer passed in
+                    }
                 }
                 if (_scrollTimer != null) {
-                    _scrollTimer.setDelay(_startOver ? getFreezingTimeReachingEnd() : getScrollDelay());
+                    _scrollTimer.setDelay(_reachStayPosition ? getStayTime() : getScrollDelay());
                 }
             }
         });
         _scrollTimer.start();
+    }
+
+    public int[] getStayPositions() {
+        return _stayPositions;
+    }
+
+    public void setStayPositions(int[] stayPositions) {
+        _stayPositions = stayPositions;
+        if (_stayPositions != null && _stayPositions.length > 0) {
+            Arrays.sort(_stayPositions);
+            _nextStayPosition = -1;
+        }
     }
 }
