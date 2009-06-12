@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  */
 public class MarqueePane extends JScrollPane {
     private int _scrollDelay = 100;
-    private int _stayTime = 2000;
+    private int _stayDelay = 2000;
     private int _scrollAmount = 2;
     private int _scrollDirection = SCROLL_DIRECTION_LEFT;
     private int _stayPosition = -1;
@@ -117,23 +117,23 @@ public class MarqueePane extends JScrollPane {
     }
 
     /**
-     * Get freezing time while scrolling reaches the end.
+     * Gets delay time when it reaches a stay position.
      * <p/>
      * The default value is 500ms.
      *
-     * @return the freezing time.
+     * @return the delay time when it reaches a stay position..
      */
-    public int getStayTime() {
-        return _stayTime;
+    public int getStayDelay() {
+        return _stayDelay;
     }
 
     /**
-     * Set freezing time while scrolling reaches the end.
+     * Sets stay delay time when it reaches a stay position.
      *
-     * @param stayTime the freezing time
+     * @param stayDelay the delay time when it reaches a stay position.
      */
-    public void setStayTime(int stayTime) {
-        _stayTime = stayTime;
+    public void setStayDelay(int stayDelay) {
+        _stayDelay = stayDelay;
     }
 
     /**
@@ -204,7 +204,7 @@ public class MarqueePane extends JScrollPane {
                     }
                 }
                 if (_scrollTimer != null) {
-                    _scrollTimer.setDelay(_reachStayPosition ? getStayTime() : getScrollDelay());
+                    _scrollTimer.setDelay(_reachStayPosition ? getStayDelay() : getScrollDelay());
                 }
             }
         });
