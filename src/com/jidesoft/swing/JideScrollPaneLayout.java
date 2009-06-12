@@ -48,6 +48,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * The component to the bottom of vertical scroll bar.
      */
     protected Component _vBottom;
+    private static final long serialVersionUID = 7897026041296359186L;
 
     @Override
     public void syncWithScrollPane(JScrollPane sp) {
@@ -63,39 +64,19 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
     }
 
     protected boolean isHsbCoversWholeWidth(JScrollPane sp) {
-        if (sp instanceof JideScrollPane) {
-            return ((JideScrollPane) sp).isHorizontalScrollBarCoversWholeWidth();
-        }
-        else {
-            return false;
-        }
+        return sp instanceof JideScrollPane && ((JideScrollPane) sp).isHorizontalScrollBarCoversWholeWidth();
     }
 
     protected boolean isVsbCoversWholeHeight(JScrollPane sp) {
-        if (sp instanceof JideScrollPane) {
-            return ((JideScrollPane) sp).isVerticalScrollBarCoversWholeHeight();
-        }
-        else {
-            return false;
-        }
+        return sp instanceof JideScrollPane && ((JideScrollPane) sp).isVerticalScrollBarCoversWholeHeight();
     }
 
     protected boolean isColumnHeadersHeightUnified(JScrollPane sp) {
-        if (sp instanceof JideScrollPane) {
-            return ((JideScrollPane) sp).isColumnHeadersHeightUnified();
-        }
-        else {
-            return false;
-        }
+        return sp instanceof JideScrollPane && ((JideScrollPane) sp).isColumnHeadersHeightUnified();
     }
 
     protected boolean isColumnFootersHeightUnified(JScrollPane sp) {
-        if (sp instanceof JideScrollPane) {
-            return ((JideScrollPane) sp).isColumnFootersHeightUnified();
-        }
-        else {
-            return false;
-        }
+        return sp instanceof JideScrollPane && ((JideScrollPane) sp).isColumnFootersHeightUnified();
     }
 
     @Override
@@ -679,6 +660,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
         else {  // vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED
             vsbNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || (rowHead != null && rowHead.getView() != null && rowHead.getView().getPreferredSize().height > extentSize.height));
+            if (!vsbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_vBottom != null || _vTop != null)) {
+                vsbNeeded = true;
+            }
         }
 
 
@@ -705,6 +689,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
         else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
             hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView() != null && colHead.getView().getPreferredSize().width > extentSize.width));
+            if (!hsbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_hLeft != null || _hRight != null)) {
+                hsbNeeded = true;
+            }
         }
 
         if ((hsb != null) && hsbNeeded) {
@@ -721,6 +708,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
                 extentSize = viewport.toViewCoordinates(availR.getSize());
                 vsbNeeded = viewPrefSize.height > extentSize.height;
+                if (!vsbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_vBottom != null || _vTop != null)) {
+                    vsbNeeded = true;
+                }
 
                 if (vsbNeeded) {
                     adjustForVSB(true, availR, vsbR, vpbInsets, true);
@@ -752,6 +742,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
                 if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
                     boolean newVSBNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || (rowHead != null && rowHead.getView() != null && rowHead.getView().getPreferredSize().height > extentSize.height));
+                    if (!newVSBNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_vBottom != null || _vTop != null)) {
+                        newVSBNeeded = true;
+                    }
                     if (newVSBNeeded != vsbNeeded) {
                         vsbNeeded = newVSBNeeded;
                         adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets, true);
@@ -761,6 +754,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 }
                 if (hsb != null && hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
                     boolean newHSBbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView() != null && colHead.getView().getPreferredSize().width > extentSize.width));
+                    if (!newHSBbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_hLeft != null || _hRight != null)) {
+                        newHSBbNeeded = true;
+                    }
                     if (newHSBbNeeded != hsbNeeded) {
                         hsbNeeded = newHSBbNeeded;
                         adjustForHSB(hsbNeeded, availR, hsbR, vpbInsets);
@@ -771,6 +767,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                                     (availR.getSize());
                             vsbNeeded = viewPrefSize.height >
                                     extentSize.height;
+                            if (!vsbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_vBottom != null || _vTop != null)) {
+                                vsbNeeded = true;
+                            }
 
                             if (vsbNeeded) {
                                 adjustForVSB(true, availR, vsbR, vpbInsets, true);
@@ -848,6 +847,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (vsb != null) {
             if (vsbNeeded) {
                 vsb.setVisible(true);
+                if (vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED && !isEmpty && !(!viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || (rowHead != null && rowHead.getView() != null && rowHead.getView().getPreferredSize().height > extentSize.height)))) {
+                    vsb.setVisible(false);
+                }
                 if (_vTop == null && _vBottom == null)
                     vsb.setBounds(adjustBounds(parent, vsbR, ltr));
                 else {
@@ -886,6 +888,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (hsb != null) {
             if (hsbNeeded) {
                 hsb.setVisible(true);
+                if (hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED && !isEmpty && !(!viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView() != null && colHead.getView().getPreferredSize().width > extentSize.width)))) {
+                    hsb.setVisible(false);
+                }
                 if (_hLeft == null && _hRight == null)
                     hsb.setBounds(adjustBounds(parent, hsbR, ltr));
                 else {
@@ -955,12 +960,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
     }
 
-    /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if the vertical scrollbar is needed
-     * (<code>wantsVSB</code>). The location of the vsb is updated in <code>vsbR</code>, and the viewport border insets
-     * (<code>vpbInsets</code>) are used to offset the vsb. This is only called when <code>wantsVSB</code> has changed,
-     * eg you shouldn't invoke adjustForVSB(true) twice.
-     */
+    //
+    // Adjusts the <code>Rectangle</code> <code>available</code> based on if the vertical scrollbar is needed
+    // (<code>wantsVSB</code>). The location of the vsb is updated in <code>vsbR</code>, and the viewport border insets
+    // (<code>vpbInsets</code>) are used to offset the vsb. This is only called when <code>wantsVSB</code> has changed,
+    // eg you shouldn't invoke adjustForVSB(true) twice.
+    //
     private void adjustForVSB(boolean wantsVSB, Rectangle available,
                               Rectangle vsbR, Insets vpbInsets,
                               boolean leftToRight) {
@@ -984,12 +989,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
     }
 
-    /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if the horizontal scrollbar is needed
-     * (<code>wantsHSB</code>). The location of the hsb is updated in <code>hsbR</code>, and the viewport border insets
-     * (<code>vpbInsets</code>) are used to offset the hsb.  This is only called when <code>wantsHSB</code> has changed,
-     * eg you shouldn't invoked adjustForHSB(true) twice.
-     */
+    //
+    // Adjusts the <code>Rectangle</code> <code>available</code> based on if the horizontal scrollbar is needed
+    // (<code>wantsHSB</code>). The location of the hsb is updated in <code>hsbR</code>, and the viewport border insets
+    // (<code>vpbInsets</code>) are used to offset the hsb.  This is only called when <code>wantsHSB</code> has changed,
+    // eg you shouldn't invoked adjustForHSB(true) twice.
+    //
     private void adjustForHSB(boolean wantsHSB, Rectangle available,
                               Rectangle hsbR, Insets vpbInsets) {
         int oldHeight = hsbR.height;
@@ -1009,5 +1014,6 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * The UI resource version of <code>ScrollPaneLayout</code>.
      */
     static class UIResource extends JideScrollPaneLayout implements javax.swing.plaf.UIResource {
+        private static final long serialVersionUID = 1057343395078846689L;
     }
 }

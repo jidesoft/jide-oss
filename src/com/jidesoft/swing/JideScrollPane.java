@@ -64,6 +64,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      */
     protected Component _vBottom;
 
+    private boolean _keepCornerVisible = false;
+
     private boolean _horizontalScrollBarCoversWholeWidth;
     private boolean _verticalScrollBarCoversWholeHeight;
 
@@ -251,7 +253,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     /**
      * Overrides to make column header viewport synchronizing with the main viewport.
      *
-     * @param columnHeader
+     * @param columnHeader the column header
      */
     @Override
     public void setColumnHeader(JViewport columnHeader) {
@@ -470,4 +472,28 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         }
     }
 
+    /**
+     * Get the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined even
+     * when the scroll bar is not visible.
+     * <p/>
+     * This flag will take effect only when the scroll bar policy is <code>HORIZONTAL_SCROLLBAR_AS_NEEDED</code> or
+     * <code>VERTICAL_SCROLLBAR_AS_NEEDED</code>
+     * <p/>
+     * The default value of this flag is false.
+     *
+     * @return the flag.
+     */
+    public boolean isKeepCornerVisible() {
+        return _keepCornerVisible;
+    }
+
+    /**
+     * Set the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined even
+     * when the scroll bar is not visible.
+     *
+     * @param keepCornerVisible the flag
+     */
+    public void setKeepCornerVisible(boolean keepCornerVisible) {
+        _keepCornerVisible = keepCornerVisible;
+    }
 }
