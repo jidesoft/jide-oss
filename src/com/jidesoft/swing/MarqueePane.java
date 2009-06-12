@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 /**
  * <code>MarqueePane</code> is a subclass of <code>JScrollPane</code> with automation of scrolling. In
@@ -22,12 +21,12 @@ public class MarqueePane extends JScrollPane {
     private int _scrollDelay = 100;
     private int _stayTime = 2000;
     private int _scrollAmount = 2;
-    private boolean _reachStayPosition = false;
     private int _scrollDirection = SCROLL_DIRECTION_LEFT;
-    private Timer _scrollTimer = null;
+    private int _stayPosition = -1;
 
-    private int[] _stayPositions = null;
-    private int _nextStayPosition = -1;
+    private Timer _scrollTimer = null;
+    private int _scrollTimes;
+    private boolean _reachStayPosition = false;
 
     public static final int SCROLL_DIRECTION_LEFT = 0;
     public static final int SCROLL_DIRECTION_RIGHT = 1;
@@ -164,49 +163,20 @@ public class MarqueePane extends JScrollPane {
                     rangeModel = getVerticalScrollBar().getModel();
                 }
                 int value = rangeModel.getValue();
-                int[] stayPositions = getStayPositions();
-                if (_nextStayPosition == -1 && stayPositions != null && stayPositions.length > 0) {
-                    if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
-                        for (int i = 0; i < stayPositions.length; i++) {
-                            if (stayPositions[i] >= value) {
-                                _nextStayPosition = i;
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        for (int i = stayPositions.length - 1; i >= 0; i--) {
-                            if (stayPositions[i] <= value) {
-                                _nextStayPosition = i;
-                                break;
-                            }
-                        }
-                    }
-                }
 
                 if (getScrollDirection() == SCROLL_DIRECTION_LEFT || getScrollDirection() == SCROLL_DIRECTION_UP) {
                     if (value + rangeModel.getExtent() == rangeModel.getMaximum()) {
                         rangeModel.setValue(rangeModel.getMinimum());
+                        _scrollTimes = 0;
                     }
-                    else if (value + _scrollAmount + rangeModel.getExtent() > rangeModel.getMaximum()) {
+                    else if (value + getScrollAmount() + rangeModel.getExtent() > rangeModel.getMaximum()) {
                         rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
                     }
                     else {
-                        rangeModel.setValue(value + _scrollAmount);
+                        rangeModel.setValue(value + getScrollAmount());
+                        _scrollTimes ++;
                     }
-                    _reachStayPosition = rangeModel.getValue() + _scrollAmount + rangeModel.getExtent() >= rangeModel.getMaximum();
-                    if (!_reachStayPosition && _nextStayPosition >= 0 && stayPositions != null) {
-                        if (value < stayPositions[_nextStayPosition] && value + _scrollAmount >= stayPositions[_nextStayPosition]) {
-                            rangeModel.setValue(stayPositions[_nextStayPosition]);
-                            _reachStayPosition = true;
-                        }
-                        if (_reachStayPosition) {
-                            _nextStayPosition = (_nextStayPosition + 1) % stayPositions.length;
-                        }
-                    }
-                    else {
-                        _nextStayPosition = -1;
-                    }
+                    _reachStayPosition = rangeModel.getValue() == rangeModel.getMinimum();
                 }
                 else {
                     if (value == rangeModel.getMinimum()) {
@@ -217,25 +187,20 @@ public class MarqueePane extends JScrollPane {
                         if (maximum != rangeModel.getMaximum() || extent != rangeModel.getExtent()) {
                             rangeModel.setValue(rangeModel.getMaximum() - rangeModel.getExtent());
                         }
+                        _scrollTimes = 0;
                     }
-                    else if (value - _scrollAmount < rangeModel.getMinimum()) {
+                    else if (value - getScrollAmount() < rangeModel.getMinimum()) {
                         rangeModel.setValue(rangeModel.getMinimum());
                     }
                     else {
-                        rangeModel.setValue(value - _scrollAmount);
+                        rangeModel.setValue(value - getScrollAmount());
+                        _scrollTimes ++;
                     }
                     _reachStayPosition = rangeModel.getValue() == rangeModel.getMinimum() || rangeModel.getValue() == rangeModel.getMaximum();
-                    if (!_reachStayPosition && _nextStayPosition >= 0 && stayPositions != null) {
-                        if (value > stayPositions[_nextStayPosition] && value - _scrollAmount <= stayPositions[_nextStayPosition]) {
-                            rangeModel.setValue(stayPositions[_nextStayPosition]);
-                            _reachStayPosition = true;
-                        }
-                        if (_reachStayPosition) {
-                            _nextStayPosition = _nextStayPosition - 1; // if it is -1, it will recalculate automatically
-                        }
-                    }
-                    else {
-                        _nextStayPosition = -1; // let it recalculate the next valid value since we don't have control on the stayPositions the customer passed in
+                }
+                if (!_reachStayPosition && getStayPosition() >= 0) {
+                    if (_scrollTimes % getStayPosition() == 0) {
+                        _reachStayPosition = true;
                     }
                 }
                 if (_scrollTimer != null) {
@@ -246,15 +211,25 @@ public class MarqueePane extends JScrollPane {
         _scrollTimer.start();
     }
 
-    public int[] getStayPositions() {
-        return _stayPositions;
+    /**
+     * Get stay position.
+     * <p/>
+     * With this field, you can let the scrolling stop for <code>getStayTime</code> after scrolling <code>getStayPosition</code> times.
+     * <p/>
+     * The default value is -1, which means no stay position in the middle.
+     *
+     * @return the stay position.
+     */
+    public int getStayPosition() {
+        return _stayPosition;
     }
 
-    public void setStayPositions(int[] stayPositions) {
-        _stayPositions = stayPositions;
-        if (_stayPositions != null && _stayPositions.length > 0) {
-            Arrays.sort(_stayPositions);
-            _nextStayPosition = -1;
-        }
+    /**
+     * Set stay position.
+     *
+     * @param stayPosition the stay position
+     */
+    public void setStayPosition(int stayPosition) {
+        _stayPosition = stayPosition;
     }
 }
