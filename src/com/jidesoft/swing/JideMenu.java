@@ -8,6 +8,8 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,6 +76,28 @@ public class JideMenu extends JMenu implements Alignable {
 
     protected void initMenu() {
 //        setDelay(DELAY);
+        addMenuListener(new MenuListener() {
+            public void menuSelected(MenuEvent e) {
+                MenuCreator menuCreator;
+                if ((menuCreator = getMenuCreator()) != null) {
+                    menuCreator.createMenu();
+                    if (getPopupMenu().getComponentCount() == 0) {
+                        return;
+                    }
+                }
+
+                PopupMenuCustomizer customizer;
+                if ((customizer = getPopupMenuCustomizer()) != null) {
+                    customizer.customize(getPopupMenu());
+                }
+            }
+
+            public void menuDeselected(MenuEvent e) {
+            }
+
+            public void menuCanceled(MenuEvent e) {
+            }
+        });
     }
 
     /**
@@ -129,7 +153,6 @@ public class JideMenu extends JMenu implements Alignable {
      * Gets the MenuCreator.
      *
      * @return the MenuCreator.
-     *
      * @deprecated use{@link PopupMenuCustomizer} and {@link #getPopupMenuCustomizer()} instead.
      */
     @Deprecated
@@ -252,8 +275,7 @@ public class JideMenu extends JMenu implements Alignable {
 
                         x = 0 - xOffset - pmSize.width;
                     }
-                }
-                else {
+                } else {
                     // First determine x:
                     x = s.width + xOffset;   // Prefer placement to the right
                     if (position.x + x + pmSize.width >= screenBounds.width + screenBounds.x &&
@@ -263,8 +285,7 @@ public class JideMenu extends JMenu implements Alignable {
                         x = 0 - xOffset - pmSize.width;
                     }
                 }
-            }
-            else {
+            } else {
                 // First determine x:
                 x = 0 - xOffset - pmSize.width; // Prefer placement to the left
                 if (position.x + x < screenBounds.x &&
@@ -283,8 +304,7 @@ public class JideMenu extends JMenu implements Alignable {
 
                 y = s.height - yOffset - pmSize.height;
             }
-        }
-        else {
+        } else {
             // We are a toplevel menu (pull-down)
             int xOffset = UIDefaultsLookup.getInt("Menu.menuPopupOffsetX");
             int yOffset = UIDefaultsLookup.getInt("Menu.menuPopupOffsetY");
@@ -302,15 +322,13 @@ public class JideMenu extends JMenu implements Alignable {
 
                             x = s.width - xOffset - pmSize.width;
                         }
-                    }
-                    else {
+                    } else {
                         x = -pmSize.width + xOffset + s.width;                   // align right
                         if (position.x + x < screenBounds.x) {
                             x = screenBounds.x - position.x;
                         }
                     }
-                }
-                else {
+                } else {
                     // First determine the x:
                     x = 1 - xOffset - pmSize.width; // Extend to the left
                     if (position.x + x < screenBounds.x &&
@@ -321,8 +339,7 @@ public class JideMenu extends JMenu implements Alignable {
                         x = s.width + xOffset - 1;
                     }
                 }
-            }
-            else {
+            } else {
                 // TODO: when RTL - consider vertical case
                 // First determine the x:
                 x = s.width - xOffset - pmSize.width; // Extend to the left
@@ -346,8 +363,7 @@ public class JideMenu extends JMenu implements Alignable {
 
                     y = 1 - yOffset - pmSize.height;   // Otherwise drop 'up'
                 }
-            }
-            else {
+            } else {
                 y = -yOffset;    // Prefer dropping up
                 if (position.y + y + pmSize.height >= screenBounds.height &&
                         // popup doesn't fit - place it wherever there's more room
@@ -371,8 +387,7 @@ public class JideMenu extends JMenu implements Alignable {
     public boolean isOpaque() {
         if (isTopLevelMenu()) { // make top level menu opaque
             return false;
-        }
-        else {
+        } else {
             return super.isOpaque();
         }
     }
@@ -442,8 +457,7 @@ public class JideMenu extends JMenu implements Alignable {
             if (getPopupMenu().getComponentCount() == 0) {
                 return;
             }
-        }
-        else if (b && getPopupMenu().getComponentCount() == 0) {
+        } else if (b && getPopupMenu().getComponentCount() == 0) {
             return;
         }
 
@@ -451,14 +465,12 @@ public class JideMenu extends JMenu implements Alignable {
         if (!DISABLE_TIMER) {
             if (isTopLevelMenu()) {
                 setPopupMenuVisibleImmediately(b);
-            }
-            else {
+            } else {
                 if (b) {
 //                    System.out.println("show new menu");
                     stopTimer();
                     setPopupMenuVisibleImmediately(b);
-                }
-                else {
+                } else {
                     // HACK: check if the calling stack has clearSelectedPath method.
                     StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
                     for (StackTraceElement stackTraceElement : stackTraceElements) {
@@ -470,8 +482,7 @@ public class JideMenu extends JMenu implements Alignable {
                     startTimer();
                 }
             }
-        }
-        else {
+        } else {
             setPopupMenuVisibleImmediately(b);
         }
     }
