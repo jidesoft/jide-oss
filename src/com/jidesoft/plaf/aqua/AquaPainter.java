@@ -5,7 +5,6 @@
  */
 package com.jidesoft.plaf.aqua;
 
-import apple.laf.AquaImageFactory;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicPainter;
@@ -81,7 +80,7 @@ public class AquaPainter extends BasicPainter {
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!_errorOccurred) {
             try {
-                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+                drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
                 return;
             }
             catch (Exception e) {
@@ -95,7 +94,7 @@ public class AquaPainter extends BasicPainter {
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!_errorOccurred) {
             try {
-                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
+                drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, false, false, false);
                 return;
             }
             catch (Exception e) {
@@ -109,7 +108,7 @@ public class AquaPainter extends BasicPainter {
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!_errorOccurred) {
             try {
-                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
+                drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, state == STATE_SELECTED, false, false);
                 return;
             }
             catch (Exception e) {
@@ -124,7 +123,7 @@ public class AquaPainter extends BasicPainter {
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!_errorOccurred) {
             try {
-                AquaImageFactory.drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
+                drawFrameTitleBackground((SunGraphics2D) g, rect.x, rect.y, rect.width, rect.height, true, false, false);
                 return;
             }
             catch (Exception e) {
@@ -133,6 +132,19 @@ public class AquaPainter extends BasicPainter {
             }
         }
         super.paintCommandBarTitlePane(c, g, rect, orientation, state);
+    }
+
+
+    private static Color ACTIVE_TOP_GRADIENT_COLOR = new Color(0xbcbcbc);
+    private static Color ACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0x9a9a9a);
+    private static Color INACTIVE_TOP_GRADIENT_COLOR = new Color(0xe4e4e4);
+    private static Color INACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0xd1d1d1);
+
+
+    private void drawFrameTitleBackground(SunGraphics2D g, int x, int y, int w, int h, boolean active, boolean c, boolean d) {
+        Color topColor = active ? ACTIVE_TOP_GRADIENT_COLOR : INACTIVE_TOP_GRADIENT_COLOR;
+        Color bottomColor = active ? ACTIVE_BOTTOM_GRADIENT_COLOR : INACTIVE_BOTTOM_GRADIENT_COLOR;
+        JideSwingUtilities.fillGradient(g, new Rectangle(x, y, w, h), topColor, bottomColor, true);
     }
 }
 
