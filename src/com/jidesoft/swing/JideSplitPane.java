@@ -272,19 +272,19 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             List<Integer> componentIndexChanged = new ArrayList<Integer>();
 
             if (reversed) {
-                while (nextIndex >= 0 && _componentSizes[nextIndex] == 0) {
+                while (nextIndex >= 0 && !isPaneVisible(nextIndex)) {
                     nextIndex -= 2;
                     nextDividerIndex --;
                 }
 
-                while (prevIndex < _componentSizes.length && _componentSizes[prevIndex] == 0) {
+                while (prevIndex < _componentSizes.length && !isPaneVisible(prevIndex)) {
                     prevIndex += 2;
                     prevDividerIndex ++;
                 }
 
                 flexibleNextIndex = nextIndex;
                 while (flexibleNextIndex >= 0 &&
-                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || _componentSizes[flexibleNextIndex] == 0)) {
+                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || !isPaneVisible(flexibleNextIndex))) {
                     flexibleNextIndex -= 2;
                 }
                 if (flexibleNextIndex < 0) {
@@ -293,7 +293,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
                 flexiblePrevIndex = prevIndex;
                 while (flexiblePrevIndex < _componentSizes.length &&
-                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || _componentSizes[flexiblePrevIndex] == 0)) {
+                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || !isPaneVisible(flexiblePrevIndex))) {
                     flexiblePrevIndex += 2;
                 }
                 if (flexiblePrevIndex >= _componentSizes.length) {
@@ -301,19 +301,19 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 }
             }
             else {
-                while (nextIndex < _componentSizes.length && _componentSizes[nextIndex] == 0) {
+                while (nextIndex < _componentSizes.length && !isPaneVisible(nextIndex)) {
                     nextIndex += 2;
                     nextDividerIndex ++;
                 }
 
-                while (prevIndex >= 0 && _componentSizes[prevIndex] == 0) {
+                while (prevIndex >= 0 && !isPaneVisible(prevIndex)) {
                     prevIndex -= 2;
                     prevDividerIndex --;
                 }
 
                 flexibleNextIndex = nextIndex;
                 while (flexibleNextIndex < _componentSizes.length &&
-                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || _componentSizes[flexibleNextIndex] == 0)) {
+                        (getConstraintMap().get(_target.getComponent(flexibleNextIndex)) == JideBoxLayout.FIX || !isPaneVisible(flexibleNextIndex))) {
                     flexibleNextIndex += 2;
                 }
                 if (flexibleNextIndex >= _componentSizes.length) {
@@ -322,7 +322,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 
                 flexiblePrevIndex = prevIndex;
                 while (flexiblePrevIndex >= 0 &&
-                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || _componentSizes[flexiblePrevIndex] == 0)) {
+                        (getConstraintMap().get(_target.getComponent(flexiblePrevIndex)) == JideBoxLayout.FIX || !isPaneVisible(flexiblePrevIndex))) {
                     flexiblePrevIndex -= 2;
                 }
                 if (flexiblePrevIndex < 0) {
@@ -446,6 +446,11 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 }
             }
             return location;
+        }
+
+        private boolean isPaneVisible(int index) {
+            // Considering collapse/expand feature, we need consider the visibility of divider as well
+            return index < _componentSizes.length && (_componentSizes[index] != 0 || index - 1 < 0 || _componentSizes[index - 1] != 0);
         }
 
         /**
