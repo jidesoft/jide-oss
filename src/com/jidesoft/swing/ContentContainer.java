@@ -46,7 +46,7 @@ public class ContentContainer extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (_painter != null) {
+        if (_painter != null && isOpaque()) {
             _painter.paintContentBackground(this, g, new Rectangle(0, 0, getWidth(), getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
         }
     }
