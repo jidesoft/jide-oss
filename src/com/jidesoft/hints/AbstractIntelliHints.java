@@ -62,7 +62,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             }
 
             public void keyReleased(KeyEvent e) {
-                if (KeyEvent.VK_ESCAPE != e.getKeyCode()) {
+                if (KeyEvent.VK_ESCAPE != e.getKeyCode() && KeyEvent.VK_ENTER != e.getKeyCode()) {
                     setKeyTyped(true);
                 }
             }
@@ -408,6 +408,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     private DelegateAction acceptAction = new DelegateAction() {
+        private static final long serialVersionUID = -2516216121942080133L;
+
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
@@ -434,6 +436,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     };
 
     private static DelegateAction showAction = new DelegateAction() {
+        private static final long serialVersionUID = 2243999895981912016L;
+
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
@@ -450,6 +454,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     };
 
     private DelegateAction hideAction = new DelegateAction() {
+        private static final long serialVersionUID = 1921213578011852535L;
+
         @Override
         public boolean isEnabled() {
             return _textComponent.isEnabled() && isHintsPopupVisible();
@@ -509,6 +515,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
     private static class LazyDelegateAction extends DelegateAction {
         private KeyStroke _keyStroke;
+        private static final long serialVersionUID = -5799290233797844786L;
 
         public LazyDelegateAction(KeyStroke keyStroke) {
             _keyStroke = keyStroke;
