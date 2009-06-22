@@ -80,7 +80,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
      * as a tree to represent file system), the recursive attribute should be false. To avoid this potential problem in
      * this case, we default it to false.
      *
-     * @param recursive
+     * @param recursive the attribute
      */
     public void setRecursive(boolean recursive) {
         _recursive = recursive;
@@ -212,7 +212,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
      * Converts the element in JTree to string. The element by default is TreePath. The returned value will be
      * <code>toString()</code> of the last path component in the TreePath.
      *
-     * @param object
+     * @param object the object to be converted
      * @return the string representing the TreePath in the JTree.
      */
     @Override
@@ -230,21 +230,33 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     }
 
     public void treeNodesChanged(TreeModelEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         resetTreePathes();
     }
 
     public void treeNodesInserted(TreeModelEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         resetTreePathes();
     }
 
     public void treeNodesRemoved(TreeModelEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         resetTreePathes();
     }
 
     public void treeStructureChanged(TreeModelEvent e) {
+        if (!isProcessModelChangeEvent()) {
+            return;
+        }
         hidePopup();
         resetTreePathes();
     }
