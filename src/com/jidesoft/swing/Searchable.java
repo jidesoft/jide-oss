@@ -340,6 +340,7 @@ public abstract class Searchable {
                     else {
                         _textField.setForeground(foreground);
                         _noMatch.setText("");
+                        updatePopupBounds();
                         hidePopup();
                     }
                 }
