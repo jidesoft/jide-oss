@@ -338,6 +338,8 @@ public abstract class Searchable {
                         select(found, null, text);
                     }
                     else {
+                        _textField.setForeground(foreground);
+                        _noMatch.setText("");
                         hidePopup();
                     }
                 }
