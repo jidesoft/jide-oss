@@ -58,6 +58,8 @@ public class JideSwingUtilities implements SwingConstants {
      */
     private static final boolean AA_TEXT_DEFINED;
 
+    public static final int ORIENTATION_RIGHT_TO_LEFT = 100;
+
     /**
      * Key used in client properties to indicate whether or not the component should use aa text.
      */
@@ -73,7 +75,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Create a Panel around a component so that component aligns to left.
      *
-     * @param object
+     * @param object the component
      * @return a Panel
      */
     public static JPanel createLeftPanel(Component object) {
@@ -86,7 +88,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Create a Panel around a component so that component aligns to right.
      *
-     * @param object
+     * @param object the component
      * @return a Panel
      */
     public static JPanel createRightPanel(Component object) {
@@ -99,7 +101,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Create a Panel around a component so that component aligns to top.
      *
-     * @param object
+     * @param object the component
      * @return a Panel
      */
     public static JPanel createTopPanel(Component object) {
@@ -112,7 +114,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Create a Panel around a component so that component aligns to bottom.
      *
-     * @param object
+     * @param object the component
      * @return a Panel
      */
     public static JPanel createBottomPanel(Component object) {
@@ -125,7 +127,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Create a Panel around a component so that component is right in the middle.
      *
-     * @param object
+     * @param object the component
      * @return a Panel
      */
     public static JPanel createCenterPanel(Component object) {
@@ -155,6 +157,8 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Center the component to it's parent window.
+     *
+     * @param childToCenter the parent window
      */
     public static void centerWindow(Window childToCenter) {
         childToCenter.setLocationRelativeTo(childToCenter.getParent());
@@ -172,6 +176,8 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Center the window to the whole screen.
+     *
+     * @param childToCenter the parent window
      */
     public static void globalCenterWindow(Window childToCenter) {
         childToCenter.setLocationRelativeTo(null);
@@ -187,12 +193,12 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Paints an arrow shape.
      *
-     * @param g
-     * @param color
-     * @param startX
-     * @param startY
-     * @param width
-     * @param orientation
+     * @param g the graphics instance
+     * @param color color
+     * @param startX start X
+     * @param startY start Y
+     * @param width width
+     * @param orientation horizontal or vertical
      */
     public static void paintArrow(Graphics g, Color color, int startX, int startY, int width, int orientation) {
         Color oldColor = g.getColor();
@@ -203,9 +209,14 @@ public class JideSwingUtilities implements SwingConstants {
                 g.drawLine(startX + i, startY + i, startX + width - i - 1, startY + i);
             }
         }
-        else {
+        else if (orientation == VERTICAL) {
             for (int i = 0; i < (width + 1) / 2; i++) {
                 g.drawLine(startX + i, startY + i, startX + i, startY + width - i - 1);
+            }
+        }
+        else if (orientation == ORIENTATION_RIGHT_TO_LEFT) {
+            for (int i = 0; i < (width + 1) / 2; i++) {
+                g.drawLine(startX + width - i, startY + i, startX + width - i, startY + width - i - 1);
             }
         }
         g.setColor(oldColor);
@@ -214,12 +225,12 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Paints a cross shape.
      *
-     * @param g
-     * @param color
-     * @param centerX
-     * @param centerY
-     * @param size
-     * @param width
+     * @param g the graphics instance
+     * @param color color
+     * @param centerX center X
+     * @param centerY center Y
+     * @param size size
+     * @param width width
      */
     public static void paintCross(Graphics g, Color color, int centerX, int centerY, int size, int width) {
         g.setColor(color);
@@ -234,7 +245,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Gets the top level Frame of the component.
      *
-     * @param component
+     * @param component the component
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
      */
     public static Frame getFrame(Component component) {
@@ -257,7 +268,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Toggles between RTL and LTR.
      *
-     * @param topContainer
+     * @param topContainer the component
      */
     public static void toggleRTLnLTR(Component topContainer) {
         ComponentOrientation co = topContainer.getComponentOrientation();
