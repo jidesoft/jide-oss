@@ -417,19 +417,39 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
     public void paintChevronMore(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         g.setColor(UIDefaultsLookup.getColor("CommandBar.darkShadow"));
-        int y = rect.y + 4;
-        for (int i = -2; i <= 2; i++) {
-            int offset = -Math.abs(i);
-            g.drawLine(rect.x + 4 + offset, y, rect.x + 5 + offset, y);
-            g.drawLine(rect.x + 8 + offset, y, rect.x + 9 + offset, y);
-            y++;
+        if (orientation == SwingConstants.HORIZONTAL) {
+            int y = rect.y + 4;
+            for (int i = -2; i <= 2; i++) {
+                int offset = -Math.abs(i);
+                g.drawLine(rect.x + 4 + offset, y, rect.x + 5 + offset, y);
+                g.drawLine(rect.x + 8 + offset, y, rect.x + 9 + offset, y);
+                y++;
+            }
+        }
+        else if (orientation == SwingConstants.VERTICAL) {
+            int x = rect.x + 4;
+            for (int i = -2; i <= 2; i++) {
+                int offset = -Math.abs(i);
+                g.drawLine(x, rect.y + 4 + offset, x, rect.y + 5 + offset);
+                g.drawLine(x, rect.y + 8 + offset, x, rect.y + 9 + offset);
+                x++;
+            }
+        }
+        else if (orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
+            int y = rect.y + 4;
+            for (int i = -2; i <= 2; i++) {
+                int offset = Math.abs(i);
+                g.drawLine(rect.x + 2 + offset, y, rect.x + 3 + offset, y);
+                g.drawLine(rect.x + 6 + offset, y, rect.x + 7 + offset, y);
+                y++;
+            }
         }
     }
 
     public void paintChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int startX;
         int startY;
-        if (orientation == SwingConstants.HORIZONTAL) {
+        if (orientation == SwingConstants.HORIZONTAL || orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
             startX = rect.x + 3;
             startY = rect.y + rect.height - 7;
         }
@@ -437,7 +457,12 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             startX = rect.x + rect.width - 7;
             startY = rect.y + 3;
         }
-        JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("CommandBar.darkShadow"), startX, startY, 5, orientation);
+        if (orientation == SwingConstants.HORIZONTAL || orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
+            JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("CommandBar.darkShadow"), startX, startY, 5, SwingConstants.HORIZONTAL);
+        }
+        else {
+            JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("CommandBar.darkShadow"), startX, startY, 5, orientation);
+        }
     }
 
     public void paintFloatingChevronOption(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
