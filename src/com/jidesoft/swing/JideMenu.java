@@ -137,6 +137,8 @@ public class JideMenu extends JMenu implements Alignable {
 
     /**
      * Gets the PopupMenuOriginCalculator or <code>null</code>, if none has been specified.
+     *
+     * @return the calculator
      */
     public PopupMenuOriginCalculator getOriginCalculator() {
         return _originCalculator;
@@ -144,6 +146,8 @@ public class JideMenu extends JMenu implements Alignable {
 
     /**
      * Sets the PopupMenuOriginCalculator that will be used to determine the popup menu origin.
+     *
+     * @param originCalculator the calculator
      */
     public void setOriginCalculator(PopupMenuOriginCalculator originCalculator) {
         this._originCalculator = originCalculator;
@@ -164,7 +168,7 @@ public class JideMenu extends JMenu implements Alignable {
      * Sets the MenuCreator. MenuCreator can be used to do lazy menu creation. If you put code in the MenuCreator, it
      * won't be called until before the menu is set visible.
      *
-     * @param menuCreator
+     * @param menuCreator he menu creator
      * @deprecated use{@link PopupMenuCustomizer} and {@link #setPopupMenuCustomizer(com.jidesoft.swing.JideMenu.PopupMenuCustomizer)}
      *             instead.
      */
@@ -206,7 +210,7 @@ public class JideMenu extends JMenu implements Alignable {
      * </pre></code>
      * If the menu is never used, the two add methods will never be called thus improve the performance.
      *
-     * @param customizer
+     * @param customizer the popup menu customizer
      */
     public void setPopupMenuCustomizer(PopupMenuCustomizer customizer) {
         _customizer = customizer;
@@ -217,8 +221,8 @@ public class JideMenu extends JMenu implements Alignable {
         if (_originCalculator != null) {
             return _originCalculator.getPopupMenuOrigin(this);
         }
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
         JPopupMenu pm = getPopupMenu();
 
         // Figure out the sizes needed to calculate the menu position
@@ -246,7 +250,7 @@ public class JideMenu extends JMenu implements Alignable {
 
         if (gc != null) {
             screenBounds = gc.getBounds();
-            // take screen insets (e.g. taskbar) into account
+            // take screen insets (e.g. task bar) into account
             Insets screenInsets = toolkit.getScreenInsets(gc);
 
             screenBounds.width -=
@@ -259,7 +263,7 @@ public class JideMenu extends JMenu implements Alignable {
 
         Container parent = getParent();
         if (parent instanceof JPopupMenu) {
-            // We are a submenu (pull-right)
+            // We are a sub-menu (pull-right)
             int xOffset = UIDefaultsLookup.getInt("Menu.submenuPopupOffsetX");
             int yOffset = UIDefaultsLookup.getInt("Menu.submenuPopupOffsetY");
 
@@ -305,7 +309,7 @@ public class JideMenu extends JMenu implements Alignable {
                 y = s.height - yOffset - pmSize.height;
             }
         } else {
-            // We are a toplevel menu (pull-down)
+            // We are a top level menu (pull-down)
             int xOffset = UIDefaultsLookup.getInt("Menu.menuPopupOffsetX");
             int yOffset = UIDefaultsLookup.getInt("Menu.menuPopupOffsetY");
 
@@ -340,14 +344,18 @@ public class JideMenu extends JMenu implements Alignable {
                     }
                 }
             } else {
-                // TODO: when RTL - consider vertical case
                 // First determine the x:
-                x = s.width - xOffset - pmSize.width; // Extend to the left
-                if (position.x + x < screenBounds.x &&
-                        // popup doesn't fit - place it wherever there's more room
-                        screenBounds.width - s.width > 2 * (position.x
-                                - screenBounds.x)) {
+                if (getPreferredPopupHorizontalAlignment() == LEFT) {
+                    x = s.width - xOffset - pmSize.width; // Extend to the left
+                    if (position.x + x < screenBounds.x &&
+                            // popup doesn't fit - place it wherever there's more room
+                            screenBounds.width - s.width > 2 * (position.x
+                                    - screenBounds.x)) {
 
+                        x = xOffset;
+                    }
+                }
+                else {
                     x = xOffset;
                 }
             }
@@ -385,11 +393,7 @@ public class JideMenu extends JMenu implements Alignable {
      */
     @Override
     public boolean isOpaque() {
-        if (isTopLevelMenu()) { // make top level menu opaque
-            return false;
-        } else {
-            return super.isOpaque();
-        }
+        return !isTopLevelMenu() && super.isOpaque();
     }
 
     public boolean originalIsOpaque() {
@@ -492,6 +496,8 @@ public class JideMenu extends JMenu implements Alignable {
     }
 
     private class HideTimer extends Timer implements ActionListener {
+        private static final long serialVersionUID = 561631364532967870L;
+
         public HideTimer() {
             super(DELAY + 300, null);
             addActionListener(this);
