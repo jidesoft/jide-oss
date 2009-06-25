@@ -12,6 +12,7 @@ import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.ButtonStyle;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
+import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.utils.SecurityUtils;
 import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -172,6 +173,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     /**
+     * @param menuItem the menu item
      * @since 1.3
      */
     protected void installComponents(JMenuItem menuItem) {
@@ -238,6 +240,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     /**
+     * @param menuItem the menu item
      * @since 1.3
      */
     protected void uninstallComponents(JMenuItem menuItem) {
@@ -547,8 +550,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
         JMenuItem b = (JMenuItem) c;
         ButtonModel model = b.getModel();
 
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
 
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             menuWidth = b.getWidth();
@@ -679,6 +682,10 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 //Calculate the offset, with which the accelerator texts will be drawn with.
                 accOffset = maxValue - acceleratorRect.width;
             }
+            if (!parent.getComponentOrientation().isLeftToRight()) {
+                // in right to left case, no need to offset the accelerator, always start from the same X
+                accOffset = 0;
+            }
 
             g.setFont(acceleratorFont);
             if (!model.isEnabled()) {
@@ -718,8 +725,9 @@ public class VsnetMenuItemUI extends MenuItemUI {
         if (arrowIcon != null) {
             if (model.isArmed() || (c instanceof JMenu && model.isSelected()))
                 g.setColor(foreground);
-            if (useCheckAndArrow())
+            if (useCheckAndArrow()) {
                 arrowIcon.paintIcon(c, g, arrowIconRect.x, arrowIconRect.y);
+            }
         }
         g.setColor(holdc);
         g.setFont(holdf);
@@ -733,7 +741,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         else if (b instanceof JRadioButtonMenuItem)
             isSelected = b.isSelected();
         if (isSelected) {
-            if (model.isArmed() || (b instanceof JMenu && model.isSelected())) {
+            if (model.isArmed() || model.isSelected()) {
                 getPainter().paintMenuItemBackground(b, g, checkIconRect, SwingConstants.HORIZONTAL, ThemePainter.STATE_PRESSED);
                 if (b.getIcon() == null) {
                     checkIcon.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
@@ -788,8 +796,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
         Color oldColor = g.getColor();
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
             menuHeight = menuItem.getHeight();
@@ -822,8 +830,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 g.setColor(oldColor);
             }
             else {
-                g.setColor(shadowColor);
-                g.fillRect(menuWidth - defaultShadowWidth, 0, defaultShadowWidth, menuHeight);
+                getPainter().paintMenuShadow(menuItem, g, new Rectangle(menuWidth - defaultShadowWidth, 0, defaultShadowWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
                 if (menuItem.getBackground() instanceof UIResource) {
                     g.setColor(getPainter().getMenuItemBackground());
                 }
@@ -867,7 +874,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         else {
             int mnemonicIndex = menuItem.getDisplayedMnemonicIndex();
             // W2K Feature: Check to see if the Underscore should be rendered.
-            if (WindowsLookAndFeel.isMnemonicHidden() == true) {
+            if (WindowsLookAndFeel.isMnemonicHidden()) {
                 mnemonicIndex = -1;
             }
 
@@ -884,11 +891,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
             g.setColor(oldColor);
         }
     }
-
-    /**
-     * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
-     * clipped version of the compound labels string.  Locations are computed relative to the viewRect rectangle.
-     */
 
     private String layoutMenuItem(FontMetrics fm,
                                   String text,
@@ -945,7 +947,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
          */
         if ((acceleratorText == null) || acceleratorText.equals("")) {
             acceleratorRect.width = acceleratorRect.height = 0;
-            acceleratorText = "";
         }
         else {
             acceleratorRect.width = SwingUtilities.computeStringWidth(fmAccel, acceleratorText);
@@ -957,7 +958,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
             text = "";
         }
         else {
-            View v = null;
+            View v;
             v = (menuItem != null) ? (View) menuItem.getClientProperty("html") : null;
             if (v != null) {
                 textRect.width = (int) v.getPreferredSpan(View.X_AXIS);
@@ -996,15 +997,14 @@ public class VsnetMenuItemUI extends MenuItemUI {
             checkIconRect.height = checkIcon.getIconHeight();
         }
 
-        if (menuItem.getComponentOrientation().isLeftToRight()) {
-            // left a shadow for non-top level menu
-            if (useCheckAndArrow()) {
-                iconRect.x = (defaultShadowWidth - iconRect.width) >> 1;
-                if (text != null && !text.equals("")) {
-                    textRect.x = viewRect.x + defaultShadowWidth + textIconGap;
-                }
+        // left a shadow for non-top level menu
+        if (useCheckAndArrow()) {
+            iconRect.x = (defaultShadowWidth - iconRect.width) >> 1;
+            if (text != null && !text.equals("")) {
+                textRect.x = viewRect.x + defaultShadowWidth + textIconGap;
             }
-            else {
+        }
+        else {
 //                if (icon != null) {
 //                    if (isDownArrowVisible(menuItem.getParent())) {
 //                        iconRect.x = 3;
@@ -1026,34 +1026,17 @@ public class VsnetMenuItemUI extends MenuItemUI {
 //                        }
 //                    }
 //                }
-            }
-
-            // Position the Accelerator text rect
-            acceleratorRect.x = viewRect.x + viewRect.width - menuItemGap
-                    - acceleratorRect.width;
-
-            // Position the Check and Arrow Icons
-            if (useCheckAndArrow()) {
-                checkIconRect.x = viewRect.x + (defaultShadowWidth - checkIconRect.width) >> 1;
-                arrowIconRect.x = viewRect.x + viewRect.width - menuItemGap - 5
-                        - arrowIconRect.width;
-            }
         }
-        else {
-            // left a shadow for non-top level menu
-            if (text != null && !text.equals("")) {
-                textRect.x -= (useCheckAndArrow() ? defaultShadowWidth + textIconGap : (viewRect.width - textRect.width) >> 1);
-            }
-            iconRect.x -= (defaultShadowWidth - iconRect.width) >> 1;
 
-//            Position the Accelerator text rect
-//            acceleratorRect.x = 20;
+        // Position the Accelerator text rect
+        acceleratorRect.x = viewRect.x + viewRect.width - menuItemGap
+                - acceleratorRect.width;
 
-            // Position the Check and Arrow Icons
-            if (useCheckAndArrow()) {
-                checkIconRect.x = viewRect.x + viewRect.width - ((defaultShadowWidth + checkIconRect.width) >> 1);
-                arrowIconRect.x = viewRect.x + menuItemGap;
-            }
+        // Position the Check and Arrow Icons
+        if (useCheckAndArrow()) {
+            checkIconRect.x = viewRect.x + (defaultShadowWidth - checkIconRect.width) >> 1;
+            arrowIconRect.x = viewRect.x + viewRect.width - menuItemGap - 5
+                    - arrowIconRect.width;
         }
 
         if (verticalTextPosition == SwingConstants.CENTER) {
@@ -1074,13 +1057,19 @@ public class VsnetMenuItemUI extends MenuItemUI {
             arrowIconRect.y = viewRect.y + ((viewRect.height - arrowIconRect.height) >> 1);//
             checkIconRect.y = viewRect.y + ((viewRect.height - checkIconRect.height) >> 1);//labelRect.y + (labelRect.height / 2) - (checkIconRect.height / 2);
         }
-//
+
+        if ((useCheckAndArrow() || menuItem instanceof JideSplitButton) && !menuItem.getComponentOrientation().isLeftToRight()) {
+            checkIconRect.x = viewRect.width - checkIconRect.width - checkIconRect.x;
+            iconRect.x = viewRect.width - iconRect.width - iconRect.x;
+            textRect.x = viewRect.width - textRect.width - textRect.x;
+            acceleratorRect.x = viewRect.width - acceleratorRect.width - acceleratorRect.x;
+            arrowIconRect.x = viewRect.width - arrowIconRect.width - arrowIconRect.x;
+        }
 
 //        System.out.println("Layout: text=" + menuItem.getText() + "\n\tv="
 //                + viewRect + "\n\tc=" + checkIconRect + "\n\ti="
 //                + iconRect + "\n\tt=" + textRect + "\n\tacc="
 //                + acceleratorRect + "\n\ta=" + arrowIconRect + "\n");
-
 
         return text;
     }
@@ -1327,6 +1316,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
     }
 
     private static class ClickAction extends AbstractAction {
+        private static final long serialVersionUID = -8707660318949717143L;
+
         public void actionPerformed(ActionEvent e) {
             JMenuItem mi = (JMenuItem) e.getSource();
             MenuSelectionManager.defaultManager().clearSelectedPath();

@@ -111,6 +111,10 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
     /**
      * Returns the ui that is of type <code>clazz</code>, or null if one can not be found.
+     *
+     * @param ui the ui
+     * @param clazz the class
+     * @return the actual ui for the class.
      */
     static Object getUIOfType(ComponentUI ui, Class clazz) {
         if (clazz.isInstance(ui)) {
@@ -122,6 +126,10 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     /**
      * Returns the InputMap for condition <code>condition</code>. Called as part of
      * <code>installKeyboardActions</code>.
+     *
+     * @param condition the condition
+     * @param c the component
+     * @return the input map.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -165,8 +173,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
         int orientation = JideSwingUtilities.getOrientationOf(menuItem);
         if (orientation == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
@@ -325,7 +333,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     }
                 }
                 else {
-                    Rectangle rect = null;
+                    Rectangle rect;
                     if (b.isOpaque()) {
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
@@ -411,7 +419,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     }
                 }
                 else {
-                    Rectangle rect = null;
+                    Rectangle rect;
                     if (b.isOpaque()) {
                         rect = new Rectangle(menuWidth - _splitButtonMargin + getOffset(), 0, _splitButtonMargin - getOffset(), menuHeight);
                         getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DEFAULT);
@@ -478,8 +486,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
     }
 
     protected void paintArrow(JMenuItem menuItem, Graphics g) {
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
         int orientation = JideSwingUtilities.getOrientationOf(menuItem);
         if (orientation == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
@@ -489,11 +497,18 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             menuWidth = menuItem.getHeight();
             menuHeight = menuItem.getWidth();
         }
-        if (menuItem.isEnabled()) {
-            JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
+        int startX;
+        if (menuItem.getComponentOrientation().isLeftToRight()) {
+            startX = menuWidth - 9;
         }
         else {
-            JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("controlShadow"), menuWidth - 9, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
+            startX = 4;
+        }
+        if (menuItem.isEnabled()) {
+            JideSwingUtilities.paintArrow(g, getForegroundOfState(menuItem), startX, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
+        }
+        else {
+            JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("controlShadow"), startX, menuHeight / 2 - 1, 5, SwingConstants.HORIZONTAL);
         }
     }
 
@@ -508,7 +523,13 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
      */
     protected Rectangle getDropDownRect(JComponent c, int orientation, int width, int height) {
         Object position = c.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION);
-        Rectangle rect = new Rectangle(width - _splitButtonMargin - 1 + getOffset(), 0, _splitButtonMargin - getOffset(), height);
+        Rectangle rect;
+        if (c.getComponentOrientation().isLeftToRight()) {
+            rect = new Rectangle(width - _splitButtonMargin - 1 + getOffset(), 0, _splitButtonMargin - getOffset(), height);
+        }
+        else {
+            rect = new Rectangle(0, 0, _splitButtonMargin - getOffset(), height);
+        }
         if (position == null || JideButton.SEGMENT_POSITION_ONLY.equals(position)) {
         }
         else if (JideButton.SEGMENT_POSITION_FIRST.equals(position)) {
@@ -542,7 +563,14 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
      * @return the bounds for the button part of the <code>JideSplitButton</code>.
      */
     protected Rectangle getButtonRect(JComponent c, int orientation, int width, int height) {
-        return new Rectangle(0, 0, width - _splitButtonMargin, height);
+        Rectangle rect;
+        if (orientation == SwingConstants.HORIZONTAL && c.getComponentOrientation().isLeftToRight()) {
+            rect = new Rectangle(0, 0, width - _splitButtonMargin, height);
+        }
+        else {
+            rect = new Rectangle(_splitButtonMargin - 1, 0, width - _splitButtonMargin, height);
+        }
+        return rect;
     }
 
     protected void paintSunkenBorder(Graphics g, Rectangle b) {
@@ -659,8 +687,15 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             else {
                 int size = ((JMenu) menuItem).isTopLevelMenu() ? _splitButtonMargin : _splitButtonMarginOnMenu;
                 if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
-                    if (e.getPoint().getX() < menu.getWidth() - size) {
-                        clickOnDropDown = true;
+                    if (menu.getComponentOrientation().isLeftToRight()) {
+                        if (e.getPoint().getX() < menu.getWidth() - size) {
+                            clickOnDropDown = true;
+                        }
+                    }
+                    else {
+                        if (e.getPoint().getX() >= size) {
+                            clickOnDropDown = true;
+                        }
                     }
                 }
                 else {
@@ -899,7 +934,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
         Color oldColor = g.getColor();
 
-        if (!model.isEnabled() || !((JideSplitButton) menuItem).isButtonEnabled()) {
+        if (!model.isEnabled() || (menuItem instanceof JideSplitButton && !((JideSplitButton) menuItem).isButtonEnabled())) {
             // *** paint the text disabled
             g.setColor(menuItem.getBackground().brighter());
 
@@ -1118,6 +1153,8 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
     /**
      * Populates Buttons actions.
+     *
+     * @param map the map
      */
     public static void loadActionMap(LazyActionMap map) {
         map.put(new Actions(Actions.PRESS));
@@ -1193,10 +1230,10 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
 
     /**
-     * @param c
-     * @param text
-     * @param extraWidth
-     * @return
+     * @param c the component
+     * @param text the text
+     * @param extraWidth the extra width
+     * @return the adjusted width.
      */
     public static int getAdjustExtraWidth(Component c, String text, int extraWidth) {
         String[] lines = getWrappedText(text);
@@ -1239,7 +1276,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
      * Gets the text after wrapping. Please note, it will only wrap text into two lines thus it is not designed for
      * general usage.
      *
-     * @param text
+     * @param text the text
      * @return the two lines.
      */
     public static String[] getWrappedText(String text) {
