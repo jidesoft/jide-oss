@@ -66,6 +66,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     private int _axis = X_AXIS; // get from L&F or user can set it
 
     private int _alignment = SwingConstants.TRAILING; // get from L&F or user can set it
+    private static final long serialVersionUID = -738156624351781041L;
 
     /**
      * Creates a layout manager that will lay out components along the given axis.
@@ -341,16 +342,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getButtonOrder().length(); i++) {
                         char c = getButtonOrder().charAt(getButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
 
@@ -360,16 +361,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
                         char c = getOppositeButtonOrder().charAt(i);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
                 }
@@ -379,16 +380,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getButtonOrder().length(); i++) {
                         char c = getButtonOrder().charAt(ltr ? getButtonOrder().length() - i - 1 : i);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
 
@@ -398,16 +399,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
                         char c = getOppositeButtonOrder().charAt(ltr ? i : getOppositeButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
                 }
@@ -417,16 +418,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getButtonOrder().length(); i++) {
                         char c = getButtonOrder().charAt(ltr ? i : getButtonOrder().length() - i - 1);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsLeftAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
 
@@ -435,16 +436,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                     for (int i = 0; i < getOppositeButtonOrder().length(); i++) {
                         char c = getOppositeButtonOrder().charAt(ltr ? getOppositeButtonOrder().length() - i - 1 : i);
                         if (c == 'A' || c == 'a') {
-                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_affirmativeButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'C' || c == 'c') {
-                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_cancelButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'H' || c == 'h') {
-                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_helpButtons, x, y, alloc, ltr);
                         }
                         else if (c == 'O' || c == 'o') {
-                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc);
+                            x = layoutButtonsRightAlign(_otherButtons, x, y, alloc, ltr);
                         }
                     }
                 }
@@ -529,10 +530,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private int layoutButtonsRightAlign(List buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsRightAlign(List buttons, int x, int y, Dimension alloc, boolean ltr) {
         boolean containsVisibleButton = false;
         for (int i = _target.getComponentCount() - 1; i >= 0; i--) {
-            Component component = _target.getComponent(i);
+            Component component;
+            if (ltr) {
+                component = _target.getComponent(i);
+            }
+            else {
+                component = _target.getComponent(_target.getComponentCount() - 1 - i);
+            }
             if (!component.isVisible() || !buttons.contains(component)) {
                 continue;
             }
@@ -558,10 +565,16 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         return x;
     }
 
-    private int layoutButtonsLeftAlign(List<Component> buttons, int x, int y, Dimension alloc) {
+    private int layoutButtonsLeftAlign(List<Component> buttons, int x, int y, Dimension alloc, boolean ltr) {
         boolean containsVisibleButton;
         for (int i = 0; i < _target.getComponentCount(); i++) {
-            Component component = _target.getComponent(i);
+            Component component;
+            if (ltr) {
+                component = _target.getComponent(i);
+            }
+            else {
+                component = _target.getComponent(_target.getComponentCount() - 1 - i);
+            }
             if (!component.isVisible() || !buttons.contains(component)) {
                 continue;
             }
