@@ -413,7 +413,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 }
                 if (isOriginator) {
                     _componentSizes[flexibleNextIndex] += oldLocation - location;
-                    componentIndexChanged.add(flexiblePrevIndex);
+                    componentIndexChanged.add(flexibleNextIndex);
                 }
                 else if (getConstraintMap().get(_target.getComponent(nextIndex)) != JideBoxLayout.FIX) {
                     _componentSizes[nextIndex] += oldLocation - location;
