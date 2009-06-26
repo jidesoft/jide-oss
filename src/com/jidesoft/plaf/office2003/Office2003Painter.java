@@ -88,7 +88,7 @@ public class Office2003Painter extends BasicPainter {
     private static Office2003Theme _homeSteadTheme = new Office2003Theme(XPUtils.HOMESTEAD);
     private static Office2003Theme _metallicTheme = new Office2003Theme(XPUtils.METALLIC);
 
-    private static Map<String, Office2003Theme> _themeCache = new TreeMap();
+    private static Map<String, Office2003Theme> _themeCache = new TreeMap<String, Office2003Theme>();
 
     static {
         _themeCache.put(_defaultTheme.getThemeName(), _defaultTheme);
@@ -575,16 +575,16 @@ public class Office2003Painter extends BasicPainter {
     public void paintChevronBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
         if (state == STATE_DEFAULT) {
-            paintChevron(orientation, getCurrentTheme().getColor("Chevron.backgroundLt"), getCurrentTheme().getColor("Chevron.backgroundDk"), rect, g2d);
+            paintChevron(c, g2d, getCurrentTheme().getColor("Chevron.backgroundLt"), getCurrentTheme().getColor("Chevron.backgroundDk"), rect, orientation);
         }
         else if (state == STATE_ROLLOVER) {
-            paintChevron(orientation, getCurrentTheme().getColor("selection.RolloverLt"), getCurrentTheme().getColor("selection.RolloverDk"), rect, g2d);
+            paintChevron(c, g2d, getCurrentTheme().getColor("selection.RolloverLt"), getCurrentTheme().getColor("selection.RolloverDk"), rect, orientation);
         }
         else if (state == STATE_SELECTED) {
-            paintChevron(orientation, getCurrentTheme().getColor("selection.SelectedDk"), getCurrentTheme().getColor("selection.SelectedLt"), rect, g2d);
+            paintChevron(c, g2d, getCurrentTheme().getColor("selection.SelectedDk"), getCurrentTheme().getColor("selection.SelectedLt"), rect, orientation);
         }
         else if (state == STATE_PRESSED) {
-            paintChevron(orientation, getCurrentTheme().getColor("selection.PressedDk"), getCurrentTheme().getColor("selection.PressedLt"), rect, g2d);
+            paintChevron(c, g2d, getCurrentTheme().getColor("selection.PressedDk"), getCurrentTheme().getColor("selection.PressedLt"), rect, orientation);
         }
     }
 
@@ -595,18 +595,29 @@ public class Office2003Painter extends BasicPainter {
                 getCurrentTheme().getColor("Divider.backgroundLt"), getCurrentTheme().getColor("Divider.backgroundDk"), true);
     }
 
-    protected void paintChevron(int orientation, Color color1, Color color2, Rectangle rect, Graphics2D g2d) {
+    protected void paintChevron(JComponent c, Graphics2D g2d, Color color1, Color color2, Rectangle rect, int orientation) {
         if (orientation == SwingConstants.HORIZONTAL) {
             // don't use fast gradient painter as it has some problem
-            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 2, rect.y + 2, rect.width - 2, rect.height - 4), color1, color2, true);
-            g2d.setColor(color1);
-            g2d.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
-            g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 2, rect.y + 1);
-            g2d.setColor(color2);
-            g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
-            g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+            if (!c.getComponentOrientation().isLeftToRight()) {
+                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y + 2, rect.width - 2, rect.height - 4), color1, color2, true);
+                g2d.setColor(color1);
+                g2d.drawLine(rect.x + 2, rect.y, rect.x + rect.width - 1, rect.y);
+                g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 2, rect.y + 1);
+                g2d.setColor(color2);
+                g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
+                g2d.drawLine(rect.x + 2, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
+            }
+            else {
+                JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 2, rect.y + 2, rect.width - 2, rect.height - 4), color1, color2, true);
+                g2d.setColor(color1);
+                g2d.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
+                g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 2, rect.y + 1);
+                g2d.setColor(color2);
+                g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
+                g2d.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
+            }
         }
-        else if (orientation == SwingConstants.VERTICAL) {
+        else {
             // don't use fast gradient painter as it has some problem
             JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x + 2, rect.y + 2, rect.width - 4, rect.height - 2), color1, color2, false);
             g2d.setColor(color1);
@@ -615,16 +626,6 @@ public class Office2003Painter extends BasicPainter {
             g2d.setColor(color2);
             g2d.drawLine(rect.x + rect.width - 2, rect.y + 1, rect.x + rect.width - 2, rect.y + rect.height - 2);
             g2d.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 3);
-        }
-        else if (orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
-            // don't use fast gradient painter as it has some problem
-            JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y + 2, rect.width - 2, rect.height - 4), color1, color2, true);
-            g2d.setColor(color1);
-            g2d.drawLine(rect.x + 2, rect.y, rect.x + rect.width - 1, rect.y);
-            g2d.drawLine(rect.x + 1, rect.y + 1, rect.x + rect.width - 2, rect.y + 1);
-            g2d.setColor(color2);
-            g2d.drawLine(rect.x + 1, rect.y + rect.height - 2, rect.x + rect.width - 2, rect.y + rect.height - 2);
-            g2d.drawLine(rect.x + 2, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
         }
     }
 
@@ -888,20 +889,36 @@ public class Office2003Painter extends BasicPainter {
         int startX = rect.x + 4;
         int startY = rect.x + 5;
 
-        int oppositeOrientation = orientation == SwingConstants.HORIZONTAL ? SwingConstants.VERTICAL : (orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT ? JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT : SwingConstants.HORIZONTAL);
+        int oppositeOrientation = orientation == SwingConstants.HORIZONTAL ? SwingConstants.VERTICAL : SwingConstants.HORIZONTAL;
 
         if (orientation == SwingConstants.HORIZONTAL) {
-            startX++;
-            startY++;
-            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
-            startX += 4;
-            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
-            startX--;
-            startX -= 4;
-            startY--;
-            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
-            startX += 4;
-            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+            if (!c.getComponentOrientation().isLeftToRight()) {
+                startX = rect.width - 8;
+                startX--;
+                startY++;
+                JideSwingUtilities.paintArrow(c, g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+                startX -= 4;
+                JideSwingUtilities.paintArrow(c, g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+                startX++;
+                startX += 4;
+                startY--;
+                JideSwingUtilities.paintArrow(c, g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+                startX -= 4;
+                JideSwingUtilities.paintArrow(c, g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+            }
+            else {
+                startX++;
+                startY++;
+                JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+                startX += 4;
+                JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
+                startX--;
+                startX -= 4;
+                startY--;
+                JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+                startX += 4;
+                JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
+            }
         }
         else if (orientation == SwingConstants.VERTICAL) {
             startX++;
@@ -916,20 +933,6 @@ public class Office2003Painter extends BasicPainter {
             startY += 4;
             JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
         }
-        else if (orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
-            startX = rect.width - 8;
-            startX--;
-            startY++;
-            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
-            startX -= 4;
-            JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 3, oppositeOrientation);
-            startX++;
-            startX += 4;
-            startY--;
-            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
-            startX -= 4;
-            JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 3, oppositeOrientation);
-        }
     }
 
     @Override
@@ -937,16 +940,18 @@ public class Office2003Painter extends BasicPainter {
         int startX;
         int startY;
         if (orientation == SwingConstants.HORIZONTAL) {
-            startX = rect.x + rect.width - 8;
-            startY = rect.y + rect.height - 10;
+            if (!c.getComponentOrientation().isLeftToRight()) {
+                startX = rect.x + 2;
+                startY = rect.y + rect.height - 10;
+            }
+            else {
+                startX = rect.x + rect.width - 8;
+                startY = rect.y + rect.height - 10;
+            }
         }
         else if (orientation == SwingConstants.VERTICAL) {
             startX = rect.x + rect.width - 10;
             startY = rect.y + rect.height - 8;
-        }
-        else if (orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
-            startX = rect.x + 2;
-            startY = rect.y + rect.height - 10;
         }
         else {
             return;
@@ -954,22 +959,23 @@ public class Office2003Painter extends BasicPainter {
 
         startX++;
         startY++;
-        paintDown(g, Color.WHITE, startX, startY, orientation);
+        g.setColor(Color.WHITE);
+        paintDown(g, startX, startY, orientation);
 
         startX--;
         startY--;
-        paintDown(g, Color.BLACK, startX, startY, orientation);
+        g.setColor(Color.BLACK);
+        paintDown(g, startX, startY, orientation);
     }
 
-    private void paintDown(Graphics g, Color color, int startX, int startY, int orientation) {
-        g.setColor(color);
-        if (orientation == SwingConstants.HORIZONTAL || orientation == JideSwingUtilities.ORIENTATION_RIGHT_TO_LEFT) {
+    private void paintDown(Graphics g, int startX, int startY, int orientation) {
+        if (orientation == SwingConstants.HORIZONTAL) {
             g.drawLine(startX, startY, startX + 4, startY);
-            JideSwingUtilities.paintArrow(g, color, startX, startY + 3, 5, SwingConstants.HORIZONTAL);
+            JideSwingUtilities.paintArrow(g, g.getColor(), startX, startY + 3, 5, SwingConstants.HORIZONTAL);
         }
         else {
             g.drawLine(startX, startY, startX, startY + 4);
-            JideSwingUtilities.paintArrow(g, color, startX + 3, startY, 5, orientation);
+            JideSwingUtilities.paintArrow(g, g.getColor(), startX + 3, startY, 5, orientation);
         }
     }
 

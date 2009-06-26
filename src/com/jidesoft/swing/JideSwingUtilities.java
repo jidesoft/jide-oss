@@ -58,8 +58,6 @@ public class JideSwingUtilities implements SwingConstants {
      */
     private static final boolean AA_TEXT_DEFINED;
 
-    public static final int ORIENTATION_RIGHT_TO_LEFT = 100;
-
     /**
      * Key used in client properties to indicate whether or not the component should use aa text.
      */
@@ -214,12 +212,33 @@ public class JideSwingUtilities implements SwingConstants {
                 g.drawLine(startX + i, startY + i, startX + i, startY + width - i - 1);
             }
         }
-        else if (orientation == ORIENTATION_RIGHT_TO_LEFT) {
+        g.setColor(oldColor);
+    }
+
+    /**
+     * Paints an arrow shape.
+     *
+     * @param c the component
+     * @param g the graphics instance
+     * @param color color
+     * @param startX start X
+     * @param startY start Y
+     * @param width width
+     * @param orientation horizontal or vertical
+     */
+    public static void paintArrow(JComponent c, Graphics g, Color color, int startX, int startY, int width, int orientation) {
+        if (!c.getComponentOrientation().isLeftToRight()) {
+            Color oldColor = g.getColor();
+            g.setColor(color);
+            width = width / 2 * 2 + 1; // make sure it's odd
             for (int i = 0; i < (width + 1) / 2; i++) {
                 g.drawLine(startX + width - i, startY + i, startX + width - i, startY + width - i - 1);
             }
+            g.setColor(oldColor);
+            return;
         }
-        g.setColor(oldColor);
+        
+        paintArrow(g, color, startX, startY,  width, orientation);
     }
 
     /**
