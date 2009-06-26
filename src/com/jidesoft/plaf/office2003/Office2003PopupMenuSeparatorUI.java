@@ -58,13 +58,13 @@ public class Office2003PopupMenuSeparatorUI extends VsnetPopupMenuSeparatorUI {
             g.drawLine(defaultShadowWidth + defaultTextIconGap, 1, s.width, 1);
         }
         else {
-            g.fillRect(s.width, 0, defaultShadowWidth, HEIGHT);
+            _painter.paintMenuShadow(c, g, new Rectangle(s.width - defaultShadowWidth, 0, defaultShadowWidth, HEIGHT), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
 
             g.setColor(_painter.getMenuItemBackground());
             g.fillRect(0, 0, s.width - defaultShadowWidth, HEIGHT);
 
             g.setColor(_painter.getSeparatorForeground());
-            g.drawLine(defaultTextIconGap, 1, s.width - defaultShadowWidth, 1);
+            g.drawLine(0, 1, s.width - defaultShadowWidth - defaultTextIconGap, 1);
         }
     }
 

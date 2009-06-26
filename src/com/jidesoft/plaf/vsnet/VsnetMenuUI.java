@@ -15,7 +15,6 @@ import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.*;
 import javax.swing.plaf.ComponentUI;
 import java.awt.*;
@@ -73,8 +72,8 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
 
         ButtonModel model = menuItem.getModel();
         Color oldColor = g.getColor();
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
             menuHeight = menuItem.getHeight();
@@ -85,8 +84,8 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         }
 
         Color borderColor = getPainter().getMenuItemBorderColor();
-        Color mouseHoverBackground = UIDefaultsLookup.getColor("Menu.mouseHoverBackground");
-        Border mouseHoverBorder = UIDefaultsLookup.getBorder("Menu.mouseHoverBorder");
+//        Color mouseHoverBackground = UIDefaultsLookup.getColor("Menu.mouseHoverBackground");
+//        Border mouseHoverBorder = UIDefaultsLookup.getBorder("Menu.mouseHoverBorder");
 
         if (menuItem.isOpaque()) {
             if (menuItem.getParent() != null) {
@@ -205,7 +204,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         if (shortcutKeys == null) {
             shortcutKeys = new int[]{KeyEvent.ALT_MASK};
         }
-        if (mnemonic == lastMnemonic || shortcutKeys == null) {
+        if (mnemonic == lastMnemonic) {
             return;
         }
         if (lastMnemonic != 0 && windowInputMap != null) {
@@ -347,6 +346,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
     protected static class PostAction extends AbstractAction {
         JMenu menu;
         boolean force = false;
+        private static final long serialVersionUID = 8723756757971612903L;
 
         PostAction(JMenu menu, boolean shouldForce) {
             this.menu = menu;
@@ -641,7 +641,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             if (!(menuItem instanceof JMenu)) {
                 return;
             }
-            if (menuItem.isEnabled() == false)
+            if (!menuItem.isEnabled())
                 return;
 
             MenuSelectionManager manager = e.getMenuSelectionManager();
@@ -787,7 +787,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
                     }
 
                     if (matches == 0) {
-                        ; // no op (consume)
+                        // no op (consume)
                     }
                     else if (matches == 1) {
                         // Invoke the menu action
@@ -849,7 +849,9 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
                 textRect.x = defaultShadowWidth + defaultTextIconGap;
             }
             else {
-                // isLeftToRight is false
+                int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
+                int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
+                textRect.x = viewRect.width - (defaultShadowWidth + defaultTextIconGap + textRect.width);
             }
         }
 
@@ -871,7 +873,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             // For Win95, the selected text color is the selection foreground color
             if (model.isSelected()) {
                 if (/*SystemInfo.isClassicWindows() ||
-                        */!((JMenu) menuItem).isTopLevelMenu()) {
+                        */menuItem instanceof JMenu && !((JMenu) menuItem).isTopLevelMenu()) {
 
                     g.setColor(selectionForeground); // Uses protected field.
                 }
@@ -887,6 +889,8 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
 
     /**
      * Set the temporary flag to indicate if the mouse has entered the menu.
+     *
+     * @param over the flag
      */
     protected void setMouseOver(boolean over) {
         isMouseOver = over;
@@ -895,6 +899,8 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
 
     /**
      * Get the temporary flag to indicate if the mouse has entered the menu.
+     *
+     * @return the flag.
      */
     protected boolean isMouseOver() {
         return isMouseOver;

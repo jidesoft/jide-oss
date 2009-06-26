@@ -63,7 +63,7 @@ public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
             g.fillRect(0, 0, s.width - defaultShadowWidth, HEIGHT);
 
             g.setColor(foreground);
-            g.drawLine(defaultTextIconGap, 1, s.width - defaultShadowWidth, 1);
+            g.drawLine(0, 1, s.width - defaultShadowWidth - defaultTextIconGap, 1);
         }
     }
 
