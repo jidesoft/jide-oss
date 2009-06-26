@@ -658,7 +658,12 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public void paintMenuShadow(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g;
-        JideSwingUtilities.fillGradient(g2d, rect, getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation != SwingConstants.HORIZONTAL);
+        if (c.getComponentOrientation().isLeftToRight()) {
+            JideSwingUtilities.fillGradient(g2d, rect, getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation != SwingConstants.HORIZONTAL);
+        }
+        else {
+            JideSwingUtilities.fillGradient(g2d, rect, getCurrentTheme().getColor("controlDk"), getCurrentTheme().getColor("controlLt"), orientation != SwingConstants.HORIZONTAL);
+        }
     }
 
     @Override
