@@ -24,6 +24,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     private CheckBoxTree _tree;
 
     private boolean _singleEventMode = false;
+    private static final long serialVersionUID = 1368502059666946634L;
 
     public CheckBoxTreeSelectionModel(TreeModel model) {
         setModel(model);
@@ -102,6 +103,20 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     }
 
     /**
+     * Check if the parent path is really selected.
+     * <p/>
+     * The default implementation is just return true. In filterable scenario, you could override this method to check
+     * more.
+     *
+     * @param path the original path to be checked
+     * @param parent the parent part which is closest to the original path and is selected
+     * @return true if the path is actually selected without any doubt. Otherwise false.
+     */
+    protected boolean isParentActuallySelected(TreePath path, TreePath parent) {
+        return true;
+    }
+
+    /**
      * Tells whether given path is selected. if dig is true, then a path is assumed to be selected, if one of its
      * ancestor is selected.
      *
@@ -123,7 +138,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
 
         if (parent != null) {
-            return true;
+            return isParentActuallySelected(path, parent);
         }
 
         if (_model == null) {
@@ -270,7 +285,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * @param path the tree path
      * @return true if the siblings are all selected.
      */
-    private boolean areSiblingsSelected(TreePath path) {
+    protected boolean areSiblingsSelected(TreePath path) {
         TreePath parent = path.getParentPath();
         if (parent == null)
             return true;
@@ -308,8 +323,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
 
         List toBeRemoved = new ArrayList();
-        for (int i = 0; i < paths.length; i++) {
-            TreePath path = paths[i];
+        for (TreePath path : paths) {
             if (path.getPathCount() == 1) {
                 toBeRemoved.add(path);
             }
@@ -327,7 +341,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * path and descendants. Otherwise just deselect the given path
      *
      * @param path        the tree path
-     * @param doFireEvent
+     * @param doFireEvent the flag indicating if firing event
      */
     private void toggleRemoveSelection(TreePath path, boolean doFireEvent) {
         boolean fireEventAtTheEnd = false;
@@ -459,8 +473,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
     }
 
-    private List<TreePath> _toBeAdded = new ArrayList();
-    private List<TreePath> _toBeRemoved = new ArrayList();
+    private List<TreePath> _toBeAdded = new ArrayList<TreePath>();
+    private List<TreePath> _toBeRemoved = new ArrayList<TreePath>();
 
     private void delegateRemoveSelectionPaths(TreePath[] paths) {
         if (!isBatchMode()) {
@@ -474,17 +488,17 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
     }
 
-    private void delegateRemoveSelectionPath(TreePath path) {
-        if (!isBatchMode()) {
-            super.removeSelectionPath(path);
-        }
-        else {
-            _toBeRemoved.add(path);
-            _toBeAdded.remove(path);
-        }
-
-    }
-
+//    private void delegateRemoveSelectionPath(TreePath path) {
+//        if (!isBatchMode()) {
+//            super.removeSelectionPath(path);
+//        }
+//        else {
+//            _toBeRemoved.add(path);
+//            _toBeAdded.remove(path);
+//        }
+//
+//    }
+//
     private void delegateAddSelectionPaths(TreePath[] paths) {
         if (!isBatchMode()) {
             super.addSelectionPaths(paths);
@@ -497,16 +511,16 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
     }
 
-    private void delegateAddSelectionPath(TreePath path) {
-        if (!isBatchMode()) {
-            super.addSelectionPath(path);
-        }
-        else {
-            _toBeAdded.add(path);
-            _toBeRemoved.remove(path);
-        }
-    }
-
+//    private void delegateAddSelectionPath(TreePath path) {
+//        if (!isBatchMode()) {
+//            super.addSelectionPath(path);
+//        }
+//        else {
+//            _toBeAdded.add(path);
+//            _toBeRemoved.remove(path);
+//        }
+//    }
+//
     public void treeNodesChanged(TreeModelEvent e) {
         revalidateSelectedTreePaths();
     }
