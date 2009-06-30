@@ -1266,9 +1266,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     else {
                         g2d.rotate(-Math.PI / 2);
-                        g2d.translate(-textRect.height + textRect.width + metrics.getHeight() / 2, 0); // not really sure why it is. need more time to dig deep into it.
+                        g2d.translate(-textRect.height + metrics.getHeight() / 2 + _rectSizeExtend, 0); // no idea why i need 7 here
                     }
-                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, 0, ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
+                    JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex, 0,
+                            ((textRect.width - metrics.getHeight()) / 2) + metrics.getAscent());
                     g2d.setTransform(old);
                 }
             }
@@ -1288,7 +1289,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     else {
                         g2d.rotate(-Math.PI / 2);
-                        g2d.translate(-textRect.height + 7, 0); // no idea why i need 7 here
+                        g2d.translate(-textRect.height + metrics.getHeight() / 2 + _rectSizeExtend, 0); // no idea why i need 7 here
                     }
                     g2d.setColor(_tabPane.getBackgroundAt(tabIndex).brighter());
                     JideSwingUtilities.drawStringUnderlineCharAt(_tabPane, g2d, actualText, mnemIndex,
