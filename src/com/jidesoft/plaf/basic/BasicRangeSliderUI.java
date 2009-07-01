@@ -321,5 +321,32 @@ public class BasicRangeSliderUI extends BasicSliderUI {
     }
 
     protected void setMouseRollover(int handle) {
+        resetAllIcons();
+        switch (handle) {
+            case MOUSE_HANDLE_MIN: {
+                Icon icon = UIDefaultsLookup.getIcon("RangeSlider.lowerRIcon");
+                if (icon != null) _lowerIcon = icon;
+                icon = UIDefaultsLookup.getIcon("RangeSlider.lowerVRIcon");
+                if (icon != null) _lowerIconV = icon;
+            }
+            break;
+            case MOUSE_HANDLE_MAX: {
+                Icon icon = UIDefaultsLookup.getIcon("RangeSlider.upperRIcon");
+                if (icon != null) _upperIcon = icon;
+                icon = UIDefaultsLookup.getIcon("RangeSlider.upperVRIcon");
+                if (icon != null) _upperIconV = icon;
+            }
+            break;
+            case MOUSE_HANDLE_MIDDLE: {
+                Icon icon = UIDefaultsLookup.getIcon("RangeSlider.middleRIcon");
+                if (icon != null) _middleIcon = icon;
+                icon = UIDefaultsLookup.getIcon("RangeSlider.middleVRIcon");
+                if (icon != null) _middleIconV = icon;
+            }
+            break;
+            case MOUSE_HANDLE_NONE:
+                break;
+        }
+        slider.repaint();
     }
 }

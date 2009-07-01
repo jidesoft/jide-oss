@@ -52,7 +52,6 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         int products = LookAndFeelFactory.getProductsUsed();
 
         table.put("JideTabbedPaneUI", "com.jidesoft.plaf.office2003.Office2003JideTabbedPaneUI");
-        table.put("RangeSliderUI", "com.jidesoft.plaf.office2003.Office2003RangeSliderUI");
 
         if ((products & PRODUCT_DOCK) != 0) {
             table.put("SidePaneUI", "com.jidesoft.plaf.office2003.Office2003SidePaneUI");
@@ -142,10 +141,10 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                 "MenuBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 2, 1, 2)),
 
                 "PopupMenu.background", new UIDefaults.ActiveValue() {
-            public Object createValue(UIDefaults table) {
-                return Office2003Painter.getInstance().getMenuItemBackground();
-            }
-        },
+                    public Object createValue(UIDefaults table) {
+                        return Office2003Painter.getInstance().getMenuItemBackground();
+                    }
+                },
         };
         table.putDefaults(uiDefaults);
 
@@ -156,76 +155,76 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(1, SlidingFrameBorder.SHADOW_SIZE + 5, 1, 1));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(1, SlidingFrameBorder.SHADOW_SIZE + 5, 1, 1));
+                        }
+                    });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(1, 1, 1, SlidingFrameBorder.SHADOW_SIZE + 5));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(1, 1, 1, SlidingFrameBorder.SHADOW_SIZE + 5));
+                        }
+                    });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(1, 1, SlidingFrameBorder.SHADOW_SIZE + 5, 1));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(1, 1, SlidingFrameBorder.SHADOW_SIZE + 5, 1));
+                        }
+                    });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(SlidingFrameBorder.SHADOW_SIZE + 5, 1, 1, 1));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(SlidingFrameBorder.SHADOW_SIZE + 5, 1, 1, 1));
+                        }
+                    });
 
             Object slidingEastFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 4, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 4, 0, 0));
+                        }
+                    });
 
             Object slidingWestFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 0, 4));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 0, 4));
+                        }
+                    });
 
             Object slidingNorthFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 4, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 4, 0));
+                        }
+                    });
 
             Object slidingSouthFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(4, 0, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(4, 0, 0, 0));
+                        }
+                    });
 
             uiDefaults = new Object[]{
                     // dock
                     "SidePane.foreground", defaultTextColor,
                     "SidePane.lineColor", new UIDefaults.ActiveValue() {
-                public Object createValue(UIDefaults table) {
-                    return Office2003Painter.getInstance().getControlShadow();
-                }
-            },
+                        public Object createValue(UIDefaults table) {
+                            return Office2003Painter.getInstance().getControlShadow();
+                        }
+                    },
                     "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 1, 0, 1)),
                     "StatusBar.border", new StatusBarBorder(),
 
@@ -249,11 +248,11 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         if ((products & PRODUCT_ACTION) != 0) {
             Object floatingBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.titleBarColor"},
                     new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0], 2),
-                            BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0], 2),
+                                    BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+                        }
+                    });
 
             WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", UIDefaultsLookup.get("activeCaptionText"), toolkit);
             WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", UIDefaultsLookup.get("activeCaption"), toolkit);
@@ -270,7 +269,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 2, 2, 0)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 0, 2)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("activeCaption"), 2),
-                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.floatingBorder", floatingBorder,
                     "CommandBar.separatorSize", 5,
                     "CommandBar.titleBarSize", 17,
@@ -291,9 +290,9 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                    "TAB", "selectNextGroup",
-                    "shift TAB", "selectPreviousGroup",
-            }),
+                            "TAB", "selectNextGroup",
+                            "shift TAB", "selectPreviousGroup",
+                    }),
             };
             table.putDefaults(uiDefaults);
         }
