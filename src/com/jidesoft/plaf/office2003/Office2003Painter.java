@@ -1268,4 +1268,54 @@ public class Office2003Painter extends BasicPainter {
             g.drawLine(x + 1, y + 1, x + 1 + h, y + 1);
         }
     }
+
+    @Override
+    public void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
+        int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
+
+        if (c.getComponentOrientation().isLeftToRight()) {
+            paintMenuShadow(c, g, new Rectangle(rect.x, rect.y, defaultShadowWidth, rect.height), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
+
+            g.setColor(getMenuItemBackground());
+            g.fillRect(rect.x + defaultShadowWidth, rect.y, rect.width - defaultShadowWidth, rect.height);
+
+            g.setColor(getSeparatorForeground());
+            g.drawLine(rect.x + defaultShadowWidth + defaultTextIconGap, rect.y + 1, rect.x + rect.width, rect.y + 1);
+        }
+        else {
+            paintMenuShadow(c, g, new Rectangle(rect.x + rect.width - defaultShadowWidth, rect.y, defaultShadowWidth, rect.height), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
+
+            g.setColor(getMenuItemBackground());
+            g.fillRect(rect.x, rect.y, rect.width - defaultShadowWidth, rect.height);
+
+            g.setColor(getSeparatorForeground());
+            g.drawLine(rect.x, rect.y + 1, rect.x + rect.width - defaultShadowWidth - defaultTextIconGap, rect.y + 1);
+        }
+    }
+
+    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
+        h -= 3;
+        int y;
+        int x;
+
+        if (orientation == SwingConstants.HORIZONTAL) {
+            x = rect.x;
+            y = rect.y + 1;
+            g.setColor(UIDefaultsLookup.getColor("controlShadow"));
+            g.drawLine(x, y, x, y + h);
+            g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
+            g.drawLine(x + 1, y, x + 1, y + h);
+        }
+        else {
+            x = rect.x + 1;
+            y = rect.y;
+            g.setColor(UIDefaultsLookup.getColor("controlShadow"));
+            g.drawLine(x, y, x + h, y);
+            g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
+            g.drawLine(x, y + 1, x + h, y + 1);
+        }
+
+    }
 }

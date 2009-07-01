@@ -43,7 +43,6 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
     public static void initClassDefaults(UIDefaults table, boolean withMenu) {
         if (withMenu) {
             VsnetWindowsUtils.initClassDefaultsWithMenu(table);
-            table.put("PopupMenuSeparatorUI", "com.jidesoft.plaf.office2003.Office2003PopupMenuSeparatorUI");
         }
         else {
             VsnetWindowsUtils.initClassDefaults(table);
@@ -59,7 +58,6 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
         if ((products & PRODUCT_COMPONENTS) != 0) {
             table.put("CollapsiblePaneUI", "com.jidesoft.plaf.office2003.Office2003CollapsiblePaneUI");
-            table.put("StatusBarSeparatorUI", "com.jidesoft.plaf.office2003.Office2003StatusBarSeparatorUI");
         }
     }
 

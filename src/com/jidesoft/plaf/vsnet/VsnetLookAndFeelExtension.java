@@ -57,12 +57,6 @@ public class VsnetLookAndFeelExtension extends BasicLookAndFeelExtension {
         if ((products & PRODUCT_COMPONENTS) != 0) {
             // components
             table.put("CollapsiblePaneUI", vsnetPackageName + "VsnetCollapsiblePaneUI");
-            table.put("StatusBarSeparatorUI", vsnetPackageName + "VsnetStatusBarSeparatorUI");
-        }
-
-        if ((products & PRODUCT_ACTION) != 0) {
-            // action
-            table.put("CommandBarSeparatorUI", vsnetPackageName + "VsnetCommandBarSeparatorUI");
         }
     }
 }

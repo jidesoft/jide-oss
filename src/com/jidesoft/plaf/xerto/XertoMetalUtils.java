@@ -60,7 +60,6 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_COMPONENTS) != 0) {
             table.put("CollapsiblePaneUI", xertoPackageName + "XertoCollapsiblePaneUI");
-            table.put("StatusBarSeparatorUI", "com.jidesoft.plaf.office2003.Office2003StatusBarSeparatorUI");
         }
 
         if ((products & PRODUCT_DOCK) != 0) {
@@ -246,11 +245,11 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 2,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
 //                "ENTER", "pressed",
 //                "released ENTER", "released"   // no last two for metal
-        }),
+                }),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -387,13 +386,13 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
 //                "ENTER", "pressed",
 //                "released ENTER", "released", // no these two for metal
-                "DOWN", "downPressed",
-                "released DOWN", "downReleased"
-        }),
+                        "DOWN", "downPressed",
+                        "released DOWN", "downReleased"
+                }),
         };
         table.putDefaults(uiDefaults);
 
@@ -570,7 +569,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("activeCaption"), 2),
-                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -605,9 +604,9 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                    "TAB", "selectNextGroup",
-                    "shift TAB", "selectPreviousGroup",
-            }),
+                            "TAB", "selectNextGroup",
+                            "shift TAB", "selectPreviousGroup",
+                    }),
             };
             table.putDefaults(uiDefaults);
         }

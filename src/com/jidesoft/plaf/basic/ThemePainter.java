@@ -87,6 +87,10 @@ public interface ThemePainter {
 
     void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
+    void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
+    void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+
     Color getMenuItemBorderColor();
 
     Color getGripperForeground();

@@ -6,6 +6,7 @@
 package com.jidesoft.plaf.xerto;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -148,6 +149,32 @@ public class XertoPainter extends BasicPainter {
             JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height),
                     XertoUtils.getFrameInactiveTitleTopColor(), XertoUtils.getFrameInactiveTitleBottomColor(), orientation == SwingConstants.HORIZONTAL);
         }
+    }
+
+    // copied from Office2003Painter
+    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
+        h -= 3;
+        int y;
+        int x;
+
+        if (orientation == SwingConstants.HORIZONTAL) {
+            x = rect.x;
+            y = rect.y + 1;
+            g.setColor(UIDefaultsLookup.getColor("controlShadow"));
+            g.drawLine(x, y, x, y + h);
+            g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
+            g.drawLine(x + 1, y, x + 1, y + h);
+        }
+        else {
+            x = rect.x + 1;
+            y = rect.y;
+            g.setColor(UIDefaultsLookup.getColor("controlShadow"));
+            g.drawLine(x, y, x + h, y);
+            g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
+            g.drawLine(x, y + 1, x + h, y + 1);
+        }
+
     }
 
     @Override

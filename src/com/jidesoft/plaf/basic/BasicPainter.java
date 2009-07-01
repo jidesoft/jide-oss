@@ -747,4 +747,42 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             g.drawLine(rect.x + 1, rect.y + rect.height / 2, rect.x + rect.width - 2, rect.y + rect.height / 2);
         }
     }
+
+    public void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
+        int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
+        Color shadowColor = UIDefaultsLookup.getColor("MenuItem.shadowColor");
+        Color foreground = UIDefaultsLookup.getColor("PopupMenuSeparator.foreground");
+        Color background = UIDefaultsLookup.getColor("PopupMenuSeparator.background");
+
+        g.setColor(shadowColor);
+        if (c.getComponentOrientation().isLeftToRight()) {
+            g.fillRect(0, 0, defaultShadowWidth, rect.height);
+            if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
+                JideSwingUtilities.fillSingleGradient(g, new Rectangle(rect.x, rect.y, defaultShadowWidth, rect.height), SwingConstants.EAST, 255);
+            }
+
+            g.setColor(background);
+            g.fillRect(rect.x + defaultShadowWidth, rect.y, rect.width - defaultShadowWidth, rect.height);
+
+            g.setColor(foreground);
+            g.drawLine(rect.x + defaultShadowWidth + defaultTextIconGap, rect.y + 1, rect.x + rect.width, rect.y + 1);
+        }
+        else {
+            g.fillRect(rect.x + rect.width, rect.y, defaultShadowWidth, rect.height);
+            if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
+                JideSwingUtilities.fillSingleGradient(g, new Rectangle(rect.x + rect.width - defaultTextIconGap, rect.y, defaultShadowWidth, 2), SwingConstants.WEST, 255);
+            }
+
+            g.setColor(background);
+            g.fillRect(rect.x, rect.y, rect.width - defaultShadowWidth, rect.height);
+
+            g.setColor(foreground);
+            g.drawLine(rect.x, rect.y + 1, rect.x + rect.width - defaultShadowWidth - defaultTextIconGap, rect.y + 1);
+        }
+    }
+
+    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+
+    }
 }

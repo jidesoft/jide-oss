@@ -7,8 +7,7 @@
 package com.jidesoft.plaf.vsnet;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.plaf.basic.ThemePainter;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -20,9 +19,26 @@ import java.awt.*;
  */
 public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
     public static final int HEIGHT = 3;
+    private ThemePainter _painter;
 
     public static ComponentUI createUI(JComponent c) {
         return new VsnetPopupMenuSeparatorUI();
+    }
+
+    @Override
+    protected void installDefaults(JSeparator s) {
+        _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
+        super.installDefaults(s);
+    }
+
+    @Override
+    protected void uninstallDefaults(JSeparator s) {
+        super.uninstallDefaults(s);
+        _painter = null;
+    }
+
+    public ThemePainter getPainter() {
+        return _painter;
     }
 
     @Override
@@ -32,39 +48,7 @@ public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
             return;
         }
 
-        Dimension s = c.getSize();
-
-        int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
-        int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
-        Color shadowColor = UIDefaultsLookup.getColor("MenuItem.shadowColor");
-        Color foreground = UIDefaultsLookup.getColor("PopupMenuSeparator.foreground");
-        Color background = UIDefaultsLookup.getColor("PopupMenuSeparator.background");
-
-        g.setColor(shadowColor);
-        if (c.getComponentOrientation().isLeftToRight()) {
-            g.fillRect(0, 0, defaultShadowWidth, HEIGHT);
-            if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
-                JideSwingUtilities.fillSingleGradient(g, new Rectangle(0, 0, defaultShadowWidth, HEIGHT), SwingConstants.EAST, 255);
-            }
-
-            g.setColor(background);
-            g.fillRect(defaultShadowWidth, 0, s.width - defaultShadowWidth, HEIGHT);
-
-            g.setColor(foreground);
-            g.drawLine(defaultShadowWidth + defaultTextIconGap, 1, s.width, 1);
-        }
-        else {
-            g.fillRect(s.width, 0, defaultShadowWidth, HEIGHT);
-            if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
-                JideSwingUtilities.fillSingleGradient(g, new Rectangle(s.width - defaultTextIconGap, 0, defaultShadowWidth, 2), SwingConstants.WEST, 255);
-            }
-
-            g.setColor(background);
-            g.fillRect(0, 0, s.width - defaultShadowWidth, HEIGHT);
-
-            g.setColor(foreground);
-            g.drawLine(0, 1, s.width - defaultShadowWidth - defaultTextIconGap, 1);
-        }
+        getPainter().paintPopupMenuSepartor(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
     }
 
     @Override
