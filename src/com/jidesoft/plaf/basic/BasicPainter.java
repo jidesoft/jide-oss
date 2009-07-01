@@ -732,4 +732,19 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             }
         }
     }
+
+    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (c.isOpaque()) {
+            g.setColor(c.getBackground());
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
+        if (orientation == SwingConstants.HORIZONTAL) {
+            g.setColor(c.getForeground());
+            g.drawLine(rect.x + rect.width / 2, rect.y + 1, rect.x + rect.width / 2, rect.y + rect.height - 2);
+        }
+        else { // HORIZONTAL
+            g.setColor(c.getForeground());
+            g.drawLine(rect.x + 1, rect.y + rect.height / 2, rect.x + rect.width - 2, rect.y + rect.height / 2);
+        }
+    }
 }

@@ -1243,4 +1243,29 @@ public class Office2003Painter extends BasicPainter {
             g.drawLine(rect.x + 3, rect.y + rect.height - 1, rect.x + rect.width - 4, rect.y + rect.height - 1);
         }
     }
+
+    @Override
+    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int h = (orientation == SwingConstants.HORIZONTAL) ? rect.height : rect.width;
+        h -= 9;
+        int x;
+        int y;
+
+        if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL) {
+            y = rect.y + 5;
+            x = rect.x + 1;
+            g.setColor(getSeparatorForeground());
+            g.drawLine(x, y, x, y + h);
+            g.setColor(getSeparatorForegroundLt());
+            g.drawLine(x + 1, y + 1, x + 1, y + h + 1);
+        }
+        else {
+            y = rect.y + 1;
+            x = rect.x + 5;
+            g.setColor(getSeparatorForeground());
+            g.drawLine(x, y, x + h, y);
+            g.setColor(getSeparatorForegroundLt());
+            g.drawLine(x + 1, y + 1, x + 1 + h, y + 1);
+        }
+    }
 }

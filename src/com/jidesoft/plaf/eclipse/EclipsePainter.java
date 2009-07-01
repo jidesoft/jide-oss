@@ -16,8 +16,8 @@ import java.awt.*;
 /**
  * Painter for Eclipse L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only.
- * Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class EclipsePainter extends BasicPainter {
 
@@ -171,6 +171,31 @@ public class EclipsePainter extends BasicPainter {
 //            Graphics2D g2d = (Graphics2D) g;
 //            JideSwingUtilities.fillGradient(g2d, new Rectangle(x + 1, y + 1, width, h - 2), UIManagerLookup.getColor("DockableFrame.inactiveTitleBackground"), UIManagerLookup.getColor("DockableFrame.background"), false);
 //        }
+    }
+
+    @Override
+    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
+        h -= 5;
+        int y;
+        int x;
+
+        if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL) {
+            y = rect.y + 3;
+            x = rect.x + 1;
+            g.setColor(_shadowColor);
+            g.drawLine(x, y, x, y + h);
+            g.setColor(_lightHighlightColor);
+            g.drawLine(x + 1, y + 1, x + 1, y + h + 1);
+        }
+        else {
+            y = rect.y + 1;
+            x = rect.x + 3;
+            g.setColor(_shadowColor);
+            g.drawLine(x, y, x + h, y);
+            g.setColor(_lightHighlightColor);
+            g.drawLine(x + 1, y + 1, x + 1 + h, y + 1);
+        }
     }
 }
 
