@@ -791,6 +791,53 @@ public class IconsFactory {
     }
 
     /**
+     * Gets a new icon with the icon2 painting right or down to the icon1.
+     *
+     * @param c           the component where the returned icon will be used. The component is used as the
+     *                    ImageObserver. It could be null
+     * @param icon1       the left side or up side icon
+     * @param icon2       the right side or down side icon
+     * @param orientation    the orientation as defined in SwingConstants - HORIZONTAL, VERTICAL
+     * @param gap            the gap between the two icons
+     * @return the new icon.
+     */
+    public static ImageIcon getCombinedIcon(Component c, ImageIcon icon1, ImageIcon icon2, int orientation, int gap) {
+        if (icon1 == null) {
+            return icon2;
+        }
+        if (icon2 == null) {
+            return icon1;
+        }
+        int x1, y1, x2, y2, width, height;
+        int w1 = icon1.getIconWidth();
+        int h1 = icon1.getIconHeight();
+        int w2 = icon2.getIconWidth();
+        int h2 = icon2.getIconHeight();
+
+        if (orientation == SwingConstants.HORIZONTAL ) {
+            width = w1 + w2 + gap;
+            height = Math.max(h1, h2);
+            x1 = 0;
+            x2 = w1 + gap;
+            y1 = h1 > h2 ? 0 : (h2 - h1) / 2;
+            y2 = h1 < h2 ? 0 : (h1 - h2) / 2;
+        }
+        else {
+            width = Math.max(w1, w2);
+            height = h1 + h2 + gap;
+            x1 = w1 > w2 ? 0 : (w2 - w1) / 2;
+            x2 = w1 < w2 ? 0 : (w1 - w2) / 2;
+            y1 = 0;
+            y2 = h1 + gap;
+        }
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        image.getGraphics().drawImage(icon1.getImage(), x1, y1, w1, h1, c);
+        image.getGraphics().drawImage(icon2.getImage(), x2, y2, w2, h2, c);
+        return new ImageIcon(image);
+    }
+
+    /**
      * Gets a scaled version of the existing icon.
      *
      * @param c    the component where the returned icon will be used. The component is used as the ImageObserver. It
