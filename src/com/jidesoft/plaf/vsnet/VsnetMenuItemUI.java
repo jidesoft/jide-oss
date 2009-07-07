@@ -10,9 +10,9 @@ import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.ButtonStyle;
+import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
-import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.utils.SecurityUtils;
 import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -809,7 +809,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
         if (menuItem.isOpaque()) {
             if (menuItem.getComponentOrientation().isLeftToRight()) {
-                getPainter().paintMenuShadow(menuItem, g, new Rectangle(0, 0, defaultShadowWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
                 if (menuItem.getBackground() instanceof UIResource) {
                     g.setColor(getPainter().getMenuItemBackground());
                 }
@@ -817,6 +816,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                     g.setColor(menuItem.getBackground());
                 }
                 g.fillRect(defaultShadowWidth, 0, menuWidth - defaultShadowWidth, menuHeight);
+                getPainter().paintMenuShadow(menuItem, g, new Rectangle(0, 0, defaultShadowWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
 
                 if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
                     getPainter().paintMenuItemBackground(menuItem, g, new Rectangle(1, 0, menuWidth - 2, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_ROLLOVER);
@@ -830,7 +830,6 @@ public class VsnetMenuItemUI extends MenuItemUI {
                 g.setColor(oldColor);
             }
             else {
-                getPainter().paintMenuShadow(menuItem, g, new Rectangle(menuWidth - defaultShadowWidth, 0, defaultShadowWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
                 if (menuItem.getBackground() instanceof UIResource) {
                     g.setColor(getPainter().getMenuItemBackground());
                 }
@@ -838,6 +837,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                     g.setColor(menuItem.getBackground());
                 }
                 g.fillRect(0, 0, menuWidth - defaultShadowWidth, menuHeight);
+                getPainter().paintMenuShadow(menuItem, g, new Rectangle(menuWidth - defaultShadowWidth, 0, defaultShadowWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
 
                 if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
                     getPainter().paintMenuItemBackground(menuItem, g, new Rectangle(0, 0, menuWidth, menuHeight), SwingConstants.HORIZONTAL, ThemePainter.STATE_ROLLOVER);
