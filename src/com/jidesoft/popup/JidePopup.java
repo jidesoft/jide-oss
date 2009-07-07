@@ -1170,8 +1170,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
                 @Override
                 public void componentMoved(ComponentEvent e) {
-                    if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
-                        ancestorMoved();
+                    try {
+                        if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
+                            ancestorMoved();
+                        }
+                    }
+                    catch (Exception ex) {
+                        // ignore in case IllegalComponentStateException happens in getLocationOnScreen
                     }
                 }
             };
@@ -1768,8 +1773,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         else if (e.getID() == ComponentEvent.COMPONENT_MOVED && isAncestorOf(owner, e.getSource())) {
             // this line is for Linux because the JFrame moves when combobox is shown inside JidePopup
 //            System.out.println("_actualOwnerLocation " + _actualOwnerLocation + " _actualOwner " + _actualOwner + " _actualOwner.getLocationOnScreen() " + (_actualOwner != null ? _actualOwner.getLocationOnScreen() : null));
-            if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
-                ancestorMoved();
+            try {
+                if (_actualOwnerLocation == null || _actualOwner == null || !_actualOwner.getLocationOnScreen().equals(_actualOwnerLocation)) {
+                    ancestorMoved();
+                }
+            }
+            catch (Exception ex) {
+                // ignore in case IllegalComponentStateException happens in getLocationOnScreen
             }
         }
     }
