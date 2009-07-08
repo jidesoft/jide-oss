@@ -83,6 +83,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     private boolean _resetWhenInvalidate = true;
     private boolean _alwaysLayout = false;
+    private static final long serialVersionUID = -183922972679053590L;
 
     /**
      * Creates a layout manager that will lay out components along the given axis.
@@ -110,7 +111,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      * @param axis   the axis to lay out components along. Can be one of: <code>JideBoxLayout.X_AXIS</code>,
      *               <code>JideBoxLayout.Y_AXIS</code>, <code>JideBoxLayout.LINE_AXIS</code> or
      *               <code>JideBoxLayout.PAGE_AXIS</code>
-     * @param gap
+     * @param gap the gap
      */
     public JideBoxLayout(Container target, int axis, int gap) {
         if (axis != X_AXIS && axis != Y_AXIS &&
@@ -215,6 +216,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         int totalFlexSize = 0;
         int totalFlexSizeMinusMin = 0;
         int lastFlexIndex = -1;
+        int lastNoneZeroFlexIndex = -1;
         for (int i = startIndex; i < endIndex; i++) {
             Component comp = _target.getComponent(i);
             if (!comp.isVisible()) {
@@ -238,6 +240,10 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                 totalFlexSize += preferredSize;
                 flexMinSize += minimumSize;
                 lastFlexIndex = i;
+                // prevent the zero width column has a column width like 1 or 2 eventually
+                if (preferredSize != 0) {
+                    lastNoneZeroFlexIndex = i;
+                }
             }
         }
 
@@ -314,6 +320,9 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         if (totalActualSize != availableSize) {
             if (varIndex != -1) {
                 setComponentSize(varIndex, _componentSizes[varIndex] + (availableSize - totalActualSize));
+            }
+            else if (lastNoneZeroFlexIndex != -1) {
+                setComponentSize(lastNoneZeroFlexIndex, _componentSizes[lastNoneZeroFlexIndex] + (availableSize - totalActualSize));
             }
             else if (lastFlexIndex != -1) {
                 setComponentSize(lastFlexIndex, _componentSizes[lastFlexIndex] + (availableSize - totalActualSize));
@@ -535,6 +544,9 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in Components preferred size.
+
+     * @param c the component
+     * @return the preferred size of the component.
      */
     protected int getPreferredSizeOfComponent(Component c) {
         return getSizeForPrimaryAxis(c.getPreferredSize());
@@ -543,6 +555,9 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in Components minimum size.
+
+     * @param c the component
+     * @return the minimum size of the component.
      */
     int getMinimumSizeOfComponent(Component c) {
         return getSizeForPrimaryAxis(c.getMinimumSize());
@@ -551,14 +566,20 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in component.
+
+     * @param c the component
+     * @return the size of the component.
      */
     protected int getSizeOfComponent(Component c) {
         return getSizeForPrimaryAxis(c.getSize());
     }
 
-
     /**
      * Returns the available width based on the container size and Insets.
+
+     * @param containerSize the size of the container
+     * @param insets the insets
+     * @return the available size.
      */
     protected int getAvailableSize(Dimension containerSize,
                                    Insets insets) {
@@ -572,6 +593,9 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the left inset, unless the Insets are null in which case 0 is returned.
+     *
+     * @param insets the insets
+     * @return the initial location.
      */
     protected int getInitialLocation(Insets insets) {
         if (insets != null)
@@ -579,10 +603,15 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         return 0;
     }
 
-
     /**
      * Sets the width of the component c to be size, placing its x location at location, y to the insets.top and height
      * to the containersize.height less the top and bottom insets.
+     *
+     * @param c the component
+     * @param size the size of the component
+     * @param location the location of the component
+     * @param insets the insets of the component
+     * @param containerSize the size of the container
      */
     protected void setComponentToSize(Component c, int size,
                                       int location, Insets insets,
@@ -619,7 +648,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         }
     }
 
-    /**
+    /*
      * If the axis == 0, the width is returned, otherwise the height.
      */
     int getSizeForPrimaryAxis(Dimension size) {
@@ -632,7 +661,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         }
     }
 
-    /**
+    /*
      * If the axis == X_AXIS, the width is returned, otherwise the height.
      */
     int getSizeForSecondaryAxis(Dimension size) {
@@ -645,7 +674,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         }
     }
 
-    /**
+    /*
      * Returns a particular value of the inset identified by the axis and <code>isTop</code><p>. axis isTop 0    true -
      * left 0    false   - right 1    true    - top 1    false   - bottom
      */
@@ -669,7 +698,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         }
     }
 
-    /**
+    /*
      * Returns a particular value of the inset identified by the axis and <code>isTop</code><p>. axis isTop 0    true -
      * left 0    false   - right 1    true    - top 1    false   - bottom
      */
@@ -737,7 +766,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     /**
      * Sets the gap between each component. Make sure you cal doLayout() after you change the gap.
      *
-     * @param gap
+     * @param gap the gap
      */
     public void setGap(int gap) {
         _gap = gap;
@@ -759,7 +788,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     /**
      * Sets the flag if the layout should be reset when {@link #invalidateLayout(java.awt.Container)} is called.
      *
-     * @param resetWhenInvalidate
+     * @param resetWhenInvalidate the flag
      */
     public void setResetWhenInvalidate(boolean resetWhenInvalidate) {
         _resetWhenInvalidate = resetWhenInvalidate;
