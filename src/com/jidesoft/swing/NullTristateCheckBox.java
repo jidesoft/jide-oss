@@ -65,9 +65,7 @@ public class NullTristateCheckBox extends TristateCheckBox {
     @Override
     public void updateUI() {
         super.updateUI();
-        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.SUBSTANCE_LNF)) {
-            clearAttribute();
-        }
+        clearAttribute();
     }
 
     private void clearAttribute() {
