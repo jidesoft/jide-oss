@@ -20,6 +20,7 @@ import com.jidesoft.plaf.vsnet.VsnetMetalUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.plaf.xerto.XertoMetalUtils;
 import com.jidesoft.plaf.xerto.XertoWindowsUtils;
+import com.jidesoft.plaf.office2007.Office2007WindowsUtils;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
@@ -304,6 +305,28 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static final int ECLIPSE3X_STYLE = 5;
 
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
+     * Microsoft Office2007 for the toolbars, menus and dockable windows.
+     * <p/>
+     * Office2007 style looks great on Windows Vista when Windows L&F from Sun JDK is used. It replicated the exact same
+     * style as Microsoft Office 2007, to give your end user a familiar visual style.
+     * <p/>
+     * Here is the code to set to Windows L&F with Office2007 style extension.
+     * <code><pre>
+     * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
+     * exceptions on this call.
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.OFFICE2007_STYLE);
+     * </pre></code>
+     * <p/>
+     * Office2007 style doesn't work on any operating systems other than Windows mainly because the design of Office2003
+     * style is so centric to Windows that it doesn't look good on other operating systems.
+     * <p/>
+     * Because we use some painting code that is only available in JDK6, Office 2007 style only runs if you are using
+     * JDK6 and above.
+     */
+    public static final int OFFICE2007_STYLE = 7;
+
     private static int _style = -1;
     private static int _defaultStyle = -1;
     private static LookAndFeel _lookAndFeel;
@@ -524,6 +547,11 @@ public class LookAndFeelFactory implements ProductNames {
                 || (lnf.getClass().getName().equals(PGS_LNF) && isPgsLnfInstalled())
                 || (lnf.getClass().getName().equals(TONIC_LNF) && isTonicLnfInstalled())) {
             switch (style) {
+                case OFFICE2007_STYLE:
+                    VsnetWindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initClassDefaults(uiDefaults, false);
                 case OFFICE2003_STYLE:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
@@ -588,6 +616,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
+                case OFFICE2007_STYLE:
                 case OFFICE2003_STYLE:
                 case VSNET_STYLE:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
@@ -615,7 +644,10 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf instanceof MetalLookAndFeel) {
             switch (style) {
+                case OFFICE2007_STYLE:
                 case OFFICE2003_STYLE:
+                case VSNET_STYLE:
+                case VSNET_STYLE_WITHOUT_MENU:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -627,11 +659,6 @@ public class LookAndFeelFactory implements ProductNames {
                     Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                     Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     break;
-                case VSNET_STYLE:
-                case VSNET_STYLE_WITHOUT_MENU:
-                    VsnetMetalUtils.initComponentDefaults(uiDefaults);
-                    VsnetMetalUtils.initClassDefaults(uiDefaults);
-                    break;
                 case XERTO_STYLE:
                 case XERTO_STYLE_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
@@ -642,6 +669,13 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf instanceof WindowsLookAndFeel) {
             switch (style) {
+                case OFFICE2007_STYLE:
+                    VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
+                    VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
+                    Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initClassDefaults(uiDefaults);
+                    break;
                 case OFFICE2003_STYLE:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
@@ -717,6 +751,18 @@ public class LookAndFeelFactory implements ProductNames {
             }
 
             switch (style) {
+                case OFFICE2007_STYLE:
+                    if (SystemInfo.isWindows()) {
+                        VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
+                        Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2007WindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2007WindowsUtils.initClassDefaults(uiDefaults);
+                    }
+                    else {
+                        VsnetMetalUtils.initComponentDefaults(uiDefaults);
+                        VsnetMetalUtils.initClassDefaults(uiDefaults);
+                    }
+                    break;
                 case OFFICE2003_STYLE:
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);

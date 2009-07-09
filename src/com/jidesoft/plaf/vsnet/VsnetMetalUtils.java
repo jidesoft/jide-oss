@@ -400,7 +400,8 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "StatusBar.gap", 5,
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
-
+                    "MemoryStatusBarItem.fillColor", new ColorUIResource(236, 233, 176),
+                     
                     "DocumentPane.groupBorder", new BorderUIResource(BorderFactory.createLineBorder(Color.gray)),
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
