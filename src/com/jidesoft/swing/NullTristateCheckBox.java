@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
+
 import javax.swing.*;
 
 /**
@@ -63,7 +65,9 @@ public class NullTristateCheckBox extends TristateCheckBox {
     @Override
     public void updateUI() {
         super.updateUI();
-        clearAttribute();
+        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.SUBSTANCE_LNF)) {
+            clearAttribute();
+        }
     }
 
     private void clearAttribute() {

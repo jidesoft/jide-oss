@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
+
 import javax.swing.*;
 
 /**
@@ -79,7 +81,9 @@ public class NullCheckBox extends JCheckBox {
     @Override
     public void updateUI() {
         super.updateUI();
-        clearAttribute();
+        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.SUBSTANCE_LNF)) {
+            clearAttribute();
+        }
     }
 
     private void clearAttribute() {
