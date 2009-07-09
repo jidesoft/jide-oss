@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * This is part of the null-components. A null component doesn't have foreground, background or font value set. In the
@@ -46,37 +47,52 @@ import javax.swing.*;
  */
 public class NullLabel extends JLabel {
     public NullLabel() {
+        clearAttribute();
     }
 
     public NullLabel(String text, Icon icon, int horizontalAlignment) {
         super(text, icon, horizontalAlignment);
+        clearAttribute();
     }
 
     public NullLabel(String text, int horizontalAlignment) {
         super(text, horizontalAlignment);
+        clearAttribute();
     }
 
     public NullLabel(String text) {
         super(text);
+        clearAttribute();
     }
 
     public NullLabel(Icon image, int horizontalAlignment) {
         super(image, horizontalAlignment);
+        clearAttribute();
     }
 
     public NullLabel(Icon image) {
         super(image);
-    }
-
-    @Override
-    public void updateUI() {
-        super.updateUI();
         clearAttribute();
     }
 
+    @Override
+    public void setFont(Font font) {
+        // set it to null so that the customer cannot set font for this class
+    }
+
+    @Override
+    public void setForeground(Color fg) {
+        // set it to null so that the customer cannot set foreground for this class
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        // set it to null so that the customer cannot set background for this class
+    }
+
     private void clearAttribute() {
-        setFont(null);
-        setBackground(null);
-        setForeground(null);
+        super.setFont(null);
+        super.setBackground(null);
+        super.setForeground(null);
     }
 }

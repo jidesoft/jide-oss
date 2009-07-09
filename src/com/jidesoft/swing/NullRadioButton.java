@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * This is part of the null-components. A null component doesn't have foreground, background or font value set. In the
@@ -46,45 +47,62 @@ import javax.swing.*;
  */
 public class NullRadioButton extends JRadioButton {
     public NullRadioButton() {
+        clearAttribute();
     }
 
     public NullRadioButton(Icon icon) {
         super(icon);
+        clearAttribute();
     }
 
     public NullRadioButton(Action a) {
         super(a);
+        clearAttribute();
     }
 
     public NullRadioButton(Icon icon, boolean selected) {
         super(icon, selected);
+        clearAttribute();
     }
 
     public NullRadioButton(String text) {
         super(text);
+        clearAttribute();
     }
 
     public NullRadioButton(String text, boolean selected) {
         super(text, selected);
+        clearAttribute();
     }
 
     public NullRadioButton(String text, Icon icon) {
         super(text, icon);
+        clearAttribute();
     }
 
     public NullRadioButton(String text, Icon icon, boolean selected) {
         super(text, icon, selected);
-    }
-
-    @Override
-    public void updateUI() {
-        super.updateUI();
         clearAttribute();
     }
 
+    @Override
+    public void setFont(Font font) {
+        // set it to null so that the customer cannot set font for this class
+    }
+
+    @Override
+    public void setForeground(Color fg) {
+        // set it to null so that the customer cannot set foreground for this class
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        // set it to null so that the customer cannot set background for this class
+    }
+
     private void clearAttribute() {
-        setFont(null);
-        setBackground(null);
-        setForeground(null);
+        super.setFont(null);
+        super.setBackground(null);
+        super.setForeground(null);
     }
 }

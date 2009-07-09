@@ -47,29 +47,42 @@ import java.awt.*;
  */
 public class NullPanel extends JPanel {
     public NullPanel() {
+        clearAttribute();
     }
 
     public NullPanel(boolean isDoubleBuffered) {
         super(isDoubleBuffered);
+        clearAttribute();
     }
 
     public NullPanel(LayoutManager layout) {
         super(layout);
+        clearAttribute();
     }
 
     public NullPanel(LayoutManager layout, boolean isDoubleBuffered) {
         super(layout, isDoubleBuffered);
-    }
-
-    @Override
-    public void updateUI() {
-        super.updateUI();
         clearAttribute();
     }
 
+    @Override
+    public void setFont(Font font) {
+        // set it to null so that the customer cannot set font for this class
+    }
+
+    @Override
+    public void setForeground(Color fg) {
+        // set it to null so that the customer cannot set foreground for this class
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        // set it to null so that the customer cannot set background for this class
+    }
+
     private void clearAttribute() {
-        setFont(null);
-        setBackground(null);
-        setForeground(null);
+        super.setFont(null);
+        super.setBackground(null);
+        super.setForeground(null);
     }
 }
