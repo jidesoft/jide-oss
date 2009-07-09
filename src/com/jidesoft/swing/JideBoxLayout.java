@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.dialog.JideOptionPane;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -178,11 +179,13 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
             ComponentOrientation o = _target.getComponentOrientation();
             boolean ltr = o.isLeftToRight();
             int location = getSizeForPrimaryAxis(insets, true);
+            boolean needRedoLayout = false;
             if (!ltr && resolveAxis(_axis, o) == X_AXIS) {
                 location = containerSize.width - location;
             }
             for (int i = 0; i < _target.getComponentCount(); i++) {
                 Component comp = _target.getComponent(i);
+                int oldSize = getPreferredSizeOfComponent(comp);
                 if (!ltr && resolveAxis(_axis, o) == X_AXIS) {
                     location -= _componentSizes[i];
                     setComponentToSize(comp, _componentSizes[i], location, insets, containerSize);
@@ -201,9 +204,30 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                     if (_componentSizes[i] != 0)
                         location += _gap;
                 }
+                int newSize = getPreferredSizeOfComponent(comp);
+                if (newSize != oldSize) {
+                    needRedoLayout = true;
+                }
             }
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("layoutContainer ended");
+            }
+            if (_target instanceof JideOptionPane) {
+                for (int i = 0; i < container.getComponentCount(); i++) {
+                    container.getComponent(i).invalidate();
+                }
+                if (needRedoLayout) {
+                    Component parent = container.getParent();
+                    while (parent != null) {
+                        if (parent instanceof Dialog) {
+                            break;
+                        }
+                        parent = parent.getParent();
+                    }
+                    if (parent != null) {
+                        ((Dialog) parent).pack();
+                    }
+                }
             }
         }
     }
