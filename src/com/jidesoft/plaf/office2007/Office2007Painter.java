@@ -7,10 +7,10 @@
 package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.utils.ColorUtils;
@@ -20,7 +20,6 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.UIResource;
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * Painter for Office2007 L&F.
@@ -201,13 +200,13 @@ public class Office2007Painter extends BasicPainter {
                         new float[]{0f, .36f, .37f, .38f, 1f},
                         new Color[]{new Color(0xfffddf), new Color(0xffe794), new Color(0xfed160), new Color(0xfecd58), new Color(0xffe794)}));
                 g2d.fillRect(x + 2, y + 2, width - 4, height - 4);
-                g2d.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
-                        new float[]{0f, 1f},
-                        new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
-                Composite oldComp = g2d.getComposite();
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .36f));
-                g2d.fillRect(x + 2, y + 2, width - 4, height - 4);
-                g2d.setComposite(oldComp);
+//                g2d.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
+//                        new float[]{0f, 1f},
+//                        new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
+//                Composite oldComp = g2d.getComposite();
+//                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .36f));
+//                g2d.fillRect(x + 2, y + 2, width - 4, height - 4);
+//                g2d.setComposite(oldComp);
             }
 //            }
         }
@@ -258,15 +257,15 @@ public class Office2007Painter extends BasicPainter {
         gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
                 new float[]{0f, 1f},
                 new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
-        Composite oldComp = gfx.getComposite();
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .36f));
-        gfx.fill(base);
-        gfx.setComposite(oldComp);
+//        Composite oldComp = gfx.getComposite();
+//        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .20f));
+//        gfx.fill(base);
+//        gfx.setComposite(oldComp);
         // paint "shadow"
-        Area shadow = new Area(new Rectangle(x + 1, y + 1, width - 2, height - 3));
-        shadow.subtract(new Area(new RoundRectangle2D.Double(x + 2, y + 4, width - 4, 5, 3, 3)));
-        gfx.setPaint(new GradientPaint(x, y, new Color(0x4B000000, true), x, y + 6, new Color(0x07000000, true)));
-        gfx.fill(shadow);
+//        Area shadow = new Area(new Rectangle(x + 1, y + 1, width - 2, height - 3));
+//        shadow.subtract(new Area(new RoundRectangle2D.Double(x + 2, y + 4, width - 4, 5, 3, 3)));
+//        gfx.setPaint(new GradientPaint(x, y, new Color(0x4B000000, true), x, y + 6, new Color(0x07000000, true)));
+//        gfx.fill(shadow);
     }
 
 
@@ -426,10 +425,22 @@ public class Office2007Painter extends BasicPainter {
     };
 
     private static final Color[] EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG = new Color[]{
-            new Color(0xc5dcf8), // 0.333
+            new Color(0xe2eeff), // 0.333
             new Color(0xa9caf7),
             new Color(0x90b6ea), // 0.666
             new Color(0x7495c2), // 1
+    };
+
+    private static final Color[] COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG = new Color[]{
+            new Color(0xc7dcf8),
+            new Color(0xd7e6f9), // 0.5
+            new Color(0xc7dcf8),
+    };
+
+    private static final Color[] EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG = new Color[]{
+            new Color(0xa9caf7),
+            new Color(0xe2eeff), // 0.5
+            new Color(0xa9caf7),
     };
 
     @Override
@@ -472,12 +483,12 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
+        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG);
     }
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
+        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG);
     }
 
     private void paintCollapsiblePaneTitlePane(JComponent c, Graphics g, Rectangle rect, Color[] colors) {
@@ -495,6 +506,26 @@ public class Office2007Painter extends BasicPainter {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setPaint(new LinearGradientPaint(x, y, x, y + h,
                 new float[]{0f, .333f, .334f, 1f},
+                colors));
+        g2d.fillRect(x, y, w, h);
+        g2d.dispose();
+    }
+
+    private void paintCollapsiblePaneTitlePaneSeparator(JComponent c, Graphics g, Rectangle rect, Color[] colors) {
+        int x = rect.x;
+        int y = rect.y;
+        int w = rect.width;
+        int h = rect.height;
+        if (c.getBorder() != null) {
+            Insets insets = c.getBorder().getBorderInsets(c);
+            x += insets.left;
+            y += insets.top;
+            w -= insets.right + insets.left;
+            h -= insets.top + insets.bottom;
+        }
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setPaint(new LinearGradientPaint(x, y, x + w, y,
+                new float[]{0f, .5f, 1f},
                 colors));
         g2d.fillRect(x, y, w, h);
         g2d.dispose();
@@ -522,6 +553,11 @@ public class Office2007Painter extends BasicPainter {
     @Override
     public void paintSidePaneItemBackground(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
         super.paintSidePaneItemBackground(c, g, rect, colors, orientation, state);
+    }
+
+    @Override
+    public void paintHeaderBoxBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        paintButtonBackground(c, g, rect, orientation, state);
     }
 
     @Override
