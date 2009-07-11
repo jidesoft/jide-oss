@@ -552,7 +552,20 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintSidePaneItemBackground(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
-        super.paintSidePaneItemBackground(c, g, rect, colors, orientation, state);
+        Graphics2D g2d = (Graphics2D) g.create();
+        switch (orientation) {
+            case SwingConstants.WEST:
+            case SwingConstants.EAST:
+                g2d.rotate(-Math.toRadians(90), rect.x, rect.y);
+                g2d.translate(-rect.height, rect.y);
+                paintButtonBackground(c, g2d, new Rectangle(0, 0, rect.height, rect.width), SwingConstants.HORIZONTAL, state, false);
+                break;
+            case SwingConstants.NORTH:
+            case SwingConstants.SOUTH:
+                paintButtonBackground(c, g2d, rect, SwingConstants.HORIZONTAL, state, false);
+                break;
+        }
+        g2d.dispose();
     }
 
     @Override

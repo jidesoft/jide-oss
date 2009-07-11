@@ -90,6 +90,8 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         WindowsDesktopProperty defaultShadowColor = new WindowsDesktopProperty("win.3d.shadowColor", table.get("controlShadow"), toolkit);
         WindowsDesktopProperty defaultDarkShadowColor = new WindowsDesktopProperty("win.3d.darkShadowColor", table.get("controlDkShadow"), toolkit);
 
+        Color defaultFormBackground = new ColorUIResource(0xBFDBFF);
+
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
         Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
 
@@ -113,7 +115,9 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
                 "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003,
                 "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_OFFICE2003,
                 "JideTabbedPane.contentBorderInsets", new InsetsUIResource(3, 3, 3, 3),
-                
+                "JideTabbedPane.background", defaultFormBackground,
+                "JideTabbedPane.tabAreaBackground", defaultFormBackground,
+
                 "JideButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 4),
                 "JideSplitButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
@@ -156,6 +160,9 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
 
         if ((products & PRODUCT_DOCK) != 0) {
             uiDefaults = new Object[]{
+                    "ContentContainer.background", defaultFormBackground,
+                    "SidePane.background", defaultFormBackground,
+
                     "DockableFrame.activeTitleBackground", new ColorUIResource(0xC0D9F0),
 
                     "DockableFrameTitlePane.gripperPainter", gripperPainter,
@@ -180,6 +187,7 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         }
         if ((products & PRODUCT_ACTION) != 0) {
             uiDefaults = new Object[]{
+                    "Chevron.alwaysVisible", Boolean.FALSE,
             };
             table.putDefaults(uiDefaults);
         }

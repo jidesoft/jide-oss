@@ -605,11 +605,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     g.setColor(UIDefaultsLookup.getColor("control"));
 
                 }
-                else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
-                    g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
-                }
                 else {
-                    g.setColor(UIDefaultsLookup.getColor("control"));
+                    g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
                 }
             }
             g.fillRect(rect.x, rect.y, rect.width, rect.height);

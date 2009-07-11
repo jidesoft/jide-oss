@@ -13,9 +13,9 @@ import javax.swing.*;
 public class JideIconsFactory {
 
     public static class FileType {
-        public static final String TEXT = "jide/file_text.gif";
-        public static final String JAVA = "jide/file_java.gif";
-        public static final String HTML = "jide/file_html.gif";
+        public static final String TEXT = "jide/file_text.png";
+        public static final String JAVA = "jide/file_java.png";
+        public static final String HTML = "jide/file_html.png";
     }
 
     public static class View {
@@ -69,8 +69,8 @@ public class JideIconsFactory {
     }
 
     public static class WindowMenu {
-        public static final String NEW_HORIZONTAL_TAB = "jide/windows_new_horizontal_tab_group.gif";
-        public static final String NEW_VERTICAL_TAB = "jide/windows_new_vertical_tab_group.gif";
+        public static final String NEW_HORIZONTAL_TAB = "jide/windows_new_horizontal_tab_group.png";
+        public static final String NEW_VERTICAL_TAB = "jide/windows_new_vertical_tab_group.png";
     }
 
     public static class Arrow {
@@ -91,6 +91,8 @@ public class JideIconsFactory {
     public static final String MENU_RADIOBUTTON_VSNET = "jide/menu_radiobutton_vnset.gif";
 
     public static final String MENU_RADIOBUTTON_ECLIPSE = "jide/menu_radiobutton_eclipse.gif";
+
+    public static final String SAVE = "jide/save.png";
 
     public static final String JIDE32 = "jide/jide32.png";
     public static final String JIDE50 = "jide/jide50.png";
