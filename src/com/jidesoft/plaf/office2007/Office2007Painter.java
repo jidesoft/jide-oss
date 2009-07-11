@@ -49,12 +49,12 @@ public class Office2007Painter extends BasicPainter {
     public void uninstallDefaults() {
     }
 
-    private static final Color[] CONTENT_BG = new Color[]{
-            new Color(0xA3C2EA),
-            new Color(0x87A9D5),
-            new Color(0x567DB0),
-            new Color(0x6591CD),
-    };
+//    private static final Color[] CONTENT_BG = new Color[]{
+//            new Color(0xA3C2EA),
+//            new Color(0x87A9D5),
+//            new Color(0x567DB0),
+//            new Color(0x6591CD),
+//    };
 
 
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -91,6 +91,7 @@ public class Office2007Painter extends BasicPainter {
         super.paintTabBackground(c, g, region, colors, orientation, state);
     }
 
+    @SuppressWarnings({"ConstantConditions"})
     private void paintButtonBorder(Component c, Graphics g, Rectangle rect, int state) {
         int x = rect.x;
         int y = rect.y;
@@ -558,6 +559,7 @@ public class Office2007Painter extends BasicPainter {
             case SwingConstants.EAST:
                 g2d.rotate(-Math.toRadians(90), rect.x, rect.y);
                 g2d.translate(-rect.height, rect.y);
+                //noinspection SuspiciousNameCombination
                 paintButtonBackground(c, g2d, new Rectangle(0, 0, rect.height, rect.width), SwingConstants.HORIZONTAL, state, false);
                 break;
             case SwingConstants.NORTH:
