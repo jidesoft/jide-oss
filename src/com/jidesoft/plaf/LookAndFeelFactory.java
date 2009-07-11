@@ -16,11 +16,11 @@ import com.jidesoft.plaf.eclipse.EclipseMetalUtils;
 import com.jidesoft.plaf.eclipse.EclipseWindowsUtils;
 import com.jidesoft.plaf.office2003.Office2003Painter;
 import com.jidesoft.plaf.office2003.Office2003WindowsUtils;
+import com.jidesoft.plaf.office2007.Office2007WindowsUtils;
 import com.jidesoft.plaf.vsnet.VsnetMetalUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.plaf.xerto.XertoMetalUtils;
 import com.jidesoft.plaf.xerto.XertoWindowsUtils;
-import com.jidesoft.plaf.office2007.Office2007WindowsUtils;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
@@ -392,7 +392,10 @@ public class LookAndFeelFactory implements ProductNames {
             if (_defaultStyle == -1) {
                 int suggestedStyle;
                 try {
-                    if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
+                    if (SystemInfo.isWindowsVista() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
+                        suggestedStyle = OFFICE2007_STYLE;
+                    }
+                    else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
                         suggestedStyle = OFFICE2003_STYLE;
                     }
                     else {
