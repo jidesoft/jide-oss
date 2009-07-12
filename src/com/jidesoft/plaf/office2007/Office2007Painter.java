@@ -439,8 +439,8 @@ public class Office2007Painter extends BasicPainter {
     };
 
     private static final Color[] EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG = new Color[]{
-            new Color(0xe7f0fe),
-            new Color(0xe2eeff), // 0.5
+            new Color(0xb9d3f7),
+            new Color(0xe7f0fe), // 0.5
             new Color(0xb9d3f7),
     };
 
