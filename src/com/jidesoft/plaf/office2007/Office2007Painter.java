@@ -426,10 +426,10 @@ public class Office2007Painter extends BasicPainter {
     };
 
     private static final Color[] EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG = new Color[]{
-            new Color(0xe2eeff), // 0.333
-            new Color(0xa9caf7),
-            new Color(0x90b6ea), // 0.666
-            new Color(0x7495c2), // 1
+            new Color(0xe7f0fe), // 0.333
+            new Color(0xb9d3f7),
+            new Color(0xa5c4ed), // 0.666
+            new Color(0x8fa9cd), // 1
     };
 
     private static final Color[] COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG = new Color[]{
@@ -439,9 +439,9 @@ public class Office2007Painter extends BasicPainter {
     };
 
     private static final Color[] EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG = new Color[]{
-            new Color(0xa9caf7),
+            new Color(0xe7f0fe),
             new Color(0xe2eeff), // 0.5
-            new Color(0xa9caf7),
+            new Color(0xb9d3f7),
     };
 
     @Override
@@ -468,31 +468,26 @@ public class Office2007Painter extends BasicPainter {
     }
 
     @Override
-    public void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        super.paintDockableFrameBackground(c, g, rect, orientation, state);
-    }
-
-    @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePane(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_BG);
+        paintCollapsiblePaneTitlePane(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_BG, state);
     }
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePane(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG);
+        paintCollapsiblePaneTitlePane(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG, state);
     }
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG);
+        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG, state);
     }
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG);
+        paintCollapsiblePaneTitlePaneSeparator(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG, state);
     }
 
-    private void paintCollapsiblePaneTitlePane(JComponent c, Graphics g, Rectangle rect, Color[] colors) {
+    private void paintCollapsiblePaneTitlePane(JComponent c, Graphics g, Rectangle rect, Color[] colors, int state) {
         int x = rect.x;
         int y = rect.y;
         int w = rect.width;
@@ -505,14 +500,22 @@ public class Office2007Painter extends BasicPainter {
             h -= insets.top + insets.bottom;
         }
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setPaint(new LinearGradientPaint(x, y, x, y + h,
-                new float[]{0f, .333f, .334f, 1f},
-                colors));
+        if (state == ThemePainter.STATE_ROLLOVER) {
+            Color[] newColors = new Color[colors.length];
+            for (int i = 0; i < colors.length; i++) {
+                Color color = colors[i];
+                newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+            }
+            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
+        }
+        else {
+            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
+        }
         g2d.fillRect(x, y, w, h);
         g2d.dispose();
     }
 
-    private void paintCollapsiblePaneTitlePaneSeparator(JComponent c, Graphics g, Rectangle rect, Color[] colors) {
+    private void paintCollapsiblePaneTitlePaneSeparator(JComponent c, Graphics g, Rectangle rect, Color[] colors, int state) {
         int x = rect.x;
         int y = rect.y;
         int w = rect.width;
@@ -525,9 +528,17 @@ public class Office2007Painter extends BasicPainter {
             h -= insets.top + insets.bottom;
         }
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setPaint(new LinearGradientPaint(x, y, x + w, y,
-                new float[]{0f, .5f, 1f},
-                colors));
+        if (state == ThemePainter.STATE_ROLLOVER) {
+            Color[] newColors = new Color[colors.length];
+            for (int i = 0; i < colors.length; i++) {
+                Color color = colors[i];
+                newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+            }
+            g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, newColors));
+        }
+        else {
+            g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, colors));
+        }
         g2d.fillRect(x, y, w, h);
         g2d.dispose();
     }
