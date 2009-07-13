@@ -91,6 +91,8 @@ public interface ThemePainter {
 
     void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
+    void paintStyleSpecificGradient(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color);
+
     Color getMenuItemBorderColor();
 
     Color getGripperForeground();

@@ -638,4 +638,23 @@ public class Office2007Painter extends BasicPainter {
     public Color getSelectionSelectedLt() {
         return new ColorUIResource(0xfefbd5);
     }
+
+    public void paintStyleSpecificGradient(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        if (orientation == SwingConstants.HORIZONTAL) {
+            int topHeight = rect.height / 3;
+            JideSwingUtilities.fillGradient((Graphics2D) g, new Rectangle(rect.x, rect.y, rect.width, topHeight), ColorUtils.getDerivedColor(color, 0.74f),
+                    ColorUtils.getDerivedColor(color, 0.64f), true);
+            JideSwingUtilities.fillGradient((Graphics2D) g, new Rectangle(rect.x, rect.y + topHeight, rect.width, rect.height - topHeight), color,
+                    ColorUtils.getDerivedColor(color, 0.64f), true);
+        }
+        else {
+            int leftWidth = rect.width / 3;
+            JideSwingUtilities.fillGradient((Graphics2D) g, new Rectangle(rect.x, rect.y, leftWidth, rect.height), ColorUtils.getDerivedColor(color, 0.74f),
+                    ColorUtils.getDerivedColor(color, 0.64f), false);
+            JideSwingUtilities.fillGradient((Graphics2D) g, new Rectangle(rect.x + leftWidth, rect.y, rect.width - leftWidth, rect.height), color,
+                    ColorUtils.getDerivedColor(color, 0.64f), false);
+        }
+        g2d.dispose();
+    }
 }
