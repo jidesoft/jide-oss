@@ -6,15 +6,13 @@
 package com.jidesoft.icons;
 
 import com.jidesoft.swing.JideSwingUtilities;
+import com.jidesoft.utils.SecurityUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,6 +105,10 @@ import java.util.StringTokenizer;
  * </code></pre>
  * if you follow the instruction and copy the html file to the same location as the source code and open the html, you
  * will see the all image files defined in this IconsFactory are listed nicely in the page.
+ * <p/>
+ * By default, all image files are loaded using ImageIO. However if you set system property "jide.useImageIO" to
+ * "false", we will disable the usage of ImageIO and use Toolkit.getDefaultToolkit().createImage method to create the
+ * image file.
  */
 public class IconsFactory {
 
@@ -501,10 +503,54 @@ public class IconsFactory {
             return null;
         }
         else {
-            BufferedImage image = ImageIO.read(resource);
+            Image image;
+            if ("true".equals(SecurityUtils.getProperty("jide.useImageIO", "true"))) {
+                image = ImageIO.read(resource);
+            }
+            else {
+                image = readImageIcon(baseClass, file, resource);
+            }
             resource.close();
             return new ImageIcon(image);
         }
+    }
+
+
+    private static Image readImageIcon(Class clazz, String file, InputStream resource) throws IOException {
+        final byte[][] buffer = new byte[1][];
+        try {
+            BufferedInputStream in = new BufferedInputStream(resource);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+
+            buffer[0] = new byte[1024];
+            int n;
+            while ((n = in.read(buffer[0])) > 0) {
+
+                out.write(buffer[0], 0, n);
+            }
+            in.close();
+            out.flush();
+            buffer[0] = out.toByteArray();
+        }
+        catch (IOException ioe) {
+            throw ioe;
+        }
+
+        if (buffer[0] == null || buffer[0].length == 0) {
+            Package pkg = clazz.getPackage();
+            String pkgName = "";
+            if (pkg != null) {
+                pkgName = pkg.getName().replace('.', '/');
+            }
+            if (buffer[0] == null) {
+                throw new IOException("Warning: Resource " + pkgName + "/" + file + " not found.");
+            }
+            if (buffer[0].length == 0) {
+                throw new IOException("Warning: Resource " + pkgName + "/" + file + " is zero-length");
+            }
+        }
+
+        return Toolkit.getDefaultToolkit().createImage(buffer[0]);
     }
 
     /**
@@ -797,8 +843,8 @@ public class IconsFactory {
      *                    ImageObserver. It could be null
      * @param icon1       the left side or up side icon
      * @param icon2       the right side or down side icon
-     * @param orientation    the orientation as defined in SwingConstants - HORIZONTAL, VERTICAL
-     * @param gap            the gap between the two icons
+     * @param orientation the orientation as defined in SwingConstants - HORIZONTAL, VERTICAL
+     * @param gap         the gap between the two icons
      * @return the new icon.
      */
     public static ImageIcon getCombinedIcon(Component c, ImageIcon icon1, ImageIcon icon2, int orientation, int gap) {
@@ -814,7 +860,7 @@ public class IconsFactory {
         int w2 = icon2.getIconWidth();
         int h2 = icon2.getIconHeight();
 
-        if (orientation == SwingConstants.HORIZONTAL ) {
+        if (orientation == SwingConstants.HORIZONTAL) {
             width = w1 + w2 + gap;
             height = Math.max(h1, h2);
             x1 = 0;
