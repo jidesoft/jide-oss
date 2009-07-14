@@ -1319,7 +1319,7 @@ public class Office2003Painter extends BasicPainter {
 
     }
 
-    public void paintStyleSpecificGradient(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
+    public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
         Graphics2D g2d = (Graphics2D) g.create();
         if (orientation == SwingConstants.HORIZONTAL) {
             JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), ColorUtils.getDerivedColor(color, 0.60f),

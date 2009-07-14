@@ -783,7 +783,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
     }
 
-    public void paintStyleSpecificGradient(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
+    public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
         Color oldColor = g.getColor();
         g.setColor(color);
         g.fillRect(rect.x, rect.y, rect.width, rect.height);

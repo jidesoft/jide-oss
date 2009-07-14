@@ -639,7 +639,7 @@ public class Office2007Painter extends BasicPainter {
         return new ColorUIResource(0xfefbd5);
     }
 
-    public void paintStyleSpecificGradient(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
+    public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
         Graphics2D g2d = (Graphics2D) g.create();
         if (orientation == SwingConstants.HORIZONTAL) {
             int topHeight = rect.height / 3;
