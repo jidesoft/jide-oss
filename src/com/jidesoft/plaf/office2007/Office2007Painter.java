@@ -255,9 +255,11 @@ public class Office2007Painter extends BasicPainter {
         //new Color[]{new Color(0xfda868), new Color(0xfc8f3d), new Color(0xfcb33d)}));
         gfx.fill(base);
         // highlight
-        gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
-                new float[]{0f, 1f},
-                new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
+        if (height > 0) {
+            gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
+                    new float[]{0f, 1f},
+                    new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
+        }
 //        Composite oldComp = gfx.getComposite();
 //        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .20f));
 //        gfx.fill(base);
