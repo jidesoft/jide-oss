@@ -185,23 +185,23 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         return UIDefaultsLookup.getColor("DockableFrame.inactiveTitleForeground");
     }
 
-    public Color getOptionPaneBannerForeground() {
-        return new ColorUIResource(255, 255, 255);
-    }
-
     public Color getTabbedPaneSelectDk() {
-        return new ColorUIResource(230, 139, 44);
+        return UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackgroundDk");
     }
 
     public Color getTabbedPaneSelectLt() {
-        return new ColorUIResource(255, 199, 60);
+        return UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackgroundlt");
     }
 
     public Color getTabAreaBackgroundDk() {
-        return getBackgroundLt();
+        return UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackgroundDk");
     }
 
     public Color getTabAreaBackgroundLt() {
+        return UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackgroundLt");
+    }
+
+    public Color getOptionPaneBannerForeground() {
         return new ColorUIResource(255, 255, 255);
     }
 

@@ -90,24 +90,24 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
         Object menuSelectionBackground = new ExtWindowsDesktopProperty(//Actual color 182, 189, 210
                 new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new ColorUIResource(XertoUtils.getMenuSelectionColor((Color) obj[0]));
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new ColorUIResource(XertoUtils.getMenuSelectionColor((Color) obj[0]));
+                    }
+                });
 
         Object menuBackground = new ExtWindowsDesktopProperty(//Actual color 249, 248, 247
                 new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new ColorUIResource(XertoUtils.getMenuBackgroundColor((Color) obj[0]));
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new ColorUIResource(XertoUtils.getMenuBackgroundColor((Color) obj[0]));
+                    }
+                });
 
         Object separatorColor = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new ColorUIResource(((Color) obj[0]).brighter());
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new ColorUIResource(((Color) obj[0]).brighter());
+                    }
+                });
 
         Object[] uiDefaults = {
                 "PopupMenuSeparator.foreground", separatorColor,
@@ -217,10 +217,10 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
         Object resizeBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                 new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new XertoFrameBorder(new Insets(4, 4, 4, 4));
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new XertoFrameBorder(new Insets(4, 4, 4, 4));
+                    }
+                });
 
 
         Object defaultFormBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
@@ -231,10 +231,10 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
         Object inactiveTabForground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new ColorUIResource(((Color) obj[0]).darker());
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new ColorUIResource(((Color) obj[0]).darker());
+                    }
+                });
 
         Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
@@ -298,11 +298,11 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "JideButton.textIconGap", 2,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released"   // no last two for metal
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released"   // no last two for metal
+                }),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -352,12 +352,16 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", new ColorUIResource(XertoUtils.getApplicationFrameBackgroundColor()),
+                "JideTabbedPane.tabAreaBackgroundLt", defaultLtHighlightColor,
+                "JideTabbedPane.tabAreaBackgroundDk", defaultBackgroundColor,
                 "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", new ColorUIResource(XertoUtils.getTabForgroundColor()),
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTabForground,
                 "JideTabbedPane.selectedTabBackground", new ColorUIResource(XertoUtils.getSelectedTabBackgroundColor()),
+                "JideTabbedPane.selectedTabBackgroundLt", new ColorUIResource(230, 139, 44),
+                "JideTabbedPane.selectedTabBackgroundDk", new ColorUIResource(255, 199, 60),
                 "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
@@ -397,13 +401,13 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released", // no these two for metal
-                "DOWN", "downPressed",
-                "released DOWN", "downReleased",
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released", // no these two for metal
+                        "DOWN", "downPressed",
+                        "released DOWN", "downReleased",
+                }),
 
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 10),
                 "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 10, 9, 10),
@@ -462,67 +466,67 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
 
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(1, SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(1, SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0));
+                        }
+                    });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(1, 0, 1, SlidingFrameBorder.SHADOW_SIZE + 5));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(1, 0, 1, SlidingFrameBorder.SHADOW_SIZE + 5));
+                        }
+                    });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 1, SlidingFrameBorder.SHADOW_SIZE + 5, 1));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 1, SlidingFrameBorder.SHADOW_SIZE + 5, 1));
+                        }
+                    });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0, 1));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new SlidingFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(SlidingFrameBorder.SHADOW_SIZE + 5, 1, 0, 1));
+                        }
+                    });
 
             Object slidingEastFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 4, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 4, 0, 0));
+                        }
+                    });
 
             Object slidingWestFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 0, 4));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 0, 4));
+                        }
+                    });
 
             Object slidingNorthFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 4, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 4, 0));
+                        }
+                    });
 
             Object slidingSouthFrameBorder2 = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(4, 0, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(4, 0, 0, 0));
+                        }
+                    });
 
             uiDefaults = new Object[]{
                     // dock
@@ -640,7 +644,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
                     "MemoryStatusBarItem.fillColor", new ColorUIResource(236, 233, 176),
-                     
+
                     "DocumentPane.groupBorder", new BorderUIResource(BorderFactory.createLineBorder(Color.gray)),
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
@@ -662,7 +666,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("activeCaption"), 2),
-                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -696,9 +700,9 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                    "TAB", "selectNextGroup",
-                    "shift TAB", "selectPreviousGroup",
-            }),
+                            "TAB", "selectNextGroup",
+                            "shift TAB", "selectPreviousGroup",
+                    }),
             };
             table.putDefaults(uiDefaults);
         }

@@ -555,6 +555,7 @@ public class LookAndFeelFactory implements ProductNames {
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initClassDefaults(uiDefaults, false);
+                    break;
                 case OFFICE2003_STYLE:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
@@ -667,7 +668,6 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                default:
             }
         }
         else if (lnf instanceof WindowsLookAndFeel) {
@@ -709,7 +709,6 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoWindowsUtils.initComponentDefaults(uiDefaults);
                     XertoWindowsUtils.initClassDefaults(uiDefaults);
                     break;
-                default:
             }
         }
         // For Mac only
@@ -837,7 +836,6 @@ public class LookAndFeelFactory implements ProductNames {
                         XertoMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                default:
             }
 
             // built in customizer

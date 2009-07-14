@@ -121,9 +121,9 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released"
+                }),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -172,12 +172,16 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(0, 0, 0, 0),
                 "JideTabbedPane.tabAreaBackground", defaultBackgroundColor,
+                "JideTabbedPane.tabAreaBackgroundLt", defaultLtHighlightColor,
+                "JideTabbedPane.tabAreaBackgroundDk", defaultBackgroundColor,
                 "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", activeTitleTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTitleTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
+                "JideTabbedPane.selectedTabBackgroundLt", new ColorUIResource(230, 139, 44),
+                "JideTabbedPane.selectedTabBackgroundDk", new ColorUIResource(255, 199, 60),
                 "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.FALSE,
@@ -221,11 +225,11 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
                 "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "DOWN", "downPressed",
-                "released DOWN", "downReleased"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "DOWN", "downPressed",
+                        "released DOWN", "downReleased"
+                }),
 
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
                 "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
@@ -369,7 +373,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
                     "MemoryStatusBarItem.fillColor", new ColorUIResource(236, 233, 176),
-                              
+
                     "DocumentPane.groupBorder", new BorderUIResource(documentBorder),
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
@@ -393,7 +397,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor, 2),
-                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.separatorSize", 3,
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{

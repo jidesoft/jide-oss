@@ -116,7 +116,6 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
                 "JideTabbedPane.defaultTabColorTheme", JideTabbedPane.COLOR_THEME_OFFICE2003,
                 "JideTabbedPane.contentBorderInsets", new InsetsUIResource(3, 3, 3, 3),
                 "JideTabbedPane.background", defaultFormBackground,
-                "JideTabbedPane.tabAreaBackground", defaultFormBackground,
 
                 "JideButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 4),

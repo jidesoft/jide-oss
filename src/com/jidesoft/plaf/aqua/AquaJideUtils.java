@@ -93,17 +93,17 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
         Object defaultFormBackground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return obj[0];
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return obj[0];
+                    }
+                });
 
         Object inactiveTabForeground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return ((Color) obj[0]).darker();
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return ((Color) obj[0]).darker();
+                    }
+                });
 
         Object focusedButtonColor = UIDefaultsLookup.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
 
@@ -142,11 +142,11 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released"
+                }),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -193,6 +193,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", defaultFormBackground,
+                "JideTabbedPane.tabAreaBackgroundLt", defaultHighlightColor,
+                "JideTabbedPane.tabAreaBackgroundDk", defaultBackgroundColor,
                 "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlSmallFont,
                 "JideTabbedPane.selectedTabFont", controlSmallFont,
@@ -200,6 +202,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.selectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", inactiveTabForeground,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
+                "JideTabbedPane.selectedTabBackgroundLt", new ColorUIResource(230, 139, 44),
+                "JideTabbedPane.selectedTabBackgroundDk", new ColorUIResource(255, 199, 60),
                 "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
@@ -261,13 +265,13 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.borderPainted", Boolean.FALSE,
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released",
-                "DOWN", "downPressed",
-                "released DOWN", "downReleased"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released",
+                        "DOWN", "downPressed",
+                        "released DOWN", "downReleased"
+                }),
 
 
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
@@ -396,7 +400,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
                     "MemoryStatusBarItem.fillColor", new ColorUIResource(236, 233, 176),
-                     
+
                     "DocumentPane.groupBorder", new BorderUIResource(BorderFactory.createLineBorder(Color.gray)),
                     "DocumentPane.newHorizontalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_HORIZONTAL_TAB),
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
@@ -457,9 +461,9 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "AbstractComboBox.useJButton", Boolean.FALSE,
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                    "TAB", "selectNextGroup",
-                    "shift TAB", "selectPreviousGroup",
-            }),
+                            "TAB", "selectNextGroup",
+                            "shift TAB", "selectPreviousGroup",
+                    }),
             };
             table.putDefaults(uiDefaults);
         }

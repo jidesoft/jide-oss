@@ -92,11 +92,11 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         Object resizeBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                 new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                        new Insets(4, 4, 4, 4));
-            }
-        });
+                    public Object convert(Object[] obj) {
+                        return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                new Insets(4, 4, 4, 4));
+                    }
+                });
 
         Object defaultFormBackground = new ExtWindowsDesktopProperty(new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
@@ -177,11 +177,11 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 2,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released"
+                }),
 
                 "JideSplitPane.dividerSize", 4,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -231,12 +231,16 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.ignoreContentBorderInsetsIfNoTabs", Boolean.FALSE,
                 "JideTabbedPane.tabAreaInsets", new InsetsUIResource(2, 4, 0, 4),
                 "JideTabbedPane.tabAreaBackground", defaultFormBackground,
+                "JideTabbedPane.tabAreaBackgroundLt", defaultLtHighlightColor,
+                "JideTabbedPane.tabAreaBackgroundDk", defaultBackgroundColor,
                 "JideTabbedPane.tabRunOverlay", 2,
                 "JideTabbedPane.font", controlFont,
                 "JideTabbedPane.selectedTabFont", controlFont,
                 "JideTabbedPane.selectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.unselectedTabTextForeground", defaultTextColor,
                 "JideTabbedPane.selectedTabBackground", defaultBackgroundColor,
+                "JideTabbedPane.selectedTabBackgroundLt", new ColorUIResource(230, 139, 44),
+                "JideTabbedPane.selectedTabBackgroundDk", new ColorUIResource(255, 199, 60),
                 "JideTabbedPane.tabListBackground", new ColorUIResource(255, 255, 225),
                 "JideTabbedPane.textIconGap", 4,
                 "JideTabbedPane.showIconOnTab", Boolean.TRUE,
@@ -282,13 +286,13 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                "SPACE", "pressed",
-                "released SPACE", "released",
-                "ENTER", "pressed",
-                "released ENTER", "released",
-                "DOWN", "downPressed",
-                "released DOWN", "downReleased"
-        }),
+                        "SPACE", "pressed",
+                        "released SPACE", "released",
+                        "ENTER", "pressed",
+                        "released ENTER", "released",
+                        "DOWN", "downPressed",
+                        "released DOWN", "downReleased"
+                }),
 
                 "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
                 "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
@@ -337,35 +341,35 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         if ((products & PRODUCT_DOCK) != 0) {
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 4, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 4, 0, 0));
+                        }
+                    });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 0, 4));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 0, 4));
+                        }
+                    });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(0, 0, 4, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(0, 0, 4, 0));
+                        }
+                    });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                            new Insets(4, 0, 0, 0));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ResizeFrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                                    new Insets(4, 0, 0, 0));
+                        }
+                    });
 
             ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
             final int titleButtonSize = 10;
@@ -506,7 +510,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor.createValue(table), 2),
-                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -543,9 +547,9 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                    "TAB", "selectNextGroup",
-                    "shift TAB", "selectPreviousGroup",
-            }),
+                            "TAB", "selectNextGroup",
+                            "shift TAB", "selectPreviousGroup",
+                    }),
             };
             table.putDefaults(uiDefaults);
         }
@@ -592,10 +596,10 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         if (!Beans.isDesignTime()) {
             Object defaultLightColor = new ExtWindowsDesktopProperty(
                     new String[]{"win.3d.lightColor"}, new Object[]{UIDefaultsLookup.get("controlHighlight")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ColorUIResource(VsnetUtils.getLighterColor((Color) obj[0]));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ColorUIResource(VsnetUtils.getLighterColor((Color) obj[0]));
+                        }
+                    });
             Object borderColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
                 public Object convert(Object[] obj) {
                     return new ColorUIResource(VsnetUtils.getButtonBorderColor((Color) obj[0]));
@@ -607,24 +611,24 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
             Object menuSelectionBackground = new ExtWindowsDesktopProperty(//Actual color 182, 189, 210
                     new String[]{"win.3d.lightColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ColorUIResource(VsnetUtils.getMenuSelectionColor((Color) obj[0]));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ColorUIResource(VsnetUtils.getMenuSelectionColor((Color) obj[0]));
+                        }
+                    });
 
             Object menuBackground = new ExtWindowsDesktopProperty(//Actual color 249, 248, 247
                     new String[]{"win.3d.backgroundColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ColorUIResource(VsnetUtils.getMenuBackgroundColor((Color) obj[0]));
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ColorUIResource(VsnetUtils.getMenuBackgroundColor((Color) obj[0]));
+                        }
+                    });
 
             Object separatorColor = new ExtWindowsDesktopProperty(// Not exactly right
                     new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-                public Object convert(Object[] obj) {
-                    return new ColorUIResource(((Color) obj[0]).brighter());
-                }
-            });
+                        public Object convert(Object[] obj) {
+                            return new ColorUIResource(((Color) obj[0]).brighter());
+                        }
+                    });
 
             Object uiDefaults[] = {
                     "PopupMenuSeparator.foreground", separatorColor,
