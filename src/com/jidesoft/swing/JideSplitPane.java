@@ -134,6 +134,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     private boolean _heavyweightComponentEnabled = false;
     public WindowAdapter _windowDeactivatedListener;
     private int _dividerStepSize = 0;
+    private boolean _clearLayeredPane = false;
 
     /**
      * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
@@ -572,6 +573,15 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             _nonContinuousLayoutDividerWrapper.delegateRemove(_layeredPane);
             _nonContinuousLayoutDividerWrapper.delegateSetNull();
             _nonContinuousLayoutDividerWrapper = null;
+            if (isClearLayeredPane()) {
+                // add a protection in case there is another wrapper inside the layered pane
+                Component[] childComponents = _layeredPane.getComponents();
+                for (Component component : childComponents) {
+                    if (component instanceof Contour || component instanceof HeavyweightWrapper) {
+                        _layeredPane.remove(component);
+                    }
+                }
+            }
         }
     }
 
@@ -1162,6 +1172,24 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             accessibleContext = new AccessibleJideSplitPane();
         }
         return accessibleContext;
+    }
+
+    /**
+     * It is for debug use only. Please never invoke it if not asked to.
+     *
+     * @return the flag
+     */
+    public boolean isClearLayeredPane() {
+        return _clearLayeredPane;
+    }
+
+    /**
+     * It is for debug use only. Please never invoke it if not asked to.
+     *
+     * @param clearLayeredPane the flag
+     */
+    public void setClearLayeredPane(boolean clearLayeredPane) {
+        _clearLayeredPane = clearLayeredPane;
     }
 
 
