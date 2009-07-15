@@ -115,18 +115,22 @@ public class Office2007Painter extends BasicPainter {
             }
         }
         else if (state == STATE_ROLLOVER) {
-            LinearGradientPaint lgp = new LinearGradientPaint(x, y, x, y + h,
-                    new float[]{.0f, .5f, 1f},
-                    new Color[]{new Color(0xd8ca96), new Color(0xb9a074), new Color(0xb8a98e)});
-            gfx.setPaint(lgp);
+            if (h != 0) {
+                LinearGradientPaint lgp = new LinearGradientPaint(x, y, x, y + h,
+                        new float[]{.0f, .5f, 1f},
+                        new Color[]{new Color(0xd8ca96), new Color(0xb9a074), new Color(0xb8a98e)});
+                gfx.setPaint(lgp);
+            }
             gfx.drawLine(x, y + 1, x, h - 2);
             gfx.setColor(new Color(0xdbce99));
             gfx.drawLine(x + 1, y, x + w - 2, y);
             gfx.setPaint(new GradientPaint(x, y + h, new Color(0xbbae97), x + (w >> 1), y + h, new Color(0xcbc3aa), true));
             gfx.drawLine(x + 1, y + h - 1, x + w - 2, y + h - 1);
-            gfx.setPaint(new LinearGradientPaint(x + w - 1, y, x + w - 1, y + h - 1,
-                    new float[]{.0f, .5f, 1f},
-                    new Color[]{new Color(0xdcce9a), new Color(0xc3ab7a), new Color(0xd2ceb9)}));
+            if (h - 1 != 0) {
+                gfx.setPaint(new LinearGradientPaint(x + w - 1, y, x + w - 1, y + h - 1,
+                        new float[]{.0f, .5f, 1f},
+                        new Color[]{new Color(0xdcce9a), new Color(0xc3ab7a), new Color(0xd2ceb9)}));
+            }
             gfx.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 2);
             gfx.setColor(new Color(0xeae2a8));
             gfx.drawLine(x + 1, y + 1, x + 1, y + 1);
@@ -186,9 +190,11 @@ public class Office2007Painter extends BasicPainter {
         }
         else if (state == STATE_ROLLOVER) {
             if (c.getClientProperty(IS_MENU_PART_BUTTON) == Boolean.TRUE) {
-                g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
-                        new float[]{0f, .5f, .51f, 1f},
-                        new Color[]{new Color(0xfffee2), new Color(0xffdc73), new Color(0xffd660), new Color(0xffeaa8)}));
+                if (1 != height - 2) {
+                    g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                            new float[]{0f, .5f, .51f, 1f},
+                            new Color[]{new Color(0xfffee2), new Color(0xffdc73), new Color(0xffd660), new Color(0xffeaa8)}));
+                }
                 g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
             }
             else {
@@ -197,9 +203,11 @@ public class Office2007Painter extends BasicPainter {
                 g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
                 g2d.setPaint(new GradientPaint(x, y, new Color(0xfff792), x + width >> 1, y, new Color(0xFFFFFF), true));
                 g2d.drawLine(x, y + height - 2, x + width, y + height - 2);
-                g2d.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
-                        new float[]{0f, .36f, .37f, .38f, 1f},
-                        new Color[]{new Color(0xfffddf), new Color(0xffe794), new Color(0xfed160), new Color(0xfecd58), new Color(0xffe794)}));
+                if (2 != height - 4) {
+                    g2d.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
+                            new float[]{0f, .36f, .37f, .38f, 1f},
+                            new Color[]{new Color(0xfffddf), new Color(0xffe794), new Color(0xfed160), new Color(0xfecd58), new Color(0xffe794)}));
+                }
                 g2d.fillRect(x + 2, y + 2, width - 4, height - 4);
 //                g2d.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
 //                        new float[]{0f, 1f},
@@ -217,9 +225,11 @@ public class Office2007Painter extends BasicPainter {
                     new Color[]{new Color(0xFDCD98), new Color(0xF8B35B), new Color(0xFBD582)});
         }
         else if (state == STATE_DEFAULT) {
-            g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
-                    new float[]{0f, .5f, .51f, 1f},
-                    new Color[]{new Color(0xe8f1fc), new Color(0xe8f1fc), new Color(0xd2e1f4), new Color(0xebf3fd)}));
+            if (1 != height - 2) {
+                g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                        new float[]{0f, .5f, .51f, 1f},
+                        new Color[]{new Color(0xe8f1fc), new Color(0xe8f1fc), new Color(0xd2e1f4), new Color(0xebf3fd)}));
+            }
             g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
         }
 
@@ -240,23 +250,28 @@ public class Office2007Painter extends BasicPainter {
         int height = rect.height;
 
         // base background
-        gfx.setPaint(new LinearGradientPaint(x + 1, y + 1, x + width - 2, y + height - 2,
-                new float[]{0f, .6f, .61f, 1f},
-                baseColors));
+        if (1 != height - 2) {
+            gfx.setPaint(new LinearGradientPaint(x + 1, y + 1, x + width - 2, y + height - 2,
+                    new float[]{0f, .6f, .61f, 1f},
+                    baseColors));
+        }
         //new Color[]{new Color(0xfdad11), new Color(0xf69c18), new Color(0xf7a427), new Color(0xf0a85c)}));
         gfx.fillRect(x + 1, y + 1, width - 2, height - 2);
         // inner background
         Area base = new Area(new Rectangle(x + 2, y + 1, width - 4, height - 3));
         base.subtract(new Area(new Rectangle(x + 2, y + height - 3, 1, 1)));
         base.subtract(new Area(new Rectangle(x + width - 3, y + height - 3, 1, 1)));
-        gfx.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
-                new float[]{.39f, .4f, 1f},
-                innerBackgroundColors));
+        if (2 != height - 4) {
+            gfx.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
+                    new float[]{.39f, .4f, 1f},
+                    innerBackgroundColors));
+        }
         //new Color[]{new Color(0xfda868), new Color(0xfc8f3d), new Color(0xfcb33d)}));
         gfx.fill(base);
         // highlight
-        if (height > 0) {
-            gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
+        int h = (int) (height * .53f);
+        if (h > 0) {
+            gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, h,
                     new float[]{0f, 1f},
                     new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
         }
@@ -377,9 +392,11 @@ public class Office2007Painter extends BasicPainter {
             Color color = colors[i];
             colors[i] = ColorUtils.getDerivedColor(color, .48f);
         }
-        g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
-                new float[]{0f, .5f, .51f, 1f},
-                colors));
+        if (1 != height - 2) {
+            g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                    new float[]{0f, .5f, .51f, 1f},
+                    colors));
+        }
         g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
         paintButtonBorder(c, g2d, rect, state);
@@ -399,9 +416,11 @@ public class Office2007Painter extends BasicPainter {
             Color color = colors[i];
             colors[i] = ColorUtils.getDerivedColor(color, .48f);
         }
-        g2d.setPaint(new LinearGradientPaint(x, y, x, y + height,
-                new float[]{0f, .5f, .51f, 1f},
-                colors));
+        if (height != 0) {
+            g2d.setPaint(new LinearGradientPaint(x, y, x, y + height,
+                    new float[]{0f, .5f, .51f, 1f},
+                    colors));
+        }
         g2d.fillRect(x, y, width, height);
         g2d.dispose();
     }
@@ -462,9 +481,11 @@ public class Office2007Painter extends BasicPainter {
         boolean active = state == STATE_SELECTED;
         Color[] colors = active ? ACTIVE_DOCKABLE_FRAME_TITLE_BAR_BG : DOCKABLE_FRAME_TITLE_BAR_BG;
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setPaint(new LinearGradientPaint(x, y, x, y + h,
-                new float[]{0f, .333f, .334f, 1f},
-                colors));
+        if (h != 0) {
+            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h,
+                    new float[]{0f, .333f, .334f, 1f},
+                    colors));
+        }
         g2d.fillRect(x, y, w, h);
         g2d.dispose();
     }
@@ -501,20 +522,22 @@ public class Office2007Painter extends BasicPainter {
             w -= insets.right + insets.left;
             h -= insets.top + insets.bottom;
         }
-        Graphics2D g2d = (Graphics2D) g.create();
-        if (state == ThemePainter.STATE_ROLLOVER) {
-            Color[] newColors = new Color[colors.length];
-            for (int i = 0; i < colors.length; i++) {
-                Color color = colors[i];
-                newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+        if (h != 0) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            if (state == ThemePainter.STATE_ROLLOVER) {
+                Color[] newColors = new Color[colors.length];
+                for (int i = 0; i < colors.length; i++) {
+                    Color color = colors[i];
+                    newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                }
+                g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
             }
-            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
+            else {
+                g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
+            }
+            g2d.fillRect(x, y, w, h);
+            g2d.dispose();
         }
-        else {
-            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
-        }
-        g2d.fillRect(x, y, w, h);
-        g2d.dispose();
     }
 
     private void paintCollapsiblePaneTitlePaneSeparator(JComponent c, Graphics g, Rectangle rect, Color[] colors, int state) {
@@ -529,20 +552,22 @@ public class Office2007Painter extends BasicPainter {
             w -= insets.right + insets.left;
             h -= insets.top + insets.bottom;
         }
-        Graphics2D g2d = (Graphics2D) g.create();
-        if (state == ThemePainter.STATE_ROLLOVER) {
-            Color[] newColors = new Color[colors.length];
-            for (int i = 0; i < colors.length; i++) {
-                Color color = colors[i];
-                newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+        if (h != 0) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            if (state == ThemePainter.STATE_ROLLOVER) {
+                Color[] newColors = new Color[colors.length];
+                for (int i = 0; i < colors.length; i++) {
+                    Color color = colors[i];
+                    newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                }
+                g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, newColors));
             }
-            g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, newColors));
+            else {
+                g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, colors));
+            }
+            g2d.fillRect(x, y, w, h);
+            g2d.dispose();
         }
-        else {
-            g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, colors));
-        }
-        g2d.fillRect(x, y, w, h);
-        g2d.dispose();
     }
 
     @Override
