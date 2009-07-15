@@ -610,7 +610,14 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintHeaderBoxBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintButtonBackground(c, g, rect, orientation, state);
+        boolean paintBorder = !(c instanceof AbstractButton) || ((AbstractButton) c).isBorderPainted();
+        paintButtonBackground(c, g, rect, orientation, state, paintBorder);
+        if (!paintBorder) {
+            Color old = g.getColor();
+            g.setColor(UIDefaultsLookup.getColor("Table.gridColor"));
+            g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height);
+            g.setColor(old);
+        }
     }
 
     @Override
