@@ -396,6 +396,10 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
                             if (rootPane != null && rootPane.getDefaultButton() == component) {
                                 rootPane.setDefaultButton(null);
                             }
+                            // to clear the initialDefaultButton in root pane 
+                            if (rootPane != null && rootPane.getClientProperty("initialDefaultButton") == component) {
+                                rootPane.putClientProperty("initialDefaultButton", null);
+                            }
                             break;
                         case ButtonEvent.CHANGE_BUTTON_TEXT:
                             if (component instanceof AbstractButton) {
