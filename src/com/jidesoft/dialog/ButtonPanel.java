@@ -362,66 +362,78 @@ public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
     }
 
     public void buttonEventFired(ButtonEvent e) {
-        for (int i = 0; i < getComponentCount(); i++) {
-            final Component component = getComponent(i);
-            if (e.getButtonName().equals(component.getName())) {
-                switch (e.getID()) {
-                    case ButtonEvent.ENABLE_BUTTON:
-                        component.setVisible(true);
-                        if (component instanceof JButton && ((JButton) component).getAction() != null) {
-                            ((JButton) component).getAction().setEnabled(true);
-                        }
-                        component.setEnabled(true);
-                        break;
-                    case ButtonEvent.DISABLE_BUTTON:
-                        component.setEnabled(false);
-                        if (component instanceof JButton && ((JButton) component).getAction() != null) {
-                            ((JButton) component).getAction().setEnabled(false);
-                        }
-                        component.setVisible(true);
-                        break;
-                    case ButtonEvent.SHOW_BUTTON:
-                        component.setVisible(true);
-                        break;
-                    case ButtonEvent.HIDE_BUTTON:
-                        component.setVisible(false);
-                        break;
-                    case ButtonEvent.CHANGE_BUTTON_TEXT:
-                        if (component instanceof AbstractButton) {
-                            ((AbstractButton) component).setText(e.getUserObject());
-                        }
-                        break;
-                    case ButtonEvent.CHANGE_BUTTON_MNEMONIC:
-                        if (component instanceof AbstractButton) {
-                            ((AbstractButton) component).setMnemonic(e.getUserObject().charAt(0));
-                        }
-                        break;
-                    case ButtonEvent.CHANGE_BUTTON_TOOLTIP:
-                        if (component instanceof AbstractButton) {
-                            ((AbstractButton) component).setToolTipText(e.getUserObject());
-                        }
-                        break;
-                    case ButtonEvent.CHANGE_BUTTON_FOCUS:
-                        Runnable runnable = new Runnable() {
-                            public void run() {
-                                component.requestFocus();
+        if (e.getID() == ButtonEvent.CLEAR_DEFAULT_BUTTON) {
+            JRootPane rootPane = getRootPane();
+            if (rootPane != null && rootPane.getDefaultButton() != null) {
+                rootPane.setDefaultButton(null);
+            }
+        }
+        else {
+            for (int i = 0; i < getComponentCount(); i++) {
+                final Component component = getComponent(i);
+                if (e.getButtonName().equals(component.getName())) {
+                    switch (e.getID()) {
+                        case ButtonEvent.ENABLE_BUTTON:
+                            component.setVisible(true);
+                            if (component instanceof JButton && ((JButton) component).getAction() != null) {
+                                ((JButton) component).getAction().setEnabled(true);
                             }
-                        };
-                        SwingUtilities.invokeLater(runnable);
-                        break;
-                    case ButtonEvent.SET_DEFAULT_BUTTON:
-                        if (component instanceof JButton) {
-                            if (getRootPane() != null) {
-                                getRootPane().setDefaultButton(((JButton) component));
+                            component.setEnabled(true);
+                            break;
+                        case ButtonEvent.DISABLE_BUTTON:
+                            component.setEnabled(false);
+                            if (component instanceof JButton && ((JButton) component).getAction() != null) {
+                                ((JButton) component).getAction().setEnabled(false);
                             }
-                            else {
-                                _defaultButton = (JButton) component;
-                                _addNotify = true;
+                            component.setVisible(true);
+                            break;
+                        case ButtonEvent.SHOW_BUTTON:
+                            component.setVisible(true);
+                            break;
+                        case ButtonEvent.HIDE_BUTTON:
+                            component.setVisible(false);
+                            JRootPane rootPane = getRootPane();
+                            if (rootPane != null && rootPane.getDefaultButton() == component) {
+                                rootPane.setDefaultButton(null);
                             }
-                        }
-                        break;
+                            break;
+                        case ButtonEvent.CHANGE_BUTTON_TEXT:
+                            if (component instanceof AbstractButton) {
+                                ((AbstractButton) component).setText(e.getUserObject());
+                            }
+                            break;
+                        case ButtonEvent.CHANGE_BUTTON_MNEMONIC:
+                            if (component instanceof AbstractButton) {
+                                ((AbstractButton) component).setMnemonic(e.getUserObject().charAt(0));
+                            }
+                            break;
+                        case ButtonEvent.CHANGE_BUTTON_TOOLTIP:
+                            if (component instanceof AbstractButton) {
+                                ((AbstractButton) component).setToolTipText(e.getUserObject());
+                            }
+                            break;
+                        case ButtonEvent.CHANGE_BUTTON_FOCUS:
+                            Runnable runnable = new Runnable() {
+                                public void run() {
+                                    component.requestFocus();
+                                }
+                            };
+                            SwingUtilities.invokeLater(runnable);
+                            break;
+                        case ButtonEvent.SET_DEFAULT_BUTTON:
+                            if (component instanceof JButton) {
+                                if (getRootPane() != null) {
+                                    getRootPane().setDefaultButton(((JButton) component));
+                                }
+                                else {
+                                    _defaultButton = (JButton) component;
+                                    _addNotify = true;
+                                }
+                            }
+                            break;
+                    }
+                    break;
                 }
-                break;
             }
         }
     }

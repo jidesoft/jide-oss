@@ -21,7 +21,7 @@ public class ButtonEvent extends EventObject {
     /**
      * The last number in the range of IDs used for <code>DockableFrame</code> events.
      */
-    public static final int BUTTON_EVENT_LAST = BUTTON_EVENT_FIRST + 8;
+    public static final int BUTTON_EVENT_LAST = BUTTON_EVENT_FIRST + 9;
 
     /**
      * This event is fired when you want to show the button.
@@ -64,9 +64,14 @@ public class ButtonEvent extends EventObject {
     public static final int CHANGE_BUTTON_FOCUS = 7 + BUTTON_EVENT_FIRST;
 
     /**
-     * This event is fired when you want to set focus to the button.
+     * This event is fired when you want to set the button to the default button in a root pane.
      */
     public static final int SET_DEFAULT_BUTTON = 8 + BUTTON_EVENT_FIRST;
+
+    /**
+     * This event is fired when you want to clear the default button from a root pane.
+     */
+    public static final int CLEAR_DEFAULT_BUTTON = 9 + BUTTON_EVENT_FIRST;
 
     private int _id;
 

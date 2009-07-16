@@ -4,10 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * AbstractDialogPage is an abstract base class extends AbstractPage. In addition to AbstractPage,
- * this class has some new properties so that it can be used in dialog. <BR> For example, it can
- * support ButtonEvent which is used by ButtonPanel. In addition, it has title, icon, description
- * and parent attribute.
+ * AbstractDialogPage is an abstract base class extends AbstractPage. In addition to AbstractPage, this class has some
+ * new properties so that it can be used in dialog. <BR> For example, it can support ButtonEvent which is used by
+ * ButtonPanel. In addition, it has title, icon, description and parent attribute.
  */
 public abstract class AbstractDialogPage extends AbstractPage {
 
@@ -113,14 +112,23 @@ public abstract class AbstractDialogPage extends AbstractPage {
      * Returns an array of all the <code>ButtonListener</code>s added to this <code>Page</code> with
      * <code>ButtonListener</code>.
      *
-     * @return all of the <code>ButtonListener</code>s added, or an empty array if no listeners have
-     *         been added
+     * @return all of the <code>ButtonListener</code>s added, or an empty array if no listeners have been added
      *
      * @since 1.4
      */
     public ButtonListener[] getButtonListeners() {
         return listenerList.getListeners(
                 ButtonListener.class);
+    }
+
+    /**
+     * Fire button event with id. The only event that doesn't take a button name as parameter is the {@link
+     * ButtonEvent#CLEAR_DEFAULT_BUTTON} event.
+     *
+     * @param id
+     */
+    public void fireButtonEvent(int id) {
+        fireButtonEvent(id, null, null);
     }
 
     /**
@@ -208,9 +216,8 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Sets page enabled or disabled. The only place this flag is used right now is in
-     * MultiplePageDialog ICON_STYLE and TAB_STYLE. Disabled page will have a disabled icon or tab
-     * as indicator.
+     * Sets page enabled or disabled. The only place this flag is used right now is in MultiplePageDialog ICON_STYLE and
+     * TAB_STYLE. Disabled page will have a disabled icon or tab as indicator.
      *
      * @param pageEnabled
      */
@@ -262,8 +269,7 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Gets the full title. It is basically a concat of the titles of all its parent with "." in
-     * between.
+     * Gets the full title. It is basically a concat of the titles of all its parent with "." in between.
      *
      * @return the full qualified title
      */
@@ -280,8 +286,7 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Gets the default focus component. The default focus component will gain focus when page is
-     * shown.
+     * Gets the default focus component. The default focus component will gain focus when page is shown.
      *
      * @return the default focus component.
      */
@@ -290,8 +295,7 @@ public abstract class AbstractDialogPage extends AbstractPage {
     }
 
     /**
-     * Sets the default focus component. The default focus component will gain focus when page is
-     * shown.
+     * Sets the default focus component. The default focus component will gain focus when page is shown.
      *
      * @param defaultFocusComponent a component inside the page.
      */
