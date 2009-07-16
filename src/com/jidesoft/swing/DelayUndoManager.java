@@ -50,8 +50,8 @@ public class DelayUndoManager extends UndoManager {
         if (_cache != null) {
             _cache.end();
             addEditWithoutCaching();
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.info("Commit cache: " + _cache);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Commit cache: " + _cache);
             }
             _cache = null;
         }
@@ -75,8 +75,8 @@ public class DelayUndoManager extends UndoManager {
     @Override
     public synchronized boolean addEdit(UndoableEdit anEdit) {
         if (_cache == null) {
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.info("Create cache: " + anEdit);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Create cache: " + anEdit);
             }
             _cache = new CompoundEdit();
             boolean ret = _cache.addEdit(anEdit);
@@ -92,8 +92,8 @@ public class DelayUndoManager extends UndoManager {
             return ret;
         }
         else {
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.info("Add to cache: " + anEdit);
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Add to cache: " + anEdit);
             }
             if (_timer != null) {
                 _timer.restart();
