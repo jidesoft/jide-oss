@@ -390,7 +390,7 @@ public class Office2007Painter extends BasicPainter {
         Color[] colors = {new Color(0xe8f1fc), new Color(0xe8f1fc), new Color(0xd2e1f4), new Color(0xebf3fd)};
         for (int i = 0; i < colors.length; i++) {
             Color color = colors[i];
-            colors[i] = ColorUtils.getDerivedColor(color, .48f);
+            colors[i] = ColorUtils.getDerivedColor(color, .47f);
         }
         if (1 != height - 2) {
             g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
@@ -398,7 +398,7 @@ public class Office2007Painter extends BasicPainter {
                     colors));
         }
         g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP).derive(0.1f));
         paintButtonBorder(c, g2d, rect, state);
         g2d.dispose();
     }
@@ -481,12 +481,17 @@ public class Office2007Painter extends BasicPainter {
         boolean active = state == STATE_SELECTED;
         Color[] colors = active ? ACTIVE_DOCKABLE_FRAME_TITLE_BAR_BG : DOCKABLE_FRAME_TITLE_BAR_BG;
         Graphics2D g2d = (Graphics2D) g.create();
+        Color old = g2d.getColor();
+        g2d.setColor(Color.WHITE);
+        g2d.drawLine(x, y, x + w, y);
+        g2d.drawLine(x, y, x, y + h);
+        g2d.setColor(old);
         if (h != 0) {
-            g2d.setPaint(new LinearGradientPaint(x, y, x, y + h,
+            g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + h - 1,
                     new float[]{0f, .333f, .334f, 1f},
                     colors));
         }
-        g2d.fillRect(x, y, w, h);
+        g2d.fillRect(x + 1, y + 1, w - 1, h - 1);
         g2d.dispose();
     }
 
@@ -671,6 +676,14 @@ public class Office2007Painter extends BasicPainter {
     @Override
     public Color getSelectionSelectedLt() {
         return new ColorUIResource(0xfefbd5);
+    }
+
+    public Color getBackgroundDk() {
+        return UIDefaultsLookup.getColor("JideTabbedPane.background");
+    }
+
+    public Color getBackgroundLt() {
+        return UIDefaultsLookup.getColor("JideTabbedPane.background");
     }
 
     public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {

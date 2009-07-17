@@ -180,6 +180,8 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
                     "DockableFrameTitlePane.activeBackgroundLt", new ColorUIResource(ColorUtils.getDerivedColor(new Color(0xFAD8A0), .55f)),
                     "DockableFrameTitlePane.activeBackgroundDk", new ColorUIResource(ColorUtils.getDerivedColor(new Color(0xFAD8A0), .45f)),
 
+                    "DockableFrameTitlePane.margin", new InsetsUIResource(1, 6, 0, 6), // gap
+
                     "DockableFrameTitlePane.buttonGap", 2, // gap between buttons
             };
             table.putDefaults(uiDefaults);
