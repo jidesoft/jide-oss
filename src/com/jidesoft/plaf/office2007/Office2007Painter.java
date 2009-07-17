@@ -620,7 +620,8 @@ public class Office2007Painter extends BasicPainter {
         if (!paintBorder) {
             Color old = g.getColor();
             g.setColor(UIDefaultsLookup.getColor("Table.gridColor"));
-            g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height);
+            g.drawLine(rect.x + rect.width - 1, rect.y, rect.x + rect.width - 1, rect.y + rect.height - 1);
+            g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 1, rect.y + rect.height - 1);
             g.setColor(old);
         }
     }
