@@ -191,11 +191,11 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Paints an arrow shape.
      *
-     * @param g the graphics instance
-     * @param color color
-     * @param startX start X
-     * @param startY start Y
-     * @param width width
+     * @param g           the graphics instance
+     * @param color       color
+     * @param startX      start X
+     * @param startY      start Y
+     * @param width       width
      * @param orientation horizontal or vertical
      */
     public static void paintArrow(Graphics g, Color color, int startX, int startY, int width, int orientation) {
@@ -218,12 +218,12 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Paints an arrow shape.
      *
-     * @param c the component
-     * @param g the graphics instance
-     * @param color color
-     * @param startX start X
-     * @param startY start Y
-     * @param width width
+     * @param c           the component
+     * @param g           the graphics instance
+     * @param color       color
+     * @param startX      start X
+     * @param startY      start Y
+     * @param width       width
      * @param orientation horizontal or vertical
      */
     public static void paintArrow(JComponent c, Graphics g, Color color, int startX, int startY, int width, int orientation) {
@@ -237,19 +237,19 @@ public class JideSwingUtilities implements SwingConstants {
             g.setColor(oldColor);
             return;
         }
-        
-        paintArrow(g, color, startX, startY,  width, orientation);
+
+        paintArrow(g, color, startX, startY, width, orientation);
     }
 
     /**
      * Paints a cross shape.
      *
-     * @param g the graphics instance
-     * @param color color
+     * @param g       the graphics instance
+     * @param color   color
      * @param centerX center X
      * @param centerY center Y
-     * @param size size
-     * @param width width
+     * @param size    size
+     * @param width   width
      */
     public static void paintCross(Graphics g, Color color, int centerX, int centerY, int size, int width) {
         g.setColor(color);
@@ -2643,6 +2643,9 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static void drawShadow(Graphics g, Component c, int x, int y, int w, int h) {
+        if (w <= 0 || h <= 0) {
+            return;
+        }
         ShadowFactory factory = new ShadowFactory(6, 0.7f, Color.GRAY);
         BufferedImage temp = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = temp.createGraphics();
