@@ -188,7 +188,7 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         }
         if ((products & PRODUCT_ACTION) != 0) {
             uiDefaults = new Object[]{
-                    "Chevron.alwaysVisible", Boolean.FALSE,
+                    "Chevron.alwaysVisible", Boolean.TRUE,
             };
             table.putDefaults(uiDefaults);
         }
