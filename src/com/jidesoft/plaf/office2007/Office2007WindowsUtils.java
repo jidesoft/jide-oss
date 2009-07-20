@@ -154,10 +154,10 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
             table.putDefaults(uiDefaults);
         }
 
-        ImageIcon titleButtonImage = IconsFactory.getImageIcon(Office2007WindowsUtils.class, "icons/title_buttons_office2007.gif"); // 10 x 10 x 8
-        final int titleButtonSize = 10;
-
         if ((products & PRODUCT_DOCK) != 0) {
+            ImageIcon titleButtonImage = IconsFactory.getImageIcon(Office2007WindowsUtils.class, "icons/title_buttons_office2007.gif"); // 10 x 10 x 8
+            final int titleButtonSize = 10;
+
             uiDefaults = new Object[]{
                     "ContentContainer.background", defaultFormBackground,
                     "SidePane.background", defaultFormBackground,
