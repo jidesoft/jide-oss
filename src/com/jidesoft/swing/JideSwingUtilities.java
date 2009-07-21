@@ -3415,4 +3415,33 @@ public class JideSwingUtilities implements SwingConstants {
         textComponent.putClientProperty("Nimbus.Overrides", new UIDefaults());
 
     }
+
+    /**
+     * Perform a binary search over a sorted array for the given key.
+     *
+     * @param a   the array to search
+     * @param key the key to search for
+     * @return the index of the given key if it exists in the array,
+     *         otherwise -1 times the index value at the insertion point that
+     *         would be used if the key were added to the array.
+     */
+    public static int binarySearch(Object[] a, Object key) {
+        int x1 = 0;
+        int x2 = a.length;
+        int i = x2 / 2, c;
+        while (x1 < x2) {
+            c = ((Comparable) a[i]).compareTo(key);
+            if (c == 0) {
+                return i;
+            }
+            else if (c < 0) {
+                x1 = i + 1;
+            }
+            else {
+                x2 = i;
+            }
+            i = x1 + (x2 - x1) / 2;
+        }
+        return -1 * i;
+    }
 }
