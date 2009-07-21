@@ -283,6 +283,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 String folderName = JOptionPane.showInputDialog(_folderChooser, resourceBundle.getString("FolderChooser.new.folderName"),
                         resourceBundle.getString("FolderChooser.new.title"), JOptionPane.OK_CANCEL_OPTION | JOptionPane.QUESTION_MESSAGE);
 
+                folderName = eraseBlankInTheEnd(folderName);
                 if (folderName != null) {
                     File newFolder = new File(parent, folderName);
                     boolean success = newFolder.mkdir();
@@ -309,6 +310,20 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     _fileSystemTree.setSelectionPath(newPath);
                     _fileSystemTree.scrollPathToVisible(newPath);
                 }
+            }
+
+            private String eraseBlankInTheEnd(String folderName) {
+                int i = folderName.length() - 1;
+                for (; i >= 0; i--) {
+                    char c = folderName.charAt(i);
+                    if (c != ' ' && c != '\t') {
+                        break;
+                    }
+                }
+                if (i < 0) {
+                    return null;
+                }
+                return folderName.substring(0, i + 1);
             }
 
             public void myDocumentsButtonClicked() {
@@ -448,6 +463,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         _selectionListener = new FolderChooserSelectionListener();
         _fileSystemTree.addTreeSelectionListener(_selectionListener);
         _fileSystemTree.registerKeyboardAction(new AbstractAction() {
+            private static final long serialVersionUID = -2758050378982771174L;
+
             public void actionPerformed(ActionEvent e) {
                 if (_folderToolbarListener != null) {
                     _folderToolbarListener.refreshButtonClicked();
@@ -692,6 +709,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
     }
 
     private class ApproveSelectionAction extends AbstractAction {
+        private static final long serialVersionUID = -3465282473768757260L;
+
         public ApproveSelectionAction() {
             setEnabled(false);
         }
