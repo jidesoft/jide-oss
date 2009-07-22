@@ -958,7 +958,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null) {
-                setPreferredSize(_previousSize);
+                getRootPane().setPreferredSize(_previousSize);
                 _previousSize = null;
             }
             packPopup();
@@ -995,7 +995,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null) {
-                setPreferredSize(_previousSize);
+                getRootPane().setPreferredSize(_previousSize);
                 _previousSize = null;
             }
             packPopup();
@@ -1877,7 +1877,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         if (_window != null) {
-            _previousSize = _window.getSize();
+            _previousSize = getRootPane().getSize();
             _window.setVisible(false);
             _window.removeAll();
             _window.dispose();
@@ -1886,7 +1886,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         if (_panel != null) {
-            _previousSize = _panel.getSize();
+            _previousSize = getRootPane().getSize();
             _panel.setVisible(false);
             Container parent = _panel.getParent();
             if (parent != null) {
