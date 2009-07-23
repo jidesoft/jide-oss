@@ -65,21 +65,6 @@ public class NullPanel extends JPanel {
         clearAttribute();
     }
 
-    @Override
-    public void setFont(Font font) {
-        // set it to null so that the customer cannot set font for this class
-    }
-
-    @Override
-    public void setForeground(Color fg) {
-        // set it to null so that the customer cannot set foreground for this class
-    }
-
-    @Override
-    public void setBackground(Color bg) {
-        // set it to null so that the customer cannot set background for this class
-    }
-
     private void clearAttribute() {
         super.setFont(null);
         super.setBackground(null);

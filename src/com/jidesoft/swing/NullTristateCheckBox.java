@@ -6,7 +6,6 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * This is part of the null-components. A null component doesn't have foreground, background or font value set. In the
@@ -63,21 +62,6 @@ public class NullTristateCheckBox extends TristateCheckBox {
     public NullTristateCheckBox(String text, Icon icon, State initial) {
         super(text, icon, initial);
         clearAttribute();
-    }
-
-    @Override
-    public void setFont(Font font) {
-        // set it to null so that the customer cannot set font for this class
-    }
-
-    @Override
-    public void setForeground(Color fg) {
-        // set it to null so that the customer cannot set foreground for this class
-    }
-
-    @Override
-    public void setBackground(Color bg) {
-        // set it to null so that the customer cannot set background for this class
     }
 
     private void clearAttribute() {
