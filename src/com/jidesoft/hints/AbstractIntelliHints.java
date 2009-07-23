@@ -123,6 +123,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             }
         });
         popup.setTransient(true);
+        popup.setKeepPreviousSize(false);
         return popup;
     }
 

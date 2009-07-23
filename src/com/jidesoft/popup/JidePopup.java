@@ -149,6 +149,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     private boolean _resizable = true;
 
+    private boolean _keepPreviousSize = true;
+
 //    /**
 //     * Bound property name for movable.
 //     */
@@ -563,6 +565,27 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     /**
+     * Get the flag indicating if JidePopup should keep the size last time it was popped up.
+     * <p/>
+     * The default value of this flag is true. If you want the popup to resize based on the changing contents like in IntelliHints,
+     * you need set this flag to false.
+     *
+     * @return the flag.
+     */
+    public boolean isKeepPreviousSize() {
+        return _keepPreviousSize;
+    }
+
+    /**
+     * Set the flag indicating if JidePopup should keep the size last time it was popped up.
+     *
+     * @param keepPreviousSize the flag.
+     */
+    public void setKeepPreviousSize(boolean keepPreviousSize) {
+        _keepPreviousSize = keepPreviousSize;
+    }
+
+    /**
      * This class implements accessibility support for the <code>Popup</code> class.  It provides an implementation of
      * the Java Accessibility API appropriate to popup user-interface elements.
      */
@@ -957,10 +980,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 installBorder();
             }
 
-            if (_previousSize != null) {
-                getRootPane().setPreferredSize(_previousSize);
-                _previousSize = null;
+            if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(_previousSize);
             }
+            _previousSize = null;
             packPopup();
 
             if (_insets != null) {
@@ -994,10 +1017,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 installBorder();
             }
 
-            if (_previousSize != null) {
-                getRootPane().setPreferredSize(_previousSize);
-                _previousSize = null;
+            if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(_previousSize);
             }
+            _previousSize = null;
             packPopup();
 
             if (_insets != null) {
@@ -1877,7 +1900,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         if (_window != null) {
-            _previousSize = getRootPane().getSize();
+            _previousSize = _window.getSize();
             _window.setVisible(false);
             _window.removeAll();
             _window.dispose();
@@ -1886,7 +1909,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         if (_panel != null) {
-            _previousSize = getRootPane().getSize();
+            _previousSize = _panel.getSize();
             _panel.setVisible(false);
             Container parent = _panel.getParent();
             if (parent != null) {
