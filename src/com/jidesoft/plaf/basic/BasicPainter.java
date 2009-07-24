@@ -365,7 +365,9 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintStatusBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        paintContentBackground(c, g, rect, orientation, state);
+        if (c.isOpaque()) {
+            paintContentBackground(c, g, rect, orientation, state);
+        }
     }
 
     public void paintCommandBarTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {

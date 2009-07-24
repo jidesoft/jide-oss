@@ -310,34 +310,41 @@ public class Office2007Painter extends BasicPainter {
     };
 
     public void paintStatusBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        Color[] bg = state == STATE_DEFAULT ? STATUS_BAR_BG : SPECIAL_STATUS_BAR_BG;
-        Graphics2D g2d = (Graphics2D) g.create();
-        int y = rect.y;
-        g2d.setColor(bg[0]);
-        g2d.drawLine(rect.x, y, rect.x + rect.width, y);
-        y++;
-        g2d.setColor(bg[1]);
-        g2d.drawLine(rect.x, y, rect.x + rect.width, y);
-        y++;
+        if (c.isOpaque()) {
+            Color[] bg = state == STATE_DEFAULT ? STATUS_BAR_BG : SPECIAL_STATUS_BAR_BG;
+            Graphics2D g2d = (Graphics2D) g.create();
+            int y = rect.y;
+            g2d.setColor(bg[0]);
+            g2d.drawLine(rect.x, y, rect.x + rect.width, y);
+            y++;
+            g2d.setColor(bg[1]);
+            g2d.drawLine(rect.x, y, rect.x + rect.width, y);
+            y++;
 
-        Rectangle r = new Rectangle(rect.x, y, rect.width, (rect.height - 4) / 3);
-        JideSwingUtilities.fillGradient(g2d, r, bg[2], bg[3], true);
-        r.y = r.y + r.height;
-        r.height = rect.height - r.y - 2;
-        JideSwingUtilities.fillGradient(g2d, r, bg[4], bg[5], true);
-        y = r.y + r.height;
+            Rectangle r = new Rectangle(rect.x, y, rect.width, (rect.height - 4) / 3);
+            JideSwingUtilities.fillGradient(g2d, r, bg[2], bg[3], true);
+            r.y = r.y + r.height;
+            r.height = rect.height - r.y - 2;
+            JideSwingUtilities.fillGradient(g2d, r, bg[4], bg[5], true);
+            y = r.y + r.height;
 
-        g2d.setColor(bg[6]);
-        g2d.drawLine(rect.x, y, rect.x + rect.width, y);
-        y++;
-        g2d.setColor(bg[7]);
-        g2d.drawLine(rect.x, y, rect.x + rect.width, y);
+            g2d.setColor(bg[6]);
+            g2d.drawLine(rect.x, y, rect.x + rect.width, y);
+            y++;
+            g2d.setColor(bg[7]);
+            g2d.drawLine(rect.x, y, rect.x + rect.width, y);
 
-        g2d.dispose();
+            g2d.dispose();
+        }
     }
 
     @Override
-    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintStatusBarSepartor
+            (JComponent
+                    c, Graphics
+                    g, Rectangle
+                    rect, int orientation,
+             int state) {
         g.setColor(new Color(0x8DACD5));
         g.drawLine(rect.x, rect.y, rect.x, rect.y + rect.height);
         g.setColor(new Color(0xFFFFFF));
