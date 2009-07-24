@@ -6,6 +6,9 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
 
 /**
  * This is part of the null-components. A null component doesn't have foreground, background or font value set. In the
@@ -17,16 +20,35 @@ import javax.swing.*;
  * null-component. The feature is very helpful if you want to make sure all components in a JPanel has the same
  * background, foreground or font.
  * <p/>
+ * Even in null-components, you can still change the foreground, background or font value if you do want. However, you'll
+ * have to use a font which is not an instance of FontUIResource or a color which is not an instance of ColorUIResource.
+ * <p/>
  * We creates a few null-components. It doesn't cover all components. You can always create your own. All you need to do
  * is this
  * <pre><code>
  * public class NullXxxComponent extends XxxComponent {
- *     // all the constructors
+ *     // invoke clearAttribute() in all the constructors
  * <p/>
- *     public void updateUI() {
- *         super.updateUI();
- *         clearAttribute();
+ * public void setFont(Font font) {
+ *     if (font instanceof FontUIResource) {
+ *         return;
  *     }
+ *     super.setFont(font);
+ * }
+ * <p/>
+ * public void setBackground(Color bg) {
+ *     if (bg instanceof ColorUIResource) {
+ *         return;
+ *     }
+ *     super.setBackground(bg);
+ * }
+ * <p/>
+ * public void setForeground(Color fg) {
+ *     if (fg instanceof ColorUIResource) {
+ *         return;
+ *     }
+ *     super.setForeground(fg);
+ * }
  * <p/>
  *     private void clearAttribute() {
  *         setFont(null);
@@ -38,11 +60,12 @@ import javax.swing.*;
  * }
  * </code></pre>
  *
- * @see NullPanel
- * @see NullButton
- * @see NullJideButton
- * @see NullLabel
- * @see NullRadioButton
+ * @see com.jidesoft.swing.NullButton
+ * @see com.jidesoft.swing.NullPanel
+ * @see com.jidesoft.swing.NullJideButton
+ * @see com.jidesoft.swing.NullLabel
+ * @see com.jidesoft.swing.NullRadioButton
+ * @see com.jidesoft.swing.NullTristateCheckBox
  */
 public class NullCheckBox extends JCheckBox {
     public NullCheckBox() {
@@ -88,5 +111,29 @@ public class NullCheckBox extends JCheckBox {
         super.setFont(null);
         super.setBackground(null);
         super.setForeground(null);
+    }
+
+    @Override
+    public void setFont(Font font) {
+        if (font instanceof FontUIResource) {
+            return;
+        }
+        super.setFont(font);
+    }
+
+    @Override
+    public void setBackground(Color bg) {
+        if (bg instanceof ColorUIResource) {
+            return;
+        }
+        super.setBackground(bg);
+    }
+
+    @Override
+    public void setForeground(Color fg) {
+        if (fg instanceof ColorUIResource) {
+            return;
+        }
+        super.setForeground(fg);
     }
 }
