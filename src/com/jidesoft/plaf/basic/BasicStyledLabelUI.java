@@ -27,6 +27,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
     protected static BasicStyledLabelUI styledLabelUI = new BasicStyledLabelUI();
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return styledLabelUI;
     }
@@ -88,7 +89,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
     protected void buildStyledText(StyledLabel label) {
         if (_styledTexts == null) {
-            _styledTexts = new ArrayList();
+            _styledTexts = new ArrayList<StyledText>();
         }
         else {
             _styledTexts.clear();
@@ -126,7 +127,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         index = s.length();
                     }
                     else {
-                        _styledTexts.add(new StyledText(s.substring(index, index + styleRange.getLength()), styleRange));
+                        _styledTexts.add(new StyledText(s.substring(index, Math.min(index + styleRange.getLength(), s.length())), styleRange));
                         index += styleRange.getLength();
                     }
                 }
@@ -184,7 +185,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     width += fm2.stringWidth(styledText.text);
                 }
                 else {
-                    fm2 = fm;
+//                    fm2 = fm;
                     width += fm.stringWidth(styledText.text);
                 }
 
@@ -360,6 +361,20 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
      * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. The
      * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
      * accordingly.
+     *
+     * @param c the component
+     * @param fm the font metrics
+     * @param text the text
+     * @param icon the icon
+     * @param verticalAlignment vertical alignment mode
+     * @param horizontalAlignment horizontal alignment mode
+     * @param verticalTextPosition vertical text position
+     * @param horizontalTextPosition horizontal text position
+     * @param viewR view rectangle
+     * @param iconR icon rectangle
+     * @param textR text rectangle
+     * @param textIconGap the gap between text and icon
+     * @return the layout string
      */
     public static String layoutCompoundLabel(JComponent c,
                                              FontMetrics fm,
@@ -425,6 +440,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
      * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
      * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
+     *
+     * @param fm the font metrics
+     * @param text the text
+     * @param icon the icon
+     * @param verticalAlignment vertical alignment mode
+     * @param horizontalAlignment horizontal alignment mode
+     * @param verticalTextPosition vertical text position
+     * @param horizontalTextPosition horizontal text position
+     * @param viewR view rectangle
+     * @param iconR icon rectangle
+     * @param textR text rectangle
+     * @param textIconGap the gap between text and icon
+     * @return the layout string
      */
     public static String layoutCompoundLabel(
             FontMetrics fm,
@@ -452,7 +480,22 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
      * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
      * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
+     *
+     * @param c the component
+     * @param fm the font metrics
+     * @param text the text
+     * @param icon the icon
+     * @param verticalAlignment vertical alignment mode
+     * @param horizontalAlignment horizontal alignment mode
+     * @param verticalTextPosition vertical text position
+     * @param horizontalTextPosition horizontal text position
+     * @param viewR view rectangle
+     * @param iconR icon rectangle
+     * @param textR text rectangle
+     * @param textIconGap the gap between text and icon
+     * @return the layout string
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     private static String layoutCompoundLabelImpl(
             JComponent c,
             FontMetrics fm,
@@ -489,7 +532,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
          */
         int gap;
 
-        View v = null;
+        View v;
         if (textIsEmpty) {
             textR.width = textR.height = 0;
             text = "";
