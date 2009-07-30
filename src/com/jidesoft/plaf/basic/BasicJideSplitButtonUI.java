@@ -48,6 +48,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
 
     private static final String propertyPrefix = "JideSplitButton";
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent x) {
         return new BasicJideSplitButtonUI();
     }
@@ -236,10 +237,22 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     if (b.isButtonEnabled()) {
                         getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
                     }
+                    else if (paintBackground) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE_ROLLOVER);
+                    }
                     rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
                     getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_PRESSED);
                 }
                 else {
+                    Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_SELECTED);
+                    }
+                    else if (paintBackground) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE_SELECTED);
+                    }
+                    rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_SELECTED);
                     getPainter().paintSelectedMenu(b, g, new Rectangle(0, 0, menuWidth, menuHeight), orientation, ThemePainter.STATE_SELECTED);
                 }
             }
@@ -247,6 +260,9 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                 Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                 if (b.isButtonEnabled()) {
                     getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_PRESSED);
+                }
+                else if (paintBackground) {
+                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE);
                 }
                 rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
                 getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
@@ -259,12 +275,20 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     if (b.isButtonEnabled()) {
                         getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_PRESSED);
                     }
+                    else if (paintBackground) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE);
+                    }
                 }
                 else {
                     Rectangle rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
                     getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DEFAULT);
                     rect = getButtonRect(b, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_SELECTED);
+                    if (b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_SELECTED);
+                    }
+                    else if (paintBackground) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE_SELECTED);
+                    }
                 }
             }
             else if (((b.isRolloverEnabled() && isMouseOver()) || b.hasFocus()) && model.isEnabled()) {
@@ -278,6 +302,9 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
                     if (b.isButtonEnabled()) {
                         getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
                     }
+                    else if (paintBackground) {
+                        getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_DISABLE_ROLLOVER);
+                    }
                     rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
                     getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
                 }
@@ -285,12 +312,22 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             else {
                 if (paintBackground) {
                     Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
+                    if (b.isEnabled() && b.isButtonEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
+                    }
+                    else {
+                        getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DISABLE);
+                    }
                     if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                         JideSwingUtilities.fillGradient(g, rect, SwingConstants.HORIZONTAL);
                     }
                     rect = getDropDownRect(b, orientation, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
+                    if (b.isEnabled()) {
+                        getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DEFAULT);
+                    }
+                    else {
+                        getPainter().paintButtonBackground(b, g, rect, 0, ThemePainter.STATE_DISABLE);
+                    }
                     if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                         JideSwingUtilities.fillGradient(g, rect, SwingConstants.HORIZONTAL);
                     }
@@ -935,14 +972,16 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         Color oldColor = g.getColor();
 
         if (!model.isEnabled() || (menuItem instanceof JideSplitButton && !((JideSplitButton) menuItem).isButtonEnabled())) {
-            // *** paint the text disabled
-            g.setColor(menuItem.getBackground().brighter());
+            if (menuItem.getParent() != null) {
+                // *** paint the text disabled
+                g.setColor(menuItem.getParent().getBackground().brighter());
 
-            // JDK PORTING HINT
-            // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
-            drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
-                    textRect.x, textRect.y + fm.getAscent());
-            g.setColor(menuItem.getBackground().darker());
+                // JDK PORTING HINT
+                // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
+                drawStringUnderlineCharAt(menuItem, g, text, mnemonicIndex,
+                        textRect.x, textRect.y + fm.getAscent());
+                g.setColor(menuItem.getParent().getBackground().darker());
+            }
 
             // JDK PORTING HINT
             // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
