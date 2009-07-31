@@ -13,7 +13,6 @@ import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
@@ -712,21 +711,5 @@ public class Office2007Painter extends BasicPainter {
                     ColorUtils.getDerivedColor(color, 0.64f), false);
         }
         g2d.dispose();
-    }
-
-    public void paintTabAreaBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        if (c.isOpaque() && c instanceof JideTabbedPane) {
-            JideTabbedPane tabbedPane = (JideTabbedPane) c;
-            int tabShape = tabbedPane.getTabShape();
-            int colorTheme = tabbedPane.getColorTheme();
-            g.setColor(getBackgroundDk());
-            if (tabShape == JideTabbedPane.SHAPE_BOX) {
-                g.setColor(UIDefaultsLookup.getColor("control"));
-            }
-            else {
-                g.setColor(getBackgroundDk());
-            }
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
-        }
     }
 }
