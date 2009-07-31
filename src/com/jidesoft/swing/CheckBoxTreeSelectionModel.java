@@ -80,6 +80,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     /**
      * Tests whether there is any unselected node in the subtree of given path.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path check if the path is partially selected.
      * @return true if partially. Otherwise false.
@@ -107,6 +110,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * <p/>
      * The default implementation is just return true. In filterable scenario, you could override this method to check
      * more.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path the original path to be checked
      * @param parent the parent part which is closest to the original path and is selected
@@ -119,6 +125,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     /**
      * Tells whether given path is selected. if dig is true, then a path is assumed to be selected, if one of its
      * ancestor is selected.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path  check if the path is selected.
      * @param digIn whether we will check its descendants.
@@ -168,6 +177,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     /**
      * is path1 descendant of path2.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path1 the first path
      * @param path2 the second path
@@ -197,6 +209,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     /**
      * Overrides the method in DefaultTreeSelectionModel to consider digIn mode.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param pPaths the tree paths to be selected.
      */
@@ -213,6 +228,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     /**
      * Overrides the method in DefaultTreeSelectionModel to consider digIn mode.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param paths the tree paths to be added to selection paths.
      */
@@ -281,6 +299,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     /**
      * tells whether all siblings of given path are selected.
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path the tree path
      * @return true if the siblings are all selected.
@@ -339,6 +360,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     /**
      * If any ancestor node of given path is selected then deselect it and selection all its descendants except given
      * path and descendants. Otherwise just deselect the given path
+     * <p/>
+     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
+     * instance on the fly, it would not work.
      *
      * @param path        the tree path
      * @param doFireEvent the flag indicating if firing event
