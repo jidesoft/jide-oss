@@ -593,7 +593,6 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         return UIDefaultsLookup.getColor(key);
     }
 
-
     public void paintTabAreaBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (c.isOpaque() && c instanceof JideTabbedPane) {
             JideTabbedPane tabbedPane = (JideTabbedPane) c;
@@ -607,8 +606,11 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     g.setColor(UIDefaultsLookup.getColor("control"));
 
                 }
-                else {
+                else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
                     g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
+                }
+                else {
+                    g.setColor(UIDefaultsLookup.getColor("control"));
                 }
             }
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
