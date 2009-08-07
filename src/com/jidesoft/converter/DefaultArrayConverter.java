@@ -45,10 +45,16 @@ public class DefaultArrayConverter extends ArrayConverter {
         }
         else {
             Object[] objects = arrayFromString(string, context);
-            if (getElementClass() == Object.class) {
+            Class<?> elementClass = getElementClass();
+            if (elementClass == Object.class) {
                 return objects;
             }
-            Object array = Array.newInstance(getElementClass(), objects.length);
+            for (Object object : objects) {
+                if (!elementClass.isAssignableFrom(object.getClass())) {
+                    return new Object[0];
+                }
+            }
+            Object array = Array.newInstance(elementClass, objects.length);
             for (int i = 0; i < objects.length; i++) {
                 Object object = objects[i];
                 Array.set(array, i, object);
