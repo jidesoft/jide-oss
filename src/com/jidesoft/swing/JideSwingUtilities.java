@@ -1112,6 +1112,21 @@ public class JideSwingUtilities implements SwingConstants {
      * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. The
      * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
      * accordingly.
+     *
+     * @param c the component
+     * @param fm the font metrics
+     * @param text the text
+     * @param icon the icon
+     * @param isHorizontal the flag indicating horizontal or vertical
+     * @param verticalAlignment vertical alignment model
+     * @param horizontalAlignment horizontal alignment model
+     * @param verticalTextPosition vertical text position
+     * @param horizontalTextPosition horizontal text position
+     * @param viewR view rectangle
+     * @param iconR icon rectangle
+     * @param textR text rectangle
+     * @param textIconGap the gap between the text and the gap
+     * @return the string after layout.
      */
     public static String layoutCompoundLabel(JComponent c,
                                              FontMetrics fm,
@@ -3035,6 +3050,27 @@ public class JideSwingUtilities implements SwingConstants {
             }
         });
     }
+
+    /**
+     * Get the index of the component in the container. It will return -1 if c's parent is not container.
+     *
+     * @param container the container
+     * @param c the component
+     * @return the index
+     */
+    public static int getComponentIndex(Container container, Component c) {
+        if (c.getParent() != container) {
+            return -1;
+        }
+        Component[] children = container.getComponents();
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] == c) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public static Vector convertDefaultComboBoxModelToVector(DefaultComboBoxModel model) {
         Vector v = new Vector();
