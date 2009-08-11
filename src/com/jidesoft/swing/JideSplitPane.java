@@ -134,6 +134,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     private boolean _heavyweightComponentEnabled = false;
     public WindowAdapter _windowDeactivatedListener;
     private int _dividerStepSize = 0;
+    private boolean _dragResizable = true;
 
     /**
      * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
@@ -1169,6 +1170,26 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             accessibleContext = new AccessibleJideSplitPane();
         }
         return accessibleContext;
+    }
+
+    /**
+     * Get the flag indicating if dragging the divider could resize the panes.
+     * <p/>
+     * By default, the value is true for JideSplitPane. You could set it to false if you don't like it.
+     *
+     * @return the flag.
+     */
+    public boolean isDragResizable() {
+        return _dragResizable;
+    }
+
+    /**
+     * Set the flag indicating if dragging the divider could resize the panes.
+     *
+     * @param dragResizable the flag
+     */
+    public void setDragResizable(boolean dragResizable) {
+        _dragResizable = dragResizable;
     }
 
     /**

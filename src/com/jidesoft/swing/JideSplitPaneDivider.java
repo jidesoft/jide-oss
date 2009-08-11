@@ -362,7 +362,7 @@ public class JideSplitPaneDivider extends JPanel
         @Override
         public void mousePressed(MouseEvent e) {
             if ((e.getSource() == JideSplitPaneDivider.this/*||
-                    e.getSource() == _jideSplitPane*/) && _dragger == null && _jideSplitPane.isEnabled()) {
+                    e.getSource() == _jideSplitPane*/) && _dragger == null && _jideSplitPane.isEnabled() && _jideSplitPane.isDragResizable()) {
                 if (getFirstComponent(true) != null &&
                         getSecondComponent(true) != null) {
                     if (_orientation == JideSplitPane.HORIZONTAL_SPLIT) {
