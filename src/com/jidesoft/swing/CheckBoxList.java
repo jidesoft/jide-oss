@@ -146,6 +146,15 @@ public class CheckBoxList extends JList {
         }
     }
 
+    @Override
+    public int getLastVisibleIndex() {
+        int visibleIndex = super.getLastVisibleIndex();
+        if (visibleIndex < 0) {
+            return getModel().getSize() - 1;
+        }
+        return visibleIndex;
+    }
+
     protected CheckBoxListSelectionModel createCheckBoxListSelectionModel(ListModel model) {
         return new CheckBoxListSelectionModel(model);
     }
