@@ -69,6 +69,12 @@ public class AutoCompletion {
     private JComboBox _comboBox;
     private Document _oldDocument;
 
+    /**
+     * The client property for AutoCompletion instance. When AutoCompletion is installed on a text component, this
+     * client property has the AutoCompletion.
+     */
+    public static final String CLIENT_PROPERTY_AUTO_COMPLETION = "AutoCompletion";
+
     public AutoCompletion(final JComboBox comboBox) {
         this(comboBox, new ComboBoxSearchable(comboBox));
     }
@@ -241,6 +247,7 @@ public class AutoCompletion {
             }
             getTextComponent().setText(text);
         }
+        getTextComponent().putClientProperty(CLIENT_PROPERTY_AUTO_COMPLETION, null);
     }
 
     /**
@@ -273,7 +280,7 @@ public class AutoCompletion {
                             _hitBackspaceOnSelection = getTextComponent().getSelectionStart() != getTextComponent().getSelectionEnd();
                         }
                         break;
-                        // ignore delete key
+                    // ignore delete key
                     case KeyEvent.VK_DELETE:
                         if (isStrict()) {
                             _deletePressed = true;
@@ -338,6 +345,7 @@ public class AutoCompletion {
 
         _document = createDocument();
         configureEditor(getTextComponent());
+        getTextComponent().putClientProperty(CLIENT_PROPERTY_AUTO_COMPLETION, this);
     }
 
     /**
@@ -550,5 +558,21 @@ public class AutoCompletion {
      */
     public Searchable getSearchable() {
         return _searchable;
+    }
+
+    /**
+     * When auto-completion is enabled on a text component, we will set a client property on it. This method will look
+     * for this client property and return you the instance of the AutoCompletion that is installed on the component.
+     *
+     * @param component the component.
+     * @return the AutoCompletion. If null, it means there is no AutoCompletion installed.
+     */
+    public static AutoCompletion getAutoCompletion(JComponent component) {
+        if (component == null) return null;
+        Object clientProperty = component.getClientProperty(CLIENT_PROPERTY_AUTO_COMPLETION);
+        if (clientProperty instanceof AutoCompletion) {
+            return (AutoCompletion) clientProperty;
+        }
+        return null;
     }
 }
