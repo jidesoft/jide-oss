@@ -597,11 +597,22 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         else {
             if (_nonContinuousLayoutDividerWrapper != null) {
                 Point p;
+                Container parent = getParent();
+                Component firstChild = this;
+                int startPosition = 0;
+                while (parent != null && !(parent instanceof JViewport)) {
+                    startPosition += getOrientation() == HORIZONTAL_SPLIT ? firstChild.getBounds().y : firstChild.getBounds().x;
+                    firstChild = parent;
+                    parent = parent.getParent();
+                }
+                if (parent != null) {
+                    startPosition += getOrientation() == HORIZONTAL_SPLIT ? firstChild.getBounds().y : firstChild.getBounds().x;
+                }
                 if (getOrientation() == HORIZONTAL_SPLIT) {
-                    p = SwingUtilities.convertPoint(this, location, 0, _layeredPane);
+                    p = SwingUtilities.convertPoint(this, location, parent == null ? 0 : 0 - startPosition, _layeredPane);
                 }
                 else {
-                    p = SwingUtilities.convertPoint(this, 0, location, _layeredPane);
+                    p = SwingUtilities.convertPoint(this, parent == null ? 0 : 0 - startPosition, location, _layeredPane);
                 }
                 int dividerThickness = Math.min(4, getDividerSize());
                 if (getOrientation() == HORIZONTAL_SPLIT) {
