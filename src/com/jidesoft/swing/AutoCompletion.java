@@ -98,7 +98,6 @@ public class AutoCompletion {
         }
         _textComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         installListeners();
-        setInitValue();
     }
 
     public AutoCompletion(final JTextComponent textComponent, final Searchable searchable) {
@@ -108,7 +107,6 @@ public class AutoCompletion {
         registerSelectionListener(getSearchable());
 
         installListeners();
-        setInitValue();
     }
 
     public AutoCompletion(final JTextComponent textComponent, final List list) {
