@@ -158,13 +158,13 @@ public class TableSearchable extends Searchable implements TableModelListener, P
     protected int getSelectedIndex() {
         JTable table = (JTable) _component;
         if (isColumnSelectionAllowed(table)) {
-            return table.getSelectedColumn();
+            return table.getColumnModel().getSelectionModel().getAnchorSelectionIndex();
         }
         else if (isRowSelectionAllowed(table)) {
-            return table.getSelectedRow();
+            return table.getSelectionModel().getAnchorSelectionIndex();
         }
         else { // cell selection allowed
-            return table.getSelectedRow() * table.getColumnCount() + table.getSelectedColumn();
+            return table.getSelectionModel().getAnchorSelectionIndex() * table.getColumnCount() + table.getColumnModel().getSelectionModel().getAnchorSelectionIndex();
         }
     }
 
