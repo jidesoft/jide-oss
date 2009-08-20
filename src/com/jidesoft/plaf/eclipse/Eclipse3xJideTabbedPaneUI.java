@@ -128,7 +128,12 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 Rectangle bounds = null;
                 if (_closeButtonAlignment == SwingConstants.TRAILING) {
                     if (_tabPane.getTabPlacement() == JideTabbedPane.TOP || _tabPane.getTabPlacement() == JideTabbedPane.BOTTOM) {
-                        bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - 16, _rects[i].y + ((_rects[i].height - size.height) >> 1), size.width, size.height);
+                        if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                            bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - 16, _rects[i].y + ((_rects[i].height - size.height) >> 1), size.width, size.height);
+                        }
+                        else {
+                            bounds = new Rectangle(_rects[i].x + 4, ((_rects[i].height - size.height) >> 1), size.width, size.height);
+                        }
                     }
                     else if (_tabPane.getTabPlacement() == JideTabbedPane.LEFT) {
                         bounds = new Rectangle(_rects[i].x + ((_rects[i].width - size.width) >> 1), _rects[i].y + _rects[i].height - size.height - 16, size.width, size.height);
@@ -139,6 +144,9 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
                 else {
                     bounds = new Rectangle(_rects[i].x + 4, ((_rects[i].height - size.height) >> 1), size.width, size.height);
+                    if (!_tabPane.getComponentOrientation().isLeftToRight() && (_tabPane.getTabPlacement() == JideTabbedPane.TOP || _tabPane.getTabPlacement() == JideTabbedPane.BOTTOM)) {
+                        bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - 16, _rects[i].y + ((_rects[i].height - size.height) >> 1), size.width, size.height);
+                    }
                 }
                 _closeButtons[i].setIndex(i);
                 if (!bounds.equals(_closeButtons[i].getBounds())) {

@@ -207,8 +207,14 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                             g.drawLine(x, y, x + w - 1, y);// top
                         }
                         else {
-                            g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
-                            g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
+                            if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                                g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
+                                g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
+                            }
+                            else {
+                                g.drawLine(x, y, selRect.x, y);// top left
+                                g.drawLine(selRect.x + selRect.width + selRect.height - 3, y, x + w - 1, y);// top right
+                            }
                         }
 
                         Rectangle bounds = _tabScroller.viewport.getBounds();
@@ -224,8 +230,14 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         g.drawLine(x, y, x + w - 1, y);// top
                     }
                     else {
-                        g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
-                        g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
+                        if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                            g.drawLine(x, y, selRect.x - selRect.height + 2, y);// top left
+                            g.drawLine(selRect.x + selRect.width, y, x + w - 1, y);// top right
+                        }
+                        else {
+                            g.drawLine(x, y, selRect.x, y);// top left
+                            g.drawLine(selRect.x + selRect.width + selRect.height - 3, y, x + w - 1, y);// top right
+                        }
                     }
 
                     Rectangle bounds = _tabScroller.viewport.getBounds();
@@ -360,8 +372,14 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                     }
                     else {
-                        g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
-                        g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                        if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                            g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
+                            g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                        }
+                        else {
+                            g.drawLine(x, y + h - 1, selRect.x, y + h - 1);// bottom left
+                            g.drawLine(selRect.x + selRect.width + selRect.height - 3, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                        }
                     }
 
                     Rectangle bounds = _tabScroller.viewport.getBounds();
@@ -377,8 +395,14 @@ public class Office2003JideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);// bottom
                 }
                 else {
-                    g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
-                    g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                    if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                        g.drawLine(x, y + h - 1, selRect.x - selRect.height + 2, y + h - 1);// bottom left
+                        g.drawLine(selRect.x + selRect.width, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                    }
+                    else {
+                        g.drawLine(x, y + h - 1, selRect.x, y + h - 1);// bottom left
+                        g.drawLine(selRect.x + selRect.width + selRect.height - 3, y + h - 1, x + w - 1, y + h - 1);// bottom right
+                    }
                 }
 
                 Rectangle bounds = _tabScroller.viewport.getBounds();
