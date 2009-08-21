@@ -11,8 +11,8 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.accessibility.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Arrays;
 
 /**
@@ -423,6 +423,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     void internalSetProportions(double[] proportions) {
         _proportions = proportions;
     }
+
     /**
      * Sets the proportions to use in laying out this split pane's children.  Only applicable when {@link
      * #isProportionalLayout} is true; calling it when false will throw an exception.  The given array must either be
@@ -912,6 +913,11 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             int j = (i < paneIndex) ? i : i + 1;
             newProportions[i] = oldProportions[j] / total;
         }
+//       to make sure the proportion adds up to 1 for this special case.
+        if (newProportions.length == 1) {
+            newProportions[0] = 1.0;
+        }
+
         setProportions(newProportions);
     }
 
