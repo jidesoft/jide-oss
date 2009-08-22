@@ -4429,6 +4429,17 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         int tabPlacement = _tabPane.getTabPlacement();
         boolean useX = (tabPlacement == TOP || tabPlacement == BOTTOM);
         int want = (useX) ? x : y;
+        Rectangle[] rects = new Rectangle[_rects.length];
+        boolean needConvert = false;
+        if (!useX || _tabPane.getComponentOrientation().isLeftToRight()) {
+            System.arraycopy(_rects, 0, rects, 0, _rects.length);
+        }
+        else {
+            needConvert = true;
+            for (int i = 0; i < _rects.length; i++) {
+                rects[i] = _rects[_rects.length - 1 - i];
+            }
+        }
 
         while (min != max) {
             int current = (max + min) >> 1;
@@ -4436,30 +4447,32 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             int maxLoc;
 
             if (useX) {
-                minLoc = _rects[current].x;
-                maxLoc = minLoc + _rects[current].width;
+                minLoc = rects[current].x;
+                maxLoc = minLoc + rects[current].width;
             }
             else {
-                minLoc = _rects[current].y;
-                maxLoc = minLoc + _rects[current].height;
+                minLoc = rects[current].y;
+                maxLoc = minLoc + rects[current].height;
             }
             if (want < minLoc) {
                 max = current;
                 if (min == max) {
-                    return Math.max(0, current - 1);
+                    int tabIndex = Math.max(0, current - 1);
+                    return needConvert ? rects.length - 1 - tabIndex : tabIndex;
                 }
             }
             else if (want >= maxLoc) {
                 min = current;
                 if (max - min <= 1) {
-                    return Math.max(current + 1, tabCount - 1);
+                    int tabIndex = Math.max(current + 1, tabCount - 1);
+                    return needConvert ? rects.length - 1 - tabIndex : tabIndex;
                 }
             }
             else {
-                return current;
+                return needConvert ? rects.length - 1 - current : current;
             }
         }
-        return min;
+        return needConvert ? rects.length - 1 - min : min;
     }
 
     /**
@@ -6778,7 +6791,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     offset += tsize.width;
                 }
                 for (int i = 0; i < tabCount; i++) {
-                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width - offset;
+                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width - offset + tabAreaInsets.left;
 //                    if(i == tabCount - 1) {
 //                        _rects[i].width += getLeftMargin();
 //                        _rects[i].x -= getLeftMargin();
@@ -6798,6 +6811,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         int totalWidth = 0;
         int totalHeight = 0;
         boolean verticalTabRuns = (_tabPane.getTabPlacement() == LEFT || _tabPane.getTabPlacement() == RIGHT);
+        boolean ltr = _tabPane.getComponentOrientation().isLeftToRight();
 
         if (tabCount == 0) {
             return;
@@ -6825,7 +6839,16 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         }
         else {
-            totalWidth = r.x + r.width;
+//            totalWidth = r.x + r.width;
+            for (Rectangle rect : _rects) {
+                totalWidth += rect.width;
+            }
+            if (ltr) {
+                totalWidth += _rects[0].x;
+            }
+            else {
+                totalWidth += size.width - _rects[0].x - _rects[0].width;
+            }
 
             if (_tabLeadingComponent != null) {
                 totalWidth -= lsize.width;
@@ -6834,7 +6857,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
 
-        boolean ltr = _tabPane.getComponentOrientation().isLeftToRight();
         if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT) {// LayOut Style is Size to Fix
             if (verticalTabRuns) {
                 int availHeight;
@@ -7337,16 +7359,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 case TOP:
                 case BOTTOM:
                     tabViewPosition.y = 0;
-                    tabViewPosition.x = leadingTabIndex == 0 ? 0 : _rects[leadingTabIndex].x;
+                    if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                        tabViewPosition.x = leadingTabIndex == 0 ? 0 : _rects[leadingTabIndex].x;
 
-                    if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
-                        tabViewPosition.x = viewSize.width - viewRect.width;
-//                        // We've scrolled to the end, so adjust the viewport size
-//                        // to ensure the view position remains aligned on a tab boundary
-//                        Dimension extentSize = new Dimension(viewSize.width - tabViewPosition.x,
-//                                viewRect.height);
-//                        System.out.println("setExtendedSize: " + extentSize);
-//                        viewport.setExtentSize(extentSize);
+                        if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
+                            tabViewPosition.x = viewSize.width - viewRect.width;
+                            //                        // We've scrolled to the end, so adjust the viewport size
+                            //                        // to ensure the view position remains aligned on a tab boundary
+                            //                        Dimension extentSize = new Dimension(viewSize.width - tabViewPosition.x,
+                            //                                viewRect.height);
+                            //                        System.out.println("setExtendedSize: " + extentSize);
+                            //                        viewport.setExtentSize(extentSize);
+                        }
+                    }
+                    else {
+                        tabViewPosition.x -= 10;
                     }
                     break;
                 case LEFT:
@@ -7379,7 +7406,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Dimension viewSize = viewport.getViewSize();
             Rectangle viewRect = viewport.getViewRect();
 
-            leadingTabIndex = getClosestTab(viewRect.x, viewRect.y);
+            if ((tabPlacement == TOP || tabPlacement == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight()) {
+                leadingTabIndex = getClosestTab(viewRect.x + viewRect.width, viewRect.y + viewRect.height);
+                if (leadingTabIndex < 0) {
+                    leadingTabIndex = 0;
+                }
+            }
+            else {
+                leadingTabIndex = getClosestTab(viewRect.x, viewRect.y);
+            }
 
             // If the tab isn't right aligned, adjust it.
             if (leadingTabIndex < _rects.length && leadingTabIndex >= _rects.length) {
@@ -8355,8 +8390,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (scrollableTabLayoutEnabled()) {
             ensureCurrentLayout();
             if (scrollLeft && _rects.length > 0) {
-                _tabScroller.viewport.setViewPosition(new Point(0, 0));
-                _tabScroller.tabPanel.scrollRectToVisible(_rects[0]);
+                if (_tabPane.getTabPlacement() == LEFT || _tabPane.getTabPlacement() == RIGHT || _tabPane.getComponentOrientation().isLeftToRight()) {
+                    _tabScroller.viewport.setViewPosition(new Point(0, 0));
+                    _tabScroller.tabPanel.scrollRectToVisible(_rects[0]);
+                }
+                else {
+                    _tabScroller.viewport.setViewPosition(new Point(0, 0));
+                }
             }
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
