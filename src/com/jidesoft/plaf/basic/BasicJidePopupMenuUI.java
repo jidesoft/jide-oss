@@ -6,6 +6,7 @@
 
 package com.jidesoft.plaf.basic;
 
+import com.jidesoft.swing.JidePopupMenu;
 import com.jidesoft.swing.SimpleScrollPane;
 
 import javax.swing.*;
@@ -24,14 +25,32 @@ public class BasicJidePopupMenuUI extends BasicPopupMenuUI {
 
     @Override
     public Popup getPopup(JPopupMenu popupMenu, int x, int y) {
-        if (popupMenu.getLayout() instanceof DefaultMenuLayout) {
-            popupMenu.setLayout(new BoxLayout(popupMenu, ((DefaultMenuLayout) popupMenu.getLayout()).getAxis()));
+        Popup popup = BasicJidePopupMenuUI.addScrollPaneIfNecessary(popupMenu, x, y);
+        return popup == null ? super.getPopup(popupMenu, x, y) : popup;
+    }
+
+    /**
+     * Adds a scroll pane to the popup menu if the popup menu is taller than the screen boundary.
+     *
+     * @param popupMenu the popup menu.
+     * @param x         the x origin
+     * @param y         the y origin
+     * @return Popup
+     */
+    public static Popup addScrollPaneIfNecessary(JPopupMenu popupMenu, int x, int y) {
+        if (popupMenu instanceof JidePopupMenu && popupMenu.getPreferredSize().height != ((JidePopupMenu) popupMenu).getPreferredScrollableViewportSize().height) {
+            if (popupMenu.getLayout() instanceof DefaultMenuLayout) {
+                popupMenu.setLayout(new BoxLayout(popupMenu, ((DefaultMenuLayout) popupMenu.getLayout()).getAxis()));
+            }
+            PopupFactory popupFactory = PopupFactory.getSharedInstance();
+            SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            contents.getScrollUpButton().setOpaque(true);
+            contents.getScrollDownButton().setOpaque(true);
+            contents.setBorder(BorderFactory.createEmptyBorder());
+            return popupFactory.getPopup(popupMenu.getInvoker(), contents, x, y);
         }
-        PopupFactory popupFactory = PopupFactory.getSharedInstance();
-        SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        contents.getScrollUpButton().setOpaque(true);
-        contents.getScrollDownButton().setOpaque(true);
-        contents.setBorder(BorderFactory.createEmptyBorder());
-        return popupFactory.getPopup(popupMenu.getInvoker(), contents, x, y);
+        else {
+            return null;
+        }
     }
 }

@@ -7,7 +7,7 @@
 package com.jidesoft.plaf.aqua;
 
 import apple.laf.AquaPopupMenuUI;
-import com.jidesoft.swing.SimpleScrollPane;
+import com.jidesoft.plaf.basic.BasicJidePopupMenuUI;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -22,11 +22,7 @@ public class AquaJidePopupMenuUI extends AquaPopupMenuUI {
 
     @Override
     public Popup getPopup(JPopupMenu popupMenu, int x, int y) {
-        PopupFactory popupFactory = PopupFactory.getSharedInstance();
-        SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        contents.getScrollUpButton().setOpaque(true);
-        contents.getScrollDownButton().setOpaque(true);
-        contents.setBorder(BorderFactory.createEmptyBorder());
-        return popupFactory.getPopup(popupMenu.getInvoker(), contents, x, y);
+        Popup popup = BasicJidePopupMenuUI.addScrollPaneIfNecessary(popupMenu, x, y);
+        return popup == null ? super.getPopup(popupMenu, x, y) : popup;
     }
 }

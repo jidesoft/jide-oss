@@ -6,7 +6,7 @@
 
 package com.jidesoft.plaf.windows;
 
-import com.jidesoft.swing.SimpleScrollPane;
+import com.jidesoft.plaf.basic.BasicJidePopupMenuUI;
 import com.sun.java.swing.plaf.windows.WindowsPopupMenuUI;
 
 import javax.swing.*;
@@ -22,11 +22,7 @@ public class WindowsJidePopupMenuUI extends WindowsPopupMenuUI {
 
     @Override
     public Popup getPopup(JPopupMenu popupMenu, int x, int y) {
-        PopupFactory popupFactory = PopupFactory.getSharedInstance();
-        SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        contents.getScrollUpButton().setOpaque(true);
-        contents.getScrollDownButton().setOpaque(true);
-        contents.setBorder(BorderFactory.createEmptyBorder());
-        return popupFactory.getPopup(popupMenu.getInvoker(), contents, x, y);
+        Popup popup = BasicJidePopupMenuUI.addScrollPaneIfNecessary(popupMenu, x, y);
+        return popup == null ? super.getPopup(popupMenu, x, y) : popup;
     }
 }
