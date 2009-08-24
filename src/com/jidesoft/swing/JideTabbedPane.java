@@ -385,174 +385,6 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        for (int i = 0; i < getComponentCount(); i++) {
-            Component comp = getComponent(i);
-            if (comp instanceof BasicJideTabbedPaneUI.TabCloseButton && comp.isVisible()) {
-                paintButtons(g, (BasicJideTabbedPaneUI.TabCloseButton) comp);
-            }
-        }
-    }
-
-    protected void paintButtons(Graphics g, BasicJideTabbedPaneUI.TabCloseButton button) {
-        if (!button.isEnabled()) {
-            button.setMouseOver(false);
-            button.setMousePressed(false);
-        }
-        int buttonX = button.getX();
-        int buttonY = button.getY();
-        if (button.isMouseOver() && button.isMousePressed()) {
-            g.setColor(UIDefaultsLookup.getColor("controlDkShadow"));
-            g.drawLine(buttonX, buttonY, buttonX + button.getWidth() - 1, buttonY);
-            g.drawLine(buttonX, buttonY + button.getHeight() - 2, buttonX, buttonY + 1);
-            g.setColor(UIDefaultsLookup.getColor("control"));
-            g.drawLine(buttonX + button.getWidth() - 1, buttonY + 1, buttonX + button.getWidth() - 1, buttonY + button.getHeight() - 2);
-            g.drawLine(buttonX + button.getWidth() - 1, buttonY + button.getHeight() - 1, buttonX, buttonY + button.getHeight() - 1);
-        }
-        else if (button.isMouseOver()) {
-            g.setColor(UIDefaultsLookup.getColor("control"));
-            g.drawLine(buttonX, buttonY, buttonX + button.getWidth() - 1, buttonY);
-            g.drawLine(buttonX, buttonY + button.getHeight() - 2, buttonX, buttonY + 1);
-            g.setColor(UIDefaultsLookup.getColor("controlDkShadow"));
-            g.drawLine(buttonX + button.getWidth() - 1, buttonY + 1, buttonX + button.getWidth() - 1, buttonY + button.getHeight() - 2);
-            g.drawLine(buttonX + button.getWidth() - 1, buttonY + button.getHeight() - 1, buttonX, buttonY + button.getHeight() - 1);
-        }
-        g.setColor(UIDefaultsLookup.getColor("controlShadow").darker());
-        int centerX = button.getWidth() >> 1;
-        int centerY = button.getHeight() >> 1;
-
-        int type = button.getType();
-        if (!getComponentOrientation().isLeftToRight() && (getTabPlacement() == TOP || getTabPlacement() == BOTTOM)) {
-            if (type == BasicJideTabbedPaneUI.TabCloseButton.EAST_BUTTON) {
-                type = BasicJideTabbedPaneUI.TabCloseButton.WEST_BUTTON;
-            }
-            else if (type == BasicJideTabbedPaneUI.TabCloseButton.WEST_BUTTON) {
-                type = BasicJideTabbedPaneUI.TabCloseButton.EAST_BUTTON;
-            }
-        }
-        switch (type) {
-            case BasicJideTabbedPaneUI.TabCloseButton.CLOSE_BUTTON:
-                if (button.isEnabled()) {
-                    g.drawLine(buttonX + centerX - 3, buttonY + centerY - 3, buttonX + centerX + 3, buttonY + centerY + 3);
-                    g.drawLine(buttonX + centerX - 4, buttonY + centerY - 3, buttonX + centerX + 2, buttonY + centerY + 3);
-                    g.drawLine(buttonX + centerX + 3, buttonY + centerY - 3, buttonX + centerX - 3, buttonY + centerY + 3);
-                    g.drawLine(buttonX + centerX + 2, buttonY + centerY - 3, buttonX + centerX - 4, buttonY + centerY + 3);
-                }
-                else {
-                    g.drawLine(buttonX + centerX - 3, buttonY + centerY - 3, buttonX + centerX + 3, buttonY + centerY + 3);
-                    g.drawLine(buttonX + centerX + 3, buttonY + centerY - 3, buttonX + centerX - 3, buttonY + centerY + 3);
-                }
-                break;
-            case BasicJideTabbedPaneUI.TabCloseButton.EAST_BUTTON:
-                //
-                // |
-                // ||
-                // |||
-                // ||||
-                // ||||*
-                // ||||
-                // |||
-                // ||
-                // |
-                //
-            {
-                if (getTabPlacement() == TOP || getTabPlacement() == BOTTOM) {
-                    int x = buttonX + centerX + 2, y = buttonY + centerY; // start point. mark as * above
-                    if (button.isEnabled()) {
-                        g.drawLine(x - 4, y - 4, x - 4, y + 4);
-                        g.drawLine(x - 3, y - 3, x - 3, y + 3);
-                        g.drawLine(x - 2, y - 2, x - 2, y + 2);
-                        g.drawLine(x - 1, y - 1, x - 1, y + 1);
-                        g.drawLine(x, y, x, y);
-                    }
-                    else {
-                        g.drawLine(x - 4, y - 4, x, y);
-                        g.drawLine(x - 4, y - 4, x - 4, y + 4);
-                        g.drawLine(x - 4, y + 4, x, y);
-                    }
-
-                }
-                else {
-                    int x = buttonX + centerX + 3, y = buttonY + centerY - 2; // start point. mark as * above
-                    if (button.isEnabled()) {
-                        g.drawLine(x - 8, y, x, y);
-                        g.drawLine(x - 7, y + 1, x - 1, y + 1);
-                        g.drawLine(x - 6, y + 2, x - 2, y + 2);
-                        g.drawLine(x - 5, y + 3, x - 3, y + 3);
-                        g.drawLine(x - 4, y + 4, x - 4, y + 4);
-                    }
-                    else {
-                        g.drawLine(x - 8, y, x, y);
-                        g.drawLine(x - 8, y, x - 4, y + 4);
-                        g.drawLine(x - 4, y + 4, x, y);
-                    }
-                }
-            }
-            break;
-            case BasicJideTabbedPaneUI.TabCloseButton.WEST_BUTTON: {
-                //
-                // |
-                // ||
-                // |||
-                // ||||
-                // *||||
-                // ||||
-                // |||
-                // ||
-                // |
-                //
-                {
-                    if (getTabPlacement() == TOP || getTabPlacement() == BOTTOM) {
-                        int x = buttonX + centerX - 3, y = buttonY + centerY; // start point. mark as * above
-                        if (button.isEnabled()) {
-                            g.drawLine(x, y, x, y);
-                            g.drawLine(x + 1, y - 1, x + 1, y + 1);
-                            g.drawLine(x + 2, y - 2, x + 2, y + 2);
-                            g.drawLine(x + 3, y - 3, x + 3, y + 3);
-                            g.drawLine(x + 4, y - 4, x + 4, y + 4);
-                        }
-                        else {
-                            g.drawLine(x, y, x + 4, y - 4);
-                            g.drawLine(x, y, x + 4, y + 4);
-                            g.drawLine(x + 4, y - 4, x + 4, y + 4);
-                        }
-                    }
-                    else {
-
-                        int x = buttonX + centerX - 5, y = buttonY + centerY + 3; // start point. mark as * above
-                        if (button.isEnabled()) {
-                            g.drawLine(x, y, x + 8, y);
-                            g.drawLine(x + 1, y - 1, x + 7, y - 1);
-                            g.drawLine(x + 2, y - 2, x + 6, y - 2);
-                            g.drawLine(x + 3, y - 3, x + 5, y - 3);
-                            g.drawLine(x + 4, y - 4, x + 4, y - 4);
-                        }
-                        else {
-                            g.drawLine(x, y, x + 8, y);
-                            g.drawLine(x, y, x + 4, y - 4);
-                            g.drawLine(x + 8, y, x + 4, y - 4);
-                        }
-                    }
-                }
-                break;
-            }
-            case BasicJideTabbedPaneUI.TabCloseButton.LIST_BUTTON: {
-                int x = buttonX + centerX + 2, y = buttonY + centerY; // start point. mark as
-                // * above
-                g.drawLine(x - 6, y - 4, x - 6, y + 4);
-                g.drawLine(x + 1, y - 4, x + 1, y + 4);
-                g.drawLine(x - 6, y - 4, x + 1, y - 4);
-                g.drawLine(x - 4, y - 2, x - 1, y - 2);
-                g.drawLine(x - 4, y, x - 1, y);
-                g.drawLine(x - 4, y + 2, x - 1, y + 2);
-                g.drawLine(x - 6, y + 4, x + 1, y + 4);
-                break;
-            }
-        }
-    }
-
     private Action _closeAction;
 
     /**
@@ -792,6 +624,8 @@ public class JideTabbedPane extends JTabbedPane {
       * Used to allow the tabswitching to be delayed until after drag/reorder opperations are done.
       */
     protected class IgnoreableSingleSelectionModel extends DefaultSingleSelectionModel {
+        private static final long serialVersionUID = -4321082126384337792L;
+
         @Override
         protected void fireStateChanged() {
             if (!_suppressStateChangedEvents) {
@@ -1088,7 +922,7 @@ public class JideTabbedPane extends JTabbedPane {
      * display title. There is no setter for display title. You control the value by using a different string
      * converter.
      *
-     * @param index
+     * @param index the index to display
      * @return the display title.
      */
     public String getDisplayTitleAt(int index) {
@@ -1112,7 +946,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Sets if the active tab is in bold.
      *
-     * @param boldActiveTab
+     * @param boldActiveTab the flag
      */
     public void setBoldActiveTab(boolean boldActiveTab) {
         boolean old = _boldActiveTab;
@@ -1189,8 +1023,9 @@ public class JideTabbedPane extends JTabbedPane {
      * <p/>
      * By default, this method always return true. Subclass can override this method to return a different value.
      *
-     * @param tabIndex
+     * @param tabIndex the tab index
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
+     * @return the flag.
      */
     public boolean isTabClosableAt(int tabIndex) {
         return !_closableMap.containsKey(tabIndex);
@@ -1204,7 +1039,7 @@ public class JideTabbedPane extends JTabbedPane {
      * <p/>
      * Please note, this attribute has effect only when {@link #isShowCloseButtonOnTab()} return true.
      *
-     * @param tabIndex
+     * @param tabIndex the tab index
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public void setTabClosableAt(int tabIndex, boolean closble) {
@@ -1224,7 +1059,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Gets the last focused component of a particular page.
      *
-     * @param pageComponent
+     * @param pageComponent the page component
      * @return the last focused component of a particular page.
      */
 
@@ -1260,7 +1095,6 @@ public class JideTabbedPane extends JTabbedPane {
                 ((Container) componentReturn).add(compTest);
             return compTest;
         }
-        ;
         return componentReturn;
     }
 
@@ -1275,6 +1109,7 @@ public class JideTabbedPane extends JTabbedPane {
 //			superVisComp = (Component) field.get(this);
         }
         catch (Exception e) {
+            // null
         }
     }
 
@@ -1741,7 +1576,7 @@ public class JideTabbedPane extends JTabbedPane {
                 Icon icon = tabbedPane.getIconForTab(index);
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
                 label.setToolTipText(tooltip);
-                Font fnt = tabbedPane.getFont();
+                Font fnt;
                 if (tabbedPane.getSelectedIndex() == index) {
                     fnt = tabbedPane.getSelectedTabFont();
                 }
@@ -1789,7 +1624,7 @@ public class JideTabbedPane extends JTabbedPane {
      * </code></pre>
      * You can create your own cell renderer either extending {@link TabListCellRenderer} or starting from scratch.
      *
-     * @param tabListCellRenderer
+     * @param tabListCellRenderer the cell renderer
      */
     public void setTabListCellRenderer(ListCellRenderer tabListCellRenderer) {
         _tabListCellRenderer = tabListCellRenderer;

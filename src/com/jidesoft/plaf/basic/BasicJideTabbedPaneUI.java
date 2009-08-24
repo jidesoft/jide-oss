@@ -7630,9 +7630,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         @Override
         protected void paintComponent(Graphics g) {
-            if (getParent() instanceof JideTabbedPane) {
-                return;
-            }
             if (!isEnabled()) {
                 setMouseOver(false);
                 setMousePressed(false);
