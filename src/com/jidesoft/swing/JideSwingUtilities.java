@@ -31,10 +31,12 @@ import javax.swing.text.View;
 import javax.swing.tree.TreeCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
@@ -1113,19 +1115,19 @@ public class JideSwingUtilities implements SwingConstants {
      * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
      * accordingly.
      *
-     * @param c the component
-     * @param fm the font metrics
-     * @param text the text
-     * @param icon the icon
-     * @param isHorizontal the flag indicating horizontal or vertical
-     * @param verticalAlignment vertical alignment model
-     * @param horizontalAlignment horizontal alignment model
-     * @param verticalTextPosition vertical text position
+     * @param c                      the component
+     * @param fm                     the font metrics
+     * @param text                   the text
+     * @param icon                   the icon
+     * @param isHorizontal           the flag indicating horizontal or vertical
+     * @param verticalAlignment      vertical alignment model
+     * @param horizontalAlignment    horizontal alignment model
+     * @param verticalTextPosition   vertical text position
      * @param horizontalTextPosition horizontal text position
-     * @param viewR view rectangle
-     * @param iconR icon rectangle
-     * @param textR text rectangle
-     * @param textIconGap the gap between the text and the gap
+     * @param viewR                  view rectangle
+     * @param iconR                  icon rectangle
+     * @param textR                  text rectangle
+     * @param textIconGap            the gap between the text and the gap
      * @return the string after layout.
      */
     public static String layoutCompoundLabel(JComponent c,
@@ -2120,12 +2122,155 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
+    private static Class<?> _radialGradientPaintClass;
+    private static Constructor<?> _radialGradientPaintConstructor1;
+    private static Constructor<?> _radialGradientPaintConstructor2;
+
+    /**
+     * Gets the RadialGradientPaint. RadialGradientPaint is added after JDK6. If you are running JDK5 or before, you can
+     * include batik-awt-util.jar which also has a RadialGradientPaint class. This method will use reflection to
+     * determine if the RadialGradientPaint class is in the class path and use the one it can find.
+     */
+    public static Paint getRadialGradientPaint(Point2D point, float radius, float[] fractions, Color[] colors) {
+        Class<?> radialGradientPaintClass = null;
+        try {
+            if (SystemInfo.isJdk6Above()) {
+                radialGradientPaintClass = Class.forName("java.awt.RadialGradientPaint");
+            }
+            else {
+                radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
+            }
+        }
+        catch (ClassNotFoundException e1) {
+            // ignore
+        }
+        if (radialGradientPaintClass != null) {
+            try {
+                if (_radialGradientPaintConstructor2 == null) {
+                    _radialGradientPaintConstructor2 = radialGradientPaintClass.getConstructor(new Class[]{Point2D.class, float.class, float[].class, Color[].class});
+                }
+                final Object radialGradientPaint = _radialGradientPaintConstructor2.newInstance(point, radius, fractions, colors);
+                return (Paint) radialGradientPaint;
+            }
+            catch (NoSuchMethodException e) {
+                // ignore
+            }
+            catch (InstantiationException e) {
+                // ignore
+            }
+            catch (IllegalAccessException e) {
+                // ignore
+            }
+            catch (InvocationTargetException e) {
+                // ignore
+            }
+        }
+
+        System.err.println("Warning - radial gradients are only supported in Java 6 and higher or use batik-aw-util.jar, using a plain color instead"); //$NON-NLS-1$
+        return colors[0];
+    }
+
+    /**
+     * Gets the RadialGradientPaint. RadialGradientPaint is added after JDK6. If you are running JDK5 or before, you can
+     * include batik-awt-util.jar which also has a RadialGradientPaint class. This method will use reflection to
+     * determine if the RadialGradientPaint class is in the class path and use the one it can find.
+     */
+    public static Paint getRadialGradientPaint(float cx, float cy, float radius, float[] fractions, Color[] colors) {
+        if (_radialGradientPaintClass == null) {
+            try {
+                if (SystemInfo.isJdk6Above()) {
+                    _radialGradientPaintClass = Class.forName("java.awt.RadialGradientPaint");
+                }
+                else {
+                    _radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
+                }
+            }
+            catch (ClassNotFoundException e1) {
+                // ignore
+            }
+        }
+        if (_radialGradientPaintClass != null) {
+            try {
+                if (_radialGradientPaintConstructor1 == null) {
+                    _radialGradientPaintConstructor1 = _radialGradientPaintClass.getConstructor(new Class[]{float.class, float.class, float.class, float[].class, Color[].class});
+                }
+                final Object radialGradientPaint = _radialGradientPaintConstructor1.newInstance(cx, cy, radius, fractions, colors);
+                return (Paint) radialGradientPaint;
+            }
+            catch (NoSuchMethodException e) {
+                // ignore
+            }
+            catch (InstantiationException e) {
+                // ignore
+            }
+            catch (IllegalAccessException e) {
+                // ignore
+            }
+            catch (InvocationTargetException e) {
+                // ignore
+            }
+        }
+
+        System.err.println("Warning - radial gradients are only supported in Java 6 and higher or use batik-aw-util.jar, using a plain color instead"); //$NON-NLS-1$
+        return colors[0];
+    }
+
+    private static Class<?> _linearGradientPaintClass;
+    private static Constructor<?> _linearGradientPaintConstructor1;
+    private static Constructor<?> _linearGradientPaintConstructor2;
+
+    /**
+     * Gets the LinearGradientPaint. LinearGradientPaint is added after JDK6. If you are running JDK5 or before, you can
+     * include batik-awt-util.jar which also has a LinearGradientPaint class. This method will use reflection to
+     * determine if the LinearGradientPaint class is in the class path and use the one it can find.
+     */
+    public static Paint getLinearGradientPaint(float startX, float startY, float endX, float endY, float[] fractions, Color[] colors) {
+        if (_linearGradientPaintClass == null) {
+            try {
+                if (SystemInfo.isJdk6Above()) {
+                    _linearGradientPaintClass = Class.forName("java.awt.LinearGradientPaint");
+                }
+                else {
+                    _linearGradientPaintClass = Class.forName("org.apache.batik.ext.awt.LinearGradientPaint");
+                }
+            }
+            catch (ClassNotFoundException e1) {
+                // ignore
+            }
+        }
+        if (_linearGradientPaintClass != null) {
+            try {
+                if (_linearGradientPaintConstructor1 == null) {
+                    _linearGradientPaintConstructor1 = _linearGradientPaintClass.getConstructor(new Class[]{float.class, float.class, float.class, float.class, float[].class, Color[].class});
+                }
+                final Object linearGradientPaint = _linearGradientPaintConstructor1.newInstance(startX, startY, endX, endY, fractions, colors);
+                return (Paint) linearGradientPaint;
+            }
+            catch (NoSuchMethodException e) {
+                // ignore
+            }
+            catch (InstantiationException e) {
+                // ignore
+            }
+            catch (IllegalAccessException e) {
+                // ignore
+            }
+            catch (InvocationTargetException e) {
+                // ignore
+            }
+        }
+
+        System.err.println("Warning - linear gradients are only supported in Java 6 and higher or use batik-aw-util.jar, using a plain color instead"); //$NON-NLS-1$
+        return colors[0];
+    }
+
     /**
      * containerContainsFocus, does the specified container contain the current focusOwner?
      *
      * @param cont the specified container
      * @return Is the current focusOwner a descendant of the specified container, or the container itself?
      */
+
     public static boolean containerContainsFocus(Container cont) {
         Component focusOwner =
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
@@ -2692,7 +2837,7 @@ public class JideSwingUtilities implements SwingConstants {
         int w = rect.width;
         int h = rect.height;
 
-        // top
+// top
         g.drawImage(img.getImage(), x, y, x + left, y + top,
                 0, 0, left, top, null);
         g.drawImage(img.getImage(), x + left, y, x + w - right, y + top,
@@ -2700,7 +2845,7 @@ public class JideSwingUtilities implements SwingConstants {
         g.drawImage(img.getImage(), x + w - right, y, x + w, y + top,
                 img.getIconWidth() - right, 0, img.getIconWidth(), top, null);
 
-        // middle
+// middle
         g.drawImage(img.getImage(), x, y + top, x + left, y + h - bottom,
                 0, top, left, img.getIconHeight() - bottom, null);
         g.drawImage(img.getImage(), x + left, y + top, x + w - right, y + h - bottom,
@@ -2708,7 +2853,7 @@ public class JideSwingUtilities implements SwingConstants {
         g.drawImage(img.getImage(), x + w - right, y + top, x + w, y + h - bottom,
                 img.getIconWidth() - right, top, img.getIconWidth(), img.getIconHeight() - bottom, null);
 
-        // bottom
+// bottom
         g.drawImage(img.getImage(), x, y + h - bottom, x + left, y + h,
                 0, img.getIconHeight() - bottom, left, img.getIconHeight(), null);
         g.drawImage(img.getImage(), x + left, y + h - bottom, x + w - right, y + h,
@@ -3055,7 +3200,7 @@ public class JideSwingUtilities implements SwingConstants {
      * Get the index of the component in the container. It will return -1 if c's parent is not container.
      *
      * @param container the container
-     * @param c the component
+     * @param c         the component
      * @return the index
      */
     public static int getComponentIndex(Container container, Component c) {
@@ -3090,8 +3235,8 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static void ensureRowVisible(JTable table, int row) {
         Rectangle r = table.getVisibleRect();
-        // Hack! make above and below visible if necessary
-        // TODO: how to center it or make it the first?
+// Hack! make above and below visible if necessary
+// TODO: how to center it or make it the first?
         Rectangle rMid = table.getCellRect(row, 0, true);
         Rectangle rBefore = null, rAfter = null;
         if (row < table.getModel().getRowCount() - 1)
@@ -3444,9 +3589,9 @@ public class JideSwingUtilities implements SwingConstants {
     public static void setTextComponentTransparent(JTextComponent textComponent) {
         textComponent.setOpaque(false);
 
-        // add this for the Synthetica
+// add this for the Synthetica
         textComponent.putClientProperty("Synthetica.opaque", false);
-        // add this for Nimbus to disable all the painting of a component in Nimbus
+// add this for Nimbus to disable all the painting of a component in Nimbus
         textComponent.putClientProperty("Nimbus.Overrides.InheritDefaults", false);
         textComponent.putClientProperty("Nimbus.Overrides", new UIDefaults());
 
@@ -3457,9 +3602,8 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param a   the array to search
      * @param key the key to search for
-     * @return the index of the given key if it exists in the array,
-     *         otherwise -1 times the index value at the insertion point that
-     *         would be used if the key were added to the array.
+     * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
+     *         point that would be used if the key were added to the array.
      */
     public static int binarySearch(Object[] a, Object key) {
         int x1 = 0;

@@ -8,13 +8,13 @@ package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.office2003.Office2003Painter;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.office2003.Office2003Painter;
+import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SystemInfo;
 
@@ -131,7 +131,7 @@ public class Office2007Painter extends BasicPainter {
         }
         else if (state == STATE_ROLLOVER) {
             if (h != 0) {
-                LinearGradientPaint lgp = new LinearGradientPaint(x, y, x, y + h,
+                Paint lgp = JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h,
                         new float[]{.0f, .5f, 1f},
                         new Color[]{new Color(0xd8ca96), new Color(0xb9a074), new Color(0xb8a98e)});
                 gfx.setPaint(lgp);
@@ -142,7 +142,7 @@ public class Office2007Painter extends BasicPainter {
             gfx.setPaint(new GradientPaint(x, y + h, new Color(0xbbae97), x + (w >> 1), y + h, new Color(0xcbc3aa), true));
             gfx.drawLine(x + 1, y + h - 1, x + w - 2, y + h - 1);
             if (h - 1 != 0) {
-                gfx.setPaint(new LinearGradientPaint(x + w - 1, y, x + w - 1, y + h - 1,
+                gfx.setPaint(JideSwingUtilities.getLinearGradientPaint(x + w - 1, y, x + w - 1, y + h - 1,
                         new float[]{.0f, .5f, 1f},
                         new Color[]{new Color(0xdcce9a), new Color(0xc3ab7a), new Color(0xd2ceb9)}));
             }
@@ -235,7 +235,7 @@ public class Office2007Painter extends BasicPainter {
         else if (state == STATE_ROLLOVER) {
             if (c.getClientProperty(IS_MENU_PART_BUTTON) == Boolean.TRUE) {
                 if (1 != height - 2) {
-                    g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                    g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
                             new float[]{0f, .5f, .51f, 1f},
                             new Color[]{new Color(0xfffee2), new Color(0xffdc73), new Color(0xffd660), new Color(0xffeaa8)}));
                 }
@@ -248,12 +248,12 @@ public class Office2007Painter extends BasicPainter {
                 g2d.setPaint(new GradientPaint(x, y, new Color(0xfff792), x + width >> 1, y, new Color(0xFFFFFF), true));
                 g2d.drawLine(x, y + height - 2, x + width, y + height - 2);
                 if (2 != height - 4) {
-                    g2d.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
+                    g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
                             new float[]{0f, .36f, .37f, .38f, 1f},
                             new Color[]{new Color(0xfffddf), new Color(0xffe794), new Color(0xfed160), new Color(0xfecd58), new Color(0xffe794)}));
                 }
                 g2d.fillRect(x + 2, y + 2, width - 4, height - 4);
-//                g2d.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
+//                g2d.setPaint(JideSwingUtilities.getRadialGradientPaint(x + width >> 1, y + height - 4, (int) (height * .53f),
 //                        new float[]{0f, 1f},
 //                        new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
 //                Composite oldComp = g2d.getComposite();
@@ -270,7 +270,7 @@ public class Office2007Painter extends BasicPainter {
         }
         else if (state == STATE_DEFAULT) {
             if (1 != height - 2) {
-                g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
                         new float[]{0f, .5f, .51f, 1f},
                         new Color[]{new Color(0xe8f1fc), new Color(0xe8f1fc), new Color(0xd2e1f4), new Color(0xebf3fd)}));
             }
@@ -295,7 +295,7 @@ public class Office2007Painter extends BasicPainter {
 
         // base background
         if (1 != height - 2) {
-            gfx.setPaint(new LinearGradientPaint(x + 1, y + 1, x + width - 2, y + height - 2,
+            gfx.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + width - 2, y + height - 2,
                     new float[]{0f, .6f, .61f, 1f},
                     baseColors));
         }
@@ -306,19 +306,19 @@ public class Office2007Painter extends BasicPainter {
         base.subtract(new Area(new Rectangle(x + 2, y + height - 3, 1, 1)));
         base.subtract(new Area(new Rectangle(x + width - 3, y + height - 3, 1, 1)));
         if (2 != height - 4) {
-            gfx.setPaint(new LinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
+            gfx.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 2, y + 2, x + 2, y + height - 4,
                     new float[]{.39f, .4f, 1f},
                     innerBackgroundColors));
         }
         //new Color[]{new Color(0xfda868), new Color(0xfc8f3d), new Color(0xfcb33d)}));
         gfx.fill(base);
         // highlight
-        int h = (int) (height * .53f);
-        if (h > 0) {
-            gfx.setPaint(new RadialGradientPaint(x + width >> 1, y + height - 4, h,
-                    new float[]{0f, 1f},
-                    new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
-        }
+//        int h = (int) (height * .53f);
+//        if (h > 0) {
+//            gfx.setPaint(JideSwingUtilities.getRadialGradientPaint(x + width >> 1, y + height - 4, h,
+//                    new float[]{0f, 1f},
+//                    new Color[]{new Color(0xFFFFFFFF, true), new Color(0x00FFFFFF, true)}));
+//        }
 //        Composite oldComp = gfx.getComposite();
 //        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .20f));
 //        gfx.fill(base);
@@ -448,7 +448,7 @@ public class Office2007Painter extends BasicPainter {
             colors[i] = ColorUtils.getDerivedColor(color, .47f);
         }
         if (1 != height - 2) {
-            g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+            g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
                     new float[]{0f, .5f, .51f, 1f},
                     colors));
         }
@@ -476,7 +476,7 @@ public class Office2007Painter extends BasicPainter {
             colors[i] = ColorUtils.getDerivedColor(color, .48f);
         }
         if (height != 0) {
-            g2d.setPaint(new LinearGradientPaint(x, y, x, y + height,
+            g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x, y + height,
                     new float[]{0f, .5f, .51f, 1f},
                     colors));
         }
@@ -550,7 +550,7 @@ public class Office2007Painter extends BasicPainter {
         g2d.drawLine(x, y, x, y + h);
         g2d.setColor(old);
         if (h != 0) {
-            g2d.setPaint(new LinearGradientPaint(x + 1, y + 1, x + 1, y + h - 1,
+            g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + h - 1,
                     new float[]{0f, .333f, .334f, 1f},
                     colors));
         }
@@ -614,10 +614,10 @@ public class Office2007Painter extends BasicPainter {
                     Color color = colors[i];
                     newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
                 }
-                g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
             }
             else {
-                g2d.setPaint(new LinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
             }
             g2d.fillRect(x, y, w, h);
             g2d.dispose();
@@ -644,10 +644,10 @@ public class Office2007Painter extends BasicPainter {
                     Color color = colors[i];
                     newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
                 }
-                g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, newColors));
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, newColors));
             }
             else {
-                g2d.setPaint(new LinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, colors));
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x + w, y, new float[]{0f, .5f, 1f}, colors));
             }
             g2d.fillRect(x, y, w, h);
             g2d.dispose();
