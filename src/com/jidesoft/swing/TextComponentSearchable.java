@@ -247,33 +247,41 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        hidePopup();
-        _text = null;
-        if (evt.getOldValue() instanceof Document) {
-            ((Document) evt.getNewValue()).removeDocumentListener(this);
+        if (isProcessModelChangeEvent()) {
+            hidePopup();
+            _text = null;
+            if (evt.getOldValue() instanceof Document) {
+                ((Document) evt.getNewValue()).removeDocumentListener(this);
+            }
+            if (evt.getNewValue() instanceof Document) {
+                ((Document) evt.getNewValue()).addDocumentListener(this);
+            }
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
         }
-        if (evt.getNewValue() instanceof Document) {
-            ((Document) evt.getNewValue()).addDocumentListener(this);
-        }
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
 
     public void insertUpdate(DocumentEvent e) {
-        hidePopup();
-        _text = null;
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        if (isProcessModelChangeEvent()) {
+            hidePopup();
+            _text = null;
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        }
     }
 
     public void removeUpdate(DocumentEvent e) {
-        hidePopup();
-        _text = null;
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        if (isProcessModelChangeEvent()) {
+            hidePopup();
+            _text = null;
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        }
     }
 
     public void changedUpdate(DocumentEvent e) {
-        hidePopup();
-        _text = null;
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        if (isProcessModelChangeEvent()) {
+            hidePopup();
+            _text = null;
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
+        }
     }
 
     @Override
