@@ -256,26 +256,4 @@ public class ColorUtils {
         int gray = (int) (c.getRed() * 0.3 + c.getGreen() * 0.59 + c.getBlue() * 0.11);
         return new Color(gray, gray, gray);
     }
-
-    /**
-     * Intensify a color by applying the supplied offset
-     *
-     * @param c
-     * @param offset
-     * @return
-     */
-    public static Color intensify(Color c, int offset) {
-        return new Color(color(c.getRed(), offset), color(c.getGreen(), offset), color(c.getBlue(), offset));
-    }
-
-    private static int color(int orig, int offset) {
-        int col = orig + offset;
-        if (col < 0) {
-            col = 0;
-        }
-        else if (col > 255) {
-            col = 255;
-        }
-        return col;
-    }
 }
