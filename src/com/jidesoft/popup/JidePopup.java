@@ -586,6 +586,28 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     /**
+     * Get the insets so that when the JidePopup is dragged back to this area, the JidePopup will jump to its original
+     * position automatically.
+     * <p/>
+     * By default, the value is {10, 10, 10, 10}. You can disable the jump functionality by setting the insets to {0, 0, 0, 0}.
+     *
+     * @return the insets.
+     */
+    public Insets getBackToOriginalInsets() {
+        return _backToOriginalInsets;
+    }
+
+    /**
+     * Set the insets so that when the JidePopup is dragged back to this area, the JidePopup will jump to its original
+     * position automatically.
+     *
+     * @param backToOriginalInsets the insets
+     */
+    public void setBackToOriginalInsets(Insets backToOriginalInsets) {
+        _backToOriginalInsets = backToOriginalInsets;
+    }
+
+    /**
      * This class implements accessibility support for the <code>Popup</code> class.  It provides an implementation of
      * the Java Accessibility API appropriate to popup user-interface elements.
      */
@@ -1521,10 +1543,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
     }
 
-    final int AROUND_SIZE = 10;
+    private Insets _backToOriginalInsets = new Insets(10, 10, 10, 10);
 
     boolean isWithinAroundArea(Point p, Point newPoint) {
-        Rectangle rect = new Rectangle(p.x - AROUND_SIZE, p.y - AROUND_SIZE, p.x + AROUND_SIZE, p.y + AROUND_SIZE);
+        if (getBackToOriginalInsets().left == 0 && getBackToOriginalInsets().top == 0 && getBackToOriginalInsets().right == 0 && getBackToOriginalInsets().bottom == 0) {
+            return false;
+        }
+        Rectangle rect = new Rectangle(p.x - getBackToOriginalInsets().left, p.y - getBackToOriginalInsets().top, p.x + getBackToOriginalInsets().right, p.y + getBackToOriginalInsets().bottom);
         return rect.contains(newPoint);
     }
 
@@ -1723,7 +1748,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     private static boolean doUnpostPopupOnDeactivation() {
         if (!checkedUnpostPopup) {
             unpostPopup = (Boolean) java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction() {
+                    new java.security.PrivilegedAction<Object>() {
                         public Object run() {
                             String pKey = "sun.swing.unpostPopupsOnWindowDeactivation";
                             String value = System.getProperty(pKey, "true");
@@ -1984,7 +2009,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
         try {
             java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction() {
+                    new java.security.PrivilegedAction<Object>() {
                         public Object run() {
                             Toolkit.getDefaultToolkit().addAWTEventListener(_awtEventListener, AWTEvent.MOUSE_EVENT_MASK
                                     | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK | AWTEvent.COMPONENT_EVENT_MASK);
@@ -2017,7 +2042,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
         try {
             java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction() {
+                    new java.security.PrivilegedAction<Object>() {
                         public Object run() {
                             Toolkit.getDefaultToolkit().removeAWTEventListener(_awtEventListener);
                             _awtEventListener = null;
