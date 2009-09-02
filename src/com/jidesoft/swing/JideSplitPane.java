@@ -986,8 +986,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     }
                     continue;
                 }
-                boolean visiblePrev = getComponent(i - 1).isVisible();
-                boolean visibleNext = getComponent(i + 1).isVisible();
+                boolean visiblePrev = i - 1 >= 0 && getComponent(i - 1).isVisible();
+                boolean visibleNext = i + 1 < getComponentCount() && getComponent(i + 1).isVisible();
                 if (visiblePrev && visibleNext) {
                     comp.setVisible(true);
                 }
