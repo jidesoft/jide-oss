@@ -124,7 +124,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _searchable = searchable;
         _searchable.addSearchableListener(new SearchableListener() {
             public void searchableEventFired(SearchableEvent e) {
-                if (e.getID() == SearchableEvent.SEARCHABLE_MODEL_CHANGE) {
+                if (e.getID() == SearchableEvent.SEARCHABLE_MODEL_CHANGE && _searchable.getSearchingText() != null && _searchable.getSearchingText().length() != 0) {
                     highlightAllOrNext();
                 }
             }
