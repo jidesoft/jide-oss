@@ -14,27 +14,25 @@ import java.awt.image.BufferedImage;
  */
 @SuppressWarnings("serial")
 class ScrollPaneOverview extends JComponent {
+    
     private static final int MAX_SIZE = 400;
+    private static final int MAX_SCALE = 20;
 
     private Component _owner;
-
     private JScrollPane _scrollPane;
-
     private Component _viewComponent;
 
     private JPopupMenu _popupMenu;
 
     private BufferedImage _image;
-
     private Rectangle _startRectangle;
-
     private Rectangle _rectangle;
-
     private Point _startPoint;
-
     private double _scale;
+    private int xOffset;
+    private int yOffset;
 
-    private Color _selectionBorder;
+    private Color _selectionBorder = Color.BLACK;
 
     public ScrollPaneOverview(JScrollPane scrollPane, Component owner) {
         _scrollPane = scrollPane;
@@ -129,23 +127,37 @@ class ScrollPaneOverview extends JComponent {
 
         int maxSize = Math.max(MAX_SIZE, Math.max(_scrollPane.getWidth(), _scrollPane.getHeight()) / 2);
 
-        double width = _viewComponent.getWidth();
+        int width = Math.min(_viewComponent.getWidth(), _scrollPane.getViewport().getWidth() * MAX_SCALE);
         if (width == 0) {
             return;
         }
-        double height = _viewComponent.getHeight();
+        int height = Math.min(_viewComponent.getHeight(), _scrollPane.getViewport().getHeight() * MAX_SCALE);
         if (height == 0) {
             return;
         }
-        double scaleX = maxSize / width;
-        double scaleY = maxSize / height;
+        double scaleX = (double) maxSize / width;
+        double scaleY = (double) maxSize / height;
 
-        _scale = Math.min(scaleX, scaleY);
+        _scale = Math.max(1.0 / MAX_SCALE, Math.min(scaleX, scaleY));
 
         _image = new BufferedImage((int) (width * _scale), (int) (height * _scale), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = _image.createGraphics();
 
+        // If the view is larger than the max scale allows only the the top left most part will now be painted
+        // One solution would be paint only the part around the current position, but I can't get it to paint - Walter Laan.
+        // note that without limiting the scale, the width/height will become zero (illegal for BufferedImage)
+        // See CornerScrollerVisualTest in the test folder
+        
+//        g.setColor(_viewComponent.getBackground());
+//        g.fillRect(0, 0, _viewComponent.getWidth(), _viewComponent.getHeight());
+//        Point viewPosition = _scrollPane.getViewport().getViewPosition();
+//        xOffset = Math.max(0, viewPosition.x - (width / 2)); 
+//        yOffset = Math.max(0, viewPosition.y - (height / 2)); 
+//        g.translate(-xOffset, -yOffset);
+//        g.setClip(xOffset, yOffset, width, height);
+        
         g.scale(_scale, _scale);
+        g.setClip(0, 0, _image.getWidth(), _image.getHeight());
         /// {{{ Qian Qian 10/72007
         boolean wasDoubleBuffered = _viewComponent.isDoubleBuffered();
         try {
@@ -191,8 +203,8 @@ class ScrollPaneOverview extends JComponent {
     private void scroll(int aDeltaX, int aDeltaY) {
         JComponent component = (JComponent) _scrollPane.getViewport().getView();
         Rectangle rect = component.getVisibleRect();
-        rect.x += aDeltaX;
-        rect.y += aDeltaY;
+        rect.x += xOffset + aDeltaX;
+        rect.y += yOffset + aDeltaY;
         component.scrollRectToVisible(rect);
         _popupMenu.setVisible(false);
     }
