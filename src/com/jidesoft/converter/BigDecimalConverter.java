@@ -1,6 +1,7 @@
 package com.jidesoft.converter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 /**
@@ -10,6 +11,24 @@ public class BigDecimalConverter extends NumberFormatConverter {
 
     public BigDecimalConverter() {
         super(new DecimalFormat("#,##0.00"));
+    }
+
+    @Override
+    public Object fromString(String string, ConverterContext context) {
+        Object value = super.fromString(string, context);
+        if (value instanceof Double) {
+            return new BigDecimal((Double) value);
+        }
+        else if (value instanceof Long) {
+            return new BigDecimal((Long) value);
+        }
+        else if (value instanceof Integer) {
+            return new BigDecimal((Integer) value);
+        }
+        else if (value instanceof BigInteger) {
+            return new BigDecimal((BigInteger) value);
+        }
+        return value;
     }
 
     @Override
