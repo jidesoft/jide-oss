@@ -92,8 +92,12 @@ public class TableSearchable extends Searchable implements TableModelListener, P
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else { // cell selection allowed
-            majorIndex = index / table.getColumnCount();
-            minorIndex = index % table.getColumnCount();
+            int columnCount = table.getColumnCount();
+            if (columnCount == 0) {
+                return;
+            }
+            majorIndex = index / columnCount;
+            minorIndex = index % columnCount;
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
     }
