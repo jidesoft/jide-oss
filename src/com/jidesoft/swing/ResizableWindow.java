@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * A resizable window.
@@ -61,7 +63,7 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
                             container.setPreferredSize(new Dimension(newW, newH));
                         }
                         else if (container instanceof JComponent) {
-                            ((JComponent) container).setPreferredSize(new Dimension(newW, newH));
+                            container.setPreferredSize(new Dimension(newW, newH));
                         }
                         ResizableWindow.this.setBounds(newX, newY, newW, newH);
                         ResizableWindow.this.resizing();
@@ -94,6 +96,34 @@ public class ResizableWindow extends JWindow implements ResizableSupport {
                 boolean processed = super.processKeyBinding(ks, e, condition, pressed);
                 if (processed || e.isConsumed() || !isRoutingKeyStrokes())
                     return processed;
+
+                // check if the root pane of the source component has any registered action
+                if (e.getSource() instanceof JComponent) {
+                    JRootPane rootPane = ((JComponent) e.getSource()).getRootPane();
+                    Class componentClass = rootPane.getClass();
+                    while (componentClass != JComponent.class && componentClass != null) {
+                        componentClass = componentClass.getSuperclass();
+                    }
+                    try {
+                        if (componentClass != null) {
+                            Method m = componentClass.getDeclaredMethod("processKeyBinding", new Class[]{KeyStroke.class, KeyEvent.class, int.class, boolean.class});
+                            m.setAccessible(true);
+                            processed = (Boolean) m.invoke(rootPane, ks, e, JComponent.WHEN_IN_FOCUSED_WINDOW, pressed);
+                        }
+                    }
+                    catch (NoSuchMethodException e1) {
+                        e1.printStackTrace();
+                    }
+                    catch (InvocationTargetException e1) {
+                        e1.printStackTrace();
+                    }
+                    catch (IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                if (processed || e.isConsumed()) {
+                    return processed;
+                }
 
                 Component routingParent = getRoutingComponent();
                 if (routingParent == null) {

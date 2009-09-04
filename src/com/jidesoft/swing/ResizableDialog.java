@@ -128,6 +128,7 @@ public class ResizableDialog extends JDialog implements ResizableSupport {
                 if (processed || e.isConsumed() || !isRoutingKeyStrokes())
                     return processed;
 
+                // check if the root pane of the source component has any registered action
                 if (e.getSource() instanceof JComponent) {
                     JRootPane rootPane = ((JComponent) e.getSource()).getRootPane();
                     Class componentClass = rootPane.getClass();
