@@ -154,10 +154,10 @@ class ScrollPaneOverview extends JComponent {
 //        xOffset = Math.max(0, viewPosition.x - (width / 2)); 
 //        yOffset = Math.max(0, viewPosition.y - (height / 2)); 
 //        g.translate(-xOffset, -yOffset);
-//        g.setClip(xOffset, yOffset, width, height);
+//        g.setClip(0, 0, width, height);
         
         g.scale(_scale, _scale);
-        g.setClip(0, 0, _image.getWidth(), _image.getHeight());
+        g.setClip(xOffset, yOffset, width, height);
         /// {{{ Qian Qian 10/72007
         boolean wasDoubleBuffered = _viewComponent.isDoubleBuffered();
         try {
