@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * <tt>Calculator</tt> is a component that can do simple arithmetic calculation. Since it extends JPanel, you can use it
@@ -92,6 +94,7 @@ public class Calculator extends JPanel implements ActionListener {
     private AbstractButton _clearButton;
     private AbstractButton _negativeButton;
     private AbstractButton[] _numberButtons;
+    private char _actualCharPoint;
 
     private NumberFormat _displayFormat;
 
@@ -128,9 +131,22 @@ public class Calculator extends JPanel implements ActionListener {
     public Calculator() {
         _op1 = new StringBuffer();
         _op2 = new StringBuffer();
-        initComponents();
         _displayFormat = NumberFormat.getNumberInstance();
         configureNumberFormat();
+        initComponents();
+        registerKeyboardActions(this, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    @Override
+    public void setLocale(Locale l) {
+        unregisterKeyboardActions(this);
+        super.setLocale(l);
+        _op1 = new StringBuffer();
+        _op2 = new StringBuffer();
+        _displayFormat = NumberFormat.getNumberInstance(getLocale());
+        configureNumberFormat();
+        _actualCharPoint = getDisplayFormat().format(2.01).charAt(1);
+        _pointButton.setText("" + _actualCharPoint);
         registerKeyboardActions(this, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
@@ -208,7 +224,7 @@ public class Calculator extends JPanel implements ActionListener {
         component.registerKeyboardAction(this, "" + CHAR_7, KeyStroke.getKeyStroke(CHAR_7), condition);
         component.registerKeyboardAction(this, "" + CHAR_8, KeyStroke.getKeyStroke(CHAR_8), condition);
         component.registerKeyboardAction(this, "" + CHAR_9, KeyStroke.getKeyStroke(CHAR_9), condition);
-        component.registerKeyboardAction(this, "" + CHAR_POINT, KeyStroke.getKeyStroke(CHAR_POINT), condition);
+        component.registerKeyboardAction(this, "" + _actualCharPoint, KeyStroke.getKeyStroke(_actualCharPoint), condition);
         component.registerKeyboardAction(this, "" + CHAR_BACKSPACE, KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), condition);
         if (!isCellEditor)
             component.registerKeyboardAction(this, "" + CHAR_CLEAR, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), condition);
@@ -241,7 +257,7 @@ public class Calculator extends JPanel implements ActionListener {
         component.unregisterKeyboardAction(KeyStroke.getKeyStroke(CHAR_7));
         component.unregisterKeyboardAction(KeyStroke.getKeyStroke(CHAR_8));
         component.unregisterKeyboardAction(KeyStroke.getKeyStroke(CHAR_9));
-        component.unregisterKeyboardAction(KeyStroke.getKeyStroke(CHAR_POINT));
+        component.unregisterKeyboardAction(KeyStroke.getKeyStroke(_actualCharPoint));
         component.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
         if (!isCellEditor) component.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
         component.unregisterKeyboardAction(KeyStroke.getKeyStroke(Character.toUpperCase(CHAR_CLEAR)));
@@ -258,7 +274,8 @@ public class Calculator extends JPanel implements ActionListener {
         for (int i = 0; i <= 9; i++) {
             add(_numberButtons[i] = createButton("" + i));
         }
-        add(_pointButton = createButton("."));
+        _actualCharPoint = getDisplayFormat().format(2.01).charAt(1);
+        add(_pointButton = createButton("" + _actualCharPoint));
         add(_equalButton = createButton("="));
         add(_backspaceButton = createButton(null, new BackspaceIcon()));
         add(_negativeButton = createButton(null, new ToggleNegativeIcon()));
@@ -388,14 +405,14 @@ public class Calculator extends JPanel implements ActionListener {
             return;
         }
 
-        if (Character.isDigit(c) || CHAR_POINT == c) {
+        if (Character.isDigit(c) || _actualCharPoint == c) {
             if (_clearOperatorPending) {
                 setOperator(OPERATOR_NONE);
                 _op1.setLength(0);
                 _clearOperatorPending = false;
             }
             if (getOperator() == OPERATOR_NONE) {
-                if (CHAR_POINT != c || _op1.indexOf("" + CHAR_POINT) == -1) {
+                if (_actualCharPoint != c || _op1.indexOf("" + _actualCharPoint) == -1) {
                     _op1.append(c);
                     _backspaceOp1 = true;
                     _backspaceOp2 = false;
@@ -406,7 +423,7 @@ public class Calculator extends JPanel implements ActionListener {
                 }
             }
             else {
-                if (CHAR_POINT != c || _op2.indexOf("" + CHAR_POINT) == -1) {
+                if (_actualCharPoint != c || _op2.indexOf("" + _actualCharPoint) == -1) {
                     _op2.append(c);
                     _backspaceOp2 = true;
                     _backspaceOp1 = false;
@@ -538,8 +555,16 @@ public class Calculator extends JPanel implements ActionListener {
         else if (_op2.length() == 0) {
             return;
         }
-        double op1 = Double.parseDouble(_op1.toString());
-        double op2 = Double.parseDouble(_op2.toString());
+        Double op1;
+        Double op2;
+        try {
+            op1 = getDisplayFormat().parse(_op1.toString()).doubleValue();
+            op2 = getDisplayFormat().parse(_op2.toString()).doubleValue();
+        }
+        catch (ParseException e) {
+            op1 = 0.0;
+            op2 = 0.0;
+        }
         if (!_isFakedEqualPressed) {
             try {
                 switch (getOperator()) {
@@ -748,16 +773,11 @@ public class Calculator extends JPanel implements ActionListener {
             input(CHAR_DIVIDE);
         }
         else if (_equalButton == source) {
-            if (e.getActionCommand() != null && e.getActionCommand().equals("Faked")) {
-                _isFakedEqualPressed = true;
-            }
-            else {
-                _isFakedEqualPressed = false;
-            }
+            _isFakedEqualPressed = e.getActionCommand() != null && e.getActionCommand().equals("Faked");
             input(CHAR_EQUAL);
         }
         else if (_pointButton == source) {
-            input(CHAR_POINT);
+            input(_actualCharPoint);
         }
         else if (_negativeButton == source) {
             input(CHAR_NEGATIVE);
@@ -799,6 +819,10 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     private void fakePressButton(char c) {
+        if (c == _actualCharPoint) {
+            fakePressButton(_pointButton);
+            return;
+        }
         switch (c) {
             case CHAR_CLEAR:
                 fakePressButton(_clearButton);
@@ -808,9 +832,6 @@ public class Calculator extends JPanel implements ActionListener {
                 break;
             case CHAR_EQUAL:
                 fakePressButton(_equalButton);
-                break;
-            case CHAR_POINT:
-                fakePressButton(_pointButton);
                 break;
             case CHAR_NEGATIVE:
                 fakePressButton(_negativeButton);
@@ -927,7 +948,7 @@ public class Calculator extends JPanel implements ActionListener {
     /**
      * Gets the gap between buttons. Default is 2.
      *
-     * @return the gapbetweenn buttons.
+     * @return the gap between buttons.
      */
     public int getButtonGap() {
         return _buttonGap;
