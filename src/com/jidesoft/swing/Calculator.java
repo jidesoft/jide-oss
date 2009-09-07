@@ -77,6 +77,7 @@ public class Calculator extends JPanel implements ActionListener {
     private boolean _backspaceOp2 = false;
     private boolean _clearOperatorPending = false;
     private boolean _isFakedEqualPressed = false; // When it is true, it means the focus is lost. So the result should not be updated.
+    private boolean _resultCalculated = false;
 
     public static final int OPERATOR_NONE = -1;
     public static final int OPERATOR_ADD = 0;
@@ -280,6 +281,24 @@ public class Calculator extends JPanel implements ActionListener {
         add(_backspaceButton = createButton(null, new BackspaceIcon()));
         add(_negativeButton = createButton(null, new ToggleNegativeIcon()));
         add(_clearButton = createButton("C"));
+    }
+
+    /**
+     * Get the flag indicating if the result was calculated at least once.
+     *
+     * @return true if the result was calculated at least once. Otherwise false.
+     */
+    public boolean isResultCalculated() {
+        return _resultCalculated;
+    }
+
+    /**
+     * Set the flag indicating if the result was calculated at least once.
+     *
+     * @param resultCalculated the flag
+     */
+    public void setResultCalculated(boolean resultCalculated) {
+        _resultCalculated = resultCalculated;
     }
 
     class BackspaceIcon implements Icon {
@@ -597,6 +616,7 @@ public class Calculator extends JPanel implements ActionListener {
             setDisplayText("E");
         }
         else {
+            setResultCalculated(true);
             _op1.setLength(0);
             if (_displayFormat != null) {
                 String displayText = _displayFormat.format(_result);
