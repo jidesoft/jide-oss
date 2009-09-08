@@ -12,14 +12,18 @@ import com.jidesoft.swing.StyledLabel;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.text.View;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
@@ -46,13 +50,34 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
-    private List<StyledText> _styledTexts;
+    private final List<StyledText> _styledTexts = new ArrayList<StyledText>();
+
+    /**
+     * Derived font cache to save memory cost. Organized by font, style then size.
+     */
+    protected Map<Font, Map<Integer, Map<Integer, Font>>> _fontCache;
+    /**
+     * The timer to clear cache periodically.
+     */
+    protected Timer _timer;
+
+    public BasicStyledLabelUI() {
+        super();
+        _timer = new Timer(24 * 60 * 60 * 1000, new AbstractAction() {
+            private static final long serialVersionUID = 1967733868735797474L;
+
+            public void actionPerformed(ActionEvent e) {
+                clearCache();
+            }
+        });
+        _timer.start();
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         if (StyledLabel.PROPERTY_STYLE_RANGE.equals(e.getPropertyName())) {
-            _styledTexts = null;
+            _styledTexts.clear();
             if (e.getSource() instanceof StyledLabel) {
                 ((StyledLabel) e.getSource()).revalidate();
                 ((StyledLabel) e.getSource()).repaint();
@@ -88,12 +113,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void buildStyledText(StyledLabel label) {
-        if (_styledTexts == null) {
-            _styledTexts = new ArrayList<StyledText>();
-        }
-        else {
-            _styledTexts.clear();
-        }
+        _styledTexts.clear();
         StyleRange[] styleRanges = label.getStyleRanges();
         if (_comparator == null) {
             _comparator = new Comparator<StyleRange>() {
@@ -176,11 +196,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             for (int i = texts.length - 1; i >= 0; i--) {
                 StyledText styledText = texts[i];
                 StyleRange style = styledText.styleRange;
-                float size = (style != null &&
-                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : (float) defaultFontSize;
+                int size = (style != null &&
+                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
                 font = getFont(label);
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                    font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    font = getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
                     width += fm2.stringWidth(styledText.text);
                 }
@@ -235,125 +255,175 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         Color oldColor = g.getColor();
 
         int charDisplayed = 0;
-        boolean displayMnemonic = false;
+        boolean displayMnemonic;
         int mneIndex = 0;
         Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int defaultFontSize = font.getSize();
 
-        for (StyledText styledText : _styledTexts) {
-            StyleRange style = styledText.styleRange;
+        synchronized (_styledTexts) {
+            for (StyledText styledText : _styledTexts) {
+                StyleRange style = styledText.styleRange;
 
-            if (styledText.text.length() > mnemonicIndex - charDisplayed) {
-                displayMnemonic = true;
-                mneIndex = mnemonicIndex - charDisplayed;
-            }
-            charDisplayed += styledText.text.length();
+                if (mnemonicIndex >= 0 && styledText.text.length() > mnemonicIndex - charDisplayed) {
+                    displayMnemonic = true;
+                    mneIndex = mnemonicIndex - charDisplayed;
+                }
+                else {
+                    displayMnemonic = false;
+                }
+                charDisplayed += styledText.text.length();
 
-            y = textY;
+                y = textY;
 
-            float size = (style != null &&
-                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : (float) defaultFontSize;
+                int size = (style != null &&
+                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
 
-            font = getFont(label);
-            if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                font = font.deriveFont(style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
-                fm2 = label.getFontMetrics(font);
-            }
-            else {
-                fm2 = fm;
-            }
-
-            g.setFont(font);
-
-            String s = styledText.text;
-
-            int strWidth = fm2.stringWidth(s);
-
-            boolean stop = false;
-            int widthLeft = label.getWidth() - x;
-            if (widthLeft < strWidth) {
-                // use this method to clip string
-                s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
-                        label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
-                strWidth = fm2.stringWidth(s);
-                stop = true;
-            }
-
-            if (style != null && style.isSuperscript()) {
-                y -= fm.getHeight() - fm2.getHeight();
-            }
-
-            if (style != null && style.getBackgroundColor() != null) {
-                g.setColor(style.getBackgroundColor());
-                g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
-            }
-
-            Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
-            if (!label.isEnabled()) {
-                textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
-            }
-            g.setColor(textColor);
-
-            if (displayMnemonic) {
-                JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
-            }
-            else {
-                JideSwingUtilities.drawString(label, g, s, x, y);
-            }
-
-            if (style != null) {
-                Stroke oldStroke = ((Graphics2D) g).getStroke();
-                if (style.getLineStroke() != null) {
-                    ((Graphics2D) g).setStroke(style.getLineStroke());
+                font = getFont(label);
+                if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                    font = getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    fm2 = label.getFontMetrics(font);
+                }
+                else {
+                    fm2 = fm;
                 }
 
-                if (!label.isIgnoreColorSettings() && style.getLineColor() != null) {
-                    g.setColor(style.getLineColor());
+                g.setFont(font);
+
+                String s = styledText.text;
+
+                int strWidth = fm2.stringWidth(s);
+
+                boolean stop = false;
+                int widthLeft = label.getWidth() - x;
+                if (widthLeft < strWidth) {
+                    // use this method to clip string
+                    s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                            label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                    strWidth = fm2.stringWidth(s);
+                    stop = true;
                 }
 
-                if (style.isStrikethrough()) {
-                    int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
-                    g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                if (style != null && style.isSuperscript()) {
+                    y -= fm.getHeight() - fm2.getHeight();
                 }
-                if (style.isDoublestrikethrough()) {
-                    int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
-                    g.drawLine(x, lineY - 1, x + strWidth - 1, lineY - 1);
-                    g.drawLine(x, lineY + 1, x + strWidth - 1, lineY + 1);
+
+                if (style != null && style.getBackgroundColor() != null) {
+                    g.setColor(style.getBackgroundColor());
+                    g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
                 }
-                if (style.isUnderlined()) {
-                    int lineY = y + 1;
-                    g.drawLine(x, lineY, x + strWidth - 1, lineY);
+
+                Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
+                if (!label.isEnabled()) {
+                    textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
                 }
-                if (style.isDotted()) {
-                    int dotY = y + 1;
-                    for (int dotX = x; dotX < x + strWidth; dotX += 4) {
-                        g.drawRect(dotX, dotY, 1, 1);
+                g.setColor(textColor);
+
+                if (displayMnemonic) {
+                    JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
+                }
+                else {
+                    JideSwingUtilities.drawString(label, g, s, x, y);
+                }
+
+                if (style != null) {
+                    Stroke oldStroke = ((Graphics2D) g).getStroke();
+                    if (style.getLineStroke() != null) {
+                        ((Graphics2D) g).setStroke(style.getLineStroke());
+                    }
+
+                    if (!label.isIgnoreColorSettings() && style.getLineColor() != null) {
+                        g.setColor(style.getLineColor());
+                    }
+
+                    if (style.isStrikethrough()) {
+                        int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                        g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                    }
+                    if (style.isDoublestrikethrough()) {
+                        int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                        g.drawLine(x, lineY - 1, x + strWidth - 1, lineY - 1);
+                        g.drawLine(x, lineY + 1, x + strWidth - 1, lineY + 1);
+                    }
+                    if (style.isUnderlined()) {
+                        int lineY = y + 1;
+                        g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                    }
+                    if (style.isDotted()) {
+                        int dotY = y + 1;
+                        for (int dotX = x; dotX < x + strWidth; dotX += 4) {
+                            g.drawRect(dotX, dotY, 1, 1);
+                        }
+                    }
+                    if (style.isWaved()) {
+                        int waveY = y + 1;
+                        for (int waveX = x; waveX < x + strWidth; waveX += 4) {
+                            if (waveX + 2 <= x + strWidth - 1)
+                                g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
+                            if (waveX + 4 <= x + strWidth - 1)
+                                g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
+                        }
+                    }
+                    if (style.getLineStroke() != null) {
+                        ((Graphics2D) g).setStroke(oldStroke);
                     }
                 }
-                if (style.isWaved()) {
-                    int waveY = y + 1;
-                    for (int waveX = x; waveX < x + strWidth; waveX += 4) {
-                        if (waveX + 2 <= x + strWidth - 1)
-                            g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
-                        if (waveX + 4 <= x + strWidth - 1)
-                            g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
-                    }
-                }
-                if (style.getLineStroke() != null) {
-                    ((Graphics2D) g).setStroke(oldStroke);
-                }
-            }
 
-            if (stop) {
-                break;
-            }
+                if (stop) {
+                    break;
+                }
 
-            x += strWidth;
+                x += strWidth;
+            }
         }
 
         g.setColor(oldColor);
+    }
+
+    /**
+     * Get derived font by font, style and size. At first it will get the derived font from cache. If it cannot hit the
+     * derived font, it will invoke font.deriveFont to derive a font.
+     *
+     * @param font the original font
+     * @param style the font style
+     * @param size the font size
+     * @return the derived font.
+     */
+    protected Font getCachedDerivedFont(Font font, int style, int size) {
+        if (_fontCache == null) {
+            _fontCache = new HashMap<Font, Map<Integer, Map<Integer, Font>>>();
+        }
+        Map<Integer, Map<Integer, Font>> secondMap = _fontCache.get(font);
+        if (secondMap == null) {
+            secondMap = new HashMap<Integer, Map<Integer, Font>>();
+            _fontCache.put(font, secondMap);
+        }
+        Map<Integer, Font> thirdMap = secondMap.get(style);
+        if (thirdMap == null) {
+            thirdMap = new HashMap<Integer, Font>();
+            secondMap.put(style, thirdMap);
+        }
+        Font derivedFont = thirdMap.get(size);
+        if (derivedFont == null) {
+            derivedFont = font.deriveFont(style, size);
+            thirdMap.put(size, derivedFont);
+        }
+        return derivedFont;
+    }
+
+    /**
+     * Clear the font cache for BasicStyledLabelUI.
+     * <p/>
+     * By default, JIDE will invoke this method every 24 hours to clear the cache. You can call this method as well if you
+     * notice any observable memory occupancy by StyledLabel.
+     */
+    public void clearCache() {
+        System.out.println("clear cache");
+        if (_fontCache != null) {
+            _fontCache.clear();
+            _fontCache = null;
+        }
     }
 
     /**
