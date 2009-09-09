@@ -15,7 +15,7 @@ import java.util.Map;
  * scenarios like StyledLabel.
  * <p/>
  * In this class, we have a global map of font and derived font. It probably could be huge after running a long time. In
- * that case, you need explicitly clear the font cache in this class by using {@link #clearCache()} .
+ * that case, you need explicitly clear the font cache in this class by using {@link #clearDerivedFontCache()} .
  */
 public class FontUtils {
     private static class FontAttribute {
@@ -64,9 +64,18 @@ public class FontUtils {
     private static Map<FontAttribute, Font> _fontCache;
 
     /**
+     * Gets the derived font cache size.
+     *
+     * @return the derived font cache size.
+     */
+    public static int getDerivedFontCacheSize() {
+        return _fontCache != null ? _fontCache.size() : 0;
+    }
+
+    /**
      * Clear cache whenever needed.
      */
-    public static void clearCache() {
+    public static void clearDerivedFontCache() {
         if (_fontCache != null) {
             _fontCache.clear();
             _fontCache = null;

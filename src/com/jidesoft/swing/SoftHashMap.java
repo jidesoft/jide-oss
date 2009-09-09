@@ -19,6 +19,8 @@ import java.util.*;
  * @author Dr. Heinz M. Kabutz
  */
 class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
+    private static final long serialVersionUID = 2456984612468446907L;
+
     /**
      * The internal HashMap that will hold the SoftReference.
      */
@@ -30,7 +32,6 @@ class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
      * Reference queue for cleared SoftReference objects.
      */
     private final ReferenceQueue<V> queue = new ReferenceQueue<V>();
-    private static final long serialVersionUID = 1706315845268740144L;
 
     @Override
     public V get(Object key) {
@@ -55,7 +56,7 @@ class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     private void expungeStaleEntries() {
         Reference<? extends V> sv;
         while ((sv = queue.poll()) != null) {
-            hash.remove(reverseLookup.remove(sv.get()));
+            hash.remove(reverseLookup.remove(sv));
         }
     }
 
@@ -92,8 +93,8 @@ class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
     }
 
     /**
-     * Returns a copy of the key/values in the map at the point of calling. However, setValue still sets the value in the
-     * actual SoftHashMap.
+     * Returns a copy of the key/values in the map at the point of calling. However, setValue still sets the value in
+     * the actual SoftHashMap.
      */
     @Override
     public Set<Entry<K, V>> entrySet() {
@@ -119,5 +120,5 @@ class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
             }
         }
         return result;
-	}
+    }
 }
