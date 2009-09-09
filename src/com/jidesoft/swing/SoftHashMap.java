@@ -1,5 +1,5 @@
 /*
- * @(#)FifoSoftHashMap.java 9/9/2009
+ * @(#)SoftHashMap.java 9/9/2009
  *
  * Copyright 2002 - 2009 JIDE Software Inc. All rights reserved.
  *
@@ -21,7 +21,7 @@ import java.lang.ref.Reference;
  *
  * @author Dr. Heinz M. Kabutz
  */
-class FifoSoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
+class SoftHashMap<K, V> extends AbstractMap<K, V> implements Serializable {
 	/** The internal HashMap that will hold the SoftReference. */
 	private final Map<K, SoftReference<V>> hash = new HashMap<K, SoftReference<V>>();
 

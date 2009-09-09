@@ -9,7 +9,6 @@ package com.jidesoft.swing;
 
 import java.awt.*;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * This is a global class to keep a record of Font so that we can improve the performance and memory usage in various
@@ -85,7 +84,7 @@ public class FontUtils {
      */
     public static Font getCachedDerivedFont(Font font, int style, int size) {
         if (_fontCache == null) {
-            _fontCache = new FifoSoftHashMap<FontAttribute, Font>();
+            _fontCache = new SoftHashMap<FontAttribute, Font>();
         }
         FontAttribute attribute = new FontAttribute(font, style, size);
         Font derivedFont = _fontCache.get(attribute);
