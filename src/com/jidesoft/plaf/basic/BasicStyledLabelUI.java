@@ -9,21 +9,18 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
+import com.jidesoft.swing.FontUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.text.View;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 
 public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
@@ -51,27 +48,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     private final List<StyledText> _styledTexts = new ArrayList<StyledText>();
-
-    /**
-     * Derived font cache to save memory cost. Organized by font, style then size.
-     */
-    protected Map<Font, Map<Integer, Map<Integer, Font>>> _fontCache;
-    /**
-     * The timer to clear cache periodically.
-     */
-    protected Timer _timer;
-
-    public BasicStyledLabelUI() {
-        super();
-        _timer = new Timer(24 * 60 * 60 * 1000, new AbstractAction() {
-            private static final long serialVersionUID = 1967733868735797474L;
-
-            public void actionPerformed(ActionEvent e) {
-                clearCache();
-            }
-        });
-        _timer.start();
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent e) {
@@ -200,7 +176,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
                 font = getFont(label);
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                    font = getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
                     width += fm2.stringWidth(styledText.text);
                 }
@@ -282,7 +258,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
                 font = getFont(label);
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                    font = getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
                 }
                 else {
@@ -379,51 +355,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
 
         g.setColor(oldColor);
-    }
-
-    /**
-     * Get derived font by font, style and size. At first it will get the derived font from cache. If it cannot hit the
-     * derived font, it will invoke font.deriveFont to derive a font.
-     *
-     * @param font the original font
-     * @param style the font style
-     * @param size the font size
-     * @return the derived font.
-     */
-    protected Font getCachedDerivedFont(Font font, int style, int size) {
-        if (_fontCache == null) {
-            _fontCache = new HashMap<Font, Map<Integer, Map<Integer, Font>>>();
-        }
-        Map<Integer, Map<Integer, Font>> secondMap = _fontCache.get(font);
-        if (secondMap == null) {
-            secondMap = new HashMap<Integer, Map<Integer, Font>>();
-            _fontCache.put(font, secondMap);
-        }
-        Map<Integer, Font> thirdMap = secondMap.get(style);
-        if (thirdMap == null) {
-            thirdMap = new HashMap<Integer, Font>();
-            secondMap.put(style, thirdMap);
-        }
-        Font derivedFont = thirdMap.get(size);
-        if (derivedFont == null) {
-            derivedFont = font.deriveFont(style, size);
-            thirdMap.put(size, derivedFont);
-        }
-        return derivedFont;
-    }
-
-    /**
-     * Clear the font cache for BasicStyledLabelUI.
-     * <p/>
-     * By default, JIDE will invoke this method every 24 hours to clear the cache. You can call this method as well if you
-     * notice any observable memory occupancy by StyledLabel.
-     */
-    public void clearCache() {
-        System.out.println("clear cache");
-        if (_fontCache != null) {
-            _fontCache.clear();
-            _fontCache = null;
-        }
     }
 
     /**
