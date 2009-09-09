@@ -63,8 +63,8 @@ public class FontUtils {
         }
     }
 
-    private static Map<Integer, Font> _fontCache;
-    private static int MAX_CACHE_SIZE = 10000;
+    private static Map<FontAttribute, Font> _fontCache;
+    private static int _maxCacheSize = 10000;
 
     /**
      * Get maximum font cache size.
@@ -74,7 +74,7 @@ public class FontUtils {
      * @return the maximum font cache size.
      */
     public static int getMaxCacheSize() {
-        return MAX_CACHE_SIZE;
+        return _maxCacheSize;
     }
 
     /**
@@ -83,7 +83,7 @@ public class FontUtils {
      * @param maxCacheSize the maximum font cache size
      */
     public static void setMaxCacheSize(int maxCacheSize) {
-        MAX_CACHE_SIZE = maxCacheSize;
+        FontUtils._maxCacheSize = maxCacheSize;
     }
 
     /**
@@ -108,14 +108,13 @@ public class FontUtils {
      */
     public static Font getCachedDerivedFont(Font font, int style, int size) {
         if (_fontCache == null) {
-            _fontCache = new HashMap<Integer, Font>();
+            _fontCache = new HashMap<FontAttribute, Font>();
         }
         FontAttribute attribute = new FontAttribute(font, style, size);
-        int hashCode = attribute.hashCode();
-        Font derivedFont = _fontCache.get(hashCode);
+        Font derivedFont = _fontCache.get(attribute);
         if (derivedFont == null) {
             derivedFont = font.deriveFont(style, size);
-            _fontCache.put(hashCode, derivedFont);
+            _fontCache.put(attribute, derivedFont);
         }
         if (_fontCache.size() >= getMaxCacheSize()) {
             clearCache();
