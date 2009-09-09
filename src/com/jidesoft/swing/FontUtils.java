@@ -14,8 +14,8 @@ import java.util.Map;
  * This is a global class to keep a record of Font so that we can improve the performance and memory usage in various
  * scenarios like StyledLabel.
  * <p/>
- * In this class, we have a global map of font and derived font. It probably could be huge after running a long time.
- * In that case, you need explicitly clear the font cache in this class by using {@link #clearCache()} .
+ * In this class, we have a global map of font and derived font. It probably could be huge after running a long time. In
+ * that case, you need explicitly clear the font cache in this class by using {@link #clearCache()} .
  */
 public class FontUtils {
     private static class FontAttribute {
@@ -77,9 +77,9 @@ public class FontUtils {
      * Get derived font by font, style and size. At first it will get the derived font from cache. If it cannot hit the
      * derived font, it will invoke font.deriveFont to derive a font.
      *
-     * @param font the original font
+     * @param font  the original font
      * @param style the font style
-     * @param size the font size
+     * @param size  the font size
      * @return the derived font.
      */
     public static Font getCachedDerivedFont(Font font, int style, int size) {
@@ -91,7 +91,6 @@ public class FontUtils {
         if (derivedFont == null) {
             derivedFont = font.deriveFont(style, size);
             _fontCache.put(attribute, derivedFont);
-            System.out.println("hit once");
         }
         return derivedFont;
     }
