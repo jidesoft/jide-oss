@@ -16,8 +16,7 @@ import java.util.HashMap;
  * scenarios like StyledLabel.
  * <p/>
  * In this class, we have a global map of font and derived font. It probably could be huge after running a long time.
- * In that case, you need explicitly clear the font cache in this class by using {@link #clearCache()} . By default,
- * FontUtils will clear the cache once its memory exceeds the limit of {@link #getMaxCacheSize()} .
+ * In that case, you need explicitly clear the font cache in this class by using {@link #clearCache()} .
  */
 public class FontUtils {
     private static class FontAttribute {
@@ -64,31 +63,9 @@ public class FontUtils {
     }
 
     private static Map<FontAttribute, Font> _fontCache;
-    private static int _maxCacheSize = 10000;
 
     /**
-     * Get maximum font cache size.
-     * <p/>
-     * The default value is 10000. You can adjust the cache size depends on your application.
-     *
-     * @return the maximum font cache size.
-     */
-    public static int getMaxCacheSize() {
-        return _maxCacheSize;
-    }
-
-    /**
-     * Set maximum font cache size.
-     *
-     * @param maxCacheSize the maximum font cache size
-     */
-    public static void setMaxCacheSize(int maxCacheSize) {
-        FontUtils._maxCacheSize = maxCacheSize;
-    }
-
-    /**
-     * Clear cache whenever needed. By default, we will clear the cache when the cache size is going to exceed the limit
-     * defined by {@link #getMaxCacheSize()} .
+     * Clear cache whenever needed.
      */
     public static void clearCache() {
         if (_fontCache != null) {
@@ -108,16 +85,14 @@ public class FontUtils {
      */
     public static Font getCachedDerivedFont(Font font, int style, int size) {
         if (_fontCache == null) {
-            _fontCache = new HashMap<FontAttribute, Font>();
+            _fontCache = new FifoSoftHashMap<FontAttribute, Font>();
         }
         FontAttribute attribute = new FontAttribute(font, style, size);
         Font derivedFont = _fontCache.get(attribute);
         if (derivedFont == null) {
             derivedFont = font.deriveFont(style, size);
             _fontCache.put(attribute, derivedFont);
-        }
-        if (_fontCache.size() >= getMaxCacheSize()) {
-            clearCache();
+            System.out.println("hit once");
         }
         return derivedFont;
     }
