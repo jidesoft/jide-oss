@@ -33,7 +33,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes class defaults.
      *
-     * @param table
+     * @param table the UI defaults
      */
     public static void initClassDefaultsWithMenu(UIDefaults table) {
         if (!Beans.isDesignTime()) {
@@ -54,7 +54,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
     /**
      * Initializes components defaults.
      *
-     * @param table
+     * @param table the UI defaults
      */
     public static void initComponentDefaults(UIDefaults table) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -74,7 +74,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
-        Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
 
         Object singleLineBorder = new BorderUIResource(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlShadow")));
 
@@ -368,7 +367,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
 
-                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(0, 0, 0, 0),
 
             };
             table.putDefaults(uiDefaults);
