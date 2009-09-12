@@ -367,7 +367,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
                     "DockingFramework.changeCursor", Boolean.FALSE,
 
-                    "FrameContainer.contentBorderInsets", new InsetsUIResource(0, 0, 0, 0),
+                    "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 0, 0, 0),
 
             };
             table.putDefaults(uiDefaults);
