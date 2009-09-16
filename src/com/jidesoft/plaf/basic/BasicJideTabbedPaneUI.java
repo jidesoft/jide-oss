@@ -7290,7 +7290,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             else {
                                 final Component lastFocused = _tabPane.getLastFocusedComponent(comp);
                                 if (lastFocused != null) {
-                                    System.out.println("Have last focus component.");
                                     Runnable runnable = new Runnable() {
                                         public void run() {
                                             lastFocused.requestFocus();
