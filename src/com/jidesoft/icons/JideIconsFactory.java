@@ -66,6 +66,10 @@ public class JideIconsFactory {
 
         public static final String DROP_TEXT = "jide/cursor_drag_text.gif";
         public static final String NODROP_TEXT = "jide/cursor_drag_text_stop.gif";
+
+        public static final String PERCENTAGE = "jide/cursor_percentage.gif";
+        public static final String MOVE_EAST = "jide/cursor_move_east.gif";
+        public static final String MOVE_WEST = "jide/cursor_move_west.gif";
     }
 
     public static class WindowMenu {

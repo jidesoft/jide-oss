@@ -98,10 +98,26 @@ public class JideCursors {
      */
     public static final int DRAG_TEXT_STOP_CURSOR = 34;
 
+
+    /**
+     * The cursor for changing percentage.
+     */
+    public static final int PERCENTAGE_CURSOR = 35;
+
+    /**
+     * The cursor for moving toward east.
+     */
+    public static final int MOVE_EAST_CURSOR = 36;
+
+    /**
+     * The cursor for moving toward west.
+     */
+    public static final int MOVE_WEST_CURSOR = 37;
+
     /**
      * Last id of cursor used by JIDE products.
      */
-    public static final int LAST_CUSTOM_CURSOR = 35;
+    public static final int LAST_CUSTOM_CURSOR = 38;
 
     private static final Cursor[] predefined = new Cursor[LAST_CUSTOM_CURSOR - FIRST_CUSTOM_CURSOR + 1];
 
@@ -270,6 +286,33 @@ public class JideCursors {
                         if (icon == null)
                             return Cursor.getDefaultCursor();
                         return toolkit.createCustomCursor(icon.getImage(), new Point(10, 10), "Delete");
+                    }
+                    return Cursor.getDefaultCursor();
+                }
+                case PERCENTAGE_CURSOR: {
+                    if (bestSize.width != 0 && maxColor > 3) {
+                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.percentage");
+                        if (icon == null)
+                            return Cursor.getDefaultCursor();
+                        return toolkit.createCustomCursor(icon.getImage(), new Point(20, 15), "Percentage");
+                    }
+                    return Cursor.getDefaultCursor();
+                }
+                case MOVE_EAST_CURSOR: {
+                    if (bestSize.width != 0 && maxColor > 3) {
+                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.moveEast");
+                        if (icon == null)
+                            return Cursor.getDefaultCursor();
+                        return toolkit.createCustomCursor(icon.getImage(), new Point(11, 15), "Move East");
+                    }
+                    return Cursor.getDefaultCursor();
+                }
+                case MOVE_WEST_CURSOR: {
+                    if (bestSize.width != 0 && maxColor > 3) {
+                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.moveWest");
+                        if (icon == null)
+                            return Cursor.getDefaultCursor();
+                        return toolkit.createCustomCursor(icon.getImage(), new Point(20, 15), "Move West");
                     }
                     return Cursor.getDefaultCursor();
                 }
