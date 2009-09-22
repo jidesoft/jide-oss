@@ -355,7 +355,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     public void paintMenuShadow(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Color oldColor = g.getColor();
         g.setColor(UIDefaultsLookup.getColor("MenuItem.shadowColor"));
-        g.fillRect(0, 0, rect.width, rect.height);
+        g.fillRect(rect.x, rect.y, rect.width, rect.height);
         g.setColor(oldColor);
     }
 
