@@ -392,7 +392,7 @@ public class LookAndFeelFactory implements ProductNames {
             if (_defaultStyle == -1) {
                 int suggestedStyle;
                 try {
-                    if (SystemInfo.isWindowsVista() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
+                    if (SystemInfo.isWindowsVistaOrAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
                         suggestedStyle = OFFICE2007_STYLE;
                     }
                     else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
