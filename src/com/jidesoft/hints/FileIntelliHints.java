@@ -11,9 +11,6 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
 
 /**
  * <code>FileIntelliHints</code> is a concrete implementation of {@link com.jidesoft.hints.IntelliHints}.
@@ -90,18 +87,13 @@ public class FileIntelliHints extends AbstractListIntelliHints {
                         return false;
                     }
                 }
-                return prefix == null || name.toLowerCase().startsWith(prefix);
+                boolean result = prefix == null || name.toLowerCase().startsWith(prefix);
+                if (result && getFilter() != null) {
+                    return getFilter().accept(dir, name);
+                }
+                return result;
             }
         });
-        if (getFilter() != null) {
-            String[] filteredFiles = new File(dir).list(getFilter());
-            Set<String> filesSet1 = new HashSet<String>();
-            Set<String> filesSet2 = new HashSet<String>();
-            filesSet1.addAll(Arrays.asList(files));
-            filesSet2.addAll(Arrays.asList(filteredFiles));
-            filesSet1.retainAll(filesSet2);
-            files = filesSet1.toArray(new String[filesSet1.size()]);
-        }
 
         if (files == null || files.length == 0 || (files.length == 1 && files[0].equalsIgnoreCase(prefix))) {
             setListData(new String[0]);
