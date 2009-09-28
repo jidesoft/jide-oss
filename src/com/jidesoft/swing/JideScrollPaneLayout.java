@@ -24,6 +24,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
 
     /**
+     * The row sub column header componeng.  Default is <code>null</code>.
+     *
+     * @see JideScrollPane#setSubColumnHeader
+     */
+    protected JViewport _subColHead;
+    /**
      * The column footer child.  Default is <code>null</code>.
      *
      * @see JideScrollPane#setColumnFooter
@@ -56,6 +62,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (sp instanceof JideScrollPane) {
             _rowFoot = ((JideScrollPane) sp).getRowFooter();
             _colFoot = ((JideScrollPane) sp).getColumnFooter();
+            _subColHead = ((JideScrollPane) sp).getSubColumnHeader();
             _hLeft = ((JideScrollPane) sp).getScrollBarCorner(HORIZONTAL_LEFT);
             _hRight = ((JideScrollPane) sp).getScrollBarCorner(HORIZONTAL_RIGHT);
             _vTop = ((JideScrollPane) sp).getScrollBarCorner(VERTICAL_TOP);
@@ -84,6 +91,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (s.equals(ROW_FOOTER)) {
             _rowFoot = (JViewport) addSingletonComponent(_rowFoot, c);
         }
+        else if (s.equals(SUB_COLUMN_HEADER)) {
+            _subColHead = (JViewport) addSingletonComponent(_subColHead, c);
+        }
         else if (s.equals(COLUMN_FOOTER)) {
             _colFoot = (JViewport) addSingletonComponent(_colFoot, c);
         }
@@ -108,6 +118,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
     public void removeLayoutComponent(Component c) {
         if (c == _rowFoot) {
             _rowFoot = null;
+        }
+        else if (c == _subColHead) {
+            _subColHead = null;
         }
         else if (c == _colFoot) {
             _colFoot = null;
@@ -138,6 +151,17 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      */
     public JViewport getRowFooter() {
         return _rowFoot;
+    }
+
+    /**
+     * Returns the <code>JViewport</code> object that is the row sub column header.
+     *
+     * @return the <code>JViewport</code> object that is the row sub column header.
+     *
+     * @see com.jidesoft.swing.JideScrollPane#getSubColumnHeader()
+     */
+    public JViewport getRowSubColumnHeader() {
+        return _subColHead;
     }
 
     /**
@@ -418,6 +442,11 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
 
         minHeight += upperHeight;
+        if (_subColHead != null && _subColHead.isVisible()) {
+            Dimension size = _subColHead.getMinimumSize();
+            minWidth = Math.max(minWidth, size.width);
+            minHeight += size.height;
+        }
 
         // JIDE: added for JideScrollPaneLayout
         int lowerHeight = 0;
@@ -520,6 +549,14 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             colHeadR.height = colHeadHeight;
             availR.y += colHeadHeight;
             availR.height -= colHeadHeight;
+        }
+
+        Rectangle subColHeadR = new Rectangle(0, availR.y, 0, 0);
+        if (_subColHead != null && _subColHead.isVisible()) {
+            int subColHeadHeight = Math.min(availR.height, _subColHead.getPreferredSize().height);
+            subColHeadR.height = subColHeadHeight;
+            availR.y += subColHeadHeight;
+            availR.height -= subColHeadHeight;
         }
 
         /* If there's a visible row header remove the space it needs
@@ -801,6 +838,8 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         rowHeadR.y = availR.y - vpbInsets.top;
         colHeadR.width = availR.width + vpbInsets.left + vpbInsets.right;
         colHeadR.x = availR.x - vpbInsets.left;
+        subColHeadR.width = colHeadR.width;
+        subColHeadR.x = colHeadR.x;
 
         colFootR.x = availR.x;
         colFootR.y = rowHeadR.y + rowHeadR.height;
@@ -832,6 +871,10 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (colHead != null) {
             int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(colHeadR.height, colHead.getPreferredSize().height);
             colHead.setBounds(adjustBounds(parent, new Rectangle(colHeadR.x, colHeadR.y + colHeadR.height - height, colHeadR.width, height), ltr));
+        }
+
+        if (_subColHead != null) {
+            _subColHead.setBounds(adjustBounds(parent, subColHeadR, ltr));
         }
 
         if (_colFoot != null) {

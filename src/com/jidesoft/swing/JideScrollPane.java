@@ -39,6 +39,12 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
 
 
     /**
+     * The component under column header.  Default is <code>null</code>.
+     *
+     * @see #setSubColumnHeader(javax.swing.JViewport)
+     */
+    private JViewport _subColumnHeader;
+    /**
      * The column footer child.  Default is <code>null</code>.
      *
      * @see #setColumnFooter
@@ -259,6 +265,43 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public void setColumnHeader(JViewport columnHeader) {
         super.setColumnHeader(columnHeader);
         JideSwingUtilities.synchronizeView(this.columnHeader, getViewport(), SwingConstants.HORIZONTAL);
+    }
+
+    /**
+     * Returns the sub column header.
+     *
+     * @return the <code>rowSubColumnHeader</code> property
+     *
+     * @see #setSubColumnHeader(javax.swing.JViewport)
+     */
+    public JViewport getSubColumnHeader() {
+        return _subColumnHeader;
+    }
+
+    /**
+     * Removes the old sub column header, if it exists.  If the new sub column header isn't <code>null</code>, sync the x
+     * coordinate of the its viewPosition with the viewport (if there is one) and then add it to the scroll pane.
+     *
+     * @param subColumnHeader the new sub column header to be used; if <code>null</code> the old sub column header is still removed
+     *                           and the new sub column header is set to <code>null</code>
+     * @see #getSubColumnHeader()
+     */
+    public void setSubColumnHeader(JViewport subColumnHeader) {
+        JViewport old = getSubColumnHeader();
+        _subColumnHeader = subColumnHeader;
+        if (null != subColumnHeader) {
+            add(subColumnHeader, SUB_COLUMN_HEADER);
+        }
+        else if (null != old) {
+            remove(old);
+        }
+        firePropertyChange("subColumnHeader", old, subColumnHeader);
+
+        revalidate();
+        repaint();
+
+        JideSwingUtilities.synchronizeView(_subColumnHeader, getViewport(), SwingConstants.HORIZONTAL);
+        JideSwingUtilities.synchronizeView(getViewport(), _subColumnHeader, SwingConstants.HORIZONTAL);
     }
 
     /**
