@@ -286,7 +286,7 @@ final public class SystemInfo {
      *
      * @return <tt>true</tt> if the application is running on Windows Vista or Windows 7, <tt>false</tt> otherwise.
      */
-    public static boolean isWindowsVistaOrAbove() {
+    public static boolean isWindowsVistaAbove() {
         return _isWindowsVista || _isWindows7;
     }
 

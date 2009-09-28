@@ -269,7 +269,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                     "CommandBar.titleBarSize", 17,
                     "CommandBar.titleBarButtonGap", 1,
                     "CommandBar.titleBarBackground", activeTitleBackgroundColor,
-                    "CommandBar.titleBarForeground", SystemInfo.isWindowsVistaOrAbove() ? new ColorUIResource(Color.WHITE) : activeTitleTextColor,
+                    "CommandBar.titleBarForeground", SystemInfo.isWindowsVistaAbove() ? new ColorUIResource(Color.WHITE) : activeTitleTextColor,
                     "CommandBar.titleBarFont", boldFont,
 
                     "Chevron.size", 13,
