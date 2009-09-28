@@ -11,6 +11,9 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 /**
  * <code>FileIntelliHints</code> is a concrete implementation of {@link com.jidesoft.hints.IntelliHints}.
@@ -21,6 +24,7 @@ import java.io.FilenameFilter;
 public class FileIntelliHints extends AbstractListIntelliHints {
     private boolean _folderOnly = false;
     private boolean _showFullPath = true;
+    private FilenameFilter _filter;
 
     public FileIntelliHints(JTextComponent comp) {
         super(comp);
@@ -89,6 +93,15 @@ public class FileIntelliHints extends AbstractListIntelliHints {
                 return prefix == null || name.toLowerCase().startsWith(prefix);
             }
         });
+        if (getFilter() != null) {
+            String[] filteredFiles = new File(dir).list(getFilter());
+            Set<String> filesSet1 = new HashSet<String>();
+            Set<String> filesSet2 = new HashSet<String>();
+            filesSet1.addAll(Arrays.asList(files));
+            filesSet2.addAll(Arrays.asList(filteredFiles));
+            filesSet1.retainAll(filesSet2);
+            files = filesSet1.toArray(new String[filesSet1.size()]);
+        }
 
         if (files == null || files.length == 0 || (files.length == 1 && files[0].equalsIgnoreCase(prefix))) {
             setListData(new String[0]);
@@ -123,6 +136,27 @@ public class FileIntelliHints extends AbstractListIntelliHints {
         catch (BadLocationException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get FilenameFilter configured to this hints.
+     * <p/>
+     * By default, it returns null. You could set this field to let the IntelliHints only show the files meet your criteria.
+     *
+     * @return the FilenameFilter in use.
+     */
+    public FilenameFilter getFilter() {
+        return _filter;
+    }
+
+    /**
+     * Set FilenameFilter to this hints.
+     *
+     * @see #getFilter()
+     * @param filter the FilenameFilter in use.
+     */
+    public void setFilter(FilenameFilter filter) {
+        _filter = filter;
     }
 
     private class PrefixListCellRenderer extends DefaultListCellRenderer {
