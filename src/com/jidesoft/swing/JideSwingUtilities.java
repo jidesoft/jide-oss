@@ -1196,6 +1196,20 @@ public class JideSwingUtilities implements SwingConstants {
      * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
      * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
+     *
+     * @param fm                     the font metrics
+     * @param text                   the text to layout
+     * @param icon                   the icon to layout
+     * @param isHorizontal           if the layout is horizontal
+     * @param verticalAlignment      the vertical alignment
+     * @param horizontalAlignment    the horizontal alignment
+     * @param verticalTextPosition   the vertical text position
+     * @param horizontalTextPosition the horizontal text position
+     * @param viewR                  the view rectangle
+     * @param iconR                  the icon rectangle
+     * @param textR                  the text rectangle
+     * @param textIconGap            the gap between the text and the icon
+     * @return the string after layout.
      */
     public static String layoutCompoundLabel(FontMetrics fm,
                                              String text,
@@ -1932,8 +1946,8 @@ public class JideSwingUtilities implements SwingConstants {
      * Under JDK6, we will read the system setting. For example, on Windows XP, there is a check box to turn on clear
      * type anti-alias. We will use the same settings.
      *
-     * @param c
-     * @param g
+     * @param c the component
+     * @param g the Graphics instance
      * @return the old hints. You will need this value as the third parameter in {@link
      *         #restoreAntialiasing(java.awt.Component,java.awt.Graphics,Object)}.
      */
@@ -3623,5 +3637,25 @@ public class JideSwingUtilities implements SwingConstants {
             i = x1 + (x2 - x1) / 2;
         }
         return -1 * i;
+    }
+
+    /**
+     * Check if the ancestor is an ancestor of the component.
+     *
+     * @param component the component to check
+     * @param ancestor  the ancestor to check
+     * @return true if the ancestor is an ancestor of the component. Otherwise false.
+     */
+    public static boolean isAncestorOf(Component component, Object ancestor) {
+        if (component == null) {
+            return false;
+        }
+
+        for (Component p = component; p != null; p = p.getParent()) {
+            if (p == ancestor) {
+                return true;
+            }
+        }
+        return false;
     }
 }
