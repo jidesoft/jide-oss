@@ -39,7 +39,7 @@ public class HexColorConverter extends ColorConverter {
      *
      * @return true if this converter should consider alpha value.
      *
-     * @see {@link HexColorConverter}
+     * @see HexColorConverter
      */
     public boolean isAlphaIncluded() {
         return _alphaIncluded;
@@ -50,7 +50,7 @@ public class HexColorConverter extends ColorConverter {
      * <p/>
      *
      * @param alphaIncluded the flag if this converter should consider alpha value.
-     * @see {@link #isAlphaIncluded()}
+     * @see #isAlphaIncluded()
      */
     public void setAlphaIncluded(boolean alphaIncluded) {
         _alphaIncluded = alphaIncluded;

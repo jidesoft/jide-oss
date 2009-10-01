@@ -505,7 +505,7 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Creates the JTabbedPane used by TAB_STYLE dialog.
      *
-     * @returna a JTabbedPane
+     * @return a JTabbedPane
      */
     protected JTabbedPane createTabbedPane() {
         return new JTabbedPane(JTabbedPane.TOP);

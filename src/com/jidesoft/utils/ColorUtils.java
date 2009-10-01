@@ -46,7 +46,7 @@ public class ColorUtils {
     /**
      * Converts a color from RBG to HSL color space.
      *
-     * @param colorRGB
+     * @param colorRGB the Color.
      * @return color space in HSL.
      */
     public static float[] RGBtoHSL(Color colorRGB) {
@@ -55,7 +55,7 @@ public class ColorUtils {
         g = colorRGB.getGreen() / 256.0f;
         b = colorRGB.getBlue() / 256.0f;
 
-        // Then, minColor and maxColor are defined. Mincolor is the value of the color component with
+        // Then, minColor and maxColor are defined. Min color is the value of the color component with
         // the smallest value, while maxColor is the value of the color component with the largest value.
         // These two variables are needed because the Lightness is defined as (minColor + maxColor) / 2.
 
@@ -106,7 +106,7 @@ public class ColorUtils {
     /**
      * Converts from HSL color space to RGB color.
      *
-     * @param hsl
+     * @param hsl the hsl values.
      * @return the RGB color.
      */
     public static int HSLtoRGB(float[] hsl) {
@@ -234,14 +234,14 @@ public class ColorUtils {
     /**
      * Simply calls new Color(color, hasalpha) for each color in colors and returns all of them.
      *
-     * @param hasalpha
-     * @param colors
-     * @return
+     * @param hasAlpha true to consider the alpha when creating the Color.
+     * @param colors   the color value.
+     * @return the colors with alpha added.
      */
-    public static Color[] toColors(boolean hasalpha, int... colors) {
+    public static Color[] toColors(boolean hasAlpha, int... colors) {
         Color[] result = new Color[colors.length];
         for (int i = 0; i < colors.length; i++) {
-            result[i] = new Color(colors[i], hasalpha);
+            result[i] = new Color(colors[i], hasAlpha);
         }
         return result;
     }
