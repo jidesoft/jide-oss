@@ -598,31 +598,23 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         else {
             if (_nonContinuousLayoutDividerWrapper != null) {
                 Point p;
-                Container parent = getParent();
-                Component firstChild = this;
-                int startPosition = 0;
-                while (parent != null && !(parent instanceof JViewport)) {
-                    startPosition += getOrientation() == HORIZONTAL_SPLIT ? firstChild.getBounds().y : firstChild.getBounds().x;
-                    firstChild = parent;
-                    parent = parent.getParent();
-                }
-                if (parent != null) {
-                    startPosition += getOrientation() == HORIZONTAL_SPLIT ? firstChild.getBounds().y : firstChild.getBounds().x;
-                }
-                if (getOrientation() == HORIZONTAL_SPLIT) {
-                    p = SwingUtilities.convertPoint(this, location, parent == null ? 0 : 0 - startPosition, _layeredPane);
-                }
-                else {
-                    p = SwingUtilities.convertPoint(this, parent == null ? 0 : 0 - startPosition, location, _layeredPane);
-                }
+                Dimension size = new Dimension();
+                Rectangle rect = getVisibleRect();
                 int dividerThickness = Math.min(4, getDividerSize());
+                Rectangle convertedRect = SwingUtilities.convertRectangle(this, rect, _layeredPane);
                 if (getOrientation() == HORIZONTAL_SPLIT) {
+                    p = SwingUtilities.convertPoint(this, location, rect.y, _layeredPane);
                     p.x += ((getDividerSize() - dividerThickness) >> 1);
+                    size.width = dividerThickness;
+                    size.height = convertedRect.height;
                 }
                 else {
+                    p = SwingUtilities.convertPoint(this, rect.x, location, _layeredPane);
                     p.y += ((getDividerSize() - dividerThickness) >> 1);
+                    size.width = convertedRect.width;
+                    size.height = dividerThickness;
                 }
-                _nonContinuousLayoutDividerWrapper.delegateSetLocation(p);
+                _nonContinuousLayoutDividerWrapper.delegateSetBounds(new Rectangle(p, size));
                 _nonContinuousLayoutDividerWrapper.delegateSetVisible(true);
             }
         }
