@@ -482,6 +482,15 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     public void setComponentAt(int index, Component component) {
+        Component oldComponent = getComponentAt(index);
+        if (oldComponent != null) {
+            // JTabbedPane allows a null component, but doesn't really support it.
+            PageLastFocusTracker tracker = (PageLastFocusTracker) _pageLastFocusTrackers.get(oldComponent);
+            _pageLastFocusTrackers.remove(oldComponent);
+            if (tracker != null) {
+                tracker.setHeighestComponent(null); // Clear its listeners
+            }
+        }
         super.setComponentAt(index, component);
         if (!isAutoFocusOnTabHideClose())
             clearVisComp();
@@ -611,12 +620,7 @@ public class JideTabbedPane extends JTabbedPane {
                 return false;
             }
             Component comp = nearestRoot.getFocusTraversalPolicy().getComponentAfter(nearestRoot, this);
-            if (comp != null && comp.requestFocusInWindow()) {
-                return true;
-            }
-            else {
-                return JideSwingUtilities.compositeRequestFocus(visibleComponent);
-            }
+            return comp != null && comp.requestFocusInWindow() || JideSwingUtilities.compositeRequestFocus(visibleComponent);
         }
     }
 
@@ -634,6 +638,7 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void processMouseSelection(int tabIndex, MouseEvent e) {
 
     }
@@ -1040,16 +1045,17 @@ public class JideTabbedPane extends JTabbedPane {
      * Please note, this attribute has effect only when {@link #isShowCloseButtonOnTab()} return true.
      *
      * @param tabIndex the tab index
+     * @param closable the flag indicating if the tab is clossable
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
-    public void setTabClosableAt(int tabIndex, boolean closble) {
-        if (closble) {
+    public void setTabClosableAt(int tabIndex, boolean closable) {
+        if (closable) {
             _closableMap.remove(tabIndex);
         }
         else {
             _closableMap.put(tabIndex, Boolean.FALSE);
         }
-        firePropertyChange(TAB_CLOSABLE_PROPERTY, !closble, closble);
+        firePropertyChange(TAB_CLOSABLE_PROPERTY, !closable, closable);
     }
 
     protected Hashtable getPageLastFocusTrackers() {
@@ -1263,7 +1269,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the tab leading component. The tab leading component will appear before the tabs in the tab area. Please
      * note, you must implement UIResource for the component you want to use as tab leading component.
      *
-     * @param component
+     * @param component the tab leading component
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabLeadingComponent(Component component) {
@@ -1283,7 +1289,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the tab trailing component. The tab trailing component will appear after the tabs in the tab area. Please
      * note, you must implement UIResource for the component you want to use as tab trailing component.
      *
-     * @param component
+     * @param component the tab trailing component
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabTrailingComponent(Component component) {
@@ -1307,7 +1313,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Shows the close button on the selected tab only. You also need to setShowCloseButtonOnTab(true) and
      * setShowCloseButton(true) if you want to setShowCloseButtonOnSelectedTab(true).
      *
-     * @param i
+     * @param i the flag indicating if close button should be shown in the selected tab
      */
     public void setShowCloseButtonOnSelectedTab(boolean i) {
         _showCloseButtonOnSelectedTab = i;
@@ -1323,7 +1329,7 @@ public class JideTabbedPane extends JTabbedPane {
         /**
          * Gets the tab background for the tab at the specified index.
          *
-         * @param tabIndex
+         * @param tabIndex the index of the tab
          * @return the tab background for the tab at the specified index.
          */
         Color getBackgroundAt(int tabIndex);
@@ -1331,7 +1337,7 @@ public class JideTabbedPane extends JTabbedPane {
         /**
          * Gets the tab foreground for the tab at the specified index.
          *
-         * @param tabIndex
+         * @param tabIndex the index of the tab
          * @return the tab foreground for the tab at the specified index.
          */
         Color getForegroudAt(int tabIndex);
@@ -1339,7 +1345,7 @@ public class JideTabbedPane extends JTabbedPane {
         /**
          * Gets the gradient ratio. We will use this ratio to provide another color in order to paint gradient.
          *
-         * @param tabIndex
+         * @param tabIndex the index of the tab
          * @return the gradient ratio. The value should be between 0 and 1. 0 will produce the darkest and color and 1
          *         will produce the lighest color. 0.5 will provide the same color.
          */
@@ -1356,6 +1362,7 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the tab background at the top (or other direction depending on the tab placement) of the tab. The
          * JideTabbedPaneUI will paint a gradient using this color and the color of getBackgroundAt.
          *
+         * @param tabIndex the index of the tab
          * @return the top background color.
          */
         Color getTopBackgroundAt(int tabIndex);
@@ -1404,7 +1411,7 @@ public class JideTabbedPane extends JTabbedPane {
      * it very well. There is {@link #ONENOTE_COLOR_PROVIDER} which provides the tab color as you see in Microsoft
      * OneNote 2003. You can also define your own ColorProvider to fit your application color theme.
      *
-     * @param tabColorProvider
+     * @param tabColorProvider the tab color provider
      */
     public void setTabColorProvider(ColorProvider tabColorProvider) {
         ColorProvider old = _tabColorProvider;
@@ -1417,7 +1424,7 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Starts tab editing. This works only when {@link #setTabEditingAllowed(boolean)} is set to true.
      *
-     * @param tabIndex
+     * @param tabIndex the index of the tab
      */
     public void editTabAt(int tabIndex) {
         boolean started = ((JideTabbedPaneUI) getUI()).editTabAt(tabIndex);
@@ -1648,7 +1655,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the content border insets. It's the inserts around the JideTabbedPane's content. The direction of the insets
      * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
      *
-     * @param contentBorderInsets
+     * @param contentBorderInsets the content border insets
      */
     public void setContentBorderInsets(Insets contentBorderInsets) {
         Insets old = _contentBorderInsets;
@@ -1672,7 +1679,7 @@ public class JideTabbedPane extends JTabbedPane {
      * the tab will be selected automatically. You may want to set it to true if you want to add your own drop listener
      * to the tabs.
      *
-     * @param dragOverDisabled
+     * @param dragOverDisabled the flag indicating if drag over is disabled
      */
     public void setDragOverDisabled(boolean dragOverDisabled) {
         boolean old = _dragOverDisabled;
