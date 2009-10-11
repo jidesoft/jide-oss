@@ -731,13 +731,5 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         }
 
         UIDefaultsLookup.put(table, "Theme.painter", XertoPainter.getInstance());
-
-        // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
-            public Object convert(Object[] obj) {
-                return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0]), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-            }
-        });
-        table.put("PopupMenu.border", popupMenuBorder);
     }
 }
