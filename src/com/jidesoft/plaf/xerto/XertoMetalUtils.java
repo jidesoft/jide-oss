@@ -640,9 +640,5 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         }
 
         UIDefaultsLookup.put(table, "Theme.painter", XertoPainter.getInstance());
-
-        // since it used BasicPainter, make sure it is after Theme.Painter is set first.
-        Object popupMenuBorder = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
-        table.put("PopupMenu.border", popupMenuBorder);
     }
 }
