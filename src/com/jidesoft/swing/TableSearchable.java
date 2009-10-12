@@ -82,13 +82,13 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         int majorIndex, minorIndex;
         JTable table = ((JTable) _component);
         if (isColumnSelectionAllowed(table)) {
-            majorIndex = index;
-            minorIndex = getMainIndex();
+            minorIndex = index;
+            majorIndex = getMainIndex();
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else if (isRowSelectionAllowed(table)) {
             majorIndex = index;
-            minorIndex = getMainIndex();
+            minorIndex = table.convertColumnIndexToView(getMainIndex());
             addTableSelection(table, majorIndex, minorIndex, incremental);
         }
         else { // cell selection allowed
@@ -179,7 +179,7 @@ public class TableSearchable extends Searchable implements TableModelListener, P
             return getValueAt(table, getMainIndex(), index);
         }
         else if (isRowSelectionAllowed(table)) { // row selection mode
-            return getValueAt(table, index, getMainIndex());
+            return getValueAt(table, index, table.convertColumnIndexToView(getMainIndex()));
         }
         else if (isSearchSelectedRows()) { // search on multi columns
             int columnIndex = index % table.getColumnCount();
