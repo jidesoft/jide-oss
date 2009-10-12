@@ -474,6 +474,27 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         add(Box.createHorizontalStrut(6), JideBoxLayout.FIX);
     }
 
+    /**
+     * Get if the SearchableBar is highlighting all matches.
+     * <p/>
+     * Even you set it to true, after the customer press previous or next button, this flag will be cleared.
+     *
+     * @return true if all matches are highlighted. Otherwise false.
+     */
+    public boolean isHighlightAll() {
+        return _highlightsButton.isSelected();
+    }
+
+    /**
+     * Set if the SearchableBar will highlight all matches.
+     *
+     * @see #isHighlightAll()  
+     * @param highlightAll the flag
+     */
+    public void setHighlightAll(boolean highlightAll) {
+        _highlightsButton.setSelected(highlightAll);
+    }
+
     private void highlightAllOrNext() {
         if (_highlightsButton.isSelected()) {
             highlighAll();
