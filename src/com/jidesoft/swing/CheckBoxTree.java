@@ -19,6 +19,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * CheckBoxTree is a special JTree which uses JCheckBox as the tree renderer. In addition to regular JTree's features,
@@ -362,8 +364,33 @@ public class CheckBoxTree extends JTree {
             if (treePaths == null) {
                 return;
             }
-            for (TreePath treePath : treePaths) {
-                toggleSelection(treePath);
+            CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();
+            if (_tree.isDigIn()) {
+                for (TreePath treePath : treePaths) {
+                    toggleSelection(treePath);
+                }
+            }
+            else {
+                List<TreePath> pathToAdded = new ArrayList<TreePath>();
+                List<TreePath> pathToRemoved = new ArrayList<TreePath>();
+                for (TreePath treePath : treePaths) {
+                    boolean selected = selectionModel.isPathSelected(treePath, false);
+                    if (selected) {
+                        pathToRemoved.add(treePath);
+                    }
+                    else {
+                        pathToAdded.add(treePath);
+                    }
+                }
+                selectionModel.removeTreeSelectionListener(this);
+                try {
+                    selectionModel.addSelectionPaths(pathToAdded.toArray(new TreePath[pathToAdded.size()]));
+                    selectionModel.removeSelectionPaths(pathToRemoved.toArray(new TreePath[pathToRemoved.size()]));
+                }
+                finally {
+                    selectionModel.addTreeSelectionListener(this);
+                    _tree.treeDidChange();
+                }
             }
         }
     }
