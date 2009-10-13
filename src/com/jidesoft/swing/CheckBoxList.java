@@ -768,7 +768,7 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Selects all objects in this list except those are disabled.
+     * Selects all objects in this list.
      */
     public void selectAll() {
         if (getModel().getSize() > 0) {
@@ -777,7 +777,7 @@ public class CheckBoxList extends JList {
     }
 
     /**
-     * Deselects all objects in this list except those are disabled.
+     * Deselects all objects in this list.
      */
     public void selectNone() {
         if (getModel().getSize() > 0) {
