@@ -7,10 +7,7 @@ import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * <code>CheckBoxTreeSelectionModel</code> is a selection _model based on {@link DefaultTreeSelectionModel} and use in
@@ -22,6 +19,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     private TreeModel _model;
     private boolean _digIn = true;
     private CheckBoxTree _tree;
+    /**
+     * Used in {@link #areSiblingsSelected(javax.swing.tree.TreePath)} for those paths pending added so that they are not
+     * in the selection model right now.
+     */
+    protected Set<TreePath> _pathHasAdded;
 
     private boolean _singleEventMode = false;
     private static final long serialVersionUID = 1368502059666946634L;
@@ -248,9 +250,54 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
 
         try {
+            _pathHasAdded = new HashSet<TreePath>();
+            for (TreePath path : paths) {
+                if (isPathSelected(path, isDigIn())) {
+                    continue; // for non batch mode scenario, check if it is already selected by adding its parent possibly
+                }
+                if (isBatchMode()) {
+                    // if the path itself is added by other insertion, just remove it
+                    if (_toBeAdded.contains(path)) {
+                        addToExistingSet(_pathHasAdded, path);
+                        continue;
+                    }
+                    // check if its ancestor has already been added. If so, do nothing
+                    boolean findAncestor = false;
+                    for (TreePath addPath : _pathHasAdded) {
+                        if (addPath.isDescendant(path)) {
+                            findAncestor = true;
+                            break;
+                        }
+                    }
+                    if (findAncestor) {
+                        continue;
+                    }
+                }
+                TreePath temp = null;
+                // if all siblings are selected then deselect them and select parent recursively
+                // otherwise just select that path.
+                while (areSiblingsSelected(path)) {
+                    temp = path;
+                    if (path.getParentPath() == null)
+                        break;
+                    path = path.getParentPath();
+                }
+                if (temp != null) {
+                    if (temp.getParentPath() != null) {
+                        delegateAddSelectionPaths(new TreePath[] {temp.getParentPath()});
+                    }
+                    else {
+                        delegateAddSelectionPaths(new TreePath[]{temp});
+                    }
+                }
+                else {
+                    delegateAddSelectionPaths(new TreePath[]{path});
+                }
+                addToExistingSet(_pathHasAdded, path);
+            }
             // deselect all descendants of paths[]
             List<TreePath> toBeRemoved = new ArrayList<TreePath>();
-            for (TreePath path : paths) {
+            for (TreePath path : _toBeAdded) {
                 TreePath[] selectionPaths = getSelectionPaths();
                 if (selectionPaths == null)
                     break;
@@ -261,32 +308,6 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             }
             if (toBeRemoved.size() > 0) {
                 delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
-            }
-
-            // if all siblings are selected then deselect them and select parent recursively
-            // otherwise just select that path.
-            for (TreePath path : paths) {
-                TreePath temp = null;
-                while (areSiblingsSelected(path)) {
-                    temp = path;
-                    if (path.getParentPath() == null)
-                        break;
-                    path = path.getParentPath();
-                }
-                if (temp != null) {
-                    if (temp.getParentPath() != null) {
-                        addSelectionPath(temp.getParentPath());
-                    }
-                    else {
-                        if (!isSelectionEmpty()) {
-                            removeSelectionPaths(getSelectionPaths(), !fireEventAtTheEnd);
-                        }
-                        delegateAddSelectionPaths(new TreePath[]{temp});
-                    }
-                }
-                else {
-                    delegateAddSelectionPaths(new TreePath[]{path});
-                }
             }
         }
         finally {
@@ -321,11 +342,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             TreePath childPath = parent.pathByAddingChild(childNode);
             if (_tree != null && !_tree.isCheckBoxVisible(childPath)) {
                 // if the checkbox is not visible, we check its children
-                if (!isPathSelected(childPath, true)) {
+                if (!isPathSelected(childPath, true) && (_pathHasAdded == null || !_pathHasAdded.contains(childPath))) {
                     return false;
                 }
             }
-            if (!isPathSelected(childPath)) {
+            if (!isPathSelected(childPath) && (_pathHasAdded == null || !_pathHasAdded.contains(childPath))) {
                 return false;
             }
         }
@@ -343,31 +364,6 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             return;
         }
 
-        List toBeRemoved = new ArrayList();
-        for (TreePath path : paths) {
-            if (path.getPathCount() == 1) {
-                toBeRemoved.add(path);
-            }
-            else {
-                toggleRemoveSelection(path, doFireEvent);
-            }
-        }
-        if (toBeRemoved.size() > 0) {
-            delegateRemoveSelectionPaths((TreePath[]) toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
-        }
-    }
-
-    /**
-     * If any ancestor node of given path is selected then deselect it and selection all its descendants except given
-     * path and descendants. Otherwise just deselect the given path
-     * <p/>
-     * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
-     * instance on the fly, it would not work.
-     *
-     * @param path        the tree path
-     * @param doFireEvent the flag indicating if firing event
-     */
-    private void toggleRemoveSelection(TreePath path, boolean doFireEvent) {
         boolean fireEventAtTheEnd = false;
         if (doFireEvent) {
             if (isSingleEventMode() && _fireEvent) {
@@ -376,47 +372,108 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             }
         }
         try {
-            Stack<TreePath> stack = new Stack<TreePath>();
-            TreePath parent = path.getParentPath();
-            while (parent != null && !isPathSelected(parent)) {
-                stack.push(parent);
-                parent = parent.getParentPath();
-            }
-            if (parent != null)
-                stack.push(parent);
-            else {
-                delegateRemoveSelectionPaths(new TreePath[]{path});
-                return;
-            }
-
-            List<TreePath> toBeAdded = new ArrayList<TreePath>();
-            while (!stack.isEmpty()) {
-                TreePath temp = stack.pop();
-                TreePath peekPath = stack.isEmpty() ? path : stack.peek();
-                Object node = temp.getLastPathComponent();
-                Object peekNode = peekPath.getLastPathComponent();
-                int childCount = _model.getChildCount(node);
-                for (int i = 0; i < childCount; i++) {
-                    Object childNode = _model.getChild(node, i);
-                    if (childNode != peekNode) {
-                        TreePath treePath = temp.pathByAddingChild(childNode);
-                        toBeAdded.add(treePath);
+            Set<TreePath> pathHasRemoved = new HashSet<TreePath>();
+            for (TreePath path : paths) {
+                if (!isPathSelected(path, isDigIn())) {
+                    continue; // for non batch mode scenario, check if it is already deselected by removing its parent possibly
+                }
+                TreePath upperMostSelectedAncestor = null;
+                if (isBatchMode()) {
+                    // if the path itself is added by other removal, just remove it
+                    if (_toBeAdded.contains(path)) {
+                        _toBeAdded.remove(path);
+                        addToExistingSet(pathHasRemoved, path);
+                        continue;
+                    }
+                    // check if its ancestor has already been removed. If so, do nothing
+                    boolean findAncestor = false;
+                    for (TreePath removedPath : pathHasRemoved) {
+                        if (removedPath.isDescendant(path)) {
+                            findAncestor = true;
+                            break;
+                        }
+                    }
+                    if (findAncestor) {
+                        continue;
+                    }
+                    // remove all children path added by other removal
+                    Set<TreePath> pathToRemoved = new HashSet<TreePath>();
+                    for (TreePath pathToAdded : _toBeAdded) {
+                        if (path.isDescendant(pathToAdded)) {
+                            pathToRemoved.add(pathToAdded);
+                        }
+                    }
+                    _toBeAdded.removeAll(pathToRemoved);
+                    // find a parent path added by other removal, then use that parent to do following actions
+                    for (TreePath pathToAdded : _toBeAdded) {
+                        if (pathToAdded.isDescendant(path)) {
+                            upperMostSelectedAncestor = pathToAdded;
+                            break;
+                        }
                     }
                 }
+                TreePath parent = path.getParentPath();
+                Stack<TreePath> stack = new Stack<TreePath>();
+                while (parent != null && (upperMostSelectedAncestor == null ? !isPathSelected(parent) : parent != upperMostSelectedAncestor)) {
+                    stack.push(parent);
+                    parent = parent.getParentPath();
+                }
+                if (parent != null)
+                    stack.push(parent);
+                else {
+                    delegateRemoveSelectionPaths(new TreePath[]{path});
+                    addToExistingSet(pathHasRemoved, path);
+                    continue;
+                }
+
+                List<TreePath> toBeAdded = new ArrayList<TreePath>();
+                while (!stack.isEmpty()) {
+                    TreePath temp = stack.pop();
+                    TreePath peekPath = stack.isEmpty() ? path : stack.peek();
+                    Object node = temp.getLastPathComponent();
+                    Object peekNode = peekPath.getLastPathComponent();
+                    int childCount = _model.getChildCount(node);
+                    for (int i = 0; i < childCount; i++) {
+                        Object childNode = _model.getChild(node, i);
+                        if (childNode != peekNode) {
+                            TreePath treePath = temp.pathByAddingChild(childNode);
+                            toBeAdded.add(treePath);
+                        }
+                    }
+                }
+                if (toBeAdded.size() > 0) {
+                    delegateAddSelectionPaths(toBeAdded.toArray(new TreePath[toBeAdded.size()]));
+                }
+                delegateRemoveSelectionPaths(new TreePath[]{parent});
+                addToExistingSet(pathHasRemoved, path);
             }
-            if (toBeAdded.size() > 0) {
-                delegateAddSelectionPaths(toBeAdded.toArray(new TreePath[toBeAdded.size()]));
-            }
-            delegateRemoveSelectionPaths(new TreePath[]{parent});
         }
         finally {
-            if (doFireEvent) {
-                _fireEvent = true;
-                if (isSingleEventMode() && fireEventAtTheEnd) {
-                    notifyPathChange(new TreePath[]{path}, false, path);
-                }
+            _fireEvent = true;
+            if (isSingleEventMode() && fireEventAtTheEnd) {
+                notifyPathChange(paths, false, paths[0]);
             }
         }
+    }
+
+    private void addToExistingSet(Set<TreePath> pathHasOperated, TreePath pathToOperate) {
+        if (pathHasOperated.contains(pathToOperate)) {
+            return; // it is already removed
+        }
+        for (TreePath path : pathHasOperated) {
+            if (path.isDescendant(pathToOperate)) {
+                return; // its parent is removed, no need to add it
+            }
+        }
+        // remove all children path exists in the set
+        Set<TreePath> duplicatePathToErase = new HashSet<TreePath>();
+        for (TreePath path : pathHasOperated) {
+            if (pathToOperate.isDescendant(path)) {
+                duplicatePathToErase.add(path);
+            }
+        }
+        pathHasOperated.removeAll(duplicatePathToErase);
+        pathHasOperated.add(pathToOperate);
     }
 
     public boolean isSingleEventMode() {
@@ -483,7 +540,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     // do not use it for now
     private boolean _batchMode = false;
 
-    private boolean isBatchMode() {
+    boolean isBatchMode() {
         return _batchMode;
     }
 
@@ -497,8 +554,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
     }
 
-    private List<TreePath> _toBeAdded = new ArrayList<TreePath>();
-    private List<TreePath> _toBeRemoved = new ArrayList<TreePath>();
+    private Set<TreePath> _toBeAdded = new HashSet<TreePath>();
+    private Set<TreePath> _toBeRemoved = new HashSet<TreePath>();
 
     private void delegateRemoveSelectionPaths(TreePath[] paths) {
         if (!isBatchMode()) {
@@ -529,7 +586,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
         else {
             for (TreePath path : paths) {
-                _toBeAdded.add(path);
+                addToExistingSet(_toBeAdded, path);
                 _toBeRemoved.remove(path);
             }
         }

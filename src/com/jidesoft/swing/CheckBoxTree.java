@@ -286,7 +286,7 @@ public class CheckBoxTree extends JTree {
 
             TreePath path = preventToggleEvent(e);
             if (path != null) {
-                toggleSelection(path);
+                toggleSelections(new TreePath[] {path});
                 e.consume();
             }
         }
@@ -334,63 +334,42 @@ public class CheckBoxTree extends JTree {
             _tree.treeDidChange();
         }
 
-        private void toggleSelection(TreePath path) {
-            if (!_tree.isEnabled() || !_tree.isCheckBoxEnabled(path)) {
-                return;
-            }
-            CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();
-            boolean selected = selectionModel.isPathSelected(path, selectionModel.isDigIn());
-            selectionModel.removeTreeSelectionListener(this);
-            try {
-                if (!selectionModel.isSingleEventMode()) {
-                    selectionModel.setBatchMode(true);
-                }
-                if (selected)
-                    selectionModel.removeSelectionPath(path);
-                else
-                    selectionModel.addSelectionPath(path);
-            }
-            finally {
-                if (!selectionModel.isSingleEventMode()) {
-                    selectionModel.setBatchMode(false);
-                }
-                selectionModel.addTreeSelectionListener(this);
-                _tree.treeDidChange();
-            }
-        }
-
         protected void toggleSelections() {
             TreePath[] treePaths = _tree.getSelectionPaths();
-            if (treePaths == null) {
+            toggleSelections(treePaths);
+        }
+
+        private void toggleSelections(TreePath[] treePaths) {
+            if (treePaths == null || treePaths.length == 0 || !_tree.isEnabled()) {
                 return;
             }
             CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();
-            if (_tree.isDigIn()) {
-                for (TreePath treePath : treePaths) {
-                    toggleSelection(treePath);
+            List<TreePath> pathToAdded = new ArrayList<TreePath>();
+            List<TreePath> pathToRemoved = new ArrayList<TreePath>();
+            for (TreePath treePath : treePaths) {
+                boolean selected = selectionModel.isPathSelected(treePath, selectionModel.isDigIn());
+                if (selected) {
+                    pathToRemoved.add(treePath);
+                }
+                else {
+                    pathToAdded.add(treePath);
                 }
             }
-            else {
-                List<TreePath> pathToAdded = new ArrayList<TreePath>();
-                List<TreePath> pathToRemoved = new ArrayList<TreePath>();
-                for (TreePath treePath : treePaths) {
-                    boolean selected = selectionModel.isPathSelected(treePath, false);
-                    if (selected) {
-                        pathToRemoved.add(treePath);
-                    }
-                    else {
-                        pathToAdded.add(treePath);
-                    }
-                }
-                selectionModel.removeTreeSelectionListener(this);
-                try {
+            selectionModel.removeTreeSelectionListener(this);
+            boolean old = selectionModel.isBatchMode();
+            selectionModel.setBatchMode(true);
+            try {
+                if (pathToAdded.size() > 0) {
                     selectionModel.addSelectionPaths(pathToAdded.toArray(new TreePath[pathToAdded.size()]));
+                }
+                if (pathToRemoved.size() > 0) {
                     selectionModel.removeSelectionPaths(pathToRemoved.toArray(new TreePath[pathToRemoved.size()]));
                 }
-                finally {
-                    selectionModel.addTreeSelectionListener(this);
-                    _tree.treeDidChange();
-                }
+            }
+            finally {
+                selectionModel.addTreeSelectionListener(this);
+                selectionModel.setBatchMode(old);
+                _tree.treeDidChange();
             }
         }
     }
