@@ -3,12 +3,16 @@ package com.jidesoft.utils;
 /**
  * Default implementation of {@link WildcardSupport}. It uses the following three chars as the wildcards.
  * <ul>
- * <li> '?' The question mark indicates there is zero or one of the preceding element. For example, colou?r matches both "color" and "colour".
- * <li>'*' The asterisk indicates there are zero or more of the preceding element. For example, ab*c matches "ac", "abc", "abbc", "abbbc", and so on.
- * <li>'+' The plus sign indicates that there is one or more of the preceding element. For example, ab+c matches "abc", "abbc", "abbbc", and so on, but not "ac".
+ * <li> '?' The question mark indicates there is exact one of missing element. For example, colo?r matches
+ * "colour" but not "color" or "colouur".
+ * <li>'*' The asterisk indicates there are zero or more of the missing elements. For example, ab*c matches
+ * "abc", "abbc", "abdbc", and so on.
+ * <li>'+' The plus sign indicates there are at least one of the missing elements. For example, ab+c matches
+ * "abbc", "abdbc", but not "abc".
  * </ul>
  */
 public class DefaultWildcardSupport extends AbstractWildcardSupport {
+    private static final long serialVersionUID = -5528733766095113518L;
 
     public char getZeroOrOneQuantifier() {
         return '?';
