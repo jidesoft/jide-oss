@@ -45,6 +45,9 @@ public class DefaultArrayConverter extends ArrayConverter {
         }
         else {
             Object[] objects = arrayFromString(string, context);
+            if (objects == null) {
+                return new Object[0];
+            }
             Class<?> elementClass = getElementClass();
             if (elementClass == Object.class) {
                 return objects;
