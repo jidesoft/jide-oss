@@ -38,12 +38,12 @@ public class BasicJidePopupMenuUI extends BasicPopupMenuUI {
      * @return Popup
      */
     public static Popup addScrollPaneIfNecessary(JPopupMenu popupMenu, int x, int y) {
+        SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         if (popupMenu instanceof JidePopupMenu && popupMenu.getPreferredSize().height != ((JidePopupMenu) popupMenu).getPreferredScrollableViewportSize().height) {
             if (popupMenu.getLayout() instanceof DefaultMenuLayout) {
                 popupMenu.setLayout(new BoxLayout(popupMenu, ((DefaultMenuLayout) popupMenu.getLayout()).getAxis()));
             }
             PopupFactory popupFactory = PopupFactory.getSharedInstance();
-            SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             contents.getScrollUpButton().setOpaque(true);
             contents.getScrollDownButton().setOpaque(true);
             contents.setBorder(BorderFactory.createEmptyBorder());
