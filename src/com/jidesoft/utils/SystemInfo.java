@@ -36,6 +36,11 @@ final public class SystemInfo {
     private static boolean _isWindowsVista = false;
 
     /**
+     * Variable for whether or not we're on Windows 7.
+     */
+    private static boolean _isWindows7 = false;
+
+    /**
      * Variable for whether or not we're on Windows 2003.
      */
     private static boolean _isWindows2003 = false;
@@ -113,6 +118,9 @@ final public class SystemInfo {
         }
         if (os.indexOf("Windows Vista") != -1) {
             _isWindowsVista = true;
+        }
+        if (os.indexOf("Windows 7") != -1) {
+            _isWindows7 = true;
         }
         if (os.indexOf("Windows 2003") != -1) {
             _isWindows2003 = true;
@@ -262,6 +270,24 @@ final public class SystemInfo {
      */
     public static boolean isWindowsVista() {
         return _isWindowsVista;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Windows 7.
+     *
+     * @return <tt>true</tt> if the application is running on Windows 7, <tt>false</tt> otherwise.
+     */
+    public static boolean isWindows7() {
+        return _isWindows7;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Windows Vista or Windows 7.
+     *
+     * @return <tt>true</tt> if the application is running on Windows Vista or Windows 7, <tt>false</tt> otherwise.
+     */
+    public static boolean isWindowsVistaAbove() {
+        return _isWindowsVista || _isWindows7;
     }
 
     /**
