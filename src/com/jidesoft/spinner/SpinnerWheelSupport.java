@@ -12,9 +12,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 /**
- * A helper class to add mouse wheel support to JSpinner.
- * You can call {@link #installMouseWheelSupport(javax.swing.JSpinner)} to add the support
- * and {@link #uninstallMouseWheelSupport(javax.swing.JSpinner)} to remove the support.
+ * A helper class to add mouse wheel support to JSpinner. You can call {@link #installMouseWheelSupport(javax.swing.JSpinner)}
+ * to add the support and {@link #uninstallMouseWheelSupport(javax.swing.JSpinner)} to remove the support.
  */
 public class SpinnerWheelSupport {
 
@@ -26,13 +25,13 @@ public class SpinnerWheelSupport {
         MouseWheelListener l = new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int rotation = e.getWheelRotation();
-                if (rotation > 0) {
+                if (rotation < 0) {
                     Action action = spinner.getActionMap().get(ACTION_NAME_INCREMENT);
                     if (action != null) {
                         action.actionPerformed(new ActionEvent(e.getSource(), 0, ACTION_NAME_INCREMENT));
                     }
                 }
-                else if (rotation < 0) {
+                else if (rotation > 0) {
                     Action action = spinner.getActionMap().get(ACTION_NAME_DECREMENT);
                     if (action != null) {
                         action.actionPerformed(new ActionEvent(e.getSource(), 0, ACTION_NAME_DECREMENT));
