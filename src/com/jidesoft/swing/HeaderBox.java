@@ -14,7 +14,7 @@ import javax.swing.*;
 /**
  * HeaderBox is a special component that is used in JIDE Pivot Grid product to mimic a button with table header style.
  */
-public class HeaderBox extends JButton {
+public class HeaderBox extends JideButton {
 
     private static final String uiClassID = "HeaderBoxUI";
 
