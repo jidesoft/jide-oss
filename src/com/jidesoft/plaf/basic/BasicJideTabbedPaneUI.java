@@ -17,10 +17,7 @@ import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
@@ -7247,127 +7244,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             list.setCellRenderer(getTabListCellRenderer());
             list.setModel(listModel);
             list.setSelectedIndex(selectedIndex);
-            list.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    int tabIndex = list.getSelectedIndex();
-                    if (tabIndex != -1 && _tabPane.isEnabledAt(tabIndex)) {
-                        if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
-                            if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
-                                Runnable runnable = new Runnable() {
-                                    public void run() {
-                                        _tabPane.requestFocus();
-                                    }
-                                };
-                                SwingUtilities.invokeLater(runnable);
-                            }
-                        }
-                        else {
-                            _tabPane.setSelectedIndex(tabIndex);
-                            final Component comp = _tabPane.getComponentAt(tabIndex);
-                            if (_tabPane.isAutoFocusOnTabHideClose() && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
-                                comp.addComponentListener(new ComponentAdapter() {
-                                    @Override
-                                    public void componentShown(ComponentEvent e) {
-                                        // remove the listener
-                                        comp.removeComponentListener(this);
+            list.addKeyListener(new KeyListener() {
+                public void keyTyped(KeyEvent e) {
+                }
 
-                                        final Component lastFocused = _tabPane.getLastFocusedComponent(comp);
-                                        Runnable runnable = new Runnable() {
-                                            public void run() {
-                                                if (lastFocused != null) {
-                                                    lastFocused.requestFocus();
-                                                }
-                                                else if (_tabPane.isRequestFocusEnabled()) {
-                                                    _tabPane.requestFocus();
-                                                }
-                                            }
-                                        };
-                                        SwingUtilities.invokeLater(runnable);
-                                    }
-                                });
-                            }
-                            else {
-                                final Component lastFocused = _tabPane.getLastFocusedComponent(comp);
-                                if (lastFocused != null) {
-                                    Runnable runnable = new Runnable() {
-                                        public void run() {
-                                            lastFocused.requestFocus();
-                                        }
-                                    };
-                                    SwingUtilities.invokeLater(runnable);
-                                }
-                                else {
-                                    Container container;
-                                    if (comp instanceof Container) {
-                                        container = (Container) comp;
-                                    }
-                                    else {
-                                        container = comp.getFocusCycleRootAncestor();
-                                    }
-                                    FocusTraversalPolicy traversalPolicy = container.getFocusTraversalPolicy();
-                                    Component focusComponent;
-                                    if (traversalPolicy != null) {
-                                        focusComponent = traversalPolicy.getDefaultComponent(container);
-                                        if (focusComponent == null) {
-                                            focusComponent = traversalPolicy.getFirstComponent(container);
-                                        }
-                                    }
-                                    else if (comp instanceof Container) {
-                                        // not sure if it is correct
-                                        focusComponent = findFocusableComponent((Container) comp);
-                                    }
-                                    else {
-                                        focusComponent = comp;
-                                    }
-                                    if (focusComponent != null) {
-                                        final Component theComponent = focusComponent;
-                                        Runnable runnable = new Runnable() {
-                                            public void run() {
-                                                theComponent.requestFocus();
-                                            }
-                                        };
-                                        SwingUtilities.invokeLater(runnable);
-                                    }
-                                }
-                            }
-                        }
-                        ensureActiveTabIsVisible(false);
-                        _popup.hidePopupImmediately();
-                        _popup = null;
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        componentSelected(list);
                     }
                 }
 
-                private Component findFocusableComponent(Container parent) {
-                    FocusTraversalPolicy traversalPolicy = parent.getFocusTraversalPolicy();
-                    Component focusComponent = null;
-                    if (traversalPolicy != null) {
-                        focusComponent = traversalPolicy.getDefaultComponent(parent);
-                        if (focusComponent == null) {
-                            focusComponent = traversalPolicy.getFirstComponent(parent);
-                        }
-                    }
-                    if (focusComponent != null) {
-                        return focusComponent;
-                    }
-                    int i = 0;
-                    while (i < parent.getComponentCount()) {
-                        Component comp = parent.getComponent(i);
-                        if (comp instanceof Container) {
-                            focusComponent = findFocusableComponent((Container) comp);
-                            if (focusComponent != null) {
-                                return focusComponent;
-                            }
-                        }
-                        else if (comp.isFocusable()) {
-                            return comp;
-                        }
-                        i++;
-                    }
-                    if (parent.isFocusable()) {
-                        return parent;
-                    }
-                    return null;
+                public void keyReleased(KeyEvent e) {
+                }
+            });
+            list.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    componentSelected(list);
                 }
             });
 
@@ -7442,6 +7335,127 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             _popup.showPopup(x, y);
+        }
+
+        private void componentSelected(JList list) {
+            int tabIndex = list.getSelectedIndex();
+            if (tabIndex != -1 && _tabPane.isEnabledAt(tabIndex)) {
+                if (tabIndex == _tabPane.getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(_tabPane)) {
+                    if (_tabPane.isAutoFocusOnTabHideClose() && _tabPane.isRequestFocusEnabled()) {
+                        Runnable runnable = new Runnable() {
+                            public void run() {
+                                _tabPane.requestFocus();
+                            }
+                        };
+                        SwingUtilities.invokeLater(runnable);
+                    }
+                }
+                else {
+                    _tabPane.setSelectedIndex(tabIndex);
+                    final Component comp = _tabPane.getComponentAt(tabIndex);
+                    if (_tabPane.isAutoFocusOnTabHideClose() && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
+                        comp.addComponentListener(new ComponentAdapter() {
+                            @Override
+                            public void componentShown(ComponentEvent e) {
+                                // remove the listener
+                                comp.removeComponentListener(this);
+
+                                final Component lastFocused = _tabPane.getLastFocusedComponent(comp);
+                                Runnable runnable = new Runnable() {
+                                    public void run() {
+                                        if (lastFocused != null) {
+                                            lastFocused.requestFocus();
+                                        }
+                                        else if (_tabPane.isRequestFocusEnabled()) {
+                                            _tabPane.requestFocus();
+                                        }
+                                    }
+                                };
+                                SwingUtilities.invokeLater(runnable);
+                            }
+                        });
+                    }
+                    else {
+                        final Component lastFocused = _tabPane.getLastFocusedComponent(comp);
+                        if (lastFocused != null) {
+                            Runnable runnable = new Runnable() {
+                                public void run() {
+                                    lastFocused.requestFocus();
+                                }
+                            };
+                            SwingUtilities.invokeLater(runnable);
+                        }
+                        else {
+                            Container container;
+                            if (comp instanceof Container) {
+                                container = (Container) comp;
+                            }
+                            else {
+                                container = comp.getFocusCycleRootAncestor();
+                            }
+                            FocusTraversalPolicy traversalPolicy = container.getFocusTraversalPolicy();
+                            Component focusComponent;
+                            if (traversalPolicy != null) {
+                                focusComponent = traversalPolicy.getDefaultComponent(container);
+                                if (focusComponent == null) {
+                                    focusComponent = traversalPolicy.getFirstComponent(container);
+                                }
+                            }
+                            else if (comp instanceof Container) {
+                                // not sure if it is correct
+                                focusComponent = findFocusableComponent((Container) comp);
+                            }
+                            else {
+                                focusComponent = comp;
+                            }
+                            if (focusComponent != null) {
+                                final Component theComponent = focusComponent;
+                                Runnable runnable = new Runnable() {
+                                    public void run() {
+                                        theComponent.requestFocus();
+                                    }
+                                };
+                                SwingUtilities.invokeLater(runnable);
+                            }
+                        }
+                    }
+                }
+                ensureActiveTabIsVisible(false);
+                _popup.hidePopupImmediately();
+                _popup = null;
+            }
+        }
+
+        private Component findFocusableComponent(Container parent) {
+            FocusTraversalPolicy traversalPolicy = parent.getFocusTraversalPolicy();
+            Component focusComponent = null;
+            if (traversalPolicy != null) {
+                focusComponent = traversalPolicy.getDefaultComponent(parent);
+                if (focusComponent == null) {
+                    focusComponent = traversalPolicy.getFirstComponent(parent);
+                }
+            }
+            if (focusComponent != null) {
+                return focusComponent;
+            }
+            int i = 0;
+            while (i < parent.getComponentCount()) {
+                Component comp = parent.getComponent(i);
+                if (comp instanceof Container) {
+                    focusComponent = findFocusableComponent((Container) comp);
+                    if (focusComponent != null) {
+                        return focusComponent;
+                    }
+                }
+                else if (comp.isFocusable()) {
+                    return comp;
+                }
+                i++;
+            }
+            if (parent.isFocusable()) {
+                return parent;
+            }
+            return null;
         }
 
         public void scrollForward(int tabPlacement) {
