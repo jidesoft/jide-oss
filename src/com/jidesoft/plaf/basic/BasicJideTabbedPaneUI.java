@@ -7205,7 +7205,21 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     if (preferredScrollableViewportSize.width < 150) {
                         preferredScrollableViewportSize.width = 150;
                     }
+                    int screenWidth = PortingUtils.getScreenSize(this).width;
+                    if (preferredScrollableViewportSize.width >= screenWidth) {
+                        preferredScrollableViewportSize.width = screenWidth;
+                    }
                     return preferredScrollableViewportSize;
+                }
+
+                @Override
+                public Dimension getPreferredSize() {
+                    Dimension preferredSize = super.getPreferredSize();
+                    int screenWidth = PortingUtils.getScreenSize(this).width;
+                    if (preferredSize.width >= screenWidth) {
+                        preferredSize.width = screenWidth;
+                    }
+                    return preferredSize;
                 }
             };
             new Sticky(list);
