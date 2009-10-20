@@ -41,9 +41,6 @@ import java.awt.*;
  * separator.setSeparatorBorder(new PartialEtchedBorder(PartialSide.SOUTH));
  * </pre>
  * </code> <p/> Please note, that this class should be constructed and modified from the EDT.<p> </p>
- *
- * @beaninfo attribute: isContainer false description: A horizontal component used for separating components on a
- * panel.
  */
 public class TitledSeparator extends JPanel {
 
@@ -285,8 +282,6 @@ public class TitledSeparator extends JPanel {
      * Sets the labelComponent part of this Titled Separator.
      *
      * @param labelComponent the component holding the text to display as the title.
-     * @beaninfo bound: true attribute: visualUpdate true description: Sets the labelComponent part of this Titled
-     * Separator.
      * @see #getLabelComponent
      */
     public void setLabelComponent(JComponent labelComponent) {
@@ -313,8 +308,6 @@ public class TitledSeparator extends JPanel {
      *
      * @param border Any border of type: com.jidesoft.swing.PartialEtchedBorder, com.jidesoft.swing.PartialLineBorder or
      *               com.jidesoft.swing.PartialGradientLineBorder.
-     * @beaninfo bound: true attribute: visualUpdate true description: Sets the border to be used as the graphical line
-     * region of this Titled Separator.
      * @see #getSeparatorBorder
      */
     public void setSeparatorBorder(Border border) {
@@ -343,7 +336,6 @@ public class TitledSeparator extends JPanel {
      *
      * @param textAlignment an int representing the texts horizontal position. Valid values are: SwingConstants.LEFT,
      *                      SwingConstants.RIGHT, SwingConstants.LEADING or SwingConstants.TRAILING.
-     * @beaninfo bound: true attribute: visualUpdate true description: Sets the texts horizontal alignment.
      * @see #getTextAlignment
      */
     public void setTextAlignment(int textAlignment) {
@@ -370,7 +362,6 @@ public class TitledSeparator extends JPanel {
      * Sets the bars vertical alignment.
      *
      * @param barAlignment Valid values are: SwingConstants.TOP, SwingConstants.CENTER or SwingConstants.BOTTOM.
-     * @beaninfo bound: true attribute: visualUpdate true description: Sets the barsverticall alignment.
      * @see #getBarAlignment
      */
     public void setBarAlignment(int barAlignment) {

@@ -192,7 +192,6 @@ public class FolderChooser extends JFileChooser {
      * be fired when a new folder is selected.
      *
      * @param selectedFolder the selected folder
-     * @beaninfo preferred: true bound: true
      * @see #getSelectedFolder
      */
     public void setSelectedFolder(File selectedFolder) {

@@ -9,11 +9,11 @@ import java.awt.*;
 import java.util.StringTokenizer;
 
 /**
- * If alpha value is not included, converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0, 0) and "255, 0, 255" is
- * Color(255, 0, 255).
-
- * If alpha value is included, converts Color to/from "XXX, XXX, XXX, XXX" format. For example "0, 0, 0, 255" is Color(0, 0, 0, 255) and "255, 0, 255, 100" is
- * Color(255, 0, 255, 100).
+ * If alpha value is not included, converts Color to/from "XXX, XXX, XXX" format. For example "0, 0, 0" is Color(0, 0,
+ * 0) and "255, 0, 255" is Color(255, 0, 255).
+ * <p/>
+ * If alpha value is included, converts Color to/from "XXX, XXX, XXX, XXX" format. For example "0, 0, 0, 255" is
+ * Color(0, 0, 0, 255) and "255, 0, 255, 100" is Color(255, 0, 255, 100).
  */
 public class RgbColorConverter extends ColorConverter {
 
@@ -39,9 +39,10 @@ public class RgbColorConverter extends ColorConverter {
      * <p/>
      * If you use default constructor, the default value of this flag is false.
      * <p/>
-     * @see {@link RgbColorConverter}
      *
      * @return true if this converter should consider alpha value.
+     *
+     * @see RgbColorConverter
      */
     public boolean isAlphaIncluded() {
         return _alphaIncluded;
@@ -50,9 +51,9 @@ public class RgbColorConverter extends ColorConverter {
     /**
      * Set the flag if this converter should consider alpha value.
      * <p/>
-     * @see {@link #isAlphaIncluded()}
      *
      * @param alphaIncluded the flag if this converter should consider alpha value.
+     * @see #isAlphaIncluded()
      */
     public void setAlphaIncluded(boolean alphaIncluded) {
         _alphaIncluded = alphaIncluded;
