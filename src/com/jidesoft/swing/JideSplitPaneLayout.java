@@ -7,6 +7,8 @@
 
 package com.jidesoft.swing;
 
+import com.jidesoft.utils.SystemInfo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -229,7 +231,9 @@ public class JideSplitPaneLayout extends JideBoxLayout {
             }
         }
 
-        _target.firePropertyChange(JideSplitPane.PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+        if (SystemInfo.isJdk15Above()) {
+            _target.firePropertyChange(JideSplitPane.PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+        }
         ((JideSplitPane) _target).revalidate();
 
         if (((JideSplitPane) _target).isProportionalLayout()) {
