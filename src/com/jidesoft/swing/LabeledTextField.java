@@ -78,6 +78,7 @@ public class LabeledTextField extends JPanel {
         _button = createButton();
         _textField = createTextField();
         initLayout(_label, _textField, _button);
+        setContextMenuKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,  KeyEvent.ALT_DOWN_MASK));
         registerContextMenuKeyStroke(getContextMenuKeyStroke());
         updateUI();
     }
