@@ -13,7 +13,7 @@ public class StringUtils {
      * Converts the supplied string to CamelCase by converting the first character to upper case and the rest of the
      * string to lower case.
      *
-     * @param str
+     * @param str the input string
      * @return a string
      */
     public static String toCamelCase(String str) {
@@ -27,11 +27,11 @@ public class StringUtils {
      * a separator string in between the items. For example, with a prefix of '(', a suffix of ')', a separator of ','
      * and a list ["a", "b", "c"] it would generate the string "(a,b,c)"
      *
-     * @param prefix
-     * @param suffix
-     * @param separator
-     * @param objects
-     * @return
+     * @param prefix    the prefix for the concatenated string.
+     * @param suffix    the suffix for the concatenated string.
+     * @param separator the separator between the elements.
+     * @param objects   the array of the elements.
+     * @return a concatenated string of the elements in the array.
      */
     public static String stringList(String prefix, String suffix, String separator, Object... objects) {
         StringBuilder builder = new StringBuilder(prefix);

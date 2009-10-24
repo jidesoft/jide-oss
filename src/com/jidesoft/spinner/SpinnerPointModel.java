@@ -79,7 +79,7 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * @param point
+     * @param point the new point
      */
     public void setPoint(Point point) {
         if (!this.point.equals(point)) {
@@ -89,14 +89,14 @@ public class SpinnerPointModel extends AbstractSpinnerModel {
     }
 
     /**
-     * @return
+     * @return the field.
      */
     public int getField() {
         return field;
     }
 
     /**
-     * @param field
+     * @param field the new field.
      */
     public void setField(int field) {
         this.field = field;
