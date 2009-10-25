@@ -93,7 +93,10 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
             ((JComboBox) _component).setSelectedIndex(index);
         }
         if (isShowPopupDuringSearching()) {
+            boolean old = isHideSearchPopupOnEvent();
+            setHideSearchPopupOnEvent(false);
             ((JComboBox) _component).hidePopup();
+            setHideSearchPopupOnEvent(old);
             try {
                 if (!((JComboBox) _component).isPopupVisible() &&
                         KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null &&
@@ -189,10 +192,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
 
     public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         if (isHideSearchPopupOnEvent()) {
-            boolean old = isShowPopupDuringSearching();
-            setShowPopupDuringSearching(false);
             hidePopup();
-            setShowPopupDuringSearching(old);
         }
     }
 
