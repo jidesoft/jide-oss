@@ -141,6 +141,7 @@ public abstract class Searchable {
     private Set<Integer> _selection;
 
     private boolean _processModelChangeEvent = true;
+    private boolean _hideSearchPopupOnEvent = true;
 
     /**
      * Creates a Searchable.
@@ -236,6 +237,29 @@ public abstract class Searchable {
      * @return the string representing the element in the component.
      */
     protected abstract String convertElementToString(Object element);
+
+    /**
+     * Get the flag indicating if the search popup should be hidden on the component's event.
+     * <p/>
+     * By default, the value is true so that the search popup will be hidden anyway when the component get related events.
+     * However, you could set this flag to false if you don't want to hide the search popup in some scenarios. For example,
+     * JIDE ComboBoxShrinkSearchableSupport will set this flag to false temporarily when it tries to shrink the list.
+     *
+     * @return true if the search popup is hidden on event. Otherwise false.
+     */
+    public boolean isHideSearchPopupOnEvent() {
+        return _hideSearchPopupOnEvent;
+    }
+
+    /**
+     * Set the flag indicating if the search popup should be hidden on the component's event.
+     *
+     * @see #isHideSearchPopupOnEvent()
+     * @param hideSearchPopupOnEvent the flag
+     */
+    public void setHideSearchPopupOnEvent(boolean hideSearchPopupOnEvent) {
+        _hideSearchPopupOnEvent = hideSearchPopupOnEvent;
+    }
 
     /**
      * A text field for searching text.

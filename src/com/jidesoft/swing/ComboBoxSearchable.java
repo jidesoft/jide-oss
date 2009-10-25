@@ -10,6 +10,8 @@ import com.jidesoft.swing.event.SearchableEvent;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,7 +41,7 @@ import java.beans.PropertyChangeListener;
  * Additional customization can be done on the base Searchable class such as background and foreground color,
  * keystrokes, case sensitivity,
  */
-public class ComboBoxSearchable extends Searchable implements ListDataListener, PropertyChangeListener {
+public class ComboBoxSearchable extends Searchable implements ListDataListener, PropertyChangeListener, PopupMenuListener {
 
     private boolean _showPopupDuringSearching = true;
 
@@ -54,6 +56,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         });
         comboBox.getModel().addListDataListener(this);
         comboBox.addPropertyChangeListener("model", this);
+        comboBox.addPopupMenuListener(this);
     }
 
     @Override
@@ -61,6 +64,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         super.uninstallListeners();
         if (_component instanceof JComboBox) {
             ((JComboBox) _component).getModel().removeListDataListener(this);
+            ((JComboBox) _component).removePopupMenuListener(this);
         }
         _component.removePropertyChangeListener("model", this);
     }
@@ -180,4 +184,18 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
 
+    public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+    }
+
+    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+        if (isHideSearchPopupOnEvent()) {
+            boolean old = isShowPopupDuringSearching();
+            setShowPopupDuringSearching(false);
+            hidePopup();
+            setShowPopupDuringSearching(old);
+        }
+    }
+
+    public void popupMenuCanceled(PopupMenuEvent e) {
+    }
 }
