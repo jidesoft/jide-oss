@@ -129,6 +129,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     private WindowAdapter _windowListener;
     private ComponentAdapter _ownerComponentListener;
     private HierarchyListener _hierarchyListener;
+    private Point _displayStartLocation;
 
     /**
      * If the popup shows a dialog and you don't want the popup to be hidden when the dialog is shown, you can use this
@@ -910,7 +911,30 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         internalShowPopup(displayLocation.x, displayLocation.y, owner);
     }
 
+    /**
+     * Set the display start location of the popup.
+     *
+     * @see #getDisplayStartLocation(java.awt.Rectangle, java.awt.Dimension, int)
+     * @param startLocation the display start location.
+     */
+    public void setDisplayStartLocation(Point startLocation) {
+        _displayStartLocation = startLocation;
+    }
+
+    /**
+     * Get the display start location of the popup. It will automatically calculate a point if the customer
+     * didn't invoke {@link #setDisplayStartLocation(java.awt.Point)} explicitly. It will just return the location
+     * if the customer already set it.
+     *
+     * @param screenDim the dimension of the screen
+     * @param size      the size of the popup
+     * @param location  the direction to show the popup
+     * @return the display start location.
+     */
     protected Point getDisplayStartLocation(Rectangle screenDim, Dimension size, int location) {
+        if (_displayStartLocation != null) {
+            return _displayStartLocation;
+        }
         switch (location) {
             case SwingConstants.CENTER:
                 return new Point(screenDim.x + (screenDim.width - size.width) / 2,
