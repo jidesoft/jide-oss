@@ -797,7 +797,22 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     }
 
     protected Dimension getPreferredSizeOf(Component comp, int atIndex) {
-        return comp.getPreferredSize();
+        Dimension preferredSize = comp.getPreferredSize();
+        Dimension minimumSize = comp.getMinimumSize();
+        if (preferredSize.height < minimumSize.height) {
+            preferredSize.height = minimumSize.height;
+        }
+        if (preferredSize.width < minimumSize.width) {
+            preferredSize.width = minimumSize.width;
+        }
+        Dimension maximumSize = comp.getMaximumSize();
+        if (preferredSize.height > maximumSize.height) {
+            preferredSize.height = maximumSize.height;
+        }
+        if (preferredSize.width > maximumSize.width) {
+            preferredSize.width = maximumSize.width;
+        }
+        return preferredSize;
     }
 
     /**
