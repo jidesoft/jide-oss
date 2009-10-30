@@ -116,6 +116,11 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String AQUA_LNF = "apple.laf.AquaLookAndFeel";
 
     /**
+     * Class name of Aqua L&F provided in Apple Mac OS X JDK. This is the new package since Java Update 6.
+     */
+    public static final String AQUA_LNF_6 = "com.apple.laf.AquaLookAndFeel";
+
+    /**
      * Class name of Quaqua L&F.
      */
     public static final String QUAQUA_LNF = "ch.randelshofer.quaqua.QuaquaLookAndFeel";
@@ -712,7 +717,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         // For Mac only
-        else if ((isLnfInUse(AQUA_LNF) && isAquaLnfInstalled())
+        else if (((isLnfInUse(AQUA_LNF) || isLnfInUse(AQUA_LNF_6)) && isAquaLnfInstalled())
                 || (isLnfInUse(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
@@ -934,7 +939,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if aqua L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isAquaLnfInstalled() {
-        return isLnfInstalled(AQUA_LNF);
+        return isLnfInstalled(AQUA_LNF) || isLnfInstalled(AQUA_LNF_6);
     }
 
 
