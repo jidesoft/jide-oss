@@ -232,7 +232,12 @@ public class JideSplitPaneLayout extends JideBoxLayout {
         }
 
         if (SystemInfo.isJdk15Above()) {
-            _target.firePropertyChange(JideSplitPane.PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+            if (_target instanceof JideSplitPane) {
+                ((JideSplitPane) _target).firePropertyChange(JideSplitPane.PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+            }
+            else {
+                _target.firePropertyChange(JideSplitPane.PROPERTY_DIVIDER_LOCATION, oldLocation, location);
+            }
         }
         ((JideSplitPane) _target).revalidate();
 
