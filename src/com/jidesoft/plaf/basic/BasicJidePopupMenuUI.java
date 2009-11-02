@@ -8,6 +8,7 @@ package com.jidesoft.plaf.basic;
 
 import com.jidesoft.swing.JidePopupMenu;
 import com.jidesoft.swing.SimpleScrollPane;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -40,7 +41,7 @@ public class BasicJidePopupMenuUI extends BasicPopupMenuUI {
     public static Popup addScrollPaneIfNecessary(JPopupMenu popupMenu, int x, int y) {
         SimpleScrollPane contents = new SimpleScrollPane(popupMenu, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         if (popupMenu instanceof JidePopupMenu && popupMenu.getPreferredSize().height != ((JidePopupMenu) popupMenu).getPreferredScrollableViewportSize().height) {
-            if (popupMenu.getLayout() instanceof DefaultMenuLayout) {
+            if (popupMenu.getLayout() instanceof DefaultMenuLayout && SystemInfo.isJdk6Above()) {
                 popupMenu.setLayout(new BoxLayout(popupMenu, ((DefaultMenuLayout) popupMenu.getLayout()).getAxis()));
             }
             PopupFactory popupFactory = PopupFactory.getSharedInstance();
