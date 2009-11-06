@@ -523,11 +523,11 @@ public class JideTabbedPane extends JTabbedPane {
             return;
         }
         if (tabIndex == -1 || selectedIndex == -1)
-        	return;
+            return;
 
         if (isTabEditing())
-        	stopTabEditing();
-        
+            stopTabEditing();
+
         Component selectedComponent = getComponentAt(selectedIndex);
 
         boolean old = isAutoRequestFocus();
@@ -815,7 +815,7 @@ public class JideTabbedPane extends JTabbedPane {
     public void setTabEditingAllowed(boolean allowed) {
         _tabEditingAllowed = allowed;
     }
-    
+
 
     /**
      * Checks if the tab editing is allowed.
@@ -825,15 +825,15 @@ public class JideTabbedPane extends JTabbedPane {
     public boolean isTabEditingAllowed() {
         return _tabEditingAllowed && getTabLayoutPolicy() == SCROLL_TAB_LAYOUT;
     }
-    
+
     transient protected TabEditingValidator _tabEditValidator;
-    
+
     public void setTabEditingValidator(TabEditingValidator tabEditValidator) {
-    	_tabEditValidator = tabEditValidator;    	
+        _tabEditValidator = tabEditValidator;
     }
-    
+
     public TabEditingValidator getTabEditingValidator() {
-    	return _tabEditValidator;
+        return _tabEditValidator;
     }
 
     /**
@@ -1029,8 +1029,9 @@ public class JideTabbedPane extends JTabbedPane {
      * By default, this method always return true. Subclass can override this method to return a different value.
      *
      * @param tabIndex the tab index
-     * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      * @return the flag.
+     *
+     * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
         return !_closableMap.containsKey(tabIndex);
@@ -1080,27 +1081,27 @@ public class JideTabbedPane extends JTabbedPane {
         final Component componentReturn = ((tracker != null) ? tracker.getLastFocusedComponent() : null);
 
 //        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + componentReturn);
-        if (false) {
-            Component compTest = new JPanel() {
-                public void requestFocus() {
-//                    System.out.println("---.requestFocus()22");
-                    componentReturn.requestFocus();
-                }
-
-                public boolean isRequestFocusEnabled() {
-//                    System.out.println("---.isRequestFocusEnabled()");
-                    return true;
-                }
-
-                public Container getParent() {
-//                    System.out.println("---.getParent()");
-                    return (Container) componentReturn;
-                }
-            };
-            if (componentReturn != null)
-                ((Container) componentReturn).add(compTest);
-            return compTest;
-        }
+//        if (false) {
+//            Component compTest = new JPanel() {
+//                public void requestFocus() {
+////                    System.out.println("---.requestFocus()22");
+//                    componentReturn.requestFocus();
+//                }
+//
+//                public boolean isRequestFocusEnabled() {
+////                    System.out.println("---.isRequestFocusEnabled()");
+//                    return true;
+//                }
+//
+//                public Container getParent() {
+////                    System.out.println("---.getParent()");
+//                    return (Container) componentReturn;
+//                }
+//            };
+//            if (componentReturn != null)
+//                ((Container) componentReturn).add(compTest);
+//            return compTest;
+//        }
         return componentReturn;
     }
 
