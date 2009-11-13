@@ -113,7 +113,11 @@ public class DateConverter implements ObjectConverter {
      *         date, the string itself will be returned.
      */
     synchronized public Object fromString(String string, ConverterContext context) {
-        if (string == null || string.trim().length() == 0) {
+        if (string == null) {
+            return null;
+        }
+        string = string.trim();
+        if (string.length() == 0) {
             return null;
         }
 
