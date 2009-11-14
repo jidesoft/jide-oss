@@ -13,8 +13,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * A resizable undecorated frame.
@@ -57,7 +57,7 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
                     public void resizing(int resizeDir, int newX, int newY, int newW, int newH) {
                         Container container = ResizableFrame.this.getContentPane();
                         PortingUtils.setPreferredSize(container, new Dimension(newW, newH));
-                        if (!JFrame.isDefaultLookAndFeelDecorated()) {
+                        if (ResizableFrame.this.isUndecorated()) {
                             ResizableFrame.this.setBounds(newX, newY, newW, newH);
                         }
                         ResizableFrame.this.resizing();
