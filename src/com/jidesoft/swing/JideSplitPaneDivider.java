@@ -203,6 +203,9 @@ public class JideSplitPaneDivider extends JPanel
                 setDividerSize(_jideSplitPane.getDividerSize());
                 oneTouchExpandableChanged();
             }
+            else if (JideSplitPane.DIVIDER_SIZE_PROPERTY.equals(e.getPropertyName())) {
+                setDividerSize(_jideSplitPane.getDividerSize());
+            }
             else if (JideSplitPane.GRIPPER_PROPERTY.equals(e.getPropertyName())) {
                 repaint();
             }
