@@ -83,7 +83,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     public static final int PAGE_AXIS = 3;
 
     private boolean _resetWhenInvalidate = true;
-    private boolean _alwaysLayout = false;
+    private boolean _alwaysLayout = true;
     private static final long serialVersionUID = -183922972679053590L;
 
     /**
@@ -150,6 +150,13 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                 }
                 boolean success = calculateComponentSizes(availableSize, 0, _target.getComponentCount());
                 if (!success) {
+                    if (!isAlwaysLayout() && "false".equals(SecurityUtils.getProperty("JideBoxLayout.alwaysLayout", "false"))) {
+                        for (int i = 0; i < _target.getComponentCount(); i++) {
+                            Component comp = _target.getComponent(i);
+                            setComponentToSize(comp, 0, 0, insets, containerSize); // set size to zero to clear the layout
+                        }
+                        redoLayout(container);
+                    }
                     return;
                 }
                 doReset = false;
@@ -171,6 +178,13 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                     }
                     boolean success = calculateComponentSizes(availableSize, 0, _target.getComponentCount());
                     if (!success) {
+                        if (!isAlwaysLayout() && "false".equals(SecurityUtils.getProperty("JideBoxLayout.alwaysLayout", "false"))) {
+                            for (int i = 0; i < _target.getComponentCount(); i++) {
+                                Component comp = _target.getComponent(i);
+                                setComponentToSize(comp, 0, 0, insets, containerSize); // set size to zero to clear the layout
+                            }
+                            redoLayout(container);
+                        }
                         return;
                     }
                 }
@@ -217,18 +231,22 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                     container.getComponent(i).invalidate();
                 }
                 if (needRedoLayout) {
-                    Component parent = container.getParent();
-                    while (parent != null) {
-                        if (parent instanceof Dialog) {
-                            break;
-                        }
-                        parent = parent.getParent();
-                    }
-                    if (parent != null) {
-                        ((Dialog) parent).pack();
-                    }
+                    redoLayout(container);
                 }
             }
+        }
+    }
+
+    private void redoLayout(Container container) {
+        Component parent = container.getParent();
+        while (parent != null) {
+            if (parent instanceof Dialog) {
+                break;
+            }
+            parent = parent.getParent();
+        }
+        if (parent != null) {
+            ((Dialog) parent).pack();
         }
     }
 
@@ -853,7 +871,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Checks if the alwaysLayout flag is true. If true, the layout manager will layout the components even there is no
-     * way to satisfy the minimum size requirements from all FIXED components. By default, it is false.
+     * way to satisfy the minimum size requirements from all FIXED components. By default, it is true.
      *
      * @return true or false.
      */
