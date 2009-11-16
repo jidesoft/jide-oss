@@ -747,10 +747,9 @@ public class JideSwingUtilities implements SwingConstants {
 
         System.out.println();
 
-        String[] array = list.toArray(new String[list.size()]);
-        Arrays.sort(array);
+        Collections.sort(list);
         System.out.println("String keys ---");
-        for (Object key : array) {
+        for (Object key : list) {
             System.out.println(key + " => " + UIDefaultsLookup.get(key));
         }
     }
