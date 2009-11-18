@@ -18,21 +18,22 @@ public class DateDayOfWeekGrouper extends DateGrouper {
             cal.set(Calendar.DAY_OF_WEEK, 0);
             _groups = new Object[cal.getMaximum(Calendar.DAY_OF_WEEK)];
             for (int i = 0; i < _groups.length; i++) {
-                _groups[i] = i;
+                _groups[i] = i + 1;
                 cal.roll(Calendar.DAY_OF_WEEK, 1);
             }
         }
         return _groups;
     }
 
-    public Object getValue(Object value) {
+    public Object getValue(final Object value) {
         Object field = getCalendarField(value, Calendar.DAY_OF_WEEK);
-        if (field instanceof Integer && (Integer) field >= 0 && (Integer) field < getAvailableGroups().length) {
-            return getAvailableGroups()[((Integer) field)];
+        if (field instanceof Integer) {
+            int intValue = (Integer) field;
+            if (intValue >= 1 && intValue < (getAvailableGroups().length + 1)) {
+                return getAvailableGroups()[intValue - 1];
+            }
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public String getName() {
