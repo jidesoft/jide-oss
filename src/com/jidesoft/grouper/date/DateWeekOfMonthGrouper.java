@@ -15,8 +15,10 @@ public class DateWeekOfMonthGrouper extends DateGrouper {
     public static Object[] getAvailableGroups() {
         if (_groups == null) {
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.DATE, 0);
-            _groups = new Object[cal.getMaximum(Calendar.WEEK_OF_MONTH)];
+            cal.set(Calendar.YEAR, 2010);
+            cal.set(Calendar.MONTH, 0);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            _groups = new Object[6]; // maximum 6 weeks in a month
             for (int i = 0; i < _groups.length; i++) {
                 _groups[i] = getCalendarField(cal, Calendar.WEEK_OF_MONTH);
                 cal.roll(Calendar.WEEK_OF_MONTH, 1);
@@ -27,8 +29,8 @@ public class DateWeekOfMonthGrouper extends DateGrouper {
 
     public Object getValue(Object value) {
         Object field = getCalendarField(value, Calendar.WEEK_OF_MONTH);
-        if (field instanceof Integer && (Integer) field >= 0 && (Integer) field < getAvailableGroups().length) {
-            return getAvailableGroups()[((Integer) field)];
+        if (field instanceof Integer && (Integer) field > 0 && (Integer) field <= getAvailableGroups().length) {
+            return getAvailableGroups()[((Integer) field) - 1];
         }
         else {
             return null;
