@@ -325,6 +325,21 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
+     * Creates a sub-column-header viewport if necessary, sets its view, and then adds the sub-column-header viewport to the
+     * scrollpane.
+     *
+     * @param view the component to display as the sub column header
+     * @see #setSubColumnHeader(javax.swing.JViewport)
+     * @see JViewport#setView
+     */
+    public void setSubColumnHeaderView(Component view) {
+        if (null == getSubColumnHeader()) {
+            setSubColumnHeader(createViewport());
+        }
+        getSubColumnHeader().setView(view);
+    }
+
+    /**
      * Returns the component at the specified scroll bar corner. The <code>key</code> value specifying the corner is one
      * of: <ul> <li>{@link JideScrollPane#HORIZONTAL_LEFT} <li>{@link JideScrollPane#HORIZONTAL_RIGHT} <li>{@link
      * JideScrollPane#VERTICAL_TOP} <li>{@link JideScrollPane#VERTICAL_BOTTOM} <li>{@link
