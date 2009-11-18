@@ -205,7 +205,15 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
     }
 
-    private Object getValueAt(JTable table, int rowIndex, int columnIndex) {
+    /**
+     * Get string value of the table.
+     * 
+     * @param table       the JTable
+     * @param rowIndex    the row index
+     * @param columnIndex the column index
+     * @return the string value of the cell in the table.
+     */
+    protected Object getValueAt(JTable table, int rowIndex, int columnIndex) {
         if (rowIndex >= 0 && rowIndex < table.getRowCount() && columnIndex >= 0 && columnIndex < table.getColumnCount()) {
             return table.getValueAt(rowIndex, columnIndex);
         }
