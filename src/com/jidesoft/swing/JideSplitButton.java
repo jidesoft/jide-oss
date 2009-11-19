@@ -33,6 +33,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     private boolean _alwaysDropdown = false;
 
     public static final String PROPERTY_ALWAYS_DROPDOWN = "alwaysDropdown";
+    public static final String ACTION_PROPERTY_SPLIT_BUTTON_ENABLED = "JideSplitButtonEnabled";
 
     public JideSplitButton() {
         initComponent();
@@ -418,6 +419,68 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
         Action action = getActionMap().get("downPressed");
         if (action != null) {
             action.actionPerformed(new ActionEvent(this, 0, ""));
+        }
+    }
+
+    @Override
+    protected void configurePropertiesFromAction(Action action) {
+        super.configurePropertiesFromAction(action);
+        setButtonEnabled(isSplitButtonEnabled(action));
+        setIconFromAction(action);
+    }
+
+    /**
+     * By default, we will use large icon instead of small icon in the JMenuItem. You could override this method to set
+     * your own icon size.
+     *
+     * @param action the action.
+     */
+    protected void setIconFromAction(Action action) {
+        Icon icon = null;
+        if (action != null) {
+            icon = (Icon) action.getValue(Action.LARGE_ICON_KEY);
+            if (icon == null) {
+                icon = (Icon) action.getValue(Action.SMALL_ICON);
+            }
+        }
+        setIcon(icon);
+    }
+
+    @Override
+    protected void actionPropertyChanged(Action action, String propertyName) {
+        super.actionPropertyChanged(action, propertyName);
+
+        if(ACTION_PROPERTY_SPLIT_BUTTON_ENABLED.equals(propertyName)) {
+            setButtonEnabled(isSplitButtonEnabled(action));
+        }
+        else if (Action.SMALL_ICON.equals(propertyName)) {
+            if(action.getValue(Action.LARGE_ICON_KEY) == null) {
+                setIconFromAction(action);
+            }
+        }
+        else if (Action.LARGE_ICON_KEY.equals(propertyName)) {
+            setIconFromAction(action);
+        }
+    }
+
+    /**
+     * Get if the split button is enable from the property stored inside the action.
+     *
+     * @param action the action
+     * @return true if the split button is enabled. Otherwise false.
+     */
+    public static boolean isSplitButtonEnabled(Action action) {
+        if(action == null) {
+            return false;
+        }
+        else {
+            Object value = action.getValue(ACTION_PROPERTY_SPLIT_BUTTON_ENABLED);
+            if(value instanceof Boolean) {
+                return (Boolean) value;
+            }
+            else {
+                return action.isEnabled();
+            }
         }
     }
 }
