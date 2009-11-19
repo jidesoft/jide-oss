@@ -3664,24 +3664,4 @@ public class JideSwingUtilities implements SwingConstants {
         }
         return -1 * i;
     }
-
-    /**
-     * Check if the ancestor is an ancestor of the component.
-     *
-     * @param component the component to check
-     * @param ancestor  the ancestor to check
-     * @return true if the ancestor is an ancestor of the component. Otherwise false.
-     */
-    public static boolean isAncestorOf(Component component, Object ancestor) {
-        if (component == null) {
-            return false;
-        }
-
-        for (Component p = component; p != null; p = p.getParent()) {
-            if (p == ancestor) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

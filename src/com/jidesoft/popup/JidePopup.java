@@ -1697,7 +1697,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 convertPointToScreen(screenPoint, component, true);
 
                 // drag on gripper
-                if (JideSwingUtilities.isAncestorOf(component, getUI().getGripper())) {
+                final Component gripper = getUI().getGripper();
+                if (gripper instanceof Container && ((Container) gripper).isAncestorOf(component)) {
                     beginDragging(this, screenPoint.x, screenPoint.y, _relativeX, _relativeY);
                     e.consume();
                 }
@@ -1774,7 +1775,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void handleWindowEvent(WindowEvent e) {
         Component owner = getActualOwner();
-        if (e.getSource() != getTopLevelAncestor() && JideSwingUtilities.isAncestorOf(owner, e.getWindow())) { // check if it's embedded in browser
+        if (e.getSource() != getTopLevelAncestor() && e.getWindow().isAncestorOf(owner)) { // check if it's embedded in browser
             if (e.getID() == WindowEvent.WINDOW_CLOSING || e.getID() == WindowEvent.WINDOW_ICONIFIED) {
                 hidePopup(true);
             }
@@ -1826,10 +1827,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     protected void handleComponentEvent(ComponentEvent e) {
         Component owner = getActualOwner();
-        if (e.getID() == ComponentEvent.COMPONENT_HIDDEN && JideSwingUtilities.isAncestorOf(owner, e.getSource())) {
+        if (!(e.getSource() instanceof Container)) {
+            return;
+        }
+        Container container = (Container) e.getSource();
+        if (e.getID() == ComponentEvent.COMPONENT_HIDDEN && container.isAncestorOf(owner)) {
             ancestorHidden();
         }
-        else if (e.getID() == ComponentEvent.COMPONENT_MOVED && JideSwingUtilities.isAncestorOf(owner, e.getSource())) {
+        else if (e.getID() == ComponentEvent.COMPONENT_MOVED && container.isAncestorOf(owner)) {
             // this line is for Linux because the JFrame moves when combobox is shown inside JidePopup
 //            System.out.println("_actualOwnerLocation " + _actualOwnerLocation + " _actualOwner " + _actualOwner + " _actualOwner.getLocationOnScreen() " + (_actualOwner != null ? _actualOwner.getLocationOnScreen() : null));
             try {
@@ -2555,7 +2560,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             return false;
         }
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
-        return getPopupType() == HEAVY_WEIGHT_POPUP ? JideSwingUtilities.isAncestorOf(component, _window) : JideSwingUtilities.isAncestorOf(component, _panel);
+        return getPopupType() == HEAVY_WEIGHT_POPUP ? _window.isAncestorOf(component) : _panel.isAncestorOf(component);
     }
 
     /**
