@@ -137,14 +137,19 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
      * @param incremental if this is an incremental adding highlight
      * @throws BadLocationException
      */
-    protected void addHighlight(int index, String text, boolean incremental) throws BadLocationException {
+    protected void addHighlight(final int index, final String text, boolean incremental) throws BadLocationException {
         if (_component instanceof JTextComponent) {
-            JTextComponent textComponent = ((JTextComponent) _component);
+            final JTextComponent textComponent = ((JTextComponent) _component);
             Object obj = textComponent.getHighlighter().addHighlight(index, index + text.length(), _highlightPainter);
             _highlighCache.addHighlight(obj);
             _selectedIndex = index;
             if (!incremental) {
-                scrollTextVisible(textComponent, index, text.length());
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        scrollTextVisible(textComponent, index, text.length());
+                    }
+                };
+                SwingUtilities.invokeLater(runnable);
             }
         }
     }
