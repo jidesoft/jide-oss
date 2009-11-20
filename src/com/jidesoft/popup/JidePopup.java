@@ -1917,6 +1917,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
             _escapeActionListener = null;
         }
+        // calculate the insets
+        int insetWidth = 0;
+        int insetHeight = 0;
+        Container container = getParent();
+        while (container != null) {
+            Insets insets = container.getInsets();
+            if (insets != null) {
+                insetWidth += insets.left + insets.right;
+                insetHeight += insets.top + insets.bottom;
+            }
+            if (container == _window || container == _panel) {
+                break;
+            }
+            container = container.getParent();
+        }
         if (_window != null) {
             _window.removeWindowListener(_windowListener);
             _windowListener = null;
@@ -1959,6 +1974,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _panel = null;
             firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
         }
+        _previousSize.width -= insetWidth;
+        _previousSize.height -= insetHeight;
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
