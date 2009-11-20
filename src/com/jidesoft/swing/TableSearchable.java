@@ -183,9 +183,10 @@ public class TableSearchable extends Searchable implements TableModelListener, P
         }
         else if (isSearchSelectedRows()) { // search on multi columns
             int columnIndex = index % table.getColumnCount();
+            int modelIndex = table.convertColumnIndexToModel(columnIndex);
             boolean doNotSearch = true;
             for (int i : getSearchColumnIndices()) {
-                if (i == columnIndex) {
+                if (i == modelIndex) {
                     doNotSearch = false;
                 }
             }
