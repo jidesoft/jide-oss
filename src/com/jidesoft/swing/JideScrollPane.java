@@ -6,8 +6,8 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
-import java.awt.*;
 import javax.swing.plaf.UIResource;
+import java.awt.*;
 
 /**
  * <code>JideScrollPane</code> is an enhanced version of <code>JScrollPane</code>. In <code>JScrollPane</code>, you can
@@ -279,11 +279,11 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
-     * Removes the old sub column header, if it exists.  If the new sub column header isn't <code>null</code>, sync the x
-     * coordinate of the its viewPosition with the viewport (if there is one) and then add it to the scroll pane.
+     * Removes the old sub column header, if it exists.  If the new sub column header isn't <code>null</code>, sync the
+     * x coordinate of the its viewPosition with the viewport (if there is one) and then add it to the scroll pane.
      *
-     * @param subColumnHeader the new sub column header to be used; if <code>null</code> the old sub column header is still removed
-     *                           and the new sub column header is set to <code>null</code>
+     * @param subColumnHeader the new sub column header to be used; if <code>null</code> the old sub column header is
+     *                        still removed and the new sub column header is set to <code>null</code>
      * @see #getSubColumnHeader()
      */
     public void setSubColumnHeader(JViewport subColumnHeader) {
@@ -325,8 +325,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
-     * Creates a sub-column-header viewport if necessary, sets its view, and then adds the sub-column-header viewport to the
-     * scrollpane.
+     * Creates a sub-column-header viewport if necessary, sets its view, and then adds the sub-column-header viewport to
+     * the scrollpane.
      *
      * @param view the component to display as the sub column header
      * @see #setSubColumnHeader(javax.swing.JViewport)
@@ -439,8 +439,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public void updateUI() {
         super.updateUI();
         setLayout(new JideScrollPaneLayout.UIResource());
-        if(getBorder() instanceof UIResource) {
-          LookAndFeel.installBorder(this, "JideScrollPane.border");
+        if (getBorder() instanceof UIResource) {
+            LookAndFeel.installBorder(this, "JideScrollPane.border");
         }
     }
 
@@ -448,6 +448,9 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public void setLayout(LayoutManager layout) {
         if (!(getLayout() instanceof JideScrollPaneLayout.UIResource)) {
             super.setLayout(new JideScrollPaneLayout.UIResource());
+        }
+        else {
+            super.setLayout(layout);
         }
     }
 
@@ -538,8 +541,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
-     * Get the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined even
-     * when the scroll bar is not visible.
+     * Get the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined
+     * even when the scroll bar is not visible.
      * <p/>
      * This flag will take effect only when the scroll bar policy is <code>HORIZONTAL_SCROLLBAR_AS_NEEDED</code> or
      * <code>VERTICAL_SCROLLBAR_AS_NEEDED</code>
@@ -553,8 +556,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     }
 
     /**
-     * Set the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined even
-     * when the scroll bar is not visible.
+     * Set the flag indicating if JideScrollPane should keep the corner visible when it has corner components defined
+     * even when the scroll bar is not visible.
      *
      * @param keepCornerVisible the flag
      */
