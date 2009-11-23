@@ -444,6 +444,13 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         }
     }
 
+    @Override
+    public void setLayout(LayoutManager layout) {
+        if (!(getLayout() instanceof JideScrollPaneLayout.UIResource)) {
+            super.setLayout(new JideScrollPaneLayout.UIResource());
+        }
+    }
+
     public boolean isVerticalScrollBarCoversWholeHeight() {
         return _verticalScrollBarCoversWholeHeight;
     }
