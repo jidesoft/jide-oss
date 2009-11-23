@@ -446,7 +446,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
 
     @Override
     public void setLayout(LayoutManager layout) {
-        if (!(layout instanceof JideScrollPaneLayout.UIResource)) {
+        if (!(layout instanceof JideScrollPaneLayout)) {
             super.setLayout(new JideScrollPaneLayout.UIResource());
         }
         else {
