@@ -96,7 +96,7 @@ public class RgbColorConverter extends ColorConverter {
                 r = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ignore
+                return null;
             }
         }
         if (token.hasMoreTokens()) {
@@ -105,7 +105,7 @@ public class RgbColorConverter extends ColorConverter {
                 g = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ignore
+                return null;
             }
         }
         if (token.hasMoreTokens()) {
@@ -114,7 +114,7 @@ public class RgbColorConverter extends ColorConverter {
                 b = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ignore
+                return null;
             }
         }
         if (isAlphaIncluded() && token.hasMoreTokens()) {
@@ -123,7 +123,7 @@ public class RgbColorConverter extends ColorConverter {
                 a = Integer.parseInt(s, 10) % 256;
             }
             catch (NumberFormatException e) {
-                // ignore
+                return null;
             }
         }
 
