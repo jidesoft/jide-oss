@@ -12,10 +12,11 @@ import sun.reflect.Reflection;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class simply uses UIManager's get method to lookup the UIDefaults. We used this everywhere in our code so that
@@ -24,6 +25,8 @@ import java.util.Map;
  * are trying to get.
  */
 public class UIDefaultsLookup {
+    private static Logger LOGGER = Logger.getLogger(UIDefaultsLookup.class.getName());
+
     private static boolean _debug = false;
     private static boolean _trace = false;
 
@@ -56,6 +59,9 @@ public class UIDefaultsLookup {
         if (!(cl instanceof ClassLoader)) {
             cl = value.getClass().getClassLoader();
         }
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.fine("Put " + key + " " + value + " using ClassLoader: " + cl);
+        }
         ((Map) v).put(cl, value);
     }
 
@@ -84,31 +90,48 @@ public class UIDefaultsLookup {
         log(value, key, null);
         if (value instanceof Map && "Theme.painter".equals(key)) {
             Map map = (Map) value;
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.fine("Getting " + key + " from a map");
+                for (Object o : map.keySet()) {
+                    LOGGER.fine("\t" + o + " => " + map.get(o));
+                }
+            }
             try {
                 ClassLoader classLoader = getCallerClassLoader();
                 Object o = map.get(classLoader);
+                if (o != null) {
+                    if (LOGGER.isLoggable(Level.FINE)) {
+                        LOGGER.fine("\tGetting " + o + " using CallerClassLoader" + classLoader);
+                    }
+                }
                 while (o == null && classLoader.getParent() != null) {
                     classLoader = classLoader.getParent();
                     o = map.get(classLoader);
-                }
-                if (o == null && map.size() >= 1) {
-                    Collection<Object> classLoaders = map.values();
-                    for (Object cl : classLoaders) {
-                        if (cl != null) {
-                            o = cl;
-                            break;
+                    if (o != null) {
+                        if (LOGGER.isLoggable(Level.FINE)) {
+                            LOGGER.fine("\tGetting " + o + " using one of the parent ClassLoader " + classLoader);
                         }
+                        break;
                     }
+                }
+                if (o != null) return o;
+            }
+            catch (Exception e) {
+                // ignore
+            }
+            if (map.size() == 1) {
+                Object o = map.values().iterator().next();
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Failed...getting the only one " + o);
                 }
                 return o;
             }
-            catch (Exception e) {
-                if (map.size() == 1) {
-                    return map.values().iterator().next();
+            else {
+                Object o = map.get(LookAndFeelFactory.getUIManagerClassLoader());
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.fine("Failed...getting " + o + " using UIManagerClassLoader " + LookAndFeelFactory.getUIManagerClassLoader());
                 }
-                else {
-                    return map.get(LookAndFeelFactory.getUIManagerClassLoader());
-                }
+                return o;
             }
         }
         return value;
