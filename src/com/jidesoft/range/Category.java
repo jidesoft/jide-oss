@@ -80,6 +80,11 @@ public class Category<T> implements Positionable {
             return 0;
         }
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
 
     @Override
     public String toString() {
