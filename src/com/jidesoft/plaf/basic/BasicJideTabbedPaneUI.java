@@ -248,6 +248,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public static final String BUTTON_NAME_SCROLL_BACKWARD = "JideTabbedPane.scrollBackward";
     public static final String BUTTON_NAME_SCROLL_FORWARD = "JideTabbedPane.scrollForward";
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideTabbedPaneUI();
     }
@@ -1311,6 +1312,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     /**
      * this function draws the border around each tab note that this function does now draw the background of the tab.
      * that is done elsewhere
+     *
+     * @param g             the Graphics instance
+     * @param tabPlacement  the tab placement
+     * @param tabIndex      the tab index
+     * @param x             x
+     * @param y             y
+     * @param w             width
+     * @param h             height
+     * @param isSelected    if the tab is selected
      */
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         if (!PAINT_TAB_BORDER) {
@@ -8132,7 +8142,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         public void stateChanged(ChangeEvent e) {
             ((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//pane.stopTabEditing();
             ensureCloseButtonCreated();
-            ensureActiveTabIsVisible(false);
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    ensureActiveTabIsVisible(false);
+                }
+            };
+            SwingUtilities.invokeLater(runnable);
         }
     }
 
