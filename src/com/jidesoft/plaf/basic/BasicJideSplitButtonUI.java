@@ -232,7 +232,11 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         JideSplitButton b = (JideSplitButton) menuItem;
         if (b.getButtonStyle() == ButtonStyle.TOOLBAR_STYLE) {
             if ((model.isSelected())) {
-                if (b.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION) != null) {
+                if (isAlwaysDropdown(b)) {
+                    Rectangle rect = new Rectangle(0, 0, menuWidth, menuHeight);
+                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
+                }
+                else if (b.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION) != null) {
                     Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
                     if (b.isButtonEnabled()) {
                         getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
