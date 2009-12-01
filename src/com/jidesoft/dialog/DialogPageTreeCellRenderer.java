@@ -15,25 +15,45 @@ import java.awt.*;
 /**
  * A tree cell renderer for AbstractDialogPage.
  */
-class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
-    protected Color _textSelectionColor;
-    protected Color _textNonSelectionColor;
-    protected Color _bkSelectionColor;
-    protected Color _bkNonSelectionColor;
-    protected Color _borderSelectionColor;
+public class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
+    /**
+     * text selection color
+     */
+    private Color _selectedForeground;
+    private Color _nonSelectedForeground;
+    private Color _selectedBackground;
+    private Color _nonSelectedBackground;
+    private Color _selectedBorderColor;
+    private Icon  _selectedIcon;
+    private Icon  _blankIcon;
+    private Icon  _openIcon;
+    private Icon  _closedIcon;
 
-    protected boolean m_selected;
+    private Color _defaultTextSelectionColor;
+    private Color _defaultTextNonSelectionColor;
+    private Color _defaultBkSelectionColor;
+    private Color _defaultBkNonSelectionColor;
+    private Color _defaultBorderSelectionColor;
+    private Icon  _defaultOpenIcon;
+    private Icon  _defaultClosedIcon;
+
+    private boolean m_selected;
 
     private static final Icon SELECTED = TreeIconsFactory.getImageIcon(TreeIconsFactory.CellRenderer.SELECTED_B16);
     private static final Icon BLANK = TreeIconsFactory.getImageIcon(TreeIconsFactory.CellRenderer.BLANK_16);
 
+    /**
+     * The constructor.
+     */
     public DialogPageTreeCellRenderer() {
         super();
-        _textSelectionColor = UIDefaultsLookup.getColor("Tree.selectionForeground");
-        _textNonSelectionColor = UIDefaultsLookup.getColor("Tree.textForeground");
-        _bkSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBackground");
-        _bkNonSelectionColor = UIDefaultsLookup.getColor("Tree.textBackground");
-        _borderSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBorderColor");
+        _defaultTextSelectionColor = UIDefaultsLookup.getColor("Tree.selectionForeground");
+        _defaultTextNonSelectionColor = UIDefaultsLookup.getColor("Tree.textForeground");
+        _defaultBkSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBackground");
+        _defaultBkNonSelectionColor = UIDefaultsLookup.getColor("Tree.textBackground");
+        _defaultBorderSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBorderColor");
+        _defaultOpenIcon = UIDefaultsLookup.getIcon("Tree.openIcon");
+        _defaultClosedIcon = UIDefaultsLookup.getIcon("Tree.closedIcon");
         setOpaque(false);
     }
 
@@ -56,10 +76,8 @@ class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
         }
 
         setFont(tree.getFont());
-        setForeground(sel ? _textSelectionColor :
-                _textNonSelectionColor);
-        setBackground(sel ? _bkSelectionColor :
-                _bkNonSelectionColor);
+        setForeground(sel ? getSelectedForeground() : getNonSelectedForeground());
+        setBackground(sel ? getSelectedBackground() : getNonSelectedBackground());
 
         if (leaf) {
             if (sel) {
@@ -71,10 +89,10 @@ class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
         }
         else {
             if (expanded) {
-                setIcon(UIDefaultsLookup.getIcon("Tree.openIcon"));
+                setIcon(getOpenIcon());
             }
             else {
-                setIcon(UIDefaultsLookup.getIcon("Tree.closedIcon"));
+                setIcon(getClosedIcon());
             }
         }
         m_selected = sel;
@@ -95,9 +113,228 @@ class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
                 getHeight() - 1);
 
         if (m_selected) {
-            g.setColor(_borderSelectionColor);
+            g.setColor(getSelectedBorderColor());
             g.drawRect(offset, 0, getWidth() - offset - 1, getHeight() - 1);
         }
         super.paintComponent(g);
+    }
+
+    /**
+     * Get the foreground color on selection. By default, it gets color from UIDefault, "Tree.selectionForeground".
+     *
+     * @return the foreground color on selection.
+     */
+    public Color getSelectedForeground() {
+        if (_selectedForeground == null) {
+            if (_defaultTextSelectionColor == null) {
+                _defaultTextSelectionColor = UIDefaultsLookup.getColor("Tree.selectionForeground");
+            }
+            return _defaultTextSelectionColor;
+        }
+        return _selectedForeground;
+    }
+
+    /**
+     * Set the foreground color on selection.
+     *
+     * @see #getSelectedForeground()
+     * @param selectedForeground the foreground color on selection
+     */
+    public void setSelectedForeground(Color selectedForeground) {
+        _selectedForeground = selectedForeground;
+    }
+
+    /**
+     * Get the foreground color without selection. By default, it gets color from UIDefault, "Tree.textForeground".
+     *
+     * @return the foreground color without selection.
+     */
+    public Color getNonSelectedForeground() {
+        if (_nonSelectedForeground == null) {
+            if (_defaultTextNonSelectionColor == null) {
+                _defaultTextNonSelectionColor = UIDefaultsLookup.getColor("Tree.textForeground");
+            }
+            return _defaultTextNonSelectionColor;
+        }
+        return _nonSelectedForeground;
+    }
+
+    /**
+     * Set the foreground color without selection.
+     *
+     * @see #getNonSelectedForeground()
+     * @param nonSelectedForeground the foreground color without selection
+     */
+    public void setNonSelectedForeground(Color nonSelectedForeground) {
+        _nonSelectedForeground = nonSelectedForeground;
+    }
+
+    /**
+     * Get the background color on selection. By default, it gets color from UIDefault, "Tree.selectionBackground".
+     *
+     * @return the background color on selection.
+     */
+    public Color getSelectedBackground() {
+        if (_selectedBackground == null) {
+            if (_defaultBkSelectionColor == null) {
+                _defaultBkSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBackground");
+            }
+            return _defaultBkSelectionColor;
+        }
+        return _selectedBackground;
+    }
+
+    /**
+     * Set the background color on selection.
+     *
+     * @see #getSelectedBackground()
+     * @param selectedBackground the background color on selection
+     */
+    public void setSelectedBackground(Color selectedBackground) {
+        _selectedBackground = selectedBackground;
+    }
+
+    /**
+     * Get the background color without selection. By default, it gets color from UIDefault, "Tree.textBackground".
+     *
+     * @return the background color without selection.
+     */
+    public Color getNonSelectedBackground() {
+        if (_nonSelectedBackground == null) {
+            if (_defaultBkNonSelectionColor == null) {
+                _defaultBkNonSelectionColor = UIDefaultsLookup.getColor("Tree.textBackground");
+            }
+            return _defaultBkNonSelectionColor;
+        }
+        return _nonSelectedBackground;
+    }
+
+    /**
+     * Set the background color without selection.
+     *
+     * @see #getNonSelectedBackground()
+     * @param nonSelectedBackground the background color without selection
+     */
+    public void setNonSelectedBackground(Color nonSelectedBackground) {
+        _nonSelectedBackground = nonSelectedBackground;
+    }
+
+    /**
+     * Get the border color on selection. By default, it gets color from UIDefault, "Tree.selectionBorderColor".
+     *
+     * @return the border color on selection.
+     */
+    public Color getSelectedBorderColor() {
+        if (_selectedBorderColor == null) {
+            if (_defaultBorderSelectionColor == null) {
+                _defaultBorderSelectionColor = UIDefaultsLookup.getColor("Tree.selectionBorderColor");
+            }
+            return _defaultBorderSelectionColor;
+        }
+        return _selectedBorderColor;
+    }
+
+    /**
+     * Set the border color on selection.
+     *
+     * @see #getSelectedBorderColor()
+     * @param selectedBorderColor the border color on selection
+     */
+    public void setSelectedBorderColor(Color selectedBorderColor) {
+        _selectedBorderColor = selectedBorderColor;
+    }
+
+    /**
+     * Get the selected icon. If it is not configured, JIDE will create a default icon.
+     *
+     * @return the selected icon.
+     */
+    public Icon getSelectedIcon() {
+        if (_selectedIcon == null) {
+            return SELECTED;
+        }
+        return _selectedIcon;
+    }
+
+    /**
+     * Set the selected icon.
+     *
+     * @see #getSelectedIcon()
+     * @param selectedIcon the selected icon
+     */
+    public void setSelectedIcon(Icon selectedIcon) {
+        _selectedIcon = selectedIcon;
+    }
+
+    /**
+     * Get the blank icon. If it is not configured, JIDE will create a default icon.
+     *
+     * @return the blank icon.
+     */
+    public Icon getBlankIcon() {
+        if (_blankIcon == null) {
+            return BLANK;
+        }
+        return _blankIcon;
+    }
+
+    /**
+     * Set the blank icon.
+     *
+     * @see #getBlankIcon()
+     * @param blankIcon the blank icon
+     */
+    public void setBlankIcon(Icon blankIcon) {
+        _blankIcon = blankIcon;
+    }
+
+    /**
+     * Get the open/expand icon. By default, it gets icon from UIDefault, "Tree.openIcon".
+     *
+     * @return the open/expand icon.
+     */
+    public Icon getOpenIcon() {
+        if (_openIcon == null) {
+            if (_defaultOpenIcon == null) {
+                _defaultOpenIcon = UIDefaultsLookup.getIcon("Tree.openIcon");
+            }
+            return _defaultOpenIcon;
+        }
+        return _openIcon;
+    }
+
+    /**
+     * Set the open/expand icon.
+     *
+     * @see #getOpenIcon()
+     * @param openIcon the open/expand icon
+     */
+    public void setOpenIcon(Icon openIcon) {
+        _openIcon = openIcon;
+    }
+
+    /**
+     * Get the closed icon. By default, it gets icon from UIDefault, "Tree.closedIcon".
+     *
+     * @return the closed icon.
+     */
+    public Icon getClosedIcon() {
+        if (_closedIcon == null) {
+            if (_defaultClosedIcon == null) {
+                _defaultClosedIcon = UIDefaultsLookup.getIcon("Tree.closedIcon");
+            }
+            return _defaultClosedIcon;
+        }
+        return _closedIcon;
+    }
+
+    /**
+     * Set the closed icon.
+     *
+     * @see #getClosedIcon()
+     * @param closedIcon the closed icon
+     */
+    public void setClosedIcon(Icon closedIcon) {
+        _closedIcon = closedIcon;
     }
 }
