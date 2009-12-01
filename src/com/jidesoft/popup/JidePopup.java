@@ -1775,7 +1775,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void handleWindowEvent(WindowEvent e) {
         Component owner = getActualOwner();
-        if (e.getSource() != getTopLevelAncestor() && e.getWindow().isAncestorOf(owner)) { // check if it's embedded in browser
+        if (e.getSource() != getTopLevelAncestor() && e.getWindow() != null && e.getWindow().isAncestorOf(owner)) { // check if it's embedded in browser
             if (e.getID() == WindowEvent.WINDOW_CLOSING || e.getID() == WindowEvent.WINDOW_ICONIFIED) {
                 hidePopup(true);
             }
@@ -2577,7 +2577,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             return false;
         }
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
-        return getPopupType() == HEAVY_WEIGHT_POPUP ? _window.isAncestorOf(component) : _panel.isAncestorOf(component);
+        return getPopupType() == HEAVY_WEIGHT_POPUP ? _window != null && _window.isAncestorOf(component) : _panel != null && _panel.isAncestorOf(component);
     }
 
     /**
