@@ -343,7 +343,39 @@ public class JideSwingUtilities implements SwingConstants {
         };
 
         masterViewport.addChangeListener(c1);
-        masterViewport.putClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW, c1);
+        Object property = masterViewport.getClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW);
+        HashMap<JViewport, ChangeListener> listenerMap;
+        if (property == null) {
+            listenerMap = new HashMap<JViewport, ChangeListener>();
+        }
+        else if (property instanceof HashMap) {
+            listenerMap = (HashMap) property;
+        }
+        else {
+            return;
+        }
+        listenerMap.put(slaveViewport, c1);
+        masterViewport.putClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW, listenerMap);
+    }
+
+    /**
+     * Unsynchronizes the two viewports.
+     *
+     * @param masterViewport the master viewport
+     * @param slaveViewport  the slave viewport
+     */
+    public static void unsynchronizeView(final JViewport masterViewport, final JViewport slaveViewport) {
+        Object property = masterViewport.getClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW);
+        if (property instanceof HashMap) {
+            HashMap<JViewport, ChangeListener> listenerMap = (HashMap) property;
+            ChangeListener listener = listenerMap.remove(slaveViewport);
+            if (listener != null) {
+                masterViewport.removeChangeListener(listener);
+            }
+            if (listenerMap.isEmpty()) {
+                masterViewport.putClientProperty(CLIENT_PROPERTY_SYNCHRONIZE_VIEW, null);
+            }
+        }
     }
 
     public static int getButtonState(AbstractButton b) {
@@ -1231,7 +1263,7 @@ public class JideSwingUtilities implements SwingConstants {
                 viewR, iconR, textR, textIconGap);
     }
 
-    /**
+    /*
      * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
      * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. This
      * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
