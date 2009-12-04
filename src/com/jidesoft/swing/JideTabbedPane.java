@@ -1078,7 +1078,6 @@ public class JideTabbedPane extends JTabbedPane {
 
         PageLastFocusTracker tracker = (PageLastFocusTracker) (
                 getPageLastFocusTrackers().get(pageComponent));
-        final Component componentReturn = ((tracker != null) ? tracker.getLastFocusedComponent() : null);
 
 //        System.out.println("---JideTabbedPane.getLastFocusedComponent()" + componentReturn);
 //        if (false) {
@@ -1102,7 +1101,7 @@ public class JideTabbedPane extends JTabbedPane {
 //                ((Container) componentReturn).add(compTest);
 //            return compTest;
 //        }
-        return componentReturn;
+        return ((tracker != null) ? tracker.getLastFocusedComponent() : null);
     }
 
     protected void clearVisComp() {
@@ -1138,7 +1137,7 @@ public class JideTabbedPane extends JTabbedPane {
             _pageLastFocusTrackers.put(component, new PageLastFocusTracker(component));
         }
 
-        fireStateChanged();
+//        fireStateChanged();
     }
 
     protected class PageLastFocusTracker extends JideFocusTracker {
