@@ -361,13 +361,13 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
         if (totalActualSize != availableSize) {
             if (varIndex != -1) {
-                setComponentSize(varIndex, _componentSizes[varIndex] + (availableSize - totalActualSize));
+                setComponentSize(varIndex, Math.max(_componentSizes[varIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(varIndex).getMinimumSize())));
             }
             else if (lastNoneZeroFlexIndex != -1) {
-                setComponentSize(lastNoneZeroFlexIndex, _componentSizes[lastNoneZeroFlexIndex] + (availableSize - totalActualSize));
+                setComponentSize(lastNoneZeroFlexIndex, Math.max(_componentSizes[lastNoneZeroFlexIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(lastNoneZeroFlexIndex).getMinimumSize())));
             }
             else if (lastFlexIndex != -1) {
-                setComponentSize(lastFlexIndex, _componentSizes[lastFlexIndex] + (availableSize - totalActualSize));
+                setComponentSize(lastFlexIndex, Math.max(_componentSizes[lastFlexIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(lastFlexIndex).getMinimumSize())));
             }
         }
 
