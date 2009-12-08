@@ -566,7 +566,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
     }
 
     private int layoutButtonsLeftAlign(List<Component> buttons, int x, int y, Dimension alloc, boolean ltr) {
-        boolean containsVisibleButton;
+        boolean containsVisibleButton = false;
         for (int i = 0; i < _target.getComponentCount(); i++) {
             Component component;
             if (ltr) {
@@ -582,12 +582,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int prefWidth = component.getPreferredSize().width;
             int width = prefWidth > _minWidth || shouldKeepPreferredWidth(component) ? prefWidth : _minWidth;
             component.setBounds(x, y, width, alloc.height);
-            x += width;
-            if (i != buttons.size() - 1 && containsVisibleButton) {
-                x += _buttonGap;
-            }
+            x += width + _buttonGap;
         }
-        if (buttons.size() != 0) {
+        if (containsVisibleButton) {
+            x -= _buttonGap;
             x += _groupGap;
         }
         return x;
@@ -600,15 +598,15 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             if (!component.isVisible() || !buttons.contains(component)) {
                 continue;
             }
+            if (containsVisibleButton) {
+                y -= _buttonGap;
+            }
             containsVisibleButton = true;
             Dimension preferredSize = component.getPreferredSize();
             int height = preferredSize.height;
             int prefWidth = preferredSize.width;
             component.setBounds(shouldKeepPreferredWidth(component) ? alloc.width - prefWidth + x : x, y - height, shouldKeepPreferredWidth(component) ? prefWidth : alloc.width, height);
             y -= height;
-            if (i != 0) {
-                y -= _buttonGap;
-            }
         }
         if (buttons.size() != 0 && containsVisibleButton) {
             y -= _groupGap;
@@ -628,12 +626,10 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             int height = preferredSize.height;
             int prefWidth = preferredSize.width;
             component.setBounds(shouldKeepPreferredWidth(component) ? alloc.width - prefWidth + x : x, y, shouldKeepPreferredWidth(component) ? prefWidth : alloc.width, height);
-            y += height;
-            if (i != buttons.size() - 1) {
-                y += _buttonGap;
-            }
+            y += height + _buttonGap;
         }
-        if (buttons.size() != 0 && containsVisibleButton) {
+        if (containsVisibleButton) {
+            y -= _buttonGap;
             y += _groupGap;
         }
         return y;
