@@ -240,9 +240,6 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
-        if (!c.isOpaque()) {
-            return;
-        }
         installDefaults();
         Color background = null;
         switch (state) {

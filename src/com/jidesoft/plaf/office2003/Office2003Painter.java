@@ -457,9 +457,6 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
-        if (!c.isOpaque()) {
-            return;
-        }
         Color startColor = null;
         Color endColor = null;
         Color background = null;

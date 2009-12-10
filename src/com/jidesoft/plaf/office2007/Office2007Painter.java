@@ -183,9 +183,6 @@ public class Office2007Painter extends BasicPainter {
     }
 
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
-        if (!c.isOpaque()) {
-            return;
-        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintButtonBackground(c, g, rect, orientation, state, showBorder);
             return;
