@@ -457,6 +457,9 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        if (!c.isOpaque()) {
+            return;
+        }
         Color startColor = null;
         Color endColor = null;
         Color background = null;
@@ -986,6 +989,9 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (!c.isOpaque()) {
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d,
                 new Rectangle(rect.x, rect.y, rect.width, rect.height),
@@ -1110,6 +1116,9 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (!c.isOpaque()) {
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         if (!(c.getBackground() instanceof UIResource)) {
             JideSwingUtilities.fillGradient(g2d,

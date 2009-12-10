@@ -183,6 +183,9 @@ public class Office2007Painter extends BasicPainter {
     }
 
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        if (!c.isOpaque()) {
+            return;
+        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintButtonBackground(c, g, rect, orientation, state, showBorder);
             return;
@@ -656,6 +659,9 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (!c.isOpaque()) {
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         if (!(c.getBackground() instanceof UIResource)) {
             JideSwingUtilities.fillGradient(g2d,

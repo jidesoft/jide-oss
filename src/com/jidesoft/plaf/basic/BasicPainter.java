@@ -240,6 +240,9 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        if (!c.isOpaque()) {
+            return;
+        }
         installDefaults();
         Color background = null;
         switch (state) {
@@ -481,6 +484,9 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintDockableFrameBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (!c.isOpaque()) {
+            return;
+        }
         g.setColor(UIDefaultsLookup.getColor("DockableFrame.background"));
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
@@ -541,6 +547,9 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        if (!c.isOpaque()) {
+            return;
+        }
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
