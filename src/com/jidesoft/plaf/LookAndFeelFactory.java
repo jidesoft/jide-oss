@@ -717,7 +717,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         // For Mac only
-        else if (((isLnfInUse(AQUA_LNF) || isLnfInUse(AQUA_LNF_6)) && isAquaLnfInstalled())
+        else if (((isLnfInUse(AQUA_LNF_6) || isLnfInUse(AQUA_LNF)) && isAquaLnfInstalled())
                 || (isLnfInUse(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
@@ -939,7 +939,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return <tt>true</tt> if aqua L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isAquaLnfInstalled() {
-        return isLnfInstalled(AQUA_LNF) || isLnfInstalled(AQUA_LNF_6);
+        return isLnfInstalled(AQUA_LNF_6) || isLnfInstalled(AQUA_LNF);
     }
 
 
@@ -1563,6 +1563,6 @@ public class LookAndFeelFactory implements ProductNames {
 
     public static void main(String[] args) {
 //        LookAndFeelFactory.setLnfInstalled(AQUA_LNF, false);
-        System.out.println(LookAndFeelFactory.isLnfInstalled(AQUA_LNF));
+//        System.out.println(LookAndFeelFactory.isLnfInstalled(AQUA_LNF));
     }
 }
