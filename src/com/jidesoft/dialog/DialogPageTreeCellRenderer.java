@@ -6,6 +6,7 @@
 package com.jidesoft.dialog;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.tree.DisabledMutableTreeNode;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -76,6 +77,14 @@ public class DialogPageTreeCellRenderer extends JLabel implements TreeCellRender
         }
 
         setFont(tree.getFont());
+
+        boolean treeIsEnabled = tree.isEnabled();
+        boolean nodeIsEnabled = !(value instanceof DisabledMutableTreeNode) || ((DisabledMutableTreeNode) value).isEnabled();
+        boolean isEnabled = (treeIsEnabled && nodeIsEnabled);
+        setEnabled(isEnabled);
+        if (!isEnabled) {
+            sel = false;
+        }
         setForeground(sel ? getSelectedForeground() : getNonSelectedForeground());
         setBackground(sel ? getSelectedBackground() : getNonSelectedBackground());
 

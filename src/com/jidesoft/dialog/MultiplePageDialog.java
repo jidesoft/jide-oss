@@ -8,6 +8,7 @@ package com.jidesoft.dialog;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideScrollPane;
+import com.jidesoft.tree.DisabledMutableTreeNode;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -97,7 +98,7 @@ public class MultiplePageDialog extends StandardDialog {
      * Creates a non-modal MultiplePageDialog without a title and without a specified <code>Frame</code> owner.  A
      * shared, hidden frame will be set as the owner of the dialog. By default TAB_STYLE is used.
      *
-     * @throws HeadlessException
+     * @throws HeadlessException if the page does not support mouse or key events.
      */
     public MultiplePageDialog() throws HeadlessException {
         this((Frame) null);
@@ -108,8 +109,8 @@ public class MultiplePageDialog extends StandardDialog {
      * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
      * default TAB_STYLE is used.
      *
-     * @param owner
-     * @throws HeadlessException
+     * @param owner the owner of the dialog
+     * @throws HeadlessException if the page does not support mouse or key events.
      */
     public MultiplePageDialog(Frame owner) throws HeadlessException {
         this(owner, false);
@@ -122,7 +123,7 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param modal true for a modal dialog, false for one that allows others windows to be active at the same time
-     * @throws HeadlessException
+     * @throws HeadlessException if the page does not support mouse or key events.
      */
     public MultiplePageDialog(Frame owner, boolean modal) throws HeadlessException {
         this(owner, "", modal);
@@ -180,8 +181,8 @@ public class MultiplePageDialog extends StandardDialog {
      * <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the owner of the dialog. By
      * default TAB_STYLE is used.
      *
-     * @param owner
-     * @throws HeadlessException
+     * @param owner the owner of the dialog
+     * @throws HeadlessException if the page does not support mouse or key events.
      */
     public MultiplePageDialog(Dialog owner) throws HeadlessException {
         this(owner, false);
@@ -194,7 +195,7 @@ public class MultiplePageDialog extends StandardDialog {
      *
      * @param owner the <code>Frame</code> from which the dialog is displayed
      * @param modal true for a modal dialog, false for one that allows others windows to be active at the same time
-     * @throws HeadlessException
+     * @throws HeadlessException if the page does not support mouse or key events.
      */
     public MultiplePageDialog(Dialog owner, boolean modal) throws HeadlessException {
         this(owner, "", modal);
@@ -318,6 +319,8 @@ public class MultiplePageDialog extends StandardDialog {
 
         Locale l = getLocale();
         _okButton.setAction(new AbstractAction(UIDefaultsLookup.getString("OptionPane.okButtonText", l)) {
+            private static final long serialVersionUID = 7761238902525319363L;
+
             public void actionPerformed(ActionEvent e) {
                 setDialogResult(RESULT_AFFIRMED);
                 setVisible(false);
@@ -325,6 +328,8 @@ public class MultiplePageDialog extends StandardDialog {
             }
         });
         _cancelButton.setAction(new AbstractAction(UIDefaultsLookup.getString("OptionPane.cancelButtonText", l)) {
+            private static final long serialVersionUID = 2671605366801733356L;
+
             public void actionPerformed(ActionEvent e) {
                 setDialogResult(RESULT_CANCELLED);
                 setVisible(false);
@@ -332,6 +337,8 @@ public class MultiplePageDialog extends StandardDialog {
             }
         });
         _applyButton.setAction(new AbstractAction(ButtonResources.getResourceBundle(Locale.getDefault()).getString("Button.apply")) {
+            private static final long serialVersionUID = -7553895212164069062L;
+
             public void actionPerformed(ActionEvent e) {
                 if (getCurrentPage() != null) {
                     getCurrentPage().fireButtonEvent(ButtonEvent.DISABLE_BUTTON, APPLY);
@@ -492,7 +499,7 @@ public class MultiplePageDialog extends StandardDialog {
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
                         Object o = ((PageList) e.getSource()).getSelectedItem();
-                        if (o instanceof AbstractDialogPage) {
+                        if (o instanceof AbstractDialogPage && ((AbstractDialogPage) o).isPageEnabled()) {
                             setCurrentPage((AbstractDialogPage) o);
                         }
                     }
@@ -745,7 +752,7 @@ public class MultiplePageDialog extends StandardDialog {
                 }
 
                 Object userObject = treeNode.getUserObject();
-                if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage())) {
+                if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage()) && ((AbstractDialogPage) userObject).isPageEnabled()) {
                     setCurrentPage((AbstractDialogPage) userObject, tree);
                     if (getCurrentPage() != userObject) {
                         // TODO select the old path.
@@ -755,13 +762,14 @@ public class MultiplePageDialog extends StandardDialog {
         });
     }
 
-    private void addPage(AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
+    private void addPage(final AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
         if (dialogPage == null) {
             return;
         }
 
+        final DisabledMutableTreeNode treeNode = createTreeNode(dialogPage);
+        treeNode.setEnabled(dialogPage.isPageEnabled());
         if (dialogPage.getParentPage() == null) {
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(dialogPage);
             _titleNodeMap.put(dialogPage.getFullTitle(), treeNode);
             root.add(treeNode);
             if (fireEvent) {
@@ -769,7 +777,6 @@ public class MultiplePageDialog extends StandardDialog {
             }
         }
         else {
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(dialogPage);
             _titleNodeMap.put(dialogPage.getFullTitle(), treeNode);
             DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) _titleNodeMap.get(dialogPage.getParentPage().getFullTitle());
             if (parentNode != null) {
@@ -779,6 +786,18 @@ public class MultiplePageDialog extends StandardDialog {
                 }
             }
         }
+        dialogPage.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (AbstractDialogPage.ICON_PROPERTY.equals(evt.getPropertyName())) {
+                    treeNode.setEnabled(dialogPage.isPageEnabled());
+                }
+            }
+        });
+
+    }
+
+    protected DisabledMutableTreeNode createTreeNode(AbstractDialogPage dialogPage) {
+        return new DisabledMutableTreeNode(dialogPage);
     }
 
     private void removePage(AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
