@@ -407,7 +407,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
                         Object o = ((PageList) e.getSource()).getSelectedItem();
-                        if (o instanceof AbstractDialogPage) {
+                        if (o instanceof AbstractDialogPage && ((AbstractDialogPage) o).isPageEnabled()) {
                             setCurrentPage((AbstractDialogPage) o);
                         }
                     }
@@ -507,6 +507,16 @@ public class MultiplePageDialogPane extends StandardDialogPane {
             }
             currentPage.focusDefaultFocusComponent();
         }
+    }
+
+    /**
+     * Create tree node for TREE_STYLE pages.
+     *
+     * @param dialogPage the corresponding dialog page.
+     * @return the tree node.
+     */
+    protected MutableTreeNode createTreeNode(AbstractDialogPage dialogPage) {
+        return new MutableTreeNodeEx(dialogPage);
     }
 
     private JComponent createTreePanel() {
@@ -660,7 +670,7 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                 }
 
                 Object userObject = treeNode.getUserObject();
-                if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage())) {
+                if (userObject instanceof AbstractDialogPage && !userObject.equals(getCurrentPage()) && ((AbstractDialogPage) userObject).isPageEnabled()) {
                     setCurrentPage((AbstractDialogPage) userObject, tree);
                     if (getCurrentPage() != userObject) {
                         // TODO select the old path.
@@ -670,13 +680,16 @@ public class MultiplePageDialogPane extends StandardDialogPane {
         });
     }
 
-    private void addPage(AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
+    private void addPage(final AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
         if (dialogPage == null) {
             return;
         }
 
+        final MutableTreeNode treeNode = createTreeNode(dialogPage);
+        if (treeNode instanceof MutableTreeNodeEx) {
+            ((MutableTreeNodeEx) treeNode).setEnabled(dialogPage.isPageEnabled());
+        }
         if (dialogPage.getParentPage() == null) {
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(dialogPage);
             _titleNodeMap.put(dialogPage.getFullTitle(), treeNode);
             root.add(treeNode);
             if (fireEvent) {
@@ -684,7 +697,6 @@ public class MultiplePageDialogPane extends StandardDialogPane {
             }
         }
         else {
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(dialogPage);
             _titleNodeMap.put(dialogPage.getFullTitle(), treeNode);
             DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) _titleNodeMap.get(dialogPage.getParentPage().getFullTitle());
             if (parentNode != null) {
@@ -694,6 +706,13 @@ public class MultiplePageDialogPane extends StandardDialogPane {
                 }
             }
         }
+        dialogPage.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (AbstractDialogPage.ICON_PROPERTY.equals(evt.getPropertyName()) && treeNode instanceof MutableTreeNodeEx) {
+                    ((MutableTreeNodeEx) treeNode).setEnabled(dialogPage.isPageEnabled());
+                }
+            }
+        });
     }
 
     private void removePage(AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {

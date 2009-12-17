@@ -1,33 +1,33 @@
 /*
- * @(#)DisabledMutableTreeNode.java 12/16/2009
+ * @(#)MutableTreeNodeEx.java 12/16/2009
  *
  * Copyright 2002 - 2009 JIDE Software Inc. All rights reserved.
  */
 
-package com.jidesoft.tree;
+package com.jidesoft.dialog;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * This is a subclass of DefaultMutableTreeNode to have disable feature.
  */
-public class DisabledMutableTreeNode extends DefaultMutableTreeNode{
+class MutableTreeNodeEx extends DefaultMutableTreeNode {
     private static final long serialVersionUID = 8410814900789441894L;
     protected boolean _enabled = true;
 
-    public DisabledMutableTreeNode() {
+    public MutableTreeNodeEx() {
         this(null, true, true);
     }
 
-    public DisabledMutableTreeNode(Object userObject) {
+    public MutableTreeNodeEx(Object userObject) {
         this(userObject, true, true);
     }
 
-    public DisabledMutableTreeNode(Object userObject, boolean allowsChildren) {
+    public MutableTreeNodeEx(Object userObject, boolean allowsChildren) {
         this(userObject, allowsChildren, true);
     }
 
-    public DisabledMutableTreeNode(Object userObject, boolean allowsChildren, boolean enabled) {
+    public MutableTreeNodeEx(Object userObject, boolean allowsChildren, boolean enabled) {
         super(userObject, allowsChildren);
         setEnabled(enabled);
     }

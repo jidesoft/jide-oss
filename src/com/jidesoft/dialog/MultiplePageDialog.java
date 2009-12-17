@@ -8,7 +8,6 @@ package com.jidesoft.dialog;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideScrollPane;
-import com.jidesoft.tree.DisabledMutableTreeNode;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -80,7 +79,7 @@ public class MultiplePageDialog extends StandardDialog {
      * Map that maps from page full title to tree node. It provides a fast access from page full title to the tree node
      * in TREE_STYLE.
      */
-    private Map _titleNodeMap;
+    private Map<String, MutableTreeNode> _titleNodeMap;
 
     private JButton _okButton;
     private JButton _cancelButton;
@@ -490,11 +489,13 @@ public class MultiplePageDialog extends StandardDialog {
                     }
                 }
 
+/*
                 private void dumpPagesPanel() {
                     for (int i = 0; i < pagesPanel.getComponentCount(); i++) {
                         System.out.println("" + i + ": " + pagesPanel.getComponent(i).getName());
                     }
                 }
+*/
 
                 public void contentsChanged(ListDataEvent e) {
                     if (e.getSource() instanceof PageList) {
@@ -540,7 +541,7 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Sets the page list of this dialog. User must call this method before the dialog is set visible.
      *
-     * @param pageList
+     * @param pageList the page list
      */
     public void setPageList(PageList pageList) {
         _pageList = pageList;
@@ -548,6 +549,8 @@ public class MultiplePageDialog extends StandardDialog {
 
     /**
      * Gets the page list of this dialog.
+     *
+     * @return the page list.
      */
     public PageList getPageList() {
         return _pageList;
@@ -587,7 +590,7 @@ public class MultiplePageDialog extends StandardDialog {
      * If it is any of the other styles, this method will show the page that is already added in a CardLayout in
      * createPagePanel method.
      *
-     * @param currentPage
+     * @param currentPage the current page
      */
     protected void showCurrentPage(AbstractDialogPage currentPage) {
         if (currentPage != null) {
@@ -604,7 +607,7 @@ public class MultiplePageDialog extends StandardDialog {
     private JComponent createTreePanel() {
         final DefaultMutableTreeNode root = new DefaultMutableTreeNode("", true);
 
-        _titleNodeMap = new HashMap((int) (_pageList.getPageCount() * 0.75));
+        _titleNodeMap = new HashMap<String, MutableTreeNode>((int) (_pageList.getPageCount() * 0.75));
         for (int i = 0; i < _pageList.getPageCount(); i++) {
             AbstractDialogPage dialogPage = _pageList.getPage(i);
             addPage(dialogPage, root, false);
@@ -622,10 +625,9 @@ public class MultiplePageDialog extends StandardDialog {
 
             public void intervalRemoved(ListDataEvent e) {
                 // compare PageList with TitleNodeMap to find out what is missing
-                Set set = _titleNodeMap.keySet();
-                Vector toBeRemoved = new Vector();
-                for (Object o : set) {
-                    String title = (String) o;
+                Set<String> set = _titleNodeMap.keySet();
+                Vector<String> toBeRemoved = new Vector<String>();
+                for (String title : set) {
                     if (_pageList.getPageByFullTitle(title) == null) {
                         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) _titleNodeMap.get(title);
                         if (treeNode != null) {
@@ -639,7 +641,7 @@ public class MultiplePageDialog extends StandardDialog {
                         }
                     }
                 }
-                for (Object o : toBeRemoved) {
+                for (String o : toBeRemoved) {
                     _titleNodeMap.remove(o);
                 }
             }
@@ -647,9 +649,9 @@ public class MultiplePageDialog extends StandardDialog {
             public void contentsChanged(ListDataEvent e) {
                 if (e.getIndex0() == -1 && e.getIndex1() == -1 && e.getType() == ListDataEvent.CONTENTS_CHANGED) {
                     if (_titleNodeMap != null && _pageList.getCurrentPage() != null) {
-                        TreeNode node = (TreeNode) _titleNodeMap.get(_pageList.getCurrentPage().getFullTitle());
+                        TreeNode node = _titleNodeMap.get(_pageList.getCurrentPage().getFullTitle());
                         if (node != null) {
-                            ArrayList list = new ArrayList();
+                            ArrayList<TreeNode> list = new ArrayList<TreeNode>();
                             while (node != null) {
                                 list.add(0, node);
                                 node = node.getParent();
@@ -676,8 +678,8 @@ public class MultiplePageDialog extends StandardDialog {
      * return new JTree(root);
      * </code></pre>
      *
-     * @param root
-     * @return tree
+     * @param root the root of the tree
+     * @return tree the created JTree instance
      */
     protected JTree createTree(DefaultMutableTreeNode root) {
         UIManager.put("Tree.hash", Color.white);
@@ -724,7 +726,7 @@ public class MultiplePageDialog extends StandardDialog {
      * });
      * </pre></code>
      *
-     * @param tree
+     * @param tree the tree to configure
      */
     protected void configureTree(final JTree tree) {
         tree.setToggleClickCount(1);
@@ -767,8 +769,10 @@ public class MultiplePageDialog extends StandardDialog {
             return;
         }
 
-        final DisabledMutableTreeNode treeNode = createTreeNode(dialogPage);
-        treeNode.setEnabled(dialogPage.isPageEnabled());
+        final MutableTreeNode treeNode = createTreeNode(dialogPage);
+        if (treeNode instanceof MutableTreeNodeEx) {
+            ((MutableTreeNodeEx) treeNode).setEnabled(dialogPage.isPageEnabled());
+        }
         if (dialogPage.getParentPage() == null) {
             _titleNodeMap.put(dialogPage.getFullTitle(), treeNode);
             root.add(treeNode);
@@ -788,18 +792,24 @@ public class MultiplePageDialog extends StandardDialog {
         }
         dialogPage.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                if (AbstractDialogPage.ICON_PROPERTY.equals(evt.getPropertyName())) {
-                    treeNode.setEnabled(dialogPage.isPageEnabled());
+                if (AbstractDialogPage.ICON_PROPERTY.equals(evt.getPropertyName()) && treeNode instanceof MutableTreeNodeEx) {
+                    ((MutableTreeNodeEx) treeNode).setEnabled(dialogPage.isPageEnabled());
                 }
             }
         });
-
     }
 
-    protected DisabledMutableTreeNode createTreeNode(AbstractDialogPage dialogPage) {
-        return new DisabledMutableTreeNode(dialogPage);
+    /**
+     * Create tree node for TREE_STYLE pages.
+     *
+     * @param dialogPage the corresponding dialog page.
+     * @return the tree node.
+     */
+    protected MutableTreeNode createTreeNode(AbstractDialogPage dialogPage) {
+        return new MutableTreeNodeEx(dialogPage);
     }
 
+/*
     private void removePage(AbstractDialogPage dialogPage, final DefaultMutableTreeNode root, boolean fireEvent) {
         if (dialogPage == null) {
             return;
@@ -833,6 +843,7 @@ public class MultiplePageDialog extends StandardDialog {
             }
         }
     }
+*/
 
     private JComponent createListPanel() {
         final DefaultListModel listModel = new DefaultListModel();
@@ -906,7 +917,7 @@ public class MultiplePageDialog extends StandardDialog {
      * return list;
      * </code></pre>
      *
-     * @param listModel
+     * @param listModel the list model
      * @return list.
      */
     protected JList createList(DefaultListModel listModel) {
@@ -934,6 +945,8 @@ public class MultiplePageDialog extends StandardDialog {
             button.setToolTipText(optionsPanel.getDescription());
             button.setEnabled(optionsPanel.isPageEnabled());
             button.addActionListener(new AbstractAction() {
+                private static final long serialVersionUID = 4451059166068761678L;
+
                 public void actionPerformed(ActionEvent e) {
                     setCurrentPage(optionsPanel, buttonsPanel);
                     if (getCurrentPage() == optionsPanel) {
@@ -1041,6 +1054,8 @@ public class MultiplePageDialog extends StandardDialog {
         AbstractDialogPage optionsPanel = _pageList.getPage(i);
         final JideButton button = createIconButton(optionsPanel.getTitle(), optionsPanel.getIcon());
         button.addActionListener(new AbstractAction(optionsPanel.getTitle(), optionsPanel.getIcon()) {
+            private static final long serialVersionUID = 5987367362274303556L;
+
             public void actionPerformed(ActionEvent e) {
                 group.setSelected(button.getModel(), true);
                 setCurrentPage(_pageList.getPageByFullTitle(e.getActionCommand()), buttonsPanel);
@@ -1054,8 +1069,8 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Creates the button for each icon.
      *
-     * @param title
-     * @param icon
+     * @param title the button title
+     * @param icon  the button icon
      * @return the button
      */
     protected JideButton createIconButton(String title, Icon icon) {
@@ -1123,7 +1138,7 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Sets the tree cell renderer that will be used by JTree when the style is TREE_STYLE.
      *
-     * @param treeCellRenderer
+     * @param treeCellRenderer the tree cell renderer
      */
     public void setTreeCellRenderer(TreeCellRenderer treeCellRenderer) {
         _treeCellRenderer = treeCellRenderer;
@@ -1141,7 +1156,7 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Sets the list cell renderer that will be used by JList when the style is LIST_STYLE.
      *
-     * @param listCellRenderer
+     * @param listCellRenderer the list cell renderer
      */
     public void setListCellRenderer(ListCellRenderer listCellRenderer) {
         _listCellRenderer = listCellRenderer;
@@ -1185,7 +1200,7 @@ public class MultiplePageDialog extends StandardDialog {
     /**
      * Sets the initial page title. Initial page is the page that will be selected when the dialog.
      *
-     * @param initialPageTitle
+     * @param initialPageTitle the initial page title
      */
     public void setInitialPageTitle(String initialPageTitle) {
         _initialPageTitle = initialPageTitle;
