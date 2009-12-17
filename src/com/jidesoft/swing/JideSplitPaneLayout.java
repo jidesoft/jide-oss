@@ -247,17 +247,17 @@ public class JideSplitPaneLayout extends JideBoxLayout {
         }
 
         if (((JideSplitPane) _target).getOrientation() == JideSplitPane.HORIZONTAL_SPLIT) {
-            for (int changedIndex : componentIndexChanged) {
+            for (int changedIndex = 0; changedIndex < _target.getComponentCount(); changedIndex++) {
                 Component component = _target.getComponent(changedIndex);
-                if (component instanceof JComponent) {
+                if (component instanceof JComponent && !(component instanceof JideSplitPaneDivider)) {
                     ((JComponent) component).setPreferredSize(new Dimension(_componentSizes[changedIndex], component.getPreferredSize().height));
                 }
             }
         }
         else {
-            for (int changedIndex : componentIndexChanged) {
+            for (int changedIndex = 0; changedIndex < _target.getComponentCount(); changedIndex++) {
                 Component component = _target.getComponent(changedIndex);
-                if (component instanceof JComponent) {
+                if (component instanceof JComponent && !(component instanceof JideSplitPaneDivider)) {
                     ((JComponent) component).setPreferredSize(new Dimension(component.getPreferredSize().width, _componentSizes[changedIndex]));
                 }
             }
