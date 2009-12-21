@@ -1080,6 +1080,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     /* If tabLayoutPolicy == SCROLL_TAB_LAYOUT, this method will paint an edge
      * indicating the tab is cropped in the viewport display
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     private void paintCroppedTabEdge(Graphics g, int tabPlacement, int tabIndex,
                                      boolean isSelected,
                                      int x, int y) {
@@ -2854,6 +2855,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void paintTabBorderMouseOver(Graphics g, int tabPlacement, int tabIndex,
                                            int x, int y, int w, int h, boolean isSelected) {
         if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS) {
@@ -3708,6 +3710,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void paintExcelTabBackground(Graphics g, int tabPlacement,
                                            int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
@@ -3804,6 +3807,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void paintDefaultTabBackground(Graphics g, int tabPlacement,
                                              int tabIndex, int x, int y, int w, int h, boolean isSelected) {
         switch (tabPlacement) {
@@ -4427,6 +4431,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
      * Returns the tab index which intersects the specified point in the coordinate space of the component where the
      * tabs are actually rendered, which could be the JTabbedPane (for WRAP_TAB_LAYOUT) or a ScrollableTabPanel
      * (SCROLL_TAB_LAYOUT).
+     *
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return the tab index in the point (x, y). -1 if no tab could be found.
      */
     public int getTabAtLocation(int x, int y) {
         ensureCurrentLayout();
@@ -4460,6 +4468,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             System.arraycopy(_rects, 0, rects, 0, _rects.length);
         }
         else {
+            if (x == _tabScroller.viewport.getViewRect().width) {
+                return _tabScroller.leadingTabIndex;
+            }
             needConvert = true;
             for (int i = 0; i < _rects.length; i++) {
                 rects[i] = _rects[_rects.length - 1 - i];
@@ -7153,6 +7164,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected class ActivateTabAction extends AbstractAction {
         int _tabIndex;
+        private static final long serialVersionUID = 3270152106579039554L;
 
         public ActivateTabAction(String name, Icon icon, int tabIndex) {
             super(name, icon);
@@ -7180,6 +7192,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         private Point tabViewPosition = new Point(0, 0);
         public JidePopup _popup;
 
+        @SuppressWarnings({"UnusedDeclaration"})
         ScrollableTabSupport(int tabPlacement) {
             viewport = new ScrollableTabViewport();
             tabPanel = new ScrollableTabPanel();
@@ -7559,7 +7572,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         tabViewPosition.x = leadingTabIndex == 0 ? 0 : _rects[leadingTabIndex].x;
                     }
                     else {
-                        tabViewPosition.x = (_rects.length <= 0 || leadingTabIndex == 0) ? 0 : _rects[0].x - _rects[leadingTabIndex].x - 3;
+                        tabViewPosition.x = (_rects.length <= 0 || leadingTabIndex == 0) ? 0 : _rects[0].x - _rects[leadingTabIndex].x + (_rects[0].width - _rects[leadingTabIndex].width) + 25;
                     }
 
                     if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
