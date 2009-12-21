@@ -6912,7 +6912,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 totalWidth += _rects[0].x;
             }
             else {
-                totalWidth += size.width - _rects[0].x - _rects[0].width;
+                totalWidth += size.width - _rects[0].x - _rects[0].width - _tabScroller.viewport.getLocation().x;
             }
 
             if (_tabLeadingComponent != null) {
@@ -7703,11 +7703,28 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     public class ScrollableTabViewport extends JViewport implements UIResource {
         int _expectViewX = 0;
+        boolean _protectView = false;
 
         public ScrollableTabViewport() {
             super();
             setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
             setOpaque(false);
+            setLayout(new ViewportLayout() {
+                private static final long serialVersionUID = -1069760662716244442L;
+
+                @Override
+                public void layoutContainer(Container parent) {
+                    if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight()) {
+                        _protectView = true;
+                    }
+                    try {
+                        super.layoutContainer(parent);
+                    }
+                    finally {
+                        _protectView = false;
+                    }
+                }
+            });
         }
 
         /**
@@ -7724,8 +7741,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         // workaround for swing bug
         @Override
         public void setViewPosition(Point p) {
+            int oldX = _expectViewX;
             _expectViewX = p.x;
             super.setViewPosition(p); // to trigger state change event, so the adjustment for RTL need to be done at ScrollableTabPanel#setBounds()
+            if (_protectView) {
+                _expectViewX = oldX;
+                Point savedPosition = new Point(oldX, p.y);
+                super.setViewPosition(savedPosition);
+            }
         }
 
         public int getExpectedViewX() {
@@ -8174,7 +8197,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 updateMnemonics();
 
-                if (scrollableTabLayoutEnabled()) {
+                if (scrollableTabLayoutEnabled() && (_tabPane.getTabPlacement() == EAST || _tabPane.getTabPlacement() == WEST || _tabPane.getComponentOrientation().isLeftToRight())) {
                     _tabScroller.viewport.setViewSize(new Dimension(
                             _tabPane.getWidth(), _tabScroller.viewport.getViewSize().height));
                     ensureActiveTabIsVisible(false);
@@ -8198,7 +8221,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             else if (name.equals(JideTabbedPane.BOLDACTIVETAB_PROPERTY)) {
                 getTabPanel().invalidate();
                 _tabPane.invalidate();
-                if (scrollableTabLayoutEnabled()) {
+                if (scrollableTabLayoutEnabled() && (_tabPane.getTabPlacement() == EAST || _tabPane.getTabPlacement() == WEST || _tabPane.getComponentOrientation().isLeftToRight())) {
                     _tabScroller.viewport.setViewSize(new Dimension(_tabPane.getWidth(), _tabScroller.viewport.getViewSize().height));
                     ensureActiveTabIsVisible(true);
                 }
@@ -8410,7 +8433,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     private class ComponentHandler implements ComponentListener {
         public void componentResized(ComponentEvent e) {
-            if (scrollableTabLayoutEnabled()) {
+            if (scrollableTabLayoutEnabled() && (_tabPane.getTabPlacement() == EAST || _tabPane.getTabPlacement() == WEST || _tabPane.getComponentOrientation().isLeftToRight())) {
                 _tabScroller.viewport.setViewSize(new Dimension(_tabPane.getWidth(), _tabScroller.viewport.getViewSize().height));
                 ensureActiveTabIsVisible(true);
             }
