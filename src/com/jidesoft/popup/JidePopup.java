@@ -1958,8 +1958,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _panel = null;
             firePropertyChange("visible", Boolean.TRUE, Boolean.FALSE);
         }
-        _previousSize.width -= insetWidth;
-        _previousSize.height -= insetHeight;
+        if (_previousSize != null) {
+            _previousSize.width -= insetWidth;
+            _previousSize.height -= insetHeight;
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
