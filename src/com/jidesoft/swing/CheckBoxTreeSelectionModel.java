@@ -255,23 +255,21 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                 if (isPathSelected(path, isDigIn())) {
                     continue; // for non batch mode scenario, check if it is already selected by adding its parent possibly
                 }
-                if (isBatchMode()) {
-                    // if the path itself is added by other insertion, just remove it
-                    if (_toBeAdded.contains(path)) {
-                        addToExistingSet(_pathHasAdded, path);
-                        continue;
+                // if the path itself is added by other insertion, just remove it
+                if (_toBeAdded.contains(path)) {
+                    addToExistingSet(_pathHasAdded, path);
+                    continue;
+                }
+                // check if its ancestor has already been added. If so, do nothing
+                boolean findAncestor = false;
+                for (TreePath addPath : _pathHasAdded) {
+                    if (addPath.isDescendant(path)) {
+                        findAncestor = true;
+                        break;
                     }
-                    // check if its ancestor has already been added. If so, do nothing
-                    boolean findAncestor = false;
-                    for (TreePath addPath : _pathHasAdded) {
-                        if (addPath.isDescendant(path)) {
-                            findAncestor = true;
-                            break;
-                        }
-                    }
-                    if (findAncestor) {
-                        continue;
-                    }
+                }
+                if (findAncestor) {
+                    continue;
                 }
                 TreePath temp = null;
                 // if all siblings are selected then deselect them and select parent recursively
