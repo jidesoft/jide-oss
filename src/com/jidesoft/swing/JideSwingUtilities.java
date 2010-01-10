@@ -1270,6 +1270,7 @@ public class JideSwingUtilities implements SwingConstants {
      * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
      */
+
     private static String layoutCompoundLabelImpl(JComponent c,
                                                   FontMetrics fm,
                                                   String text,
@@ -2932,8 +2933,7 @@ public class JideSwingUtilities implements SwingConstants {
                 if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0) {
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "default component passesFocusabilityTest =" + passesFocusabilityTest(comp));
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
-                    comp.requestFocus();
-                    return true;
+                    return comp.requestFocusInWindow();
                 }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
@@ -2953,8 +2953,7 @@ public class JideSwingUtilities implements SwingConstants {
                 if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter passesFocusabilityTest =" + passesFocusabilityTest(comp));
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
-                    comp.requestFocus();
-                    return true;
+                    return comp.requestFocusInWindow();
                 }
             }
         }
@@ -2964,8 +2963,7 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         LOGGER_FOCUS.fine("compositeRequestFocus " + "component=" + component);
-        component.requestFocus();
-        return true;
+        return component.requestFocusInWindow();
     }
 
     public static boolean isAncestorOfFocusOwner(Component component) {
