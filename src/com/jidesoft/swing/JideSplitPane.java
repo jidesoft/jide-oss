@@ -760,6 +760,9 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         e.getChild().addComponentListener(this);
         if (!(e.getChild() instanceof JideSplitPaneDivider)) {
             addExtraDividers();
+            if (isOneTouchExpandable()) {
+                e.getChild().setMinimumSize(new Dimension(0, 0));
+            }
         }
         setDividersVisible();
         resetToPreferredSizes();
