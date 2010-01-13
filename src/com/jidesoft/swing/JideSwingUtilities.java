@@ -1060,6 +1060,11 @@ public class JideSwingUtilities implements SwingConstants {
                         return;
                     }
 
+                    Object clientProperty = jc.getClientProperty(OPAQUE_LISTENER);
+                    if (clientProperty != null) {
+                        jc.removePropertyChangeListener("opaque", (PropertyChangeListener) clientProperty);
+                        jc.putClientProperty(OPAQUE_LISTENER, null);
+                    }
                     jc.setOpaque(opaque);
                     if (jc.getClientProperty(OPAQUE_LISTENER) == null) {
                         if (opaque) {
@@ -1077,7 +1082,7 @@ public class JideSwingUtilities implements SwingConstants {
                                 };
                             }
                             jc.addPropertyChangeListener("opaque", _setOpaqueTrueListener);
-                            jc.putClientProperty("opaqueListener", _setOpaqueTrueListener);
+                            jc.putClientProperty(OPAQUE_LISTENER, _setOpaqueTrueListener);
                         }
                         else {
                             if (_setOpaqueFalseListener == null) {
