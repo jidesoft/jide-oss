@@ -1173,6 +1173,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void paintIcon(Graphics g, int tabPlacement,
                              int tabIndex, Icon icon, Rectangle iconRect,
                              boolean isSelected) {
@@ -3894,6 +3895,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void paintTabBackgroundMouseOver(Graphics g, int tabPlacement, int tabIndex,
                                                int x, int y, int w, int h, boolean isSelected, Color backgroundUnselectedColorStart, Color backgroundUnselectedColorEnd) {
         Graphics2D g2d = (Graphics2D) g;
@@ -4583,18 +4585,22 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return _tabRuns[nextRun] - 1;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected int getTabRunOverlay(int tabPlacement) {
         return _tabRunOverlay;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected int getTabRunIndent(int tabPlacement, int run) {
         return 0;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected boolean shouldPadTabRun(int tabPlacement, int run) {
         return _runCount > 1;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected boolean shouldRotateTabRuns(int tabPlacement) {
         return true;
     }
@@ -5468,8 +5474,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public Dimension preferredLayoutSize(Container parent) {
-            Dimension dimension = calculateSize(false);
-            return dimension;
+            return calculateSize(false);
         }
 
         public Dimension minimumLayoutSize(Container parent) {
@@ -5913,6 +5918,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         /*
            * Rotates the run-index array so that the selected run is run[0]
            */
+        @SuppressWarnings({"UnusedDeclaration"})
         protected void rotateTabRuns(int tabPlacement, int selectedRun) {
             for (int i = 0; i < selectedRun; i++) {
                 int save = _tabRuns[0];
@@ -8711,13 +8717,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 else {
                     if (index == _rects.length - 1) { // last one, scroll to the end
                         Rectangle lastRect = _rects[index];
-                        lastRect.width = _tabScroller.tabPanel.getWidth() - lastRect.x;
+                        if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && _tabPane.getComponentOrientation().isLeftToRight()) {
+                            lastRect.width = _tabScroller.tabPanel.getWidth() - lastRect.x;
+                        }
                         _tabScroller.tabPanel.scrollRectToVisible(lastRect);
-                    }
-                    else if (index == 0) { // first one, scroll to the front
-                        Rectangle firstRect = _rects[index];
-                        firstRect.x = 0;
-                        _tabScroller.tabPanel.scrollRectToVisible(firstRect);
                     }
                     else {
                         _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
