@@ -10,6 +10,7 @@ import com.jidesoft.hints.FileIntelliHints;
 import com.jidesoft.plaf.FolderChooserUI;
 import com.jidesoft.swing.FolderChooser;
 import com.jidesoft.swing.SelectAllUtils;
+import com.jidesoft.swing.JideBoxLayout;
 import com.jidesoft.utils.SystemInfo;
 import sun.awt.shell.ShellFolder;
 
@@ -80,9 +81,9 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
             chooser.add(chooser.getAccessory(), BorderLayout.BEFORE_FIRST_LINE);
         }
 
-        chooser.setLayout(new BorderLayout());
-        chooser.add(toolBarPanel);
-        chooser.add(holdingPanel, BorderLayout.AFTER_LAST_LINE);
+        chooser.setLayout(new JideBoxLayout(chooser, JideBoxLayout.Y_AXIS));
+        chooser.add(toolBarPanel, JideBoxLayout.FIX);
+        chooser.add(holdingPanel, JideBoxLayout.VARY);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         if (_folderChooser.isNavigationFieldVisible()) {
