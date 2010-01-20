@@ -462,6 +462,7 @@ public class Office2003Painter extends BasicPainter {
         Color background = null;
         switch (state) {
             case STATE_DEFAULT:
+            case STATE_DISABLE:
                 background = c.getBackground();
                 if (!(background instanceof UIResource)) {
                     startColor = ColorUtils.getDerivedColor(background, 0.6f);
@@ -488,6 +489,7 @@ public class Office2003Painter extends BasicPainter {
                 }
                 break;
             case STATE_SELECTED:
+            case STATE_DISABLE_SELECTED:
                 if (c instanceof ComponentStateSupport) {
                     background = ((ComponentStateSupport) c).getBackgroundOfState(state);
                 }

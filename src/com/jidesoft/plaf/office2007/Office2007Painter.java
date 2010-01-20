@@ -190,6 +190,7 @@ public class Office2007Painter extends BasicPainter {
         Color background = null;
         switch (state) {
             case STATE_DEFAULT:
+            case STATE_DISABLE:
                 background = c.getBackground();
                 break;
             case STATE_ROLLOVER:
@@ -198,6 +199,7 @@ public class Office2007Painter extends BasicPainter {
                 }
                 break;
             case STATE_SELECTED:
+            case STATE_DISABLE_SELECTED:
                 if (c instanceof ComponentStateSupport) {
                     background = ((ComponentStateSupport) c).getBackgroundOfState(state);
                 }
@@ -263,12 +265,12 @@ public class Office2007Painter extends BasicPainter {
             }
 //            }
         }
-        else if (state == STATE_SELECTED) {
+        else if (state == STATE_SELECTED || state == STATE_DISABLE_SELECTED) {
             paintShadowedButtonBackground(g2d, rect,
                     new Color[]{new Color(0xF3CFA5), new Color(0xF0B159), new Color(0xF1B151), new Color(0xFBC860)},
                     new Color[]{new Color(0xFDCD98), new Color(0xF8B35B), new Color(0xFBD582)});
         }
-        else if (state == STATE_DEFAULT) {
+        else if (state == STATE_DEFAULT || state == STATE_DISABLE) {
             if (1 != height - 2) {
                 g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
                         new float[]{0f, .5f, .51f, 1f},

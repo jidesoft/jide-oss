@@ -53,6 +53,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Create PLAF
     // ********************************
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideButtonUI();
     }
@@ -90,10 +91,10 @@ public class BasicJideButtonUI extends JideButtonUI {
              defaultFont = UIManagerLookup.getFont(pp + "font");
              defaultBorder = UIManagerLookup.getBorder(pp + "border");*/
 
-            _shadowColor = UIDefaultsLookup.getColor("controlShadow");
-            _darkShadowColor = UIDefaultsLookup.getColor("controlDkShadow");
-            _highlight = UIDefaultsLookup.getColor("controlHighlight");
-            _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
+            _shadowColor = UIDefaultsLookup.getColor("JideButton.shadow");
+            _darkShadowColor = UIDefaultsLookup.getColor("JideButton.darkShadow");
+            _highlight = UIDefaultsLookup.getColor("JideButton.highlight");
+            _lightHighlightColor = UIDefaultsLookup.getColor("JideButton.light");
 
             defaults_initialized = true;
         }
@@ -193,6 +194,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected void uninstallDefaults(AbstractButton b) {
         _painter = null;
         _focusColor = null;
@@ -213,6 +215,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         return new BasicJideButtonListener(b);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public int getDefaultTextIconGap(AbstractButton b) {
         return defaultTextIconGap;
     }
@@ -375,6 +378,11 @@ public class BasicJideButtonUI extends JideButtonUI {
     /**
      * As of Java 2 platform v 1.4 this method should not be used or overridden. Use the paintText method which takes
      * the AbstractButton argument.
+     *
+     * @param g the Graphics instance
+     * @param c the component
+     * @param textRect the rectangle of the text
+     * @param text the text to paint
      */
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
@@ -559,9 +567,11 @@ public class BasicJideButtonUI extends JideButtonUI {
                 g.drawLine(rect.x, rect.height - 1, rect.width - 1, rect.height - 1);
                 g.drawLine(rect.width - 1, rect.y, rect.width - 1, rect.height - 1);
                 break;
+            case ThemePainter.STATE_DISABLE:
+            case ThemePainter.STATE_DISABLE_SELECTED:
             case ThemePainter.STATE_DEFAULT:
                 if (paintBackground) {
-                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), ThemePainter.STATE_DEFAULT);
+                    getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), state);
                 }
                 break;
         }
@@ -730,9 +740,10 @@ public class BasicJideButtonUI extends JideButtonUI {
      * Checks if we should wrap text on a button. If the vertical text position is bottom and horizontal text position
      * is center, we will wrap the text.
      *
-     * @param c
+     * @param c the component
      * @return true or false.
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     public static boolean shouldWrapText(Component c) {
         // return false for now before we support the text wrapping
         return false;
