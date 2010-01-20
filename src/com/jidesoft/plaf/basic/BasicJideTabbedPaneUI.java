@@ -4804,7 +4804,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected FontMetrics getFontMetrics(int tab) {
-        Font font = null;
+        Font font;
         int selectedIndex = _tabPane.getSelectedIndex();
         if (selectedIndex == tab && _tabPane.getSelectedTabFont() != null) {
             font = _tabPane.getSelectedTabFont();
@@ -5379,9 +5379,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public void actionPerformed(ActionEvent e) {
-            JideTabbedPane pane = null;
+            JideTabbedPane pane;
             Object src = e.getSource();
-            int index = -1;
+            int index;
             boolean closeSelected = false;
             if (src instanceof JideTabbedPane) {
                 pane = (JideTabbedPane) src;
@@ -5433,12 +5433,20 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     if (pane.getTabCount() == 0) {
                         pane.updateUI();
                     }
+                    pane.doLayout();
+                    if (pane.getSelectedIndex() >= 0) {
+                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
+                    }
                 }
                 else if (closeSelected) {
                     if (pane.getSelectedIndex() >= 0)
                         pane.removeTabAt(pane.getSelectedIndex());
                     if (pane.getTabCount() == 0) {
                         pane.updateUI();
+                    }
+                    pane.doLayout();
+                    if (pane.getSelectedIndex() >= 0) {
+                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
                     }
                 }
                 else {
@@ -5455,6 +5463,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                         if (pane.getTabCount() == 0) {
                             pane.updateUI();
+                        }
+                        pane.doLayout();
+                        if (pane.getSelectedIndex() >= 0) {
+                            ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
                         }
                     }
                 }
@@ -8953,7 +8965,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void prepareEditor(TabEditor e, int tabIndex) {
-        Font font = null;
+        Font font;
         if (_tabPane.getSelectedTabFont() != null) {
             font = _tabPane.getSelectedTabFont();
         }
