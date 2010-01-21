@@ -727,6 +727,11 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintSidePaneItemBackground(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintSidePaneItemBackground(c, g, rect, colors, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g.create();
         switch (orientation) {
             case SwingConstants.WEST:
