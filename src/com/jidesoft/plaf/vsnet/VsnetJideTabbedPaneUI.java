@@ -1142,42 +1142,39 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         Color backgroundEnd = null;
         Color backgroundStart = null;
 
-        JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
-        if (colorProvider != null) {
-            backgroundEnd = colorProvider.getBackgroundAt(tabIndex);
-            if (colorProvider instanceof JideTabbedPane.GradientColorProvider) {
-                backgroundStart = ((JideTabbedPane.GradientColorProvider) colorProvider).getTopBackgroundAt(tabIndex);
-            }
-            else {
-                backgroundStart = backgroundEnd != null ? ColorUtils.getDerivedColor(backgroundEnd, colorProvider.getGradientRatio(tabIndex)) : null;
-            }
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            backgroundStart = isSelected ? UIDefaultsLookup.getColor("JideButton.selectedBackground") : UIDefaultsLookup.getColor("JideButton.background");
+            backgroundEnd = backgroundStart;
         }
         else {
-            Color color = _tabPane.getBackground();
-            if (tabIndex != -1)
-                color = _tabPane.getBackgroundAt(tabIndex);
-            if (!(color instanceof UIResource) && color != _tabPane.getBackground()) {
-                backgroundEnd = color;
-                if (getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {
-                    backgroundStart = ColorUtils.getDerivedColor(color, 0.8f);
+            JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
+            if (colorProvider != null) {
+                backgroundEnd = colorProvider.getBackgroundAt(tabIndex);
+                if (colorProvider instanceof JideTabbedPane.GradientColorProvider) {
+                    backgroundStart = ((JideTabbedPane.GradientColorProvider) colorProvider).getTopBackgroundAt(tabIndex);
                 }
                 else {
-                    backgroundStart = color;
-                }
-            }
-        }
-
-        if (isSelected) {
-            if (showFocusIndicator()) {
-                if (backgroundEnd == null) {
-                    backgroundEnd = _backgroundSelectedColorEnd;
-                }
-                if (backgroundStart == null) {
-                    backgroundStart = _backgroundSelectedColorStart;
+                    backgroundStart = backgroundEnd != null ? ColorUtils.getDerivedColor(backgroundEnd, colorProvider.getGradientRatio(tabIndex)) : null;
                 }
             }
             else {
-                if (getColorTheme() == JideTabbedPane.COLOR_THEME_VSNET) {
+                Color color = _tabPane.getBackground();
+                if (tabIndex != -1)
+                    color = _tabPane.getBackgroundAt(tabIndex);
+                if (!(color instanceof UIResource) && color != _tabPane.getBackground()) {
+                    backgroundEnd = color;
+                    if (getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {
+                        backgroundStart = ColorUtils.getDerivedColor(color, 0.8f);
+                    }
+                    else {
+                        backgroundStart = color;
+                    }
+                }
+            }
+
+            if (isSelected) {
+                if (showFocusIndicator()) {
                     if (backgroundEnd == null) {
                         backgroundEnd = _backgroundSelectedColorEnd;
                     }
@@ -1186,22 +1183,32 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
                     }
                 }
                 else {
-                    if (backgroundEnd == null) {
-                        backgroundEnd = ColorUtils.getDerivedColor(_backgroundUnselectedColorEnd, 0.7f);
+                    if (getColorTheme() == JideTabbedPane.COLOR_THEME_VSNET) {
+                        if (backgroundEnd == null) {
+                            backgroundEnd = _backgroundSelectedColorEnd;
+                        }
+                        if (backgroundStart == null) {
+                            backgroundStart = _backgroundSelectedColorStart;
+                        }
                     }
-                    if (backgroundStart == null) {
-                        backgroundStart = ColorUtils.getDerivedColor(_backgroundUnselectedColorStart, 0.8f);
+                    else {
+                        if (backgroundEnd == null) {
+                            backgroundEnd = ColorUtils.getDerivedColor(_backgroundUnselectedColorEnd, 0.7f);
+                        }
+                        if (backgroundStart == null) {
+                            backgroundStart = ColorUtils.getDerivedColor(_backgroundUnselectedColorStart, 0.8f);
+                        }
                     }
                 }
             }
-        }
-        else {
-            if (getTabShape() != JideTabbedPane.SHAPE_WINDOWS_SELECTED) {
-                if (backgroundEnd == null) {
-                    backgroundEnd = _backgroundUnselectedColorEnd;
-                }
-                if (backgroundStart == null) {
-                    backgroundStart = _backgroundUnselectedColorStart;
+            else {
+                if (getTabShape() != JideTabbedPane.SHAPE_WINDOWS_SELECTED) {
+                    if (backgroundEnd == null) {
+                        backgroundEnd = _backgroundUnselectedColorEnd;
+                    }
+                    if (backgroundStart == null) {
+                        backgroundStart = _backgroundUnselectedColorStart;
+                    }
                 }
             }
         }

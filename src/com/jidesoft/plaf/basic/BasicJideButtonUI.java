@@ -53,6 +53,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Create PLAF
     // ********************************
+
     @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new BasicJideButtonUI();
@@ -66,6 +67,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Install PLAF
     // ********************************
+
     @Override
     public void installUI(JComponent c) {
         installDefaults((AbstractButton) c);
@@ -167,6 +169,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //         Uninstall PLAF
     // ********************************
+
     @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions((AbstractButton) c);
@@ -278,6 +281,11 @@ public class BasicJideButtonUI extends JideButtonUI {
 
         paintIcon(b, g);
 
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast && JideSwingUtilities.getButtonState(b) == ThemePainter.STATE_PRESSED) {
+            textRect.x += 1;
+            textRect.y += 1;
+        }
         if (text != null && !text.equals("")) {
             View v = (View) c.getClientProperty(BasicHTML.propertyKey);
             if (v != null) {
@@ -379,10 +387,10 @@ public class BasicJideButtonUI extends JideButtonUI {
      * As of Java 2 platform v 1.4 this method should not be used or overridden. Use the paintText method which takes
      * the AbstractButton argument.
      *
-     * @param g the Graphics instance
-     * @param c the component
+     * @param g        the Graphics instance
+     * @param c        the component
      * @param textRect the rectangle of the text
-     * @param text the text to paint
+     * @param text     the text to paint
      */
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
@@ -684,6 +692,7 @@ public class BasicJideButtonUI extends JideButtonUI {
     // ********************************
     //          Layout Methods
     // ********************************
+
     @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);

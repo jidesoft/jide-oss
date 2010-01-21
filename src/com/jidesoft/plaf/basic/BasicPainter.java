@@ -242,6 +242,15 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
         installDefaults();
         Color background = null;
+
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            background = c.getBackground();
+            paintBackground(c, g, rect, state == STATE_DEFAULT || state == STATE_DISABLE ? null : _borderColor,
+                    state == STATE_PRESSED || state == STATE_SELECTED || state == STATE_ROLLOVER ? UIDefaultsLookup.getColor("JideButton.selectedBackground") : background, orientation);
+            return;
+        }
+
         switch (state) {
             case STATE_DEFAULT:
             case STATE_DISABLE:
@@ -503,6 +512,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             h -= insets.top + insets.bottom;
         }
         rect = new Rectangle(x + 1, y + 1, w - 1, h - 1);
+
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
         if (state == STATE_SELECTED) {
             g.setColor(UIDefaultsLookup.getColor("DockableFrame.activeTitleBorderColor"));
             if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
@@ -511,7 +522,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             else {
                 g.drawRect(x, y, w, h);
             }
-            g.setColor(UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground"));
+            g.setColor(highContrast ? UIDefaultsLookup.getColor("JideButton.selectedBackground") : UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground"));
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
         else {
@@ -526,13 +537,18 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
         }
         else {
-            g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.background"));
+            g.setColor(UIDefaultsLookup.getColor(highContrast ? "JideButton.background" : "CollapsiblePane.background"));
         }
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        if (highContrast) {
+            g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.background"));
+            g.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
+        }
     }
 
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
@@ -549,6 +565,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (!c.isOpaque()) {
             return;
         }
+
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -627,29 +644,27 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
     public void paintTabBackground(JComponent c, Graphics g, Shape region, Color[] colors, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g.create();
-        if (state == STATE_DEFAULT) {
-            Color backgroundStart = colors[0];
-            Color backgroundEnd = colors[1];
-            if (backgroundEnd != null && backgroundStart != null) {
-                int tabPlacement = JideTabbedPane.TOP;
-                if (c instanceof JideTabbedPane) {
-                    tabPlacement = ((JideTabbedPane) c).getTabPlacement();
-                }
-                switch (tabPlacement) {
-                    case JideTabbedPane.LEFT:
-                        JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, false);
-                        break;
-                    case JideTabbedPane.RIGHT:
-                        JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, false);
-                        break;
-                    case JideTabbedPane.BOTTOM:
-                        JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, true);
-                        break;
-                    case JideTabbedPane.TOP:
-                    default:
-                        JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, true);
-                        break;
-                }
+        Color backgroundStart = colors[0];
+        Color backgroundEnd = colors[1];
+        if (backgroundEnd != null && backgroundStart != null) {
+            int tabPlacement = JideTabbedPane.TOP;
+            if (c instanceof JideTabbedPane) {
+                tabPlacement = ((JideTabbedPane) c).getTabPlacement();
+            }
+            switch (tabPlacement) {
+                case JideTabbedPane.LEFT:
+                    JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, false);
+                    break;
+                case JideTabbedPane.RIGHT:
+                    JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, false);
+                    break;
+                case JideTabbedPane.BOTTOM:
+                    JideSwingUtilities.fillGradient(g2d, region, backgroundEnd, backgroundStart, true);
+                    break;
+                case JideTabbedPane.TOP:
+                default:
+                    JideSwingUtilities.fillGradient(g2d, region, backgroundStart, backgroundEnd, true);
+                    break;
             }
         }
         g2d.dispose();

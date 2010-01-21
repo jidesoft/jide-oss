@@ -86,6 +86,8 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         WindowsDesktopProperty menuTextColor = new WindowsDesktopProperty("win.menu.textColor", UIDefaultsLookup.get("control"), toolkit);
 
+        WindowsDesktopProperty highContrast = new WindowsDesktopProperty("win.highContrast.on", UIDefaultsLookup.get("highContrast"), toolkit);
+
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
         Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
@@ -156,6 +158,9 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         Object uiDefaults[] = new Object[]{
                 // common
+                "Theme.highContrast", highContrast,
+                "Content.background", defaultBackgroundColor,
+
                 "JideLabel.font", controlFont,
                 "JideLabel.background", defaultBackgroundColor,
                 "JideLabel.foreground", defaultTextColor,

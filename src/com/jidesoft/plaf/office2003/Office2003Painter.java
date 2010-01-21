@@ -424,10 +424,18 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void installDefaults() {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.installDefaults();
+        }
     }
 
     @Override
     public void uninstallDefaults() {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.uninstallDefaults();
+        }
     }
 
     public String getColorName() {
@@ -457,6 +465,12 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintButtonBackground(c, g, rect, orientation, state, showBorder);
+            return;
+        }
+
         Color startColor = null;
         Color endColor = null;
         Color background = null;
@@ -638,6 +652,12 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCommandBarBackground(c, g, rect, orientation, state);
+            return;
+        }
+
         Graphics2D g2d = (Graphics2D) g;
         JideSwingUtilities.fillGradient(g2d, new RoundRectangle2D.Float(rect.x, rect.y, rect.width, rect.height, 4, 4),
                 getCurrentTheme().getColor("controlLt"), getCurrentTheme().getColor("controlDk"), orientation == SwingConstants.HORIZONTAL);
@@ -1001,6 +1021,12 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintDockableFrameTitlePane(c, g, rect, orientation, state);
+            return;
+        }
+
         int x = rect.x;
         int y = rect.y;
         int w = rect.width;
@@ -1080,6 +1106,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color background = c.getBackground();
         Color colorLt;
@@ -1098,6 +1129,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color background = c.getBackground();
         Color colorLt;
@@ -1116,6 +1152,11 @@ public class Office2003Painter extends BasicPainter {
     @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!c.isOpaque()) {
+            return;
+        }
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePanesBackground(c, g, rect, orientation, state);
             return;
         }
         Graphics2D g2d = (Graphics2D) g;
@@ -1161,6 +1202,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundPlainEmphasized(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
         Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
@@ -1170,6 +1216,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundPlain(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
         Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
@@ -1178,6 +1229,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt.emphasized");
         Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk.emphasized");
@@ -1190,6 +1246,11 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundSeparator(c, g, rect, orientation, state);
+            return;
+        }
         Graphics2D g2d = (Graphics2D) g;
         Color colorLt = getCurrentTheme().getColor("backgroundLt");
         Color colorDk = getCurrentTheme().getColor("backgroundDk");
@@ -1203,6 +1264,12 @@ public class Office2003Painter extends BasicPainter {
 
     @Override
     public void paintTabAreaBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintTabAreaBackground(c, g, rect, orientation, state);
+            return;
+        }
+
         if (c instanceof JideTabbedPane && ((JideTabbedPane) c).getColorTheme() != JideTabbedPane.COLOR_THEME_OFFICE2003) {
             super.paintTabAreaBackground(c, g, rect, orientation, state);
         }

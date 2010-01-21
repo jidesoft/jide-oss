@@ -59,9 +59,17 @@ public class Office2007Painter extends BasicPainter {
     }
 
     public void installDefaults() {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.installDefaults();
+        }
     }
 
     public void uninstallDefaults() {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.uninstallDefaults();
+        }
     }
 
 //    private static final Color[] CONTENT_BG = new Color[]{
@@ -74,7 +82,8 @@ public class Office2007Painter extends BasicPainter {
 
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setColor(new Color(0xBFDBFF));
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        g2d.setColor(highContrast ? UIDefaultsLookup.getColor("Content.background") : new Color(0xBFDBFF));
         g2d.fillRect(rect.x, rect.y, rect.width, rect.height);
 
 //        JideSwingUtilities.fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, 160), CONTENT_BG[0], CONTENT_BG[1], true);
@@ -99,11 +108,6 @@ public class Office2007Painter extends BasicPainter {
 //        ImageIcon imageIcon = IconsFactory.getImageIcon(Office2007Painter.class, "icons/background_top.png");
 //        g2d.drawImage(imageIcon.getImage(), 0, 0, c);
         g2d.dispose();
-    }
-
-    @Override
-    public void paintTabBackground(JComponent c, Graphics g, Shape region, Color[] colors, int orientation, int state) {
-        super.paintTabBackground(c, g, region, colors, orientation, state);
     }
 
     @SuppressWarnings({"ConstantConditions"})
@@ -183,6 +187,12 @@ public class Office2007Painter extends BasicPainter {
     }
 
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, boolean showBorder) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintButtonBackground(c, g, rect, orientation, state, showBorder);
+            return;
+        }
+
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintButtonBackground(c, g, rect, orientation, state, showBorder);
             return;
@@ -434,6 +444,12 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCommandBarBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCommandBarBackground(c, g, rect, orientation, state);
+            return;
+        }
+
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintCommandBarBackground(c, g, rect, orientation, state);
             return;
@@ -528,6 +544,12 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintDockableFrameTitlePane(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintDockableFrameTitlePane(c, g, rect, orientation, state);
+            return;
+        }
+
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintDockableFrameTitlePane(c, g, rect, orientation, state);
             return;
@@ -562,6 +584,11 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
+            return;
+        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
             return;
@@ -571,6 +598,11 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
+            return;
+        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
             return;
@@ -580,6 +612,11 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(c, g, rect, orientation, state);
+            return;
+        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackgroundSeparatorEmphasized(c, g, rect, orientation, state);
             return;
@@ -589,6 +626,11 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintCollapsiblePaneTitlePaneBackgroundSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePaneTitlePaneBackgroundSeparator(c, g, rect, orientation, state);
+            return;
+        }
         if (!SystemInfo.isJdk6Above()) {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackgroundSeparator(c, g, rect, orientation, state);
             return;
@@ -659,6 +701,11 @@ public class Office2007Painter extends BasicPainter {
     @Override
     public void paintCollapsiblePanesBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!c.isOpaque()) {
+            return;
+        }
+        Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
+        if (highContrast) {
+            super.paintCollapsiblePanesBackground(c, g, rect, orientation, state);
             return;
         }
         Graphics2D g2d = (Graphics2D) g;

@@ -205,6 +205,8 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         WindowsDesktopProperty activeTitleBackgroundColor = new WindowsDesktopProperty("win.frame.activeCaptionColor", UIDefaultsLookup.get("activeCaption"), toolkit);
         WindowsDesktopProperty activeTitleTextColor = new WindowsDesktopProperty("win.frame.captionTextColor", UIDefaultsLookup.get("activeCaptionText"), toolkit);
 
+        WindowsDesktopProperty highContrast = new WindowsDesktopProperty("win.highContrast.on", UIDefaultsLookup.get("highContrast"), toolkit);
+
         Object singleLineBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
                 return new BorderUIResource(BorderFactory.createLineBorder((Color) obj[0]));
@@ -279,6 +281,9 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
+                "Theme.highContrast", highContrast,
+                "Content.background", defaultBackgroundColor,
+
                 "JideScrollPane.border", singleLineBorder,
 
                 "JideButton.selectedAndFocusedBackground", selectedAndFocusedButtonColor,

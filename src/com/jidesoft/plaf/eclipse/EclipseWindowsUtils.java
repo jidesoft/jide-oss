@@ -84,6 +84,8 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         WindowsDesktopProperty inactiveTitleBackgroundColor = new WindowsDesktopProperty("win.3d.shadowColor", UIDefaultsLookup.get("controlShadow"), toolkit);
         WindowsDesktopProperty mdiBackgroundColor = new WindowsDesktopProperty("win.mdi.backgroundColor", UIDefaultsLookup.get("controlShadow"), toolkit);
 
+        WindowsDesktopProperty highContrast = new WindowsDesktopProperty("win.highContrast.on", UIDefaultsLookup.get("highContrast"), toolkit);
+
         Object controlFont = JideSwingUtilities.getControlFont(toolkit, table);
         Object toolbarFont = JideSwingUtilities.getMenuFont(toolkit, table);
         Object boldFont = JideSwingUtilities.getBoldFont(toolkit, table);
@@ -136,6 +138,9 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
         Object uiDefaults[] = {
                 // common
+                "Theme.highContrast", highContrast,
+                "Content.background", defaultBackgroundColor,
+
                 "JideLabel.font", controlFont,
                 "JideLabel.background", defaultBackgroundColor,
                 "JideLabel.foreground", defaultTextColor,
