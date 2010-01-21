@@ -59,6 +59,9 @@ import java.util.List;
  * 	.add(")", "OPERATOR")
  *  .configure(label);</code></pre>
  * <p/>
+ * Please be noted that you need escape the ":" in your text string when necessary. For example, "{00:00:00:BOLD}" need
+ * to be changed as "{00\\:00\\:00:BOLD}.
+ * <p/>
  * If we were using Java 5, we could also do this:
  * <pre><code>// no need to call {@link #clear()} this time
  * builder.configure(label, String.format("%s ({%s:PATH})", file.getName(), file.getPath()));</code></pre>
