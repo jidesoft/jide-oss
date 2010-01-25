@@ -404,11 +404,11 @@ public class LookAndFeelFactory implements ProductNames {
                         suggestedStyle = OFFICE2003_STYLE;
                     }
                     else {
-                        suggestedStyle = VSNET_STYLE;
+                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
                     }
                 }
                 catch (UnsupportedOperationException e) {
-                    suggestedStyle = VSNET_STYLE;
+                    suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
                 }
                 return suggestedStyle;
             }
