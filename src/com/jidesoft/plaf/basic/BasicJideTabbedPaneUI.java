@@ -960,7 +960,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
-        Font font = null;
+        Font font;
 
         if (isSelected && _tabPane.getSelectedTabFont() != null) {
             font = _tabPane.getSelectedTabFont();
@@ -3900,7 +3900,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                int x, int y, int w, int h, boolean isSelected, Color backgroundUnselectedColorStart, Color backgroundUnselectedColorEnd) {
         Graphics2D g2d = (Graphics2D) g;
 
-        Polygon polygon = null;
+        Polygon polygon;
 
         switch (tabPlacement) {
             case LEFT:
@@ -4779,6 +4779,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return (vertRunCount > 0 ? vertRunCount * (maxTabWidth - tabRunOverlay) + tabRunOverlay + tabAreaInsets.left + tabAreaInsets.right : 0);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected Insets getTabInsets(int tabPlacement, int tabIndex) {
         rotateInsets(_tabInsets, _currentTabInsets, tabPlacement);
         return _currentTabInsets;
@@ -5532,7 +5533,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     height += cHeight;
                 }
 
-                int tabExtent = 0;
+                int tabExtent;
 
                 // Calculate how much space the tabs will need, based on the
                 // minimum size required to display largest child + content border
@@ -8547,7 +8548,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Integer index =
                     (Integer) tp.getClientProperty("__index_to_remove__");
             if (index != null) {
-                if (htmlViews != null && htmlViews.size() >= index) {
+                if (htmlViews != null && htmlViews.size() > index) {
                     htmlViews.removeElementAt(index);
                 }
                 tp.putClientProperty("__index_to_remove__", null);
