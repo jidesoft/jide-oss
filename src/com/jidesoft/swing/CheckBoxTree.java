@@ -35,14 +35,15 @@ import java.util.ArrayList;
 public class CheckBoxTree extends JTree {
 
     public static final String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
+    public static final String PROPERTY_CLICK_IN_CHECKBOX_ONLY = "clickInCheckBoxOnly";
     public static final String PROPERTY_DIG_IN = "digIn";
-
 
     protected CheckBoxTreeCellRenderer _treeCellRenderer;
 
     private CheckBoxTreeSelectionModel _checkBoxTreeSelectionModel;
 
     private boolean _checkBoxEnabled = true;
+    private boolean _clickInCheckBoxOnly = true;
     private PropertyChangeListener _modelChangeListener;
 
     public CheckBoxTree() {
@@ -236,7 +237,7 @@ public class CheckBoxTree extends JTree {
             if (path == null)
                 return null;
 
-            if (clicksInCheckBox(e, path)) {
+            if (clicksInCheckBox(e, path) || !_tree.isClickInCheckBoxOnly()) {
                 return path;
             }
             else {
@@ -464,6 +465,31 @@ public class CheckBoxTree extends JTree {
         if (old != digIn) {
             getCheckBoxTreeSelectionModel().setDigIn(digIn);
             firePropertyChange(PROPERTY_DIG_IN, old, digIn);
+        }
+    }
+
+    /**
+     * Gets the value of property clickInCheckBoxOnly. If true, user can click on check boxes on each tree node to
+     * select and deselect. If false, user can't click but you as developer can programmatically call API to
+     * select/deselect it.
+     *
+     * @return the value of property clickInCheckBoxOnly.
+     */
+    public boolean isClickInCheckBoxOnly() {
+        return _clickInCheckBoxOnly;
+    }
+
+    /**
+     * Sets the value of property clickInCheckBoxOnly.
+     *
+     * @param clickInCheckBoxOnly true to allow to check the check box. False to disable it which means user can see
+     *                            whether a row is checked or not but they cannot change it.
+     */
+    public void setClickInCheckBoxOnly(boolean clickInCheckBoxOnly) {
+        if (clickInCheckBoxOnly != _clickInCheckBoxOnly) {
+            boolean old = _clickInCheckBoxOnly;
+            _clickInCheckBoxOnly = clickInCheckBoxOnly;
+            firePropertyChange(PROPERTY_CLICK_IN_CHECKBOX_ONLY, old, _clickInCheckBoxOnly);
         }
     }
 }
