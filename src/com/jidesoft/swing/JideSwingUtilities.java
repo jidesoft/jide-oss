@@ -3699,4 +3699,24 @@ public class JideSwingUtilities implements SwingConstants {
         }
         return -1 * i;
     }
+
+    /**
+     * Checks if the ctrl key is pressed. On Mac oS X, it will be command key.
+     *
+     * @param event the InputEvent.
+     * @return true or false.
+     */
+    public static boolean isMenuShortcutKeyDown(InputEvent event) {
+        return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+    }
+
+    /**
+     * Checks if the ctrl key is pressed. On Mac oS X, it will be command key.
+     *
+     * @param event the InputEvent.
+     * @return true or false.
+     */
+    public static boolean isMenuShortcutKeyDown(ActionEvent event) {
+        return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+    }
 }

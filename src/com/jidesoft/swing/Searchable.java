@@ -241,9 +241,10 @@ public abstract class Searchable {
     /**
      * Get the flag indicating if the search popup should be hidden on the component's event.
      * <p/>
-     * By default, the value is true so that the search popup will be hidden anyway when the component get related events.
-     * However, you could set this flag to false if you don't want to hide the search popup in some scenarios. For example,
-     * JIDE ComboBoxShrinkSearchableSupport will set this flag to false temporarily when it tries to shrink the list.
+     * By default, the value is true so that the search popup will be hidden anyway when the component get related
+     * events. However, you could set this flag to false if you don't want to hide the search popup in some scenarios.
+     * For example, JIDE ComboBoxShrinkSearchableSupport will set this flag to false temporarily when it tries to shrink
+     * the list.
      *
      * @return true if the search popup is hidden on event. Otherwise false.
      */
@@ -254,8 +255,8 @@ public abstract class Searchable {
     /**
      * Set the flag indicating if the search popup should be hidden on the component's event.
      *
-     * @see #isHideSearchPopupOnEvent()
      * @param hideSearchPopupOnEvent the flag
+     * @see #isHideSearchPopupOnEvent()
      */
     public void setHideSearchPopupOnEvent(boolean hideSearchPopupOnEvent) {
         _hideSearchPopupOnEvent = hideSearchPopupOnEvent;
@@ -919,7 +920,7 @@ public abstract class Searchable {
         if (isActivateKey(e)) {
             String searchingText = "";
             if (e.getID() == KeyEvent.KEY_TYPED) {
-                if (((e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0)) { // if alt key is pressed
+                if (JideSwingUtilities.isMenuShortcutKeyDown(e)) { // if ctrl key is pressed
                     return;
                 }
                 if (e.isAltDown()) {
@@ -1180,7 +1181,7 @@ public abstract class Searchable {
      * @return true if the key in KeyEvent is a key to trigger selecting all.
      */
     protected boolean isSelectAllKey(KeyEvent e) {
-        return ((e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0) && e.getKeyCode() == KeyEvent.VK_A;
+        return JideSwingUtilities.isMenuShortcutKeyDown(e) && e.getKeyCode() == KeyEvent.VK_A;
     }
 
     /**
@@ -1191,7 +1192,7 @@ public abstract class Searchable {
      *         used.
      */
     protected boolean isIncrementalSelectKey(KeyEvent e) {
-        return (e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+        return JideSwingUtilities.isMenuShortcutKeyDown(e);
     }
 
     /**
@@ -1693,9 +1694,9 @@ public abstract class Searchable {
      * <p/>
      * In normal case, please do not set this flag.
      * <p/>
-     * @see #isProcessModelChangeEvent()
      *
      * @param processModelChangeEvent the flag
+     * @see #isProcessModelChangeEvent()
      */
     public void setProcessModelChangeEvent(boolean processModelChangeEvent) {
         _processModelChangeEvent = processModelChangeEvent;
