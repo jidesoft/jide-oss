@@ -53,7 +53,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         if (StyledLabel.PROPERTY_STYLE_RANGE.equals(e.getPropertyName())) {
-            _styledTexts.clear();
+            synchronized (_styledTexts) {
+                _styledTexts.clear();
+            }
             if (e.getSource() instanceof StyledLabel) {
                 ((StyledLabel) e.getSource()).revalidate();
                 ((StyledLabel) e.getSource()).repaint();
@@ -89,50 +91,52 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void buildStyledText(StyledLabel label) {
-        _styledTexts.clear();
-        StyleRange[] styleRanges = label.getStyleRanges();
-        if (_comparator == null) {
-            _comparator = new Comparator<StyleRange>() {
-                public int compare(StyleRange r1, StyleRange r2) {
-                    if (r1.getStart() < r2.getStart()) {
-                        return -1;
+        synchronized (_styledTexts) {
+            _styledTexts.clear();
+            StyleRange[] styleRanges = label.getStyleRanges();
+            if (_comparator == null) {
+                _comparator = new Comparator<StyleRange>() {
+                    public int compare(StyleRange r1, StyleRange r2) {
+                        if (r1.getStart() < r2.getStart()) {
+                            return -1;
+                        }
+                        else if (r1.getStart() > r2.getStart()) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
                     }
-                    else if (r1.getStart() > r2.getStart()) {
-                        return 1;
-                    }
-                    else {
-                        return 0;
-                    }
-                }
-            };
-        }
-        Arrays.sort(styleRanges, _comparator);
-
-        String s = label.getText();
-        if (s != null && s.length() > 0) { // do not do anything if the text is empty
-            int index = 0;
-            for (StyleRange styleRange : styleRanges) {
-                if (styleRange.getStart() > index) { // fill in the gap
-                    _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart())));
-                    index = styleRange.getStart();
-                }
-
-                if (styleRange.getStart() == index) { // exactly on
-                    if (styleRange.getLength() == -1) {
-                        _styledTexts.add(new StyledText(s.substring(index), styleRange));
-                        index = s.length();
-                    }
-                    else {
-                        _styledTexts.add(new StyledText(s.substring(index, Math.min(index + styleRange.getLength(), s.length())), styleRange));
-                        index += styleRange.getLength();
-                    }
-                }
-                else if (styleRange.getStart() < index) { // overlap
-                    // ignore
-                }
+                };
             }
-            if (index < s.length()) {
-                _styledTexts.add(new StyledText(s.substring(index, s.length())));
+            Arrays.sort(styleRanges, _comparator);
+
+            String s = label.getText();
+            if (s != null && s.length() > 0) { // do not do anything if the text is empty
+                int index = 0;
+                for (StyleRange styleRange : styleRanges) {
+                    if (styleRange.getStart() > index) { // fill in the gap
+                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart())));
+                        index = styleRange.getStart();
+                    }
+
+                    if (styleRange.getStart() == index) { // exactly on
+                        if (styleRange.getLength() == -1) {
+                            _styledTexts.add(new StyledText(s.substring(index), styleRange));
+                            index = s.length();
+                        }
+                        else {
+                            _styledTexts.add(new StyledText(s.substring(index, Math.min(index + styleRange.getLength(), s.length())), styleRange));
+                            index += styleRange.getLength();
+                        }
+                    }
+                    else if (styleRange.getStart() < index) { // overlap
+                        // ignore
+                    }
+                }
+                if (index < s.length()) {
+                    _styledTexts.add(new StyledText(s.substring(index, s.length())));
+                }
             }
         }
     }
