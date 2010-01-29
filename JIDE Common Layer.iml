@@ -15,6 +15,17 @@
     <orderEntry type="library" name="aqua" level="project" />
     <orderEntry type="library" exported="" name="junit" level="project" />
     <orderEntry type="library" exported="" name="substance" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/redist/annotations.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="trove" level="project" />
+    <orderEntry type="library" exported="" name="javolution" level="project" />
   </component>
   <component name="copyright">
     <Base>
