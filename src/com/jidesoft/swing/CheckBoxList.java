@@ -5,9 +5,6 @@
  */
 package com.jidesoft.swing;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.LookAndFeelFactory;
-
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -49,8 +46,6 @@ import java.util.List;
  * same design as that of {@link CheckBoxTree}.
  */
 public class CheckBoxList extends JList {
-    private static final String uiClassID = "CheckBoxListUI";
-
     protected CheckBoxListCellRenderer _listCellRenderer;
 
     public static final String PROPERTY_CHECKBOX_ENABLED = "checkBoxEnabled";
@@ -100,32 +95,6 @@ public class CheckBoxList extends JList {
     public CheckBoxList(ListModel dataModel) {
         super(dataModel);
         init();
-    }
-
-    /**
-     * Resets the UI property to a value from the current look and feel.
-     *
-     * @see JComponent#updateUI
-     */
-    @Override
-    public void updateUI() {
-        if (UIDefaultsLookup.get(uiClassID) == null) {
-            LookAndFeelFactory.installJideExtension();
-        }
-        super.updateUI();
-    }
-
-    /**
-     * Returns a string that specifies the name of the L&F class that renders this component.
-     *
-     * @return the string "TreeTableUI"
-     *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     */
-    @Override
-    public String getUIClassID() {
-        return uiClassID;
     }
 
     /**
