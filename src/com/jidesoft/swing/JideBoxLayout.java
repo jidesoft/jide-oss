@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
 import com.jidesoft.dialog.JideOptionPane;
 
 import java.awt.*;
@@ -361,17 +362,26 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
         if (totalActualSize != availableSize) {
             if (varIndex != -1) {
-                setComponentSize(varIndex, Math.max(_componentSizes[varIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(varIndex).getMinimumSize())));
+                setComponentSizeByGap(varIndex, availableSize - totalActualSize);
             }
             else if (lastNoneZeroFlexIndex != -1) {
-                setComponentSize(lastNoneZeroFlexIndex, Math.max(_componentSizes[lastNoneZeroFlexIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(lastNoneZeroFlexIndex).getMinimumSize())));
+                setComponentSizeByGap(lastNoneZeroFlexIndex, availableSize - totalActualSize);
             }
             else if (lastFlexIndex != -1) {
-                setComponentSize(lastFlexIndex, Math.max(_componentSizes[lastFlexIndex] + (availableSize - totalActualSize), getSizeForPrimaryAxis(_target.getComponent(lastFlexIndex).getMinimumSize())));
+                setComponentSizeByGap(lastFlexIndex, availableSize - totalActualSize);
             }
         }
 
         return true;
+    }
+
+    private void setComponentSizeByGap(int index, int gap) {
+        if (SystemInfo.isJdk15Above() && _target.getComponent(index).isMinimumSizeSet()) {
+            setComponentSize(index, Math.max(_componentSizes[index] + gap, getSizeForPrimaryAxis(_target.getComponent(index).getMinimumSize())));
+        }
+        else {
+            setComponentSize(index, _componentSizes[index] + gap);
+        }
     }
 
     private void setComponentSize(int index, int size) {
