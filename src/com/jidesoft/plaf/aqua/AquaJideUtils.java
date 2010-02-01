@@ -48,7 +48,9 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_GRIDS) != 0) {
             table.put("JideTableUI", aquaPackageName + "AquaJideTableUI");
+            table.put("NavigableTableUI", aquaPackageName + "AquaNavigableTableUI");
             table.put("CellSpanTableUI", aquaPackageName + "AquaCellSpanTableUI");
+            table.put("TreeTableUI", aquaPackageName + "AquaTreeTableUI");
             table.put("HierarchicalTableUI", aquaPackageName + "AquaHierarchicalTableUI");
             table.put("NestedTableHeaderUI", aquaPackageName + "AquaNestedTableHeaderUI");
             table.put("EditableTableHeaderUI", aquaPackageName + "AquaEditableTableHeaderUI");
