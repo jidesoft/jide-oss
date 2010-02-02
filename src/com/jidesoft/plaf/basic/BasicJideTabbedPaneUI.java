@@ -4460,6 +4460,33 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         return -1;
     }
 
+    /**
+     * Returns if the point resides in the empty tab area, which means it is in the tab area however no real tab contains
+     * that point.
+     *
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return true if the point is in empty tab area. Otherwise false.
+     */
+    public boolean isEmptyTabArea(int x, int y) {
+        int tabCount = _tabPane.getTabCount();
+        if (getTabAtLocation(x, y) >= 0 || tabCount <= 0) {
+            return false;
+        }
+        int tabPlacement = _tabPane.getTabPlacement();
+        if (tabPlacement == TOP || tabPlacement == BOTTOM) {
+            if (_rects[0].contains(_rects[0].x + 1, y)) {
+                return true;
+            }
+        }
+        else {
+            if (_rects[0].contains(x, _rects[0].y + 1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
      * Returns the index of the tab closest to the passed in location, note that the returned tab may not contain the
      * location x,y.
