@@ -670,9 +670,9 @@ public class CheckBoxList extends JList {
      *                     false
      */
     public void addCheckBoxListSelectedValue(Object anObject, boolean shouldScroll) {
+        ListModel model = getModel();
+        int i, c;
         if (anObject != null) {
-            int i, c;
-            ListModel model = getModel();
             for (i = 0, c = model.getSize(); i < c; i++)
                 if (anObject.equals(model.getElementAt(i))) {
                     addCheckBoxListSelectedIndex(i);
@@ -681,6 +681,17 @@ public class CheckBoxList extends JList {
                     repaint();  /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
                     return;
                 }
+        }
+        else {
+            for (i = 0, c = model.getSize(); i < c; i++) {
+                if (model.getElementAt(i) == null) {
+                    addCheckBoxListSelectedIndex(i);
+                    if (shouldScroll)
+                        ensureIndexIsVisible(i);
+                    repaint();  /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
+                    return;
+                }
+            }
         }
     }
 

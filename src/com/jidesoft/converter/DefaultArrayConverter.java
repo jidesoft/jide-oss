@@ -53,7 +53,7 @@ public class DefaultArrayConverter extends ArrayConverter {
                 return objects;
             }
             for (Object object : objects) {
-                if (!elementClass.isAssignableFrom(object.getClass())) {
+                if (object != null && !elementClass.isAssignableFrom(object.getClass())) {
                     return new Object[0];
                 }
             }
