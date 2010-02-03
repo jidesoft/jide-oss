@@ -577,6 +577,17 @@ public class BasicJideButtonUI extends JideButtonUI {
                 break;
             case ThemePainter.STATE_DISABLE:
             case ThemePainter.STATE_DISABLE_SELECTED:
+                if (paintBackground) {
+                    JideSwingUtilities.paintBackground(g, rect, _highlight, _highlight);
+                    g.setColor(_lightHighlightColor);    // inner 3D border
+                    g.drawLine(rect.x, rect.y, rect.width - 1, rect.y);
+                    g.drawLine(rect.x, rect.y, rect.x, rect.height - 1);
+
+                    g.setColor(_shadowColor);     // black drop shadow  __|
+                    g.drawLine(rect.x, rect.height - 1, rect.width - 1, rect.height - 1);
+                    g.drawLine(rect.width - 1, rect.y, rect.width - 1, rect.height - 1);
+                }
+                break;
             case ThemePainter.STATE_DEFAULT:
                 if (paintBackground) {
                     getPainter().paintButtonBackground(b, g, rect, JideSwingUtilities.getOrientationOf(b), state);
