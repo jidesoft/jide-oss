@@ -5,12 +5,14 @@
  */
 package com.jidesoft.converter;
 
+import com.jidesoft.utils.SystemInfo;
+
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 import java.util.Currency;
-import java.math.RoundingMode;
+import java.util.Locale;
 
 /**
  * Converter which converts Number to String and converts it back. You can pass in a NumberFormat as UserObject of
@@ -136,6 +138,7 @@ abstract public class NumberConverter implements ObjectConverter {
 
     /**
      * Set the fraction digits of this converter.
+     *
      * @param minDigits minimum fraction digits
      * @param maxDigits maximum fraction digits
      */
@@ -147,6 +150,7 @@ abstract public class NumberConverter implements ObjectConverter {
 
     /**
      * Set the currency of this converter.
+     *
      * @param currency currency
      */
     public void setCurrency(Currency currency) {
@@ -156,6 +160,7 @@ abstract public class NumberConverter implements ObjectConverter {
 
     /**
      * Set the integer digits of this converter.
+     *
      * @param minDigits minimum integer digits
      * @param maxDigits maximum integer digits
      */
@@ -167,10 +172,13 @@ abstract public class NumberConverter implements ObjectConverter {
 
     /**
      * Set the rounding mode of this converter.
+     *
      * @param mode rounding mode
      */
     public void setRoundingMode(RoundingMode mode) {
-        NumberFormat numberFormat = getNumberFormat();
-        numberFormat.setRoundingMode(mode);
+        if (SystemInfo.isJdk6Above()) {
+            NumberFormat numberFormat = getNumberFormat();
+            numberFormat.setRoundingMode(mode);
+        }
     }
 }

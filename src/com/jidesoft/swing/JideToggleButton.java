@@ -215,6 +215,7 @@ public class JideToggleButton extends JideButton implements Accessible {
     }
 
     // to support SELECTED_KEY
+
     static boolean hasSelectedKey(Action a) {
         return SystemInfo.isJdk6Above() && (a != null && a.getValue(Action.SELECTED_KEY) != null);
     }
@@ -278,7 +279,7 @@ public class JideToggleButton extends JideButton implements Accessible {
                     if (action != null && hasSelectedKey(action)) {
                         boolean selected = isSelected();
                         boolean isActionSelected = isSelected(action);
-                        if (isActionSelected != selected) {
+                        if (isActionSelected != selected && SystemInfo.isJdk6Above()) {
                             action.putValue(Action.SELECTED_KEY, selected);
                         }
                     }

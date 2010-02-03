@@ -469,7 +469,8 @@ public class Office2007Painter extends BasicPainter {
                     colors));
         }
         g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP).derive(0.1f));
+        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_ATOP);
+        g2d.setComposite(SystemInfo.isJdk6Above() ? alphaComposite.derive(0.1f) : AlphaComposite.getInstance(alphaComposite.getRule(), 0.1f));
         paintButtonBorder(c, g2d, rect, state);
         g2d.dispose();
     }
