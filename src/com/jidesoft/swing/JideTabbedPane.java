@@ -133,6 +133,7 @@ public class JideTabbedPane extends JTabbedPane {
     public static final String PROPERTY_CONTENT_BORDER_INSETS = "contentBorderInsets";
     public static final String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
     public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
+    public static final String PROPERTY_SELECTED_INDEX = "selectedIndex";
 
     /**
      * @see #getUIClassID
@@ -467,7 +468,11 @@ public class JideTabbedPane extends JTabbedPane {
         boolean old = isFocusCycleRoot();
         setFocusCycleRoot(true);
         try {
-            super.setSelectedIndex(index);
+            int oldIndex = getSelectedIndex();
+            if (oldIndex != index) {
+                super.setSelectedIndex(index);
+                firePropertyChange(PROPERTY_SELECTED_INDEX, oldIndex, index);
+            }
         }
         finally {
             setFocusCycleRoot(old);
