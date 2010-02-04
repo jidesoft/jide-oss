@@ -94,6 +94,9 @@ public class RgbColorConverter extends ColorConverter {
             String s = token.nextToken();
             try {
                 r = Integer.parseInt(s, 10) % 256;
+                if (r < 0) {
+                    r += 256;
+                }
             }
             catch (NumberFormatException e) {
                 return null;
@@ -103,6 +106,9 @@ public class RgbColorConverter extends ColorConverter {
             String s = token.nextToken();
             try {
                 g = Integer.parseInt(s, 10) % 256;
+                if (g < 0) {
+                    g += 256;
+                }
             }
             catch (NumberFormatException e) {
                 return null;
@@ -112,6 +118,9 @@ public class RgbColorConverter extends ColorConverter {
             String s = token.nextToken();
             try {
                 b = Integer.parseInt(s, 10) % 256;
+                if (b < 0) {
+                    b += 256;
+                }
             }
             catch (NumberFormatException e) {
                 return null;
@@ -121,6 +130,9 @@ public class RgbColorConverter extends ColorConverter {
             String s = token.nextToken();
             try {
                 a = Integer.parseInt(s, 10) % 256;
+                if (a < 0) {
+                    a += 256;
+                }
             }
             catch (NumberFormatException e) {
                 return null;
