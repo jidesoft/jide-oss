@@ -115,6 +115,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         _standardDialogPane = createStandardDialogPane();
         _propertyChangeListener = new StandardDialogPropertyChangeListener();
         _standardDialogPane.addPropertyChangeListener(_propertyChangeListener);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
