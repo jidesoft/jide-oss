@@ -1161,8 +1161,8 @@ public class Office2003Painter extends BasicPainter {
         if (!(c.getBackground() instanceof UIResource)) {
             JideSwingUtilities.fillGradient(g2d,
                     new Rectangle(rect.x, rect.y, rect.width, rect.height),
-                    c.getBackground(),
                     ColorUtils.getDerivedColor(c.getBackground(), 0.6f),
+                    c.getBackground(),
                     orientation == SwingConstants.HORIZONTAL);
         }
         else {
