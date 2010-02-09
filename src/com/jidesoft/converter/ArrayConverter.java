@@ -75,17 +75,10 @@ abstract public class ArrayConverter implements ObjectConverter {
                 buffer.append(_separator);
             }
         }
-        String str = new String(buffer);
-        if (str.trim().length() == 0) {
-            return _separator;
-        }
-        return str;
+        return new String(buffer);
     }
 
     protected String toString(int i, Object o, ConverterContext context) {
-        if (o == null) {
-            return " ";
-        }
         return _elementClass != null ? ObjectConverterManager.toString(o, _elementClass, context) : ObjectConverterManager.toString(o, _elementClasses[i], context);
     }
 
@@ -100,13 +93,6 @@ abstract public class ArrayConverter implements ObjectConverter {
         if (string == null || string.trim().length() == 0) {
             return null;
         }
-        string = string.trim();
-        if (string.endsWith(_separator.trim())) {
-            string += _separator;
-        }
-        else if (string.startsWith(_separator.trim())) {
-            string = _separator + string;
-        }
         StringTokenizer token = new StringTokenizer(string, _separator.trim());
         Object[] objects = new Object[_size != -1 ? _size : token.countTokens()];
         for (int i = 0; i < objects.length && token.hasMoreTokens(); i++) {
@@ -117,9 +103,6 @@ abstract public class ArrayConverter implements ObjectConverter {
     }
 
     protected Object fromString(int i, String s, ConverterContext context) {
-        if (s.length() == 0) {
-            return null;
-        }
         return _elementClass != null ? ObjectConverterManager.fromString(s, _elementClass, context) : ObjectConverterManager.fromString(s, _elementClasses[i], context);
     }
 
