@@ -83,10 +83,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public static final String PROPERTY_COLUMN_HEADERS_HEIGHT_UNIFIED = "columnHeadersHeightUnified";
     public static final String PROPERTY_COLUMN_FOOTERS_HEIGHT_UNIFIED = "columnFootersHeightUnified";
 
-    public static final String CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT = "synchronizeViewHorizontalSlave";
-    public static final String CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT = "synchronizeViewVerticalSlave";
-    public static final String CLIENT_PROPERTY_HORIZONTAL_MASTER_VIEWPORT = "synchronizeViewHorizontalMaster";
-    public static final String CLIENT_PROPERTY_VERTICAL_MASTER_VIEWPORT = "synchronizeViewVerticalMaster";
+    public static final String CLIENT_PROPERTY_SLAVE_VIEWPORT = "synchronizeViewSlaveViewport";
+    public static final String CLIENT_PROPERTY_MASTER_VIEWPORT = "synchronizeViewMasterViewport";
 
     /**
      * Creates a <code>JideScrollPane</code> that displays the view component in a viewport whose view position can be

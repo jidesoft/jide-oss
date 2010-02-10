@@ -310,99 +310,32 @@ public class JideSwingUtilities implements SwingConstants {
      * @param orientation    the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
      */
     public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation) {
-        final ChangeListener c1 = new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                Dimension size = masterViewport.getSize();
-                if (size.width == 0 || size.height == 0) {
-                    return;
-                }
-                Object horizonSlaveViewport = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT);
-                Object verticalSlaveViewport = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT);
-                try {
-                    if (horizonSlaveViewport instanceof HashMap) {
-                        for (Object viewport : ((HashMap) horizonSlaveViewport).keySet()) {
-                            Object listener = ((HashMap) horizonSlaveViewport).get(viewport);
-                            if (listener instanceof ChangeListener) {
-                                slaveViewport.removeChangeListener((ChangeListener) listener);
-                            }
-                        }
-                    }
-                    if (verticalSlaveViewport instanceof HashMap) {
-                        for (Object viewport : ((HashMap) verticalSlaveViewport).keySet()) {
-                            Object listener = ((HashMap) verticalSlaveViewport).get(viewport);
-                            if (listener instanceof ChangeListener) {
-                                slaveViewport.removeChangeListener((ChangeListener) listener);
-                            }
-                        }
-                    }
-                    if (orientation == HORIZONTAL) {
-                        Point v1 = masterViewport.getViewPosition();
-                        Point v2 = slaveViewport.getViewPosition();
-                        if (v1.x != v2.x) {
-                            slaveViewport.setViewPosition(new Point(v1.x, v2.y));
-                        }
-                    }
-                    else if (orientation == VERTICAL) {
-                        Point v1 = masterViewport.getViewPosition();
-                        Point v2 = slaveViewport.getViewPosition();
-                        if (v1.y != v2.y) {
-                            slaveViewport.setViewPosition(new Point(v2.x, v1.y));
-                        }
-                    }
-                }
-                finally {
-                    if (horizonSlaveViewport instanceof HashMap) {
-                        for (Object viewport : ((HashMap) horizonSlaveViewport).keySet()) {
-                            Object listener = ((HashMap) horizonSlaveViewport).get(viewport);
-                            if (listener instanceof ChangeListener) {
-                                slaveViewport.addChangeListener((ChangeListener) listener);
-                            }
-                        }
-                    }
-                    if (verticalSlaveViewport instanceof HashMap) {
-                        for (Object viewport : ((HashMap) verticalSlaveViewport).keySet()) {
-                            Object listener = ((HashMap) verticalSlaveViewport).get(viewport);
-                            if (listener instanceof ChangeListener) {
-                                slaveViewport.addChangeListener((ChangeListener) listener);
-                            }
-                        }
-                    }
-                }
+        ChangeListener[] changeListeners = masterViewport.getChangeListeners();
+        int i = 0;
+        for (; i < changeListeners.length; i++) {
+            if (changeListeners[i] == getViewportSynchronizationChangeListener()) {
+                break;
             }
-        };
+        }
+        if (i >= changeListeners.length) {
+            masterViewport.addChangeListener(getViewportSynchronizationChangeListener());
+        }
 
-        String slavePropertyName;
-        String masterPropertyName;
-        if (orientation == SwingConstants.HORIZONTAL) {
-            slavePropertyName = JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT;
-            masterPropertyName = JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_MASTER_VIEWPORT;
+        Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
+        if (!(property instanceof Map)) {
+            property = new HashMap<JViewport, Integer>();
         }
-        else {
-            slavePropertyName = JideScrollPane.CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT;
-            masterPropertyName = JideScrollPane.CLIENT_PROPERTY_VERTICAL_MASTER_VIEWPORT;
-        }
-        Object property = masterViewport.getClientProperty(slavePropertyName);
-        HashMap<JViewport, ChangeListener> listenerMap;
-        if (property == null) {
-            listenerMap = new HashMap<JViewport, ChangeListener>();
-        }
-        else if (property instanceof HashMap) {
-            listenerMap = (HashMap) property;
-        }
-        else {
-            return;
-        }
-        if (!listenerMap.containsKey(slaveViewport)) {
-            listenerMap.put(slaveViewport, c1);
-            masterViewport.addChangeListener(c1);
-            masterViewport.putClientProperty(slavePropertyName, listenerMap);
+        Map slaveViewportMap = (Map) property;
+        slaveViewportMap.put(slaveViewport, orientation);
+        masterViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT, slaveViewportMap);
 
-            property = slaveViewport.getClientProperty(masterPropertyName);
-            if (property instanceof JViewport) { // one slave could only listen to one master, need remove the listener in the previous master viewport
-                unsynchronizeView((JViewport) property, slaveViewport);
-            }
-            slaveViewport.putClientProperty(masterPropertyName, masterViewport);
+        property = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT);
+        if (!(property instanceof Map)) {
+            property = new HashMap<JViewport, Integer>();
         }
+        Map masterViewportMap = (Map) property;
+        masterViewportMap.put(masterViewport, orientation);
+        slaveViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT, masterViewportMap);
     }
 
     /**
@@ -412,29 +345,25 @@ public class JideSwingUtilities implements SwingConstants {
      * @param slaveViewport  the slave viewport
      */
     public static void unsynchronizeView(final JViewport masterViewport, final JViewport slaveViewport) {
-        Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT);
-        if (property instanceof HashMap) {
-            HashMap<JViewport, ChangeListener> listenerMap = (HashMap) property;
-            ChangeListener listener = listenerMap.remove(slaveViewport);
-            if (listener != null) {
-                masterViewport.removeChangeListener(listener);
-                slaveViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_MASTER_VIEWPORT, null);
+        Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
+        if (property instanceof Map) {
+            Map slaveViewportMap = (Map) property;
+            slaveViewportMap.remove(slaveViewport);
+            if (slaveViewportMap.isEmpty()) {
+                slaveViewportMap = null;
+                masterViewport.removeChangeListener(getViewportSynchronizationChangeListener());
             }
-            if (listenerMap.isEmpty()) {
-                masterViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT, null);
-            }
+            masterViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT, slaveViewportMap);
         }
-        property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT);
-        if (property instanceof HashMap) {
-            HashMap<JViewport, ChangeListener> listenerMap = (HashMap) property;
-            ChangeListener listener = listenerMap.remove(slaveViewport);
-            if (listener != null) {
-                masterViewport.removeChangeListener(listener);
-                slaveViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_VERTICAL_MASTER_VIEWPORT, null);
+
+        property = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT);
+        if (property instanceof Map) {
+            Map masterViewportMap = (Map) property;
+            masterViewportMap.remove(masterViewport);
+            if (masterViewportMap.isEmpty()) {
+                masterViewportMap = null;
             }
-            if (listenerMap.isEmpty()) {
-                masterViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT, null);
-            }
+            slaveViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT, masterViewportMap);
         }
     }
 
@@ -3778,5 +3707,52 @@ public class JideSwingUtilities implements SwingConstants {
      */
     public static boolean isMenuShortcutKeyDown(ActionEvent event) {
         return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+    }
+
+    private static ChangeListener _viewportSyncListener;
+
+    public static ChangeListener getViewportSynchronizationChangeListener() {
+        if (_viewportSyncListener == null) {
+            _viewportSyncListener = new viewportSynchronizationChangeListener();
+        }
+        return _viewportSyncListener;
+    }
+
+    private static class viewportSynchronizationChangeListener implements ChangeListener {
+        public void stateChanged(ChangeEvent e) {
+            if (!(e.getSource() instanceof JViewport)) {
+                return;
+            }
+            JViewport masterViewport = (JViewport) e.getSource();
+            Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
+            if (!(property instanceof Map)) {
+                return;
+            }
+
+            Dimension size = masterViewport.getSize();
+            if (size.width == 0 || size.height == 0) {
+                return;
+            }
+            Map<JViewport, Integer> slaveViewportMap = (Map) property;
+            for (JViewport slaveViewport : slaveViewportMap.keySet()) {
+                slaveViewport.removeChangeListener(getViewportSynchronizationChangeListener());
+                int orientation = slaveViewportMap.get(slaveViewport);
+                if (orientation == HORIZONTAL) {
+                    Point v1 = masterViewport.getViewPosition();
+                    Point v2 = slaveViewport.getViewPosition();
+                    if (v1.x != v2.x) {
+                        slaveViewport.setViewPosition(new Point(v1.x, v2.y));
+                    }
+                }
+                else if (orientation == VERTICAL) {
+                    Point v1 = masterViewport.getViewPosition();
+                    Point v2 = slaveViewport.getViewPosition();
+                    if (v1.y != v2.y) {
+                        slaveViewport.setViewPosition(new Point(v2.x, v1.y));
+                    }
+                }
+                slaveViewport.addChangeListener(getViewportSynchronizationChangeListener());
+            }
+        }
     }
 }
