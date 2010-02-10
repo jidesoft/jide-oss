@@ -77,11 +77,15 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
     @Override
     protected void installComponents() {
-        if (UIDefaultsLookup.get("OptionPane.showBanner") == null || UIDefaultsLookup.getBoolean("OptionPane.showBanner")) {
+        boolean showBanner = UIDefaultsLookup.get("OptionPane.showBanner") == null || UIDefaultsLookup.getBoolean("OptionPane.showBanner");
+        if (showBanner) {
             optionPane.add(_bannerArea = createBannerArea(), JideBoxLayout.FIX);
         }
 
         Container messageArea = createMessageArea();
+        if (!showBanner) {
+            addIcon(messageArea);
+        }
         LookAndFeel.installBorder((JComponent) messageArea, "OptionPane.border");
         optionPane.add(messageArea);
 
@@ -295,14 +299,14 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                                 if (_detailsArea.isVisible()) {
                                     setDetailsVisible(false);
                                     _detailsArea.setVisible(false);
-                                    defaultButton.setText(resourceBundle.getString("Button.showDetails"));
-                                    defaultButton.setMnemonic(resourceBundle.getString("Button.showDetails.mnemonic").charAt(0));
+                                    defaultButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"));
+                                    defaultButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0));
                                 }
                                 else {
                                     setDetailsVisible(true);
                                     _detailsArea.setVisible(true);
-                                    defaultButton.setText(resourceBundle.getString("Button.hideDetails"));
-                                    defaultButton.setMnemonic(resourceBundle.getString("Button.hideDetails.mnemonic").charAt(0));
+                                    defaultButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails") : resourceBundle.getString("Button.hideDetails"));
+                                    defaultButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.hideDetails.mnemonic").charAt(0));
                                 }
                                 if (top instanceof Window) {
                                     ((Window) top).pack();
@@ -409,8 +413,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
                     defaultOptions[0] = new ButtonFactory(
                             ButtonNames.CLOSE,
-                            resourceBundle.getString("Button.close"),
-                            resourceBundle.getString("Button.close.mnemonic").charAt(0),
+                            optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.close") : resourceBundle.getString("Button.close"),
+                            optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.close.mnemonic").charAt(0) : resourceBundle.getString("Button.close.mnemonic").charAt(0),
                             null);
                 }
                 else {
@@ -439,8 +443,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
             newOptions[newOptions.length - 1] = new ButtonFactory(
                     ButtonNames.DETAILS,
-                    resourceBundle.getString("Button.showDetails"),
-                    resourceBundle.getString("Button.showDetails.mnemonic").charAt(0), null);
+                    optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"),
+                    optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0), null);
             return newOptions;
         }
         else {

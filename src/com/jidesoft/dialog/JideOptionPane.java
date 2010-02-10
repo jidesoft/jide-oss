@@ -139,6 +139,17 @@ public class JideOptionPane extends JOptionPane {
     }
 
     /**
+     * Gets the localized string from resource bundle. Subclass can override it to provide its own string. Available
+     * keys are defined in buttons.properties that begin with "Button.".
+     *
+     * @param key the resource string key
+     * @return the localized string.
+     */
+    public String getResourceString(String key) {
+        return ButtonResources.getResourceBundle(getLocale()).getString(key);
+    }
+
+    /**
      * Checks if the details component is visible.
      *
      * @return true if visible. Otherwise false.
