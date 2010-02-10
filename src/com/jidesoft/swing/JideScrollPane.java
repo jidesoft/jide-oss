@@ -83,6 +83,11 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     public static final String PROPERTY_COLUMN_HEADERS_HEIGHT_UNIFIED = "columnHeadersHeightUnified";
     public static final String PROPERTY_COLUMN_FOOTERS_HEIGHT_UNIFIED = "columnFootersHeightUnified";
 
+    public static final String CLIENT_PROPERTY_HORIZONTAL_SLAVE_VIEWPORT = "synchronizeViewHorizontalSlave";
+    public static final String CLIENT_PROPERTY_VERTICAL_SLAVE_VIEWPORT = "synchronizeViewVerticalSlave";
+    public static final String CLIENT_PROPERTY_HORIZONTAL_MASTER_VIEWPORT = "synchronizeViewHorizontalMaster";
+    public static final String CLIENT_PROPERTY_VERTICAL_MASTER_VIEWPORT = "synchronizeViewVerticalMaster";
+
     /**
      * Creates a <code>JideScrollPane</code> that displays the view component in a viewport whose view position can be
      * controlled with a pair of scrollbars. The scrollbar policies specify when the scrollbars are displayed, For
@@ -145,6 +150,52 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      */
     public JideScrollPane() {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }
+
+    @Override
+    public void setViewport(JViewport viewport) {
+        JViewport old = getViewport();
+        super.setViewport(viewport);
+        if (old != null) {
+            if (rowHeader != null) {
+                JideSwingUtilities.unsynchronizeView(rowHeader, old);
+            }
+            if (_rowFooter != null) {
+                JideSwingUtilities.unsynchronizeView(_rowFooter, old);
+                JideSwingUtilities.unsynchronizeView(old, _rowFooter);
+            }
+            if (_columnFooter != null) {
+                JideSwingUtilities.unsynchronizeView(_columnFooter, old);
+                JideSwingUtilities.unsynchronizeView(old, _columnFooter);
+            }
+            if (columnHeader != null) {
+                JideSwingUtilities.unsynchronizeView(columnHeader, old);
+            }
+            if (_subColumnHeader != null) {
+                JideSwingUtilities.unsynchronizeView(_subColumnHeader, old);
+                JideSwingUtilities.unsynchronizeView(old, _subColumnHeader);
+            }
+        }
+        if (viewport != null) {
+            if (rowHeader != null) {
+                JideSwingUtilities.synchronizeView(rowHeader, getViewport(), SwingConstants.VERTICAL);
+            }
+            if (_rowFooter != null) {
+                JideSwingUtilities.synchronizeView(_rowFooter, getViewport(), SwingConstants.VERTICAL);
+                JideSwingUtilities.synchronizeView(getViewport(), _rowFooter, SwingConstants.VERTICAL);
+            }
+            if (_columnFooter != null) {
+                JideSwingUtilities.synchronizeView(_columnFooter, getViewport(), SwingConstants.HORIZONTAL);
+                JideSwingUtilities.synchronizeView(getViewport(), _columnFooter, SwingConstants.HORIZONTAL);
+            }
+            if (columnHeader != null) {
+                JideSwingUtilities.synchronizeView(columnHeader, getViewport(), SwingConstants.HORIZONTAL);
+            }
+            if (_subColumnHeader != null) {
+                JideSwingUtilities.synchronizeView(_subColumnHeader, getViewport(), SwingConstants.HORIZONTAL);
+                JideSwingUtilities.synchronizeView(getViewport(), _subColumnHeader, SwingConstants.HORIZONTAL);
+            }
+        }
     }
 
     /**
