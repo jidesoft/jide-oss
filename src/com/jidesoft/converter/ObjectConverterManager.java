@@ -399,6 +399,7 @@ public class ObjectConverterManager {
 
             ObjectConverterManager.registerConverter(int[].class, new DefaultArrayConverter("; ", int.class));
             registerConverter(Object[].class, new DefaultArrayConverter("; ", Object.class));
+            registerConverter(Enum[].class, new DefaultArrayConverter("; ", Enum.class));
             registerConverter(String[].class, new DefaultArrayConverter("; ", String.class));
             registerConverter(Date[].class, new DefaultArrayConverter("; ", Date.class));
             registerConverter(Calendar[].class, new DefaultArrayConverter("; ", Calendar.class));
