@@ -177,16 +177,18 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS.
+     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker
+     * is null, the whole screen bounds including all display devices will be returned. If the invoker is not null, the
+     * screen of the display device for the invoker will be returned.
      *
-     * @param invoker
+     * @param invoker the invoker.
      * @return the screen bounds.
      */
     public static Rectangle getScreenBounds(Component invoker) {
         ensureScreenBounds();
 
         // to handle multi-display case
-        Rectangle bounds = (Rectangle) SCREEN_BOUNDS.clone();
+        Rectangle bounds = invoker == null ? (Rectangle) SCREEN_BOUNDS.clone() : invoker.getGraphicsConfiguration().getBounds();
 
         // TODO
         // jdk1.4 only

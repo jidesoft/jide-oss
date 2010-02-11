@@ -568,8 +568,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Get the flag indicating if JidePopup should keep the size last time it was popped up.
      * <p/>
-     * The default value of this flag is true. If you want the popup to resize based on the changing contents like in IntelliHints,
-     * you need set this flag to false.
+     * The default value of this flag is true. If you want the popup to resize based on the changing contents like in
+     * IntelliHints, you need set this flag to false.
      *
      * @return the flag.
      */
@@ -590,7 +590,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Get the insets so that when the JidePopup is dragged back to this area, the JidePopup will jump to its original
      * position automatically.
      * <p/>
-     * By default, the value is {10, 10, 10, 10}. You can disable the jump functionality by setting the insets to {0, 0, 0, 0}.
+     * By default, the value is {10, 10, 10, 10}. You can disable the jump functionality by setting the insets to {0, 0,
+     * 0, 0}.
      *
      * @return the insets.
      */
@@ -914,17 +915,17 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * Set the display start location of the popup.
      *
-     * @see #getDisplayStartLocation(java.awt.Rectangle, java.awt.Dimension, int)
      * @param startLocation the display start location.
+     * @see #getDisplayStartLocation(java.awt.Rectangle, java.awt.Dimension, int)
      */
     public void setDisplayStartLocation(Point startLocation) {
         _displayStartLocation = startLocation;
     }
 
     /**
-     * Get the display start location of the popup. It will automatically calculate a point if the customer
-     * didn't invoke {@link #setDisplayStartLocation(java.awt.Point)} explicitly. It will just return the location
-     * if the customer already set it.
+     * Get the display start location of the popup. It will automatically calculate a point if the customer didn't
+     * invoke {@link #setDisplayStartLocation(java.awt.Point)} explicitly. It will just return the location if the
+     * customer already set it.
      *
      * @param screenDim the dimension of the screen
      * @param size      the size of the popup
@@ -976,7 +977,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             screenDim.y = p.y;
         }
         else {
-            screenDim = PortingUtils.getLocalScreenBounds();
+            screenDim = getOwner() == null ? PortingUtils.getLocalScreenBounds() : PortingUtils.getScreenBounds(getOwner());
         }
         return screenDim;
     }
