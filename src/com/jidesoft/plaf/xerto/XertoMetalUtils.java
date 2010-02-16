@@ -509,7 +509,6 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         }
 
         if ((products & PRODUCT_COMPONENTS) != 0) {
-            ColorUIResource collapsiblePaneBackground = new ColorUIResource(236, 234, 217);
             final int SIZE = 12;
             final int MASK_SIZE = 12;
             ImageIcon collapsiblePaneImage = IconsFactory.getImageIcon(XertoMetalUtils.class, "icons/collapsible_pane_xerto.png"); // 12 x 12
@@ -518,6 +517,8 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
             ImageIcon emphasizedIcon = IconsFactory.getIcon(null, collapsiblePaneImage, SIZE, 0, SIZE, SIZE);
             ImageIcon downMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, 0, MASK_SIZE, MASK_SIZE);
             ImageIcon upMark = IconsFactory.getIcon(null, collapsiblePaneMask, 0, MASK_SIZE, MASK_SIZE, MASK_SIZE);
+
+            ColorUIResource collapsiblePaneBackground = new ColorUIResource(236, 234, 217);
 
             uiDefaults = new Object[]{
                     // components
