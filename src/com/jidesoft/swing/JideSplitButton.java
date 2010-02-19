@@ -451,7 +451,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     protected void actionPropertyChanged(Action action, String propertyName) {
         super.actionPropertyChanged(action, propertyName);
 
-        if (ACTION_PROPERTY_SPLIT_BUTTON_ENABLED.equals(propertyName)) {
+        if (ACTION_PROPERTY_SPLIT_BUTTON_ENABLED.equals(propertyName) || "enabled".equals(propertyName)) {
             setButtonEnabled(isSplitButtonEnabled(action));
         }
         else if (Action.SMALL_ICON.equals(propertyName)) {
@@ -472,7 +472,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
      */
     public static boolean isSplitButtonEnabled(Action action) {
         if (action == null) {
-            return false;
+            return true;
         }
         else {
             Object value = action.getValue(ACTION_PROPERTY_SPLIT_BUTTON_ENABLED);
