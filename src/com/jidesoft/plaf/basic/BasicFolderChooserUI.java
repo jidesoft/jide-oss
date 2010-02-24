@@ -115,6 +115,17 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         });
     }
 
+    /**
+     * Return the default focus component inside the FolderChooser.
+     * <p/>
+     * By default, it is the file system tree.
+     *
+     * @return the default focus component.
+     */
+    public Component getDefaultFocusComponent() {
+        return _fileSystemTree;
+    }
+
     protected JPanel createButtonPanel() {
         _approveButton = new JButton();
         _approveButton.setAction(getApproveSelectionAction());
