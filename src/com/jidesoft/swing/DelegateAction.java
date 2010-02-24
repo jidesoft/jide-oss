@@ -87,6 +87,8 @@ abstract public class DelegateAction extends AbstractAction {
     abstract public boolean delegateActionPerformed(ActionEvent e);
 
     public static class PassthroughDelegateAction extends DelegateAction {
+        private static final long serialVersionUID = -1555177105658867899L;
+
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             return false;
