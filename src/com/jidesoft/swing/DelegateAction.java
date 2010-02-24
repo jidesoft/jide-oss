@@ -143,6 +143,9 @@ abstract public class DelegateAction extends AbstractAction {
     }
 
     public static void restoreAction(JComponent component, int condition, KeyStroke keyStroke) {
+        if (component == null) {
+            return;
+        }
         ActionListener action = component.getActionForKeyStroke(keyStroke);
         if (action instanceof DelegateAction) {
             component.registerKeyboardAction(((DelegateAction) action).getAction(), keyStroke, condition);
