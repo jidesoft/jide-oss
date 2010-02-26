@@ -243,6 +243,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             return;
         }
 
+        setBatchMode(true);
         boolean fireEventAtTheEnd = false;
         if (isSingleEventMode() && _fireEvent) {
             _fireEvent = false;
@@ -310,6 +311,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
         finally {
             _fireEvent = true;
+            setBatchMode(false);
             if (isSingleEventMode() && fireEventAtTheEnd) {
                 notifyPathChange(paths, true, paths[0]);
             }
@@ -369,6 +371,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                 fireEventAtTheEnd = true;
             }
         }
+        setBatchMode(true);
         try {
             Set<TreePath> pathHasRemoved = new HashSet<TreePath>();
             for (TreePath path : paths) {
@@ -376,38 +379,35 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                     continue; // for non batch mode scenario, check if it is already deselected by removing its parent possibly
                 }
                 TreePath upperMostSelectedAncestor = null;
-                if (isBatchMode()) {
-                    // if the path itself is added by other removal, just remove it
-                    if (_toBeAdded.contains(path)) {
-                        _toBeAdded.remove(path);
-                        addToExistingSet(pathHasRemoved, path);
-                        continue;
+                if (_toBeAdded.contains(path)) {
+                    _toBeAdded.remove(path);
+                    addToExistingSet(pathHasRemoved, path);
+                    continue;
+                }
+                // check if its ancestor has already been removed. If so, do nothing
+                boolean findAncestor = false;
+                for (TreePath removedPath : pathHasRemoved) {
+                    if (removedPath.isDescendant(path)) {
+                        findAncestor = true;
+                        break;
                     }
-                    // check if its ancestor has already been removed. If so, do nothing
-                    boolean findAncestor = false;
-                    for (TreePath removedPath : pathHasRemoved) {
-                        if (removedPath.isDescendant(path)) {
-                            findAncestor = true;
-                            break;
-                        }
+                }
+                if (findAncestor) {
+                    continue;
+                }
+                // remove all children path added by other removal
+                Set<TreePath> pathToRemoved = new HashSet<TreePath>();
+                for (TreePath pathToAdded : _toBeAdded) {
+                    if (path.isDescendant(pathToAdded)) {
+                        pathToRemoved.add(pathToAdded);
                     }
-                    if (findAncestor) {
-                        continue;
-                    }
-                    // remove all children path added by other removal
-                    Set<TreePath> pathToRemoved = new HashSet<TreePath>();
-                    for (TreePath pathToAdded : _toBeAdded) {
-                        if (path.isDescendant(pathToAdded)) {
-                            pathToRemoved.add(pathToAdded);
-                        }
-                    }
-                    _toBeAdded.removeAll(pathToRemoved);
-                    // find a parent path added by other removal, then use that parent to do following actions
-                    for (TreePath pathToAdded : _toBeAdded) {
-                        if (pathToAdded.isDescendant(path)) {
-                            upperMostSelectedAncestor = pathToAdded;
-                            break;
-                        }
+                }
+                _toBeAdded.removeAll(pathToRemoved);
+                // find a parent path added by other removal, then use that parent to do following actions
+                for (TreePath pathToAdded : _toBeAdded) {
+                    if (pathToAdded.isDescendant(path)) {
+                        upperMostSelectedAncestor = pathToAdded;
+                        break;
                     }
                 }
                 TreePath parent = path.getParentPath();
@@ -448,6 +448,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
         finally {
             _fireEvent = true;
+            setBatchMode(false);
             if (isSingleEventMode() && fireEventAtTheEnd) {
                 notifyPathChange(paths, false, paths[0]);
             }
