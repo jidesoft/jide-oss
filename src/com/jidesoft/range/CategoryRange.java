@@ -19,6 +19,8 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     private static final String PROPERTY_VALUES = "values";
     private List<T> _possibleValues = null;
     private List<Category<T>> _categoryValues = null;
+    private Double minimum;
+    private Double maximum;
 
     public CategoryRange() {
         _possibleValues = new ArrayList<T>();
@@ -90,7 +92,10 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      * @see com.jidesoft.range.Range#maximum()
      */
     public double maximum() {
-        return position(upper()) + 1;
+        if (maximum == null) {
+            maximum = position(upper()) + 1.0;
+        }
+        return maximum;
     }
 
     /**
@@ -99,16 +104,33 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      * @see com.jidesoft.range.Range#minimum()
      */
     public double minimum() {
-        return position(lower()) - 1;
+        if (minimum == null) {
+            minimum = position(lower()) - 1.0;
+        }
+        return minimum;
+    }
+    
+    public void setMinimum(double value) {
+        this.minimum = value;
+    }
+    
+    public void setMaximum(double value) {
+        this.maximum = value;
     }
 
     /**
+     * Returns the size of the range, as given by the maximum minus the minimum. To compute the size of
+     * the range in terms of the number of members in the category, use getPossibleValue().size()
      * @return the size of the range
      *
      * @see com.jidesoft.range.Range#size()
      */
     public double size() {
-        if (_possibleValues == null) {
+        // The previous definition of size() prevented us from being able to zoom
+        // in on a categorical bar chart
+        return maximum() - minimum();
+        
+        /*if (_possibleValues == null) {
             return 0;
         }
 
@@ -116,7 +138,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         if (numElements == 0) {
             return 0;
         }
-        return numElements + 1;
+        return numElements + 1;*/
     }
 
 
@@ -177,5 +199,15 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
             }
         }
         return _categoryValues;
+    }
+    
+    public String toString() {
+        StringBuilder builder = new StringBuilder("#<CategoryRange ");
+        builder.append("minimum=");
+        builder.append(minimum);
+        builder.append(" maximum=");
+        builder.append(maximum);
+        builder.append(">");
+        return builder.toString();
     }
 }
