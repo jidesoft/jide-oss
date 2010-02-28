@@ -126,11 +126,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      * @see com.jidesoft.range.Range#size()
      */
     public double size() {
-        // The previous definition of size() prevented us from being able to zoom
-        // in on a categorical bar chart
-        return maximum() - minimum();
-        
-        /*if (_possibleValues == null) {
+        if (_possibleValues == null) {
             return 0;
         }
 
@@ -138,7 +134,9 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         if (numElements == 0) {
             return 0;
         }
-        return numElements + 1;*/
+        // The previous definition of size() prevented us from being able to zoom
+        // in on a categorical bar chart
+        return maximum() - minimum();
     }
 
 
