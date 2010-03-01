@@ -97,6 +97,12 @@ public class CheckBoxList extends JList {
         init();
     }
 
+    @Override
+    public void setModel(ListModel model) {
+        super.setModel(model);
+        getCheckBoxListSelectionModel().clearSelection();
+    }
+
     /**
      * Initialize the CheckBoxList.
      */
