@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
  */
 public class ResizableFrame extends JFrame implements ResizableSupport {
 
-    private ResizablePanel _resizablePanel;
+    protected ResizablePanel _resizablePanel;
     private boolean _routingKeyStrokes;
 
     public ResizableFrame() throws HeadlessException {
