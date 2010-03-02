@@ -546,10 +546,12 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
     public void setBatchMode(boolean batchMode) {
         _batchMode = batchMode;
         if (!_batchMode) {
-            super.addSelectionPaths(_toBeAdded.toArray(new TreePath[_toBeAdded.size()]));
+            TreePath[] treePaths = _toBeAdded.toArray(new TreePath[_toBeAdded.size()]);
             _toBeAdded.clear();
-            super.removeSelectionPaths(_toBeRemoved.toArray(new TreePath[_toBeRemoved.size()]));
+            super.addSelectionPaths(treePaths);
+            treePaths = _toBeRemoved.toArray(new TreePath[_toBeRemoved.size()]);
             _toBeRemoved.clear();
+            super.removeSelectionPaths(treePaths);
         }
     }
 
