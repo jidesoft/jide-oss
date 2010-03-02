@@ -357,8 +357,6 @@ public class CheckBoxTree extends JTree {
                 }
             }
             selectionModel.removeTreeSelectionListener(this);
-            boolean old = selectionModel.isBatchMode();
-            selectionModel.setBatchMode(true);
             try {
                 if (pathToAdded.size() > 0) {
                     selectionModel.addSelectionPaths(pathToAdded.toArray(new TreePath[pathToAdded.size()]));
@@ -369,7 +367,6 @@ public class CheckBoxTree extends JTree {
             }
             finally {
                 selectionModel.addTreeSelectionListener(this);
-                selectionModel.setBatchMode(old);
                 _tree.treeDidChange();
             }
         }
