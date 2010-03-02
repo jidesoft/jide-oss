@@ -1,8 +1,8 @@
 /*
  * @(#)NumericRange.java
  * 
- * 2002 - 2009 JIDE Software Incorporated. All rights reserved.
- * Copyright (c) 2005 - 2009 Catalysoft Limited. All rights reserved.
+ * 2002 - 2010 JIDE Software Incorporated. All rights reserved.
+ * Copyright (c) 2005 - 2010 Catalysoft Limited. All rights reserved.
  */
 
 package com.jidesoft.range;
@@ -107,6 +107,9 @@ public class NumericRange extends AbstractNumericRange<Double> {
         return minimum();
     }
 
+    /**
+     * Sets the minimum and maximum values of the range in a single call
+     */
     public void adjust(Double lower, Double upper) {
         setMin(lower);
         setMax(upper);
@@ -124,6 +127,19 @@ public class NumericRange extends AbstractNumericRange<Double> {
      */
     public boolean contains(Double x) {
         return x != null && x >= _min && x <= _max;
+    }
+    
+    /**
+     * Creates a new NumericRange by enlarging this numeric range about its mid-point.
+     * For example to make it 10% bigger, use a stretch factor of 1.1.
+     * Note that this method can also be used to shrink a NumericRange.
+     * @param stretchFactor the multiplication factor for the enlargement
+     * @return a new NumericRange
+     */
+    public NumericRange stretch(double stretchFactor) {
+        double mid = (_max + _min)/2.0;
+        double halfSize = size()/2.0;
+        return new NumericRange(mid - halfSize * stretchFactor, mid + halfSize*stretchFactor);
     }
 
     /**
