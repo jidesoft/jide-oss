@@ -100,7 +100,9 @@ public class CheckBoxList extends JList {
     @Override
     public void setModel(ListModel model) {
         super.setModel(model);
-        getCheckBoxListSelectionModel().clearSelection();
+        if (getCheckBoxListSelectionModel() != null) {
+            getCheckBoxListSelectionModel().clearSelection();
+        }
     }
 
     /**
