@@ -87,6 +87,8 @@ abstract public class DelegateAction extends AbstractAction {
     abstract public boolean delegateActionPerformed(ActionEvent e);
 
     public static class PassthroughDelegateAction extends DelegateAction {
+        private static final long serialVersionUID = -1555177105658867899L;
+
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             return false;
@@ -143,6 +145,9 @@ abstract public class DelegateAction extends AbstractAction {
     }
 
     public static void restoreAction(JComponent component, int condition, KeyStroke keyStroke) {
+        if (component == null) {
+            return;
+        }
         ActionListener action = component.getActionForKeyStroke(keyStroke);
         if (action instanceof DelegateAction) {
             component.registerKeyboardAction(((DelegateAction) action).getAction(), keyStroke, condition);
