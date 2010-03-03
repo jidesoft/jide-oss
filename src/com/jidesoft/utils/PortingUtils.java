@@ -188,7 +188,7 @@ public class PortingUtils {
         ensureScreenBounds();
 
         // to handle multi-display case
-        Rectangle bounds = invoker == null ? (Rectangle) SCREEN_BOUNDS.clone() : invoker.getGraphicsConfiguration().getBounds();
+        Rectangle bounds = (invoker == null || invoker.getGraphicsConfiguration() == null) ? (Rectangle) SCREEN_BOUNDS.clone() : invoker.getGraphicsConfiguration().getBounds();
 
         // TODO
         // jdk1.4 only
