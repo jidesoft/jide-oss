@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * code" license
  */
 @SuppressWarnings("serial")
-class ScrollPaneOverview extends JComponent {
+public class ScrollPaneOverview extends JComponent {
     
     private static final int MAX_SIZE = 400;
     private static final int MAX_SCALE = 20;
