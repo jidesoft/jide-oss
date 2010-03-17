@@ -38,6 +38,7 @@ import java.util.List;
  * receive focus, you can either call setFocusable(true) or you can call {@link #setDefaultFocusComponent(java.awt.Component)}
  * to set a child component as the default focus component.
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public class JidePopup extends JComponent implements Accessible, WindowConstants {
 
     /**
@@ -977,7 +978,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             screenDim.y = p.y;
         }
         else {
-            screenDim = getOwner() == null ? PortingUtils.getLocalScreenBounds() : PortingUtils.getScreenBounds(getOwner());
+            screenDim = getOwner() == null ? PortingUtils.getLocalScreenBounds() : PortingUtils.getScreenBounds(getOwner(), true);
         }
         return screenDim;
     }
@@ -1523,7 +1524,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             int y = newY - (int) (_currentPanel.getHeight() * _relativeY);
             Rectangle bounds = new Rectangle(x, y, _currentPanel.getWidth(), _currentPanel.getHeight());
 
-            Rectangle screenBounds = PortingUtils.getScreenBounds(_currentPanel);
+            Rectangle screenBounds = PortingUtils.getScreenBounds(_currentPanel, true);
             if (bounds.y + bounds.height > screenBounds.y + screenBounds.height) {
                 bounds.y = screenBounds.y + screenBounds.height - bounds.height;
             }
@@ -1549,7 +1550,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             int y = newY - (int) (_currentWindow.getHeight() * _relativeY);
             Rectangle bounds = new Rectangle(x, y, _currentWindow.getWidth(), _currentWindow.getHeight());
 
-            Rectangle screenBounds = PortingUtils.getScreenBounds(_currentWindow);
+            Rectangle screenBounds = PortingUtils.getScreenBounds(_currentWindow, true);
             if (bounds.y + bounds.height > screenBounds.y + screenBounds.height) {
                 bounds.y = screenBounds.y + screenBounds.height - bounds.height;
             }

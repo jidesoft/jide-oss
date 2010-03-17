@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * A class that keeps all 1.4/1.3 different stuff.
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public class PortingUtils {
     private static Rectangle SCREEN_BOUNDS = null;
 
@@ -22,7 +23,7 @@ public class PortingUtils {
      * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the
      * correct focused component.
      *
-     * @param event
+     * @param event the AWT event
      * @return current focused component
      */
     public static Component getCurrentFocusComponent(AWTEvent event) {
@@ -32,7 +33,7 @@ public class PortingUtils {
     /**
      * Gets frame's state. In 1.3, used getState; in 1.4, uses getExtendedState.
      *
-     * @param frame
+     * @param frame the frame
      * @return frame's state
      */
     public static int getFrameState(Frame frame) {
@@ -42,8 +43,8 @@ public class PortingUtils {
     /**
      * Sets frame's state. In 1.3, uses sets frame's state; in 1.4, uses gets frame's state.
      *
-     * @param frame
-     * @param state
+     * @param frame the frame
+     * @param state the state
      */
     public static void setFrameState(Frame frame, int state) {
         frame.setExtendedState(state);
@@ -52,7 +53,7 @@ public class PortingUtils {
     /**
      * Gets mouse modifiers. If 1.3, uses getModifiers; 1.4, getModifiersEx.
      *
-     * @param e
+     * @param e the mouse event
      * @return mouse modifiers
      */
     public static int getMouseModifiers(MouseEvent e) {
@@ -62,7 +63,7 @@ public class PortingUtils {
     /**
      * Makes sure the component won't receive the focus.
      *
-     * @param component
+     * @param component the component
      */
     public static void removeFocus(JComponent component) {
         component.setRequestFocusEnabled(false);
@@ -72,7 +73,7 @@ public class PortingUtils {
     /**
      * Removes the button border.
      *
-     * @param button
+     * @param button the button
      */
     public static void removeButtonBorder(AbstractButton button) {
         button.setContentAreaFilled(false);
@@ -83,8 +84,8 @@ public class PortingUtils {
     /**
      * To make sure the rectangle is within the screen bounds.
      *
-     * @param invoker
-     * @param rect
+     * @param invoker the invoker component
+     * @param rect    the rectangle
      * @return the rectangle that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
@@ -108,8 +109,8 @@ public class PortingUtils {
     /**
      * To make sure the rectangle has overlap with the screen bounds.
      *
-     * @param invoker
-     * @param rect
+     * @param invoker the invoker component
+     * @param rect    the rectangle
      * @return the rectangle that has overlap with the screen bounds.
      */
     public static Rectangle overlapWithScreenBounds(Component invoker, Rectangle rect) {
@@ -133,7 +134,7 @@ public class PortingUtils {
     /**
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
-     * @param invoker
+     * @param invoker the invoker component
      * @return the screen size.
      */
     public static Dimension getScreenSize(Component invoker) {
@@ -155,7 +156,7 @@ public class PortingUtils {
     /**
      * Gets the screen size. In JDK1.4+, the returned size will exclude task bar area on Windows OS.
      *
-     * @param invoker
+     * @param invoker the invoker component
      * @return the screen size.
      */
     public static Dimension getLocalScreenSize(Component invoker) {
@@ -178,17 +179,18 @@ public class PortingUtils {
 
     /**
      * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker
-     * is null, the whole screen bounds including all display devices will be returned. If the invoker is not null, the
-     * screen of the display device for the invoker will be returned.
+     * is null, the whole screen bounds including all display devices will be returned. If the invoker is not null and
+     * the useInvokeDevice flag is true, the screen of the display device for the invoker will be returned.
      *
-     * @param invoker the invoker.
+     * @param invoker the invoker component
+     * @param useInvokerDevice the flag to return invoker device or not
      * @return the screen bounds.
      */
-    public static Rectangle getScreenBounds(Component invoker) {
+    public static Rectangle getScreenBounds(Component invoker, boolean useInvokerDevice) {
         ensureScreenBounds();
 
         // to handle multi-display case
-        Rectangle bounds = (invoker == null || invoker.getGraphicsConfiguration() == null) ? (Rectangle) SCREEN_BOUNDS.clone() : invoker.getGraphicsConfiguration().getBounds();
+        Rectangle bounds = (!useInvokerDevice || invoker == null || invoker.getGraphicsConfiguration() == null) ? (Rectangle) SCREEN_BOUNDS.clone() : invoker.getGraphicsConfiguration().getBounds();
 
         // TODO
         // jdk1.4 only
@@ -201,6 +203,19 @@ public class PortingUtils {
         }
 
         return bounds;
+    }
+
+    /**
+     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS.
+     * <p/>
+     * By default, it will not use invoker graphic device automatically.
+     *
+     * @see #getScreenBounds(java.awt.Component, boolean)
+     * @param invoker the invoker component
+     * @return the screen bounds.
+     */
+    public static Rectangle getScreenBounds(Component invoker) {
+        return getScreenBounds(invoker, false);
     }
 
     /**
@@ -235,9 +250,9 @@ public class PortingUtils {
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
      * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
      * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call
-     * call {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
-     * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
-     * methods, the thread is done so user will not notice any slowness.
+     * call this method in the class where you will use those three methods. This method will spawn a thread to retrieve
+     * device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done
+     * so user will not notice any slowness.
      */
     synchronized public static void initializeScreenArea() {
         initializeScreenArea(Thread.NORM_PRIORITY);
