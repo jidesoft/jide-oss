@@ -8329,6 +8329,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 _tabPane.updateUI();
             }
+            else if (name.equals("__index_to_remove__")) {
+                setVisibleComponent(null);
+            }
         }
     }
 
