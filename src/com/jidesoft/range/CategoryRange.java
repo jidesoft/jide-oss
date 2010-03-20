@@ -52,8 +52,10 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     }
 
     /**
-     * This method fires a propety change event, but to avoid cloning a list for efficiency, the old value is always
-     * null
+     * <p>Adds a category to the range. Note that after adding categories, you will need to call reset() if you want the
+     * minimum and maximum numeric values of the range to be recomputed.</p>
+     * <p>This method fires a property change event, but to avoid cloning a list for efficiency, the old value is always
+     * null</p>
      *
      * @param c the category to add
      * @return this range
@@ -83,7 +85,11 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         return _possibleValues.get(numElements - 1); // get the last element
     }
 
+    /**
+     * Not supported for Category Ranges
+     */
     public void adjust(T lower, T upper) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -93,7 +99,12 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      */
     public double maximum() {
         if (maximum == null) {
-            maximum = position(upper()) + 1.0;
+            T upper = upper();
+            if (upper == null) {
+                return 1.0;
+            } else {
+                maximum = position(upper) + 1.0;
+            }
         }
         return maximum;
     }
@@ -105,9 +116,22 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      */
     public double minimum() {
         if (minimum == null) {
-            minimum = position(lower()) - 1.0;
+            T lower = lower();
+            if (lower == null) {
+                return 0.0;
+            } else {
+                minimum = position(lower) - 1.0;
+            }
         }
         return minimum;
+    }
+    
+    /**
+     * Reset the maximum and minimum. They will be recomputed on the next call to minimum() or maximum() respectively
+     */
+    public void reset() {
+        maximum = null;
+        minimum = null;
     }
     
     public void setMinimum(double value) {
