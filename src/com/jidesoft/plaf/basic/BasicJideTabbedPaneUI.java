@@ -6364,7 +6364,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 case LEFT:
                                 case RIGHT:
                                     int totalTabHeight = _rects[tabCount - 1].y + _rects[tabCount - 1].height;
-                                    if (totalTabHeight > th || isShowTabButtons()) {
+                                    if ((totalTabHeight > th && _tabPane.getTabCount() > 1) || isShowTabButtons()) {
                                         if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Allow space for scrollbuttons
                                         vh = Math.max(th - _buttonSize * numberOfButtons, 0);
@@ -6390,7 +6390,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 default:
                                     int totalTabWidth = _rects[tabCount - 1].x + _rects[tabCount - 1].width;
                                     boolean widthEnough = leftToRight ? totalTabWidth <= tw : _rects[tabCount - 1].x >= 0;
-                                    if (isShowTabButtons() || !widthEnough) {
+                                    if (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1)) {
                                         if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Need to allow space for scrollbuttons
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
@@ -6438,7 +6438,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     case LEFT:
                                     case RIGHT:
                                         int totalTabHeight = _rects[tabCount - 1].y + _rects[tabCount - 1].height;
-                                        if (_tabPane.isTabShown() && (isShowTabButtons() || totalTabHeight > th)) {
+                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (totalTabHeight > th && _tabPane.getTabCount() > 1))) {
                                             int dir = scrollbutton.getType();//NoFocusButton.EAST_BUTTON : NoFocusButton.WEST_BUTTON;
                                             scrollbutton.setType(dir);
                                             switch (dir) {
@@ -6509,7 +6509,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     default:
                                         int totalTabWidth = _rects[tabCount - 1].x + _rects[tabCount - 1].width;
                                         boolean widthEnough = leftToRight ? totalTabWidth <= tw : _rects[tabCount - 1].x >= 0;
-                                        if (_tabPane.isTabShown() && (isShowTabButtons() || !widthEnough)) {
+                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.EAST_BUTTON
                                             // NoFocusButton.WEST_BUTTON;
                                             scrollbutton.setType(dir);
