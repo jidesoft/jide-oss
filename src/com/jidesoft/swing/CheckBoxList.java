@@ -730,6 +730,32 @@ public class CheckBoxList extends JList {
     }
 
     /**
+     * Deselects the specified objects from the list and keep all previous selections.
+     *
+     * @param objects the objects to be selected
+     */
+    public void removeCheckBoxListSelectedValues(Object[] objects) {
+        if (objects != null) {
+            Map<Object, String> map = new HashMap<Object, String>();
+            for (Object o : objects) {
+                map.put(o, "");
+            }
+            int i, c;
+            ListModel model = getModel();
+            boolean changed = false;
+            for (i = 0, c = model.getSize(); i < c; i++)
+                if (map.get(model.getElementAt(i)) != null) {
+                    removeCheckBoxListSelectedIndex(i);
+                    changed = true;
+                }
+            if (changed) {
+                repaint();
+            }
+            map.clear();
+        }
+    }
+
+    /**
      * Deselects the specified object from the list.
      *
      * @param anObject     the object to select
