@@ -291,6 +291,14 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
             table.putDefaults(uiDefaults);
         }
 
+        if ((products & PRODUCT_COMPONENTS) != 0) {
+            uiDefaults = new Object[]{
+                    "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(0, 1, 0, 1)),
+                    "StatusBar.border", new StatusBarBorder(),
+            };
+            table.putDefaults(uiDefaults);
+        }
+
         UIDefaultsLookup.put(table, "Theme.painter", Office2003Painter.getInstance());
 
         // since it used BasicPainter, make sure it is after Theme.Painter is set first.
