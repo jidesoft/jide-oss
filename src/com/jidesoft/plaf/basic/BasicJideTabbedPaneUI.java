@@ -6353,6 +6353,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                     for (int i = 0; i < numChildren; i++) {
                         Component child = _tabPane.getComponent(i);
+                        boolean tabButtonsVisible = true;
 
                         if (child instanceof ScrollableTabViewport) {
                             viewport = (JViewport) child;
@@ -6379,6 +6380,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     else {
                                         // Allow space for scrollbuttons
                                         vh = Math.max(th - _buttonSize * numberOfButtons, 0);
+                                        tabButtonsVisible = false;
                                     }
 
                                     if (vh + getLayoutSize() < th - _buttonSize * numberOfButtons) {
@@ -6407,6 +6409,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                                        }
                                     }
                                     else {
+                                        tabButtonsVisible = false;
                                         // Allow space for scrollbuttons
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
                                         if (!leftToRight) {
@@ -6420,6 +6423,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         }
                                     }
                                     break;
+                            }
+                            if (_tabTrailingComponent != null && _tabPane.isHideTrailingWhileNoButtons()) {
+                                _tabTrailingComponent.setVisible(tabButtonsVisible);
                             }
                             child.setBounds(tx, ty, vw, vh);
 
@@ -6469,6 +6475,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                                         }
                                         else {
+                                            tabButtonsVisible = false;
                                             int dir = scrollbutton.getType();
                                             scrollbutton.setType(dir);
                                             if (dir == TabCloseButton.CLOSE_BUTTON) {
@@ -6482,6 +6489,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                 }
                                                 bx = tx + 2;
                                             }
+                                        }
+                                        if (_tabTrailingComponent != null && _tabPane.isHideTrailingWhileNoButtons()) {
+                                            _tabTrailingComponent.setVisible(tabButtonsVisible);
                                         }
                                         if (isTabTrailingComponentVisible()) {
                                             by = by - tsize.height;
@@ -6561,6 +6571,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                                         }
                                         else {
+                                            tabButtonsVisible = false;
                                             int dir = scrollbutton.getType();
                                             scrollbutton.setType(dir);
                                             if (dir == TabCloseButton.CLOSE_BUTTON) {
@@ -6574,6 +6585,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                 }
                                                 by = ((th - bsize.height) >> 1) + ty;
                                             }
+                                        }
+                                        if (_tabTrailingComponent != null && _tabPane.isHideTrailingWhileNoButtons()) {
+                                            _tabTrailingComponent.setVisible(tabButtonsVisible);
                                         }
                                         if (isTabTrailingComponentVisible()) {
                                             bx -= tsize.width;

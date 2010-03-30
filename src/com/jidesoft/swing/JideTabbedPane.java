@@ -222,6 +222,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     private Component _tabLeadingComponent = null;
     private Component _tabTrailingComponent = null;
+    private boolean _hideTrailingWhileNoButtons = false;
 
     // show close button on active tab only
     private boolean _showCloseButtonOnSelectedTab = false;
@@ -627,6 +628,29 @@ public class JideTabbedPane extends JTabbedPane {
             Component comp = nearestRoot.getFocusTraversalPolicy().getComponentAfter(nearestRoot, this);
             return comp != null && comp.requestFocusInWindow() || JideSwingUtilities.compositeRequestFocus(visibleComponent);
         }
+    }
+
+    /**
+     * Get the flag that if the trailing component should be hidden while no buttons are visible.
+     * <p/>
+     * Be default, the flag is false. If you want to connect visibility of those two components, please set it to true.
+     *
+     * @see #isShowTabArea()
+     * @see #isShowTabButtons()
+     * @return true if the trailing component would be hidden while no buttons are visible. Otherwise false.
+     */
+    public boolean isHideTrailingWhileNoButtons() {
+        return _hideTrailingWhileNoButtons;
+    }
+
+    /**
+     * Set the flag that if the trailing component should be hidden while no buttons are visible.
+     *
+     * @see #isHideTrailingWhileNoButtons()
+     * @param hideTrailingWhileNoButtons the flag
+     */
+    public void setHideTrailingWhileNoButtons(boolean hideTrailingWhileNoButtons) {
+        _hideTrailingWhileNoButtons = hideTrailingWhileNoButtons;
     }
 
     /*
