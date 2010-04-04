@@ -16,8 +16,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class BasicJideComboBoxUI extends MetalComboBoxUI {
-    private boolean _editable;
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static BasicJideComboBoxUI createUI(JComponent c) {
         return new BasicJideComboBoxUI();
     }
@@ -25,8 +25,6 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     @Override
     protected void installDefaults() {
         super.installDefaults();
-        _editable = comboBox.isEditable();
-        comboBox.setEditable(true);
         JideSwingUtilities.installBorder(comboBox, createComboBoxBorder());
     }
 
@@ -38,7 +36,6 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     @Override
     protected void uninstallDefaults() {
         super.uninstallDefaults();
-        comboBox.setEditable(_editable);
         LookAndFeel.uninstallBorder(comboBox);
     }
 
@@ -141,6 +138,8 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     }
 
     protected class BasicJideComboBoxBorder extends AbstractBorder implements UIResource {
+        private static final long serialVersionUID = 4633179647696691207L;
+
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Color old = g.getColor();
@@ -196,7 +195,6 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
                     }
 
                     public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                        Component comp = comboBox.getEditor().getEditorComponent();
                         setRollOver(false);
                         ((JPopupMenu) popup).removePopupMenuListener(this);
                     }
