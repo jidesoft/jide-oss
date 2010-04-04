@@ -8566,6 +8566,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (_tabPane.isTabEditing()) {
+                if (index <= _tabPane.getEditingTabIndex()) {
+                    ((BasicJideTabbedPaneUI) _tabPane.getUI())._editingTab ++;
+                }
+                ensureCloseButtonCreated();
                 ((BasicJideTabbedPaneUI) _tabPane.getUI()).stopOrCancelEditing();//_tabPane.stopTabEditing();
             }
 
