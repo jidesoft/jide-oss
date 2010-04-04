@@ -157,14 +157,14 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
 
         Object node = path.getLastPathComponent();
-        if (_model.getChildCount(node) == 0) {
+        if (getChildrenCount(node) == 0) {
             return false;
         }
 
         // find out if all children are selected
         boolean allChildrenSelected = true;
-        for (int i = 0; i < _model.getChildCount(node); i++) {
-            Object childNode = _model.getChild(node, i);
+        for (int i = 0; i < getChildrenCount(node); i++) {
+            Object childNode = getChild(node, i);
             if (!isPathSelected(path.pathByAddingChild(childNode), true)) {
                 allChildrenSelected = false;
                 break;
@@ -334,9 +334,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         Object node = path.getLastPathComponent();
         Object parentNode = parent.getLastPathComponent();
 
-        int childCount = _model.getChildCount(parentNode);
+        int childCount = getChildrenCount(parentNode);
         for (int i = 0; i < childCount; i++) {
-            Object childNode = _model.getChild(parentNode, i);
+            Object childNode = getChild(parentNode, i);
             if (childNode == node)
                 continue;
             TreePath childPath = parent.pathByAddingChild(childNode);
@@ -430,9 +430,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                     TreePath peekPath = stack.isEmpty() ? path : stack.peek();
                     Object node = temp.getLastPathComponent();
                     Object peekNode = peekPath.getLastPathComponent();
-                    int childCount = _model.getChildCount(node);
+                    int childCount = getChildrenCount(node);
                     for (int i = 0; i < childCount; i++) {
-                        Object childNode = _model.getChild(node, i);
+                        Object childNode = getChild(node, i);
                         if (childNode != peekNode) {
                             TreePath treePath = temp.pathByAddingChild(childNode);
                             toBeAdded.add(treePath);
@@ -453,6 +453,27 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                 notifyPathChange(paths, false, paths[0]);
             }
         }
+    }
+
+    /**
+     * Get the child of node in the designated index.
+     *
+     * @param node the parent node
+     * @param i    the child index
+     * @return the child node
+     */
+    protected Object getChild(Object node, int i) {
+        return _model.getChild(node, i);
+    }
+
+    /**
+     * Get the children count
+     *
+     * @param node the parent node
+     * @return the children count of the parent node.
+     */
+    protected int getChildrenCount(Object node) {
+        return _model.getChildCount(node);
     }
 
     private void addToExistingSet(Set<TreePath> pathHasOperated, TreePath pathToOperate) {
@@ -615,8 +636,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         revalidateSelectedTreePaths();
     }
 
-    private static boolean isTreePathValid(TreeModel treeModel, TreePath path) {
-        Object parent = treeModel.getRoot();
+    private boolean isTreePathValid(TreePath path) {
+        Object parent = _model.getRoot();
         for (int i = 0; i < path.getPathCount(); i++) {
             Object pathComponent = path.getPathComponent(i);
             if (i == 0) {
@@ -626,8 +647,8 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             }
             else {
                 boolean found = false;
-                for (int j = 0; j < treeModel.getChildCount(parent); j++) {
-                    Object child = treeModel.getChild(parent, j);
+                for (int j = 0; j < getChildrenCount(parent); j++) {
+                    Object child = getChild(parent, j);
                     if (child == pathComponent) {
                         found = true;
                         break;
@@ -650,7 +671,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         TreePath[] treePaths = getSelectionPaths();
         if (treePaths != null) {
             for (TreePath treePath : treePaths) {
-                if (treePath != null && !isTreePathValid(_model, treePath)) {
+                if (treePath != null && !isTreePathValid(treePath)) {
                     super.removeSelectionPath(treePath);
                 }
             }
