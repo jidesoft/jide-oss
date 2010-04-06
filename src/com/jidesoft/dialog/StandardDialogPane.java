@@ -27,7 +27,24 @@ import java.awt.event.KeyEvent;
  * <p/>
  * <code>StandardDialogPane</code> has lazy loading feature. So when you are done setup the page list, you need to call
  * {@link #initComponents()} to initialize everything. This method will be called automatically if the dialog pane is
- * added to StandardDialog.
+ * added to StandardDialog. Basically, if you want to add StandardDialogPane without StandardDialog, the following code
+ * are required for the pane to be ready to add to its parent container.
+ * <code><pre>
+ * pane = new StandardDialogPane() {
+ *     public JComponent createBannerPanel() {
+ *         return null;
+ *     }
+ *
+ *     public JComponent createContentPanel() {
+ *         return null;
+ *     }
+ *
+ *     public ButtonPanel createButtonPanel() {
+ *         return null;
+ *     }
+ * };
+ * pane.initComponents();
+ * </pre></code>
  */
 abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     private boolean _lazyConstructorCalled = false;
