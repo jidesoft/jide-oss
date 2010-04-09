@@ -70,10 +70,10 @@ public class MultilineLabel extends JTextArea {
      * Overrides <code>getMinimumSize</code> to return <code>getPreferredSize()</code> instead. We did this because of a
      * bug at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4824261.
      *
-     * @return the preferred size as minimum size.
+     * @return new Dimension(1, 1).
      */
     @Override
     public Dimension getMinimumSize() {
-        return getPreferredSize();
+        return new Dimension(1, 1);
     }
 }
