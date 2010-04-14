@@ -22,7 +22,7 @@ public class ScrollPaneOverview extends JComponent {
     private JScrollPane _scrollPane;
     private Component _viewComponent;
 
-    private JPopupMenu _popupMenu;
+    protected JPopupMenu _popupMenu;
 
     private BufferedImage _image;
     private Rectangle _startRectangle;
@@ -182,6 +182,19 @@ public class ScrollPaneOverview extends JComponent {
         _rectangle = _startRectangle;
         Point centerPoint = new Point(_rectangle.x + _rectangle.width / 2, _rectangle.y + _rectangle.height / 2);
         _popupMenu.show(_owner, -centerPoint.x, -centerPoint.y);
+    }
+
+    /**
+     * Show popup at designated location.
+     * <p/>
+     * You could override this method to show the popup in different location.
+     *
+     * @param x the x axis pixel
+     * @param y the y axis pixel
+     * @param owner the owner of the popup
+     */
+    protected void showPopup(int x, int y, Component owner) {
+        _popupMenu.show(owner, x, y);
     }
 
     private void moveRectangle(int aDeltaX, int aDeltaY) {
