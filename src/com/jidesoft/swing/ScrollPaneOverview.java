@@ -181,7 +181,7 @@ public class ScrollPaneOverview extends JComponent {
         _startRectangle.height *= _scale;
         _rectangle = _startRectangle;
         Point centerPoint = new Point(_rectangle.x + _rectangle.width / 2, _rectangle.y + _rectangle.height / 2);
-        _popupMenu.show(_owner, -centerPoint.x, -centerPoint.y);
+        showPopup(-centerPoint.x, -centerPoint.y, _owner);
     }
 
     /**

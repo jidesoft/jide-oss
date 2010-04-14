@@ -47,7 +47,7 @@ public class CornerScroller extends JideButton {
     protected ScrollPaneOverview _scrollPaneBidule;
 
     public CornerScroller(JScrollPane scrollPane) {
-        _scrollPaneBidule = new ScrollPaneOverview(scrollPane, this);
+        _scrollPaneBidule = createScrollPaneOverview(scrollPane);
         setFocusPainted(false);
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +58,16 @@ public class CornerScroller extends JideButton {
 
         setIcon(new ScrollerIcon());
         setPreferredSize(new Dimension(16, 16));
+    }
+
+    /**
+     * Create the overview popup window.
+     *
+     * @param scrollPane the scroll pane to display
+     * @return the overview popup window.
+     */
+    protected ScrollPaneOverview createScrollPaneOverview(JScrollPane scrollPane) {
+        return new ScrollPaneOverview(scrollPane, this);
     }
 
     public void setSelectionBorderColor(Color selectionBorder) {
