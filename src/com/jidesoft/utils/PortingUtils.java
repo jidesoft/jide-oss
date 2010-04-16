@@ -340,7 +340,7 @@ public class PortingUtils {
     public static Rectangle ensureVisible(Component invoker, Rectangle bounds) {
         Rectangle mainScreenBounds = PortingUtils.getLocalScreenBounds(); // this is fast. Only if it is outside this bounds, we try the more expensive one.
         if (!mainScreenBounds.contains(bounds.getLocation())) {
-            Rectangle screenBounds = PortingUtils.getScreenBounds(invoker, true);
+            Rectangle screenBounds = PortingUtils.getScreenBounds(invoker, false);
             if (bounds.x > screenBounds.x + screenBounds.width || bounds.x < screenBounds.x) {
                 bounds.x = mainScreenBounds.x;
             }
