@@ -23,6 +23,7 @@ public interface ProductNames {
     public static final String PRODUCT_NAME_DATAGRIDS = "JIDE Data Grids";
     public static final String PRODUCT_NAME_CHARTS = "JIDE Charts";
     public static final String PRODUCT_NAME_GANTT_CHART = "JIDE Gantt Chart";
+    public static final String PRODUCT_NAME_DIFF = "JIDE Diff";
     public static final String PRODUCT_NAME_JDAF = "JIDE Desktop Application Framework";
 
     public static final String COMPONENT_PRODUCTS = PRODUCT_NAME_DOCK + ", " +
@@ -37,7 +38,8 @@ public interface ProductNames {
             PRODUCT_NAME_DASHBOARD + ", " +
             PRODUCT_NAME_DATAGRIDS + ", " +
             PRODUCT_NAME_CHARTS + ", " +
-            PRODUCT_NAME_GANTT_CHART;
+            PRODUCT_NAME_GANTT_CHART + ", " +
+            PRODUCT_NAME_DIFF;
 
     public static final String SOLUTION_PRODUCTS = PRODUCT_NAME_JDAF;
 
@@ -56,10 +58,11 @@ public interface ProductNames {
     public static final int PRODUCT_DATAGRIDS = 0x800;
     public static final int PRODUCT_CHARTS = 0x1000;
     public static final int PRODUCT_GANTT_CHART = 0x2000;
+    public static final int PRODUCT_DIFF = 0x4000;
 
     public static final int PRODUCT_PROFESSIONAL_SUITE = PRODUCT_COMMON | PRODUCT_ACTION | PRODUCT_DOCK;
     public static final int PRODUCT_ENTERPRISE_SUITE = PRODUCT_PROFESSIONAL_SUITE | PRODUCT_COMPONENTS | PRODUCT_GRIDS | PRODUCT_DIALOGS;
-    public static final int PRODUCT_ULTIMATE_SUITE = PRODUCT_ENTERPRISE_SUITE | PRODUCT_PIVOT | PRODUCT_SHORTCUT | PRODUCT_FEEDREADER | PRODUCT_CODE_EDITOR | PRODUCT_DASHBOARD | PRODUCT_DATAGRIDS | PRODUCT_CHARTS| PRODUCT_GANTT_CHART;
+    public static final int PRODUCT_ULTIMATE_SUITE = PRODUCT_ENTERPRISE_SUITE | PRODUCT_PIVOT | PRODUCT_SHORTCUT | PRODUCT_FEEDREADER | PRODUCT_CODE_EDITOR | PRODUCT_DASHBOARD | PRODUCT_DATAGRIDS | PRODUCT_CHARTS | PRODUCT_GANTT_CHART | PRODUCT_DIFF;
     public static final int PRODUCT_SOLUTION = PRODUCT_JDAF;
     public static final int PRODUCT_ALL = 0xFFFF;
 
