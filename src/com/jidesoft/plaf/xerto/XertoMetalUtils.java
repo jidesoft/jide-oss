@@ -28,8 +28,7 @@ import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for MetalLookAndFeel.
- * Xerto Style is designed by Xerto at http://www.xerto.com.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for MetalLookAndFeel. Xerto Style is designed by Xerto at http://www.xerto.com.
  */
 public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
@@ -616,6 +615,16 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                             "TAB", "selectNextGroup",
                             "shift TAB", "selectPreviousGroup",
                     }),
+            };
+            table.putDefaults(uiDefaults);
+        }
+
+        if ((products & PRODUCT_DIFF) != 0) {
+            uiDefaults = new Object[]{
+                    "DiffMerge.changed", new ColorUIResource(196, 196, 255),
+                    "DiffMerge.deleted", new ColorUIResource(200, 200, 200),
+                    "DiffMerge.inserted", new ColorUIResource(196, 255, 196),
+                    "DiffMerge.conflicted", new ColorUIResource(255, 153, 153),
             };
             table.putDefaults(uiDefaults);
         }

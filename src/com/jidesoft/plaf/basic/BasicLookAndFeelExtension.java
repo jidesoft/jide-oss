@@ -12,9 +12,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import javax.swing.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components. The JComponent classes define their own
- * uiClassID constants (see AbstractComponent.getUIClassID).  This table must map those constants to a BasicComponentUI
- * class of the appropriate type.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components. The JComponent classes define their own uiClassID constants (see AbstractComponent.getUIClassID).  This table must map those constants to a BasicComponentUI class of the appropriate type.
  */
 public class BasicLookAndFeelExtension implements LookAndFeelExtension {
 

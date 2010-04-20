@@ -472,6 +472,17 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             };
             table.putDefaults(uiDefaults);
         }
+
+        if ((products & PRODUCT_DIFF) != 0) {
+            uiDefaults = new Object[]{
+                    "DiffMerge.changed", new ColorUIResource(196, 196, 255),
+                    "DiffMerge.deleted", new ColorUIResource(200, 200, 200),
+                    "DiffMerge.inserted", new ColorUIResource(196, 255, 196),
+                    "DiffMerge.conflicted", new ColorUIResource(255, 153, 153),
+            };
+            table.putDefaults(uiDefaults);
+        }
+
         UIDefaultsLookup.put(table, "Theme.painter", AquaPainter.getInstance());
     }
 
