@@ -458,10 +458,10 @@ public class JideMenu extends JMenu implements Alignable {
         PopupMenuCustomizer customizer;
         if (b && (customizer = getPopupMenuCustomizer()) != null) {
             customizer.customize(getPopupMenu());
-            if (getPopupMenu().getComponentCount() == 0) {
+            if (shouldHidePopupMenu()) {
                 return;
             }
-        } else if (b && getPopupMenu().getComponentCount() == 0) {
+        } else if (b && shouldHidePopupMenu()) {
             return;
         }
 
@@ -489,6 +489,18 @@ public class JideMenu extends JMenu implements Alignable {
         } else {
             setPopupMenuVisibleImmediately(b);
         }
+    }
+
+    /**
+     * Check if the popup menu should stay hidden although {@link #setPopupMenuVisible(boolean)} is invoked.
+     * <p/>
+     * The default implementation is to check if it contains any menu items. You could override this method to change the
+     * default behavior.
+     * 
+     * @return true if the popup menu should stay invisible. Otherwise false.
+     */
+    protected boolean shouldHidePopupMenu() {
+        return getPopupMenu().getComponentCount() == 0;
     }
 
     void setPopupMenuVisibleImmediately(boolean b) {
