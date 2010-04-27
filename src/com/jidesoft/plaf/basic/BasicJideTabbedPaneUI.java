@@ -8434,7 +8434,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         _tabPane.setSelectedIndex(tabIndex);
                         _tabPane.processMouseSelection(tabIndex, e);
                         final Component comp = _tabPane.getComponentAt(tabIndex);
-                        if (_tabPane.isAutoFocusOnTabHideClose() && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
+                        if (_tabPane.isAutoFocusOnTabHideClose() && comp != null && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
                             comp.addComponentListener(new ComponentAdapter() {
                                 @Override
                                 public void componentShown(ComponentEvent e) {
