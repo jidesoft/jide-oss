@@ -55,22 +55,70 @@ public class NumberComparator implements Comparator {
 
         if (o1 instanceof Number) {
             if (o2 instanceof Number) {
-                double d1 = ((Number) o1).doubleValue();
-                double d2 = ((Number) o2).doubleValue();
-
-                if (isAbsolute() && d1 < 0) {
-                    d1 = -d1;
+                long   l1 = 0;
+                long   l2 = 0;
+                double d1 = 0;
+                double d2 = 0;
+                if (o1 instanceof Long) {
+                    l1 = ((Number) o1).longValue();
                 }
-                if (isAbsolute() && d2 < 0) {
-                    d2 = -d2;
+                else {
+                    d1 = ((Number) o1).doubleValue();
+                }
+                if (o2 instanceof Long) {
+                    l2 = ((Number) o2).longValue();
+                }
+                else {
+                    d2 = ((Number) o2).doubleValue();
                 }
 
-                if (d1 < d2)
-                    return -1;
-                else if (d1 > d2)
-                    return 1;
-                else
-                    return 0;
+                if (isAbsolute()) {
+                    if (d1 < 0) {
+                        d1 = -d1;
+                    }
+                    if (d2 < 0) {
+                        d2 = -d2;
+                    }
+                    if (l1 < 0) {
+                        l1 = -l1;
+                    }
+                    if (l2 < 0) {
+                        l2 = -l2;
+                    }
+                }
+
+                if (o1 instanceof Long && o2 instanceof Long) {
+                    if (l1 < l2)
+                        return -1;
+                    else if (l1 > l2)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else if (o1 instanceof Long) {
+                    if (l1 < d2)
+                        return -1;
+                    else if (l1 > d2)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else if (o2 instanceof Long) {
+                    if (d1 < l2)
+                        return -1;
+                    else if (d1 > l2)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else {
+                    if (d1 < d2)
+                        return -1;
+                    else if (d1 > d2)
+                        return 1;
+                    else
+                        return 0;
+                }
             }
             else {
 // o2 wasn't comparable
