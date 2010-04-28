@@ -35,15 +35,15 @@ import java.util.List;
 public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderChooserUI {
     private FolderChooser _folderChooser;
 
-    private FolderToolBar _toolbar;
-    private JTree _fileSystemTree;
-    private JScrollPane _treeScrollPane;
+    protected FolderToolBar _toolbar;
+    protected JTree _fileSystemTree;
+    protected JScrollPane _treeScrollPane;
 
-    private JButton _approveButton;
-    private JButton _cancelButton;
-    private JTextField _navigationTextField;
-    private JPanel _buttonPanel;
-    private JPanel _navigationPanel;
+    protected JButton _approveButton;
+    protected JButton _cancelButton;
+    protected JTextField _navigationTextField;
+    protected JPanel _buttonPanel;
+    protected JPanel _navigationPanel;
 
     private Action _approveSelectionAction = new ApproveSelectionAction();
     public BasicFolderChooserUI.FolderChooserSelectionListener _selectionListener;
