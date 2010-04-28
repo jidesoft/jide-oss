@@ -1473,7 +1473,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     public void stopTabEditing() {
         int tabIndex = getEditingTabIndex();
-        if (tabIndex != -1) {
+        if (tabIndex != -1 && tabIndex < getTabCount()) {
             String oldTitle = getTitleAt(tabIndex);
             ((JideTabbedPaneUI) getUI()).stopTabEditing();
             String newTitle = getTitleAt(tabIndex);
