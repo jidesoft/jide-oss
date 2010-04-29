@@ -295,8 +295,8 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 String folderName = JOptionPane.showInputDialog(_folderChooser, resourceBundle.getString("FolderChooser.new.folderName"),
                         resourceBundle.getString("FolderChooser.new.title"), JOptionPane.OK_CANCEL_OPTION | JOptionPane.QUESTION_MESSAGE);
 
-                folderName = eraseBlankInTheEnd(folderName);
                 if (folderName != null) {
+                    folderName = eraseBlankInTheEnd(folderName);
                     File newFolder = new File(parent, folderName);
                     boolean success = newFolder.mkdir();
 
