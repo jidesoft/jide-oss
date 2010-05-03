@@ -306,10 +306,22 @@ public class JideTabbedPane extends JTabbedPane {
      */
     @Override
     public void updateUI() {
-        if (UIDefaultsLookup.get(uiClassID) == null) {
-            LookAndFeelFactory.installJideExtension();
+        if (SwingUtilities.isEventDispatchThread()) {
+            if (UIDefaultsLookup.get(uiClassID) == null) {
+                LookAndFeelFactory.installJideExtension();
+            }
+            setUI((TabbedPaneUI) UIManager.getUI(JideTabbedPane.this));
         }
-        setUI((TabbedPaneUI) UIManager.getUI(this));
+        else {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    if (UIDefaultsLookup.get(uiClassID) == null) {
+                        LookAndFeelFactory.installJideExtension();
+                    }
+                    setUI((TabbedPaneUI) UIManager.getUI(JideTabbedPane.this));
+                }
+            });
+        }
     }
 
 
