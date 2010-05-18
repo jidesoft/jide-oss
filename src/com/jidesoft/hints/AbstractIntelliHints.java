@@ -84,7 +84,23 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             }
         });
 
-        DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, getShowHintsKeyStroke(), showAction);
+        DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, getShowHintsKeyStroke(), new DelegateAction() {
+                private static final long serialVersionUID = 2243999895981912016L;
+
+                @Override
+                public boolean delegateActionPerformed(ActionEvent e) {
+                    JComponent tf = (JComponent) e.getSource();
+                    IntelliHints hints = getIntelliHints(tf);
+                    if (hints instanceof AbstractIntelliHints) {
+                        AbstractIntelliHints aih = (AbstractIntelliHints) hints;
+                        if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
+                            aih.showHintsPopup();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
 
         KeyStroke[] keyStrokes = getDelegateKeyStrokes();
         for (KeyStroke keyStroke : keyStrokes) {
@@ -436,24 +452,6 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         }
     };
 
-    private static DelegateAction showAction = new DelegateAction() {
-        private static final long serialVersionUID = 2243999895981912016L;
-
-        @Override
-        public boolean delegateActionPerformed(ActionEvent e) {
-            JComponent tf = (JComponent) e.getSource();
-            IntelliHints hints = getIntelliHints(tf);
-            if (hints instanceof AbstractIntelliHints) {
-                AbstractIntelliHints aih = (AbstractIntelliHints) hints;
-                if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
-                    aih.showHintsPopup();
-                    return true;
-                }
-            }
-            return false;
-        }
-    };
-
     private DelegateAction hideAction = new DelegateAction() {
         private static final long serialVersionUID = 1921213578011852535L;
 
@@ -514,7 +512,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         _keyTyped = keyTyped;
     }
 
-    private static class LazyDelegateAction extends DelegateAction {
+    private class LazyDelegateAction extends DelegateAction {
         private KeyStroke _keyStroke;
         private static final long serialVersionUID = -5799290233797844786L;
 
