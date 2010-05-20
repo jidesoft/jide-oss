@@ -90,6 +90,9 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * @return true if partially. Otherwise false.
      */
     public boolean isPartiallySelected(TreePath path) {
+        if (!isDigIn()) {
+            return isPathSelected(path, false);
+        }
         if (isPathSelected(path, true))
             return false;
         TreePath[] selectionPaths = getSelectionPaths();
