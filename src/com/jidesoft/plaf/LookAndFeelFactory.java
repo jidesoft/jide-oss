@@ -717,8 +717,8 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         // For Mac only
-        else if (((isLnfInUse(AQUA_LNF_6) || isLnfInUse(AQUA_LNF)) && isAquaLnfInstalled())
-                || (isLnfInUse(QUAQUA_LNF) && isQuaquaLnfInstalled())) {
+        else if (isAquaLnfInstalled() && ((isLnfInUse(AQUA_LNF_6) || isLnfInUse(AQUA_LNF)))
+                || (isQuaquaLnfInstalled() && isLnfInUse(QUAQUA_LNF))) {
             // use reflection since we don't deliver source code of AquaJideUtils as most users don't compile it on Mac OS X
             try {
                 Class<?> aquaJideUtils = getUIManagerClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
@@ -844,7 +844,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
 
             // built in customizer
-            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF)) {
+            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
                 new SyntheticaCustomizer().customize(uiDefaults);
             }
         }
@@ -1558,7 +1558,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return true if the current L&F uses decorated frames. Otherwise false.
      */
     public static boolean isCurrentLnfDecorated() {
-        return !isLnfInUse(SYNTHETICA_LNF);
+        return !isLnfInstalled(SYNTHETICA_LNF) || !isLnfInUse(SYNTHETICA_LNF);
     }
 
     public static void main(String[] args) {
