@@ -23,7 +23,7 @@ public class BooleanConverter implements ObjectConverter {
             return getTrue();
         }
         else {
-            return "";
+            return getNull();
         }
     }
 
@@ -55,14 +55,35 @@ public class BooleanConverter implements ObjectConverter {
         return true;
     }
 
-    private String getTrue() {
+    /**
+     * Get the string to represent the true value. By default, it's "true". You could override this method to customize
+     * the string.
+     *
+     * @return the string to represent the true value.
+     */
+    protected String getTrue() {
         String s = Resource.getResourceBundle(Locale.getDefault()).getString("Boolean.true");
         return s != null ? s.trim() : s;
     }
 
-    private String getFalse() {
+    /**
+     * Get the string to represent the false value. By default, it's "false". You could override this method to customize
+     * the string.
+     *
+     * @return the string to represent the false value.
+     */
+    protected String getFalse() {
         String s = Resource.getResourceBundle(Locale.getDefault()).getString("Boolean.false");
         return s != null ? s.trim() : s;
     }
 
+    /**
+     * Get the string to represent the null value. By default, it's "". You could override this method to customize
+     * the string.
+     *
+     * @return the string to represent the null value.
+     */
+    protected String getNull() {
+        return "";
+    }
 }
