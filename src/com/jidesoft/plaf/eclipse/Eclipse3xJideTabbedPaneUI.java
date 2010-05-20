@@ -30,6 +30,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
     protected int _iconMarginVertical;// distance from icon to tab rect start when the tab is on the left or right
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new Eclipse3xJideTabbedPaneUI();
     }
@@ -125,7 +126,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 }
                 Dimension size = _closeButtons[i].getPreferredSize();
 
-                Rectangle bounds = null;
+                Rectangle bounds;
                 if (_closeButtonAlignment == SwingConstants.TRAILING) {
                     if (_tabPane.getTabPlacement() == JideTabbedPane.TOP || _tabPane.getTabPlacement() == JideTabbedPane.BOTTOM) {
                         if (_tabPane.getComponentOrientation().isLeftToRight()) {
@@ -743,6 +744,10 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
 
     @Override
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+        if (selectedIndex < 0) {
+            return;
+        }
+        
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
             int width = _tabPane.getWidth();
             int height = _tabPane.getHeight();
