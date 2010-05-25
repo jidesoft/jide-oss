@@ -27,8 +27,7 @@ import java.awt.geom.Area;
 /**
  * Painter for Office2007 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
- * might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
  */
 public class Office2007Painter extends BasicPainter {
 
@@ -393,7 +392,7 @@ public class Office2007Painter extends BasicPainter {
     }
 
     @Override
-    public void paintStatusBarSepartor
+    public void paintStatusBarSeparator
             (JComponent
                     c, Graphics
                     g, Rectangle
@@ -427,8 +426,8 @@ public class Office2007Painter extends BasicPainter {
     }
 
     @Override
-    public void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-        super.paintPopupMenuSepartor(c, g, rect, orientation, state);
+    public void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        super.paintPopupMenuSeparator(c, g, rect, orientation, state);
         g.setColor(new Color(0xC5C5C5));
         g.drawLine(rect.x + 24, rect.y, rect.x + 24, rect.y + rect.height);
     }

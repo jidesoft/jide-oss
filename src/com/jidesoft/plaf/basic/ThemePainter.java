@@ -85,11 +85,11 @@ public interface ThemePainter {
 
     void paintHeaderBoxBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
-    void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+    void paintToolBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
-    void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+    void paintStatusBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
-    void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
+    void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
     void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color);
 

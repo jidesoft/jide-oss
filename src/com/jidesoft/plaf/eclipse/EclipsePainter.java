@@ -16,8 +16,7 @@ import java.awt.*;
 /**
  * Painter for Eclipse L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
- * might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
  */
 public class EclipsePainter extends BasicPainter {
 
@@ -174,7 +173,7 @@ public class EclipsePainter extends BasicPainter {
     }
 
     @Override
-    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintToolBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
         h -= 5;
         int y;

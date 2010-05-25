@@ -27,8 +27,7 @@ import java.util.TreeMap;
 /**
  * Painter for Office2003 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
- * might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
  */
 public class Office2003Painter extends BasicPainter {
 
@@ -1318,7 +1317,7 @@ public class Office2003Painter extends BasicPainter {
     }
 
     @Override
-    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintToolBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int h = (orientation == SwingConstants.HORIZONTAL) ? rect.height : rect.width;
         h -= 9;
         int x;
@@ -1343,7 +1342,7 @@ public class Office2003Painter extends BasicPainter {
     }
 
     @Override
-    public void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
         int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
 
@@ -1367,7 +1366,7 @@ public class Office2003Painter extends BasicPainter {
         }
     }
 
-    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintStatusBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
         h -= 3;
         int y;

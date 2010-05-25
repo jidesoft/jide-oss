@@ -17,8 +17,7 @@ import java.awt.*;
 /**
  * Painter for Xerto L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
- * might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
  */
 public class XertoPainter extends BasicPainter {
 
@@ -152,7 +151,8 @@ public class XertoPainter extends BasicPainter {
     }
 
     // copied from Office2003Painter
-    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+
+    public void paintStatusBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int h = (orientation == SwingConstants.HORIZONTAL) ? c.getHeight() : c.getWidth();
         h -= 3;
         int y;

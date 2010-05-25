@@ -48,7 +48,7 @@ public class VsnetPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
             return;
         }
 
-        getPainter().paintPopupMenuSepartor(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
+        getPainter().paintPopupMenuSeparator(c, g, new Rectangle(0, 0, c.getWidth(), c.getHeight()), SwingConstants.HORIZONTAL, ThemePainter.STATE_DEFAULT);
     }
 
     @Override

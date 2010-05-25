@@ -13,8 +13,7 @@ import java.awt.*;
 /**
  * Painter for JIDE styles.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
- * might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
  */
 public class BasicPainter implements SwingConstants, ThemePainter {
     private static BasicPainter _instance;
@@ -755,7 +754,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         }
     }
 
-    public void paintToolBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintToolBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (c.isOpaque()) {
             g.setColor(c.getBackground());
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -770,7 +769,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         }
     }
 
-    public void paintPopupMenuSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
         int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
         Color shadowColor = UIDefaultsLookup.getColor("MenuItem.shadowColor");
@@ -804,7 +803,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         }
     }
 
-    public void paintStatusBarSepartor(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+    public void paintStatusBarSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
 
     }
 
