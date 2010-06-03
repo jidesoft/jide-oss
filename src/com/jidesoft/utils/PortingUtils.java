@@ -486,7 +486,8 @@ public class PortingUtils {
      * @param component the component that has the error or null if the error is not associated with any component.
      */
     public static void notifyUser(Component component) {
-        if (!UIManager.getDefaults().getBoolean("System.stopBeepNotify")) {
+        String stopBeep = System.getProperty("System.stopBeepNotify");
+        if (!"true".equals(stopBeep)) {
             UIManager.getLookAndFeel().provideErrorFeedback(component);
         }
     }
