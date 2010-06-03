@@ -478,8 +478,8 @@ public class PortingUtils {
      * @param component the component that has the error or null if the error is not associated with any component.
      */
     public static void notifyUser(Component component) {
-        String stopBeep = SecurityUtils.getProperty("jide.beepNotifyUser", "true");
-        if ("true".equals(stopBeep)) {
+        String beep = SecurityUtils.getProperty("jide.beepNotifyUser", "true");
+        if ("true".equals(beep)) {
             UIManager.getLookAndFeel().provideErrorFeedback(component);
         }
     }
