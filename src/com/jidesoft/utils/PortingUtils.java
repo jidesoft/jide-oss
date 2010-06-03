@@ -20,8 +20,7 @@ public class PortingUtils {
     private static Rectangle SCREEN_BOUNDS = null;
 
     /**
-     * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the
-     * correct focused component.
+     * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the correct focused component.
      *
      * @param event the AWT event
      * @return current focused component
@@ -178,11 +177,10 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker
-     * is null, the whole screen bounds including all display devices will be returned. If the invoker is not null and
-     * the useInvokeDevice flag is true, the screen of the display device for the invoker will be returned.
+     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker is null, the whole screen bounds including all display devices will be returned.
+     * If the invoker is not null and the useInvokeDevice flag is true, the screen of the display device for the invoker will be returned.
      *
-     * @param invoker the invoker component
+     * @param invoker          the invoker component
      * @param useInvokerDevice the flag to return invoker device or not
      * @return the screen bounds.
      */
@@ -210,9 +208,10 @@ public class PortingUtils {
      * <p/>
      * By default, it will not use invoker graphic device automatically.
      *
-     * @see #getScreenBounds(java.awt.Component, boolean)
      * @param invoker the invoker component
      * @return the screen bounds.
+     *
+     * @see #getScreenBounds(java.awt.Component, boolean)
      */
     public static Rectangle getScreenBounds(Component invoker) {
         return getScreenBounds(invoker, false);
@@ -247,31 +246,24 @@ public class PortingUtils {
     private static Thread _initializationThread = null;
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
-     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call
-     * call this method in the class where you will use those three methods. This method will spawn a thread to retrieve
-     * device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done
-     * so user will not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
+     * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call call this method in the class where you will use those three methods. This method
+     * will spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
      */
     synchronized public static void initializeScreenArea() {
         initializeScreenArea(Thread.NORM_PRIORITY);
     }
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
-     * #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can
-     * call {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
-     * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
-     * methods, the thread is done so user will not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
+     * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can call {@link #initializeScreenArea()} method in the class where you will use
+     * those three methods. This method will spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done so user will
+     * not notice any slowness.
      *
-     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the
-     *                 priority of the thread. If you are waiting for the result before the next step, you should use
-     *                 normal priority (which is 5). If you just want to calculate when app starts, you can use a lower
-     *                 priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't
-     *                 go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority
-     *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
+     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the priority of the thread. If you are waiting for the result before the next step,
+     *                 you should use normal priority (which is 5). If you just want to calculate when app starts, you can use a lower priority (such as 3). For example, AbstractComboBox needs screen
+     *                 size so that the popup doesn't go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority 3. If user clicks on the drop down after the
+     *                 thread finished, there will be no time delay.
      */
     synchronized public static void initializeScreenArea(int priority) {
         if (_initializationThread == null) {
@@ -486,15 +478,14 @@ public class PortingUtils {
      * @param component the component that has the error or null if the error is not associated with any component.
      */
     public static void notifyUser(Component component) {
-        String stopBeep = System.getProperty("System.stopBeepNotify");
-        if (!"true".equals(stopBeep)) {
+        String stopBeep = SecurityUtils.getProperty("jide.beepNotifyUser", "true");
+        if ("true".equals(stopBeep)) {
             UIManager.getLookAndFeel().provideErrorFeedback(component);
         }
     }
 
     /**
-     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and
-     * exit.
+     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and exit.
      */
     public static void prerequisiteChecking() {
         if (!SystemInfo.isJdk14Above()) {
@@ -515,10 +506,8 @@ public class PortingUtils {
     }
 
     /**
-     * Sets the preferred size on a component. This method is there mainly to fix the issue that setPreferredSize method
-     * is there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this
-     * method captures this logic and only call setPreferedSize when the JDK is 1.5 and above or when the component is
-     * instance of JComponent.
+     * Sets the preferred size on a component. This method is there mainly to fix the issue that setPreferredSize method is there on Component only after JDK5. For JDK1.4 and before, you need to cast
+     * to JComponent first. So this method captures this logic and only call setPreferedSize when the JDK is 1.5 and above or when the component is instance of JComponent.
      *
      * @param component the component
      * @param size      the preferred size.
@@ -534,9 +523,8 @@ public class PortingUtils {
     }
 
     /**
-     * Sets the minimum size on a component. This method is there mainly to fix the issue that setMinimumSize method is
-     * there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this method
-     * captures this logic and only call setMinimumSize when the JDK is 1.5 and above or when the component is
+     * Sets the minimum size on a component. This method is there mainly to fix the issue that setMinimumSize method is there on Component only after JDK5. For JDK1.4 and before, you need to cast to
+     * JComponent first. So this method captures this logic and only call setMinimumSize when the JDK is 1.5 and above or when the component is
      *
      * @param component the component
      * @param size      the preferred size.
