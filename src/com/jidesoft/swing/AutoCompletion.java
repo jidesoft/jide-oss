@@ -178,7 +178,7 @@ public class AutoCompletion {
                 public void valueChanged(ListSelectionEvent e) {
                     int index = list.getSelectedIndex();
                     if (index != -1) {
-                        getTextComponent().setText("" + list.getModel().getElementAt(index));
+                        getTextComponent().setText(getSearchable().convertElementToString(list.getModel().getElementAt(index)));
                         highlightCompletedText(0);
                     }
                 }
