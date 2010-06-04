@@ -99,6 +99,9 @@ public class AutoRepeatButtonUtils implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent event) {
         // Guaranteed to return a non-null array
+        if (!_button.getModel().isPressed()) {
+            return;
+        }
         ActionListener[] listeners = _button.getActionListeners();
         ActionEvent e = null;
         // Process the listeners last to first, notifying
