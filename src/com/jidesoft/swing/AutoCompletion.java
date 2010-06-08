@@ -367,6 +367,9 @@ public class AutoCompletion {
 //            getTextComponent().addFocusListener(_editorFocusListener);
             String text = getTextComponent().getText();
             _oldDocument = getTextComponent().getDocument();
+            if (_oldDocument instanceof AbstractDocument && _document != null) {
+                _document.setDocumentFilter(((AbstractDocument) _oldDocument).getDocumentFilter());
+            }
             getTextComponent().setDocument(_document);
             getTextComponent().setText(text);
         }
