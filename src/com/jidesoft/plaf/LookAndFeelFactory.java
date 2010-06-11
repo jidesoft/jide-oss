@@ -45,26 +45,39 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * JIDE Software created many new components that need their own ComponentUI classes and additional UIDefaults in UIDefaults table. LookAndFeelFactory can take the UIDefaults from any existing look and feel and add the extra UIDefaults JIDE components need.
+ * JIDE Software created many new components that need their own ComponentUI classes and additional UIDefaults in UIDefaults table. LookAndFeelFactory can take the UIDefaults from any existing look
+ * and feel and add the extra UIDefaults JIDE components need.
  * <p/>
- * Before using any JIDE components, please make you call one of the two LookAndFeelFactory.installJideExtension(...) methods. Basically, you set L&F using UIManager first just like before, then call installJideExtension. See code below for an example.
+ * Before using any JIDE components, please make you call one of the two LookAndFeelFactory.installJideExtension(...) methods. Basically, you set L&F using UIManager first just like before, then call
+ * installJideExtension. See code below for an example.
  * <code><pre>
  * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
  * exceptions
  * on this call.
  * LookAndFeelFactory.installJideExtension();
  * </pre></code>
- * LookAndFeelFactory.installJideExtension() method will check what kind of L&F you set and what operating system you are on and decide which style of JIDE extension it will install. Here is the rule. <ul> <li> OS: Windows XP with XP theme on, L&F: Windows L&F => OFFICE2003_STYLE <li> OS: any Windows, L&F: Windows L&F => VSNET_STYLE <li> OS: Linux, L&F: any L&F based on Metal L&F => VSNET_STYLE <li> OS: Mac OS X, L&F: Aqua L&F => AQUA_STYLE <li> OS: any OS, L&F: Quaqua L&F => AQUA_STYLE <li> Otherwise => VSNET_STYLE </ul> There is also another installJideExtension which takes an int style parameter. You can pass in {@link #VSNET_STYLE}, {@link #ECLIPSE_STYLE}, {@link #ECLIPSE3X_STYLE}, {@link #OFFICE2003_STYLE}, or {@link #XERTO_STYLE}. In the other word, you will make the choice of style instead of letting LookAndFeelFactory to decide one for you. Please note, there is no constant defined for AQUA_STYLE. The only way to use it is when you are using Aqua L&F or Quaqua L&F and you call
- * installJideExtension() method, the one without parameter.
+ * LookAndFeelFactory.installJideExtension() method will check what kind of L&F you set and what operating system you are on and decide which style of JIDE extension it will install. Here is the rule.
+ * <ul> <li> OS: Windows XP with XP theme on, L&F: Windows L&F => OFFICE2003_STYLE <li> OS: any Windows, L&F: Windows L&F => VSNET_STYLE <li> OS: Linux, L&F: any L&F based on Metal L&F => VSNET_STYLE
+ * <li> OS: Mac OS X, L&F: Aqua L&F => AQUA_STYLE <li> OS: any OS, L&F: Quaqua L&F => AQUA_STYLE <li> Otherwise => VSNET_STYLE </ul> There is also another installJideExtension which takes an int style
+ * parameter. You can pass in {@link #VSNET_STYLE}, {@link #ECLIPSE_STYLE}, {@link #ECLIPSE3X_STYLE}, {@link #OFFICE2003_STYLE}, or {@link #XERTO_STYLE}. In the other word, you will make the choice of
+ * style instead of letting LookAndFeelFactory to decide one for you. Please note, there is no constant defined for AQUA_STYLE. The only way to use it is when you are using Aqua L&F or Quaqua L&F and
+ * you call installJideExtension() method, the one without parameter.
  * <p/>
  * LookAndFeelFactory supports a number of known L&Fs. You can see those L&Fs as constants whose names are something like "_LNF" such as WINDOWS_LNF.
  * <p/>
- * If you are using a 3rd party L&F we are not officially supporting, we might need to customize it. Here are two classes you can use. The first one is {@link UIDefaultsCustomizer}. You can add a number of customizers to LookAndFeelFactory. After LookAndFeelFactory installJideExtension method is called, we will call customize() method on each UIDefaultsCustomizer to add additional UIDefaults you specified. You can use UIDefaultsCustomizer to do things like small tweaks to UIDefaults without the hassle of creating a new style.
+ * If you are using a 3rd party L&F we are not officially supporting, we might need to customize it. Here are two classes you can use. The first one is {@link UIDefaultsCustomizer}. You can add a
+ * number of customizers to LookAndFeelFactory. After LookAndFeelFactory installJideExtension method is called, we will call customize() method on each UIDefaultsCustomizer to add additional
+ * UIDefaults you specified. You can use UIDefaultsCustomizer to do things like small tweaks to UIDefaults without the hassle of creating a new style.
  * <p/>
- * Most likely, we will not need to use {@link UIDefaultsInitializer} if you are use L&Fs such as WindowsLookAndFeel, any L&Fs based on MetalLookAndFeel, or AquaLookAndFeel etc. The only exception is Synth L&F and any L&Fs based on it. The reason is we calculate all colors we will use in JIDE components from existing well-known UIDefaults. For example, we will use UIManagerLookup.getColor("activeCaption") to calculate a color that we can use in dockable frame's title pane. We will use UIManagerLookup.getColor("control") to calculate a color that we can use as background of JIDE component. Most L&Fs will fill those UIDefaults. However in Synth L&F, those UIDefaults may or may not have a valid value. You will end up with NPE later in the code when you call installJideExtension. In this case, you can add those extra UIDefaults in UIDefaultsInitializer. We will call it before installJideExtension is called so that those UIDefaults are there ready for us to use. This is how added support to
- * GTK L&F and Synthetica L&F.
+ * Most likely, we will not need to use {@link UIDefaultsInitializer} if you are use L&Fs such as WindowsLookAndFeel, any L&Fs based on MetalLookAndFeel, or AquaLookAndFeel etc. The only exception is
+ * Synth L&F and any L&Fs based on it. The reason is we calculate all colors we will use in JIDE components from existing well-known UIDefaults. For example, we will use
+ * UIManagerLookup.getColor("activeCaption") to calculate a color that we can use in dockable frame's title pane. We will use UIManagerLookup.getColor("control") to calculate a color that we can use
+ * as background of JIDE component. Most L&Fs will fill those UIDefaults. However in Synth L&F, those UIDefaults may or may not have a valid value. You will end up with NPE later in the code when you
+ * call installJideExtension. In this case, you can add those extra UIDefaults in UIDefaultsInitializer. We will call it before installJideExtension is called so that those UIDefaults are there ready
+ * for us to use. This is how added support to GTK L&F and Synthetica L&F.
  * <p/>
- * {@link #installJideExtension()} method will only add the additional UIDefaults to current ClassLoader. If you have several class loaders in your system, you probably should tell the UIManager to use the class loader that called <code>installJideExtension</code>. Otherwise, you might some unexpected errors. Here is how to specify the class loaders.
+ * {@link #installJideExtension()} method will only add the additional UIDefaults to current ClassLoader. If you have several class loaders in your system, you probably should tell the UIManager to
+ * use the class loader that called <code>installJideExtension</code>. Otherwise, you might some unexpected errors. Here is how to specify the class loaders.
  * <code><pre>
  * UIManager.put("ClassLoader", currentClass.getClassLoader()); // currentClass is the class where
  * the code is.
@@ -158,7 +171,8 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String NIMBUS_LNF_NAME = "NimbusLookAndFeel";
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as VSNET_STYLE except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from JIDE Action Framework.
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as VSNET_STYLE except it doesn't have menu related UIDefaults. You can only use this style if you
+     * didn't use any component from JIDE Action Framework.
      * <p/>
      *
      * @see #VSNET_STYLE
@@ -168,7 +182,10 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of Microsoft Visual Studio .NET for the toolbars, menus and dockable windows.
      * <p/>
-     * Vsnet style is a very simple style with no gradient. Although it works on almost all L&Fs in any operating systems, it looks the best on Windows 2000 or 98, or on Windows XP when XP theme is not on. If XP theme is on, we suggest you use Office2003 style or Xerto style. Since the style is so simple, it works with a lot of the 3rd party L&F such as Tonic, Pgs, Alloy etc without causing too much noise. That's why this is also the default style for any L&Fs we don't recognize when you call {@link #installJideExtension()}, the one with out style parameter. If you would like another style to be used as the default style, you can call {@link #setDefaultStyle(int)} method.
+     * Vsnet style is a very simple style with no gradient. Although it works on almost all L&Fs in any operating systems, it looks the best on Windows 2000 or 98, or on Windows XP when XP theme is
+     * not on. If XP theme is on, we suggest you use Office2003 style or Xerto style. Since the style is so simple, it works with a lot of the 3rd party L&F such as Tonic, Pgs, Alloy etc without
+     * causing too much noise. That's why this is also the default style for any L&Fs we don't recognize when you call {@link #installJideExtension()}, the one with out style parameter. If you would
+     * like another style to be used as the default style, you can call {@link #setDefaultStyle(int)} method.
      * <p/>
      * Here is the code to set to Windows L&F with Vsnet style extension.
      * <code><pre>
@@ -176,7 +193,9 @@ public class LookAndFeelFactory implements ProductNames {
      * exceptions on this call.
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.VSNET_STYLE);
      * </pre></code>
-     * There is a special system property "shading theme" you can use. If you turn it on using the code below, you will see a gradient on dockable frame's title pane and rounded corner and gradient on the tabs of JideTabbedPane. So if the L&F you are using uses gradient, you can set this property to true to match with your L&F. For example, if you use Plastic3D L&F, turning this property on will look better.
+     * There is a special system property "shading theme" you can use. If you turn it on using the code below, you will see a gradient on dockable frame's title pane and rounded corner and gradient on
+     * the tabs of JideTabbedPane. So if the L&F you are using uses gradient, you can set this property to true to match with your L&F. For example, if you use Plastic3D L&F, turning this property on
+     * will look better.
      * <code><pre>
      * System.setProperty("shadingtheme", "true");
      * </pre></code>
@@ -201,7 +220,8 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of Microsoft Office2003 for the toolbars, menus and dockable windows.
      * <p/>
-     * Office2003 style looks great on Windows XP when Windows or Windows XP L&F from Sun JDK is used. It replicated the exact same style as Microsoft Office 2003, to give your end user a familiar visual style.
+     * Office2003 style looks great on Windows XP when Windows or Windows XP L&F from Sun JDK is used. It replicated the exact same style as Microsoft Office 2003, to give your end user a familiar
+     * visual style.
      * <p/>
      * Here is the code to set to Windows L&F with Office2003 style extension.
      * <code><pre>
@@ -209,9 +229,12 @@ public class LookAndFeelFactory implements ProductNames {
      * exceptions on this call.
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.OFFICE2003_STYLE);
      * </pre></code>
-     * It works either on any other Windows such asWindows 2000, Windows 98 etc. If you are on Windows XP, Office2003 style will change theme based on the theme setting in Windows Display Property. But if you are not on XP, Office2003 style will use the default gray theme only. You can force to change it using {@link Office2003Painter#setColorName(String)} method, but it won't look good as other non-JIDE components won't have the matching theme.
+     * It works either on any other Windows such asWindows 2000, Windows 98 etc. If you are on Windows XP, Office2003 style will change theme based on the theme setting in Windows Display Property.
+     * But if you are not on XP, Office2003 style will use the default gray theme only. You can force to change it using {@link Office2003Painter#setColorName(String)} method, but it won't look good
+     * as other non-JIDE components won't have the matching theme.
      * <p/>
-     * Office2003 style doesn't work on any operating systems other than Windows mainly because the design of Office2003 style is so centric to Windows that it doesn't look good on other operating systems.
+     * Office2003 style doesn't work on any operating systems other than Windows mainly because the design of Office2003 style is so centric to Windows that it doesn't look good on other operating
+     * systems.
      */
     public static final int OFFICE2003_STYLE = 3;
 
@@ -226,12 +249,15 @@ public class LookAndFeelFactory implements ProductNames {
      * exceptions on this call.
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.XERTO_STYLE);
      * </pre></code>
-     * Although it looks the best on Windows, Xerto style also supports Linux or Solaris if you use any L&Fs based on Metal L&F or Synth L&F. For example, we recommend you to use Xerto style as default if you use SyntheticaL&F, a L&F based on Synth. To use it, you basically replace WindowsLookAndFeel to the L&F you want to use in setLookAndFeel line above.
+     * Although it looks the best on Windows, Xerto style also supports Linux or Solaris if you use any L&Fs based on Metal L&F or Synth L&F. For example, we recommend you to use Xerto style as
+     * default if you use SyntheticaL&F, a L&F based on Synth. To use it, you basically replace WindowsLookAndFeel to the L&F you want to use in setLookAndFeel line above.
      */
     public static final int XERTO_STYLE = 4;
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as XERTO_STYLE except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from JIDE Action Framework. Please note, we only use menu extension for Xerto style when the underlying L&F is Windows L&F. If you are using L&F such as Metal or other 3rd party L&F based on Metal, XERTO_STYLE_WITHOUT_MENU will be used even you use XERTO_STYLE when calling to installJideExtension().
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as XERTO_STYLE except it doesn't have menu related UIDefaults. You can only use this style if you
+     * didn't use any component from JIDE Action Framework. Please note, we only use menu extension for Xerto style when the underlying L&F is Windows L&F. If you are using L&F such as Metal or other
+     * 3rd party L&F based on Metal, XERTO_STYLE_WITHOUT_MENU will be used even you use XERTO_STYLE when calling to installJideExtension().
      * <p/>
      *
      * @see #XERTO_STYLE
@@ -263,7 +289,8 @@ public class LookAndFeelFactory implements ProductNames {
      * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.OFFICE2007_STYLE);
      * </pre></code>
      * <p/>
-     * Office2007 style doesn't work on any operating systems other than Windows mainly because the design of Office2003 style is so centric to Windows that it doesn't look good on other operating systems.
+     * Office2007 style doesn't work on any operating systems other than Windows mainly because the design of Office2003 style is so centric to Windows that it doesn't look good on other operating
+     * systems.
      * <p/>
      * Because we use some painting code that is only available in JDK6, Office 2007 style only runs if you are using JDK6 and above.
      */
@@ -274,24 +301,28 @@ public class LookAndFeelFactory implements ProductNames {
     private static LookAndFeel _lookAndFeel;
 
     /**
-     * If installJideExtension is called, it will put an entry on UIDefaults table. UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED) will return true. You can also use {@link #isJideExtensionInstalled()} to check the value instead of using UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED).
+     * If installJideExtension is called, it will put an entry on UIDefaults table. UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED) will return true. You can also use {@link
+     * #isJideExtensionInstalled()} to check the value instead of using UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED).
      */
     public static final String JIDE_EXTENSION_INSTALLLED = "jidesoft.extendsionInstalled";
 
     /**
-     * If installJideExtension is called, a JIDE style will be installed on UIDefaults table. If so, UIManagerLookup.getInt(JIDE_STYLE_INSTALLED) will return you the style that is installed. For example, if the value is 1, it means VSNET_STYLE is installed because 1 is the value of VSNET_STYLE.
+     * If installJideExtension is called, a JIDE style will be installed on UIDefaults table. If so, UIManagerLookup.getInt(JIDE_STYLE_INSTALLED) will return you the style that is installed. For
+     * example, if the value is 1, it means VSNET_STYLE is installed because 1 is the value of VSNET_STYLE.
      */
     public static final String JIDE_STYLE_INSTALLED = "jidesoft.extendsionStyle";
 
     /**
-     * An interface to make the customization of UIDefaults easier. This customizer will be called after installJideExtension() is called. So if you want to further customize UIDefault, you can use this customizer to do it.
+     * An interface to make the customization of UIDefaults easier. This customizer will be called after installJideExtension() is called. So if you want to further customize UIDefault, you can use
+     * this customizer to do it.
      */
     public static interface UIDefaultsCustomizer {
         void customize(UIDefaults defaults);
     }
 
     /**
-     * An interface to make the initialization of UIDefaults easier. This initializer will be called before installJideExtension() is called. So if you want to initialize UIDefault before installJideExtension is called, you can use this initializer to do it.
+     * An interface to make the initialization of UIDefaults easier. This initializer will be called before installJideExtension() is called. So if you want to initialize UIDefault before
+     * installJideExtension is called, you can use this initializer to do it.
      */
     public static interface UIDefaultsInitializer {
         void initialize(UIDefaults defaults);
@@ -308,7 +339,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Gets the default style. If you never set default style before, it will return OFFICE2003_STYLE if you are on Windows XP, L&F is instance of Windows L&F and XP theme is on. Otherwise, it will return VSNET_STYLE. If you set default style before, it will return whatever style you set.
+     * Gets the default style. If you never set default style before, it will return OFFICE2003_STYLE if you are on Windows XP, L&F is instance of Windows L&F and XP theme is on. Otherwise, it will
+     * return VSNET_STYLE. If you set default style before, it will return whatever style you set.
      *
      * @return the default style.
      */
@@ -353,7 +385,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Adds additional UIDefaults JIDE needed to UIDefault table. You must call this method every time switching look and feel. And callupdateComponentTreeUI() in corresponding DockingManager or DockableBarManager after this call.
+     * Adds additional UIDefaults JIDE needed to UIDefault table. You must call this method every time switching look and feel. And callupdateComponentTreeUI() in corresponding DockingManager or
+     * DockableBarManager after this call.
      * <pre><code>
      *  try {
      *      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -387,7 +420,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Add additional UIDefaults JIDE needed to UIDefaults table. You must call this method every time switching look and feel. And call updateComponentTreeUI() in corresponding DockingManager or DockableBarManager after this call.
+     * Add additional UIDefaults JIDE needed to UIDefaults table. You must call this method every time switching look and feel. And call updateComponentTreeUI() in corresponding DockingManager or
+     * DockableBarManager after this call.
      * <pre><code>
      *  try {
      *      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -420,7 +454,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Checks if JIDE extension is installed. Please note, UIManager.setLookAndFeel() method will overwrite the whole UIDefaults table. So even you called {@link #installJideExtension()} method before, UIManager.setLookAndFeel() method make isJideExtensionInstalled returning false.
+     * Checks if JIDE extension is installed. Please note, UIManager.setLookAndFeel() method will overwrite the whole UIDefaults table. So even you called {@link #installJideExtension()} method
+     * before, UIManager.setLookAndFeel() method make isJideExtensionInstalled returning false.
      *
      * @return true if installed.
      */
@@ -819,7 +854,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Tells the LookAndFeelFactory whether a L&F is installed. We will try to instantiate the class when {@link #isLnfInstalled(String)} is called to determine if the class is in the class path. However you can call this method to tell if the L&F is available without us instantiating the class.
+     * Tells the LookAndFeelFactory whether a L&F is installed. We will try to instantiate the class when {@link #isLnfInstalled(String)} is called to determine if the class is in the class path.
+     * However you can call this method to tell if the L&F is available without us instantiating the class.
      *
      * @param lnfName   the L&F name.
      * @param installed true or false.
@@ -977,7 +1013,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Install the default L&F. In this method, we will look at system property "swing.defaultlaf" first. If the value is set and it's not an instance of Synth L&F, we will use it. Otherwise, we will use Metal L&F is OS is Linux or UNIX and use UIManager.getSystemLookAndFeelClassName() for other OS. In addition, we will add JIDE extension to it.
+     * Install the default L&F. In this method, we will look at system property "swing.defaultlaf" first. If the value is set and it's not an instance of Synth L&F, we will use it. Otherwise, we will
+     * use Metal L&F is OS is Linux or UNIX and use UIManager.getSystemLookAndFeelClassName() for other OS. In addition, we will add JIDE extension to it.
      */
     public static void installDefaultLookAndFeelAndExtension() {
         installDefaultLookAndFeel();
@@ -986,7 +1023,8 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Install the default L&F. In this method, we will look at system property "swing.defaultlaf" first. If the value is set and it's not an instance of Synth L&F, we will use it. Otherwise, we will use Metal L&F is OS is Linux or UNIX and use UIManager.getSystemLookAndFeelClassName() for other OS.
+     * Install the default L&F. In this method, we will look at system property "swing.defaultlaf" first. If the value is set and it's not an instance of Synth L&F, we will use it. Otherwise, we will
+     * use Metal L&F is OS is Linux or UNIX and use UIManager.getSystemLookAndFeelClassName() for other OS.
      */
     public static void installDefaultLookAndFeel() {
         try {
@@ -1072,7 +1110,8 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Adds your own UIDefaults initializer. This initializer will be called before installJideExtension() is called.
      * <p/>
-     * Here is how you use it. For example, we use the color of UIDefault "activeCaption" to get the active title color which we will use for active title bar color in JIDE components. If the L&F you are using doesn't set this UIDefault, we might throw NPE later in the code. To avoid this, you call
+     * Here is how you use it. For example, we use the color of UIDefault "activeCaption" to get the active title color which we will use for active title bar color in JIDE components. If the L&F you
+     * are using doesn't set this UIDefault, we might throw NPE later in the code. To avoid this, you call
      * <code><pre>
      * LookAndFeelFactory.addUIDefaultsInitializer(new LookAndFeelFactory.UIDefaultsInitializer() {
      *     public void initialize(UIDefaults defaults) {
@@ -1120,15 +1159,22 @@ public class LookAndFeelFactory implements ProductNames {
 
     public static class SyntheticaInitializer implements UIDefaultsInitializer {
         public void initialize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "Label.font", UIDefaultsLookup.getFont("Button.font"),
-                    "ToolBar.font", UIDefaultsLookup.getFont("Button.font"),
-                    "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Button.font"),
-                    "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
-                    "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
-                    "Slider.focusInsets", new InsetsUIResource(0, 0, 0, 0),
-            };
-            putDefaults(defaults, uiDefaults);
+            try {
+                Class syntheticaPopupBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaPopupBorder");
+                Object[] uiDefaults = {
+                        "Label.font", UIDefaultsLookup.getFont("Button.font"),
+                        "ToolBar.font", UIDefaultsLookup.getFont("Button.font"),
+                        "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Button.font"),
+                        "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
+                        "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
+                        "Slider.focusInsets", new InsetsUIResource(0, 0, 0, 0),
+                        "PopupMenu.border", syntheticaPopupBorder.newInstance(),
+                };
+                putDefaults(defaults, uiDefaults);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1140,6 +1186,7 @@ public class LookAndFeelFactory implements ProductNames {
             try {
                 Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
                 Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
+                Class syntheticaPopupBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaPopupBorder");
                 Color toolbarBackground = new JToolBar().getBackground();
                 int products = LookAndFeelFactory.getProductsUsed();
                 {
@@ -1155,6 +1202,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
                             "Icon.floating", Boolean.FALSE,
                             "ContentContainer.background", toolbarBackground,
+                            "PopupMenu.border", syntheticaPopupBorder.newInstance(),
                     };
                     overwriteDefaults(defaults, uiDefaults);
                 }
@@ -1333,7 +1381,9 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. If the table already has a value for the key, the new value will be ignored. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method in {@link UIDefaultsInitializer} so that it fills in the UIDefault value only when it is missing.
+     * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. If the table
+     * already has a value for the key, the new value will be ignored. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method in {@link
+     * UIDefaultsInitializer} so that it fills in the UIDefault value only when it is missing.
      *
      * @param table         the ui defaults table
      * @param keyValueArray the key value array. It is in the format of a key followed by a value.
@@ -1353,7 +1403,9 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. Otherwise, it will put the new value in even if the table already has a value for the key. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method in {@link UIDefaultsCustomizer} because you always want to override the existing value using the new value.
+     * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. Otherwise, it
+     * will put the new value in even if the table already has a value for the key. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method
+     * in {@link UIDefaultsCustomizer} because you always want to override the existing value using the new value.
      *
      * @param table         the ui defaults table
      * @param keyValueArray the key value array. It is in the format of a key followed by a value.
@@ -1450,7 +1502,10 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     /**
-     * Sets the products you will use. This is needed so that LookAndFeelFactory knows what UIDefault to initialize. For example, if you use only JIDE Docking Framework and JIDE Grids, you should call <code>setProductUsed(ProductNames.PRODUCT_DOCK | ProductNames.PRODUCT_GRIDS)</code> so that we don't initialize UIDefaults needed by any other products. If you use this class as part of JIDE Common Layer open source project, you should call <code>setProductUsed(ProductNames.PRODUCT_COMMON)</code>. If you want to use all JIDE products, you should call <code>setProductUsed(ProductNames.PRODUCT_ALL)</code>
+     * Sets the products you will use. This is needed so that LookAndFeelFactory knows what UIDefault to initialize. For example, if you use only JIDE Docking Framework and JIDE Grids, you should call
+     * <code>setProductUsed(ProductNames.PRODUCT_DOCK | ProductNames.PRODUCT_GRIDS)</code> so that we don't initialize UIDefaults needed by any other products. If you use this class as part of JIDE
+     * Common Layer open source project, you should call <code>setProductUsed(ProductNames.PRODUCT_COMMON)</code>. If you want to use all JIDE products, you should call
+     * <code>setProductUsed(ProductNames.PRODUCT_ALL)</code>
      *
      * @param productsUsed a bit-wise OR of product values defined in {@link com.jidesoft.utils.ProductNames}.
      */

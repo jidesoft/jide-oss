@@ -4,6 +4,8 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.*;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -807,10 +809,78 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
     }
 
+    /**
+     * The distant from top edge of the table header to the top edge of the sort arrow.
+     */
+    public static int V_GAP = 0;
+
+    /**
+     * The distant from the right edge of the table header to left edge of sort arrow.
+     */
+    public static int H_GAP = 5;
+
+    /**
+     * The gap between the sort arrow and index text.
+     */
+    public static int ARROW_TEXT_GAP = 0;
+
+    /**
+     * Should the arrow be displayed on the top of the header.
+     *
+     * @return true to display the sort arrow on top. Otherwise false.
+     */
+    protected boolean shouldDisplayOnTop() {
+        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel;
+    }
+
     public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
         Color oldColor = g.getColor();
         g.setColor(color);
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
         g.setColor(oldColor);
+    }
+
+    public void paintSortableTableHeaderColumn(JComponent c, Graphics g, Rectangle rect, int orientation, int state, int sortOrder, Icon sortIcon, int orderIndex, Color indexColor, boolean paintIndex) {
+        int h = c.getHeight();
+        int iconHeight = sortIcon == null ? 0 : sortIcon.getIconHeight();
+        int iconWidth = sortIcon == null ? 0 : sortIcon.getIconWidth();
+        int y = sortIcon == null ? 0 : (h - iconHeight) / 2 - V_GAP;
+
+        if (paintIndex && orderIndex != -1) {
+            Font oldFont = g.getFont();
+            Font font = g.getFont().deriveFont(Font.PLAIN, oldFont.getSize() - 3);
+            String str = "" + (orderIndex + 1);
+            int textWidth = SwingUtilities.computeStringWidth(c.getFontMetrics(font), str);
+            g.setFont(font);
+            Color oldColor = g.getColor();
+            g.setColor(indexColor);
+            int x = rect.x + rect.width / 2 - (iconWidth + ARROW_TEXT_GAP + textWidth) / 2;
+            if (shouldDisplayOnTop()) {
+                JideSwingUtilities.drawString(c, g, str, x + ARROW_TEXT_GAP + iconWidth, V_GAP + c.getFontMetrics(font).getAscent() - 2);
+            }
+            else {
+                JideSwingUtilities.drawString(c, g, str, rect.x + rect.width - textWidth - H_GAP, y + iconHeight / 2 + 1);
+            }
+            g.setColor(oldColor);
+            g.setFont(oldFont);
+            if (sortIcon != null) {
+                if (shouldDisplayOnTop()) {
+                    sortIcon.paintIcon(c, g, x, V_GAP);
+                }
+                else {
+                    sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, y);
+                }
+            }
+        }
+        else {
+            if (sortIcon != null) {
+                if (shouldDisplayOnTop()) {
+                    sortIcon.paintIcon(c, g, rect.x + rect.width / 2 - iconWidth / 2, V_GAP);
+                }
+                else {
+                    sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - H_GAP, y);
+                }
+            }
+        }
     }
 }

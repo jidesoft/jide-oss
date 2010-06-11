@@ -91,6 +91,8 @@ public interface ThemePainter {
 
     void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state);
 
+    void paintSortableTableHeaderColumn(JComponent c, Graphics g, Rectangle rect, int orientation, int state, int sortOrder, Icon sortIcon, int orderIndex, Color indexColor, boolean paintIndex);
+
     void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color);
 
     Color getMenuItemBorderColor();
