@@ -16,6 +16,7 @@ import java.util.List;
  * @author swhite@catalysoft.com
  */
 public class CombinedNumericRange extends AbstractNumericRange<Double> {
+    private final Object monitor = new Object();
     private List<Range<Double>> _ranges = new ArrayList<Range<Double>>();
     private Double _max = null;
     private Double _min = null;
@@ -35,7 +36,11 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * @return this instance
      */
     public CombinedNumericRange add(Range<Double> range) {
-        _ranges.add(range);
+        synchronized(monitor) {
+            _ranges.add(range);
+            _min = null;
+            _max = null;
+        }
         return this;
     }
 
@@ -60,32 +65,42 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * Lazily calculates the maximum value in the range
      */
     public double maximum() {
-        if (_max != null) {
+        synchronized(monitor) {
+            if (_max != null) {
+                return _max;
+            }
+            if (_ranges.size() == 0) {
+                return Double.MAX_VALUE;
+            }
+            _max = Double.MIN_VALUE;
+            for (Range<Double> range : _ranges) {
+                if (range.maximum() > _max) {
+                    _max = range.maximum();
+                }
+            }
             return _max;
         }
-        _max = Double.MIN_VALUE;
-        for (Range<Double> range : _ranges) {
-            if (range.maximum() > _max) {
-                _max = range.maximum();
-            }
-        }
-        return _max;
     }
 
     /**
      * Lazily calculates the minimum value in the range
      */
     public double minimum() {
-        if (_min != null) {
+        synchronized(monitor) {
+            if (_min != null) {
+                return _min;
+            }
+            if (_ranges.size() == 0) {
+                return Double.MIN_VALUE;
+            }
+            _min = Double.MAX_VALUE;
+            for (Range<Double> range : _ranges) {
+                if (range.minimum() < _min) {
+                    _min = range.minimum();
+                }
+            }
             return _min;
         }
-        _min = Double.MAX_VALUE;
-        for (Range<Double> range : _ranges) {
-            if (range.minimum() < _min) {
-                _min = range.minimum();
-            }
-        }
-        return _min;
     }
 
 
@@ -93,21 +108,25 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * This range contains some point iff one or more of its subranges contain that point
      */
     public boolean contains(Double x) {
-        if (x == null || _ranges.size() == 0) {
-            return false;
-        }
-        else {
-            for (Range<Double> range : _ranges) {
-                if (range.contains(x)) {
-                    return true;
-                }
+        synchronized(monitor) {
+            if (x == null || _ranges.size() == 0) {
+                return false;
             }
-            return false;
+            else {
+                for (Range<Double> range : _ranges) {
+                    if (range.contains(x)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
     }
 
     public double size() {
-        return maximum() - minimum();
+        synchronized(monitor) {
+            return maximum() - minimum();
+        }
     }
 
 }
