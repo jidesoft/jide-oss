@@ -156,8 +156,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     }
 
     /**
-     * Builds the circular shape and returns the result as an array of <code>Area</code>. Each <code>Area</code> is one
-     * of the bars composing the shape.
+     * Builds the circular shape and returns the result as an array of <code>Area</code>. Each <code>Area</code> is one of the bars composing the shape.
      */
     private static Area[] buildTicker(int i_iBarCount) {
         Area[] ticker = new Area[i_iBarCount];
@@ -197,7 +196,7 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
 //        Rectangle2D.Double body = new Rectangle2D.Double(2, 0, 10, 4);
 //        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 4, 4);
 //        Ellipse2D.Double tail = new Ellipse2D.Double(10, 0, 4, 4);
-        Rectangle2D.Double body = new Rectangle2D.Double(0, 0, 6, 1);
+        Rectangle2D.Double body = new Rectangle2D.Double(2, 0, 4, 1);
 //        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 2, 2);
 //        Ellipse2D.Double tail = new Ellipse2D.Double(5, 0, 2, 2);
 
