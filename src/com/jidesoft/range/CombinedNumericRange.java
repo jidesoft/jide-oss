@@ -29,13 +29,17 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
     }
 
     /**
-     * Add a new range to this combined range. Notice this method returns this instance, so method calls can be chained
-     * together.
+     * Add a new range to this combined range. Notice the method returns this instance, so method calls can be chained
+     * together. If you pass null to this method the CombinedNumericRange remains unchanged; an Exception is
+     * NOT thrown.
      *
      * @param range the new range to add
      * @return this instance
      */
     public CombinedNumericRange add(Range<Double> range) {
+        if (range == null) {
+            return this;
+        }
         synchronized(monitor) {
             _ranges.add(range);
             _min = null;
@@ -58,7 +62,16 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
         return maximum();
     }
 
+    /**
+     * Calls to this method throw an UnsupportedOprationException. The idea is that in the case of this
+     * class we don't want to be able to mess with the lower and upper bounds as they are computed from
+     * the supplied range values. If the class needed to recompute the lower and upper bounds any previous
+     * adjustment that had been made through this method would have been lost.
+     * 
+     * @throws UnsupportedOperationException
+     */
     public void adjust(Double lower, Double upper) {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -123,6 +136,9 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
         }
     }
 
+    /**
+     * The size of the range is computed as the maximum minus the minimum value.
+     */
     public double size() {
         synchronized(monitor) {
             return maximum() - minimum();
