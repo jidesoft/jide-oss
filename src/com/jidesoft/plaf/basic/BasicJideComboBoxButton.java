@@ -43,6 +43,8 @@ public class BasicJideComboBoxButton extends JButton {
         // this is required so that the rollover state is always updated correctly.
         // remove it and the button will not be notified of a rollover-event in most cases.
         DefaultButtonModel model = new DefaultButtonModel() {
+            private static final long serialVersionUID = -5866286842846125926L;
+
             @Override
             public void setArmed(boolean armed) {
                 super.setArmed(isPressed() || armed);
@@ -75,6 +77,10 @@ public class BasicJideComboBoxButton extends JButton {
         _iconOnly = editable;
     }
 
+    @Override
+    public boolean isFocusTraversable() {
+        return false;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
