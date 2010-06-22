@@ -60,6 +60,15 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     }
 
     @Override
+    public void configureArrowButton() {
+        super.configureArrowButton();
+        if (arrowButton != null) {
+            arrowButton.setRequestFocusEnabled(false);
+            arrowButton.setFocusable(false);
+        }
+    }
+
+    @Override
     protected JButton createArrowButton() {
         JButton button = new BasicJideComboBoxButton(
                 comboBox, new BasicJideComboBoxIcon(),
