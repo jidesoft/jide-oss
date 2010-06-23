@@ -44,13 +44,19 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
         _protoType = new TristateCheckBox();
         _checkBox = createCheckBox();
         _emptyBox = (JComponent) Box.createHorizontalStrut(_protoType.getPreferredSize().width);
-        _checkBox.setOpaque(false);
         setLayout(new BorderLayout(0, 0));
         setOpaque(false);
         _actualTreeRenderer = renderer;
     }
 
-    private TristateCheckBox createCheckBox() {
+    /**
+     * Create the check box in the cell.
+     * <p>
+     * By default, it creates a TristateCheckBox and set opaque to false.
+     *
+     * @return the check box instance.
+     */
+    protected TristateCheckBox createCheckBox() {
         TristateCheckBox checkBox = new TristateCheckBox();
         checkBox.setOpaque(false);
         return checkBox;
