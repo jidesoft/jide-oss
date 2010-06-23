@@ -114,6 +114,7 @@ public class FolderToolBar extends JToolBar {
      * @param showRecentFolders the flag if show recent folders
      * @param recentFoldersList the recent folders list
      */
+
     private void setupToolBar(boolean showRecentFolders, List<String> recentFoldersList) {
 
         // add to toolbar
@@ -123,7 +124,7 @@ public class FolderToolBar extends JToolBar {
                 _recentFoldersList.setModel(new DefaultComboBoxModel((recentFoldersList.toArray())));
             }
             _recentFoldersList.setEditable(false);
-            _recentFoldersList.setRenderer(new FileListCellRenderer());
+            _recentFoldersList.setRenderer(new FileListCellRenderer(_recentFoldersList.getRenderer()));
             _recentFoldersList.addPopupMenuListener(new PopupMenuListener() {
                 private boolean m_wasCancelled = false;
 
@@ -242,10 +243,14 @@ public class FolderToolBar extends JToolBar {
 
 
     private class FileListCellRenderer implements ListCellRenderer {
-        protected DefaultListCellRenderer m_defaultRenderer = new DefaultListCellRenderer();
+        protected ListCellRenderer _delegateRenderer;
+
+        private FileListCellRenderer(ListCellRenderer delegateRenderer) {
+            _delegateRenderer = delegateRenderer;
+        }
 
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            JLabel renderer = (JLabel) m_defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            JLabel renderer = (JLabel) _delegateRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             File f = null;
             if (value instanceof File) {
                 f = (File) value;
