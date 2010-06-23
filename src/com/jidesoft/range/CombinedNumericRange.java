@@ -82,12 +82,12 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
             if (_max != null) {
                 return _max;
             }
-            if (_ranges.size() == 0) {
+            if (_ranges == null || _ranges.size() == 0) {
                 return Double.MAX_VALUE;
             }
             _max = Double.MIN_VALUE;
             for (Range<Double> range : _ranges) {
-                if (range.maximum() > _max) {
+                if (range != null && range.maximum() > _max) {
                     _max = range.maximum();
                 }
             }
@@ -103,12 +103,12 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
             if (_min != null) {
                 return _min;
             }
-            if (_ranges.size() == 0) {
+            if (_ranges == null || _ranges.size() == 0) {
                 return Double.MIN_VALUE;
             }
             _min = Double.MAX_VALUE;
             for (Range<Double> range : _ranges) {
-                if (range.minimum() < _min) {
+                if (range != null && range.minimum() < _min) {
                     _min = range.minimum();
                 }
             }
