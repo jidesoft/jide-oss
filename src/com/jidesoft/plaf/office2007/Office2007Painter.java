@@ -591,7 +591,7 @@ public class Office2007Painter extends BasicPainter {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackground(c, g, rect, orientation, state);
             return;
         }
-        paintCollapsiblePaneTitlePane(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_BG, state);
+        paintCollapsiblePaneTitlePane(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_BG, orientation, state);
     }
 
     @Override
@@ -605,7 +605,7 @@ public class Office2007Painter extends BasicPainter {
             getDefaultPainter().paintCollapsiblePaneTitlePaneBackgroundEmphasized(c, g, rect, orientation, state);
             return;
         }
-        paintCollapsiblePaneTitlePane(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG, state);
+        paintCollapsiblePaneTitlePane(c, g, rect, EMPHASIZED_COLLAPSIBLE_PANE_TITLE_BAR_BG, orientation, state);
     }
 
     @Override
@@ -636,7 +636,7 @@ public class Office2007Painter extends BasicPainter {
         paintCollapsiblePaneTitlePaneSeparator(c, g, rect, COLLAPSIBLE_PANE_TITLE_BAR_SEPARATOR_BG, state);
     }
 
-    private void paintCollapsiblePaneTitlePane(JComponent c, Graphics g, Rectangle rect, Color[] colors, int state) {
+    private void paintCollapsiblePaneTitlePane(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
         int x = rect.x;
         int y = rect.y;
         int w = rect.width;
@@ -650,17 +650,62 @@ public class Office2007Painter extends BasicPainter {
         }
         if (h != 0) {
             Graphics2D g2d = (Graphics2D) g.create();
-            if (state == ThemePainter.STATE_ROLLOVER) {
-                Color[] newColors = new Color[colors.length];
-                for (int i = 0; i < colors.length; i++) {
-                    Color color = colors[i];
-                    newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
-                }
-                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors));
+            Paint paint = null;
+            switch (orientation) {
+                case SwingConstants.EAST:
+                    if (state == ThemePainter.STATE_ROLLOVER) {
+                        Color[] newColors = new Color[colors.length];
+                        for (int i = 0; i < colors.length; i++) {
+                            Color color = colors[i];
+                            newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                        }
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y, x + w, y, new float[]{0f, .333f, .334f, 1f}, newColors);
+                    }
+                    else {
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y, x + w, y, new float[]{0f, .333f, .334f, 1f}, colors);
+                    }
+                    break;
+                case SwingConstants.WEST:
+                    if (state == ThemePainter.STATE_ROLLOVER) {
+                        Color[] newColors = new Color[colors.length];
+                        for (int i = 0; i < colors.length; i++) {
+                            Color color = colors[i];
+                            newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                        }
+                        paint = JideSwingUtilities.getLinearGradientPaint(x + w, y, x, y, new float[]{0f, .333f, .334f, 1f}, newColors);
+                    }
+                    else {
+                        paint = JideSwingUtilities.getLinearGradientPaint(x + w, y, x, y, new float[]{0f, .333f, .334f, 1f}, colors);
+                    }
+                    break;
+                case SwingConstants.NORTH:
+                    if (state == ThemePainter.STATE_ROLLOVER) {
+                        Color[] newColors = new Color[colors.length];
+                        for (int i = 0; i < colors.length; i++) {
+                            Color color = colors[i];
+                            newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                        }
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y + h, x, y, new float[]{0f, .333f, .334f, 1f}, newColors);
+                    }
+                    else {
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y + h, x, y, new float[]{0f, .333f, .334f, 1f}, colors);
+                    }
+                    break;
+                case SwingConstants.SOUTH:
+                    if (state == ThemePainter.STATE_ROLLOVER) {
+                        Color[] newColors = new Color[colors.length];
+                        for (int i = 0; i < colors.length; i++) {
+                            Color color = colors[i];
+                            newColors[i] = ColorUtils.getDerivedColor(color, 0.60f);
+                        }
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, newColors);
+                    }
+                    else {
+                        paint = JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors);
+                    }
+                    break;
             }
-            else {
-                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x, y, x, y + h, new float[]{0f, .333f, .334f, 1f}, colors));
-            }
+            g2d.setPaint(paint);
             g2d.fillRect(x, y, w, h);
             g2d.dispose();
         }
