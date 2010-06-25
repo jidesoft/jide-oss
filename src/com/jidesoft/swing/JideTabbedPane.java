@@ -8,7 +8,7 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.JideTabbedPaneUI;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.BasicJideTabbedPaneUI;
+import com.jidesoft.plaf.basic.*;
 import com.jidesoft.utils.JideFocusTracker;
 import com.jidesoft.utils.SystemInfo;
 
@@ -1869,5 +1869,15 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setCloseTabOnMouseMiddleButton(boolean closeTabOnMouseMiddleButton) {
         this.closeTabOnMouseMiddleButton = closeTabOnMouseMiddleButton;
+    }
+
+    /**
+     * Gets the resource string used in JideTabbedPane. Subclass can override it to provide their own strings.
+     *
+     * @param key the resource key
+     * @return the localized string.
+     */
+    public String getResourceString(String key) {
+        return com.jidesoft.plaf.basic.Resource.getResourceBundle(getLocale()).getString(key);
     }
 }

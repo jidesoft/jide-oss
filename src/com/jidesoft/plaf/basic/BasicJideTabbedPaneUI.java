@@ -672,6 +672,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Action action = _tabPane.getCloseAction();
             updateButtonFromAction(_tabScroller.closeButton, action);
             _tabScroller.closeButton.setAction(am.get("closeTabAction"));
+            _tabScroller.scrollForwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_FORWARD));
+            _tabScroller.scrollBackwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_BACKWARD));
+            _tabScroller.listButton.setToolTipText(getResourceString(BUTTON_NAME_TAB_LIST));
+            _tabScroller.listButton.setToolTipText(getResourceString(BUTTON_NAME_CLOSE));
         }
 
     }
@@ -9554,12 +9558,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     /**
-     * Gets the resource string used in DocumentPane. Subclass can override it to provide their own strings.
+     * Gets the resource string used in JideTabbedPane. Subclass can override it to provide their own strings.
      *
      * @param key the resource key
      * @return the localized string.
      */
     protected String getResourceString(String key) {
-        return Resource.getResourceBundle(_tabPane != null ? _tabPane.getLocale() : Locale.getDefault()).getString(key);
+        if (_tabPane != null) {
+            return _tabPane.getResourceString(key);
+        }
+        return Resource.getResourceBundle(Locale.getDefault()).getString(key);
     }
 }
