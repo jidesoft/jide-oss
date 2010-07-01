@@ -121,7 +121,7 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static final String SYNTHETICA_LNF = "de.javasoft.plaf.synthetica.SyntheticaLookAndFeel";
 
-    private static final String SYNTHETICA_LNF_PREFIX = "de.javasoft.plaf.synthetica.Synthetica";
+    public static final String SYNTHETICA_LNF_PREFIX = "de.javasoft.plaf.synthetica.Synthetica";
 
     /**
      * Class name of Plastic3D L&F before JGoodies Look 1.3 release.
