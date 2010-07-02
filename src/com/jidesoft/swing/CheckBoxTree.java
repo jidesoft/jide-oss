@@ -45,6 +45,7 @@ public class CheckBoxTree extends JTree {
     private boolean _checkBoxEnabled = true;
     private boolean _clickInCheckBoxOnly = true;
     private PropertyChangeListener _modelChangeListener;
+    private TristateCheckBox _checkBox;
 
     public CheckBoxTree() {
         init();
@@ -191,7 +192,7 @@ public class CheckBoxTree extends JTree {
      * @return the cell renderer.
      */
     protected CheckBoxTreeCellRenderer createCellRenderer(TreeCellRenderer renderer) {
-        final CheckBoxTreeCellRenderer checkBoxTreeCellRenderer = new CheckBoxTreeCellRenderer(renderer);
+        final CheckBoxTreeCellRenderer checkBoxTreeCellRenderer = new CheckBoxTreeCellRenderer(renderer, getCheckBox());
         addPropertyChangeListener(CELL_RENDERER_PROPERTY, new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 TreeCellRenderer treeCellRenderer = (TreeCellRenderer) evt.getNewValue();
@@ -213,6 +214,32 @@ public class CheckBoxTree extends JTree {
      */
     protected Handler createHandler() {
         return new Handler(this);
+    }
+
+    /**
+     * Get the CheckBox used for CheckBoxTreeCellRenderer.
+     *
+     * @see #setCheckBox(TristateCheckBox)
+     * @return the check box.
+     */
+    public TristateCheckBox getCheckBox() {
+        return _checkBox;
+    }
+
+    /**
+     * Set the CheckBox used for CheckBoxTreeCellRenderer.
+     * <p>
+     * By default, it's null. CheckBoxTreeCellRenderer then will create a default TristateCheckBox.
+     *
+     * @param checkBox the check box
+     */
+    public void setCheckBox(TristateCheckBox checkBox) {
+        if (_checkBox != checkBox) {
+            _checkBox = checkBox;
+            _treeCellRenderer = null;
+            revalidate();
+            repaint();
+        }
     }
 
     protected static class Handler implements MouseListener, KeyListener, TreeSelectionListener {

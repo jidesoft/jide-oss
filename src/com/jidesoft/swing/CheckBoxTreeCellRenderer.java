@@ -41,8 +41,17 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
     }
 
     public CheckBoxTreeCellRenderer(TreeCellRenderer renderer) {
+        this(renderer, null);
+    }
+
+    public CheckBoxTreeCellRenderer(TreeCellRenderer renderer, TristateCheckBox checkBox) {
         _protoType = new TristateCheckBox();
-        _checkBox = createCheckBox();
+        if (checkBox == null) {
+            _checkBox = createCheckBox();
+        }
+        else {
+            _checkBox = checkBox;
+        }
         _emptyBox = (JComponent) Box.createHorizontalStrut(_protoType.getPreferredSize().width);
         setLayout(new BorderLayout(0, 0));
         setOpaque(false);
