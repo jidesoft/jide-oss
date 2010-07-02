@@ -16,7 +16,7 @@ import java.io.ObjectOutputStream;
 /**
  * Copied from CellRendererPane and make it extending JComponent so that tooltips of renderer works.
  *
- * @deprecate no longer used in other JIDE classes.
+ * @deprecated no longer used in other JIDE classes.
  */
 @Deprecated
 public class JCellRendererPane extends JComponent implements Accessible {
