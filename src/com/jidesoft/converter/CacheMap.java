@@ -113,6 +113,9 @@ public class CacheMap<T, K> {
             Object object = cache.getObject(context);
             cache.setObject(context, null);
             fireRegistrationChanged(new RegistrationEvent(this, RegistrationEvent.REGISTRATION_REMOVED, object, clazz, context));
+            if (cache.size() == 0 && _cache != null) {
+                _cache.remove(clazz);
+            }
         }
     }
 
