@@ -79,12 +79,21 @@ public class ObjectConverterManager {
     }
 
     /**
-     * Unregisters converter associated with clazz.
+     * Unregisters converter associated with the class.
      *
      * @param clazz the type of which the converter will be unregistered.
      */
     public static void unregisterConverter(Class<?> clazz) {
         unregisterConverter(clazz, ConverterContext.DEFAULT_CONTEXT);
+    }
+
+    /**
+     * Unregisters all converters associated with the class.
+     *
+     * @param clazz the type of which the converter will be unregistered.
+     */
+    public static void unregisterAllConverters(Class<?> clazz) {
+        _cache.remove(clazz);
     }
 
     /**

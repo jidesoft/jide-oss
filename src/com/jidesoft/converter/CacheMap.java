@@ -113,7 +113,7 @@ public class CacheMap<T, K> {
             Object object = cache.getObject(context);
             cache.setObject(context, null);
             fireRegistrationChanged(new RegistrationEvent(this, RegistrationEvent.REGISTRATION_REMOVED, object, clazz, context));
-            if (cache.size() == 0 && _cache != null) {
+            if (cache.size() == 0) {
                 _cache.remove(clazz);
             }
         }
@@ -249,6 +249,24 @@ public class CacheMap<T, K> {
             }
         }
         return list;
+    }
+
+    /**
+     * Remove all registrations for the designated class.
+     *
+     * @param clazz the class
+     */
+    public void remove(Class<?> clazz) {
+        Cache<K, T> cache = getCache(clazz);
+        if (cache != null) {
+            Object[] keys = cache.keySet().toArray();
+            for (Object context : keys) {
+                Object object = cache.getObject((K) context);
+                cache.setObject((K) context, null);
+                fireRegistrationChanged(new RegistrationEvent(this, RegistrationEvent.REGISTRATION_REMOVED, object, clazz, context));
+            }
+        }
+        _cache.remove(clazz);
     }
 
     public void clear() {

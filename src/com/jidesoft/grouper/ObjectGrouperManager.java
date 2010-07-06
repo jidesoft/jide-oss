@@ -78,6 +78,15 @@ public class ObjectGrouperManager {
     }
 
     /**
+     * Unregisters all groupers associated with clazz.
+     *
+     * @param clazz the data type.
+     */
+    public static void unregisterAllGroupers(Class<?> clazz) {
+        _cache.remove(clazz);
+    }
+
+    /**
      * Unregisters all the groupers which registered before.
      */
     public static void unregisterAllGroupers() {

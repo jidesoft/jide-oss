@@ -49,7 +49,7 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Unregisters comparator associated with clazz and context.
+     * Unregisters comparator associated with the class and context.
      *
      * @param clazz the data type.
      */
@@ -58,7 +58,7 @@ public class ObjectComparatorManager {
     }
 
     /**
-     * Unregisters comparator associated with clazz and context.
+     * Unregisters comparator associated with the class and context.
      *
      * @param clazz   the data type.
      * @param context the comparator context.
@@ -68,6 +68,15 @@ public class ObjectComparatorManager {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
         _cache.unregister(clazz, context);
+    }
+
+    /**
+     * Unregisters all comparators associated with the class.
+     *
+     * @param clazz the data type.
+     */
+    public static void unregisterAllComparators(Class<?> clazz) {
+        _cache.remove(clazz);
     }
 
     /**
