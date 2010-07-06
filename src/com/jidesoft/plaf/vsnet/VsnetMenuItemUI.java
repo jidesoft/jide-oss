@@ -997,22 +997,46 @@ public class VsnetMenuItemUI extends MenuItemUI {
             checkIconRect.height = checkIcon.getIconHeight();
         }
 
+        // left a shadow for non-top level menu
+        if (useCheckAndArrow()) {
+            iconRect.x = (defaultShadowWidth - iconRect.width) >> 1;
+            if (text != null && !text.equals("")) {
+                textRect.x = viewRect.x + defaultShadowWidth + textIconGap;
+            }
+        }
+        else {
+//                if (icon != null) {
+//                    if (isDownArrowVisible(menuItem.getParent())) {
+//                        iconRect.x = 3;
+//                    }
+//                    else {
+//                        iconRect.x = menuItem.getInsets().left;
+//                    }
+//                    if (text != null && !text.equals("")) {
+//                        textRect.x = iconRect.x + iconRect.width + textIconGap;
+//                    }
+//                }
+//                else {
+//                    if (text != null && !text.equals("")) {
+//                        if (isDownArrowVisible(menuItem.getParent())) {
+//                            textRect.x = 3;
+//                        }
+//                        else {
+//                            textRect.x = menuItem.getInsets().left;
+//                        }
+//                    }
+//                }
+        }
+
         // Position the Accelerator text rect
         acceleratorRect.x = viewRect.x + viewRect.width - menuItemGap
                 - acceleratorRect.width;
 
         // Position the Check and Arrow Icons
         if (useCheckAndArrow()) {
-            // left a shadow for non-top level menu
             checkIconRect.x = viewRect.x + (defaultShadowWidth - checkIconRect.width) >> 1;
             arrowIconRect.x = viewRect.x + viewRect.width - menuItemGap - 5
                     - arrowIconRect.width;
-            if (text != null && !text.equals("")) {
-                textRect.x = textRect.x + checkIconRect.width + textIconGap;
-            }
-            if (icon != null) {
-                iconRect.x = iconRect.x + checkIconRect.width + textIconGap;
-            }
         }
 
         if (verticalTextPosition == SwingConstants.CENTER) {
