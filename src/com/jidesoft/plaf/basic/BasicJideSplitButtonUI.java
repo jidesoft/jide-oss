@@ -66,7 +66,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         _shadowColor = UIDefaultsLookup.getColor("controlShadow");
         _darkShadowColor = UIDefaultsLookup.getColor("controlDkShadow");
         _highlight = UIDefaultsLookup.getColor("controlHighlight");
-        _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
+        _lightHighlightColor = UIDefaultsLookup.getColor("JideButton.light");
 
         menuItem.setRolloverEnabled(true);
 
