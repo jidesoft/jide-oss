@@ -9,6 +9,8 @@ package com.jidesoft.utils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,26 +21,26 @@ import java.beans.PropertyChangeListener;
  * However, for users who are still using JDK5, you are out of luck. In this class, we provide a simple way to use those new properties
  * on JDK5. You can find more information at
  * <p/>
- * First of all, you need to subclass the button so that you can override actionPropertyChanged method. In the overridden method, you have
+ * First of all, you need to call this method.
  * <p/>
  * <code><pre>
- * protected void actionPropertyChanged(Action action, String propertyName) {
- *     super.actionPropertyChanged(action, propertyName);
- *     ActionSupportForJDK5.actionPropertyChanged(this, action, propertyName);  // this is the added line
- * }
+ * ActionSupportForJDK5.bind(button);
  * </pre></code>
  * <p/>
  * When you about to change the selected state of action, you call ActionSupportForJDK5.setActionSelected(action, selected). The selected value could
  * be true or false.
  * <p/>
  * There are also setDisplayedMnemonicIndex and setLargeIcon methods on ActionSupportForJDK5 to the other two new properties.
+ * <p/>
+ * Last but not least, if you don't use the button anymore, it is a good practice to call ActionSupportForJDK5.unbind to remove the installed listeners.
  */
 public class ActionSupportForJDK5 {
     public static final String SELECTED_KEY = "SwingSelectedKey";
     public static final String DISPLAYED_MNEMONIC_INDEX_KEY = "SwingDisplayedMnemonicIndexKey";
     public static final String LARGE_ICON_KEY = "SwingLargeIconKey";
 
-    protected static final String CLIENT_PROPERTY_EXTRA_PROPERTY_CHANGE_LISTENER = "ActionSupportForJDK5.propertyChangeListener";
+    protected static final String CLIENT_PROPERTY_PROPERTY_CHANGE_LISTENER = "ActionSupportForJDK5.propertyChangeListener";
+    protected static final String CLIENT_PROPERTY_ITEM_LISTENER = "ActionSupportForJDK5.itemListener";
 
     public static void setActionSelected(Action action, boolean selected) {
         action.putValue(SELECTED_KEY, selected);
@@ -64,7 +66,7 @@ public class ActionSupportForJDK5 {
         Object o = action.getValue(LARGE_ICON_KEY);
         return o instanceof Icon ? (Icon) o : null;
     }
-    
+
     public static void bind(final AbstractButton button, final Action action) {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
@@ -72,13 +74,24 @@ public class ActionSupportForJDK5 {
             }
         };
         action.addPropertyChangeListener(listener);
-        button.putClientProperty(CLIENT_PROPERTY_EXTRA_PROPERTY_CHANGE_LISTENER, listener);
+        ItemListener itemListener = new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                setActionSelected(action, e.getStateChange() == ItemEvent.SELECTED);
+            }
+        };
+        button.addItemListener(itemListener);
+        button.putClientProperty(CLIENT_PROPERTY_PROPERTY_CHANGE_LISTENER, listener);
+        button.putClientProperty(CLIENT_PROPERTY_ITEM_LISTENER, itemListener);
     }
 
     public static void unbind(final AbstractButton button, final Action action) {
-        Object o = button.getClientProperty(CLIENT_PROPERTY_EXTRA_PROPERTY_CHANGE_LISTENER);
-        if(o instanceof PropertyChangeListener) {
+        Object o = button.getClientProperty(CLIENT_PROPERTY_PROPERTY_CHANGE_LISTENER);
+        if (o instanceof PropertyChangeListener) {
             action.removePropertyChangeListener((PropertyChangeListener) o);
+        }
+        o = button.getClientProperty(CLIENT_PROPERTY_ITEM_LISTENER);
+        if (o instanceof PropertyChangeListener) {
+            button.removeItemListener((ItemListener) o);
         }
     }
 
@@ -113,8 +126,11 @@ public class ActionSupportForJDK5 {
             button.setSelected(flag);
             if (!flag && button.isSelected() && (button.getModel() instanceof DefaultButtonModel)) {
                 ButtonGroup buttongroup = ((DefaultButtonModel) button.getModel()).getGroup();
-                if (buttongroup != null)
-                    buttongroup.setSelected(null, false);
+                if (buttongroup != null) {
+                    buttongroup.remove(button);
+                    button.setSelected(false);
+                    buttongroup.add(button);
+                }
             }
         }
     }
@@ -150,7 +166,7 @@ public class ActionSupportForJDK5 {
         button.setIcon(icon);
     }
 
-    public static void main(String[] argv){
+    public static void main(String[] argv) {
         JFrame frame = new JFrame();
         final AbstractAction abstractAction = new AbstractAction("Action") {
             public void actionPerformed(ActionEvent actionEvent) {
@@ -158,7 +174,7 @@ public class ActionSupportForJDK5 {
             }
         };
         frame.setLayout(new FlowLayout());
-        final JButton button = new JButton(abstractAction);
+        final JToggleButton button = new JToggleButton(abstractAction);
         ButtonGroup group = new ButtonGroup();
         group.add(button);
         JToggleButton button2 = new JToggleButton("ABC");
@@ -166,7 +182,7 @@ public class ActionSupportForJDK5 {
         ActionSupportForJDK5.bind(button);
         frame.add(button);
         frame.add(button2);
-        frame.add(new JButton(new AbstractAction("Select"){
+        frame.add(new JButton(new AbstractAction("Select") {
             public void actionPerformed(ActionEvent actionEvent) {
                 ActionSupportForJDK5.setActionSelected(abstractAction, !ActionSupportForJDK5.isActionSelected(abstractAction));
             }
