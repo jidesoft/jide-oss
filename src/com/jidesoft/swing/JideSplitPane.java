@@ -910,7 +910,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         }
 //       to make sure the proportion adds up to 1 for this special case.
         if (newProportions.length == 1) {
-            newProportions[0] = 1.0;
+//            newProportions[0] = 1.0;
         }
 
         setProportions(newProportions);
