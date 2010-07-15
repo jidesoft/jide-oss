@@ -7,32 +7,32 @@
 package com.jidesoft.utils;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * In JDK6, Swing adds three new properties on Action class: SELECTED_KEY, DISPLAYED_MNEMONIC_INDEX_KEY and LARGE_ICON.
+ * In JDK6, Swing adds three new properties on Action class: SELECTED_KEY, DISPLAYED_MNEMONIC_INDEX_KEY and LARGE_ICON. You can find more information at
  * http://weblogs.java.net/blog/zixle/archive/2005/11/changes_to_acti.html
  * <p/>
  * However, for users who are still using JDK5, you are out of luck. In this class, we provide a simple way to use those new properties
- * on JDK5. You can find more information at
+ * on JDK5.
  * <p/>
  * First of all, you need to call this method.
  * <p/>
  * <code><pre>
- * ActionSupportForJDK5.bind(button);
+ * Action action = new AbstractAction("Text") {...};
+ * JButton button = new JButton(action);
+ * ActionSupportForJDK5.install(button);
  * </pre></code>
  * <p/>
  * When you about to change the selected state of action, you call ActionSupportForJDK5.setActionSelected(action, selected). The selected value could
- * be true or false.
+ * be true or false. This call will automatically make the button selected or not selected.
  * <p/>
  * There are also setDisplayedMnemonicIndex and setLargeIcon methods on ActionSupportForJDK5 to the other two new properties.
  * <p/>
- * Last but not least, if you don't use the button anymore, it is a good practice to call ActionSupportForJDK5.unbind to remove the installed listeners.
+ * Last but not least, if you don't use the button anymore, it is a good practice to call ActionSupportForJDK5.uninstall to remove the installed listeners.
  */
 public class ActionSupportForJDK5 {
     public static final String SELECTED_KEY = "SwingSelectedKey";
@@ -67,7 +67,7 @@ public class ActionSupportForJDK5 {
         return o instanceof Icon ? (Icon) o : null;
     }
 
-    public static void bind(final AbstractButton button, final Action action) {
+    public static void install(final AbstractButton button, final Action action) {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 ActionSupportForJDK5.actionPropertyChanged(button, action, e.getPropertyName());
@@ -84,25 +84,25 @@ public class ActionSupportForJDK5 {
         button.putClientProperty(CLIENT_PROPERTY_ITEM_LISTENER, itemListener);
     }
 
-    public static void unbind(final AbstractButton button, final Action action) {
+    public static void install(final AbstractButton button) {
+        Action action = button.getAction();
+        install(button, action);
+    }
+
+    public static void uninstall(final AbstractButton button, final Action action) {
         Object o = button.getClientProperty(CLIENT_PROPERTY_PROPERTY_CHANGE_LISTENER);
         if (o instanceof PropertyChangeListener) {
             action.removePropertyChangeListener((PropertyChangeListener) o);
         }
         o = button.getClientProperty(CLIENT_PROPERTY_ITEM_LISTENER);
-        if (o instanceof PropertyChangeListener) {
+        if (o instanceof ItemListener) {
             button.removeItemListener((ItemListener) o);
         }
     }
 
-    public static void bind(final AbstractButton button) {
+    public static void uninstall(final AbstractButton button) {
         Action action = button.getAction();
-        bind(button, action);
-    }
-
-    public static void unbind(final AbstractButton button) {
-        Action action = button.getAction();
-        unbind(button, action);
+        uninstall(button, action);
     }
 
     public static void actionPropertyChanged(AbstractButton button, Action action, String propertyName) {
@@ -166,29 +166,29 @@ public class ActionSupportForJDK5 {
         button.setIcon(icon);
     }
 
-    public static void main(String[] argv) {
-        JFrame frame = new JFrame();
-        final AbstractAction abstractAction = new AbstractAction("Action") {
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("print");
-            }
-        };
-        frame.setLayout(new FlowLayout());
-        final JToggleButton button = new JToggleButton(abstractAction);
-        ButtonGroup group = new ButtonGroup();
-        group.add(button);
-        JToggleButton button2 = new JToggleButton("ABC");
-        group.add(button2);
-        ActionSupportForJDK5.bind(button);
-        frame.add(button);
-        frame.add(button2);
-        frame.add(new JButton(new AbstractAction("Select") {
-            public void actionPerformed(ActionEvent actionEvent) {
-                ActionSupportForJDK5.setActionSelected(abstractAction, !ActionSupportForJDK5.isActionSelected(abstractAction));
-            }
-        }));
-        frame.pack();
-        frame.setVisible(true);
-    }
+//    public static void main(String[] argv) {
+//        JFrame frame = new JFrame();
+//        final AbstractAction abstractAction = new AbstractAction("Action") {
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                System.out.println("print");
+//            }
+//        };
+//        frame.setLayout(new FlowLayout());
+//        final JToggleButton button = new JToggleButton(abstractAction);
+//        ButtonGroup group = new ButtonGroup();
+//        group.add(button);
+//        JToggleButton button2 = new JToggleButton("ABC");
+//        group.add(button2);
+//        ActionSupportForJDK5.bind(button);
+//        frame.add(button);
+//        frame.add(button2);
+//        frame.add(new JButton(new AbstractAction("Select") {
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                ActionSupportForJDK5.setActionSelected(abstractAction, !ActionSupportForJDK5.isActionSelected(abstractAction));
+//            }
+//        }));
+//        frame.pack();
+//        frame.setVisible(true);
+//    }
 
 }
