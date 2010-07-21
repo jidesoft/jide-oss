@@ -8,13 +8,12 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.JideTabbedPaneUI;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.*;
+import com.jidesoft.plaf.basic.BasicJideTabbedPaneUI;
 import com.jidesoft.utils.JideFocusTracker;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.TabbedPaneUI;
-import javax.swing.plaf.UIResource;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -280,7 +279,6 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the UI object which implements the L&F for this component.
      *
      * @return a <code>TabbedPaneUI</code> object
-     *
      * @see #setUI
      */
     @Override
@@ -317,7 +315,6 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the name of the UI class that implements the L&F for this component.
      *
      * @return the string "TabbedPaneUI"
-     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -483,6 +480,7 @@ public class JideTabbedPane extends JTabbedPane {
     /*
     * This is called by the popup menu in the scrollrect area
     */
+
     public void popupSelectedIndex(int index) {
         setSelectedIndex(index);
     }
@@ -609,6 +607,7 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     // mtf - review if this is still needed
+
     public boolean requestFocusForVisibleComponent() {
         if (true)
             return false;
@@ -635,9 +634,9 @@ public class JideTabbedPane extends JTabbedPane {
      * <p/>
      * Be default, the flag is false. If you want to connect visibility of those two components, please set it to true.
      *
+     * @return true if the trailing component would be hidden while no buttons are visible. Otherwise false.
      * @see #isShowTabArea()
      * @see #isShowTabButtons()
-     * @return true if the trailing component would be hidden while no buttons are visible. Otherwise false.
      */
     public boolean isHideTrailingWhileNoButtons() {
         return _hideTrailingWhileNoButtons;
@@ -646,8 +645,8 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Set the flag that if the trailing component should be hidden while no buttons are visible.
      *
-     * @see #isHideTrailingWhileNoButtons()
      * @param hideTrailingWhileNoButtons the flag
+     * @see #isHideTrailingWhileNoButtons()
      */
     public void setHideTrailingWhileNoButtons(boolean hideTrailingWhileNoButtons) {
         _hideTrailingWhileNoButtons = hideTrailingWhileNoButtons;
@@ -656,6 +655,7 @@ public class JideTabbedPane extends JTabbedPane {
     /*
       * Used to allow the tabswitching to be delayed until after drag/reorder opperations are done.
       */
+
     protected class IgnoreableSingleSelectionModel extends DefaultSingleSelectionModel {
         private static final long serialVersionUID = -4321082126384337792L;
 
@@ -1059,7 +1059,6 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @param tabIndex the tab index
      * @return the flag.
-     *
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
@@ -1156,6 +1155,9 @@ public class JideTabbedPane extends JTabbedPane {
     public void insertTab(String title, Icon icon, Component component, String tip, int index) {
         // set the component to visible false initially because the layout manager will set it to visible when
         // appropriate. This also limits the flicker from mixing lightweight/heavyweight components.
+        if (component == getTabLeadingComponent() || component == getTabTrailingComponent()) {
+            return;
+        }
         if (component != null && !component.isVisible())
             component.setVisible(false);
 
@@ -1302,9 +1304,9 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabLeadingComponent(Component component) {
-        if (component != null && !(component instanceof UIResource)) {
-            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
-        }
+//        if (component != null && !(component instanceof UIResource)) {
+//            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
+//        }
         Component old = _tabLeadingComponent;
         _tabLeadingComponent = component;
         firePropertyChange(PROPERTY_TAB_LEADING_COMPONENT, old, component);
@@ -1322,9 +1324,9 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabTrailingComponent(Component component) {
-        if (component != null && !(component instanceof UIResource)) {
-            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
-        }
+//        if (component != null && !(component instanceof UIResource)) {
+//            throw new IllegalArgumentException("TabLeadingComponent must implement javax.swing.plaf.UIResource interface.");
+//        }
         Component old = _tabTrailingComponent;
         _tabTrailingComponent = component;
         firePropertyChange(PROPERTY_TAB_TRAILING_COMPONENT, old, component);
@@ -1696,7 +1698,6 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks the dragOverDisabled property. By default it is false.
      *
      * @return true or false.
-     *
      * @see #setDragOverDisabled(boolean)
      */
     public boolean isDragOverDisabled() {
