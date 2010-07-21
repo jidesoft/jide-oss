@@ -1157,10 +1157,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _tabPane.putClientProperty("html", null);
 
         if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-            iconRect.x = tabRect.x + _iconMargin;
-//            textRect.x = (icon != null ? iconRect.x + iconRect.width + _textIconGap : tabRect.x + _textPadding);
-//            iconRect.width = Math.min(iconRect.width, tabRect.width - _tabRectPadding);
-//            textRect.width = tabRect.width - _tabRectPadding - iconRect.width - (icon != null ? _textIconGap + _iconMargin : _noIconMargin);
+            if (iconRect.x - tabRect.x < _iconMargin) {
+                iconRect.x = tabRect.x + _iconMargin;
+                textRect.x = (icon != null ? iconRect.x + iconRect.width + _textIconGap : tabRect.x + _textPadding);
+                iconRect.width = Math.min(iconRect.width, tabRect.width - _tabRectPadding);
+                textRect.width = tabRect.width - _tabRectPadding - iconRect.width - (icon != null ? _textIconGap + _iconMargin : _noIconMargin);
+            }
 
             if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_COMPRESSED
                     && isShowCloseButton() && isShowCloseButtonOnTab()) {
