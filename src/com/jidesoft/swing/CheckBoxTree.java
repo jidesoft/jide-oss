@@ -371,6 +371,9 @@ public class CheckBoxTree extends JTree {
             if (treePaths == null || treePaths.length == 0 || !_tree.isEnabled()) {
                 return;
             }
+            if (treePaths.length == 1 && !_tree.isCheckBoxEnabled(treePaths[0])) {
+                return;
+            }
             CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();
             List<TreePath> pathToAdded = new ArrayList<TreePath>();
             List<TreePath> pathToRemoved = new ArrayList<TreePath>();
