@@ -21,7 +21,6 @@ import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.DimensionUIResource;
@@ -336,8 +335,6 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "Cursor.moveWest", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.MOVE_WEST),
 
                 "HeaderBox.background", defaultBackgroundColor,
-
-                "FilterField.border", new BorderUIResource(BorderFactory.createBevelBorder(BevelBorder.LOWERED)),
 
                 "Icon.floating", Boolean.TRUE,
 
