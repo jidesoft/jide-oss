@@ -249,8 +249,32 @@ public class DateUtils {
      *
      * @param dates the list of Date to calculate the minimum.
      * @return the minimum date in the Date list.
+     * @deprecated replaced by {@link #minDates(java.util.List)} to comply with the new compilation regulation. We
+     * have to delete the min(List<Calendar>) in releases earlier than 2.9.4 due to the same reason.
      */
+    @Deprecated
     public static Date min(List<Date> dates) {
+        return minDates(dates);
+    }
+
+    /**
+     * Returns the maximum Date in the Date list.
+     *
+     * @param dates the list of Date to calculate the maximum.
+     * @return the maximum date in the Date list.
+     * @deprecated replaced by {@link #maxDates(java.util.List)} to comply with the new compilation regulation. We
+     * have to delete the max(List<Calendar>) in releases earlier than 2.9.4 due to the same reason.
+     */
+    public static Date max(List<Date> dates) {
+        return maxDates(dates);
+    }
+    /**
+     * Returns the minimum Date in the Date list.
+     *
+     * @param dates the list of Date to calculate the minimum.
+     * @return the minimum date in the Date list.
+     */
+    public static Date minDates(List<Date> dates) {
         long min = Long.MAX_VALUE;
         Date minDate = null;
         for (Date value : dates) {
@@ -269,7 +293,7 @@ public class DateUtils {
      * @param dates the list of Date to calculate the maximum.
      * @return the maximum date in the Date list.
      */
-    public static Date max(List<Date> dates) {
+    public static Date maxDates(List<Date> dates) {
         long max = Long.MIN_VALUE;
         Date maxDate = null;
         for (Date value : dates) {
@@ -288,7 +312,7 @@ public class DateUtils {
      * @param calendars the list of Calendar to calculate the minimum.
      * @return the minimum calendar in the Calendar list.
      */
-    public static Calendar minCalendar(List<Calendar> calendars) {
+    public static Calendar minCalendars(List<Calendar> calendars) {
         long min = Long.MAX_VALUE;
         Calendar minCalendar = null;
         for (Calendar value : calendars) {
@@ -307,7 +331,7 @@ public class DateUtils {
      * @param calendars the list of Calendar to calculate the maximum.
      * @return the maximum calendar in the Calendar list.
      */
-    public static Calendar maxCalendar(List<Calendar> calendars) {
+    public static Calendar maxCalendars(List<Calendar> calendars) {
         long max = Long.MIN_VALUE;
         Calendar maxCalendar = null;
         for (Calendar value : calendars) {
