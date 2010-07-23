@@ -100,6 +100,11 @@ public abstract class AbstractIntelliHints implements IntelliHints {
                     }
                     return false;
                 }
+
+                @Override
+                public boolean isDelegateEnabled() {
+                    return !isHintsPopupVisible();
+                }
             });
 
         KeyStroke[] keyStrokes = getDelegateKeyStrokes();
@@ -428,6 +433,11 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         private static final long serialVersionUID = -2516216121942080133L;
 
         @Override
+        public boolean isDelegateEnabled() {
+            return isHintsPopupVisible() && getSelectedHint() != null;
+        }
+        
+        @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
             IntelliHints hints = getIntelliHints(tf);
@@ -456,7 +466,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         private static final long serialVersionUID = 1921213578011852535L;
 
         @Override
-        public boolean isEnabled() {
+        public boolean isDelegateEnabled() {
             return _textComponent.isEnabled() && isHintsPopupVisible();
         }
 
@@ -518,6 +528,23 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
         public LazyDelegateAction(KeyStroke keyStroke) {
             _keyStroke = keyStroke;
+        }
+        
+        @Override
+        public boolean isDelegateEnabled() {
+            Action action = getHintsPopupAction();
+            return action != null && action.isEnabled();
+        }
+        
+        private Action getHintsPopupAction() {
+            if (isHintsPopupVisible()) {
+                Object key = getDelegateComponent().getInputMap().get(_keyStroke);
+                key = key == null ? getTextComponent().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).get(_keyStroke) : key;
+                if (key != null) {
+                    return getDelegateComponent().getActionMap().get(key);
+                }
+            }
+            return null;
         }
 
         @Override

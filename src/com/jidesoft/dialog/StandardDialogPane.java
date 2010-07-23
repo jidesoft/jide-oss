@@ -42,7 +42,6 @@ import java.awt.event.KeyEvent;
  * </pre></code>
  */
 abstract public class StandardDialogPane extends JPanel implements ButtonNames {
-    private boolean _lazyConstructorCalled = false;
 
     protected JComponent _bannerPanel;
     protected JComponent _contentPanel;
@@ -118,14 +117,25 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
 
             if (getDefaultCancelAction() != null) {
                 getRootPane().registerKeyboardAction(new DelegateAction(getDefaultCancelAction()) {
+                    private static final long serialVersionUID = 7321038745798788445L;
+
                     @Override
                     public boolean delegateActionPerformed(ActionEvent e) {
-                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
-                        if (selectedPath != null && selectedPath.length > 0) {
+                        if (hasSelectionPath()) {
                             MenuSelectionManager.defaultManager().clearSelectedPath();
                             return true;
                         }
                         return false;
+                    }
+
+                    @Override
+                    public boolean isDelegateEnabled() {
+                        return hasSelectionPath();
+                    }
+
+                    private boolean hasSelectionPath() {
+                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
+                        return selectedPath != null && selectedPath.length > 0;
                     }
                 }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
             }
@@ -142,9 +152,9 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
      * <p/>
      * Subclass can override it to do your own layout. The three panels are the three parameters.
      *
-     * @param bannerPanel
-     * @param contentPanel
-     * @param buttonPanel
+     * @param bannerPanel  the banner panel
+     * @param contentPanel the content panel
+     * @param buttonPanel  the button panel
      */
     protected void layoutComponents(Component bannerPanel, Component contentPanel, ButtonPanel buttonPanel) {
         setLayout(new BorderLayout());
@@ -177,7 +187,7 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
     /**
      * Sets the initial focused component when dialog is shown.
      *
-     * @param initFocusedComponent
+     * @param initFocusedComponent the initial focused component
      */
     public void setInitFocusedComponent(Component initFocusedComponent) {
         _initFocusedComponent = initFocusedComponent;

@@ -322,12 +322,16 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 6, 10));
 
         AbstractAction okAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.okButtonText")) {
+            private static final long serialVersionUID = -326622280892936635L;
+
             public void actionPerformed(ActionEvent e) {
                 setDialogResult(RESULT_AFFIRMED);
                 setVisible(false);
             }
         };
         AbstractAction cancelAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.cancelButtonText")) {
+            private static final long serialVersionUID = 7131352846873132805L;
+
             public void actionPerformed(ActionEvent e) {
                 setDialogResult(RESULT_CANCELLED);
                 setVisible(false);
@@ -352,14 +356,25 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         public void propertyChange(PropertyChangeEvent evt) {
             if (StandardDialogPane.PROPERTY_CANCEL_ACTION.equals(evt.getPropertyName())) {
                 DelegateAction delegateAction = new DelegateAction(getDefaultCancelAction()) {
+                    private static final long serialVersionUID = -2136676357204671812L;
+
                     @Override
                     public boolean delegateActionPerformed(ActionEvent e) {
-                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
-                        if (selectedPath != null && selectedPath.length > 0) {
+                        if (hasSelectionPath()) {
                             MenuSelectionManager.defaultManager().clearSelectedPath();
                             return true;
                         }
                         return false;
+                    }
+                    
+                    @Override
+                    public boolean isDelegateEnabled() {
+                        return hasSelectionPath();
+                    }
+
+                    private boolean hasSelectionPath() {
+                        MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
+                        return selectedPath != null && selectedPath.length > 0;
                     }
                 };
                 DelegateAction.replaceAction(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), delegateAction, false);
