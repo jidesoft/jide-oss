@@ -265,6 +265,7 @@ public class DateUtils {
      * @deprecated replaced by {@link #maxDates(java.util.List)} to comply with the new compilation regulation. We
      * have to delete the max(List<Calendar>) in releases earlier than 2.9.4 due to the same reason.
      */
+    @Deprecated
     public static Date max(List<Date> dates) {
         return maxDates(dates);
     }
