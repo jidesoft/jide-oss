@@ -241,7 +241,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected boolean _mouseEnter = false;
 
-    protected int _indexMouseOver = -1;
+    protected int _indexMouseOver;
 
     protected boolean _alwaysShowLineBorder = false;
     protected boolean _showFocusIndicator = false;
@@ -272,6 +272,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (_tabPane.isTabShown() && _tabPane.getTabTrailingComponent() != null) {
             _tabTrailingComponent = _tabPane.getTabTrailingComponent();
         }
+
+        setMouseOverTabIndex(-1);
 
         c.setLayout(createLayoutManager());
         installComponents();
@@ -9481,7 +9483,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             super.mouseMoved(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
             if (tabIndex != _indexMouseOver) {
-                _indexMouseOver = tabIndex;
+                setMouseOverTabIndex(tabIndex);
                 _tabPane.repaint();
             }
 
@@ -9500,14 +9502,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             super.mouseEntered(e);
             int tabIndex = getTabAtLocation(e.getX(), e.getY());
             _mouseEnter = true;
-            _indexMouseOver = tabIndex;
+            setMouseOverTabIndex(tabIndex);
             _tabPane.repaint();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             super.mouseExited(e);
-            _indexMouseOver = -1;
+            setMouseOverTabIndex(-1);
             _mouseEnter = false;
             _tabPane.repaint();
         }
@@ -9519,7 +9521,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             super.mouseMoved(e);
             int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
             if (tabIndex != _indexMouseOver) {
-                _indexMouseOver = tabIndex;
+                setMouseOverTabIndex(tabIndex);
                 _tabPane.repaint();
             }
 
@@ -9533,14 +9535,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             super.mouseEntered(e);
             int tabIndex = tabForCoordinate(_tabPane, e.getX(), e.getY());
             _mouseEnter = true;
-            _indexMouseOver = tabIndex;
+            setMouseOverTabIndex(tabIndex);
             _tabPane.repaint();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             super.mouseExited(e);
-            _indexMouseOver = -1;
+            setMouseOverTabIndex(-1);
             _mouseEnter = false;
             _tabPane.repaint();
         }
@@ -9591,5 +9593,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return _tabPane.getResourceString(key);
         }
         return Resource.getResourceBundle(Locale.getDefault()).getString(key);
+    }
+
+    private void setMouseOverTabIndex(int index) {
+        _indexMouseOver = index;
+        _tabPane.putClientProperty("JideTabbedPane.mouseOverTabIndex", _indexMouseOver);
     }
 }
