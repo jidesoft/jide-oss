@@ -282,44 +282,6 @@ public class DateUtils {
         return maxDate;
     }
 
-    /**
-     * Returns the minimum Calendar in the Calendar list.
-     *
-     * @param calendars the list of Calendar to calculate the minimum.
-     * @return the minimum calendar in the Calendar list.
-     */
-    public static Calendar min(List<Calendar> calendars) {
-        long min = Long.MAX_VALUE;
-        Calendar minCalendar = null;
-        for (Calendar value : calendars) {
-            long v = value.getTimeInMillis();
-            if (v < min) {
-                min = v;
-                minCalendar = value;
-            }
-        }
-        return minCalendar;
-    }
-
-    /**
-     * Returns the maximum Calendar in the Calendar list.
-     *
-     * @param calendars the list of Calendar to calculate the maximum.
-     * @return the maximum calendar in the Calendar list.
-     */
-    public static Calendar max(List<Calendar> calendars) {
-        long max = Long.MIN_VALUE;
-        Calendar maxCalendar = null;
-        for (Calendar value : calendars) {
-            long v = value.getTimeInMillis();
-            if (v > max) {
-                max = v;
-                maxCalendar = value;
-            }
-        }
-        return maxCalendar;
-    }
-
 //    public static void main(String[] args) {
 //        Calendar cal = Calendar.getInstance();
 //        for (int i = 0; i < 400; i++) {
