@@ -2863,6 +2863,46 @@ public class JideSwingUtilities implements SwingConstants {
         Font.getFont("emphasizedFont");
     }
 
+//    public static void drawTileImage(Graphics g, ImageIcon img, Rectangle rect, Insets ins, boolean horizontal) {
+//        int left = ins.left;
+//        int right = ins.right;
+//        int top = ins.top;
+//        int bottom = ins.bottom;
+//        int x = rect.x;
+//        int y = rect.y;
+//        int w = rect.width;
+//        int h = rect.height;
+//        int width = img.getIconWidth();
+//        int height = img.getIconHeight();
+//
+//        if (horizontal) {
+//            w += x;
+//            while (x < w) {
+//                int aw = (w - x) < width ? w - x : width;
+//                g.drawImage(img.getImage(), x, y, x + aw, y + top,
+//                        0, 0, aw, top, null);
+//                g.drawImage(img.getImage(), x, y + top, x + aw, h - bottom,
+//                        0, top, aw, height - bottom, null);
+//                g.drawImage(img.getImage(), x, h - bottom, x + aw, h,
+//                        0, height - bottom, aw, height, null);
+//                x += aw;
+//            }
+//        }
+//        else {
+//            h += y;
+//            while (y < h) {
+//                int ah = (h - y) < height ? h - y : height;
+//                g.drawImage(img.getImage(), x, y, x + left, y + ah,
+//                        0, 0, left, ah, null);
+//                g.drawImage(img.getImage(), x + left, y, x + width - right, y + ah,
+//                        left, 0, width - right, ah, null);
+//                g.drawImage(img.getImage(), x + width - right, y, x + width, y + ah,
+//                        width - right, 0, width, ah, null);
+//                y += height;
+//            }
+//        }
+//    }
+
     /**
      * Draws a border based on an image. The image can be divided into nine different areas. Each area size is
      * determined by the insets.
