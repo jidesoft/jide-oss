@@ -465,11 +465,20 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         _tabListBackground = UIDefaultsLookup.getColor("JideTabbedPane.tabListBackground");
 
         _textIconGap = UIDefaultsLookup.getInt("JideTabbedPane.textIconGap");
-        _tabInsets = UIDefaultsLookup.getInsets("JideTabbedPane.tabInsets");
+
+        Insets tabInsets = _tabPane.getTabInsets();
+        if (tabInsets == null || tabInsets instanceof UIResource) {
+            _tabPane.setTabInsets(UIDefaultsLookup.getInsets("JideTabbedPane.tabInsets"));
+        }
+
         _selectedTabPadInsets = UIDefaultsLookup.getInsets("TabbedPane.selectedTabPadInsets");
         if (_selectedTabPadInsets == null) _selectedTabPadInsets = new InsetsUIResource(0, 0, 0, 0);
-        _tabAreaInsets = UIDefaultsLookup.getInsets("JideTabbedPane.tabAreaInsets");
-        if (_tabAreaInsets == null) _tabAreaInsets = new InsetsUIResource(0, 0, 0, 0);
+
+        Insets tabAreaInsets = _tabPane.getTabAreaInsets();
+        if (tabAreaInsets == null || tabAreaInsets instanceof UIResource) {
+            _tabPane.setTabAreaInsets(UIDefaultsLookup.getInsets("JideTabbedPane.tabAreaInsets"));
+        }
+
         Insets insets = _tabPane.getContentBorderInsets();
         if (insets == null || insets instanceof UIResource) {
             _tabPane.setContentBorderInsets(UIDefaultsLookup.getInsets("JideTabbedPane.contentBorderInsets"));
@@ -4840,7 +4849,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     @SuppressWarnings({"UnusedDeclaration"})
     protected Insets getTabInsets(int tabPlacement, int tabIndex) {
-        rotateInsets(_tabInsets, _currentTabInsets, tabPlacement);
+        rotateInsets(_tabPane.getTabInsets(), _currentTabInsets, tabPlacement);
         return _currentTabInsets;
     }
 
@@ -4850,7 +4859,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected Insets getTabAreaInsets(int tabPlacement) {
-        rotateInsets(_tabAreaInsets, _currentTabAreaInsets, tabPlacement);
+        rotateInsets(_tabPane.getTabAreaInsets(), _currentTabAreaInsets, tabPlacement);
         return _currentTabAreaInsets;
     }
 
@@ -5136,6 +5145,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public static void rotateInsets(Insets topInsets, Insets targetInsets, int targetPlacement) {
+        if (topInsets == null) {
+            targetInsets.top = 0;
+            targetInsets.left = 0;
+            targetInsets.bottom = 0;
+            targetInsets.right = 0;
+            return;
+        }
+        
         switch (targetPlacement) {
             case LEFT:
                 targetInsets.top = topInsets.left;
@@ -7248,6 +7265,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
             if (isTabLeadingComponentVisible()) {
                 totalHeight += tsize.height;
+            }
+        }
+
+        if (_tabPane.getTabAlignment() == SwingConstants.CENTER) {
+            if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
+                int startX = _rects[0].x;
+                int endX = _rects[_rects.length - 1].x + _rects[_rects.length - 1].width;
+                int width = _tabPane.getWidth();
+                int offset = width / 2 - (endX - startX) / 2 - startX;
+                for (Rectangle rect : _rects) {
+                    rect.x += offset;
+                }
             }
         }
 

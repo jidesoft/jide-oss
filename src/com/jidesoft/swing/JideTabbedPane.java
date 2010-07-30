@@ -53,6 +53,8 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _scrollSelectedTabOnWheel = false;
 
+    private int _tabAlignment = SwingConstants.LEADING;
+
     /**
      * Bound property name for shrink tabs.
      */
@@ -130,6 +132,8 @@ public class JideTabbedPane extends JTabbedPane {
     public static final String PROPERTY_TAB_TRAILING_COMPONENT = "tabTrailingComponent";
     public static final String PROPERTY_TAB_COLOR_PROVIDER = "tabColorProvider";
     public static final String PROPERTY_CONTENT_BORDER_INSETS = "contentBorderInsets";
+    public static final String PROPERTY_TAB_AREA_INSETS = "tabAreaInsets";
+    public static final String PROPERTY_TAB_INSETS = "tabInsets";
     public static final String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
     public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
     public static final String PROPERTY_SELECTED_INDEX = "selectedIndex";
@@ -229,6 +233,8 @@ public class JideTabbedPane extends JTabbedPane {
     private ListCellRenderer _tabListCellRenderer;
 
     private Insets _contentBorderInsets;
+    private Insets _tabAreaInsets;
+    private Insets _tabInsets;
 
     private static final Logger LOGGER_EVENT = Logger.getLogger(TabEditingEvent.class.getName());
 
@@ -1694,6 +1700,38 @@ public class JideTabbedPane extends JTabbedPane {
         firePropertyChange(PROPERTY_CONTENT_BORDER_INSETS, old, _contentBorderInsets);
     }
 
+    public Insets getTabAreaInsets() {
+        return _tabAreaInsets;
+    }
+
+    /**
+     * Sets the tab area insets. It's the inserts around the tabs. The direction of the insets
+     * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
+     *
+     * @param tabAreaInsets the content border insets
+     */
+    public void setTabAreaInsets(Insets tabAreaInsets) {
+        Insets old = _tabAreaInsets;
+        _tabAreaInsets = tabAreaInsets;
+        firePropertyChange(PROPERTY_TAB_AREA_INSETS, old, _tabAreaInsets);
+    }
+
+    public Insets getTabInsets() {
+        return _tabInsets;
+    }
+
+    /**
+     * Sets the tab insets. It's the inserts around the JideTabbedPane's tab. The direction of the insets
+     * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
+     *
+     * @param tabInsets the content border insets
+     */
+    public void setTabInsets(Insets tabInsets) {
+        Insets old = _tabInsets;
+        _tabInsets = tabInsets;
+        firePropertyChange(PROPERTY_TAB_INSETS, old, _tabInsets);
+    }
+
     /**
      * Checks the dragOverDisabled property. By default it is false.
      *
@@ -1858,6 +1896,40 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setCloseTabOnMouseMiddleButton(boolean closeTabOnMouseMiddleButton) {
         this.closeTabOnMouseMiddleButton = closeTabOnMouseMiddleButton;
+    }
+
+    /**
+     * Returns the placement of the tabs for this tabbed pane.
+     * @see #setTabPlacement
+     */
+    public int getTabAlignment() {
+        return _tabAlignment;
+    }
+
+    /**
+     * Sets the tab alignment for the tabs of a tabbed pane. Currently it only supports top and bottom tab placement.
+     * Possible values are:<ul>
+     * <li><code>JideTabbedPane.LEADING</code>
+     * <li><code>JideTabbedPane.CENTER</code>
+     * </ul>
+     * The default value, if not set, is <code>JideTabbedPane.LEADING</code>.
+     *
+     * @param tabAlignment the alignment for the tabs relative to the content
+     * @exception IllegalArgumentException if tab alignment value isn't one
+     *                          of the above valid values
+     *
+     */
+    public void setTabAlignment(int tabAlignment) {
+        if (tabAlignment != LEADING && tabAlignment != CENTER) {
+            throw new IllegalArgumentException("illegal tab alignment: must be LEADING or CENTER");
+        }
+        if (_tabAlignment != tabAlignment) {
+            int oldValue = _tabAlignment;
+            _tabAlignment = tabAlignment;
+            firePropertyChange("tabAlignment", oldValue, tabAlignment);
+            revalidate();
+            repaint();
+        }
     }
 
     /**
