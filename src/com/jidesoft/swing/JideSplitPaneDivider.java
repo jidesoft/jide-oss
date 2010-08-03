@@ -88,7 +88,9 @@ public class JideSplitPaneDivider extends JPanel
 
         setBackground(UIDefaultsLookup.getColor("JideSplitPaneDivider.background"));
         setBorder(UIDefaultsLookup.getBorder("JideSplitPaneDivider.border"));
-        oneTouchExpandableChanged();
+        if (_jideSplitPane.isOneTouchExpandable()) {
+            oneTouchExpandableChanged();
+        }
         _gripperPainter = (Painter) UIDefaultsLookup.get("JideSplitPaneDivider.gripperPainter");
         setOpaque(false);
         setLayout(null);
