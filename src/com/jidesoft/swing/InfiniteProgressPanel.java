@@ -44,15 +44,18 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
     private Color[] colors = null;
     private int colorOffset = 0;
     private boolean tempHide = false;
-    private String text;
 
     public InfiniteProgressPanel() {
+        this(1);
+    }
+
+    public InfiniteProgressPanel(double ratio) {
         this.numBars = DEFAULT_NUMBER_OF_BARS;
 
         colors = new Color[numBars * 2];
 
         // build bars
-        bars = buildTicker(numBars);
+        bars = buildTicker(numBars, ratio);
 
         // calculate bars bounding rectangle
         barsBounds = new Rectangle();
@@ -155,16 +158,16 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
         }
     }
 
-    /**
+    /*
      * Builds the circular shape and returns the result as an array of <code>Area</code>. Each <code>Area</code> is one of the bars composing the shape.
      */
-    private static Area[] buildTicker(int i_iBarCount) {
+    private static Area[] buildTicker(int i_iBarCount, double ratio) {
         Area[] ticker = new Area[i_iBarCount];
         Point2D.Double center = new Point2D.Double(0, 0);
         double fixedAngle = 2.0 * Math.PI / ((double) i_iBarCount);
 
         for (double i = 0.0; i < (double) i_iBarCount; i++) {
-            Area primitive = buildPrimitive();
+            Area primitive = buildPrimitive(ratio);
 
             AffineTransform toCenter = AffineTransform.getTranslateInstance(center.getX(), center.getY());
             AffineTransform toBorder = AffineTransform.getTranslateInstance(2.0, -0.4);
@@ -183,10 +186,10 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
         return ticker;
     }
 
-    /**
+    /*
      * Builds a bar.
      */
-    private static Area buildPrimitive() {
+    private static Area buildPrimitive(double ratio) {
 //        Rectangle2D.Double body = new Rectangle2D.Double(6, 0, 30, 12);
 //        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 12, 12);
 //        Ellipse2D.Double tail = new Ellipse2D.Double(30, 0, 12, 12);
@@ -196,16 +199,15 @@ public class InfiniteProgressPanel extends JComponent implements ActionListener 
 //        Rectangle2D.Double body = new Rectangle2D.Double(2, 0, 10, 4);
 //        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 4, 4);
 //        Ellipse2D.Double tail = new Ellipse2D.Double(10, 0, 4, 4);
-        Rectangle2D.Double body = new Rectangle2D.Double(2, 0, 4, 1);
+        Rectangle2D.Double body = new Rectangle2D.Double(2 * ratio, 0, 4 * ratio, ratio);
 //        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 2, 2);
 //        Ellipse2D.Double tail = new Ellipse2D.Double(5, 0, 2, 2);
 
 
-        Area tick = new Area(body);
-//        tick.add(new Area(head));
+        //        tick.add(new Area(head));
 //        tick.add(new Area(tail));
 //
-        return tick;
+        return new Area(body);
     }
 
     public void start() {
