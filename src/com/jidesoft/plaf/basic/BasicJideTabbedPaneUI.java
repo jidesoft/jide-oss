@@ -4131,7 +4131,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
 
             // Fill region behind content area
-//            paintContentBorder(g, x, y, w, h);
+            paintContentBorder(g, x, y, w, h);
 
             switch (tabPlacement) {
                 case LEFT:
