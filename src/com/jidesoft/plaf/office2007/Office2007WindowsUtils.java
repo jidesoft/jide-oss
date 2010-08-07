@@ -10,7 +10,9 @@ import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
+import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.office2003.Office2003WindowsUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -97,7 +99,13 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                Office2007Painter.getInstance().paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    BasicPainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                }
             }
         };
 

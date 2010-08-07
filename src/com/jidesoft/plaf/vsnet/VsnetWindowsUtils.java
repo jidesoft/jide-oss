@@ -144,9 +144,12 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                ThemePainter painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
-                if (painter != null) {
-                    painter.paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    BasicPainter.getInstance().paintGripper(c, g, rect, orientation, state);
                 }
             }
         };

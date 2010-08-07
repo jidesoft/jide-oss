@@ -11,6 +11,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.metal.MetalPainter;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -107,7 +108,13 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                MetalPainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    MetalPainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                }
             }
         };
 

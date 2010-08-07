@@ -90,7 +90,13 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                Office2003Painter.getInstance().paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    Office2003Painter.getInstance().paintGripper(c, g, rect, orientation, state);
+                }
             }
         };
 

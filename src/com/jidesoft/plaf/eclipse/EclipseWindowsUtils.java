@@ -14,6 +14,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
+import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.HeaderCellBorder;
 import com.jidesoft.swing.JideButton;
@@ -127,7 +128,13 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                EclipsePainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    EclipsePainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                }
             }
         };
 

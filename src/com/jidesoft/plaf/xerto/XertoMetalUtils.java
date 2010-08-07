@@ -210,7 +210,13 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                XertoPainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                Object p = UIDefaultsLookup.get("Theme.painter");
+                if(p instanceof ThemePainter) {
+                    ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
+                }
+                else {
+                    XertoPainter.getInstance().paintGripper(c, g, rect, orientation, state);
+                }
             }
         };
 
