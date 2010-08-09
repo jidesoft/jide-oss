@@ -502,7 +502,7 @@ public class Calculator extends JPanel implements ActionListener {
         if (_op1.length() == 0) { // _op1 does not have input yet, make it 0
             _op1.append("0");
         }
-        else if (getOperator() == OPERATOR_NONE) { // normal process
+        else if (getOperator() == OPERATOR_NONE || _clearOperatorPending) { // normal process or just pressed =
             _op2.setLength(0);
             calculateResult(false);
         }
