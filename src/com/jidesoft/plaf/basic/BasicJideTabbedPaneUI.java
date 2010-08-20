@@ -680,7 +680,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _tabScroller.scrollForwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_FORWARD));
             _tabScroller.scrollBackwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_BACKWARD));
             _tabScroller.listButton.setToolTipText(getResourceString(BUTTON_NAME_TAB_LIST));
-            _tabScroller.listButton.setToolTipText(getResourceString(BUTTON_NAME_CLOSE));
+            _tabScroller.closeButton.setToolTipText(getResourceString(BUTTON_NAME_CLOSE));
         }
 
     }
