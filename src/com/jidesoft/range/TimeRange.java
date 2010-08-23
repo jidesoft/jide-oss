@@ -7,6 +7,8 @@
 
 package com.jidesoft.range;
 
+import com.jidesoft.swing.JideSwingUtilities;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,9 +53,6 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public TimeRange(Date from, Date to) {
-        if (from == null || to == null) {
-            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
-        }
         _min = from;
         _max = to;
     }
@@ -64,9 +63,6 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public void setMin(Date from) {
-        if (from == null) {
-            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
-        }
         Date oldValue = _min;
         _min = from;
         firePropertyChange(PROPERTY_MIN, oldValue, _min);
@@ -84,9 +80,6 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public void setMax(Date to) {
-        if (to == null) {
-            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
-        }
         Date oldValue = _max;
         _max = to;
         firePropertyChange(PROPERTY_MAX, oldValue, _max);
@@ -99,11 +92,11 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public double minimum() {
-        return _min.getTime();
+        return _min == null ? Double.MIN_VALUE : _min.getTime();
     }
 
     public double maximum() {
-        return _max.getTime();
+        return _max == null ? Double.MAX_VALUE : _max.getTime();
     }
 
     public double size() {
@@ -151,10 +144,10 @@ public class TimeRange extends AbstractRange<Date> {
         else if (r2 == null) {
             return r1;
         }
-        long r1Min = r1._min.getTime();
-        long r2Min = r2._min.getTime();
-        long r1Max = r1._max.getTime();
-        long r2Max = r2._max.getTime();
+        long r1Min = r1._min == null ? Long.MAX_VALUE : r1._min.getTime();
+        long r2Min = r2._min == null ? Long.MAX_VALUE : r2._min.getTime();
+        long r1Max = r1._max == null ? Long.MIN_VALUE : r1._max.getTime();
+        long r2Max = r2._max == null ? Long.MIN_VALUE : r2._max.getTime();
 
         long min = Math.min(r1Min, r2Min);
         long max = Math.max(r1Max, r2Max);
@@ -166,7 +159,7 @@ public class TimeRange extends AbstractRange<Date> {
     public boolean equals(Object other) {
         if (other instanceof TimeRange) {
             TimeRange otherRange = (TimeRange) other;
-            return _min == otherRange._min && _max == otherRange._max;
+            return JideSwingUtilities.equals(_min, otherRange._min) && JideSwingUtilities.equals(_max, otherRange._max);
         }
         else {
             return false;
@@ -176,6 +169,6 @@ public class TimeRange extends AbstractRange<Date> {
     @Override
     public String toString() {
         DateFormat f = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
-        return String.format("[%s, %s] rounded to [%s, %s]", f.format(_min), f.format(_max), f.format(minimum()), f.format(maximum()));
+        return String.format("[%s, %s] rounded to [%s, %s]", _min == null ? "null" : f.format(_min), _max == null ? "null" : f.format(_max), _min == null ? "null" : f.format(minimum()), _max == null ? "null" : f.format(maximum()));
     }
 }
