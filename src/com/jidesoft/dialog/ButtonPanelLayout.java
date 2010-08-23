@@ -240,6 +240,13 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 (int) Math.min(
                         (long) size.height + (long) insets.top + (long) insets.bottom,
                         Integer.MAX_VALUE);
+        Dimension preferredSize = preferredLayoutSize(target);
+        if (size.width > preferredSize.width) {
+            size.width = preferredSize.width;
+        }
+        if (size.height > preferredSize.height) {
+            size.height = preferredSize.height;
+        }
         return size;
     }
 
@@ -270,6 +277,13 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 (int) Math.min(
                         (long) size.height + (long) insets.top + (long) insets.bottom,
                         Integer.MAX_VALUE);
+        Dimension preferredSize = preferredLayoutSize(target);
+        if (size.width < preferredSize.width) {
+            size.width = preferredSize.width;
+        }
+        if (size.height < preferredSize.height) {
+            size.height = preferredSize.height;
+        }
         return size;
     }
 
