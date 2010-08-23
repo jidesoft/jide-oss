@@ -51,6 +51,9 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public TimeRange(Date from, Date to) {
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
+        }
         _min = from;
         _max = to;
     }
@@ -61,6 +64,9 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public void setMin(Date from) {
+        if (from == null) {
+            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
+        }
         Date oldValue = _min;
         _min = from;
         firePropertyChange(PROPERTY_MIN, oldValue, _min);
@@ -78,6 +84,9 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public void setMax(Date to) {
+        if (to == null) {
+            throw new IllegalArgumentException("Cannot accept null as a start or end date in TimeRange.");
+        }
         Date oldValue = _max;
         _max = to;
         firePropertyChange(PROPERTY_MAX, oldValue, _max);
