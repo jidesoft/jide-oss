@@ -499,8 +499,7 @@ public class IconsFactory {
     private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
         InputStream resource = baseClass.getResourceAsStream(file);
         if (resource == null) {
-            System.err.println("Image file " + file + " is missing");
-            return null;
+            throw new FileNotFoundException(file);
         }
         else {
             Image image;
