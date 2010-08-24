@@ -7,8 +7,12 @@ package com.jidesoft.swing;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
+import sun.reflect.misc.MethodUtil;
 
 import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.synth.SynthLookAndFeel;
+import java.lang.reflect.Method;
 
 /**
  * <tt>RangeSlider</tt> is a slider that can be used to select a range. A regular slider has only one thumb. So it can
@@ -19,7 +23,9 @@ import javax.swing.*;
  */
 public class RangeSlider extends JSlider {
 
-    private static final String uiClassID = "RangeSliderUI";
+    private static final String uiClassID = "SliderUI";
+
+    private boolean _rangeDraggable = true;
 
     /**
      * Creates a horizontal range slider with the range 0 to 100 and initial low and high values both at 50.
@@ -68,10 +74,26 @@ public class RangeSlider extends JSlider {
      */
     @Override
     public void updateUI() {
-        if (UIDefaultsLookup.get(uiClassID) == null) {
-            LookAndFeelFactory.installJideExtension();
+        if (!UIManager.getLookAndFeel().getClass().isAssignableFrom(SynthLookAndFeel.class)) {
+            if (UIDefaultsLookup.get("RangeSliderUI") == null) {
+                LookAndFeelFactory.installJideExtension();
+            }
+            try {
+                Class<?> uiClass = Class.forName(UIManager.getString("RangeSliderUI"));
+                Class acClass = javax.swing.JComponent.class;
+                Method m = uiClass.getMethod("createUI", new Class[]{acClass});
+                if (m != null) {
+                    Object uiObject = MethodUtil.invoke(m, null, new Object[]{this});
+                    setUI((ComponentUI) uiObject);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        setUI(UIManager.getUI(this));
+        else {
+            setUI(UIManager.getUI(this));
+        }
     }
 
 
@@ -115,6 +137,11 @@ public class RangeSlider extends JSlider {
         return (value >= getLowValue() && value <= getHighValue());
     }
 
+    @Override
+    public void setValue(int value) {
+        setLowValue(value);
+    }
+
     /**
      * Sets the range slider's low value.  This method just forwards the value to the model.
      *
@@ -141,5 +168,23 @@ public class RangeSlider extends JSlider {
      */
     public void setHighValue(int highValue) {
         getModel().setExtent(highValue - getLowValue());
+    }
+
+    /**
+     * Checks if the range is draggable. If true, user can drag the area between the two thumbs to drag the range.
+     *
+     * @return true or false.
+     */
+    public boolean isRangeDraggable() {
+        return _rangeDraggable;
+    }
+
+    /**
+     * Sets the flag if the range is draggable. If true, user can drag the area between the two thumbs to drag the range.
+     *
+     * @param rangeDraggable true or false.
+     */
+    public void setRangeDraggable(boolean rangeDraggable) {
+        _rangeDraggable = rangeDraggable;
     }
 }

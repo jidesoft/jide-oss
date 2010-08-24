@@ -1,25 +1,25 @@
 /*
- * @(#)BasicNewRangeSliderUI.java 7/3/2010
+ * @(#)WindowsRangeSliderUI.java 7/2/2010
  *
  * Copyright 2002 - 2010 JIDE Software Inc. All rights reserved.
  */
 
-package com.jidesoft.plaf.basic;
+package com.jidesoft.plaf.windows;
 
 import com.jidesoft.swing.RangeSlider;
+import com.sun.java.swing.plaf.windows.WindowsSliderUI;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 
 /**
- * BasicRangeSliderUI implementation
+ * WindowsRangeSliderUI implementation
  */
-public class BasicRangeSliderUI extends BasicSliderUI {
-    public BasicRangeSliderUI(JSlider slider) {
+public class WindowsRangeSliderUI extends WindowsSliderUI {
+    public WindowsRangeSliderUI(JSlider slider) {
         super(slider);
     }
 
@@ -28,7 +28,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
     // ********************************
 
     public static ComponentUI createUI(JComponent slider) {
-        return new BasicRangeSliderUI((JSlider) slider);
+        return new WindowsRangeSliderUI((JSlider) slider);
     }
 
     @Override

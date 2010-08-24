@@ -10,7 +10,6 @@ import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
 import com.jidesoft.swing.JideButton;
@@ -45,6 +44,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
         table.put("JidePopupMenuUI", aquaPackageName + "AquaJidePopupMenuUI");
         table.put("JideTabbedPaneUI", aquaPackageName + "AquaJideTabbedPaneUI");
         table.put("GripperUI", aquaPackageName + "AquaGripperUI");
+        table.put("RangeSliderUI", aquaPackageName + "AquaRangeSliderUI");
 
         if ((products & PRODUCT_GRIDS) != 0) {
             table.put("JideTableUI", aquaPackageName + "AquaJideTableUI");
@@ -116,9 +116,6 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
         Object selectionBackgroundColor = UIDefaultsLookup.get("TextField.selectionBackground"); // AquaImageFactory.getTextSelectionBackgroundColorUIResource();
 
         Object buttonBorder = new BasicBorders.MarginBorder();
-
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = {
                 // common
@@ -274,14 +271,6 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                         "DOWN", "downPressed",
                         "released DOWN", "downReleased"
                 }),
-
-
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 8, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 8, 0, 8, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 16, 0, 6, 9),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),

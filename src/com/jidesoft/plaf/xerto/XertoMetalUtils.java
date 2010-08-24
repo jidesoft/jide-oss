@@ -10,7 +10,6 @@ import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.icons.MenuCheckIcon;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.vsnet.ResizeFrameBorder;
@@ -56,6 +55,8 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         int products = LookAndFeelFactory.getProductsUsed();
 
         final String xertoPackageName = "com.jidesoft.plaf.xerto.";
+
+        table.put("RangeSliderUI", "com.jidesoft.plaf.metal.MetalRangeSliderUI");
 
         if ((products & PRODUCT_COMPONENTS) != 0) {
             table.put("CollapsiblePaneUI", xertoPackageName + "XertoCollapsiblePaneUI");
@@ -211,7 +212,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                 Object p = UIDefaultsLookup.get("Theme.painter");
-                if(p instanceof ThemePainter) {
+                if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
                 }
                 else {
@@ -221,9 +222,6 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         };
 
         Object buttonBorder = new BasicBorders.MarginBorder();
-
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
                 // common
@@ -345,13 +343,6 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "ButtonPanel.buttonGap", 6,
                 "ButtonPanel.groupGap", 6,
                 "ButtonPanel.minButtonWidth", 75,
-
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 8, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 8, 0, 8, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 16, 0, 6, 9),
 
                 "MeterProgressBar.border", new BorderUIResource(BorderFactory.createLineBorder(Color.BLACK)),
                 "MeterProgressBar.background", new ColorUIResource(Color.BLACK),

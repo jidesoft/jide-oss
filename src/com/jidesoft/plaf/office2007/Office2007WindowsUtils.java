@@ -47,7 +47,6 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
 
         table.put("JideTabbedPaneUI", "com.jidesoft.plaf.office2007.Office2007JideTabbedPaneUI");
 //        table.put("HeaderBoxUI", "com.jidesoft.plaf.office2003.Office2003HeaderBoxUI");
-//        table.put("RangeSliderUI", "com.jidesoft.plaf.office2003.Office2003RangeSliderUI");
 //        table.put("GripperUI", "com.jidesoft.plaf.office2003.Office2003GripperUI");
 
         if ((products & PRODUCT_DOCK) != 0) {
@@ -100,7 +99,7 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                 Object p = UIDefaultsLookup.get("Theme.painter");
-                if(p instanceof ThemePainter) {
+                if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
                 }
                 else {

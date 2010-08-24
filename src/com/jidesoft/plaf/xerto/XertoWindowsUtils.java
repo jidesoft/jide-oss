@@ -272,7 +272,7 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                 Object p = UIDefaultsLookup.get("Theme.painter");
-                if(p instanceof ThemePainter) {
+                if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
                 }
                 else {
@@ -282,9 +282,6 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
         };
 
         Object buttonBorder = new BasicBorders.MarginBorder();
-
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object[] uiDefaults = new Object[]{
                 "Theme.highContrast", highContrast,
@@ -419,20 +416,6 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                         "DOWN", "downPressed",
                         "released DOWN", "downReleased",
                 }),
-
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 10),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 10, 9, 10),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 20, 9, 7),
-                "RangeSlider.lowerRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 0, 9, 10),
-                "RangeSlider.upperRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 10, 9, 10),
-                "RangeSlider.middleRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 20, 9, 7),
-
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 10, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 0, 10, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 0, 7, 9),
-                "RangeSlider.lowerVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 9, 10, 9),
-                "RangeSlider.upperVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 9, 10, 9),
-                "RangeSlider.middleVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 9, 7, 9),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),

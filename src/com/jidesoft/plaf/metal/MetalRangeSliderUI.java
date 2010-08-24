@@ -4,13 +4,13 @@
  * Copyright 2002 - 2010 JIDE Software Inc. All rights reserved.
  */
 
-package com.jidesoft.plaf.basic;
+package com.jidesoft.plaf.metal;
 
 import com.jidesoft.swing.RangeSlider;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
+import javax.swing.plaf.metal.MetalSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
@@ -18,9 +18,8 @@ import java.lang.reflect.Field;
 /**
  * BasicRangeSliderUI implementation
  */
-public class BasicRangeSliderUI extends BasicSliderUI {
-    public BasicRangeSliderUI(JSlider slider) {
-        super(slider);
+public class MetalRangeSliderUI extends MetalSliderUI {
+    public MetalRangeSliderUI(JSlider slider) {
     }
 
     // ********************************
@@ -28,7 +27,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
     // ********************************
 
     public static ComponentUI createUI(JComponent slider) {
-        return new BasicRangeSliderUI((JSlider) slider);
+        return new MetalRangeSliderUI((JSlider) slider);
     }
 
     @Override

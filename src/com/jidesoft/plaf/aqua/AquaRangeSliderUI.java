@@ -1,11 +1,12 @@
 /*
- * @(#)BasicNewRangeSliderUI.java 7/3/2010
+ * @(#)AquaRangeSliderUI.java 7/14/2010
  *
  * Copyright 2002 - 2010 JIDE Software Inc. All rights reserved.
  */
 
-package com.jidesoft.plaf.basic;
+package com.jidesoft.plaf.aqua;
 
+import com.apple.laf.AquaSliderUI;
 import com.jidesoft.swing.RangeSlider;
 
 import javax.swing.*;
@@ -15,20 +16,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 
-/**
- * BasicRangeSliderUI implementation
- */
-public class BasicRangeSliderUI extends BasicSliderUI {
-    public BasicRangeSliderUI(JSlider slider) {
-        super(slider);
+public class AquaRangeSliderUI extends AquaSliderUI {
+    public AquaRangeSliderUI(JSlider jSlider) {
+        super(jSlider);
     }
 
-    // ********************************
-    //          Create PLAF
-    // ********************************
-
-    public static ComponentUI createUI(JComponent slider) {
-        return new BasicRangeSliderUI((JSlider) slider);
+    public static ComponentUI createUI(JComponent c) {
+        return new AquaRangeSliderUI((JSlider) c);
     }
 
     @Override
@@ -42,11 +36,32 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         Point p = adjustThumbForHighValue();
 
         if (clip.intersects(thumbRect)) {
-            paintThumb(g);
+            apple.laf.CoreUIConstants.Orientation orientation = slider.getOrientation() != 0 ? apple.laf.CoreUIConstants.Orientation.VERTICAL : apple.laf.CoreUIConstants.Orientation.HORIZONTAL;
+            apple.laf.CoreUIConstants.State state = getState();
+            paintThumb(g, c, orientation, state);
         }
 
         restoreThumbForLowValue(p);
         second = false;
+    }
+
+    protected static boolean isActive(JComponent jcomponent) {
+        if (jcomponent == null)
+            return true;
+        Object obj = jcomponent.getClientProperty("Frame.active");
+        return !Boolean.FALSE.equals(obj);
+    }
+
+
+    apple.laf.CoreUIConstants.State getState() {
+        if (!slider.isEnabled())
+            return apple.laf.CoreUIConstants.State.DISABLED;
+        if (fIsDragging)
+            return apple.laf.CoreUIConstants.State.PRESSED;
+        if (!isActive(slider))
+            return apple.laf.CoreUIConstants.State.INACTIVE;
+        else
+            return apple.laf.CoreUIConstants.State.ACTIVE;
     }
 
     protected void restoreThumbForLowValue(Point p) {
@@ -106,11 +121,11 @@ public class BasicRangeSliderUI extends BasicSliderUI {
     }
 
     @Override
-    protected TrackListener createTrackListener(JSlider slider) {
+    protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener();
     }
 
-    protected class RangeTrackListener extends TrackListener {
+    protected class RangeTrackListener extends BasicSliderUI.TrackListener {
         int handle;
         int handleOffset;
         int mouseStartLocation;
@@ -186,19 +201,21 @@ public class BasicRangeSliderUI extends BasicSliderUI {
                     rangeSlider.setHighValue(Math.max(rangeSlider.getLowValue(), newValue));
                     break;
                 case MOUSE_HANDLE_MIDDLE:
-                    int delta = (slider.getOrientation() == JSlider.VERTICAL) ?
-                            valueForYPosition(newLocation - handleOffset) - rangeSlider.getLowValue() :
-                            valueForXPosition(newLocation - handleOffset) - rangeSlider.getLowValue();
-                    if ((delta < 0) && ((rangeSlider.getLowValue() + delta) < rangeSlider.getMinimum())) {
-                        delta = rangeSlider.getMinimum() - rangeSlider.getLowValue();
-                    }
+                    if (((RangeSlider) slider).isRangeDraggable()) {
+                        int delta = (slider.getOrientation() == JSlider.VERTICAL) ?
+                                valueForYPosition(newLocation - handleOffset) - rangeSlider.getLowValue() :
+                                valueForXPosition(newLocation - handleOffset) - rangeSlider.getLowValue();
+                        if ((delta < 0) && ((rangeSlider.getLowValue() + delta) < rangeSlider.getMinimum())) {
+                            delta = rangeSlider.getMinimum() - rangeSlider.getLowValue();
+                        }
 
-                    if ((delta > 0) && ((rangeSlider.getHighValue() + delta) > rangeSlider.getMaximum())) {
-                        delta = rangeSlider.getMaximum() - rangeSlider.getHighValue();
-                    }
+                        if ((delta > 0) && ((rangeSlider.getHighValue() + delta) > rangeSlider.getMaximum())) {
+                            delta = rangeSlider.getMaximum() - rangeSlider.getHighValue();
+                        }
 
-                    if (delta != 0) {
-                        offset(delta);
+                        if (delta != 0) {
+                            offset(delta);
+                        }
                     }
                     break;
             }
@@ -266,8 +283,6 @@ public class BasicRangeSliderUI extends BasicSliderUI {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
-            hover = true;
-            slider.repaint();
         }
 
         /**
@@ -275,8 +290,6 @@ public class BasicRangeSliderUI extends BasicSliderUI {
          */
         @Override
         public void mouseExited(MouseEvent e) {
-            hover = false;
-            slider.repaint();
             setCursor(Cursor.DEFAULT_CURSOR);
         }
     }
@@ -328,12 +341,11 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         }
     }
 
-    protected boolean hover;
-    protected boolean second;
-    protected boolean rollover1;
-    protected boolean pressed1;
-    protected boolean rollover2;
-    protected boolean pressed2;
+    private boolean second;
+    private boolean rollover1;
+    private boolean pressed1;
+    private boolean rollover2;
+    private boolean pressed2;
 
     @Override
     public void paintThumb(Graphics g) {
@@ -347,10 +359,10 @@ public class BasicRangeSliderUI extends BasicSliderUI {
             field.set(this, second ? pressed2 : pressed1);
         }
         catch (NoSuchFieldException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
         catch (IllegalAccessException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
 
         super.paintThumb(g);

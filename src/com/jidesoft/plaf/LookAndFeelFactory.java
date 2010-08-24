@@ -1192,6 +1192,7 @@ public class LookAndFeelFactory implements ProductNames {
                 {
                     Object[] uiDefaults = {
                             "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
+                            "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
                             "JideSplitPane.dividerSize", 6,
                             "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
                             "JideTabbedPane.background", UIManager.getColor("control"),

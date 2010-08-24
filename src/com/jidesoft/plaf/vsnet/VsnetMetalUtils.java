@@ -9,7 +9,6 @@ import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.basic.BasicRangeSliderUI;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.metal.MetalPainter;
@@ -50,6 +49,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
         // common
         table.put("JideSplitButtonUI", metalPackageName + "MetalJideSplitButtonUI");
+        table.put("RangeSliderUI", metalPackageName + "MetalRangeSliderUI");
     }
 
     /**
@@ -109,7 +109,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                 Object p = UIDefaultsLookup.get("Theme.painter");
-                if(p instanceof ThemePainter) {
+                if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
                 }
                 else {
@@ -119,9 +119,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
         };
 
         Object buttonBorder = new BasicBorders.MarginBorder();
-
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(BasicRangeSliderUI.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = {
                 // common
@@ -257,13 +254,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                         "DOWN", "downPressed",
                         "released DOWN", "downReleased"
                 }),
-
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 8),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 8, 9, 8),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 16, 9, 6),
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 8, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 8, 0, 8, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 16, 0, 6, 9),
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",

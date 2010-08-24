@@ -5,7 +5,6 @@
  */
 package com.jidesoft.plaf.office2003;
 
-import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
@@ -91,7 +90,7 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
         Painter gripperPainter = new Painter() {
             public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
                 Object p = UIDefaultsLookup.get("Theme.painter");
-                if(p instanceof ThemePainter) {
+                if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
                 }
                 else {
@@ -99,9 +98,6 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                 }
             }
         };
-
-        ImageIcon sliderHorizontalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_horizontal.gif");
-        ImageIcon sliderVerticalImage = IconsFactory.getImageIcon(Office2003WindowsUtils.class, "icons/slider_vertical.gif");
 
         Object uiDefaults[] = new Object[]{
                 "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003,
@@ -117,20 +113,6 @@ public class Office2003WindowsUtils extends VsnetWindowsUtils {
                 "Gripper.size", 8,
                 "Gripper.painter", gripperPainter,
                 "Icon.floating", Boolean.FALSE,
-
-                "RangeSlider.lowerIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 0, 9, 10),
-                "RangeSlider.upperIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 10, 9, 10),
-                "RangeSlider.middleIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 0, 20, 9, 7),
-                "RangeSlider.lowerRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 0, 9, 10),
-                "RangeSlider.upperRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 10, 9, 10),
-                "RangeSlider.middleRIcon", IconsFactory.getIcon(null, sliderHorizontalImage, 9, 20, 9, 7),
-
-                "RangeSlider.lowerVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 0, 10, 9),
-                "RangeSlider.upperVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 0, 10, 9),
-                "RangeSlider.middleVIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 0, 7, 9),
-                "RangeSlider.lowerVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 0, 9, 10, 9),
-                "RangeSlider.upperVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 10, 9, 10, 9),
-                "RangeSlider.middleVRIcon", IconsFactory.getIcon(null, sliderVerticalImage, 20, 9, 7, 9),
 
                 "JideScrollPane.border", UIDefaultsLookup.getBorder("ScrollPane.border"),
 
