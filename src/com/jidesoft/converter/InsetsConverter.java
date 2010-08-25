@@ -11,8 +11,12 @@ import java.awt.*;
  * Converter which converts Insets to String and converts it back.
  */
 public class InsetsConverter extends ArrayConverter {
-    InsetsConverter() {
+    public InsetsConverter() {
         super("; ", 4, Integer.class);
+    }
+
+    public InsetsConverter(String separator) {
+        super(separator, 4, Integer.class);
     }
 
     public String toString(Object object, ConverterContext context) {
