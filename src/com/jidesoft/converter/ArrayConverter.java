@@ -93,7 +93,7 @@ abstract public class ArrayConverter implements ObjectConverter {
         if (string == null || string.trim().length() == 0) {
             return null;
         }
-        StringTokenizer token = new StringTokenizer(string, _separator.trim());
+        StringTokenizer token = new StringTokenizer(string, _separator);
         Object[] objects = new Object[_size != -1 ? _size : token.countTokens()];
         for (int i = 0; i < objects.length && token.hasMoreTokens(); i++) {
             String s = token.nextToken().trim();
