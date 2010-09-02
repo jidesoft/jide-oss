@@ -7,7 +7,6 @@ package com.jidesoft.swing;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import sun.reflect.misc.MethodUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -83,7 +82,7 @@ public class RangeSlider extends JSlider {
                 Class acClass = javax.swing.JComponent.class;
                 Method m = uiClass.getMethod("createUI", new Class[]{acClass});
                 if (m != null) {
-                    Object uiObject = MethodUtil.invoke(m, null, new Object[]{this});
+                    Object uiObject = m.invoke(null, new Object[]{this});
                     setUI((ComponentUI) uiObject);
                 }
             }
