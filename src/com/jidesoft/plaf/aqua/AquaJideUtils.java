@@ -60,10 +60,6 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
             table.put("SidePaneUI", aquaPackageName + "AquaSidePaneUI");
             table.put("DockableFrameUI", aquaPackageName + "AquaDockableFrameUI");
         }
-
-        if ((products & PRODUCT_ACTION) != 0) {
-            table.put("CommandBarUI", aquaPackageName + "AquaCommandBarUI");
-        }
     }
 
     /**
