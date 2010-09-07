@@ -6,6 +6,7 @@
 
 package com.jidesoft.spinner;
 
+import java.awt.Point;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import java.beans.PropertyChangeEvent;
@@ -26,10 +27,7 @@ public class PointSpinner extends JSpinner {
      * @param model
      */
     public PointSpinner(SpinnerPointModel model) {
-        setModel(model);
-        setEditor(createEditor(model));
-        setOpaque(true);
-        updateUI();
+        super(model);
         customizeSpinner();
     }
 
@@ -42,7 +40,8 @@ public class PointSpinner extends JSpinner {
         this(new SpinnerPointModel());
     }
 
-    private JComponent createEditor(SpinnerPointModel model) {
+    @Override
+    protected JComponent createEditor(SpinnerModel model) {
         return new PointEditor(this);
     }
 
@@ -108,15 +107,20 @@ public class PointSpinner extends JSpinner {
     }
 
     @Override
-    public Object getNextValue() {
+    public Point getNextValue() {
         updateField();
-        return super.getNextValue();
+        return (Point) super.getNextValue();
     }
 
     @Override
-    public Object getPreviousValue() {
+    public Point getPreviousValue() {
         updateField();
-        return super.getPreviousValue();
+        return (Point) super.getPreviousValue();
+    }
+
+    @Override
+    public Point getValue() {
+        return (Point) super.getValue();
     }
 
     protected void customizeSpinner() {

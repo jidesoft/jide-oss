@@ -40,7 +40,7 @@ public class PointFormatter extends DefaultFormatter {
             return new Point(Integer.parseInt(splition[0].trim()), Integer.parseInt(splition[1].trim()));
         }
         catch (Exception e) {
-            return super.stringToValue(text);
+            throw new ParseException(text, 0);
         }
     }
 
