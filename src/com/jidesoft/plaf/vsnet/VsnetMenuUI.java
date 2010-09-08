@@ -198,7 +198,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
         updateMnemonicBinding();
     }
 
-    void updateMnemonicBinding() {
+    protected void updateMnemonicBinding() {
         int mnemonic = menuItem.getModel().getMnemonic();
         int[] shortcutKeys = (int[]) UIDefaultsLookup.get("Menu.shortcutKeys");
         if (shortcutKeys == null) {
@@ -211,6 +211,8 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             for (int shortcutKey : shortcutKeys) {
                 windowInputMap.remove(KeyStroke.getKeyStroke
                         (lastMnemonic, shortcutKey, false));
+                windowInputMap.remove(KeyStroke.getKeyStroke
+                        (lastMnemonic, shortcutKey, true));
             }
         }
         if (mnemonic != 0) {
