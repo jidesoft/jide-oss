@@ -724,6 +724,49 @@ public abstract class Searchable {
         _cursor = cursor;
     }
 
+    public void highlightAll() {
+        int firstIndex = -1;
+        int index = getSelectedIndex();
+        String text = getSearchingText();
+
+        while (index != -1) {
+            int newIndex = findNext(text);
+            if (index == newIndex) {
+                index = -1;
+            }
+            else {
+                index = newIndex;
+            }
+            if (index != -1) {
+                if (firstIndex == -1) {
+                    firstIndex = index;
+                }
+                select(index, text);
+            }
+        }
+        // now select the first one
+        if (firstIndex != -1) {
+            select(firstIndex, text);
+        }
+    }
+
+    public void cancelHighlightAll() {
+        
+    }
+
+    protected void select(int index, String searchingText) {
+        if (index != -1) {
+            setSelectedIndex(index, true);
+            setCursor(index, true);
+            Object element = getElementAt(index);
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MATCH, searchingText, element, convertElementToString(element)));
+        }
+        else {
+            setSelectedIndex(-1, false);
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_NOMATCH, searchingText));
+        }
+    }
+
     /**
      * Finds the next matching index from the cursor.
      *

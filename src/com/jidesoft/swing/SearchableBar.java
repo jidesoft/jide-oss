@@ -533,33 +533,13 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             setStatus(getResourceString("SearchableBar.notFound"), getImageIcon(SearchableBarIconsFactory.Buttons.ERROR));
         }
 
-        int firstIndex = -1;
-
-        while (index != -1) {
-            int newIndex = _searchable.findNext(text);
-            if (index == newIndex) {
-                index = -1;
-            }
-            else {
-                index = newIndex;
-            }
-            if (index != -1) {
-                if (firstIndex == -1) {
-                    firstIndex = index;
-                }
-                select(index, text, true);
-            }
-        }
-        // now select the first one
-        if (firstIndex != -1) {
-            select(firstIndex, text, true);
-        }
-
+        _searchable.highlightAll();
         _searchable.setRepeats(old);
         _searchable.setCursor(0);
     }
 
     private void highlightNext() {
+        _searchable.cancelHighlightAll();
         String text = getSearchingText();
         if (text == null || text.length() == 0) {
             _findNextButton.setEnabled(false);
