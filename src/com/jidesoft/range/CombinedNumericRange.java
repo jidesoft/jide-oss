@@ -144,5 +144,26 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
             return maximum() - minimum();
         }
     }
+    
+    /**
+     * Returns a new numeric range that is based on this range, but with a margin introduced at each end.
+     * The margin proportion is a value between 0 and 1. For example to add a 20% margin to each end use
+     * parameters of 0.2 for both the leading and trailing margin proportion.
+     * @param leadingMarginProportion how much margin to add at the low end of the range
+     * @param trailingMarginProportion how much margin to add at the top end of the range
+     * @return a new NumericRange object with margins added
+     */
+    public NumericRange getRange(double leadingMarginProportion, double trailingMarginProportion) {
+        double maximum = maximum();
+        double minimum = minimum();
+        double difference = Math.abs(maximum - minimum);
+        double leadingMargin = leadingMarginProportion * difference;
+        double trailingMargin = trailingMarginProportion * difference;
+        return new NumericRange(minimum - leadingMargin, maximum + trailingMargin);
+    }
+    
+    public String toString() {
+        return String.format("#<CombinedNumericRange min=%s max=%s>", minimum(), maximum());
+    }
 
 }
