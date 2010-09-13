@@ -724,7 +724,13 @@ public abstract class Searchable {
         _cursor = cursor;
     }
 
-    public void highlightAll() {
+    /**
+     * Highlight all matching cases in the target.
+     * <p/>
+     * In default implementation, it will just search all texts in the target to highlight all. If you have a really huge
+     * text to search, you may want to override this method to have a lazy behavior on visible areas only.
+     */
+    protected void highlightAll() {
         int firstIndex = -1;
         int index = getSelectedIndex();
         String text = getSearchingText();
@@ -750,10 +756,22 @@ public abstract class Searchable {
         }
     }
 
-    public void cancelHighlightAll() {
+    /**
+     * Cancel highlight all.
+     * <p/>
+     * By default, it does nothing. However, if you want to override {@link #highlightAll()}, you may want to override
+     * this method to notify your Searchable that the highlightAll button is to be released.
+     */
+    protected void cancelHighlightAll() {
         
     }
 
+    /**
+     * Select the index for the searching text.
+     *
+     * @param index         the start offset
+     * @param searchingText the searching text presented in the searchable event to be fired here.
+     */
     protected void select(int index, String searchingText) {
         if (index != -1) {
             setSelectedIndex(index, true);
