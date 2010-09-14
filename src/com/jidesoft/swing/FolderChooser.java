@@ -53,30 +53,42 @@ public class FolderChooser extends JFileChooser {
      * @see #setAvailableButtons(int)
      */
     public static final String PROPERTY_AVAILABLE_BUTTONS = "availableButtons";
-    private int _availableButtons = BUTTON_ALL;
-    private boolean _recentListVisible = true;
+    private int _availableButtons;
+    private boolean _recentListVisible;
 
     public FolderChooser() {
+        configurationDefaultFlags();
     }
 
     public FolderChooser(String currentDirectoryPath) {
         super(currentDirectoryPath);
+        configurationDefaultFlags();
     }
 
     public FolderChooser(File currentDirectory) {
         super(currentDirectory);
+        configurationDefaultFlags();
     }
 
     public FolderChooser(FileSystemView fsv) {
         super(fsv);
+        configurationDefaultFlags();
     }
 
     public FolderChooser(File currentDirectory, FileSystemView fsv) {
         super(currentDirectory, fsv);
+        configurationDefaultFlags();
     }
 
     public FolderChooser(String currentDirectoryPath, FileSystemView fsv) {
         super(currentDirectoryPath, fsv);
+        configurationDefaultFlags();
+    }
+
+    private void configurationDefaultFlags() {
+        setAvailableButtons(BUTTON_ALL);
+        setRecentListVisible(true);
+        setNavigationFieldVisible(false);
     }
 
     /**

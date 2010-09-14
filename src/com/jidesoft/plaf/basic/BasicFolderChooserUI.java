@@ -518,6 +518,20 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
         _cancelButton.setMnemonic(cancelButtonMnemonic);
 
         _buttonPanel.setVisible(chooser.getControlButtonsAreShown());
+        if (_toolbar != null) {
+            Component[] components = _toolbar.getComponents();
+            for (Component component : components) {
+                if (component instanceof JButton) {
+                    String name = component.getName();
+                    int buttons = _folderChooser.getAvailableButtons();
+                    boolean visible = _toolbar.isButtonVisible(name, buttons);
+                    component.setVisible(visible);
+                }
+                else if (component instanceof JComboBox || component instanceof JLabel) {
+                    component.setVisible(_folderChooser.isRecentListVisible());
+                }
+            }
+        }
     }
 
     /**
