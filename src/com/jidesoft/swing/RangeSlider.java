@@ -25,6 +25,7 @@ public class RangeSlider extends JSlider {
     private static final String uiClassID = "SliderUI";
 
     private boolean _rangeDraggable = true;
+    public static final String CLIENT_PROPERTY_MOUSE_POSITION = "RangeSlider.mousePosition";
 
     /**
      * Creates a horizontal range slider with the range 0 to 100 and initial low and high values both at 50.
@@ -138,7 +139,18 @@ public class RangeSlider extends JSlider {
 
     @Override
     public void setValue(int value) {
-        setLowValue(value);
+        Object clientProperty = getClientProperty(CLIENT_PROPERTY_MOUSE_POSITION);
+        if(clientProperty != null) {
+            if(Boolean.TRUE.equals(clientProperty)) {
+                setLowValue(value);
+            }
+            else{
+                setHighValue(value);
+            }
+        }
+        else {
+            setLowValue(value);
+        }
     }
 
     /**

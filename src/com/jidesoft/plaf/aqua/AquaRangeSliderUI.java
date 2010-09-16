@@ -122,16 +122,18 @@ public class AquaRangeSliderUI extends AquaSliderUI {
 
     @Override
     protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
-        return new RangeTrackListener();
+        BasicSliderUI.TrackListener listener = super.createTrackListener(slider);
+        return new RangeTrackListener(listener);
     }
 
     protected class RangeTrackListener extends BasicSliderUI.TrackListener {
         int handle;
         int handleOffset;
         int mouseStartLocation;
+        BasicSliderUI.TrackListener _listener;
 
-        public RangeTrackListener() {
-
+        public RangeTrackListener(BasicSliderUI.TrackListener listener) {
+            _listener = listener;
         }
 
         /**
@@ -150,13 +152,18 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             handle = getMouseHandle(e.getX(), e.getY());
             setMousePressed(handle);
 
-            handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
-                    e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
-                    e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
+            if (handle != MOUSE_HANDLE_NONE) {
+                handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
+                        e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
+                        e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
 
-            mouseStartLocation = (slider.getOrientation() == JSlider.VERTICAL) ? e.getY() : e.getX();
+                mouseStartLocation = (slider.getOrientation() == JSlider.VERTICAL) ? e.getY() : e.getX();
 
-            slider.getModel().setValueIsAdjusting(true);
+                slider.getModel().setValueIsAdjusting(true);
+            }
+            else {
+                _listener.mousePressed(e);
+            }
         }
 
         /**
@@ -228,6 +235,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
         public void mouseReleased(MouseEvent e) {
             slider.getModel().setValueIsAdjusting(false);
             setMouseReleased(handle);
+            _listener.mouseReleased(e);
         }
 
         private void setCursor(int c) {
@@ -309,6 +317,8 @@ public class AquaRangeSliderUI extends AquaSliderUI {
     protected int getMouseHandle(int x, int y) {
         Rectangle rect = trackRect;
 
+        slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
+
         if (thumbRect.contains(x, y)) {
             return MOUSE_HANDLE_MIN;
         }
@@ -327,6 +337,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
                 return MOUSE_HANDLE_MIDDLE;
             }
 
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, y < minY);
             return MOUSE_HANDLE_NONE;
         }
         else {
@@ -337,6 +348,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             if (((RangeSlider) slider).isRangeDraggable() && midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, x < minX);
             return MOUSE_HANDLE_NONE;
         }
     }
