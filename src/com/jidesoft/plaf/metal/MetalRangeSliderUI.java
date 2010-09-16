@@ -10,6 +10,7 @@ import com.jidesoft.swing.RangeSlider;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -105,17 +106,18 @@ public class MetalRangeSliderUI extends MetalSliderUI {
     }
 
     @Override
-    protected TrackListener createTrackListener(JSlider slider) {
-        return new RangeTrackListener();
+    protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
+        return new RangeTrackListener(super.createTrackListener(slider));
     }
 
-    protected class RangeTrackListener extends TrackListener {
+    protected class RangeTrackListener extends BasicSliderUI.TrackListener {
         int handle;
         int handleOffset;
         int mouseStartLocation;
+        BasicSliderUI.TrackListener _listener;
 
-        public RangeTrackListener() {
-
+        public RangeTrackListener(BasicSliderUI.TrackListener listener) {
+            _listener = listener;
         }
 
         /**
@@ -134,13 +136,19 @@ public class MetalRangeSliderUI extends MetalSliderUI {
             handle = getMouseHandle(e.getX(), e.getY());
             setMousePressed(handle);
 
-            handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
-                    e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
-                    e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
+            if (handle != MOUSE_HANDLE_NONE) {
+                handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
+                        e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
+                        e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
 
-            mouseStartLocation = (slider.getOrientation() == JSlider.VERTICAL) ? e.getY() : e.getX();
+                mouseStartLocation = (slider.getOrientation() == JSlider.VERTICAL) ? e.getY() : e.getX();
 
-            slider.getModel().setValueIsAdjusting(true);
+                slider.getModel().setValueIsAdjusting(true);
+            }
+            else {
+                _listener.mousePressed(e);
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
+            }
         }
 
         /**
@@ -185,19 +193,21 @@ public class MetalRangeSliderUI extends MetalSliderUI {
                     rangeSlider.setHighValue(Math.max(rangeSlider.getLowValue(), newValue));
                     break;
                 case MOUSE_HANDLE_MIDDLE:
-                    int delta = (slider.getOrientation() == JSlider.VERTICAL) ?
-                            valueForYPosition(newLocation - handleOffset) - rangeSlider.getLowValue() :
-                            valueForXPosition(newLocation - handleOffset) - rangeSlider.getLowValue();
-                    if ((delta < 0) && ((rangeSlider.getLowValue() + delta) < rangeSlider.getMinimum())) {
-                        delta = rangeSlider.getMinimum() - rangeSlider.getLowValue();
-                    }
+                    if (((RangeSlider) slider).isRangeDraggable()) {
+                        int delta = (slider.getOrientation() == JSlider.VERTICAL) ?
+                                valueForYPosition(newLocation - handleOffset) - rangeSlider.getLowValue() :
+                                valueForXPosition(newLocation - handleOffset) - rangeSlider.getLowValue();
+                        if ((delta < 0) && ((rangeSlider.getLowValue() + delta) < rangeSlider.getMinimum())) {
+                            delta = rangeSlider.getMinimum() - rangeSlider.getLowValue();
+                        }
 
-                    if ((delta > 0) && ((rangeSlider.getHighValue() + delta) > rangeSlider.getMaximum())) {
-                        delta = rangeSlider.getMaximum() - rangeSlider.getHighValue();
-                    }
+                        if ((delta > 0) && ((rangeSlider.getHighValue() + delta) > rangeSlider.getMaximum())) {
+                            delta = rangeSlider.getMaximum() - rangeSlider.getHighValue();
+                        }
 
-                    if (delta != 0) {
-                        offset(delta);
+                        if (delta != 0) {
+                            offset(delta);
+                        }
                     }
                     break;
             }
@@ -210,6 +220,7 @@ public class MetalRangeSliderUI extends MetalSliderUI {
         public void mouseReleased(MouseEvent e) {
             slider.getModel().setValueIsAdjusting(false);
             setMouseReleased(handle);
+            _listener.mouseReleased(e);
         }
 
         private void setCursor(int c) {
@@ -295,6 +306,8 @@ public class MetalRangeSliderUI extends MetalSliderUI {
     protected int getMouseHandle(int x, int y) {
         Rectangle rect = trackRect;
 
+        slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
+
         if (thumbRect.contains(x, y)) {
             return MOUSE_HANDLE_MIN;
         }
@@ -313,6 +326,7 @@ public class MetalRangeSliderUI extends MetalSliderUI {
                 return MOUSE_HANDLE_MIDDLE;
             }
 
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, y < minY);
             return MOUSE_HANDLE_NONE;
         }
         else {
@@ -323,6 +337,7 @@ public class MetalRangeSliderUI extends MetalSliderUI {
             if (((RangeSlider) slider).isRangeDraggable() && midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, x < minX);
             return MOUSE_HANDLE_NONE;
         }
     }
@@ -419,5 +434,70 @@ public class MetalRangeSliderUI extends MetalSliderUI {
         Point p = adjustThumbForHighValue();
         slider.repaint(thumbRect);
         restoreThumbForLowValue(p);
+    }
+
+    @Override
+    public void scrollByBlock(int direction) {
+        synchronized (slider) {
+
+            int oldValue;
+            Object clientProperty = slider.getClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION);
+            if (clientProperty == null) {
+                oldValue = slider.getValue();
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                oldValue = ((RangeSlider) slider).getLowValue();
+            }
+            else {
+                oldValue = ((RangeSlider) slider).getHighValue();
+            }
+            int blockIncrement =
+                    (slider.getMaximum() - slider.getMinimum()) / 10;
+            if (blockIncrement <= 0 &&
+                    slider.getMaximum() > slider.getMinimum()) {
+
+                blockIncrement = 1;
+            }
+
+            int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+            if (clientProperty == null) {
+                slider.setValue(oldValue + delta);
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                ((RangeSlider) slider).setLowValue(oldValue + delta);
+            }
+            else {
+                ((RangeSlider) slider).setHighValue(oldValue + delta);
+            }
+        }
+    }
+
+    @Override
+    public void scrollByUnit(int direction) {
+        synchronized (slider) {
+
+            int oldValue;
+            Object clientProperty = slider.getClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION);
+            if (clientProperty == null) {
+                oldValue = slider.getValue();
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                oldValue = ((RangeSlider) slider).getLowValue();
+            }
+            else {
+                oldValue = ((RangeSlider) slider).getHighValue();
+            }
+            int delta = 1 * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+
+            if (clientProperty == null) {
+                slider.setValue(oldValue + delta);
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                ((RangeSlider) slider).setLowValue(oldValue + delta);
+            }
+            else {
+                ((RangeSlider) slider).setHighValue(oldValue + delta);
+            }
+        }
     }
 }

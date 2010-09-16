@@ -122,8 +122,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
 
     @Override
     protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
-        BasicSliderUI.TrackListener listener = super.createTrackListener(slider);
-        return new RangeTrackListener(listener);
+        return new RangeTrackListener(super.createTrackListener(slider));
     }
 
     protected class RangeTrackListener extends BasicSliderUI.TrackListener {
@@ -163,6 +162,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             }
             else {
                 _listener.mousePressed(e);
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
             }
         }
 
@@ -291,6 +291,8 @@ public class AquaRangeSliderUI extends AquaSliderUI {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
+            hover = true;
+            slider.repaint();
         }
 
         /**
@@ -298,6 +300,8 @@ public class AquaRangeSliderUI extends AquaSliderUI {
          */
         @Override
         public void mouseExited(MouseEvent e) {
+            hover = false;
+            slider.repaint();
             setCursor(Cursor.DEFAULT_CURSOR);
         }
     }
@@ -353,11 +357,12 @@ public class AquaRangeSliderUI extends AquaSliderUI {
         }
     }
 
-    private boolean second;
-    private boolean rollover1;
-    private boolean pressed1;
-    private boolean rollover2;
-    private boolean pressed2;
+    protected boolean hover;
+    protected boolean second;
+    protected boolean rollover1;
+    protected boolean pressed1;
+    protected boolean rollover2;
+    protected boolean pressed2;
 
     @Override
     public void paintThumb(Graphics g) {
@@ -371,10 +376,10 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             field.set(this, second ? pressed2 : pressed1);
         }
         catch (NoSuchFieldException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         catch (IllegalAccessException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         super.paintThumb(g);
@@ -444,5 +449,70 @@ public class AquaRangeSliderUI extends AquaSliderUI {
         Point p = adjustThumbForHighValue();
         slider.repaint(thumbRect);
         restoreThumbForLowValue(p);
+    }
+
+    @Override
+    public void scrollByBlock(int direction) {
+        synchronized (slider) {
+
+            int oldValue;
+            Object clientProperty = slider.getClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION);
+            if (clientProperty == null) {
+                oldValue = slider.getValue();
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                oldValue = ((RangeSlider) slider).getLowValue();
+            }
+            else {
+                oldValue = ((RangeSlider) slider).getHighValue();
+            }
+            int blockIncrement =
+                    (slider.getMaximum() - slider.getMinimum()) / 10;
+            if (blockIncrement <= 0 &&
+                    slider.getMaximum() > slider.getMinimum()) {
+
+                blockIncrement = 1;
+            }
+
+            int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+            if (clientProperty == null) {
+                slider.setValue(oldValue + delta);
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                ((RangeSlider) slider).setLowValue(oldValue + delta);
+            }
+            else {
+                ((RangeSlider) slider).setHighValue(oldValue + delta);
+            }
+        }
+    }
+
+    @Override
+    public void scrollByUnit(int direction) {
+        synchronized (slider) {
+
+            int oldValue;
+            Object clientProperty = slider.getClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION);
+            if (clientProperty == null) {
+                oldValue = slider.getValue();
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                oldValue = ((RangeSlider) slider).getLowValue();
+            }
+            else {
+                oldValue = ((RangeSlider) slider).getHighValue();
+            }
+            int delta = 1 * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+
+            if (clientProperty == null) {
+                slider.setValue(oldValue + delta);
+            }
+            else if (Boolean.TRUE.equals(clientProperty)) {
+                ((RangeSlider) slider).setLowValue(oldValue + delta);
+            }
+            else {
+                ((RangeSlider) slider).setHighValue(oldValue + delta);
+            }
+        }
     }
 }
