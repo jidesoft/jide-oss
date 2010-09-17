@@ -3711,8 +3711,22 @@ public class JideSwingUtilities implements SwingConstants {
      *         point that would be used if the key were added to the array.
      */
     public static int binarySearch(int[] a, int key) {
-        int x1 = 0;
-        int x2 = a.length;
+        return binarySearch(a, key, 0, a.length);
+    }
+
+    /**
+     * Perform a binary search over a sorted array for the given key.
+     *
+     * @param a   the array to search
+     * @param key the key to search for
+     * @param start the start index to search inclusive
+     * @param end the end index to search exclusive
+     * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
+     *         point that would be used if the key were added to the array.
+     */
+    public static int binarySearch(int[] a, int key, int start, int end) {
+        int x1 = start;
+        int x2 = end;
         int i = x2 / 2;
         while (x1 < x2) {
             if (a[i] == key) {
