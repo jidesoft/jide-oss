@@ -25,7 +25,7 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
     /**
      * Create a numeric range by supplying minimum and maximum values
      *
-     * @param min the minumum
+     * @param min the minimum
      * @param max the maximum
      */
     public IntegerRange(int min, int max) {
@@ -65,7 +65,7 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
         if (old == min) {
             return;
         }
-        assert min <= _max;
+        assert min <= _max : "minimum " + min + " not <= " + _max;
         _min = min;
         firePropertyChange(PROPERTY_MIN, old, min);
     }
@@ -87,7 +87,7 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
         if (old == max) {
             return;
         }
-        assert max >= _min;
+        assert max >= _min : "maximum " + max + " not >= " + _min;
         _max = max;
         firePropertyChange(PROPERTY_MAX, old, max);
     }
