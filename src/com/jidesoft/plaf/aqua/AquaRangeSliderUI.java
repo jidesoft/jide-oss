@@ -341,7 +341,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
                 return MOUSE_HANDLE_MIDDLE;
             }
 
-            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, y < minY);
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, y > minY);
             return MOUSE_HANDLE_NONE;
         }
         else {
