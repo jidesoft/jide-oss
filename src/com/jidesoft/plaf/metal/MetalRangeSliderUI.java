@@ -322,7 +322,7 @@ public class MetalRangeSliderUI extends MetalSliderUI {
             int minY = yPositionForValue(((RangeSlider) slider).getLowValue());
             int maxY = yPositionForValue(((RangeSlider) slider).getHighValue());
             Rectangle midRect = new Rectangle(rect.x, Math.min(minY, maxY) + thumbRect.height / 2, rect.width, Math.abs(maxY - minY) - thumbRect.height);
-            if (((RangeSlider) slider).isRangeDraggable() && midRect.contains(x, y)) {
+            if (midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
 
@@ -334,7 +334,7 @@ public class MetalRangeSliderUI extends MetalSliderUI {
             int maxX = xPositionForValue(((RangeSlider) slider).getHighValue());
 
             Rectangle midRect = new Rectangle(Math.min(minX, maxX) + thumbRect.width / 2, rect.y, Math.abs(maxX - minX) - thumbRect.height, rect.height);
-            if (((RangeSlider) slider).isRangeDraggable() && midRect.contains(x, y)) {
+            if (midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
             slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, x < minX);
