@@ -137,7 +137,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             handle = getMouseHandle(e.getX(), e.getY());
             setMousePressed(handle);
 
-            if (handle != MOUSE_HANDLE_NONE) {
+            if (handle == MOUSE_HANDLE_MAX || handle == MOUSE_HANDLE_MIN || handle == MOUSE_HANDLE_MIDDLE) {
                 handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
                         e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
                         e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
@@ -146,7 +146,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
 
                 slider.getModel().setValueIsAdjusting(true);
             }
-            else {
+            else if (handle == MOUSE_HANDLE_LOWER || handle == MOUSE_HANDLE_UPPER) {
                 _listener.mousePressed(e);
                 slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
             }
@@ -251,7 +251,12 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
                     setCursor(Cursor.DEFAULT_CURSOR);
                     break;
                 case MOUSE_HANDLE_MIDDLE:
-                    setCursor(Cursor.MOVE_CURSOR);
+                    if (slider instanceof RangeSlider && ((RangeSlider) slider).isRangeDraggable()) {
+                        setCursor(Cursor.MOVE_CURSOR);
+                    }
+                    else {
+                        setCursor(Cursor.DEFAULT_CURSOR);
+                    }
                     break;
                 case MOUSE_HANDLE_NONE:
                 default:
@@ -304,6 +309,10 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
 
     protected static final int MOUSE_HANDLE_MIDDLE = 4;
 
+    protected static final int MOUSE_HANDLE_LOWER = 5;
+
+    protected static final int MOUSE_HANDLE_UPPER = 6;
+
     protected int getMouseHandle(int x, int y) {
         Rectangle rect = trackRect;
 
@@ -326,19 +335,39 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             if (midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
+            int sy = rect.y + Math.max(minY, maxY) + thumbRect.height / 2;
+            Rectangle lowerRect = new Rectangle(rect.x, sy, rect.width, rect.y + rect.height - sy);
+            if (lowerRect.contains(x, y)) {
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, true);
+                return MOUSE_HANDLE_LOWER;
+            }
+            Rectangle upperRect = new Rectangle(rect.x, rect.y, rect.width, Math.min(maxY, minY) - thumbRect.height / 2);
+            if (upperRect.contains(x, y)) {
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, false);
+                return MOUSE_HANDLE_UPPER;
+            }
 
-            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, y > minY);
             return MOUSE_HANDLE_NONE;
         }
         else {
             int minX = xPositionForValue(((RangeSlider) slider).getLowValue());
             int maxX = xPositionForValue(((RangeSlider) slider).getHighValue());
 
-            Rectangle midRect = new Rectangle(Math.min(minX, maxX) + thumbRect.width / 2, rect.y, Math.abs(maxX - minX) - thumbRect.height, rect.height);
+            Rectangle midRect = new Rectangle(Math.min(minX, maxX) + thumbRect.width / 2, rect.y, Math.abs(maxX - minX) - thumbRect.width, rect.height);
             if (midRect.contains(x, y)) {
                 return MOUSE_HANDLE_MIDDLE;
             }
-            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, x < minX);
+            Rectangle lowerRect = new Rectangle(rect.x, rect.y, Math.min(minX, maxX) - thumbRect.width / 2 - rect.x, rect.height);
+            if (lowerRect.contains(x, y)) {
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, true);
+                return MOUSE_HANDLE_LOWER;
+            }
+            int sx = rect.x + Math.abs(maxX - minX) + thumbRect.width / 2;
+            Rectangle upperRect = new Rectangle(sx, rect.y, rect.width - sx, rect.height);
+            if (upperRect.contains(x, y)) {
+                slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, false);
+                return MOUSE_HANDLE_UPPER;
+            }
             return MOUSE_HANDLE_NONE;
         }
     }
