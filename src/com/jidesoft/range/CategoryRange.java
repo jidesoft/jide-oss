@@ -246,6 +246,49 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         return _categoryValues;
     }
     
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((_categoryValues == null) ? 0 : _categoryValues.hashCode());
+        result = prime * result + ((_possibleValues == null) ? 0 : _possibleValues.hashCode());
+        result = prime * result + ((maximum == null) ? 0 : maximum.hashCode());
+        result = prime * result + ((minimum == null) ? 0 : minimum.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CategoryRange other = (CategoryRange) obj;
+        if (_categoryValues == null) {
+            if (other._categoryValues != null)
+                return false;
+        } else if (!_categoryValues.equals(other._categoryValues))
+            return false;
+        if (_possibleValues == null) {
+            if (other._possibleValues != null)
+                return false;
+        } else if (!_possibleValues.equals(other._possibleValues))
+            return false;
+        if (maximum == null) {
+            if (other.maximum != null)
+                return false;
+        } else if (!maximum.equals(other.maximum))
+            return false;
+        if (minimum == null) {
+            if (other.minimum != null)
+                return false;
+        } else if (!minimum.equals(other.minimum))
+            return false;
+        return true;
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder("#<CategoryRange ");
         builder.append("minimum=");
