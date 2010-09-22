@@ -31,6 +31,8 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Vector;
@@ -6756,6 +6758,36 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
 
                     boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
+                    if (isTabTrailingComponentVisible() && _tabPane.isLayoutTrailingComponentBeforeButtons()) {
+                        List<TabCloseButton> buttons = new ArrayList<TabCloseButton>();
+                        for (int i = 0; i < numChildren; i++) {
+                            Component child = _tabPane.getComponent(i);
+                            if (child instanceof TabCloseButton && child != _tabLeadingComponent && child != _tabTrailingComponent && child.isVisible() && child.getBounds().width != 0) {
+                                buttons.add((TabCloseButton) child);
+                            }
+                        }
+                        if (buttons.size() > 0) {
+                            Rectangle lastButtonRect = buttons.get(buttons.size() - 1).getBounds();
+                            Rectangle firstButtonRect = buttons.get(0).getBounds();
+                            Rectangle trailingCompRect = _tabTrailingComponent.getBounds();
+                            if (!verticalTabRuns) {
+                                _tabTrailingComponent.setBounds(new Rectangle(firstButtonRect.x, trailingCompRect.y, trailingCompRect.width, trailingCompRect.height));
+                                int offset = _tabTrailingComponent.getWidth() - (lastButtonRect.x + lastButtonRect.width - firstButtonRect.x);
+                                for (TabCloseButton button : buttons) {
+                                    Rectangle buttonRect = button.getBounds();
+                                    button.setBounds(trailingCompRect.x + offset + buttonRect.x - firstButtonRect.x, buttonRect.y, buttonRect.width, buttonRect.height);
+                                }
+                            }
+                            else {
+                                _tabTrailingComponent.setBounds(new Rectangle(trailingCompRect.x, firstButtonRect.y, trailingCompRect.width, trailingCompRect.height));
+                                int offset = _tabTrailingComponent.getHeight() - (lastButtonRect.y + lastButtonRect.height - firstButtonRect.y);
+                                for (TabCloseButton button : buttons) {
+                                    Rectangle buttonRect = button.getBounds();
+                                    button.setBounds(buttonRect.x, trailingCompRect.y + offset + buttonRect.y - firstButtonRect.y, buttonRect.width, buttonRect.height);
+                                }
+                            }
+                        }
+                    }
                     if (!leftToRight && !verticalTabRuns && viewport != null && !viewport.getSize().equals(_tabPane.getSize())) {
                         int offset = _tabPane.getWidth() - viewport.getWidth();
                         for (Rectangle rect : _rects) {

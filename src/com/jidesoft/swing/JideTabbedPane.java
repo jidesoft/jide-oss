@@ -238,7 +238,8 @@ public class JideTabbedPane extends JTabbedPane {
 
     private static final Logger LOGGER_EVENT = Logger.getLogger(TabEditingEvent.class.getName());
 
-    private boolean closeTabOnMouseMiddleButton = false;
+    private boolean _closeTabOnMouseMiddleButton = false;
+    private boolean _layoutTrailingComponentBeforeButtons = false;
 
     /**
      * Creates an empty <code>TabbedPane</code> with a default tab placement of <code>JTabbedPane.TOP</code>.
@@ -656,6 +657,27 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setHideTrailingWhileNoButtons(boolean hideTrailingWhileNoButtons) {
         _hideTrailingWhileNoButtons = hideTrailingWhileNoButtons;
+    }
+
+    /**
+     * Gets the flag indicating if the trailing component should be layout before the default buttons.
+     *
+     * @see #setLayoutTrailingComponentBeforeButtons(boolean)
+     * @return true if the trailing component should be layout to the left/up. Otherwise false.
+     */
+    public boolean isLayoutTrailingComponentBeforeButtons() {
+        return _layoutTrailingComponentBeforeButtons;
+    }
+
+    /**
+     * Sets the flag indicating if the trailing component should be layout before the default buttons.
+     * <p/>
+     * The default value is false. If you want your trailing component preceding to the default buttons, please set this flag to true.
+     *
+     * @param layoutTrailingComponentBeforeButtons the flag
+     */
+    public void setLayoutTrailingComponentBeforeButtons(boolean layoutTrailingComponentBeforeButtons) {
+        _layoutTrailingComponentBeforeButtons = layoutTrailingComponentBeforeButtons;
     }
 
     /*
@@ -1886,7 +1908,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @return the flag.
      */
     public boolean isCloseTabOnMouseMiddleButton() {
-        return closeTabOnMouseMiddleButton;
+        return _closeTabOnMouseMiddleButton;
     }
 
     /**
@@ -1895,7 +1917,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @param closeTabOnMouseMiddleButton the flag
      */
     public void setCloseTabOnMouseMiddleButton(boolean closeTabOnMouseMiddleButton) {
-        this.closeTabOnMouseMiddleButton = closeTabOnMouseMiddleButton;
+        this._closeTabOnMouseMiddleButton = closeTabOnMouseMiddleButton;
     }
 
     /**
