@@ -46,6 +46,19 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     public CategoryRange(Set<T> values) {
         _possibleValues = new ArrayList<T>(values);
     }
+    
+    /**
+     * Create a new CategoryRange by copying an existing one. This would allow you subsequently to tweak
+     * the values in the copy without affecting the original.
+     * @param categoryRange the category range instance to copy
+     */
+    public CategoryRange(CategoryRange<T> categoryRange) {
+        _categoryValues = new ArrayList<Category<T>>(categoryRange.getCategoryValues());
+        _possibleValues = new ArrayList<T>(categoryRange.getPossibleValues());
+        CategoryRange<T> range = new CategoryRange<T>();
+        setMinimum(categoryRange.minimum());
+        setMaximum(categoryRange.maximum());
+    }
 
     public List<T> getPossibleValues() {
         return _possibleValues;
@@ -66,6 +79,12 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         c.setRange(this);
         firePropertyChange(PROPERTY_VALUES, null, _possibleValues);
         return this;
+    }
+    
+
+    @Override
+    public Range<T> copy() {
+        return new CategoryRange<T>(this);
     }
 
     // TODO: This assumes the possible values are sorted

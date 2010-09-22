@@ -34,6 +34,19 @@ public class NumericRange extends AbstractNumericRange<Double> {
         _min = Math.min(min, max);
         _max = Math.max(min, max);
     }
+    
+    /**
+     * Creates a copy of the supplied NumericRange
+     * @param numericRange the NumericRange instance to copy
+     */
+    public NumericRange(NumericRange numericRange) {
+        this(numericRange.minimum(), numericRange.maximum());
+    }
+
+    @Override
+    public Range<Double> copy() {
+        return new NumericRange(this);
+    }
 
     /**
      * @return the minimum value

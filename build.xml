@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="JIDE_${jideversion}" default="dist">
+<project name="JIDE_${jide_version}" default="dist">
 
     <!-- Default configuration and properties for script execution. If does not exist then uses ${basedir}/CM_build.properties. -->
     <property file="${basedir}/build.properties"/>

@@ -18,6 +18,10 @@ public abstract class AbstractRange<T> implements Range<T> {
 
     public AbstractRange() {
     }
+    
+    public Range<T> copy() {
+        throw new UnsupportedOperationException("Copy method not implemented");
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         if (listener == null) {

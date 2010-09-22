@@ -12,12 +12,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="junit" level="project" />
-    <orderEntry type="library" exported="" name="substance" level="project" />
-    <orderEntry type="library" exported="" name="trove" level="project" />
-    <orderEntry type="library" exported="" name="javolution" level="project" />
-    <orderEntry type="library" exported="" name="tinylnf" level="project" />
-    <orderEntry type="library" exported="" name="3rd-lnf" level="project" />
+    <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="library" name="substance" level="project" />
+    <orderEntry type="library" name="trove" level="project" />
+    <orderEntry type="library" name="javolution" level="project" />
+    <orderEntry type="library" name="tinylnf" level="project" />
+    <orderEntry type="library" name="3rd-lnf" level="project" />
   </component>
   <component name="copyright">
     <Base>

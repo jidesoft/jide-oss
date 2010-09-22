@@ -61,6 +61,19 @@ public class TimeRange extends AbstractRange<Date> {
         _min = new Date(from);
         _max = new Date(to);
     }
+    
+    /**
+     * Constructs a copy of the supplied time range
+     * @param timeRange the timeRange to copy
+     */
+    public TimeRange(TimeRange timeRange) {
+        this((long) timeRange.minimum(), (long) timeRange.maximum());
+    }
+
+    @Override
+    public Range<Date> copy() {
+        return new TimeRange(this);
+    }
 
     public void setMin(Date from) {
         Date oldValue = _min;

@@ -33,6 +33,19 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
         _min = Math.min(min, max);
         _max = Math.max(min, max);
     }
+    
+    /**
+     * Constructs a copy of the supplied IntegerRange object
+     * @param integerRange the integer range object to copy
+     */
+    public IntegerRange(IntegerRange integerRange) {
+        this((int) integerRange.minimum(), (int) integerRange.maximum());
+    }
+
+    @Override
+    public Range<Integer> copy() {
+        return new IntegerRange(this);
+    }
 
     /**
      * @return the minimum value
