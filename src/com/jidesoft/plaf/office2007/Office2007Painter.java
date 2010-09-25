@@ -463,9 +463,16 @@ public class Office2007Painter extends BasicPainter {
             colors[i] = ColorUtils.getDerivedColor(color, .47f);
         }
         if (1 != height - 2) {
-            g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
-                    new float[]{0f, .5f, .51f, 1f},
-                    colors));
+            if (orientation == SwingConstants.HORIZONTAL) {
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + 1, y + height - 2,
+                        new float[]{0f, .5f, .51f, 1f},
+                        colors));
+            }
+            else {
+                g2d.setPaint(JideSwingUtilities.getLinearGradientPaint(x + 1, y + 1, x + width - 2, y + 1,
+                        new float[]{0f, .5f, .51f, 1f},
+                        colors));
+            }
         }
         g2d.fillRect(x + 1, y + 1, width - 2, height - 2);
         AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_ATOP);
