@@ -4412,8 +4412,53 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             translatePointToTabPanel(x, y, p);
         }
         int tabCount = _tabPane.getTabCount();
-        if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight()) {
+        boolean horizontalTab = _tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM;
+        boolean isRTL = horizontalTab && !_tabPane.getComponentOrientation().isLeftToRight();
+        if (isRTL) {
             p.x -= _tabScroller.viewport.getExpectedViewX();
+        }
+
+        int firstButtonPos = isRTL ? 0: Integer.MAX_VALUE;
+        Component[] components = _tabPane.getComponents();
+        for (Component component : components) {
+            if (component instanceof TabCloseButton && component.isVisible()) {
+                Rectangle bounds = component.getBounds();
+                if (horizontalTab && bounds.x != 0) {
+                    if (isRTL) {
+                        firstButtonPos = Math.max(firstButtonPos, bounds.x);
+                    }
+                    else {
+                        firstButtonPos = Math.min(firstButtonPos, bounds.x);
+                    }
+                }
+                else if (!horizontalTab && bounds.y != 0) {
+                    firstButtonPos = Math.min(firstButtonPos, bounds.y);
+                }
+            }
+        }
+        if (_tabPane.getTabTrailingComponent() != null && _tabPane.getTabTrailingComponent().isVisible()) {
+            Rectangle bounds = _tabPane.getTabTrailingComponent().getBounds();
+            if (horizontalTab && bounds.x != 0) {
+                if (isRTL) {
+                    firstButtonPos = Math.max(firstButtonPos, bounds.x);
+                }
+                else {
+                    firstButtonPos = Math.min(firstButtonPos, bounds.x);
+                }
+            }
+            else if (!horizontalTab && bounds.y != 0) {
+                firstButtonPos = Math.min(firstButtonPos, bounds.y);
+            }
+        }
+        if (horizontalTab) {
+            if ((isRTL && x <= firstButtonPos) || (!isRTL && x >= firstButtonPos)) {
+                return -1;
+            }
+        }
+        else {
+            if (y >= firstButtonPos) {
+                return -1;
+            }
         }
 
         for (int i = 0; i < tabCount; i++) {
