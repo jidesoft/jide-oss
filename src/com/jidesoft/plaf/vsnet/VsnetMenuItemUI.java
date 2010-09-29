@@ -1215,6 +1215,18 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
 
         public void mouseMoved(MouseEvent e) {
+            if (menuItem != null && menuItem.isEnabled()) {
+                MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+                int modifiers = e.getModifiers();
+                // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
+                if ((modifiers & (InputEvent.BUTTON1_MASK |
+                        InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) == 0) {
+                    MenuElement[] path = manager.getSelectedPath();
+                    if (getPath().length > path.length) { // MOUSE ENTER event is missed because of overlap menu items, for example the JideSplitButton
+                        manager.setSelectedPath(getPath());
+                    }
+                }
+            }
         }
     }
 
