@@ -337,7 +337,7 @@ public class JideOptionPane extends JOptionPane {
         JDialog dialog = pane.createDialog(parentComponent, title, style);
 
         pane.selectInitialValue();
-        dialog.show();
+        dialog.setVisible(true);
         dialog.dispose();
 
         Object value = pane.getInputValue();
@@ -639,7 +639,7 @@ public class JideOptionPane extends JOptionPane {
         JDialog dialog = pane.createDialog(parentComponent, title, style);
 
         pane.selectInitialValue();
-        dialog.show();
+        dialog.setVisible(true);
         dialog.dispose();
 
         Object selectedValue = pane.getValue();

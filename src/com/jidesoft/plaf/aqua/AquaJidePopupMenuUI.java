@@ -6,7 +6,7 @@
 
 package com.jidesoft.plaf.aqua;
 
-import apple.laf.AquaPopupMenuUI;
+import com.apple.laf.AquaPopupMenuUI;
 import com.jidesoft.plaf.basic.BasicJidePopupMenuUI;
 
 import javax.swing.*;
