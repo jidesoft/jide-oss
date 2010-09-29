@@ -74,10 +74,12 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      * @return this range
      */
     public CategoryRange<T> add(Category<T> c) {
-        _possibleValues.add(c.getValue());
-        _categoryValues.add(c);
-        c.setRange(this);
-        firePropertyChange(PROPERTY_VALUES, null, _possibleValues);
+        if (!contains(c)) {
+            _possibleValues.add(c.getValue());
+            _categoryValues.add(c);
+            c.setRange(this);
+            firePropertyChange(PROPERTY_VALUES, null, _possibleValues);
+        }
         return this;
     }
     
