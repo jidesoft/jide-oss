@@ -110,7 +110,7 @@ public class ActionSupportForJDK5 {
             setSelectedFromAction(button, action);
         else if (DISPLAYED_MNEMONIC_INDEX_KEY.equals(propertyName))
             setDisplayedMnemonicIndexFromAction(button, action, true);
-        else if (SELECTED_KEY.equals(propertyName))
+        else if (LARGE_ICON_KEY.equals(propertyName))
             largeIconChanged(button, action);
     }
 
