@@ -41,7 +41,8 @@
     </target>
 
     <path id="standard_classpath">
-        <pathelement location="${basedir}\libs\laf.jar"></pathelement>
+        <pathelement location="${basedir}\libs\ui.jar"/>
+        <pathelement location="${basedir}\libs\JavaRuntimeSupport.jar"/>
     </path>
 
     <target name="compile" depends="init" description="compile the source code">
@@ -59,7 +60,7 @@
     </target>
 
     <target name="javadoc" depends="compile" description="generate javadoc">
-        <mkdir dir="${javadoc_dir}"></mkdir>
+        <mkdir dir="${javadoc_dir}"/>
         <javadoc maxmemory="${maxheapsize}" sourcepath="${javadoc_source_list}"
                  packagenames="com.jidesoft.*" destdir="${javadoc_dir}"
                  header="JIDE Common Layer ${jide_version}">
@@ -69,7 +70,7 @@
     </target>
 
     <target name="jar" depends="compile" description="create the distributation jar">
-        <delete file="${base_dir}/jide-oss-${jide_version}.jar"></delete>
+        <delete file="${base_dir}/jide-oss-${jide_version}.jar"/>
         <jar update="false" jarfile="${base_dir}/jide-oss-${jide_version}.jar" basedir="${output_dir}"
              includes="com/jidesoft/**">
             <manifest>

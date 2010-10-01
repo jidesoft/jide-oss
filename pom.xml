@@ -67,19 +67,22 @@
         </plugins>
     </build>
     <profiles>
-        <profile>
-            <activation>
-                <os>
-                    <family>mac</family>
-                </os>
-            </activation>
+        <profile><id>aqua</id>
+            <activation><activeByDefault>true</activeByDefault></activation>
             <dependencies>
                 <dependency>
-                    <groupId>aqua</groupId>
-                    <artifactId>aqua</artifactId>
+                    <groupId>aqua_ui</groupId>
+                    <artifactId>ui</artifactId>
                     <version>5.0</version>
                     <scope>system</scope>
-                    <systemPath>${basedir}/libs/laf.jar</systemPath>
+                    <systemPath>${basedir}/libs/ui.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>aqua_ui</groupId>
+                    <artifactId>jrs</artifactId>
+                    <version>5.0</version>
+                    <scope>system</scope>
+                    <systemPath>${basedir}/libs/JavaRuntimeSupport.jar</systemPath>
                 </dependency>
             </dependencies>
         </profile>
