@@ -468,7 +468,7 @@ public class CheckBoxListWithSelectable extends JList implements ItemSelectable 
     }
 
     @Override
-    public void setListData(Vector<?> listData) {
+    public void setListData(Vector listData) {
         super.setListData(wrap(listData));
     }
 
