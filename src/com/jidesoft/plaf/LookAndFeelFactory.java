@@ -1148,10 +1148,6 @@ public class LookAndFeelFactory implements ProductNames {
                     "activeCaption", defaults.getColor("textHighlight"),
                     "activeCaptionText", defaults.getColor("textHighlightText"),
                     "inactiveCaptionBorder", defaults.getColor("controlShadowtextHighlightText"),
-                    "CategorizedTable.categoryCollapsedIcon", rightImageIcon,
-                    "CategorizedTable.categoryExpandedIcon", downImageIcon,
-                    "CategorizedTable.collapsedIcon", rightImageIcon,
-                    "CategorizedTable.expandedIcon", downImageIcon,
             };
             putDefaults(defaults, uiDefaults);
         }
