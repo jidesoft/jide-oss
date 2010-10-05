@@ -15,6 +15,7 @@ import com.jidesoft.plaf.metal.MetalPainter;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -381,7 +382,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 15,
 
-                    "CollapsiblePane.background", defaultBackgroundColor,
+                    "CollapsiblePane.background", defaultBackgroundColor instanceof Color ? (ColorUtils.getDerivedColor((Color) defaultBackgroundColor, 0.45f)) : defaultBackgroundColor,
                     "CollapsiblePane.contentBackground", defaultHighlightColor,
                     "CollapsiblePane.foreground", defaultTextColor,
                     "CollapsiblePane.emphasizedBackground", activeTitleBackgroundColor,
