@@ -1,8 +1,11 @@
 package com.jidesoft.utils;
 
-/**
- * Utils methods for data type.
- */
+import javax.swing.*;
+import java.awt.*;
+import java.util.Calendar;
+import java.util.Date;
+
+/** Utils methods for data type. */
 public class TypeUtils {
     // indexes referring to columns in the PRIMITIVE_ARRAY_TYPES table.
     private static final int WRAPPER_TYPE_INDEX = 0;
@@ -70,4 +73,27 @@ public class TypeUtils {
                 || type == short.class
                 || type == long.class);
     }
+
+    /**
+     * Checks if the type is a temporal type such as Date, Calendar, long or double that can be used to represent date or time.
+     *
+     * @param type the data type.
+     * @return true if it is temporal type including all subclasses.
+     */
+    public static boolean isTemporalType(Class<?> type) {
+        return type != null && (Date.class.isAssignableFrom(type) || Calendar.class.isAssignableFrom(type)
+                || type == double.class
+                || type == long.class);
+    }
+
+    /**
+     * Checks if the type is a type that can be visualized such as color, image or icon.
+     *
+     * @param type the data type.
+     * @return true if it is visual type including all subclasses.
+     */
+    public static boolean isVisualType(Class<?> type) {
+        return type != null && (Color.class.isAssignableFrom(type) || Icon.class.isAssignableFrom(type) || Image.class.isAssignableFrom(type));
+    }
+
 }
