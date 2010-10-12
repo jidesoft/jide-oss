@@ -49,6 +49,8 @@ public class MultilineLabel extends JTextArea {
         JideSwingUtilities.setTextComponentTransparent(this);
 
         setCaret(new DefaultCaret() {
+            private static final long serialVersionUID = 1242467463492127346L;
+
             @Override
             protected void adjustVisibility(Rectangle nloc) {
             }
@@ -74,6 +76,6 @@ public class MultilineLabel extends JTextArea {
      */
     @Override
     public Dimension getMinimumSize() {
-        return new Dimension(1, 1);
+        return getPreferredSize();
     }
 }
