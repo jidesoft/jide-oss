@@ -10,7 +10,6 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import java.lang.reflect.Method;
 
 /**
@@ -74,25 +73,20 @@ public class RangeSlider extends JSlider {
      */
     @Override
     public void updateUI() {
-        if (!UIManager.getLookAndFeel().getClass().isAssignableFrom(SynthLookAndFeel.class)) {
-            if (UIDefaultsLookup.get("RangeSliderUI") == null) {
-                LookAndFeelFactory.installJideExtension();
-            }
-            try {
-                Class<?> uiClass = Class.forName(UIManager.getString("RangeSliderUI"));
-                Class acClass = javax.swing.JComponent.class;
-                Method m = uiClass.getMethod("createUI", new Class[]{acClass});
-                if (m != null) {
-                    Object uiObject = m.invoke(null, new Object[]{this});
-                    setUI((ComponentUI) uiObject);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+        if (UIDefaultsLookup.get("RangeSliderUI") == null) {
+            LookAndFeelFactory.installJideExtension();
+        }
+        try {
+            Class<?> uiClass = Class.forName(UIManager.getString("RangeSliderUI"));
+            Class acClass = javax.swing.JComponent.class;
+            Method m = uiClass.getMethod("createUI", new Class[]{acClass});
+            if (m != null) {
+                Object uiObject = m.invoke(null, new Object[]{this});
+                setUI((ComponentUI) uiObject);
             }
         }
-        else {
-            setUI(UIManager.getUI(this));
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

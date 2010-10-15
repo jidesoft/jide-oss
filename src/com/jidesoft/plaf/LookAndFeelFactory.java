@@ -7,7 +7,6 @@
 package com.jidesoft.plaf;
 
 import com.jidesoft.icons.IconsFactory;
-import com.jidesoft.icons.JideIconsFactory;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.eclipse.Eclipse3xMetalUtils;
@@ -799,8 +798,10 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
             }
 
-            // built in customizer
-            if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
+            if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
+                new GTKCustomizer().customize(uiDefaults);
+            }
+            else if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
                 new SyntheticaCustomizer().customize(uiDefaults);
             }
         }
@@ -1142,14 +1143,21 @@ public class LookAndFeelFactory implements ProductNames {
 
     public static class GTKInitializer implements UIDefaultsInitializer {
         public void initialize(UIDefaults defaults) {
-            ImageIcon rightImageIcon = IconsFactory.createMaskImage(new JLabel(), JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.RIGHT), Color.BLACK, Color.GRAY);
-            ImageIcon downImageIcon = IconsFactory.createMaskImage(new JLabel(), JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.DOWN), Color.BLACK, Color.GRAY);
             Object[] uiDefaults = {
                     "activeCaption", defaults.getColor("textHighlight"),
                     "activeCaptionText", defaults.getColor("textHighlightText"),
                     "inactiveCaptionBorder", defaults.getColor("controlShadowtextHighlightText"),
             };
             putDefaults(defaults, uiDefaults);
+        }
+    }
+
+    public static class GTKCustomizer implements UIDefaultsCustomizer {
+        public void customize(UIDefaults defaults) {
+            Object[] uiDefaults = {
+                    "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
+            };
+            overwriteDefaults(defaults, uiDefaults);
         }
     }
 
