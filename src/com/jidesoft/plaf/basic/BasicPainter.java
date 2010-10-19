@@ -846,11 +846,11 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     }
 
     public void paintSortableTableHeaderColumn(JComponent c, Graphics g, Rectangle rect, int orientation, int state, int sortOrder, Icon sortIcon, int orderIndex, Color indexColor, boolean paintIndex) {
-        int h = c.getHeight();
         int iconHeight = sortIcon == null ? 0 : sortIcon.getIconHeight();
         int iconWidth = sortIcon == null ? 0 : sortIcon.getIconWidth();
-        int y = sortIcon == null ? 0 : (h - iconHeight) / 2 - V_GAP;
+        int yOffset = sortIcon == null ? 0 : (rect.height - iconHeight) / 2 - V_GAP;
 
+        boolean leftToRight = c.getComponentOrientation().isLeftToRight();
         if (paintIndex && orderIndex != -1) {
             Font oldFont = g.getFont();
             Font font = g.getFont().deriveFont(Font.PLAIN, oldFont.getSize() - 3);
@@ -861,10 +861,13 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             g.setColor(indexColor);
             int x = rect.x + rect.width / 2 - (iconWidth + ARROW_TEXT_GAP + textWidth) / 2;
             if (shouldDisplayOnTop()) {
-                JideSwingUtilities.drawString(c, g, str, x + ARROW_TEXT_GAP + iconWidth, V_GAP + c.getFontMetrics(font).getAscent() - 2);
+                JideSwingUtilities.drawString(c, g, str, x + ARROW_TEXT_GAP + iconWidth, rect.y + V_GAP + c.getFontMetrics(font).getAscent() - 2);
+            }
+            else if(leftToRight) {
+                JideSwingUtilities.drawString(c, g, str, rect.x + rect.width - textWidth - H_GAP, rect.y + yOffset + iconHeight / 2 + 1);
             }
             else {
-                JideSwingUtilities.drawString(c, g, str, rect.x + rect.width - textWidth - H_GAP, y + iconHeight / 2 + 1);
+                JideSwingUtilities.drawString(c, g, str, rect.x + H_GAP, rect.y + yOffset + iconHeight / 2 + 1);
             }
             g.setColor(oldColor);
             g.setFont(oldFont);
@@ -872,19 +875,28 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (shouldDisplayOnTop()) {
                     if(sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon)sortIcon).paintIcon(context, g, x, V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                        ((SynthIcon)sortIcon).paintIcon(context, g, x, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
                     }
                     else {
-                        sortIcon.paintIcon(c, g, x, V_GAP);
+                        sortIcon.paintIcon(c, g, x, rect.y + V_GAP);
+                    }
+                }
+                else if(leftToRight) {
+                    if(sortIcon instanceof SynthIcon) {
+                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
+                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                    }
+                    else {
+                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset);
                     }
                 }
                 else {
                     if(sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, y, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
                     }
                     else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, y);
+                        sortIcon.paintIcon(c, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset);
                     }
                 }
             }
@@ -894,19 +906,28 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 if (shouldDisplayOnTop()) {
                     if(sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width / 2 - iconWidth / 2, V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
                     }
                     else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width / 2 - iconWidth / 2, V_GAP);
+                        sortIcon.paintIcon(c, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP);
+                    }
+                }
+                else if(leftToRight) {
+                    if(sortIcon instanceof SynthIcon) {
+                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
+                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                    }
+                    else {
+                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset);
                     }
                 }
                 else {
                     if(sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - H_GAP, y, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                        ((SynthIcon)sortIcon).paintIcon(context, g, rect.x + H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
                     }
                     else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - H_GAP, y);
+                        sortIcon.paintIcon(c, g, rect.x + H_GAP, rect.y + yOffset);
                     }
                 }
             }
