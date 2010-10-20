@@ -32,6 +32,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
     private JidePopup _popup;
     private JTextComponent _textComponent;
+    private JComponent _hintsComponent;
 
     private boolean _followCaret = false;
 
@@ -111,17 +112,6 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         for (KeyStroke keyStroke : keyStrokes) {
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, keyStroke, new LazyDelegateAction(keyStroke));
         }
-
-        getDelegateComponent().setRequestFocusEnabled(false);
-        getDelegateComponent().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                hideHintsPopup();
-                setHintsEnabled(false);
-                acceptHint(getSelectedHint());
-                setHintsEnabled(true);
-            }
-        });
     }
 
     protected JidePopup createPopup() {
@@ -130,7 +120,6 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         popup.setResizable(true);
         popup.setPopupBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("controlDkShadow"), 1));
         popup.setMovable(false);
-        popup.add(createHintsComponent());
         popup.addPopupMenuListener(new PopupMenuListener() {
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             }
@@ -215,6 +204,23 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * true, the popup will be shown. You can call this method to fore the hints to be displayed.
      */
     public void showHints() {
+        if (_popup == null) {
+            return;
+        }
+        if (_hintsComponent == null) {
+            _hintsComponent = createHintsComponent();
+            _popup.add(_hintsComponent);
+            getDelegateComponent().setRequestFocusEnabled(false);
+            getDelegateComponent().addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    hideHintsPopup();
+                    setHintsEnabled(false);
+                    acceptHint(getSelectedHint());
+                    setHintsEnabled(true);
+                }
+            });
+        }
         if (updateHints(getContext())) {
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), hideAction);
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), acceptAction, true);
@@ -374,6 +380,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     /**
      * Returns whether the hints popup is automatically displayed. Default is true
      *
+     * @see #setAutoPopup(boolean)
      * @return true if the popup should be automatically displayed. False will never show it automatically and then need
      *         the user to manually activate it via the getShowHintsKeyStroke() key binding.
      */
@@ -399,6 +406,9 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * contains a component that user will try to use navigation key to select an item. For example, use UP and DOWN key
      * to navigate the list. Those keystrokes, if the popup is visible, will be delegated to the the component that
      * returns from {@link #getDelegateComponent()}.
+     * <p/>
+     * NOTE: Since this method would be invoked inside the constructor of AbstractIntelliHints, please do not try to return a 
+     * field because the field is not initiated yet at this time.
      *
      * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when hint popup is
      *         shown.
