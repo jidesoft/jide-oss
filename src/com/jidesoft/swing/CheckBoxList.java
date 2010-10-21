@@ -217,10 +217,13 @@ public class CheckBoxList extends JList {
                 return;
             }
 
-            if (!_list.isClickInCheckBoxOnly() || clicksInCheckBox(e)) {
+            boolean clickInBox = clicksInCheckBox(e);
+            if (!_list.isClickInCheckBoxOnly() || clickInBox) {
                 int index = _list.locationToIndex(e.getPoint());
                 toggleSelection(index);
-                e.consume();
+                if (clickInBox) {
+                    e.consume();
+                }
             }
         }
 
@@ -233,7 +236,7 @@ public class CheckBoxList extends JList {
                 return;
             }
 
-            if (!_list.isClickInCheckBoxOnly() || clicksInCheckBox(e)) {
+            if (clicksInCheckBox(e)) {
                 e.consume();
             }
         }
