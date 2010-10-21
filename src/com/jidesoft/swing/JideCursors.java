@@ -131,6 +131,7 @@ public class JideCursors {
      *
      * @param type the type of predefined cursor
      * @throws IllegalArgumentException if the specified cursor type is invalid
+     * @return the cursor associated with that type.
      */
     static public Cursor getPredefinedCursor(int type) {
         if (type < FIRST_CUSTOM_CURSOR || type > LAST_CUSTOM_CURSOR) {
@@ -140,6 +141,20 @@ public class JideCursors {
             predefined[type - FIRST_CUSTOM_CURSOR] = createCursor(type);
         }
         return predefined[type - FIRST_CUSTOM_CURSOR];
+    }
+
+    /**
+     * Sets a cursor object with the specified predefined type.
+     *
+     * @param type   the type of predefined cursor
+     * @param cursor the cursor associated with that type
+     * @throws IllegalArgumentException if the specified cursor type is invalid
+     */
+    public static void setPredefinedCursor(int type, Cursor cursor) {
+        if (type < FIRST_CUSTOM_CURSOR || type > LAST_CUSTOM_CURSOR) {
+            throw new IllegalArgumentException("illegal cursor type");
+        }
+        predefined[type - FIRST_CUSTOM_CURSOR] = cursor == null ? createCursor(type) : cursor;
     }
 
     /**
