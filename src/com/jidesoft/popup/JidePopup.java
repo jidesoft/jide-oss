@@ -1303,7 +1303,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 else {
                     _resizableSupport.getResizable().setResizableCorners(Resizable.NONE);
                 }
-                _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
+                if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF_6) && !LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF)) {
+                    _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
+                }
             }
         }
     }
@@ -2224,7 +2226,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
                 else {
                     if (getPopupBorder() == null) {
-                        _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
+                        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF_6) && !LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF)) {
+                            _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
+                        }
                     }
                     else {
                         _resizableSupport.setBorder(getPopupBorder());

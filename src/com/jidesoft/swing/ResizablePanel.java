@@ -5,6 +5,7 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
@@ -91,6 +92,8 @@ public class ResizablePanel extends JPanel implements ResizableSupport {
     @Override
     public void updateUI() {
         super.updateUI();
-        setBorder(UIDefaultsLookup.getBorder("Resizable.resizeBorder"));
+        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF_6) && !LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF)) {
+            setBorder(UIDefaultsLookup.getBorder("Resizable.resizeBorder"));
+        }
     }
 }
