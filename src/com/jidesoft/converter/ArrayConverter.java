@@ -5,8 +5,6 @@
  */
 package com.jidesoft.converter;
 
-import java.util.StringTokenizer;
-
 /**
  * An abstract class that is extended by any converters that convert to/from an array-like format, such as 1, 2, 3.
  * Examples are Point. Point(100, 200) can convert to/from "100, 200" <br> You have the choice of what the separator is;
@@ -93,10 +91,12 @@ abstract public class ArrayConverter implements ObjectConverter {
         if (string == null || string.trim().length() == 0) {
             return null;
         }
-        StringTokenizer token = new StringTokenizer(string, _separator);
-        Object[] objects = new Object[_size != -1 ? _size : token.countTokens()];
-        for (int i = 0; i < objects.length && token.hasMoreTokens(); i++) {
-            String s = token.nextToken().trim();
+//        String sep = _separator.equals(" ") ? _separator : _separator.trim();
+        String[] ss = string.split(_separator);
+//        StringTokenizer token = new StringTokenizer(string, sep);
+        Object[] objects = new Object[_size != -1 ? _size : ss.length];
+        for (int i = 0; i < objects.length; i++) {
+            String s = ss[i].trim();
             objects[i] = fromString(i, s, context);
         }
         return objects;
