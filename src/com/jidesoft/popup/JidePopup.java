@@ -120,6 +120,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public static final String DETACHED_PROPERTY = "detached";
 
+    public static final String CLIENT_PROPERTY_POPUP_TYPE = "popupType";
+    public static final String CLIENT_PROPERTY_VALUE_POPUP_TYPE_COMBOBOX = "comboBox";
+
     protected boolean _detached;
 
     protected ResizableWindow _window;
@@ -1225,7 +1228,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _windowListener = new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
+                    Component owner = getActualOwner();
                     hidePopup();
+                    if (owner != null) {
+                        owner.requestFocus();
+                    }
                 }
             };
             _window.addWindowListener(_windowListener);
@@ -1303,7 +1310,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 else {
                     _resizableSupport.getResizable().setResizableCorners(Resizable.NONE);
                 }
-                if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF_6) && !LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF)) {
+                if (!CLIENT_PROPERTY_VALUE_POPUP_TYPE_COMBOBOX.equals(getClientProperty(CLIENT_PROPERTY_POPUP_TYPE))) {
                     _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
                 }
             }
@@ -1332,7 +1339,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 if (getDefaultFocusComponent() != null) {
                     Runnable runnable = new Runnable() {
                         public void run() {
-                            getDefaultFocusComponent().requestFocus();
+                            Component c = getDefaultFocusComponent();
+                            if (c instanceof JComponent) {
+                                ((JComponent) c).requestFocus(true);
+                            }
                         }
                     };
                     SwingUtilities.invokeLater(runnable);
@@ -1368,7 +1378,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 if (getDefaultFocusComponent() != null) {
                     Runnable runnable = new Runnable() {
                         public void run() {
-                            getDefaultFocusComponent().requestFocus();
+                            Component c = getDefaultFocusComponent();
+                            if (c instanceof JComponent) {
+                                ((JComponent) c).requestFocus(true);
+                            }
                         }
                     };
                     SwingUtilities.invokeLater(runnable);
@@ -1959,6 +1972,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _popupResizeListener = null;
         }
 
+        if (owner != null) {
+            owner.requestFocus();
+        }
+
         if (_window != null) {
             _previousSize = _window.getSize();
             _window.setVisible(false);
@@ -2226,7 +2243,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 }
                 else {
                     if (getPopupBorder() == null) {
-                        if (!LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF_6) && !LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.AQUA_LNF)) {
+                        if (!CLIENT_PROPERTY_VALUE_POPUP_TYPE_COMBOBOX.equals(getClientProperty(CLIENT_PROPERTY_POPUP_TYPE))) {
                             _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
                         }
                     }
