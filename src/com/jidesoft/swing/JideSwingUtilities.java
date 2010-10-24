@@ -640,23 +640,6 @@ public class JideSwingUtilities implements SwingConstants {
         return ret;
     }
 
-    /**
-     * Sets the Window opacity using AWTUtilities.setWindowOpacity on JDK6u10 and later.
-     *
-     * @param window  the Window
-     * @param opacity the opacity
-     */
-    public static void setWindowOpacity(Window window, float opacity) {
-        try {
-            Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
-            Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpacity", Window.class, float.class);
-            mSetWindowOpacity.invoke(null, window, opacity);
-        }
-        catch (Exception ex) {
-            // ignore
-        }
-    }
-
     private static class GetPropertyAction
             implements java.security.PrivilegedAction {
         private String theProp;
@@ -3717,10 +3700,10 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Perform a binary search over a sorted array for the given key.
      *
-     * @param a   the array to search
-     * @param key the key to search for
+     * @param a     the array to search
+     * @param key   the key to search for
      * @param start the start index to search inclusive
-     * @param end the end index to search exclusive
+     * @param end   the end index to search exclusive
      * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
      *         point that would be used if the key were added to the array.
      */
@@ -3807,6 +3790,57 @@ public class JideSwingUtilities implements SwingConstants {
                 }
                 slaveViewport.addChangeListener(getViewportSynchronizationChangeListener());
             }
+        }
+    }
+
+    /**
+     * Sets the Window opaque using AWTUtilities.setWindowOpaque on JDK6u10 and later.
+     *
+     * @param window the Window
+     * @param opaque true or false
+     */
+    public static void setWindowOpaque(Window window, boolean opaque) {
+        try {
+            Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
+            Method m = c.getMethod("setWindowOpaque", Window.class, boolean.class);
+            m.invoke(null, window, opaque);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sets the Window opacity using AWTUtilities.setWindowOpacity on JDK6u10 and later.
+     *
+     * @param window  the Window
+     * @param opacity the opacity
+     */
+    public static void setWindowOpacity(Window window, float opacity) {
+        try {
+            Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
+            Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpacity", Window.class, float.class);
+            mSetWindowOpacity.invoke(null, window, opacity);
+        }
+        catch (Exception ex) {
+            // ignore
+        }
+    }
+
+    /**
+     * Sets the Window shape using AWTUtilities.setWindowOpacity on JDK6u10 and later.
+     *
+     * @param window the Window
+     * @param shape  the shape
+     */
+    public static void setWindowShape(Window window, Shape shape) {
+        try {
+            Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
+            Method m = c.getMethod("setWindowShape", Window.class, Shape.class);
+            m.invoke(null, window, shape);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

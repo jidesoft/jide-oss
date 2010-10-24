@@ -42,6 +42,22 @@ import java.util.List;
 public class JidePopup extends JComponent implements Accessible, WindowConstants {
 
     /**
+     * You can set client property to JidePopup control the window opacity (only when heavyweight popup is in use).
+     * The value of the client property should be a float.
+     */
+    public static final String CLIENT_PROPERTY_WINDOW_OPACITY = "windowOpacity";
+    /**
+     * You can set client property to JidePopup control the window opaque (only when heavyweight popup is in use)
+     * The value of the client property should be a boolean.
+     */
+    public static final String CLIENT_PROPERTY_WINDOW_OPAQUE = "windowOpaque";
+    /**
+     * You can set client property to JidePopup control the window shape (only when heavyweight popup is in use)
+     * The value of the client property should be a Shape.
+     */
+    public static final String CLIENT_PROPERTY_WINDOW_SHAPE = "windowShape";
+
+    /**
      * @see #getUIClassID
      * @see #readObject
      */
@@ -1135,6 +1151,20 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
         container.setName("JidePopup");
         container.getContentPane().add(this);
+
+        Object opaque = getClientProperty(CLIENT_PROPERTY_WINDOW_OPAQUE);
+        if (opaque instanceof Boolean) {
+            JideSwingUtilities.setWindowOpaque(container, (Boolean) opaque);
+        }
+        Object opacity = getClientProperty(CLIENT_PROPERTY_WINDOW_OPACITY);
+        if (opacity instanceof Float) {
+            JideSwingUtilities.setWindowOpacity(container, (Float) opacity);
+        }
+        Object shape = getClientProperty(CLIENT_PROPERTY_WINDOW_SHAPE);
+        if (shape instanceof Shape) {
+            JideSwingUtilities.setWindowShape(container, (Shape) shape);
+        }
+
         return container;
     }
 

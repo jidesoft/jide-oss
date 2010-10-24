@@ -31,6 +31,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
     protected ListCellRenderer _actualListRenderer;
 
     public CheckBoxListCellRenderer(ListCellRenderer renderer) {
+        _checkBox.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
         setOpaque(true);
         setLayout(new BorderLayout(0, 0));
         add(_checkBox, BorderLayout.BEFORE_LINE_BEGINS);
