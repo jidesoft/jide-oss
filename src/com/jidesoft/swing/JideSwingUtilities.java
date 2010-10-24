@@ -3806,7 +3806,7 @@ public class JideSwingUtilities implements SwingConstants {
             m.invoke(null, window, opaque);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // ignore
         }
     }
 
@@ -3840,7 +3840,7 @@ public class JideSwingUtilities implements SwingConstants {
             m.invoke(null, window, shape);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // ignore
         }
     }
 }
