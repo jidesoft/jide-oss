@@ -240,10 +240,13 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
+        FontMetrics nextFm2 = null;
         int defaultFontSize = font.getSize();
 
         synchronized (_styledTexts) {
-            for (StyledText styledText : _styledTexts) {
+            String nextS;
+            for (int i = 0; i < _styledTexts.size(); i++) {
+                StyledText styledText = _styledTexts.get(i);
                 StyleRange style = styledText.styleRange;
 
                 if (mnemonicIndex >= 0 && styledText.text.length() > mnemonicIndex - charDisplayed) {
@@ -257,16 +260,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
                 y = textY;
 
-                int size = (style != null &&
-                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
+                if (nextFm2 == null) {
+                    int size = (style != null &&
+                            (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
 
-                font = getFont(label);
-                if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                    font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
-                    fm2 = label.getFontMetrics(font);
+                    font = getFont(label);
+                    if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                        font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                        fm2 = label.getFontMetrics(font);
+                    }
+                    else {
+                        fm2 = fm;
+                    }
                 }
                 else {
-                    fm2 = fm;
+                    fm2 = nextFm2;
                 }
 
                 g.setFont(font);
@@ -283,6 +291,32 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
                     strWidth = fm2.stringWidth(s);
                     stop = true;
+                }
+                else if (i < _styledTexts.size() - 1) {
+                    BasicStyledLabelUI.StyledText nextStyledText = _styledTexts.get(i + 1);
+                    String nextText = nextStyledText.text;
+                    StyleRange nextStyle = nextStyledText.styleRange;
+                    int size = (nextStyle != null &&
+                            (nextStyle.isSuperscript() || nextStyle.isSubscript())) ? Math.round((float) defaultFontSize / nextStyle.getFontShrinkRatio()) : defaultFontSize;
+
+                    font = getFont(label);
+                    if (nextStyle != null && ((nextStyle.getFontStyle() != -1 && font.getStyle() != nextStyle.getFontStyle()) || font.getSize() != size)) {
+                        font = FontUtils.getCachedDerivedFont(font, nextStyle.getFontStyle() == -1 ? font.getStyle() : nextStyle.getFontStyle(), size);
+                        nextFm2 = label.getFontMetrics(font);
+                    }
+                    else {
+                        nextFm2 = fm;
+                    }
+                    if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
+                        nextS = SwingUtilities.layoutCompoundLabel(label, nextFm2, nextText, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x + strWidth, y, widthLeft - strWidth, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                        if (nextFm2.stringWidth(nextS) > widthLeft - strWidth) {
+                            s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                                    label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, strWidth - 1, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                            strWidth = fm2.stringWidth(s);
+                            stop = true;
+                        }
+                    }
                 }
 
                 if (style != null && style.isSuperscript()) {
