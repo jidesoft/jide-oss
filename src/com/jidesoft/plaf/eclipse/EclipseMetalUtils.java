@@ -14,6 +14,7 @@ import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -349,7 +350,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "CollapsiblePanes.border", new BorderUIResource(BorderFactory.createEmptyBorder(12, 12, 12, 12)),
                     "CollapsiblePanes.gap", 15,
 
-                    "CollapsiblePane.background", defaultBackgroundColor,
+                    "CollapsiblePane.background", defaultBackgroundColor instanceof Color ? (ColorUtils.getDerivedColor((Color) defaultBackgroundColor, 0.45f)) : defaultBackgroundColor,
                     "CollapsiblePane.contentBackground", defaultHighlightColor,
                     "CollapsiblePane.foreground", defaultTextColor,
                     "CollapsiblePane.emphasizedBackground", activeTitleBackgroundColor,
