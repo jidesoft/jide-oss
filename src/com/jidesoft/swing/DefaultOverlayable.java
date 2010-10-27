@@ -136,10 +136,8 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
                 return;
             }
 
-            if (c.isVisible()) {
-                Rectangle r = getOverlayComponentBounds(c);
-                c.setBounds(r);
-            }
+            Rectangle r = getOverlayComponentBounds(c);
+            c.setBounds(r);
         }
     }
 
@@ -220,6 +218,7 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         setOverlayLocation(component, null, location);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     private void setOverlayLocation(JComponent component, Component relativeComponent, int location) {
         boolean updated = false;
         int old = getOverlayLocation(component);
