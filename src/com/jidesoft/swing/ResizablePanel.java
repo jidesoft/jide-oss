@@ -5,6 +5,8 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -81,5 +83,14 @@ public class ResizablePanel extends JPanel implements ResizableSupport {
      */
     public Resizable getResizable() {
         return _resizable;
+    }
+
+    /**
+     * Overrides the updateUI method to set border to resizable border defined in UIManagerLookup.getBorder("Resizable.resizeBorder")).
+     */
+    @Override
+    public void updateUI() {
+        super.updateUI();
+        setBorder(UIDefaultsLookup.getBorder("Resizable.resizeBorder"));
     }
 }
