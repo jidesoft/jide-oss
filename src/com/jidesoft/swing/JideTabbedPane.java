@@ -14,11 +14,9 @@ import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.TabbedPaneUI;
+import javax.swing.plaf.UIResource;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Hashtable;
@@ -138,6 +136,13 @@ public class JideTabbedPane extends JTabbedPane {
     public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
     public static final String PROPERTY_SELECTED_INDEX = "selectedIndex";
 
+    public static final int BUTTON_CLOSE = 0;
+    public static final int BUTTON_EAST = 1;
+    public static final int BUTTON_WEST = 2;
+    public static final int BUTTON_NORTH = 3;
+    public static final int BUTTON_SOUTH = 4;
+    public static final int BUTTON_LIST = 5;
+
     /**
      * @see #getUIClassID
      * @see #readObject
@@ -156,9 +161,9 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _boldActiveTab = false;
 
-    private Map _closableMap = new Hashtable();
+    private Map<Object, Object> _closableMap = new Hashtable<Object, Object>();
 
-    private Hashtable _pageLastFocusTrackers = new Hashtable();
+    private Hashtable<Component, Object> _pageLastFocusTrackers = new Hashtable<Component, Object>();
 
     private Font _selectedTabFont;
 
@@ -616,6 +621,8 @@ public class JideTabbedPane extends JTabbedPane {
     // mtf - review if this is still needed
 
     public boolean requestFocusForVisibleComponent() {
+        return false;
+/*
         if (true)
             return false;
 //        System.out.println("---JideTabbedPane.requestFocusForVisibleComponent()");
@@ -634,6 +641,7 @@ public class JideTabbedPane extends JTabbedPane {
             Component comp = nearestRoot.getFocusTraversalPolicy().getComponentAfter(nearestRoot, this);
             return comp != null && comp.requestFocusInWindow() || JideSwingUtilities.compositeRequestFocus(visibleComponent);
         }
+*/
     }
 
     /**
@@ -644,6 +652,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @return true if the trailing component would be hidden while no buttons are visible. Otherwise false.
      * @see #isShowTabArea()
      * @see #isShowTabButtons()
+     * @see #setHideTrailingWhileNoButtons(boolean)
      */
     public boolean isHideTrailingWhileNoButtons() {
         return _hideTrailingWhileNoButtons;
@@ -974,6 +983,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the string converter.
      *
      * @param stringConverter the StringConverter.
+     * @see #getStringConverter()
      */
     public void setStringConverter(StringConverter stringConverter) {
         _stringConverter = stringConverter;
@@ -1619,6 +1629,7 @@ public class JideTabbedPane extends JTabbedPane {
      * pressed.
      *
      * @return the tab list cell renderer.
+     * @see #setTabListCellRenderer(javax.swing.ListCellRenderer)
      */
     public ListCellRenderer getTabListCellRenderer() {
         if (_tabListCellRenderer != null) {
@@ -1796,7 +1807,8 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @param l the <code>TabEditingListener</code> to add
      * @see #fireTabEditing
-     * @see #removeTabEditingListener
+     * @see #removeTabEditingListener(TabEditingListener)
+     * @see #getTabEditingListeners()
      */
     public void addTabEditingListener(TabEditingListener l) {
         listenerList.add(TabEditingListener.class, l);
@@ -1921,8 +1933,9 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Returns the placement of the tabs for this tabbed pane.
-     * @see #setTabPlacement
+     * Returns the alignment of the tabs for this tabbed pane.
+     * @return the alignment of the tabs for this tabbed pane.
+     * @see #setTabAlignment(int)
      */
     public int getTabAlignment() {
         return _tabAlignment;
@@ -1962,5 +1975,324 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public String getResourceString(String key) {
         return com.jidesoft.plaf.basic.Resource.getResourceBundle(getLocale()).getString(key);
+    }
+
+    /**
+     * Creates no focus buttons for JideTabbedPane.
+     *
+     * @param type the button type, it could be {@link #BUTTON_LIST}, {@link #BUTTON_CLOSE}, {@link #BUTTON_EAST}, {@link #BUTTON_WEST}, {@link #BUTTON_NORTH} or {@link #BUTTON_SOUTH}
+     * @return the button instance.
+     */
+    public NoFocusButton createNoFocusButton(int type) {
+        return new NoFocusButton(type);
+    }
+
+    public class NoFocusButton extends JButton implements MouseMotionListener, MouseListener, UIResource {
+        private int _type;
+        private int _index = -1;
+        private boolean _mouseOver = false;
+        private boolean _mousePressed = false;
+
+        /**
+         * Resets the UI property to a value from the current look and feel.
+         *
+         * @see JComponent#updateUI
+         */
+        @Override
+        public void updateUI() {
+            super.updateUI();
+            setMargin(new Insets(0, 0, 0, 0));
+            setBorder(BorderFactory.createEmptyBorder());
+            setFocusPainted(false);
+            setFocusable(false);
+            setRequestFocusEnabled(false);
+            String name = getName();
+            if (name != null) setToolTipText(getResourceString(name));
+        }
+
+        public NoFocusButton() {
+            this(BUTTON_CLOSE);
+        }
+
+        public NoFocusButton(int type) {
+            addMouseMotionListener(this);
+            addMouseListener(this);
+            setFocusPainted(false);
+            setFocusable(false);
+            setType(type);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(16, 16);
+        }
+
+        @Override
+        public Dimension getMinimumSize() {
+            return new Dimension(5, 5);
+        }
+
+        public int getIndex() {
+            return _index;
+        }
+
+        public void setIndex(int index) {
+            _index = index;
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (getIcon() != null) {
+                super.paintComponent(g);
+                return;
+            }
+            if (!isEnabled()) {
+                setMouseOver(false);
+                setMousePressed(false);
+            }
+            if (isMouseOver() && isMousePressed()) {
+                g.setColor(getPressedShadowColor());
+                g.drawLine(0, 0, getWidth() - 1, 0);
+                g.drawLine(0, getHeight() - 2, 0, 1);
+                g.setColor(getShadowColor());
+                g.drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 2);
+                g.drawLine(getWidth() - 1, getHeight() - 1, 0, getHeight() - 1);
+            }
+            else if (isMouseOver()) {
+                g.setColor(getShadowColor());
+                g.drawLine(0, 0, getWidth() - 1, 0);
+                g.drawLine(0, getHeight() - 2, 0, 1);
+                g.setColor(getPressedShadowColor());
+                g.drawLine(getWidth() - 1, 1, getWidth() - 1, getHeight() - 2);
+                g.drawLine(getWidth() - 1, getHeight() - 1, 0, getHeight() - 1);
+            }
+            g.setColor(getForegroundColor());
+            int centerX = getWidth() >> 1;
+            int centerY = getHeight() >> 1;
+            int type = getType();
+            if ((getTabPlacement() == TOP || getTabPlacement() == BOTTOM) && !getComponentOrientation().isLeftToRight()) {
+                if (type == BUTTON_EAST) {
+                    type = BUTTON_WEST;
+                }
+                else if (type == BUTTON_WEST) {
+                    type = BUTTON_EAST;
+                }
+            }
+            switch (type) {
+                case BUTTON_CLOSE:
+                    if (isEnabled()) {
+                        g.drawLine(centerX - 3, centerY - 3, centerX + 3, centerY + 3);
+                        g.drawLine(centerX - 4, centerY - 3, centerX + 2, centerY + 3);
+                        g.drawLine(centerX + 3, centerY - 3, centerX - 3, centerY + 3);
+                        g.drawLine(centerX + 2, centerY - 3, centerX - 4, centerY + 3);
+                    }
+                    else {
+                        g.drawLine(centerX - 3, centerY - 3, centerX + 3, centerY + 3);
+                        g.drawLine(centerX + 3, centerY - 3, centerX - 3, centerY + 3);
+                    }
+                    break;
+                case BUTTON_EAST:
+                    //
+                    // |
+                    // ||
+                    // |||
+                    // ||||
+                    // ||||*
+                    // ||||
+                    // |||
+                    // ||
+                    // |
+                    //
+                {
+                    if (getTabPlacement() == TOP || getTabPlacement() == BOTTOM) {
+                        int x = centerX + 2, y = centerY; // start point. mark as * above
+                        if (isEnabled()) {
+                            g.drawLine(x - 4, y - 4, x - 4, y + 4);
+                            g.drawLine(x - 3, y - 3, x - 3, y + 3);
+                            g.drawLine(x - 2, y - 2, x - 2, y + 2);
+                            g.drawLine(x - 1, y - 1, x - 1, y + 1);
+                            g.drawLine(x, y, x, y);
+                        }
+                        else {
+                            g.drawLine(x - 4, y - 4, x, y);
+                            g.drawLine(x - 4, y - 4, x - 4, y + 4);
+                            g.drawLine(x - 4, y + 4, x, y);
+                        }
+
+                    }
+                    else {
+                        int x = centerX + 3, y = centerY - 2; // start point. mark as * above
+                        if (isEnabled()) {
+                            g.drawLine(x - 8, y, x, y);
+                            g.drawLine(x - 7, y + 1, x - 1, y + 1);
+                            g.drawLine(x - 6, y + 2, x - 2, y + 2);
+                            g.drawLine(x - 5, y + 3, x - 3, y + 3);
+                            g.drawLine(x - 4, y + 4, x - 4, y + 4);
+                        }
+                        else {
+                            g.drawLine(x - 8, y, x, y);
+                            g.drawLine(x - 8, y, x - 4, y + 4);
+                            g.drawLine(x - 4, y + 4, x, y);
+                        }
+                    }
+                }
+                break;
+                case BUTTON_WEST: {
+                    //
+                    //     |
+                    //    ||
+                    //   |||
+                    //  ||||
+                    // *||||
+                    //  ||||
+                    //   |||
+                    //    ||
+                    //     |
+                    //
+                    {
+                        if (getTabPlacement() == TOP || getTabPlacement() == BOTTOM) {
+                            int x = centerX - 3, y = centerY; // start point. mark as * above
+                            if (isEnabled()) {
+                                g.drawLine(x, y, x, y);
+                                g.drawLine(x + 1, y - 1, x + 1, y + 1);
+                                g.drawLine(x + 2, y - 2, x + 2, y + 2);
+                                g.drawLine(x + 3, y - 3, x + 3, y + 3);
+                                g.drawLine(x + 4, y - 4, x + 4, y + 4);
+                            }
+                            else {
+                                g.drawLine(x, y, x + 4, y - 4);
+                                g.drawLine(x, y, x + 4, y + 4);
+                                g.drawLine(x + 4, y - 4, x + 4, y + 4);
+                            }
+                        }
+                        else {
+
+                            int x = centerX - 5, y = centerY + 3; // start point. mark as * above
+                            if (isEnabled()) {
+                                g.drawLine(x, y, x + 8, y);
+                                g.drawLine(x + 1, y - 1, x + 7, y - 1);
+                                g.drawLine(x + 2, y - 2, x + 6, y - 2);
+                                g.drawLine(x + 3, y - 3, x + 5, y - 3);
+                                g.drawLine(x + 4, y - 4, x + 4, y - 4);
+                            }
+                            else {
+                                g.drawLine(x, y, x + 8, y);
+                                g.drawLine(x, y, x + 4, y - 4);
+                                g.drawLine(x + 8, y, x + 4, y - 4);
+                            }
+                        }
+                    }
+                    break;
+                }
+                case BUTTON_LIST: {
+                    int x = centerX + 2, y = centerY; // start point. mark as
+                    // * above
+                    g.drawLine(x - 6, y - 4, x - 6, y + 4);
+                    g.drawLine(x + 1, y - 4, x + 1, y + 4);
+                    g.drawLine(x - 6, y - 4, x + 1, y - 4);
+                    g.drawLine(x - 4, y - 2, x - 1, y - 2);
+                    g.drawLine(x - 4, y, x - 1, y);
+                    g.drawLine(x - 4, y + 2, x - 1, y + 2);
+                    g.drawLine(x - 6, y + 4, x + 1, y + 4);
+                    break;
+                }
+            }
+        }
+
+        protected Color getForegroundColor() {
+            return UIDefaultsLookup.getColor("controlShadow").darker();
+        }
+
+        protected Color getShadowColor() {
+            return UIDefaultsLookup.getColor("control");
+        }
+
+        protected Color getPressedShadowColor() {
+            return UIDefaultsLookup.getColor("controlDkShadow");
+        }
+
+        @Override
+        public boolean isFocusable() {
+            return false;
+        }
+
+        @Override
+        public void requestFocus() {
+        }
+
+        @Override
+        public boolean isOpaque() {
+            return false;
+        }
+
+        public void mouseDragged(MouseEvent e) {
+        }
+
+        public void mouseMoved(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMouseOver(true);
+            repaint();
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMouseOver(true);
+            setMousePressed(false);
+        }
+
+        public void mousePressed(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMousePressed(true);
+            repaint();
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMousePressed(false);
+            setMouseOver(false);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMouseOver(true);
+            repaint();
+        }
+
+        public void mouseExited(MouseEvent e) {
+            if (!isEnabled()) return;
+            setMouseOver(false);
+            setMousePressed(false);
+            repaint();
+            JideTabbedPane.this.repaint();
+        }
+
+        public int getType() {
+            return _type;
+        }
+
+        public void setType(int type) {
+            _type = type;
+        }
+
+        public boolean isMouseOver() {
+            return _mouseOver;
+        }
+
+        public void setMouseOver(boolean mouseOver) {
+            _mouseOver = mouseOver;
+        }
+
+        public boolean isMousePressed() {
+            return _mousePressed;
+        }
+
+        public void setMousePressed(boolean mousePressed) {
+            _mousePressed = mousePressed;
+        }
     }
 }

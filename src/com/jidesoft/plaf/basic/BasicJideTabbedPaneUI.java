@@ -208,7 +208,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     // way of notifying listeners when the count changed.
     protected int _tabCount;
 
-    protected TabCloseButton[] _closeButtons;
+    protected JButton[] _closeButtons;
 
     // UI creation
 
@@ -682,12 +682,28 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         ensureCloseButtonCreated();
 
         if (scrollableTabLayoutEnabled()) {
+            Icon forwardIcon = _tabScroller.scrollForwardButton.getIcon();
             _tabScroller.scrollForwardButton.setAction(am.get("scrollTabsForwardAction"));
+            if (forwardIcon != null) {
+                _tabScroller.scrollForwardButton.setIcon(forwardIcon);
+            }
+            Icon backwardIcon = _tabScroller.scrollBackwardButton.getIcon();
             _tabScroller.scrollBackwardButton.setAction(am.get("scrollTabsBackwardAction"));
+            if (backwardIcon != null) {
+                _tabScroller.scrollBackwardButton.setIcon(backwardIcon);
+            }
+            Icon listIcon = _tabScroller.listButton.getIcon();
             _tabScroller.listButton.setAction(am.get("scrollTabsListAction"));
+            if (listIcon != null) {
+                _tabScroller.listButton.setIcon(listIcon);
+            }
             Action action = _tabPane.getCloseAction();
             updateButtonFromAction(_tabScroller.closeButton, action);
+            Icon closeIcon = _tabScroller.closeButton.getIcon();
             _tabScroller.closeButton.setAction(am.get("closeTabAction"));
+            if (closeIcon != null) {
+                _tabScroller.closeButton.setIcon(closeIcon);
+            }
             _tabScroller.scrollForwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_FORWARD));
             _tabScroller.scrollBackwardButton.setToolTipText(getResourceString(BUTTON_NAME_SCROLL_BACKWARD));
             _tabScroller.listButton.setToolTipText(getResourceString(BUTTON_NAME_TAB_LIST));
@@ -4367,7 +4383,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         bounds = new Rectangle(_rects[i].x + (_rects[i].width - size.width) / 2 - 2, _rects[i].y + _closeButtonLeftMargin, size.width, size.height);
                     }
                 }
-                _closeButtons[i].setIndex(i);
+                if (_closeButtons[i] instanceof JideTabbedPane.NoFocusButton) {
+                    ((JideTabbedPane.NoFocusButton) _closeButtons[i]).setIndex(i);
+                }
                 if (!bounds.equals(_closeButtons[i].getBounds())) {
                     _closeButtons[i].setBounds(bounds);
                 }
@@ -4421,7 +4439,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         int firstButtonPos = isRTL ? 0: Integer.MAX_VALUE;
         Component[] components = _tabPane.getComponents();
         for (Component component : components) {
-            if (component instanceof TabCloseButton && component.isVisible()) {
+            if (component instanceof JideTabbedPane.NoFocusButton && component.isVisible()) {
                 Rectangle bounds = component.getBounds();
                 if (horizontalTab && bounds.x != 0) {
                     if (isRTL) {
@@ -5388,8 +5406,20 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
+    /**
+     * Creates a button.
+     *
+     * @param type the button type
+     * @return the button
+     * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#createNoFocusButton(int)}
+     */
+    @Deprecated
     protected TabCloseButton createNoFocusButton(int type) {
         return new TabCloseButton(type);
+    }
+
+    private JButton createButton(int type) {
+        return _tabPane.createNoFocusButton(type);
     }
 
     private static class ScrollTabsForwardAction extends AbstractAction {
@@ -5406,8 +5436,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (src instanceof JTabbedPane) {
                 pane = (JTabbedPane) src;
             }
-            else if (src instanceof TabCloseButton) {
-                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (TabCloseButton) src);
+            else if (src instanceof JideTabbedPane.NoFocusButton) {
+                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (JideTabbedPane.NoFocusButton) src);
             }
 
             if (pane != null) {
@@ -5434,8 +5464,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (src instanceof JTabbedPane) {
                 pane = (JTabbedPane) src;
             }
-            else if (src instanceof TabCloseButton) {
-                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (TabCloseButton) src);
+            else if (src instanceof JideTabbedPane.NoFocusButton) {
+                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (JideTabbedPane.NoFocusButton) src);
             }
 
             if (pane != null) {
@@ -5463,8 +5493,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (src instanceof JTabbedPane) {
                 pane = (JTabbedPane) src;
             }
-            else if (src instanceof TabCloseButton) {
-                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (TabCloseButton) src);
+            else if (src instanceof JideTabbedPane.NoFocusButton) {
+                pane = (JTabbedPane) SwingUtilities.getAncestorOfClass(JTabbedPane.class, (JideTabbedPane.NoFocusButton) src);
             }
 
             if (pane != null) {
@@ -5510,12 +5540,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if (src instanceof JideTabbedPane) {
                 pane = (JideTabbedPane) src;
             }
-            else if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof JideTabbedPane) {
-                pane = (JideTabbedPane) ((TabCloseButton) src).getParent();
+            else if (src instanceof JideTabbedPane.NoFocusButton && ((JideTabbedPane.NoFocusButton) src).getParent() instanceof JideTabbedPane) {
+                pane = (JideTabbedPane) ((JideTabbedPane.NoFocusButton) src).getParent();
                 closeSelected = true;
             }
-            else if (src instanceof TabCloseButton && ((TabCloseButton) src).getParent() instanceof ScrollableTabPanel) {
-                pane = (JideTabbedPane) SwingUtilities.getAncestorOfClass(JideTabbedPane.class, (TabCloseButton) src);
+            else if (src instanceof JideTabbedPane.NoFocusButton && ((JideTabbedPane.NoFocusButton) src).getParent() instanceof ScrollableTabPanel) {
+                pane = (JideTabbedPane) SwingUtilities.getAncestorOfClass(JideTabbedPane.class, (JideTabbedPane.NoFocusButton) src);
                 closeSelected = false;
             }
             else {
@@ -5527,8 +5557,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             ActionEvent e2 = e;
-            if (src instanceof TabCloseButton) {
-                index = ((TabCloseButton) src).getIndex();
+            if (src instanceof JideTabbedPane.NoFocusButton) {
+                index = ((JideTabbedPane.NoFocusButton) src).getIndex();
                 Component compSrc = index != -1 ? pane.getComponentAt(index) : pane.getSelectedComponent();
                 // note - We create a new action because we could be in the middle of a chain and
                 // if we just use setSource we could cause problems.
@@ -5573,8 +5603,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
                     }
                 }
-                else {
-                    int i = ((TabCloseButton) src).getIndex();
+                else if (src instanceof JideTabbedPane.NoFocusButton) {
+                    int i = ((JideTabbedPane.NoFocusButton) src).getIndex();
                     if (i != -1) {
 
                         int tabIndex = pane.getSelectedIndex();
@@ -6517,9 +6547,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             child.setBounds(tx, ty, vw, vh);
 
                         }
-                        else if (child instanceof TabCloseButton) {
-                            TabCloseButton scrollbutton = (TabCloseButton) child;
-                            if (_tabPane.isTabShown() && (scrollbutton.getType() != TabCloseButton.CLOSE_BUTTON || !isShowCloseButtonOnTab())) {
+                        else if (child instanceof JideTabbedPane.NoFocusButton) {
+                            JideTabbedPane.NoFocusButton scrollbutton = (JideTabbedPane.NoFocusButton) child;
+                            if (_tabPane.isTabShown() && (scrollbutton.getType() != JideTabbedPane.BUTTON_CLOSE || !isShowCloseButtonOnTab())) {
                                 Dimension bsize = scrollbutton.getPreferredSize();
                                 int bx = 0;
                                 int by = 0;
@@ -6532,10 +6562,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     case RIGHT:
                                         int totalTabHeight = _rects[tabCount - 1].y + _rects[tabCount - 1].height;
                                         if (_tabPane.isTabShown() && (isShowTabButtons() || (totalTabHeight > th && _tabPane.getTabCount() > 1))) {
-                                            int dir = scrollbutton.getType();//NoFocusButton.EAST_BUTTON : NoFocusButton.WEST_BUTTON;
+                                            int dir = scrollbutton.getType();//NoFocusButton.BUTTON_EAST : NoFocusButton.BUTTON_WEST;
                                             scrollbutton.setType(dir);
                                             switch (dir) {
-                                                case TabCloseButton.CLOSE_BUTTON:
+                                                case JideTabbedPane.BUTTON_CLOSE:
                                                     if (isShowCloseButton()) {
                                                         visible = true;
                                                         by = bounds.height - insets.top - bsize.height - 5;
@@ -6545,15 +6575,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                         by = 0;
                                                     }
                                                     break;
-                                                case TabCloseButton.LIST_BUTTON:
+                                                case JideTabbedPane.BUTTON_LIST:
                                                     visible = true;
                                                     by = bounds.height - insets.top - (2 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.height - 5;
                                                     break;
-                                                case TabCloseButton.EAST_BUTTON:
+                                                case JideTabbedPane.BUTTON_EAST:
                                                     visible = !isShrinkTabs();
                                                     by = bounds.height - insets.top - (3 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.height - 5;
                                                     break;
-                                                case TabCloseButton.WEST_BUTTON:
+                                                case JideTabbedPane.BUTTON_WEST:
                                                     visible = !isShrinkTabs();
                                                     by = bounds.height - insets.top - (4 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.height - 5;
                                                     break;
@@ -6565,7 +6595,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             tabButtonsVisible = false;
                                             int dir = scrollbutton.getType();
                                             scrollbutton.setType(dir);
-                                            if (dir == TabCloseButton.CLOSE_BUTTON) {
+                                            if (dir == JideTabbedPane.BUTTON_CLOSE) {
                                                 if (isShowCloseButton()) {
                                                     visible = true;
                                                     by = bounds.height - insets.top - bsize.height - 5;
@@ -6607,11 +6637,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         int totalTabWidth = _rects[tabCount - 1].x + _rects[tabCount - 1].width;
                                         boolean widthEnough = leftToRight ? totalTabWidth <= tw : _rects[tabCount - 1].x >= 0;
                                         if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
-                                            int dir = scrollbutton.getType();// NoFocusButton.EAST_BUTTON
-                                            // NoFocusButton.WEST_BUTTON;
+                                            int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
+                                            // NoFocusButton.BUTTON_WEST;
                                             scrollbutton.setType(dir);
                                             switch (dir) {
-                                                case TabCloseButton.CLOSE_BUTTON:
+                                                case JideTabbedPane.BUTTON_CLOSE:
                                                     if (isShowCloseButton()) {
                                                         visible = true;
                                                         if (leftToRight) {
@@ -6626,7 +6656,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                         bx = 0;
                                                     }
                                                     break;
-                                                case TabCloseButton.LIST_BUTTON:
+                                                case JideTabbedPane.BUTTON_LIST:
                                                     visible = true;
                                                     if (leftToRight) {
                                                         bx = bounds.width - insets.left - (2 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.width - 5;
@@ -6635,7 +6665,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                         bx = insets.left + (1 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.width + 5;
                                                     }
                                                     break;
-                                                case TabCloseButton.EAST_BUTTON:
+                                                case JideTabbedPane.BUTTON_EAST:
                                                     visible = !isShrinkTabs();
                                                     if (leftToRight) {
                                                         bx = bounds.width - insets.left - (3 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.width - 5;
@@ -6644,7 +6674,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                         bx = insets.left + (2 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.width + 5;
                                                     }
                                                     break;
-                                                case TabCloseButton.WEST_BUTTON:
+                                                case JideTabbedPane.BUTTON_WEST:
                                                     visible = !isShrinkTabs();
                                                     if (leftToRight) {
                                                         bx = bounds.width - insets.left - (4 - (!isShowCloseButton() || isShowCloseButtonOnTab() ? 1 : 0)) * bsize.width - 5;
@@ -6661,7 +6691,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             tabButtonsVisible = false;
                                             int dir = scrollbutton.getType();
                                             scrollbutton.setType(dir);
-                                            if (dir == TabCloseButton.CLOSE_BUTTON) {
+                                            if (dir == JideTabbedPane.BUTTON_CLOSE) {
                                                 if (isShowCloseButton()) {
                                                     visible = true;
                                                     bx = bounds.width - insets.left - bsize.width - 5;
@@ -6804,11 +6834,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                     boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
                     if (isTabTrailingComponentVisible() && _tabPane.isLayoutTrailingComponentBeforeButtons()) {
-                        List<TabCloseButton> buttons = new ArrayList<TabCloseButton>();
+                        List<JButton> buttons = new ArrayList<JButton>();
                         for (int i = 0; i < numChildren; i++) {
                             Component child = _tabPane.getComponent(i);
-                            if (child instanceof TabCloseButton && child != _tabLeadingComponent && child != _tabTrailingComponent && child.isVisible() && child.getBounds().width != 0) {
-                                buttons.add((TabCloseButton) child);
+                            if (child instanceof JButton && child instanceof UIResource && child != _tabLeadingComponent && child != _tabTrailingComponent && child.isVisible() && child.getBounds().width != 0) {
+                                buttons.add((JButton) child);
                             }
                         }
                         if (buttons.size() > 0) {
@@ -6818,7 +6848,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             if (!verticalTabRuns) {
                                 _tabTrailingComponent.setBounds(new Rectangle(firstButtonRect.x, trailingCompRect.y, trailingCompRect.width, trailingCompRect.height));
                                 int offset = _tabTrailingComponent.getWidth() - (lastButtonRect.x + lastButtonRect.width - firstButtonRect.x);
-                                for (TabCloseButton button : buttons) {
+                                for (JButton button : buttons) {
                                     Rectangle buttonRect = button.getBounds();
                                     button.setBounds(trailingCompRect.x + offset + buttonRect.x - firstButtonRect.x, buttonRect.y, buttonRect.width, buttonRect.height);
                                 }
@@ -6826,7 +6856,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             else {
                                 _tabTrailingComponent.setBounds(new Rectangle(trailingCompRect.x, firstButtonRect.y, trailingCompRect.width, trailingCompRect.height));
                                 int offset = _tabTrailingComponent.getHeight() - (lastButtonRect.y + lastButtonRect.height - firstButtonRect.y);
-                                for (TabCloseButton button : buttons) {
+                                for (JButton button : buttons) {
                                     Rectangle buttonRect = button.getBounds();
                                     button.setBounds(buttonRect.x, trailingCompRect.y + offset + buttonRect.y - firstButtonRect.y, buttonRect.width, buttonRect.height);
                                 }
@@ -7382,10 +7412,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public class ScrollableTabSupport implements ChangeListener {
         public ScrollableTabViewport viewport;
         public ScrollableTabPanel tabPanel;
-        public TabCloseButton scrollForwardButton;
-        public TabCloseButton scrollBackwardButton;
-        public TabCloseButton listButton;
-        public TabCloseButton closeButton;
+        public JButton scrollForwardButton;
+        public JButton scrollBackwardButton;
+        public JButton listButton;
+        public JButton closeButton;
         public int leadingTabIndex;
 
         private Point tabViewPosition = new Point(0, 0);
@@ -7398,19 +7428,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             viewport.setView(tabPanel);
             viewport.addChangeListener(this);
 
-            scrollForwardButton = createNoFocusButton(TabCloseButton.EAST_BUTTON);
+            scrollForwardButton = createButton(JideTabbedPane.BUTTON_EAST);
             scrollForwardButton.setName(BUTTON_NAME_SCROLL_FORWARD);
-            scrollBackwardButton = createNoFocusButton(TabCloseButton.WEST_BUTTON);
+            scrollBackwardButton = createButton(JideTabbedPane.BUTTON_WEST);
             scrollBackwardButton.setName(BUTTON_NAME_SCROLL_BACKWARD);
 
             scrollForwardButton.setBackground(viewport.getBackground());
             scrollBackwardButton.setBackground(viewport.getBackground());
 
-            listButton = createNoFocusButton(TabCloseButton.LIST_BUTTON);
+            listButton = createButton(JideTabbedPane.BUTTON_LIST);
             listButton.setName(BUTTON_NAME_TAB_LIST);
             listButton.setBackground(viewport.getBackground());
 
-            closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
+            closeButton = createButton(JideTabbedPane.BUTTON_CLOSE);
             closeButton.setName(BUTTON_NAME_CLOSE);
             closeButton.setBackground(viewport.getBackground());
         }
@@ -8060,13 +8090,39 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     /**
      * Close button on the tab.
+     * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane.NoFocusButton}
      */
+    @Deprecated
     public class TabCloseButton extends JButton implements MouseMotionListener, MouseListener, UIResource {
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_CLOSE}
+         */
+        @Deprecated
         public static final int CLOSE_BUTTON = 0;
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_EAST}
+         */
+        @Deprecated
         public static final int EAST_BUTTON = 1;
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_WEST}
+         */
+        @Deprecated
         public static final int WEST_BUTTON = 2;
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_NORTH}
+         */
+        @Deprecated
         public static final int NORTH_BUTTON = 3;
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_SOUTH}
+         */
+        @Deprecated
         public static final int SOUTH_BUTTON = 4;
+        /**
+         * @deprecated replaced by {@link com.jidesoft.swing.JideTabbedPane#BUTTON_LIST}
+         */
+        @Deprecated
         public static final int LIST_BUTTON = 5;
         private int _type;
         private int _index = -1;
@@ -8091,7 +8147,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public TabCloseButton() {
-            this(CLOSE_BUTTON);
+            this(JideTabbedPane.BUTTON_CLOSE);
         }
 
         public TabCloseButton(int type) {
@@ -8960,44 +9016,47 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public void ensureCloseButtonCreated() {
         if (isShowCloseButton() && isShowCloseButtonOnTab() && scrollableTabLayoutEnabled()) {
             if (_closeButtons == null) {
-                _closeButtons = new TabCloseButton[_tabPane.getTabCount()];
+                _closeButtons = new JButton[_tabPane.getTabCount()];
             }
             else if (_closeButtons.length > _tabPane.getTabCount()) {
-                TabCloseButton[] temp = new TabCloseButton[_tabPane
-                        .getTabCount()];
+                JButton[] temp = new JButton[_tabPane.getTabCount()];
                 System.arraycopy(_closeButtons, 0, temp, 0, temp.length);
                 for (int i = temp.length; i < _closeButtons.length; i++) {
-                    TabCloseButton tabCloseButton = _closeButtons[i];
+                    JButton tabCloseButton = _closeButtons[i];
                     _tabScroller.tabPanel.remove(tabCloseButton);
                 }
                 _closeButtons = temp;
             }
             else if (_closeButtons.length < _tabPane.getTabCount()) {
-                TabCloseButton[] temp = new TabCloseButton[_tabPane
-                        .getTabCount()];
-                System.arraycopy(_closeButtons, 0, temp, 0,
-                        _closeButtons.length);
+                JButton[] temp = new JButton[_tabPane.getTabCount()];
+                System.arraycopy(_closeButtons, 0, temp, 0, _closeButtons.length);
                 _closeButtons = temp;
             }
             ActionMap am = getActionMap();
             for (int i = 0; i < _closeButtons.length; i++) {
-                TabCloseButton closeButton = _closeButtons[i];
+                JButton closeButton = _closeButtons[i];
                 if (closeButton == null) {
-                    closeButton = createNoFocusButton(TabCloseButton.CLOSE_BUTTON);
+                    closeButton = createButton(JideTabbedPane.BUTTON_CLOSE);
                     closeButton.setName("JideTabbedPane.close");
                     _closeButtons[i] = closeButton;
                     closeButton.setBounds(0, 0, 0, 0);
                     Action action = _tabPane.getCloseAction();
+                    Icon closeIcon = closeButton.getIcon();
                     closeButton.setAction(am.get("closeTabAction"));
                     updateButtonFromAction(closeButton, action);
+                    if (closeIcon != null) {
+                        _tabScroller.closeButton.setIcon(closeIcon);
+                    }
                     _tabScroller.tabPanel.add(closeButton);
                 }
-                closeButton.setIndex(i);
+                if (closeButton instanceof JideTabbedPane.NoFocusButton) {
+                    ((JideTabbedPane.NoFocusButton) closeButton).setIndex(i);
+                }
             }
         }
     }
 
-    private void updateButtonFromAction(TabCloseButton closeButton, Action action) {
+    private void updateButtonFromAction(JButton closeButton, Action action) {
         if (action == null) {
             return;
         }

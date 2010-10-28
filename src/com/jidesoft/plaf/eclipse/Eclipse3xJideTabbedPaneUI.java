@@ -149,7 +149,9 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                         bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - 16, _rects[i].y + ((_rects[i].height - size.height) >> 1), size.width, size.height);
                     }
                 }
-                _closeButtons[i].setIndex(i);
+                if (_closeButtons[i] instanceof JideTabbedPane.NoFocusButton) {
+                    ((JideTabbedPane.NoFocusButton) _closeButtons[i]).setIndex(i);
+                }
                 if (!bounds.equals(_closeButtons[i].getBounds())) {
                     _closeButtons[i].setBounds(bounds);
                 }
