@@ -331,7 +331,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return text.lastIndexOf(s);
             }
             else {
-                return text.toLowerCase().lastIndexOf(s.toLowerCase());
+                return lastIndexOf(text, s, text.length());
             }
         }
         else {
@@ -368,12 +368,105 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return text.indexOf(s);
             }
             else {
-                return text.toLowerCase().indexOf(s.toLowerCase());
+                return indexOf(text, s, 0);
             }
         }
         else {
             return super.findFirst(s);
         }
+    }
+
+    static int lastIndexOf(String source, String target, int fromIndex) {
+        int sourceCount = source.length();
+        int targetCount = target.length();
+        int rightIndex = sourceCount - targetCount;
+        if (fromIndex < 0) {
+            return -1;
+        }
+        if (fromIndex > rightIndex) {
+            fromIndex = rightIndex;
+        }
+        /* Empty string always matches. */
+        if (targetCount == 0) {
+            return fromIndex;
+        }
+        char[] lowerTarget = target.toLowerCase().toCharArray();
+        char[] upperTarget = target.toUpperCase().toCharArray();
+
+        int strLastIndex = targetCount - 1;
+        int min = targetCount - 1;
+        int i = min + fromIndex;
+
+        while (i >= min) {
+            while (i >= min && source.charAt(i) != lowerTarget[strLastIndex] && source.charAt(i) != upperTarget[strLastIndex]) {
+                i--;
+            }
+            int j = i - 1;
+            int start = j - (targetCount - 1);
+            int k = strLastIndex - 1;
+
+            while (j > start) {
+                char ch = source.charAt(j);
+                if (ch != lowerTarget[k] && ch != upperTarget[k]) {
+                    i--;
+                    break;
+                }
+                j--;
+                k--;
+            }
+            if (j <= start) {
+                return start + 1;
+            }
+        }
+        return -1;
+    }
+
+    private static int indexOf(String source, String target, int fromIndex) {
+        int sourceCount = source.length();
+        int targetCount = target.length();
+        if (fromIndex >= sourceCount) {
+            return (targetCount == 0 ? sourceCount : -1);
+        }
+        if (fromIndex < 0) {
+            fromIndex = 0;
+        }
+        if (targetCount == 0) {
+            return fromIndex;
+        }
+        char[] lowerTarget = target.toLowerCase().toCharArray();
+        char[] upperTarget = target.toUpperCase().toCharArray();
+
+        int max = sourceCount - targetCount;
+
+        for (int i = fromIndex; i <= max; i++) {
+            /* Look for first character. */
+            char c = source.charAt(i);
+            if (c != lowerTarget[0] && c != upperTarget[0]) {
+                i++;
+                while (i <= max && source.charAt(i) != lowerTarget[0] && source.charAt(i) != upperTarget[0]) {
+                    i++;
+                }
+            }
+
+            /* Found first character, now look at the rest of v2 */
+            if (i <= max) {
+                int j = i + 1;
+                int end = j + targetCount - 1;
+                for (int k = 1; j < end; j++) {
+                    char ch = source.charAt(j);
+                    if (ch != lowerTarget[k] && ch != upperTarget[k]) {
+                        break;
+                    }
+                    k++;
+                }
+
+                if (j == end) {
+                    /* Found whole string. */
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -384,10 +477,6 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
 
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
-            if (!isCaseSensitive()) {
-                text = text.toLowerCase();
-            }
-            String str = isCaseSensitive() ? s : s.toLowerCase();
             int selectedIndex = (getCursor() != -1 ? getCursor() : getSelectedIndex());
             if (selectedIndex < 0)
                 selectedIndex = 0;
@@ -396,11 +485,11 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return s.length() > 0 ? -1 : 0;
 
             // find from cursor
-            int found = text.indexOf(str, selectedIndex);
+            int found = isCaseSensitive() ? text.indexOf(s, selectedIndex) : indexOf(text, s, selectedIndex);
 
             // if not found, start over from the beginning
             if (found == -1) {
-                found = text.indexOf(str, 0);
+                found = isCaseSensitive() ? text.indexOf(s, 0) : indexOf(text, s, 0);
                 if (found >= selectedIndex) {
                     found = -1;
                 }
@@ -421,10 +510,6 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
 
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
-            if (!isCaseSensitive()) {
-                text = text.toLowerCase();
-            }
-            String str = isCaseSensitive() ? s : s.toLowerCase();
             int selectedIndex = (getCursor() != -1 ? getCursor() : getSelectedIndex());
             if (selectedIndex < 0)
                 selectedIndex = 0;
@@ -433,11 +518,11 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return s.length() > 0 ? -1 : 0;
 
             // find from cursor
-            int found = text.lastIndexOf(str, selectedIndex);
+            int found = isCaseSensitive() ? text.lastIndexOf(s, selectedIndex) : lastIndexOf(text, s, selectedIndex);
 
             // if not found, start over from the end
             if (found == -1) {
-                found = text.lastIndexOf(str, text.length() - 1);
+                found = isCaseSensitive() ? text.lastIndexOf(s, text.length() - 1) : lastIndexOf(text, s, text.length() - 1);
                 if (found <= selectedIndex) {
                     found = -1;
                 }
@@ -454,10 +539,6 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
     public int findNext(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
-            if (!isCaseSensitive()) {
-                text = text.toLowerCase();
-            }
-            String str = isCaseSensitive() ? s : s.toLowerCase();
             int selectedIndex = (getCursor() != -1 ? getCursor() : getSelectedIndex());
             if (selectedIndex < 0)
                 selectedIndex = 0;
@@ -466,11 +547,11 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return s.length() > 0 ? -1 : 0;
 
             // find from cursor
-            int found = text.indexOf(str, selectedIndex + 1);
+            int found = isCaseSensitive() ? text.indexOf(s, selectedIndex + 1) : indexOf(text, s, selectedIndex + 1);
 
             // if not found, start over from the beginning
             if (found == -1 && isRepeats()) {
-                found = text.indexOf(str, 0);
+                found = isCaseSensitive() ? text.indexOf(s, 0) : indexOf(text, s, 0);
                 if (found >= selectedIndex) {
                     found = -1;
                 }
@@ -487,10 +568,6 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
     public int findPrevious(String s) {
         if (_component instanceof JTextComponent) {
             String text = getDocumentText();
-            if (!isCaseSensitive()) {
-                text = text.toLowerCase();
-            }
-            String str = isCaseSensitive() ? s : s.toLowerCase();
             int selectedIndex = (getCursor() != -1 ? getCursor() : getSelectedIndex());
             if (selectedIndex < 0)
                 selectedIndex = 0;
@@ -499,11 +576,11 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
                 return s.length() > 0 ? -1 : 0;
 
             // find from cursor
-            int found = text.lastIndexOf(str, selectedIndex - 1);
+            int found = isCaseSensitive() ? text.lastIndexOf(s, selectedIndex - 1) : lastIndexOf(text, s, selectedIndex - 1);
 
             // if not found, start over from the beginning
             if (found == -1 && isRepeats()) {
-                found = text.lastIndexOf(str, count - 1);
+                found = isCaseSensitive() ? text.lastIndexOf(s, count - 1) : lastIndexOf(text, s, count - 1);
                 if (found <= selectedIndex) {
                     found = -1;
                 }
