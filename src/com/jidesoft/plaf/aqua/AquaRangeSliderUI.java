@@ -6,7 +6,7 @@
 
 package com.jidesoft.plaf.aqua;
 
-import com.apple.laf.AquaSliderUI;
+import apple.laf.AquaSliderUI;
 import com.jidesoft.swing.RangeSlider;
 
 import javax.swing.*;
