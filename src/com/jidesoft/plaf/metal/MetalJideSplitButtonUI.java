@@ -53,6 +53,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         return "JideSplitButton";
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new MetalJideSplitButtonUI();
     }
@@ -65,6 +66,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         _darkShadowColor = UIDefaultsLookup.getColor("controlDkShadow");
         _highlight = UIDefaultsLookup.getColor("controlHighlight");
         _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
+        menuItem.setRolloverEnabled(true);
 
         super.installDefaults();
     }
@@ -117,12 +119,13 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         _focusListener = null;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     protected PropertyChangeListener createSplitButtonPropertyChangeListener(JComponent c) {
         return new PropertyChangeHandler();
     }
 
 
-    /**
+    /*
      * Returns the ui that is of type <code>klass</code>, or null if one can not be found.
      */
     static Object getUIOfType(ComponentUI ui, Class klass) {
@@ -135,6 +138,10 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
     /**
      * Returns the InputMap for condition <code>condition</code>. Called as part of
      * <code>installKeyboardActions</code>.
+     *
+     * @param condition the condition
+     * @param c the component
+     * @return the input map.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -200,6 +207,13 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         else {
             paintBackground = menuItem.isOpaque();
         }
+        JideSplitButton b = (JideSplitButton) menuItem;
+        if (model.isRollover()) {
+            System.out.println("b.isRolloverEnabled():" + b.isRolloverEnabled());
+            System.out.println("b.hasFocus():" + b.hasFocus());
+            System.out.println("model.isEnabled():" + model.isEnabled());
+            System.out.println("isMouseOver():" + isMouseOver());
+        }
 
         if (!((JMenu) menuItem).isTopLevelMenu()) {
             super.paintBackground(g, menuItem, bgColor);
@@ -233,7 +247,6 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             g.fillRect(0, 0, menuWidth, menuHeight);
         }
 
-        JideSplitButton b = (JideSplitButton) menuItem;
         if (b.getButtonStyle() == ButtonStyle.TOOLBAR_STYLE) {
             Object segmentPosition = b.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION);
             if ((model.isSelected())) {
@@ -687,7 +700,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         FontMetrics fm = g.getFontMetrics();
         int mnemIndex = menuItem.getDisplayedMnemonicIndex();
 
-        if (!model.isEnabled() || !((JideSplitButton) menuItem).isButtonEnabled()) {
+        if (!model.isEnabled() || !(menuItem instanceof JideSplitButton) || !((JideSplitButton) menuItem).isButtonEnabled()) {
             // *** paint the text disabled
             if (UIDefaultsLookup.get("MenuItem.disabledForeground") instanceof Color) {
                 g.setColor(UIDefaultsLookup.getColor("MenuItem.disabledForeground"));
@@ -708,7 +721,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         }
         else {
             // *** paint the text normally
-            if (model.isArmed() || (menuItem instanceof JMenu && model.isSelected())) {
+            if (model.isArmed() || model.isSelected()) {
                 g.setColor(selectionForeground); // Uses protected field.
             }
             JideSwingUtilities.drawStringUnderlineCharAt(menuItem, g, text, mnemIndex,
@@ -1040,12 +1053,7 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
     }
 
     protected boolean isAlwaysDropdown(JMenuItem menuItem) {
-        if (menuItem instanceof JideSplitButton) {
-            return ((JideSplitButton) menuItem).isAlwaysDropdown();
-        }
-        else {
-            return false;
-        }
+        return menuItem instanceof JideSplitButton && ((JideSplitButton) menuItem).isAlwaysDropdown();
     }
 
     /**
@@ -1093,18 +1101,15 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
 
         @Override
         public boolean isEnabled(Object sender) {
-            if (sender != null && (sender instanceof AbstractButton) &&
-                    !((AbstractButton) sender).getModel().isEnabled()) {
-                return false;
-            }
-            else {
-                return true;
-            }
+            return !(sender != null && (sender instanceof AbstractButton) &&
+                    !((AbstractButton) sender).getModel().isEnabled());
         }
     }
 
     /**
      * Populates Buttons actions.
+     *
+     * @param map the action map to load
      */
     public static void loadActionMap(LazyActionMap map) {
         map.put(new Actions(Actions.PRESS));

@@ -51,6 +51,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         return propertyPrefix;
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public static ComponentUI createUI(JComponent c) {
         return new EclipseJideSplitButtonUI();
     }
@@ -62,6 +63,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         _darkShadowColor = UIDefaultsLookup.getColor("controlDkShadow");
         _highlight = UIDefaultsLookup.getColor("controlHighlight");
         _lightHighlightColor = UIDefaultsLookup.getColor("controlLtHighlight");
+        menuItem.setRolloverEnabled(true);
 
         super.installDefaults();
     }
@@ -102,7 +104,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
         }
     }
 
-    /**
+    /*
      * Returns the ui that is of type <code>klass</code>, or null if one can not be found.
      */
     static Object getUIOfType(ComponentUI ui, Class klass) {
@@ -115,6 +117,10 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
     /**
      * Returns the InputMap for condition <code>condition</code>. Called as part of
      * <code>installKeyboardActions</code>.
+     *
+     * @param condition the condition
+     * @param c the component
+     * @return the input map.
      */
     public InputMap getInputMap(int condition, JComponent c) {
         if (condition == JComponent.WHEN_FOCUSED) {
@@ -158,8 +164,8 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
     @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
             menuHeight = menuItem.getHeight();
@@ -577,13 +583,8 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
         @Override
         public boolean isEnabled(Object sender) {
-            if (sender != null && (sender instanceof AbstractButton) &&
-                    !((AbstractButton) sender).getModel().isEnabled()) {
-                return false;
-            }
-            else {
-                return true;
-            }
+            return !(sender != null && (sender instanceof AbstractButton) &&
+                    !((AbstractButton) sender).getModel().isEnabled());
         }
     }
 
@@ -593,6 +594,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
     /**
      * Populates Buttons actions.
+     * @param map the action map to load
      */
     public static void loadActionMap(LazyActionMap map) {
         map.put(new Actions(Actions.PRESS));
