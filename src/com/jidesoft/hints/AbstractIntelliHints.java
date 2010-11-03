@@ -547,7 +547,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         }
         
         private Action getHintsPopupAction() {
-            if (isHintsPopupVisible()) {
+            if (isHintsPopupVisible() && getDelegateComponent() != null) {
                 Object key = getDelegateComponent().getInputMap().get(_keyStroke);
                 key = key == null ? getTextComponent().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).get(_keyStroke) : key;
                 if (key != null) {
