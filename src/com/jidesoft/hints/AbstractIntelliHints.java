@@ -42,6 +42,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     // Specifies whether the hints popup should be displayed automatically.
     // Default is true for backward compatibility.
     private boolean _autoPopup = true;
+    private int _showHintsDelay = 200;
 
     /**
      * Creates an IntelliHints object for a given JTextComponent.
@@ -491,7 +492,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     };
 
     private DocumentListener documentListener = new DocumentListener() {
-        private Timer timer = new Timer(200, new ActionListener() {
+        private Timer timer = new Timer(getShowHintsDelay(), new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isKeyTyped()) {
                     if (isHintsPopupVisible() || isAutoPopup()) {
@@ -530,6 +531,27 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
     private void setKeyTyped(boolean keyTyped) {
         _keyTyped = keyTyped;
+    }
+
+    /**
+     * Gets the delay after the key is pressed to show hints.
+     *
+     * @return the delay time on milliseconds.
+     * @see #setShowHintsDelay(int)
+     */
+    public int getShowHintsDelay() {
+        return _showHintsDelay;
+    }
+
+    /**
+     * Sets the delay after the key is pressed to show hints.
+     * <p/>
+     * By default, the delay time is 200ms.
+     *
+     * @param showHintsDelay the delay time
+     */
+    public void setShowHintsDelay(int showHintsDelay) {
+        _showHintsDelay = showHintsDelay;
     }
 
     private class LazyDelegateAction extends DelegateAction {
