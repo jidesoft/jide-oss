@@ -1249,8 +1249,8 @@ public class Office2003Painter extends BasicPainter {
             return;
         }
         Graphics2D g2d = (Graphics2D) g;
-        Color colorLt = getCurrentTheme().getColor("backgroundLt");
-        Color colorDk = getCurrentTheme().getColor("backgroundDk");
+        Color colorLt = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundLt");
+        Color colorDk = getCurrentTheme().getColor("CollapsiblePaneTitlePane.backgroundDk");
         JideSwingUtilities.fillGradient(g2d,
                 new Rectangle(rect.x, rect.y, rect.width, rect.height),
                 colorLt,
