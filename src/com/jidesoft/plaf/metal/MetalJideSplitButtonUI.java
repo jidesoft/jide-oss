@@ -208,12 +208,6 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
             paintBackground = menuItem.isOpaque();
         }
         JideSplitButton b = (JideSplitButton) menuItem;
-        if (model.isRollover()) {
-            System.out.println("b.isRolloverEnabled():" + b.isRolloverEnabled());
-            System.out.println("b.hasFocus():" + b.hasFocus());
-            System.out.println("model.isEnabled():" + model.isEnabled());
-            System.out.println("isMouseOver():" + isMouseOver());
-        }
 
         if (!((JMenu) menuItem).isTopLevelMenu()) {
             super.paintBackground(g, menuItem, bgColor);
