@@ -223,8 +223,10 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             });
         }
         if (updateHints(getContext())) {
-            DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), hideAction);
-            DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), acceptAction, true);
+            if (!isHintsPopupVisible()) {
+                DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), hideAction);
+                DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), acceptAction, true);
+            }
 
             int x = 0;
             int y = 0;

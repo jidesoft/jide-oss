@@ -51,7 +51,7 @@ abstract public class DelegateAction extends AbstractAction {
 
     /**
      * Returns true if either delegateIsEnabled or the action is enabled.
-     *  
+     *
      * {@inheritDoc}
      */
     // Should be final like actionPerformed but not done for backward compatibility.
@@ -59,7 +59,7 @@ abstract public class DelegateAction extends AbstractAction {
     public boolean isEnabled() {
         return isDelegateEnabled() || (_action != null && _action.isEnabled());
     }
-    
+
     final public void actionPerformed(ActionEvent e) {
         if (!delegateActionPerformed(e)) {
             if (_action != null) {
@@ -91,8 +91,8 @@ abstract public class DelegateAction extends AbstractAction {
 
     /**
      * Checks if an action can be performed. Returns true if delegateActionPerformed would perform an action. Otherwise returns false.
-     * 
-     * @return <code>true</code> if the action can be performed. 
+     *
+     * @return <code>true</code> if the action can be performed.
      */
     // Should be abstract like delegateActionPerformed but not done for backward compatibility.
     public boolean isDelegateEnabled() {
@@ -114,7 +114,7 @@ abstract public class DelegateAction extends AbstractAction {
         public boolean delegateActionPerformed(ActionEvent e) {
             return false;
         }
-        
+
         @Override
         public boolean isDelegateEnabled() {
             return false;
@@ -140,15 +140,15 @@ abstract public class DelegateAction extends AbstractAction {
     public static void replaceAction(JComponent component, int condition, JComponent target, int targetCondition, KeyStroke keyStroke, DelegateAction delegateAction, boolean first) {
         Object actionCommand = target.getInputMap(targetCondition).get(keyStroke);
         if (actionCommand != null) {
-            Action action = target.getActionMap().get(actionCommand);
-            if (action != delegateAction) {
+            ActionListener action = component.getActionForKeyStroke(keyStroke);
+            if (action != delegateAction && action instanceof Action) {
                 if (!first && action instanceof DelegateAction) {
                     delegateAction.setAction(((DelegateAction) action).getAction());
                     ((DelegateAction) action).setAction(delegateAction);
                     delegateAction = (DelegateAction) action;
                 }
                 else {
-                    delegateAction.setAction(action);
+                    delegateAction.setAction((Action) action);
                 }
                 if (target != component) {
                     delegateAction.setTarget(target);
