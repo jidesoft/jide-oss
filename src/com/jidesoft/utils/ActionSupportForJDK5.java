@@ -54,8 +54,17 @@ public class ActionSupportForJDK5 {
         action.putValue(DISPLAYED_MNEMONIC_INDEX_KEY, newIndex);
     }
 
+    public static boolean hasDisplayedMnemonicIndex(Action action) {
+        return action.getValue(DISPLAYED_MNEMONIC_INDEX_KEY) != null;
+    }
+
     public static int getDisplayedMnemonicIndex(Action action) {
-        return (Integer) action.getValue(DISPLAYED_MNEMONIC_INDEX_KEY);
+        if (hasDisplayedMnemonicIndex(action)) {
+            return (Integer) action.getValue(DISPLAYED_MNEMONIC_INDEX_KEY);
+        }
+        else {
+            return -1;
+        }
     }
 
     public static void setLargeIcon(Action action, Icon icon) {
@@ -68,6 +77,16 @@ public class ActionSupportForJDK5 {
     }
 
     public static void install(final AbstractButton button, final Action action) {
+        if (isActionSelected(action)) {
+            setSelectedFromAction(button, action);
+        }
+        if (getDisplayedMnemonicIndex(action) != -1) {
+            setDisplayedMnemonicIndexFromAction(button, action, true);
+        }
+        if (getLargeIcon(action) != null) {
+            setIconFromAction(button, action);
+        }
+
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
                 ActionSupportForJDK5.actionPropertyChanged(button, action, e.getPropertyName());
@@ -82,6 +101,7 @@ public class ActionSupportForJDK5 {
         button.addItemListener(itemListener);
         button.putClientProperty(CLIENT_PROPERTY_PROPERTY_CHANGE_LISTENER, listener);
         button.putClientProperty(CLIENT_PROPERTY_ITEM_LISTENER, itemListener);
+
     }
 
     public static void install(final AbstractButton button) {
@@ -173,13 +193,15 @@ public class ActionSupportForJDK5 {
 //                System.out.println("print");
 //            }
 //        };
+//        ActionSupportForJDK5.setActionSelected(abstractAction, true);
+//        ActionSupportForJDK5.setDisplayedMnemonicIndex(abstractAction, 2);
 //        frame.setLayout(new FlowLayout());
 //        final JToggleButton button = new JToggleButton(abstractAction);
 //        ButtonGroup group = new ButtonGroup();
 //        group.add(button);
 //        JToggleButton button2 = new JToggleButton("ABC");
 //        group.add(button2);
-//        ActionSupportForJDK5.bind(button);
+//        ActionSupportForJDK5.install(button);
 //        frame.add(button);
 //        frame.add(button2);
 //        frame.add(new JButton(new AbstractAction("Select") {
