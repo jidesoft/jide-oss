@@ -131,6 +131,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     private boolean _movable = false;
 
+    private boolean _returnFocusToOwner = true;
+
     /**
      * Bound property name for if the popup is detached.
      */
@@ -1245,11 +1247,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         };
         _escapeActionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Component owner = getActualOwner();
                 hidePopupImmediately(true);
-                if (owner != null) {
-                    owner.requestFocus();
-                }
             }
         };
         registerKeyboardAction(_escapeActionListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -1258,11 +1256,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _windowListener = new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    Component owner = getActualOwner();
-                    hidePopup();
-                    if (owner != null) {
-                        owner.requestFocus();
-                    }
+                    hidePopupImmediately(true);
                 }
             };
             _window.addWindowListener(_windowListener);
@@ -2002,7 +1996,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _popupResizeListener = null;
         }
 
-        if (owner != null) {
+        if (owner != null && isReturnFocusToOwner()) {
             owner.requestFocus();
         }
 
@@ -2677,4 +2671,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         return false;
     }
 
+    /**
+     * gets the flag. If true, it will return focus to the owner when the popup is hidden.
+     *
+     * @return true or false.
+     */
+    public boolean isReturnFocusToOwner() {
+        return _returnFocusToOwner;
+    }
+
+    /**
+     * Sets the flag to return focus to the owner when the popup is hidden.
+     *
+     * @param returnFocusToOwner true or false.
+     */
+    public void setReturnFocusToOwner(boolean returnFocusToOwner) {
+        _returnFocusToOwner = returnFocusToOwner;
+    }
 }
