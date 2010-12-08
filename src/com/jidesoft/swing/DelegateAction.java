@@ -138,34 +138,29 @@ abstract public class DelegateAction extends AbstractAction {
     }
 
     public static void replaceAction(JComponent component, int condition, JComponent target, int targetCondition, KeyStroke keyStroke, DelegateAction delegateAction, boolean first) {
-        Object actionCommand = target.getInputMap(targetCondition).get(keyStroke);
-        if (actionCommand != null) {
-            ActionListener action = component.getActionForKeyStroke(keyStroke);
-            if (action != delegateAction && action instanceof Action) {
-                if (!first && action instanceof DelegateAction) {
-                    delegateAction.setAction(((DelegateAction) action).getAction());
-                    ((DelegateAction) action).setAction(delegateAction);
-                    delegateAction = (DelegateAction) action;
-                }
-                else {
-                    delegateAction.setAction((Action) action);
-                }
-                if (target != component) {
-                    delegateAction.setTarget(target);
-                    replaceAction(component, condition, keyStroke, delegateAction);
-                }
-                else {
-                    component.getActionMap().put(actionCommand, delegateAction);
-                }
-            }
-        }
-        else {
-            if (target != component) {
-                delegateAction.setTarget(target);
-                replaceAction(component, condition, keyStroke, delegateAction);
+        ActionListener action = component.getActionForKeyStroke(keyStroke);
+        if (action != delegateAction && action instanceof Action) {
+            if (!first && action instanceof DelegateAction) {
+                delegateAction.setAction(((DelegateAction) action).getAction());
+                ((DelegateAction) action).setAction(delegateAction);
+                delegateAction = (DelegateAction) action;
             }
             else {
+                delegateAction.setAction((Action) action);
+            }
+        }
+
+        if (target != component) {
+            delegateAction.setTarget(target);
+            replaceAction(component, condition, keyStroke, delegateAction);
+        }
+        else {
+            Object actionCommand = target.getInputMap(targetCondition).get(keyStroke);
+            if (actionCommand == null) {
                 component.registerKeyboardAction(delegateAction, keyStroke, condition);
+            }
+            else {
+                component.getActionMap().put(actionCommand, delegateAction);
             }
         }
     }
@@ -187,7 +182,13 @@ abstract public class DelegateAction extends AbstractAction {
         while (action instanceof DelegateAction) {
             if (actionClass.isAssignableFrom(action.getClass())) {
                 if (top == action) {
-                    component.registerKeyboardAction(((DelegateAction) action).getAction(), keyStroke, condition);
+                    Action a = ((DelegateAction) action).getAction();
+                    if (a == null) {
+                        component.unregisterKeyboardAction(keyStroke);
+                    }
+                    else {
+                        component.registerKeyboardAction(a, keyStroke, condition);
+                    }
                 }
                 else {
                     ((DelegateAction) parent).setAction(((DelegateAction) action).getAction());
