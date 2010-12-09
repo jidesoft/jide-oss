@@ -65,6 +65,15 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     }
 
     /**
+     * Returns the category with the supplied position value.
+     * @param position the position of a category along an axis
+     * @return the category with the supplied position value.
+     */
+    public Category<T> getCategory(int position) {
+        return getCategoryValues().get(position - 1);
+    }
+
+    /**
      * <p>Adds a category to the range. Note that after adding categories, you will need to call reset() if you want the
      * minimum and maximum numeric values of the range to be recomputed.</p>
      * <p>This method fires a property change event, but to avoid cloning a list for efficiency, the old value is always
