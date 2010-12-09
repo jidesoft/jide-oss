@@ -17,6 +17,7 @@ public class ConverterContext extends AbstractContext {
     /**
      * Default converter context with dynamic value to work with EditorContext#DEFAULT_CONTEXT_DYNAMIC_VALUE.
      */
+    @Deprecated
     public static ConverterContext DEFAULT_CONTEXT_DYNAMIC_VALUE = new ConverterContext("Dynamic Value");
     private static final long serialVersionUID = 8015351559541303641L;
 
