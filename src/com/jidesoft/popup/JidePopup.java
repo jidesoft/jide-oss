@@ -2350,9 +2350,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public void setTimeout(int timeout) {
         _timeout = timeout;
-        if (_timer != null && _timer.isRunning()) {
-            startTimeoutTimer(); // this call will restart the timer.
-        }
+        startTimeoutTimer(); // this call will restart the timer.
     }
 
     private void stopTimeoutTimer() {
