@@ -83,9 +83,6 @@ public class ActionSupportForJDK5 {
         if (getDisplayedMnemonicIndex(action) != -1) {
             setDisplayedMnemonicIndexFromAction(button, action, true);
         }
-        if (getLargeIcon(action) != null) {
-            setIconFromAction(button, action);
-        }
 
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent e) {
