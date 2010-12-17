@@ -835,7 +835,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
      * @return true to display the sort arrow on top. Otherwise false.
      */
     protected boolean shouldDisplayOnTop() {
-        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel;
+        return false;
     }
 
     public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {

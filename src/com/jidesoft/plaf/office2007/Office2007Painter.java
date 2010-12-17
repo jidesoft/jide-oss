@@ -17,6 +17,7 @@ import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SystemInfo;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -71,7 +72,12 @@ public class Office2007Painter extends BasicPainter {
         }
     }
 
-//    private static final Color[] CONTENT_BG = new Color[]{
+    @Override
+    protected boolean shouldDisplayOnTop() {
+        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel;
+    }
+
+    //    private static final Color[] CONTENT_BG = new Color[]{
 //            new Color(0xA3C2EA),
 //            new Color(0x87A9D5),
 //            new Color(0x567DB0),
