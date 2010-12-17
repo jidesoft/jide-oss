@@ -1475,7 +1475,7 @@ public class LookAndFeelFactory implements ProductNames {
 
     /**
      * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. If the table
-     * already has a value for the key, the new value will be ignored. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method in {@link
+     * already has a value for the key, the new value will be ignored. This is the difference from {@link #putDefaults(javax.swing.UIDefaults, Object[])} method. You should use this method in {@link
      * UIDefaultsInitializer} so that it fills in the UIDefault value only when it is missing.
      *
      * @param table         the ui defaults table
@@ -1497,7 +1497,7 @@ public class LookAndFeelFactory implements ProductNames {
 
     /**
      * Puts a list of UIDefault to the UIDefaults table. The keyValueList is an array with a key and value in pair. If the value is null, this method will remove the key from the table. Otherwise, it
-     * will put the new value in even if the table already has a value for the key. This is the difference from {@link #putDefaults(javax.swing.UIDefaults,Object[])} method. You should use this method
+     * will put the new value in even if the table already has a value for the key. This is the difference from {@link #putDefaults(javax.swing.UIDefaults, Object[])} method. You should use this method
      * in {@link UIDefaultsCustomizer} because you always want to override the existing value using the new value.
      *
      * @param table         the ui defaults table
@@ -1584,8 +1584,8 @@ public class LookAndFeelFactory implements ProductNames {
                 //
             }
             try {
-                Class.forName("com.jidesoft.diff.Product");
-                _productsUsed |= PRODUCT_DIFF;
+                Class.forName("com.jidesoft.treemap.Product");
+                _productsUsed |= PRODUCT_TREEMAP;
             }
             catch (Throwable e) {
                 //
