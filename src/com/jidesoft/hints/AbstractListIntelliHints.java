@@ -111,6 +111,9 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
      * @param objects
      */
     protected void setListData(Object[] objects) {
+        if (getList() == null) {
+            return;
+        }
         resetSelection();
         getList().setListData(objects);
 
@@ -127,6 +130,9 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
      * @param objects
      */
     protected void setListData(Vector<?> objects) {
+        if (getList() == null) {
+            return;
+        }
         resetSelection();
         getList().setListData(objects);
         // update the view so that isViewSizeSet flag in JViewport is reset to false
@@ -136,13 +142,16 @@ public abstract class AbstractListIntelliHints extends AbstractIntelliHints {
     }
 
     private void resetSelection() {
+        if (getList() == null) {
+            return;
+        }
         getList().getSelectionModel().setAnchorSelectionIndex(-1); // has to call setAnchor first
         getList().getSelectionModel().setLeadSelectionIndex(-1);
         getList().getSelectionModel().clearSelection();
     }
 
     public Object getSelectedHint() {
-        return getList().getSelectedValue();
+        return getList() == null ? null : getList().getSelectedValue();
     }
 
     @Override
