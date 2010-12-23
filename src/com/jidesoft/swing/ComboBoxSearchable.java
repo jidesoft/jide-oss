@@ -43,6 +43,7 @@ import java.beans.PropertyChangeListener;
  */
 public class ComboBoxSearchable extends Searchable implements ListDataListener, PropertyChangeListener, PopupMenuListener {
 
+    private boolean _refreshPopupDuringSearching = false;
     private boolean _showPopupDuringSearching = true;
 
     public ComboBoxSearchable(JComboBox comboBox) {
@@ -87,16 +88,38 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         _showPopupDuringSearching = showPopupDuringSearching;
     }
 
+    /**
+     * Checks if the popup should be refreshed during searching.
+     * <p/>
+     * By default, the value is false. ComboBoxShrinkSearchSupport will set this flag to true.
+     *
+     * @return true if popup is refreshed during searching.
+     */
+    public boolean isRefreshPopupDuringSearching() {
+        return _refreshPopupDuringSearching;
+    }
+
+    /**
+     * Sets the property which determines if the popup should be refreshed during searching.
+     *
+     * @param refreshPopupDuringSearching the flag indicating if we should refresh popup during searching
+     */
+    public void setRefreshPopupDuringSearching(boolean refreshPopupDuringSearching) {
+        _refreshPopupDuringSearching = refreshPopupDuringSearching;
+    }
+
     @Override
     protected void setSelectedIndex(int index, boolean incremental) {
         if (((JComboBox) _component).getSelectedIndex() != index) {
             ((JComboBox) _component).setSelectedIndex(index);
         }
-        if (isShowPopupDuringSearching()) {
+        if (isRefreshPopupDuringSearching()) {
             boolean old = isHideSearchPopupOnEvent();
             setHideSearchPopupOnEvent(false);
             ((JComboBox) _component).hidePopup();
             setHideSearchPopupOnEvent(old);
+        }
+        if (isShowPopupDuringSearching() || isRefreshPopupDuringSearching()) {
             try {
                 if (!((JComboBox) _component).isPopupVisible() &&
                         KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null &&
