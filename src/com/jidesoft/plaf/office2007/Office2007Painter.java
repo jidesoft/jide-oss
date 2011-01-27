@@ -8,6 +8,7 @@ package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
@@ -74,7 +75,7 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     protected boolean shouldDisplayOnTop() {
-        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel;
+        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && XPUtils.isXPStyleOn();
     }
 
     //    private static final Color[] CONTENT_BG = new Color[]{
