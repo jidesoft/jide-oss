@@ -1590,6 +1590,20 @@ public class LookAndFeelFactory implements ProductNames {
             catch (Throwable e) {
                 //
             }
+            try {
+                Class.forName("com.jidesoft.chart.Product");
+                _productsUsed |= PRODUCT_CHARTS;
+            }
+            catch (Throwable e) {
+                //
+            }
+            try {
+                Class.forName("com.jidesoft.diff.Product");
+                _productsUsed |= PRODUCT_DIFF;
+            }
+            catch (Throwable e) {
+                //
+            }
         }
         return _productsUsed;
     }
