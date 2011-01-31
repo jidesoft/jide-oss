@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * <code>JideSplitPane</code> is used to divide multiple <code>Component</code>s.
@@ -363,12 +364,23 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
 //            setBorder(BorderFactory.createLineBorder(Color.RED));
 //        else
 //            setBorder(BorderFactory.createLineBorder(Color.CYAN));
-        LayoutManager layoutManager;
+        JideSplitPaneLayout layoutManager;
         if (_orientation == HORIZONTAL_SPLIT) {
             layoutManager = new JideSplitPaneLayout(this, JideSplitPaneLayout.X_AXIS);
         }
         else {
             layoutManager = new JideSplitPaneLayout(this, JideSplitPaneLayout.Y_AXIS);
+        }
+        Component[] components = getComponents();
+        LayoutManager oldManager = getLayout();
+        Map<Component,Object> constraintMap = null;
+        if (oldManager instanceof JideSplitPaneLayout) {
+            constraintMap = ((JideSplitPaneLayout) oldManager).getConstraintMap();
+        }
+        if (components != null && constraintMap != null) {
+            for (Component comp : components) {
+                layoutManager.addLayoutComponent(comp, constraintMap.get(comp));
+            }
         }
         super.setLayout(layoutManager);
         doLayout();
