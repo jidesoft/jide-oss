@@ -197,6 +197,9 @@ public class AutoCompletion {
                         getTextComponent().setText("" + treePath.getLastPathComponent());
                         highlightCompletedText(0);
                     }
+                    else {
+                        getTextComponent().setText("");
+                    }
                 }
             });
             DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, tree, JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
