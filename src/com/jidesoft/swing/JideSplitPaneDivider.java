@@ -834,8 +834,8 @@ public class JideSplitPaneDivider extends JPanel
             @Override
             public void paint(Graphics g) {
                 if (_jideSplitPane != null) {
-                    g.setColor(this.getBackground());
-                    if (isOpaque()) {
+                    g.setColor(JideSplitPaneDivider.this.getBackground());
+                    if (JideSplitPaneDivider.this.isOpaque()) {
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     }
 
@@ -895,8 +895,8 @@ public class JideSplitPaneDivider extends JPanel
             @Override
             public void paint(Graphics g) {
                 if (_jideSplitPane != null) {
-                    g.setColor(this.getBackground());
-                    if (isOpaque()) {
+                    g.setColor(JideSplitPaneDivider.this.getBackground());
+                    if (JideSplitPaneDivider.this.isOpaque()) {
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     }
 
