@@ -24,6 +24,9 @@ public class SpinnerWheelSupport {
     public static void installMouseWheelSupport(final JSpinner spinner) {
         MouseWheelListener l = new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent e) {
+                if (spinner == null || !spinner.isEnabled()) {
+                    return;
+                }
                 int rotation = e.getWheelRotation();
                 if (rotation < 0) {
                     Action action = spinner.getActionMap().get(ACTION_NAME_INCREMENT);
