@@ -20,8 +20,8 @@
         </license>
     </licenses>
     <scm>
-        <connection>https://jide-oss.dev.java.net/svn/jide-oss/trunk</connection>
-        <url>https://jide-oss.dev.java.net/svn/jide-oss/trunk</url>
+        <connection>https://svn.java.net/svn/jide-oss~svn/trunk</connection>
+        <url>https://svn.java.net/svn/jide-oss~svn/trunk</url>
     </scm>
     <build>
         <sourceDirectory>src</sourceDirectory>
