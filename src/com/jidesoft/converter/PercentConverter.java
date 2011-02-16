@@ -21,4 +21,13 @@ public class PercentConverter extends NumberFormatConverter {
     public PercentConverter(NumberFormat format) {
         super(format);
     }
+
+    @Override
+    public Object fromString(String string, ConverterContext context) {
+        Object o = super.fromString(string, context);
+        if (o instanceof Number && ((Number) o).longValue() > 1) {
+            o = ((Number) o).doubleValue() / 100;
+        }
+        return o;
+    }
 }
