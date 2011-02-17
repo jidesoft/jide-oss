@@ -232,6 +232,7 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                     actualResizeCorner = Resizable.LEFT;
             }
         }
+        int snapGridSize = _resizable.getSnapGridSize();
         switch (actualResizeCorner) {
             case RESIZE_NONE:
                 return;
@@ -243,6 +244,14 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
 //                if (_startingBounds.y - deltaY < 0)
 //                    deltaY = _startingBounds.y;
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
                 newX = _startingBounds.x;
                 newY = _startingBounds.y - deltaY;
                 newW = _startingBounds.width;
@@ -264,6 +273,22 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                 if (_startingBounds.x + _startingBounds.width - deltaX > parentBounds.width)
                     deltaX = _startingBounds.x + _startingBounds.width - parentBounds.width;
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newX = _startingBounds.x;
                 newY = _startingBounds.y - deltaY;
                 newW = _startingBounds.width - deltaX;
@@ -277,6 +302,14 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                 if (_startingBounds.x + _startingBounds.width - deltaX > parentBounds.width)
                     deltaX = _startingBounds.x + _startingBounds.width - parentBounds.width;
 
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newW = _startingBounds.width - deltaX;
                 newH = _startingBounds.height;
                 break;
@@ -296,6 +329,22 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                     deltaY = _startingBounds.y + _startingBounds.height -
                             parentBounds.height;
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newW = _startingBounds.width - deltaX;
                 newH = _startingBounds.height - deltaY;
                 break;
@@ -308,6 +357,14 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                     deltaY = _startingBounds.y + _startingBounds.height -
                             parentBounds.height;
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
                 newW = _startingBounds.width;
                 newH = _startingBounds.height - deltaY;
                 break;
@@ -327,6 +384,22 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
 //                    deltaX = _startingBounds.x;
 //                }
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newX = _startingBounds.x - deltaX;
                 newY = _startingBounds.y;
                 newW = _startingBounds.width + deltaX;
@@ -340,6 +413,14 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
 //                if (_startingBounds.x - deltaX < 0)
 //                    deltaX = _startingBounds.x;
 
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newX = _startingBounds.x - deltaX;
                 newY = _startingBounds.y;
                 newW = _startingBounds.width + deltaX;
@@ -362,6 +443,22 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
 //                    deltaY = _startingBounds.y;
 //                }
 
+                if (snapGridSize > 0 && deltaY % snapGridSize != 0) {
+                    if (deltaY > 0) {
+                        deltaY += snapGridSize - deltaY % snapGridSize;
+                    }
+                    else {
+                        deltaY -= snapGridSize - (-deltaY) % snapGridSize;
+                    }
+                }
+                if (snapGridSize > 0 && deltaX % snapGridSize != 0) {
+                    if (deltaX > 0) {
+                        deltaX += snapGridSize - deltaX % snapGridSize;
+                    }
+                    else {
+                        deltaX -= snapGridSize - (-deltaX) % snapGridSize;
+                    }
+                }
                 newX = _startingBounds.x - deltaX;
                 newY = _startingBounds.y - deltaY;
                 newW = _startingBounds.width + deltaX;

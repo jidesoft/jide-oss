@@ -40,7 +40,7 @@ public class Resizable {
     protected final JComponent _component;
     private Insets _resizeInsets;
     private MouseInputListener _mouseInputAdapter;
-
+    private int _snapGridSize = 1;
 
     private boolean _topLevel;
 
@@ -241,6 +241,30 @@ public class Resizable {
      */
     public void setResizeInsets(Insets resizeInsets) {
         _resizeInsets = resizeInsets;
+    }
+
+    /**
+     * Gets the snap grid size.
+     *
+     * @return the snap grid size.
+     * @see #setSnapGridSize(int)
+     */
+    public int getSnapGridSize() {
+        return _snapGridSize;
+    }
+
+
+    /**
+     * Sets the snap grid size.
+     * <p/>
+     * Snap grid size is used to make resizing easier.
+     * <p/>
+     * By default, the size is 1 pixel.
+     *
+     * @param snapGridSize the grid size
+     */
+    public void setSnapGridSize(int snapGridSize) {
+        _snapGridSize = snapGridSize;
     }
 
     public static class ResizeCorner extends JComponent {
