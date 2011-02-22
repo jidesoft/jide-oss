@@ -9,9 +9,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import static java.util.Calendar.*;
 import java.util.Date;
 import java.util.logging.Logger;
+
+import static java.util.Calendar.*;
 
 public class TimeUtils {
     private static final Logger logger = Logger.getLogger(TimeUtils.class.getName());
@@ -21,7 +22,7 @@ public class TimeUtils {
      * SimpleDateFormat. <p>The format used is "dd-MMM-yyyy HH:mm:ss", so an acceptable date is for example 05-Dec-1999
      * 20:04:15</p>
      *
-     * @param timeString
+     * @param timeString a time string in the format "dd-MMM-yyyy HH:mm:ss" (eg. 05-Dec-1999 20:04:15)
      * @return a <code>Date</code> object corresponding to the date/time in the supplied string.
      *
      * @throws ParseException
@@ -35,7 +36,8 @@ public class TimeUtils {
      * @param c1
      * @param c2
      * @return the int field from the Calendar class at which the dates differ. This will be one of YEAR, MONTH,
-     *         WEEK_OF_YEAR, DAY_OF_YEAR, HOUR_OF_DAY, MINUTE, SECOND, MILLISECOND, or null if there are no differences.
+     *         WEEK_OF_YEAR, DAY_OF_YEAR, HOUR_OF_DAY, MINUTE, SECOND, MILLISECOND, or null if there are no
+     *         differences.
      */
     public static Integer mostSignificantDifference(Calendar c1, Calendar c2) {
         if (!isSameYear(c1, c2)) {
@@ -229,5 +231,5 @@ public class TimeUtils {
             result.add(SECOND, 1);
         }
         return result;
-	}
+    }
 }

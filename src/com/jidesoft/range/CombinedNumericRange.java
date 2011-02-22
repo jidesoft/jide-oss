@@ -30,8 +30,8 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
 
     /**
      * Add a new range to this combined range. Notice the method returns this instance, so method calls can be chained
-     * together. If you pass null to this method the CombinedNumericRange remains unchanged; an Exception is
-     * NOT thrown.
+     * together. If you pass null to this method the CombinedNumericRange remains unchanged; an Exception is NOT
+     * thrown.
      *
      * @param range the new range to add
      * @return this instance
@@ -40,7 +40,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
         if (range == null) {
             return this;
         }
-        synchronized(monitor) {
+        synchronized (monitor) {
             _ranges.add(range);
             _min = null;
             _max = null;
@@ -63,11 +63,20 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
     }
 
     /**
-     * Calls to this method throw an UnsupportedOprationException. The idea is that in the case of this
-     * class we don't want to be able to mess with the lower and upper bounds as they are computed from
-     * the supplied range values. If the class needed to recompute the lower and upper bounds any previous
-     * adjustment that had been made through this method would have been lost.
-     * 
+     * Returns the number of sub-ranges contained by this range
+     *
+     * @return the number of sub-ranges in this range
+     */
+    public int rangeCount() {
+        return _ranges == null ? 0 : _ranges.size();
+    }
+
+    /**
+     * Calls to this method throw an UnsupportedOprationException. The idea is that in the case of this class we don't
+     * want to be able to mess with the lower and upper bounds as they are computed from the supplied range values. If
+     * the class needed to recompute the lower and upper bounds any previous adjustment that had been made through this
+     * method would have been lost.
+     *
      * @throws UnsupportedOperationException
      */
     public void adjust(Double lower, Double upper) {
@@ -78,7 +87,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * Lazily calculates the maximum value in the range
      */
     public double maximum() {
-        synchronized(monitor) {
+        synchronized (monitor) {
             if (_max != null) {
                 return _max;
             }
@@ -99,7 +108,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * Lazily calculates the minimum value in the range
      */
     public double minimum() {
-        synchronized(monitor) {
+        synchronized (monitor) {
             if (_min != null) {
                 return _min;
             }
@@ -118,10 +127,10 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
 
 
     /**
-     * This range contains some point iff one or more of its subranges contain that point
+     * This range contains some point iff one or more of its sub-ranges contain that point
      */
     public boolean contains(Double x) {
-        synchronized(monitor) {
+        synchronized (monitor) {
             if (x == null || _ranges.size() == 0) {
                 return false;
             }
@@ -140,16 +149,17 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * The size of the range is computed as the maximum minus the minimum value.
      */
     public double size() {
-        synchronized(monitor) {
+        synchronized (monitor) {
             return maximum() - minimum();
         }
     }
-    
+
     /**
-     * Returns a new numeric range that is based on this range, but with a margin introduced at each end.
-     * The margin proportion is a value between 0 and 1. For example to add a 20% margin to each end use
-     * parameters of 0.2 for both the leading and trailing margin proportion.
-     * @param leadingMarginProportion how much margin to add at the low end of the range
+     * Returns a new numeric range that is based on this range, but with a margin introduced at each end. The margin
+     * proportion is a value between 0 and 1. For example to add a 20% margin to each end use parameters of 0.2 for both
+     * the leading and trailing margin proportion.
+     *
+     * @param leadingMarginProportion  how much margin to add at the low end of the range
      * @param trailingMarginProportion how much margin to add at the top end of the range
      * @return a new NumericRange object with margins added
      */
@@ -161,7 +171,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
         double trailingMargin = trailingMarginProportion * difference;
         return new NumericRange(minimum - leadingMargin, maximum + trailingMargin);
     }
-    
+
     public String toString() {
         return String.format("#<CombinedNumericRange min=%s max=%s>", minimum(), maximum());
     }

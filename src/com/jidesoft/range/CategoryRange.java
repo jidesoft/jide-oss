@@ -46,10 +46,11 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     public CategoryRange(Set<T> values) {
         _possibleValues = new ArrayList<T>(values);
     }
-    
+
     /**
-     * Create a new CategoryRange by copying an existing one. This would allow you subsequently to tweak
-     * the values in the copy without affecting the original.
+     * Create a new CategoryRange by copying an existing one. This would allow you subsequently to tweak the values in
+     * the copy without affecting the original.
+     *
      * @param categoryRange the category range instance to copy
      */
     public CategoryRange(CategoryRange<T> categoryRange) {
@@ -65,7 +66,8 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     }
 
     /**
-     * Returns the category with the supplied position value.
+     * Returns the category with the supplied position value. (Note that the first position is 1, not 0.)
+     *
      * @param position the position of a category along an axis
      * @return the category with the supplied position value.
      */
@@ -75,9 +77,8 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
 
     /**
      * <p>Adds a category to the range. Note that after adding categories, you will need to call reset() if you want the
-     * minimum and maximum numeric values of the range to be recomputed.</p>
-     * <p>This method fires a property change event, but to avoid cloning a list for efficiency, the old value is always
-     * null</p>
+     * minimum and maximum numeric values of the range to be recomputed.</p> <p>This method fires a property change
+     * event, but to avoid cloning a list for efficiency, the old value is always null</p>
      *
      * @param c the category to add
      * @return this range
@@ -91,7 +92,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         }
         return this;
     }
-    
+
 
     @Override
     public Range<T> copy() {
@@ -132,7 +133,8 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
             T upper = upper();
             if (upper == null) {
                 return 1.0;
-            } else {
+            }
+            else {
                 maximum = position(upper) + 1.0;
             }
         }
@@ -149,13 +151,14 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
             T lower = lower();
             if (lower == null) {
                 return 0.0;
-            } else {
+            }
+            else {
                 minimum = position(lower) - 1.0;
             }
         }
         return minimum;
     }
-    
+
     /**
      * Reset the maximum and minimum. They will be recomputed on the next call to minimum() or maximum() respectively
      */
@@ -163,13 +166,13 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         maximum = null;
         minimum = null;
     }
-    
+
     public void setMinimum(double value) {
         Double oldValue = this.minimum;
         this.minimum = value;
         firePropertyChange(PROPERTY_MIN, oldValue, value);
     }
-    
+
     public void setMaximum(double value) {
         Double oldValue = this.maximum;
         this.maximum = value;
@@ -177,8 +180,9 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     }
 
     /**
-     * Returns the size of the range, as given by the maximum minus the minimum. To compute the size of
-     * the range in terms of the number of members in the category, use getPossibleValue().size()
+     * Returns the size of the range, as given by the maximum minus the minimum. To compute the size of the range in
+     * terms of the number of members in the category, use getPossibleValue().size()
+     *
      * @return the size of the range
      *
      * @see com.jidesoft.range.Range#size()
@@ -256,7 +260,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         }
         return _categoryValues;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -280,22 +284,26 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         if (_categoryValues == null) {
             if (other._categoryValues != null)
                 return false;
-        } else if (!_categoryValues.equals(other._categoryValues))
+        }
+        else if (!_categoryValues.equals(other._categoryValues))
             return false;
         if (_possibleValues == null) {
             if (other._possibleValues != null)
                 return false;
-        } else if (!_possibleValues.equals(other._possibleValues))
+        }
+        else if (!_possibleValues.equals(other._possibleValues))
             return false;
         if (maximum == null) {
             if (other.maximum != null)
                 return false;
-        } else if (!maximum.equals(other.maximum))
+        }
+        else if (!maximum.equals(other.maximum))
             return false;
         if (minimum == null) {
             if (other.minimum != null)
                 return false;
-        } else if (!minimum.equals(other.minimum))
+        }
+        else if (!minimum.equals(other.minimum))
             return false;
         return true;
     }
