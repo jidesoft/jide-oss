@@ -122,6 +122,8 @@ public abstract class Searchable {
     private int _popupLocation = SwingConstants.TOP;
 
     private int _searchingDelay = 0;
+    private int _popupTimeout = 0;
+    private Timer _popupTimer;
 
     private boolean _reverseOrder = false;
 
@@ -502,6 +504,31 @@ public abstract class Searchable {
             _focusListener = createFocusListener();
         }
         getComponent().addFocusListener(_focusListener);
+        addSearchableListener(new SearchableListener() {
+            public void searchableEventFired(SearchableEvent e) {
+                if(e.getID() == SearchableEvent.SEARCHABLE_START) {
+                    if (getPopupTimeout() > 0) {
+                        _popupTimer= new Timer(getPopupTimeout(), new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                if (isPopupVisible()) {
+                                    hidePopup();
+                                }
+                            }
+                        });
+                        _popupTimer.setRepeats(false);
+                        _popupTimer.start();
+                    }
+                }
+                else if (_popupTimer != null) {
+                    if(e.getID() == SearchableEvent.SEARCHABLE_END) {
+                        _popupTimer.stop();
+                    }
+                    else {
+                        _popupTimer.restart();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -1761,5 +1788,27 @@ public abstract class Searchable {
      */
     public void setProcessModelChangeEvent(boolean processModelChangeEvent) {
         _processModelChangeEvent = processModelChangeEvent;
+    }
+
+    /**
+     * Gets the timeout for showing the popup.
+     *
+     * @return the popup timeout.
+     * @see #setPopupTimeout(int)
+     */
+    public int getPopupTimeout() {
+        return _popupTimeout;
+    }
+
+    /**
+     * Sets the timeout for showing the popup.
+     * <p/>
+     * By default, the timeout value is 0, which means no timeout. You could set it to a positive value to automatically
+     * hide the search popup after an idle time.
+     *
+     * @param popupTimeout the timeout in milliseconds
+     */
+    public void setPopupTimeout(int popupTimeout) {
+        _popupTimeout = popupTimeout;
     }
 }
