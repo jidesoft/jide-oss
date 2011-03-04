@@ -46,6 +46,7 @@ public class CheckBoxTree extends JTree {
     private boolean _clickInCheckBoxOnly = true;
     private PropertyChangeListener _modelChangeListener;
     private TristateCheckBox _checkBox;
+    private boolean _selectPartialOnToggling = true;
 
     public CheckBoxTree() {
         init();
@@ -242,6 +243,27 @@ public class CheckBoxTree extends JTree {
         }
     }
 
+    /**
+     * Gets the flag indicating if toggling should select or deselect the partially selected node.
+     *
+     * @return true if select first. Otherwise false.
+     * @see #setSelectPartialOnToggling(boolean)
+     */
+    public boolean isSelectPartialOnToggling() {
+        return _selectPartialOnToggling;
+    }
+
+    /**
+     * Sets the flag indicating if toggling should select or deselect the partially selected node.
+     * <p/>
+     * By default, the value is true to keep original behavior.
+     *
+     * @param selectPartialOnToggling the flag
+     */
+    public void setSelectPartialOnToggling(boolean selectPartialOnToggling) {
+        _selectPartialOnToggling = selectPartialOnToggling;
+    }
+
     protected static class Handler implements MouseListener, KeyListener, TreeSelectionListener {
         protected CheckBoxTree _tree;
         int _hotspot = new JCheckBox().getPreferredSize().width;
@@ -383,7 +405,19 @@ public class CheckBoxTree extends JTree {
                     pathToRemoved.add(treePath);
                 }
                 else {
-                    pathToAdded.add(treePath);
+                    if (!_tree.isSelectPartialOnToggling() && selectionModel.isPartiallySelected(treePath)) {
+                        TreePath[] selectionPaths = selectionModel.getSelectionPaths();
+                        if (selectionPaths != null) {
+                            for (TreePath selectionPath : selectionPaths) {
+                                if (selectionModel.isDescendant(selectionPath, treePath)) {
+                                    pathToRemoved.add(selectionPath);
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        pathToAdded.add(treePath);
+                    }
                 }
             }
             selectionModel.removeTreeSelectionListener(this);

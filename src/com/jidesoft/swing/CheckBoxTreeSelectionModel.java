@@ -190,7 +190,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * @param path2 the second path
      * @return true if the first path is the descendant of the second path.
      */
-    private boolean isDescendant(TreePath path1, TreePath path2) {
+    boolean isDescendant(TreePath path1, TreePath path2) {
         Object obj1[] = path1.getPath();
         Object obj2[] = path2.getPath();
         if (obj1.length < obj2.length)
