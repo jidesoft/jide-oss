@@ -463,13 +463,6 @@ public abstract class AbstractIntelliHints implements IntelliHints {
                     aih.setHintsEnabled(true);
                     return true;
                 }
-                else if (getTextComponent().getRootPane() != null) {
-                    JButton button = getTextComponent().getRootPane().getDefaultButton();
-                    if (button != null) {
-                        button.doClick();
-                        return true;
-                    }
-                }
             }
             return false;
         }
