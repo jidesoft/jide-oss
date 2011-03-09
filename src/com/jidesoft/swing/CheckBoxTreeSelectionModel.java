@@ -119,7 +119,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      * Inherited from JTree, the TreePath must be a path instance inside the tree model. If you populate a new TreePath
      * instance on the fly, it would not work.
      *
-     * @param path the original path to be checked
+     * @param path   the original path to be checked
      * @param parent the parent part which is closest to the original path and is selected
      * @return true if the path is actually selected without any doubt. Otherwise false.
      */
@@ -175,7 +175,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
         // if all children are selected, let's select the parent path only
         if (_tree.isCheckBoxVisible(path) && allChildrenSelected) {
-            addSelectionPaths(new TreePath[]{path});
+            addSelectionPaths(new TreePath[]{path}, false);
         }
         return allChildrenSelected;
     }
@@ -241,6 +241,16 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      */
     @Override
     public void addSelectionPaths(TreePath[] paths) {
+        addSelectionPaths(paths, true);
+    }
+
+    /**
+     * Add the selection paths.
+     *
+     * @param paths                  the paths to be added
+     * @param needCheckPathSelection the flag to indicating if the path selection should be checked to improve performance
+     */
+    protected void addSelectionPaths(TreePath[] paths, boolean needCheckPathSelection) {
         if (!isDigIn()) {
             super.addSelectionPaths(paths);
             return;
@@ -254,62 +264,106 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         }
 
         try {
-            _pathHasAdded = new HashSet<TreePath>();
-            for (TreePath path : paths) {
-                if (isPathSelected(path, isDigIn())) {
-                    continue; // for non batch mode scenario, check if it is already selected by adding its parent possibly
-                }
-                // if the path itself is added by other insertion, just remove it
-                if (_toBeAdded.contains(path)) {
-                    addToExistingSet(_pathHasAdded, path);
-                    continue;
-                }
-                // check if its ancestor has already been added. If so, do nothing
-                boolean findAncestor = false;
-                for (TreePath addPath : _pathHasAdded) {
-                    if (addPath.isDescendant(path)) {
-                        findAncestor = true;
-                        break;
+            if (needCheckPathSelection) {
+                _pathHasAdded = new HashSet<TreePath>();
+                for (TreePath path : paths) {
+                    if (isPathSelected(path, isDigIn())) {
+                        continue; // for non batch mode scenario, check if it is already selected by adding its parent possibly
                     }
-                }
-                if (findAncestor) {
-                    continue;
-                }
-                TreePath temp = null;
-                // if all siblings are selected then deselect them and select parent recursively
-                // otherwise just select that path.
-                while (areSiblingsSelected(path)) {
-                    temp = path;
-                    if (path.getParentPath() == null)
-                        break;
-                    path = path.getParentPath();
-                }
-                if (temp != null) {
-                    if (temp.getParentPath() != null) {
-                        delegateAddSelectionPaths(new TreePath[] {temp.getParentPath()});
+                    // if the path itself is added by other insertion, just remove it
+                    if (_toBeAdded.contains(path)) {
+                        addToExistingSet(_pathHasAdded, path);
+                        continue;
+                    }
+                    // check if its ancestor has already been added. If so, do nothing
+                    boolean findAncestor = false;
+                    for (TreePath addPath : _pathHasAdded) {
+                        if (addPath.isDescendant(path)) {
+                            findAncestor = true;
+                            break;
+                        }
+                    }
+                    if (findAncestor) {
+                        continue;
+                    }
+                    TreePath temp = null;
+                    // if all siblings are selected then deselect them and select parent recursively
+                    // otherwise just select that path.
+                    while (areSiblingsSelected(path)) {
+                        temp = path;
+                        if (path.getParentPath() == null)
+                            break;
+                        path = path.getParentPath();
+                    }
+                    if (temp != null) {
+                        if (temp.getParentPath() != null) {
+                            delegateAddSelectionPaths(new TreePath[] {temp.getParentPath()});
+                        }
+                        else {
+                            delegateAddSelectionPaths(new TreePath[]{temp});
+                        }
                     }
                     else {
-                        delegateAddSelectionPaths(new TreePath[]{temp});
+                        delegateAddSelectionPaths(new TreePath[]{path});
+                    }
+                    addToExistingSet(_pathHasAdded, path);
+                }
+                // deselect all descendants of paths[]
+                List<TreePath> toBeRemoved = new ArrayList<TreePath>();
+                for (TreePath path : _toBeAdded) {
+                    TreePath[] selectionPaths = getSelectionPaths();
+                    if (selectionPaths == null)
+                        break;
+                    for (TreePath selectionPath : selectionPaths) {
+                        if (isDescendant(selectionPath, path))
+                            toBeRemoved.add(selectionPath);
                     }
                 }
-                else {
-                    delegateAddSelectionPaths(new TreePath[]{path});
-                }
-                addToExistingSet(_pathHasAdded, path);
-            }
-            // deselect all descendants of paths[]
-            List<TreePath> toBeRemoved = new ArrayList<TreePath>();
-            for (TreePath path : _toBeAdded) {
-                TreePath[] selectionPaths = getSelectionPaths();
-                if (selectionPaths == null)
-                    break;
-                for (TreePath selectionPath : selectionPaths) {
-                    if (isDescendant(selectionPath, path))
-                        toBeRemoved.add(selectionPath);
+                if (toBeRemoved.size() > 0) {
+                    delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
                 }
             }
-            if (toBeRemoved.size() > 0) {
-                delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
+            else {
+                // deselect all descendants of paths[]
+                List<TreePath> toBeRemoved = new ArrayList<TreePath>();
+                for (TreePath path : paths) {
+                    TreePath[] selectionPaths = getSelectionPaths();
+                    if (selectionPaths == null)
+                        break;
+                    for (TreePath selectionPath : selectionPaths) {
+                        if (isDescendant(selectionPath, path))
+                            toBeRemoved.add(selectionPath);
+                    }
+                }
+                if (toBeRemoved.size() > 0) {
+                    delegateRemoveSelectionPaths(toBeRemoved.toArray(new TreePath[toBeRemoved.size()]));
+                }
+
+                // if all siblings are selected then deselect them and select parent recursively
+                // otherwise just select that path.
+                for (TreePath path : paths) {
+                    TreePath temp = null;
+                    while (areSiblingsSelected(path)) {
+                        temp = path;
+                        if (path.getParentPath() == null)
+                            break;
+                        path = path.getParentPath();
+                    }
+                    if (temp != null) {
+                        if (temp.getParentPath() != null) {
+                            addSelectionPath(temp.getParentPath());
+                        }
+                        else {
+                            if (!isSelectionEmpty()) {
+                                removeSelectionPaths(getSelectionPaths(), !fireEventAtTheEnd);
+                            }
+                            delegateAddSelectionPaths(new TreePath[]{temp});
+                        }
+                    }
+                    else {
+                        delegateAddSelectionPaths(new TreePath[]{path});
+                    }
+                }
             }
         }
         finally {
