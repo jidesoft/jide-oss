@@ -25,7 +25,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
      * Using this constructor relies on the user subsequently calling add() to add a range
      */
     public CombinedNumericRange() {
-
+        super();
     }
 
     /**
@@ -94,7 +94,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
             if (_ranges == null || _ranges.size() == 0) {
                 return Double.MAX_VALUE;
             }
-            _max = Double.MIN_VALUE;
+            _max = -Double.MAX_VALUE;
             for (Range<Double> range : _ranges) {
                 if (range != null && range.maximum() > _max) {
                     _max = range.maximum();
@@ -113,7 +113,7 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
                 return _min;
             }
             if (_ranges == null || _ranges.size() == 0) {
-                return Double.MIN_VALUE;
+                return -Double.MAX_VALUE;
             }
             _min = Double.MAX_VALUE;
             for (Range<Double> range : _ranges) {
