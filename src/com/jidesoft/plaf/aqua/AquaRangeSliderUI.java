@@ -36,8 +36,8 @@ public class AquaRangeSliderUI extends AquaSliderUI {
         Point p = adjustThumbForHighValue();
 
         if (clip.intersects(thumbRect)) {
-            apple.laf.CoreUIConstants.Orientation orientation = slider.getOrientation() != 0 ? apple.laf.CoreUIConstants.Orientation.VERTICAL : apple.laf.CoreUIConstants.Orientation.HORIZONTAL;
-            apple.laf.CoreUIConstants.State state = getState();
+            apple.laf.JRSUIConstants.Orientation orientation = slider.getOrientation() != 0 ? apple.laf.JRSUIConstants.Orientation.VERTICAL : apple.laf.JRSUIConstants.Orientation.HORIZONTAL;
+            apple.laf.JRSUIConstants.State state = getState();
             paintThumb(g, c, orientation, state);
         }
 
@@ -53,15 +53,15 @@ public class AquaRangeSliderUI extends AquaSliderUI {
     }
 
 
-    apple.laf.CoreUIConstants.State getState() {
+    apple.laf.JRSUIConstants.State getState() {
         if (!slider.isEnabled())
-            return apple.laf.CoreUIConstants.State.DISABLED;
+            return apple.laf.JRSUIConstants.State.DISABLED;
         if (fIsDragging)
-            return apple.laf.CoreUIConstants.State.PRESSED;
+            return apple.laf.JRSUIConstants.State.PRESSED;
         if (!isActive(slider))
-            return apple.laf.CoreUIConstants.State.INACTIVE;
+            return apple.laf.JRSUIConstants.State.INACTIVE;
         else
-            return apple.laf.CoreUIConstants.State.ACTIVE;
+            return apple.laf.JRSUIConstants.State.ACTIVE;
     }
 
     protected void restoreThumbForLowValue(Point p) {
