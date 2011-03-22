@@ -862,6 +862,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         boolean changed = false;
         // remove first divider if it's one
         if (getComponent(0) instanceof JideSplitPaneDivider) {
+            ((JideSplitPaneDivider) getComponent(0)).setJideSplitPane(null);
             remove(0);
             removeProportion(0);
             changed = true;
