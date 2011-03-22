@@ -873,6 +873,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (comp instanceof JideSplitPaneDivider) {
                 extra++;
                 if (extra == 2) {
+                    ((JideSplitPaneDivider) comp).setJideSplitPane(null);
                     remove(comp);
                     if (_proportions != null && getPaneCount() == _proportions.length)
                         removeProportion(i / 2);
@@ -885,7 +886,8 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                 extra = 0;
         }
 
-        if (extra == 1) { // remove last one if it's a divider
+        if (extra == 1 && getComponent(getComponentCount() - 1) instanceof JideSplitPaneDivider) { // remove last one if it's a divider
+            ((JideSplitPaneDivider) getComponent(getComponentCount() - 1)).setJideSplitPane(null);
             remove(getComponentCount() - 1);
             removeProportion((getComponentCount() + 1) / 2);
             changed = true;
