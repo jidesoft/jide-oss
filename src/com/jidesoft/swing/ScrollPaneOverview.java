@@ -128,11 +128,11 @@ public class ScrollPaneOverview extends JComponent {
         int maxSize = Math.max(MAX_SIZE, Math.max(_scrollPane.getWidth(), _scrollPane.getHeight()) / 2);
 
         int width = Math.min(_viewComponent.getWidth(), _scrollPane.getViewport().getWidth() * MAX_SCALE);
-        if (width == 0) {
+        if (width <= 0) {
             return;
         }
         int height = Math.min(_viewComponent.getHeight(), _scrollPane.getViewport().getHeight() * MAX_SCALE);
-        if (height == 0) {
+        if (height <= 0) {
             return;
         }
         double scaleX = (double) maxSize / width;
