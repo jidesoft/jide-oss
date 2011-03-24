@@ -38,7 +38,14 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
     public static void initClassDefaults(UIDefaults table) {
         EclipseLookAndFeelExtension.initClassDefaults(table);
 
-        table.put("RangeSliderUI", "com.jidesoft.plaf.metal.MetalRangeSliderUI");
+        final String metalPackageName = "com.jidesoft.plaf.metal.";
+        int products = LookAndFeelFactory.getProductsUsed();
+
+        table.put("RangeSliderUI", metalPackageName + "MetalRangeSliderUI");
+
+        if ((products & PRODUCT_GRIDS) != 0) {
+            table.put("ExComboBoxUI", metalPackageName + "MetalExComboBoxUI");
+        }
     }
 
     /**

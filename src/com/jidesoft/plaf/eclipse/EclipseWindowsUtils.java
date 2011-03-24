@@ -63,6 +63,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         if ((products & PRODUCT_GRIDS) != 0) {
             table.put("NestedTableHeaderUI", windowsPackageName + "WindowsNestedTableHeaderUI");
             table.put("EditableTableHeaderUI", windowsPackageName + "WindowsEditableTableHeaderUI");
+            table.put("ExComboBoxUI", windowsPackageName + "WindowsExComboBoxUI");
         }
     }
 
