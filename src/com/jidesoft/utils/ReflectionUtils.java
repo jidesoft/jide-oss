@@ -125,6 +125,39 @@ public class ReflectionUtils {
     }
 
     /**
+     * Helper method to call a multi-argument method having a return without throwing an exception.
+     *
+     * @param thisObject  the instance
+     * @param objectClass the class which could find the method name
+     * @param methodName  the method name
+     * @param argTypes    argument Classes for constructor lookup. Must not be null.
+     * @param args        the argument array
+     * @return the value  the method returns.
+     */
+    public static Object callAnyWithoutException(Object thisObject, Class<?> objectClass, String methodName, Class<?>[] argTypes, Object[] args) {
+        Method m;
+        try {
+            m = objectClass.getDeclaredMethod(methodName, argTypes);
+        }
+        catch (Exception e) {
+            m = null;
+        }
+        if (m != null) {
+            try {
+                m.setAccessible(true);
+                return m.invoke(thisObject, args);
+            }
+            catch (Exception ignored) {
+                return null;
+            }
+            finally {
+                m.setAccessible(false);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Helper method to call a multi-argument static class method having a return.
      *
      * @param thisClass  the class
