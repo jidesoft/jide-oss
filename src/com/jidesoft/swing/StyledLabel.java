@@ -116,7 +116,7 @@ public class StyledLabel extends JLabel {
         List<StyleRange> ranges = internalGetStyleRanges();
         for (int i = ranges.size() - 1; i >= 0; i--) {
             StyleRange range = ranges.get(i);
-            if (range.getStart() == styleRange.getStart() && range.getStart() == styleRange.getStart()) {
+            if (range.getStart() == styleRange.getStart() && range.getLength() == styleRange.getLength()) {
                 ranges.remove(i);
             }
         }
@@ -163,7 +163,7 @@ public class StyledLabel extends JLabel {
 
     private List<StyleRange> internalGetStyleRanges() {
         if (_styleRanges == null) {
-            _styleRanges = new Vector();
+            _styleRanges = new Vector<StyleRange>();
         }
         return _styleRanges;
     }
