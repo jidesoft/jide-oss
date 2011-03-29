@@ -616,4 +616,9 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         super.hidePopup();
         _selectedIndex = -1;
     }
+
+    @Override
+    protected void searchingTextEmpty() {
+        setSelectedIndex(-1, false);
+    }
 }

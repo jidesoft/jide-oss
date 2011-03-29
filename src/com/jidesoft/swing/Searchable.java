@@ -659,7 +659,17 @@ public abstract class Searchable {
             _propertyChangeSupport.firePropertyChange(PROPERTY_SEARCH_TEXT, _previousSearchText, searchingText);
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_CHANGE, searchingText, getCurrentIndex(), _previousSearchText));
             _previousSearchText = searchingText;
+            if (searchingText.length() == 0) {
+                searchingTextEmpty();
+            }
         }
+    }
+
+    /**
+     * Actions to take on searching text empty scenario
+     */
+    protected void searchingTextEmpty() {
+        // do nothing
     }
 
     /**
