@@ -9,6 +9,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.util.ArrayList;
@@ -315,5 +316,11 @@ public class FolderChooser extends JFileChooser {
         boolean oldValue = isRecentListVisible();
         _recentListVisible = recentListVisible;
         firePropertyChange(PROPERTY_RECENTLIST_VISIBLE, oldValue, recentListVisible);
+    }
+
+    @Override
+    public void setFileFilter(FileFilter filter) {
+        super.setFileFilter(filter);
+        updateUI();
     }
 }
