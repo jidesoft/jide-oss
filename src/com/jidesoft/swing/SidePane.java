@@ -14,7 +14,7 @@ import javax.accessibility.AccessibleContext;
 import javax.accessibility.AccessibleRole;
 import javax.accessibility.AccessibleStateSet;
 import javax.swing.*;
-import javax.swing.plaf.PanelUI;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +69,9 @@ public class SidePane extends JPanel implements SwingConstants, Accessible {
      */
     public SidePane(int attachedSide) {
         setAttachedSide(attachedSide);
+        // I'm registered to do tool tips so we can draw tips for the renderers
+        ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
+        toolTipManager.registerComponent(this);
     }
 
     /**
@@ -200,11 +203,23 @@ public class SidePane extends JPanel implements SwingConstants, Accessible {
     /**
      * Set if the side pane expand when mouse moves over.
      *
-     * @param rollover
+     * @param rollover the flag
      */
     public void setRollover(boolean rollover) {
         _rollover = rollover;
         updateUI();
+    }
+
+    @Override
+    public String getToolTipText(MouseEvent event) {
+        if (getUI() != null && !isRollover()) {
+            int index = getUI().getSelectedItemIndex(event.getPoint());
+            SidePaneItem item = getUI().getItemForIndex(index);
+            if (item != null && item.getComponent() instanceof JComponent) {
+                return ((JComponent) item.getComponent()).getToolTipText();
+            }
+        }
+        return null;
     }
 
     /**
@@ -231,6 +246,8 @@ public class SidePane extends JPanel implements SwingConstants, Accessible {
      */
     protected class AccessibleSidePane extends AccessibleJPanel {
 
+        private static final long serialVersionUID = -6914188774912169441L;
+
         /**
          * Get the state of this object.
          *
@@ -240,8 +257,7 @@ public class SidePane extends JPanel implements SwingConstants, Accessible {
          */
         @Override
         public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            return states;
+            return super.getAccessibleStateSet();
         }
 
         /**
