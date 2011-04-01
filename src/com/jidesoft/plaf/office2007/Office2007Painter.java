@@ -778,7 +778,7 @@ public class Office2007Painter extends BasicPainter {
     @Override
     public void paintSidePaneItemBackground(JComponent c, Graphics g, Rectangle rect, Color[] colors, int orientation, int state) {
         Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
-        if (highContrast) {
+        if (highContrast || (colors != null && colors.length >= 1 && colors[0] != null && !(colors[0] instanceof UIResource))) {
             super.paintSidePaneItemBackground(c, g, rect, colors, orientation, state);
             return;
         }

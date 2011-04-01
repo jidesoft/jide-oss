@@ -7,6 +7,7 @@
 package com.jidesoft.plaf.aqua;
 
 import com.jidesoft.plaf.vsnet.VsnetJideTabbedPaneUI;
+import com.jidesoft.swing.TabColorProvider;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -30,6 +31,11 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
 
         if (_tabPane.getTabColorProvider() != null) {
+            return;
+        }
+
+        Component component = _tabPane.getComponentAt(tabIndex);
+        if (component instanceof TabColorProvider && ((TabColorProvider) component).getTabBackground() != null) {
             return;
         }
 

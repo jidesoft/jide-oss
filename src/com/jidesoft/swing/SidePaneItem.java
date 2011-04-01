@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
-import java.awt.event.MouseListener;
 
 /**
  * SidePaneItem is a data structure used by {@link SidePane}. It has a title, an icon, a component
@@ -23,6 +22,7 @@ public class SidePaneItem {
     private Component _component;
     private Color _foreground;
     private Color _background;
+    private Font _font;
     private MouseInputListener _mouseListener;
     private boolean _selected = false;
 
@@ -155,25 +155,77 @@ public class SidePaneItem {
     /**
      * Selects the item.
      *
-     * @param selected
+     * @param selected the flag
      */
     public void setSelected(boolean selected) {
         _selected = selected;
     }
 
+    /**
+     * Gets the foreground.
+     * <p/>
+     * If you didn't ever invoke {@link #setForeground(java.awt.Color)} and the component is an instance of {@link TabColorProvider},
+     * {@link TabColorProvider#getTabForeground()} will be used.
+     *
+     * @return the foreground color. null means that default color will be used.
+     */
     public Color getForeground() {
-        return _foreground;
+        Color foreground = _foreground;
+        if (foreground == null && _component instanceof TabColorProvider) {
+            foreground = ((TabColorProvider) _component).getTabForeground();
+        }
+        return foreground;
     }
 
+    /**
+     * Sets the foreground.
+     *
+     * @param foreground the foreground color
+     */
     public void setForeground(Color foreground) {
         _foreground = foreground;
     }
 
+    /**
+     * Gets the background.
+     * <p/>
+     * If you didn't ever invoke {@link #setBackground(java.awt.Color)} and the component is an instance of {@link TabColorProvider},
+     * {@link TabColorProvider#getTabBackground()} will be used.
+     *
+     * @return the background color. null means that default color will be used.
+     */
     public Color getBackground() {
-        return _background;
+        Color background = _background;
+        if (background == null && _component instanceof TabColorProvider) {
+            background = ((TabColorProvider) _component).getTabBackground();
+        }
+        return background;
     }
 
+    /**
+     * Sets the background.
+     *
+     * @param background the background color
+     */
     public void setBackground(Color background) {
         _background = background;
+    }
+
+    /**
+     * Gets the font.
+     *
+     * @return the font. null means that default font will be used.
+     */
+    public Font getFont() {
+        return _font;
+    }
+
+    /**
+     * Sets the font.
+     *
+     * @param font the font
+     */
+    public void setFont(Font font) {
+        _font = font;
     }
 }

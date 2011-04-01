@@ -10,6 +10,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideTabbedPaneUI;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.TabColorProvider;
 import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
@@ -1113,12 +1114,19 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
 
         Insets insets = getContentBorderInsets(_tabPane.getTabPlacement());
 
+        Color backgroundAt = null;
+        Component comp = _tabPane.getSelectedIndex() == -1 ? null : _tabPane.getComponentAt(_tabPane.getSelectedIndex());
+        if (comp instanceof TabColorProvider) {
+            backgroundAt = ((TabColorProvider) comp).getTabBackground();
+        }
         JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
         boolean useDefault = true;
-        if (colorProvider != null) {
-            Color backgroundAt = _tabPane.getBackground();
-            if (_tabPane.getSelectedIndex() != -1)
-                backgroundAt = colorProvider.getBackgroundAt(_tabPane.getSelectedIndex());
+        if (colorProvider != null || backgroundAt != null) {
+            if (backgroundAt == null) {
+                backgroundAt = _tabPane.getBackground();
+                if (_tabPane.getSelectedIndex() != -1)
+                    backgroundAt = colorProvider.getBackgroundAt(_tabPane.getSelectedIndex());
+            }
             if (backgroundAt != null) {
                 g.setColor(backgroundAt);
                 g.fillRect(x, y, w, h);
@@ -1148,8 +1156,13 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             backgroundEnd = backgroundStart;
         }
         else {
+            Color color = null;
+            Component comp = _tabPane.getComponentAt(tabIndex);
+            if (comp instanceof TabColorProvider) {
+                color = ((TabColorProvider) comp).getTabBackground();
+            }
             JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
-            if (colorProvider != null) {
+            if (color == null && colorProvider != null) {
                 backgroundEnd = colorProvider.getBackgroundAt(tabIndex);
                 if (colorProvider instanceof JideTabbedPane.GradientColorProvider) {
                     backgroundStart = ((JideTabbedPane.GradientColorProvider) colorProvider).getTopBackgroundAt(tabIndex);
@@ -1159,9 +1172,11 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
                 }
             }
             else {
-                Color color = _tabPane.getBackground();
-                if (tabIndex != -1)
-                    color = _tabPane.getBackgroundAt(tabIndex);
+                if (color == null) {
+                    color = _tabPane.getBackground();
+                    if (tabIndex != -1)
+                        color = _tabPane.getBackgroundAt(tabIndex);
+                }
                 if (!(color instanceof UIResource) && color != _tabPane.getBackground()) {
                     backgroundEnd = color;
                     if (getColorTheme() == JideTabbedPane.COLOR_THEME_OFFICE2003) {

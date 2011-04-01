@@ -8,10 +8,7 @@ package com.jidesoft.plaf.basic;
 import com.jidesoft.plaf.JideTabbedPaneUI;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.popup.JidePopup;
-import com.jidesoft.swing.JideSwingUtilities;
-import com.jidesoft.swing.JideTabbedPane;
-import com.jidesoft.swing.PartialLineBorder;
-import com.jidesoft.swing.Sticky;
+import com.jidesoft.swing.*;
 import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
@@ -1290,13 +1287,20 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         else {
             // plain text
             int mnemIndex = _tabPane.getDisplayedMnemonicIndexAt(tabIndex);
+            Component comp = _tabPane.getComponentAt(tabIndex);
             JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
+            Color color = null;
+            if (comp instanceof TabColorProvider) {
+                color = ((TabColorProvider) comp).getTabForeground();
+            }
             if (_tabPane.isEnabled() && _tabPane.isEnabledAt(tabIndex)) {
-                if (colorProvider != null) {
+                if (color == null && colorProvider != null) {
                     g2d.setColor(colorProvider.getForegroudAt(tabIndex));
                 }
                 else {
-                    Color color = _tabPane.getForegroundAt(tabIndex);
+                    if (color == null) {
+                        color = _tabPane.getForegroundAt(tabIndex);
+                    }
                     if (isSelected && showFocusIndicator()) {
                         if (!(color instanceof ColorUIResource)) {
                             g2d.setColor(color);
