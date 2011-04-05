@@ -1,3 +1,3 @@
-The ui.jar and JavaRuntimeSupport is part of JDK distribution on Mac OSX from Apple Inc.
+The ui.jar is part of JDK distribution on Mac OSX from Apple Inc.
 We included this jar here only to make our source code compile. You shouldn't include
 them in your release no matter your application supports Mac OS X.

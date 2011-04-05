@@ -39,8 +39,9 @@ public interface ProductNames {
             PRODUCT_NAME_DASHBOARD + ", " +
             PRODUCT_NAME_DATAGRIDS + ", " +
             PRODUCT_NAME_CHARTS + ", " +
-            PRODUCT_NAME_GANTT_CHART + ", and " +
-            PRODUCT_NAME_DIFF;
+            PRODUCT_NAME_GANTT_CHART + ", " +
+            PRODUCT_NAME_DIFF + ", and " +
+            PRODUCT_NAME_TREEMAP;
 
     public static final String SOLUTION_PRODUCTS = PRODUCT_NAME_JDAF;
 
