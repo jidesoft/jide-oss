@@ -18,7 +18,7 @@ import java.awt.*;
 
 /**
  * A tree cell renderer based on StyledLabel. To use it, you should make your cell renderer extending this one and
- * override {@link #customizeStyledLabel(javax.swing.JTree,Object,boolean,boolean,boolean,int,boolean)} method. If your
+ * override {@link #customizeStyledLabel(javax.swing.JTree, Object, boolean, boolean, boolean, int, boolean)} method. If your
  * overridden method, you can call setStyleRange() or setStyleRanges() based on the tree node value and row index.
  */
 public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRenderer {
@@ -101,6 +101,16 @@ public class StyledTreeCellRenderer extends StyledLabel implements TreeCellRende
      * determined from the UIManager.
      */
     public StyledTreeCellRenderer() {
+        updateUIDefaults();
+    }
+
+    @Override
+    public void updateUI() {
+        super.updateUI();
+        updateUIDefaults();
+    }
+
+    private void updateUIDefaults() {
         setLeafIcon(UIDefaultsLookup.getIcon("Tree.leafIcon"));
         setClosedIcon(UIDefaultsLookup.getIcon("Tree.closedIcon"));
         setOpenIcon(UIDefaultsLookup.getIcon("Tree.openIcon"));
