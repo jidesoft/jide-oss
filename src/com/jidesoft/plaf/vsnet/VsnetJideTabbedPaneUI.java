@@ -1157,7 +1157,10 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
         else {
             Color color = null;
-            Component comp = _tabPane.getComponentAt(tabIndex);
+            Component comp = null;
+            if (tabIndex >= 0 && tabIndex < _tabPane.getTabCount()) {
+                comp = _tabPane.getComponentAt(tabIndex);
+            }
             if (comp instanceof TabColorProvider) {
                 color = ((TabColorProvider) comp).getTabBackground();
             }

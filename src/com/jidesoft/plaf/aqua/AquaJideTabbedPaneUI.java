@@ -34,9 +34,11 @@ public class AquaJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             return;
         }
 
-        Component component = _tabPane.getComponentAt(tabIndex);
-        if (component instanceof TabColorProvider && ((TabColorProvider) component).getTabBackground() != null) {
-            return;
+        if (tabIndex >= 0 && tabIndex < _tabPane.getTabCount()) {
+            Component component = _tabPane.getComponentAt(tabIndex);
+            if (component instanceof TabColorProvider && ((TabColorProvider) component).getTabBackground() != null) {
+                return;
+            }
         }
 
         if (!PAINT_TAB_BACKGROUND) {

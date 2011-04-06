@@ -1287,7 +1287,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         else {
             // plain text
             int mnemIndex = _tabPane.getDisplayedMnemonicIndexAt(tabIndex);
-            Component comp = _tabPane.getComponentAt(tabIndex);
+            Component comp = null;
+            if (tabIndex >= 0 && tabIndex < _tabPane.getTabCount()) {
+                comp = _tabPane.getComponentAt(tabIndex);
+            }
             JideTabbedPane.ColorProvider colorProvider = _tabPane.getTabColorProvider();
             Color color = null;
             if (comp instanceof TabColorProvider) {
