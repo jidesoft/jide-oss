@@ -9,6 +9,7 @@ package com.jidesoft.plaf.eclipse;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.swing.ButtonStyle;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
 import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
@@ -167,6 +168,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
     }
 
     /**
+     * @param menuItem the menu item
      * @since 1.3
      */
     protected void installComponents(JMenuItem menuItem) {
@@ -234,6 +236,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
     }
 
     /**
+     * @param menuItem the menu item
      * @since 1.3
      */
     protected void uninstallComponents(JMenuItem menuItem) {
@@ -527,8 +530,8 @@ public class EclipseMenuItemUI extends MenuItemUI {
         JMenuItem b = (JMenuItem) c;
         ButtonModel model = b.getModel();
 
-        int menuWidth = 0;
-        int menuHeight = 0;
+        int menuWidth;
+        int menuHeight;
 
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             //   Dimension size = b.getSize();
@@ -687,7 +690,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
             selected = b.isSelected();
         if (selected) {
             if (b.getIcon() == null) {
-                if (model.isArmed() || (b instanceof JMenu && model.isSelected())) {
+                if (model.isArmed()) {
                     if (checkIcon instanceof ImageIcon) {
                         ImageIcon image = IconsFactory.createMaskImage(b, checkIcon, Color.BLACK, selectionForeground);
                         image.paintIcon(b, g, checkIconRect.x, checkIconRect.y);
@@ -755,8 +758,8 @@ public class EclipseMenuItemUI extends MenuItemUI {
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
         ButtonModel model = menuItem.getModel();
         Color oldColor = g.getColor();
-        int menuWidth = menuItem.getWidth();
-        int menuHeight = menuItem.getHeight();
+        int menuWidth;
+        int menuHeight;
 
         if (JideSwingUtilities.getOrientationOf(menuItem) == SwingConstants.HORIZONTAL) {
             menuWidth = menuItem.getWidth();
@@ -805,7 +808,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
             FontMetrics fm = g.getFontMetrics();
             int mnemonicIndex = menuItem.getDisplayedMnemonicIndex();
             // W2K Feature: Check to see if the Underscore should be rendered.
-            if (WindowsLookAndFeel.isMnemonicHidden() == true) {
+            if (WindowsLookAndFeel.isMnemonicHidden()) {
                 mnemonicIndex = -1;
             }
 
@@ -823,7 +826,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
         }
     }
 
-    /**
+    /*
      * Compute and return the location of the icons origin, the location of origin of the text baseline, and a possibly
      * clipped version of the compound labels string.  Locations are computed relative to the viewRect rectangle.
      */
@@ -1204,6 +1207,15 @@ public class EclipseMenuItemUI extends MenuItemUI {
                     name.equals("accelerator")) {
                 updateAcceleratorBinding();
             }
+            else if (ButtonStyle.BUTTON_STYLE_PROPERTY.equals(name)
+                    || "opaque".equals(name)
+                    || AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY.equals(name)
+                    ) {
+                if (e.getSource() instanceof JMenuItem) {
+                    JMenuItem lbl = ((JMenuItem) e.getSource());
+                    lbl.repaint();
+                }
+            }
             else if (name.equals("text") || "font".equals(name) ||
                     "foreground".equals(name)) {
                 // remove the old html view client property if one
@@ -1217,6 +1229,8 @@ public class EclipseMenuItemUI extends MenuItemUI {
     }
 
     private static class ClickAction extends AbstractAction {
+        private static final long serialVersionUID = -3086149185380600185L;
+
         public void actionPerformed(ActionEvent e) {
             JMenuItem mi = (JMenuItem) e.getSource();
             MenuSelectionManager.defaultManager().clearSelectedPath();
