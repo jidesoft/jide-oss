@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.Arrays;
 
 class MyComputerTreeNode extends LazyMutableTreeNode {
+    private static final long serialVersionUID = -7314394377241239982L;
     private FolderChooser _folderChooser;
 
     public MyComputerTreeNode(FolderChooser folderChooser) {
@@ -27,6 +28,9 @@ class MyComputerTreeNode extends LazyMutableTreeNode {
         if (roots != null) {
             Arrays.sort(roots);
             for (int i = 0, c = roots.length; i < c; i++) {
+                if (!_folderChooser.accept(roots[i])) {
+                    continue;
+                }
                 BasicFileSystemTreeNode newChild = BasicFileSystemTreeNode.createFileSystemTreeNode(roots[i], _folderChooser);
                 add(newChild);
             }
