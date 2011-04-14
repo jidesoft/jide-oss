@@ -8,6 +8,7 @@ package com.jidesoft.plaf.basic;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.JideButtonUI;
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideButton;
@@ -16,10 +17,15 @@ import com.jidesoft.utils.SecurityUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicButtonListener;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.plaf.synth.Region;
+import javax.swing.plaf.synth.SynthContext;
+import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.swing.plaf.synth.SynthStyle;
 import javax.swing.text.View;
 import java.awt.*;
 
@@ -746,7 +752,15 @@ public class BasicJideButtonUI extends JideButtonUI {
 
     protected void updateMargin(AbstractButton b) {
         String pp = getPropertyPrefix();
-        if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
+        if (LookAndFeelFactory.isLnfInUse(SynthLookAndFeel.class.getName())) {
+            SynthStyle ss = SynthLookAndFeel.getStyle(b, Region.BUTTON);
+            SynthContext sc = new SynthContext(b, Region.BUTTON, ss, 0);
+            Insets insets = ss.getInsets(sc, new InsetsUIResource(0, 0, 0, 0));
+            if (insets != null) {
+                b.setMargin(insets);
+            }
+        }
+        else if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
             if (shouldWrapText(b)) {
                 b.setMargin(UIDefaultsLookup.getInsets(pp + "margin.vertical"));
             }
