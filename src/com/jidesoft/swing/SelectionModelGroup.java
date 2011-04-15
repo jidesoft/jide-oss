@@ -84,6 +84,18 @@ abstract public class SelectionModelGroup<T, V> implements Serializable {
     }
 
     /**
+     * Removes all T's from the group.
+     */
+    public void removeAll() {
+        if (_models == null) {
+            return;
+        }
+        for (T model : _models) {
+            removeSelectionListener(model, _selectionListener);
+        }
+    }
+
+    /**
      * Gets the registered models.
      *
      * @return the models.
