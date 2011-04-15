@@ -16,7 +16,8 @@ import java.util.Vector;
  * can have selected index at a time.
  */
 abstract public class SelectionModelGroup<T, V> implements Serializable {
-    protected List<T> _models = new Vector();
+    private static final long serialVersionUID = 2434517670879999353L;
+    protected List<T> _models = new Vector<T>();
 
     protected V _selectionListener;
 
