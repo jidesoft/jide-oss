@@ -38,15 +38,17 @@ public class TristateCheckBox extends JCheckBox {
             @Override
             public void mousePressed(MouseEvent e) {
                 grabFocus();
-                model.setState(getNextState(model.getState()));
+                setState(getNextState(getState()));
             }
         });
         // Reset the keyboard action map
         ActionMap map = new ActionMapUIResource();
         map.put("pressed", new AbstractAction() {
+            private static final long serialVersionUID = 7121802319351334948L;
+
             public void actionPerformed(ActionEvent e) {
                 grabFocus();
-                model.setState(getNextState(model.getState()));
+                setState(getNextState(getState()));
             }
         });
         map.put("released", null);
@@ -78,6 +80,8 @@ public class TristateCheckBox extends JCheckBox {
 
     /**
      * Set the new state to either SELECTED, NOT_SELECTED or DONT_CARE.  If state == null, it is treated as DONT_CARE.
+     *
+     * @param state the new state
      */
     public void setState(State state) {
         model.setState(state);
@@ -97,6 +101,8 @@ public class TristateCheckBox extends JCheckBox {
 
     /**
      * Return the current state, which is determined by the selection status of the model.
+     *
+     * @return the current state.
      */
     public State getState() {
         return model.getState();
@@ -144,7 +150,7 @@ public class TristateCheckBox extends JCheckBox {
             _state = state;
         }
 
-        /**
+        /*
          * The current state is embedded in the selection / armed state of the model.
          * <p/>
          * We return the SELECTED state when the checkbox is selected but not armed, DONT_CARE state when the checkbox is selected and armed (grey) and NOT_SELECTED when the checkbox is deselected.
@@ -276,6 +282,9 @@ public class TristateCheckBox extends JCheckBox {
      *       return NOT_SELECTED;
      *   }
      * </code></pre>
+     *
+     * @param current the current state
+     * @return the next state of the current state.
      */
     protected State getNextState(State current) {
         if (current == NOT_SELECTED) {
