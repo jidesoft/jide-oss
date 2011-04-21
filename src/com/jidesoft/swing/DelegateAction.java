@@ -141,6 +141,18 @@ abstract public class DelegateAction extends AbstractAction {
         ActionListener action = component.getActionForKeyStroke(keyStroke);
         if (action != delegateAction && action instanceof Action) {
             if (!first && action instanceof DelegateAction) {
+                Action childAction = ((DelegateAction) action).getAction();
+                while (childAction != null) {
+                    if (childAction == delegateAction) {
+                        return;
+                    }
+                    if (childAction instanceof DelegateAction) {
+                        childAction = ((DelegateAction) childAction).getAction();
+                    }
+                    else {
+                        childAction = null;
+                    }
+                }
                 delegateAction.setAction(((DelegateAction) action).getAction());
                 ((DelegateAction) action).setAction(delegateAction);
                 delegateAction = (DelegateAction) action;
