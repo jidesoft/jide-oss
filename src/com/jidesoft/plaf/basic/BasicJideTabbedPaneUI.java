@@ -155,6 +155,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected FocusListener _tabFocusListener;
 
     protected PropertyChangeListener _propertyChangeListener;
+    protected ChangeListener _tabModelChangeListener;
 
     protected MouseListener _mouseListener;
 
@@ -538,16 +539,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void installListeners() {
-        _tabPane.getModel().addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                if (_tabPane != null) { // in case updateUI() was invoked, it could be null
-                    int selectedIndex = _tabPane.getSelectedIndex();
-                    if (selectedIndex >= 0 && selectedIndex < _tabPane.getTabCount() && _tabScroller != null && _tabScroller.closeButton != null) {
-                        _tabScroller.closeButton.setEnabled(_tabPane.isTabClosableAt(selectedIndex));
+        if (_tabModelChangeListener == null) {
+            _tabModelChangeListener = new ChangeListener() {
+                public void stateChanged(ChangeEvent e) {
+                    if (_tabPane != null) { // in case updateUI() was invoked, it could be null
+                        int selectedIndex = _tabPane.getSelectedIndex();
+                        if (selectedIndex >= 0 && selectedIndex < _tabPane.getTabCount() && _tabScroller != null && _tabScroller.closeButton != null) {
+                            _tabScroller.closeButton.setEnabled(_tabPane.isTabClosableAt(selectedIndex));
+                        }
                     }
                 }
-            }
-        });
+            };
+            _tabPane.getModel().addChangeListener(_tabModelChangeListener);
+        }
         if (_propertyChangeListener == null) {
             _propertyChangeListener = createPropertyChangeListener();
             _tabPane.addPropertyChangeListener(_propertyChangeListener);
@@ -602,6 +606,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected void uninstallListeners() {
+        if (_tabModelChangeListener != null) {
+            _tabPane.getModel().removeChangeListener(_tabModelChangeListener);
+            _tabModelChangeListener = null;
+        }
         // PENDING(api): See comment for ContainerHandler
         if (_containerListener != null) {
             _tabPane.removeContainerListener(_containerListener);
