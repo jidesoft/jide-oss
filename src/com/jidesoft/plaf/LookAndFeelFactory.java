@@ -1249,6 +1249,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
                             "JideSplitPane.dividerSize", 6,
                             "JideTabbedPane.foreground", UIManager.getColor("TabbedPane.foreground"),
+                            "JideTabbedPane.unselectedTabTextForeground", UIManager.getColor("TabbedPane.foreground"),
                             "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
                             "JideTabbedPane.background", UIManager.getColor("control"),
                             "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
