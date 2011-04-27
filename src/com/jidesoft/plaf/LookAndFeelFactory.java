@@ -1273,6 +1273,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
                             "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
                             "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
+                            "CollapsiblePane.contentBackground", UIDefaultsLookup.getColor("Panel.background"),
                             "CollapsiblePane.font", UIDefaultsLookup.getFont("TaskPane.font") != null ? UIDefaultsLookup.getFont("TaskPane.font") : UIDefaultsLookup.getFont("Label.font"),
                             "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
                             "StatusBar.childrenOpaque", false,
