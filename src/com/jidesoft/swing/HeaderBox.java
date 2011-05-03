@@ -26,6 +26,7 @@ public class HeaderBox extends JideButton {
     public HeaderBox() {
         setOpaque(false);
         setRolloverEnabled(true);
+        setRequestFocusEnabled(true);
     }
 
     /**
