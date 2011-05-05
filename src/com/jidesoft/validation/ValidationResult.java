@@ -20,6 +20,7 @@ package com.jidesoft.validation;
 public class ValidationResult {
     private int _id;
     private boolean _valid;
+    private Object _newValue;
     private int _failBehavior = FAIL_BEHAVIOR_REVERT;
     private String _message;
 
@@ -40,9 +41,20 @@ public class ValidationResult {
     public static final int FAIL_BEHAVIOR_RESET = 2;
 
     /**
-     * The shared ValidationResult when the validation result is valid.
+     * The shared ValidationResult when the validation result is valid. {@link #getNewValue()} will always return null
+     * even if you ever invoked {@link #setNewValue(Object)} to avoid potential wrong value assignment.
      */
-    public static final ValidationResult OK = new ValidationResult(true);
+    public static final ValidationResult OK = new ValidationResult() {
+        @Override
+        public Object getNewValue() {
+            return null;
+        }
+
+        @Override
+        public boolean isValid() {
+            return true;
+        }
+    };
 
     /**
      * Creates an empty ValidationResult. The valid is set to false.
@@ -136,6 +148,24 @@ public class ValidationResult {
      */
     public void setId(int id) {
         _id = id;
+    }
+
+    /**
+     * Gets the new value of the ValidationResult.
+     *
+     * @return the new value.
+     */
+    public Object getNewValue() {
+        return _newValue;
+    }
+
+    /**
+     * Sets the new value of the ValidationResult.
+     *
+     * @param newValue the new value.
+     */
+    public void setNewValue(Object newValue) {
+        _newValue = newValue;
     }
 
     /**
