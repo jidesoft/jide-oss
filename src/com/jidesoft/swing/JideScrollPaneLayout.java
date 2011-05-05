@@ -54,6 +54,16 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
      * The component to the bottom of vertical scroll bar.
      */
     protected Component _vBottom;
+
+    /**
+     * The component under upper left corner.  Default is <code>null</code>.
+     */
+    protected Component _subUpperLeft;
+
+    /**
+     * The component under upper right corner.  Default is <code>null</code>.
+     */
+    protected Component _subUpperRight;
     private static final long serialVersionUID = 7897026041296359186L;
 
     @Override
@@ -67,6 +77,8 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             _hRight = ((JideScrollPane) sp).getScrollBarCorner(HORIZONTAL_RIGHT);
             _vTop = ((JideScrollPane) sp).getScrollBarCorner(VERTICAL_TOP);
             _vBottom = ((JideScrollPane) sp).getScrollBarCorner(VERTICAL_BOTTOM);
+            _subUpperLeft = sp.getCorner(SUB_UPPER_LEFT);
+            _subUpperRight = sp.getCorner(SUB_UPPER_RIGHT);
         }
     }
 
@@ -109,6 +121,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         else if (s.equals(VERTICAL_BOTTOM)) {
             _vBottom = addSingletonComponent(_vBottom, c);
         }
+        else if (s.equals(SUB_UPPER_LEFT)) {
+            _subUpperLeft = addSingletonComponent(_subUpperLeft, c);
+        }
+        else if (s.equals(SUB_UPPER_RIGHT)) {
+            _subUpperRight = addSingletonComponent(_subUpperRight, c);
+        }
         else {
             super.addLayoutComponent(s, c);
         }
@@ -136,6 +154,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
         else if (c == _vBottom) {
             _vBottom = null;
+        }
+        else if (c == _subUpperLeft) {
+            _subUpperLeft = null;
+        }
+        else if (c == _subUpperRight) {
+            _subUpperRight = null;
         }
         else {
             super.removeLayoutComponent(c);
@@ -196,6 +220,12 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
         else if (key.equals(VERTICAL_TOP)) {
             return _vTop;
+        }
+        else if (key.equals(SUB_UPPER_LEFT)) {
+            return _subUpperLeft;
+        }
+        else if (key.equals(SUB_UPPER_RIGHT)) {
+            return _subUpperRight;
         }
         else {
             return super.getCorner(key);
@@ -274,11 +304,14 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (lowerLeft != null && lowerLeft.isVisible()) {
             rowHeaderWidth = Math.max(rowHeaderWidth, lowerLeft.getPreferredSize().width);
         }
+        if (_subUpperLeft != null && _subUpperLeft.isVisible()) {
+            rowHeaderWidth = Math.max(rowHeaderWidth, _subUpperLeft.getPreferredSize().width);
+        }
         prefWidth += rowHeaderWidth;
 
         int upperHeight = getUpperHeight();
 
-        prefHeight += upperHeight;
+        prefHeight += upperHeight + getSubUpperHeight();
 
         if ((_rowFoot != null) && _rowFoot.isVisible()) {
             prefWidth += _rowFoot.getPreferredSize().width;
@@ -335,6 +368,22 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
 
         return new Dimension(prefWidth, prefHeight);
+    }
+
+    private int getSubUpperHeight() {
+        int subUpperHeight = 0;
+
+        if ((_subUpperLeft != null) && _subUpperLeft.isVisible()) {
+            subUpperHeight = _subUpperLeft.getPreferredSize().height;
+        }
+        if ((_subUpperRight != null) && _subUpperRight.isVisible()) {
+            subUpperHeight = Math.max(_subUpperRight.getPreferredSize().height, subUpperHeight);
+        }
+
+        if ((_subColHead != null) && _subColHead.isVisible()) {
+            subUpperHeight = Math.max(_subColHead.getPreferredSize().height, subUpperHeight);
+        }
+        return subUpperHeight;
     }
 
     private int getUpperHeight() {
@@ -424,6 +473,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (lowerLeft != null && lowerLeft.isVisible()) {
             rowHeaderWidth = Math.max(rowHeaderWidth, lowerLeft.getMinimumSize().width);
         }
+        if (_subUpperLeft != null && _subUpperLeft.isVisible()) {
+            rowHeaderWidth = Math.max(rowHeaderWidth, _subUpperLeft.getMinimumSize().width);
+        }
         minWidth += rowHeaderWidth;
 
         int upperHeight = 0;
@@ -442,11 +494,22 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         }
 
         minHeight += upperHeight;
-        if (_subColHead != null && _subColHead.isVisible()) {
+        int subUpperHeight = 0;
+
+        if ((_subUpperLeft != null) && _subUpperLeft.isVisible()) {
+            subUpperHeight = _subUpperLeft.getMinimumSize().height;
+        }
+        if ((_subUpperRight != null) && _subUpperRight.isVisible()) {
+            subUpperHeight = Math.max(_subUpperRight.getMinimumSize().height, subUpperHeight);
+        }
+
+        if ((_subColHead != null) && _subColHead.isVisible()) {
             Dimension size = _subColHead.getMinimumSize();
             minWidth = Math.max(minWidth, size.width);
-            minHeight += size.height;
+            subUpperHeight = Math.max(size.height, subUpperHeight);
         }
+
+        minHeight += subUpperHeight;
 
         // JIDE: added for JideScrollPaneLayout
         int lowerHeight = 0;
@@ -551,9 +614,10 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             availR.height -= colHeadHeight;
         }
 
+        int subUpperHeight = getSubUpperHeight();
         Rectangle subColHeadR = new Rectangle(0, availR.y, 0, 0);
         if (_subColHead != null && _subColHead.isVisible()) {
-            int subColHeadHeight = Math.min(availR.height, _subColHead.getPreferredSize().height);
+            int subColHeadHeight = Math.min(availR.height, subUpperHeight);
             subColHeadR.height = subColHeadHeight;
             availR.y += subColHeadHeight;
             availR.height -= subColHeadHeight;
@@ -988,6 +1052,16 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         if (upperRight != null && upperRight.isVisible()) {
             int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(upperRight.getPreferredSize().height, colHeadR.height);
             upperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colHeadR.y + colHeadR.height - height, rowFootR.width, height), ltr));
+        }
+
+        if (_subUpperLeft != null && _subUpperLeft.isVisible()) {
+            int height = Math.min(_subUpperLeft.getPreferredSize().height, getSubUpperHeight());
+            _subUpperLeft.setBounds(adjustBounds(parent, new Rectangle(rowHeadR.x, subColHeadR.y + subColHeadR.height - height, rowHeadR.width, height), ltr));
+        }
+
+        if (_subUpperRight != null && _subUpperRight.isVisible()) {
+            int height = Math.min(_subUpperRight.getPreferredSize().height, getSubUpperHeight());
+            _subUpperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, subColHeadR.y + subColHeadR.height - height, rowFootR.width, height), ltr));
         }
     }
 

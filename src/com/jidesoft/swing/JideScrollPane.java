@@ -43,7 +43,19 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @see #setSubColumnHeader(javax.swing.JViewport)
      */
-    private JViewport _subColumnHeader;
+    protected JViewport _subColumnHeader;
+    /**
+     * The component under upper left corner.  Default is <code>null</code>.
+     *
+     * @see #setCorner(String, java.awt.Component)
+     */
+    protected Component _subUpperLeft;
+    /**
+     * The component under upper right corner.  Default is <code>null</code>.
+     *
+     * @see #setCorner(String, java.awt.Component)
+     */
+    protected Component _subUpperRight;
     /**
      * The column footer child.  Default is <code>null</code>.
      *
@@ -416,6 +428,48 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
             setSubColumnHeader(createViewport());
         }
         getSubColumnHeader().setView(view);
+    }
+
+    @Override
+    public Component getCorner(String key) {
+        if (key == null) {
+            return null;
+        }
+        if (key.equals(SUB_UPPER_LEFT)) {
+            return _subUpperLeft;
+        } else if (key.equals(SUB_UPPER_RIGHT)) {
+            return _subUpperRight;
+        }
+        return super.getCorner(key);
+    }
+
+    @Override
+    public void setCorner(String key, Component corner) {
+        if (key == null) {
+            return;
+        }
+        if (key.equals(SUB_UPPER_LEFT) || key.equals(SUB_UPPER_RIGHT)) {
+            Component old;
+            if (key.equals(SUB_UPPER_LEFT)) {
+                old = _subUpperLeft;
+                _subUpperLeft = corner;
+            }
+            else {
+                old = _subUpperRight;
+                _subUpperRight = corner;
+            }
+            if (old != null) {
+                remove(old);
+            }
+            if (corner != null) {
+                add(corner, key);
+            }
+            firePropertyChange(key, old, corner);
+            revalidate();
+            repaint();
+            return;
+        }
+        super.setCorner(key, corner);
     }
 
     /**

@@ -33,4 +33,6 @@ public interface JideScrollPaneConstants extends ScrollPaneConstants {
     public static final String HORIZONTAL_TRAILING = "HORIZONTAL_TRAILING";      //NOI18N
     public static final String VERTICAL_TOP = "VERTICAL_TOP";            //NOI18N
     public static final String VERTICAL_BOTTOM = "VERTICAL_BOTTOM";      //NOI18N
+    public static final String SUB_UPPER_LEFT  = "SUB_UPPER_LEFT";       //NOI18N
+    public static final String SUB_UPPER_RIGHT = "SUB_UPPER_RIGHT";      //NOI18N
 }
