@@ -1041,7 +1041,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
         if (lowerRight != null && lowerRight.isVisible()) {
             int height = isColumnFootersHeightUnified(scrollPane) ? columnFooterHeight : Math.min(lowerRight.getPreferredSize().height, colFootR.height);
-            lowerRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowFootR.width, height), ltr));
+            lowerRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colFootR.y != 0 ? colFootR.y : hsbR.y, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) || rowFootR.width != 0 ? 0 : vsbR.width), height), ltr));
         }
 
         if (upperLeft != null && upperLeft.isVisible()) {
@@ -1051,7 +1051,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
         if (upperRight != null && upperRight.isVisible()) {
             int height = isColumnHeadersHeightUnified(scrollPane) ? columnHeaderHeight : Math.min(upperRight.getPreferredSize().height, colHeadR.height);
-            upperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colHeadR.y + colHeadR.height - height, rowFootR.width, height), ltr));
+            upperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, colHeadR.y + colHeadR.height - height, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) || rowFootR.width != 0 ? 0 : vsbR.width), height), ltr));
         }
 
         if (_subUpperLeft != null && _subUpperLeft.isVisible()) {
@@ -1061,7 +1061,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
         if (_subUpperRight != null && _subUpperRight.isVisible()) {
             int height = Math.min(_subUpperRight.getPreferredSize().height, getSubUpperHeight());
-            _subUpperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, subColHeadR.y + subColHeadR.height - height, rowFootR.width, height), ltr));
+            _subUpperRight.setBounds(adjustBounds(parent, new Rectangle(rowFootR.x, subColHeadR.y + subColHeadR.height - height, rowFootR.width + (isVsbCoversWholeHeight(scrollPane) || rowFootR.width != 0 ? 0 : vsbR.width), height), ltr));
         }
     }
 
