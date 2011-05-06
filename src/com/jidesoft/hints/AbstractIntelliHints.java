@@ -135,6 +135,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         });
         popup.setTransient(true);
         popup.setKeepPreviousSize(false);
+        popup.setReturnFocusToOwner(false);
         return popup;
     }
 
