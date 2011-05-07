@@ -6,7 +6,9 @@ import com.jidesoft.swing.JideSwingUtilities;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.LabelUI;
+import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.plaf.basic.BasicLabelUI;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
@@ -72,14 +74,14 @@ public class BasicJideLabelUI extends BasicLabelUI {
             if (c instanceof JideLabel) {
                 clockwise = ((JideLabel) c).isClockwise();
             }
-            paintVertically(g, c,clockwise);
+            paintVertically(g, c, clockwise);
         }
         else {
             super.paint(g, c);
         }
     }
 
-    public void paintVertically(Graphics g, JComponent c,boolean clockwise) {
+    public void paintVertically(Graphics g, JComponent c, boolean clockwise) {
 
         JLabel label = (JLabel) c;
         String text = label.getText();
@@ -120,14 +122,20 @@ public class BasicJideLabelUI extends BasicLabelUI {
         }
 
         if (text != null) {
-            int textX = paintTextR.x;
-            int textY = paintTextR.y + fm.getAscent();
-
-            if (label.isEnabled()) {
-                paintEnabledText(label, g, clippedText, textX, textY);
+            View v = (View) c.getClientProperty(BasicHTML.propertyKey);
+            if (v != null) {
+                v.paint(g, paintTextR);
             }
             else {
-                paintDisabledText(label, g, clippedText, textX, textY);
+                int textX = paintTextR.x;
+                int textY = paintTextR.y + fm.getAscent();
+
+                if (label.isEnabled()) {
+                    paintEnabledText(label, g, clippedText, textX, textY);
+                }
+                else {
+                    paintDisabledText(label, g, clippedText, textX, textY);
+                }
             }
         }
 
@@ -137,7 +145,7 @@ public class BasicJideLabelUI extends BasicLabelUI {
 
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
-        if (JideLabel.PROPERTY_ORIENTATION==e.getPropertyName()) {
+        if (JideLabel.PROPERTY_ORIENTATION == e.getPropertyName()) {
             if (e.getSource() instanceof JLabel) {
                 JLabel label = (JLabel) e.getSource();
                 label.revalidate();
