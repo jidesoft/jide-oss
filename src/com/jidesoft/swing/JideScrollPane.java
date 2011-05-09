@@ -22,7 +22,7 @@ import java.awt.*;
  * To fully leverage the power of JideScrollPane, we also create a class called <code>TableScrollPane</code> which is
  * part of JIDE Grids package. It will allow you to easily create table with row header, row footer and column footer.
  * <p><code>JideScrollPane</code> also provides support for scrollbar corners. You can set them using {@link
- * #setScrollBarCorner(String,java.awt.Component)}. Available key for scroll bar corner is defined at {@link
+ * #setScrollBarCorner(String, java.awt.Component)}. Available key for scroll bar corner is defined at {@link
  * JideScrollPaneConstants}  which can be access from <code>JideScrollPane</code>.
  * <p/>
  * <b>Credit:</b> This implementation of scroll bar corner is based on work from Santhosh Kumar -
@@ -33,7 +33,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     /**
      * The row footer child.  Default is <code>null</code>.
      *
-     * @see #setRowFooter
+     * @see #setRowFooter(javax.swing.JViewport)
      */
     protected JViewport _rowFooter;
 
@@ -59,7 +59,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
     /**
      * The column footer child.  Default is <code>null</code>.
      *
-     * @see #setColumnFooter
+     * @see #setColumnFooter(javax.swing.JViewport)
      */
     protected JViewport _columnFooter;
 
@@ -103,12 +103,12 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * controlled with a pair of scrollbars. The scrollbar policies specify when the scrollbars are displayed, For
      * example, if <code>vsbPolicy</code> is <code>VERTICAL_SCROLLBAR_AS_NEEDED</code> then the vertical scrollbar only
      * appears if the view doesn't fit vertically. The available policy settings are listed at {@link
-     * #setVerticalScrollBarPolicy} and {@link #setHorizontalScrollBarPolicy}.
+     * #setVerticalScrollBarPolicy(int)} and {@link #setHorizontalScrollBarPolicy(int)}.
      *
      * @param view      the component to display in the scrollpanes viewport
      * @param vsbPolicy an integer that specifies the vertical scrollbar policy
      * @param hsbPolicy an integer that specifies the horizontal scrollbar policy
-     * @see #setViewportView
+     * @see #setViewportView(java.awt.Component)
      */
     public JideScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
         setLayout(new JideScrollPaneLayout.UIResource());
@@ -134,7 +134,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * horizontal and vertical scrollbars appear whenever the component's contents are larger than the view.
      *
      * @param view the component to display in the scrollpane's viewport
-     * @see #setViewportView
+     * @see #setViewportView(java.awt.Component)
      */
     public JideScrollPane(Component view) {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -143,11 +143,12 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
 
     /**
      * Creates an empty (no viewport view) <code>JideScrollPane</code> with specified scrollbar policies. The available
-     * policy settings are listed at {@link #setVerticalScrollBarPolicy} and {@link #setHorizontalScrollBarPolicy}.
+     * policy settings are listed at {@link #setVerticalScrollBarPolicy(int)} and {@link
+     * #setHorizontalScrollBarPolicy(int)}.
      *
      * @param vsbPolicy an integer that specifies the vertical scrollbar policy
      * @param hsbPolicy an integer that specifies the horizontal scrollbar policy
-     * @see #setViewportView
+     * @see #setViewportView(java.awt.Component)
      */
     public JideScrollPane(int vsbPolicy, int hsbPolicy) {
         this(null, vsbPolicy, hsbPolicy);
@@ -213,7 +214,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @return the <code>rowFooter</code> property
      *
-     * @see #setRowFooter
+     * @see #setRowFooter(javax.swing.JViewport)
      */
     public JViewport getRowFooter() {
         return _rowFooter;
@@ -227,7 +228,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * @param rowFooter the new row footer to be used; if <code>null</code> the old row footer is still removed and the
      *                  new rowFooter is set to <code>null</code>
      * @see #getRowFooter
-     * @see #setRowFooterView
+     * @see #setRowFooterView(java.awt.Component)
      */
     public void setRowFooter(JViewport rowFooter) {
         JViewport old = getRowFooter();
@@ -279,8 +280,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * </pre>
      *
      * @param view the component to display as the row footer
-     * @see #setRowFooter
-     * @see JViewport#setView
+     * @see #setRowFooter(javax.swing.JViewport)
+     * @see JViewport#setView(java.awt.Component)
      */
     public void setRowFooterView(Component view) {
         if (null == getRowFooter()) {
@@ -295,7 +296,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @return the <code>columnFooter</code> property
      *
-     * @see #setColumnFooter
+     * @see #setColumnFooter(javax.swing.JViewport)
      */
     public JViewport getColumnFooter() {
         return _columnFooter;
@@ -309,7 +310,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * @param columnFooter the new column footer to be used; if <code>null</code> the old column footer is still removed
      *                     and the new columnFooter is set to <code>null</code>
      * @see #getColumnFooter
-     * @see #setColumnFooterView
+     * @see #setColumnFooterView(java.awt.Component)
      */
     public void setColumnFooter(JViewport columnFooter) {
         JViewport old = getColumnFooter();
@@ -405,8 +406,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * </pre>
      *
      * @param view the component to display as the column footer
-     * @see #setColumnFooter
-     * @see JViewport#setView
+     * @see #setColumnFooter(javax.swing.JViewport)
+     * @see JViewport#setView(java.awt.Component)
      */
     public void setColumnFooterView(Component view) {
         if (null == getColumnFooter()) {
@@ -421,7 +422,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      *
      * @param view the component to display as the sub column header
      * @see #setSubColumnHeader(javax.swing.JViewport)
-     * @see JViewport#setView
+     * @see JViewport#setView(java.awt.Component)
      */
     public void setSubColumnHeaderView(Component view) {
         if (null == getSubColumnHeader()) {
@@ -437,7 +438,8 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         }
         if (key.equals(SUB_UPPER_LEFT)) {
             return _subUpperLeft;
-        } else if (key.equals(SUB_UPPER_RIGHT)) {
+        }
+        else if (key.equals(SUB_UPPER_RIGHT)) {
             return _subUpperRight;
         }
         return super.getCorner(key);
@@ -482,7 +484,7 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * @return one of the components listed below or <code>null</code> if <code>key</code> is invalid: <ul>
      *         <li>lowerLeft <li>lowerRight <li>upperLeft <li>upperRight </ul>
      *
-     * @see #setCorner
+     * @see #setCorner(String, java.awt.Component)
      */
     public Component getScrollBarCorner(String key) {
         boolean isLeftToRight = getComponentOrientation().isLeftToRight();
