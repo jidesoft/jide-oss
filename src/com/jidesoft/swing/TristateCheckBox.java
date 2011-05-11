@@ -10,13 +10,25 @@ import java.awt.event.*;
 /**
  * Maintenance tip - There were some tricks to getting this code working:
  * <p/>
- * 1. You have to overwrite addMouseListener() to do nothing 2. You have to add a mouse event on mousePressed by calling super.addMouseListener() 3. You have to replace the UIActionMap for the
- * keyboard event "pressed" with your own one. 4. You have to remove the UIActionMap for the keyboard event "released". 5. You have to grab focus when the next state is entered, otherwise clicking on
- * the component won't get the focus. 6. You have to make a TristateDecorator as a button model that wraps the original button model and does state management.
+ * 1. You have to overwrite addMouseListener() to do nothing 2. You have to add a mouse event on mousePressed by calling
+ * super.addMouseListener() 3. You have to replace the UIActionMap for the keyboard event "pressed" with your own one.
+ * 4. You have to remove the UIActionMap for the keyboard event "released". 5. You have to grab focus when the next
+ * state is entered, otherwise clicking on the component won't get the focus. 6. You have to make a TristateDecorator as
+ * a button model that wraps the original button model and does state management.
+ * <p/>
+ * To get notified for the state change, usually people use itemChange listener for a regular JCheckBox but for
+ * TristateCheckBox, it doesn't work very well. It would be better to use addPropertyChangeListener on PROPERTY_STATE
+ * property. It will be fired whenever the state is changed.
  *
  * @author Dr. Heinz M. Kabutz
+ * @author JIDE Software
  */
 public class TristateCheckBox extends JCheckBox {
+    /**
+     * Property name for the state. Listen to this property change if you want to get notified for the state change.
+     */
+    public final static String PROPERTY_STATE = "state";
+
     /**
      * This is a type-safe enumerated type
      */
@@ -84,7 +96,11 @@ public class TristateCheckBox extends JCheckBox {
      * @param state the new state
      */
     public void setState(State state) {
+        State old = model.getState();
         model.setState(state);
+        if (old != state) {
+            firePropertyChange(PROPERTY_STATE, old, state);
+        }
 
         // for Synthetica
 
@@ -119,8 +135,9 @@ public class TristateCheckBox extends JCheckBox {
     }
 
     /**
-     * Exactly which Design Pattern is this?  Is it an Adapter, a Proxy or a Decorator?  In this case, my vote lies with the Decorator, because we are extending functionality and "decorating" the
-     * original model with a more powerful model.
+     * Exactly which Design Pattern is this?  Is it an Adapter, a Proxy or a Decorator?  In this case, my vote lies with
+     * the Decorator, because we are extending functionality and "decorating" the original model with a more powerful
+     * model.
      */
     private class TristateDecorator implements ButtonModel {
         private final ButtonModel other;
@@ -270,7 +287,8 @@ public class TristateCheckBox extends JCheckBox {
     }
 
     /**
-     * We rotate between NOT_SELECTED, SELECTED and DONT_CARE. Subclass can override this method to tell the check box what next state is. Here is the default implementation.
+     * We rotate between NOT_SELECTED, SELECTED and DONT_CARE. Subclass can override this method to tell the check box
+     * what next state is. Here is the default implementation.
      * <code><pre>
      *   if (current == NOT_SELECTED) {
      *       return SELECTED;
