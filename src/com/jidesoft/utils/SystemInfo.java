@@ -452,6 +452,16 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or no the JDK version is 6u25 and above. Event firing for JComboBox changes in JDK6u25.
+     *
+     * @return <tt>true</tt> if the application is running on JDK 6u25 and above, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdk6u25Above() {
+        checkJdkVersion();
+        return _currentVersion.compareVersion(1.6, 0, 25) >= 0;
+    }
+
+    /**
      * Returns whether or no the JDK version is 1.7 and above.
      *
      * @return <tt>true</tt> if the application is running on JDK 1.7 and above, <tt>false</tt> otherwise.
