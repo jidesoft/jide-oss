@@ -5,8 +5,10 @@ import javax.swing.text.DefaultFormatter;
 import javax.swing.text.InternationalFormatter;
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -21,10 +23,10 @@ public class DateSpinner extends JSpinner {
     public DateFormat _format;
 
     /**
-     * Creates a date spinner using "hh:mm:ss" as the format string.
+     * Creates a date spinner using locale default as the format string.
      */
     public DateSpinner() {
-        this("hh:mm:ss");
+        this(((SimpleDateFormat) SimpleDateFormat.getTimeInstance(SimpleDateFormat.DEFAULT, Locale.getDefault())).toPattern());
     }
 
     /**
