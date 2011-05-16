@@ -171,7 +171,7 @@ public class Calculator extends JPanel implements ActionListener {
         return (keyEvent.getModifiers() & ~KeyEvent.SHIFT_MASK) != 0 // if it has any modify, ignore it
                 || Character.isDigit(c) || isOperator(keyEvent)
                 || isEnterOrEqual(keyEvent)
-                || c == KeyEvent.VK_PERIOD || c == CHAR_CLEAR || Character.toLowerCase(c) == CHAR_CLEAR
+                || c == KeyEvent.VK_PERIOD || c == KeyEvent.VK_COMMA || c == CHAR_CLEAR || Character.toLowerCase(c) == CHAR_CLEAR
                 || c == KeyEvent.VK_ESCAPE
                 || c == KeyEvent.VK_BACK_SPACE;
     }
@@ -204,7 +204,8 @@ public class Calculator extends JPanel implements ActionListener {
      * Registers necessary keyboard actions onto the component. Usually the component is a <code>JTextField</code>.
      *
      * @param component the component where the key input will be taken and passed to the <code>Calculator</code>.
-     * @param condition the condition as defined in {@link JComponent#registerKeyboardAction(java.awt.event.ActionListener,javax.swing.KeyStroke,int)}.
+     * @param condition the condition as defined in {@link JComponent#registerKeyboardAction(java.awt.event.ActionListener,
+     *                  javax.swing.KeyStroke, int)}.
      */
     public void registerKeyboardActions(JComponent component, int condition) {
         boolean isCellEditor = isCellEditor();
@@ -236,7 +237,8 @@ public class Calculator extends JPanel implements ActionListener {
     }
 
     /**
-     * Unregisters the keyboard actions you registered using {@link #registerKeyboardActions(javax.swing.JComponent,int)}.
+     * Unregisters the keyboard actions you registered using {@link #registerKeyboardActions(javax.swing.JComponent,
+     * int)}.
      *
      * @param component the component.
      */
@@ -352,8 +354,8 @@ public class Calculator extends JPanel implements ActionListener {
     /**
      * Creates the button that is used in the Calculator. By default, it will create a JideButton. Here is the code. You
      * can override it to create your own button. This method is used to create all buttons except the backspace and the
-     * +/- button. So if you want to override it, it's better to override {@link #createButton(String,javax.swing.Icon)}
-     * method.
+     * +/- button. So if you want to override it, it's better to override {@link #createButton(String,
+     * javax.swing.Icon)} method.
      *
      * @param text the text on the button.
      * @return the button.
