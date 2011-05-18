@@ -25,6 +25,7 @@ import java.awt.*;
 public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     private static final String uiClassID = "JidePopupMenuUI";
+    private static final String uiClassIDAlternative = "PopupMenuUI";
 
     private boolean _useLightWeightPopup;
 
@@ -47,7 +48,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     @Override
     public String getUIClassID() {
-        return uiClassID;
+        return UIDefaultsLookup.getBoolean("JidePopupMenu.uiExtensionDisabled") ? uiClassIDAlternative : uiClassID;
     }
 
     private void setupPopupMenu() {
@@ -56,7 +57,7 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     @Override
     public void updateUI() {
-        if (UIDefaultsLookup.get(uiClassID) == null) {
+        if (UIDefaultsLookup.get(getUIClassID()) == null) {
             LookAndFeelFactory.installJideExtension();
         }
         setUI((PopupMenuUI) UIManager.getUI(this));

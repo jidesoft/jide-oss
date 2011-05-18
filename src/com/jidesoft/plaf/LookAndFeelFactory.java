@@ -1263,6 +1263,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "JideLabel.font", UIManager.getFont("Label.font"),
                             "JideLabel.background", UIManager.getColor("Label.background"),
                             "JideLabel.foreground", UIManager.getColor("Label.foreground"),
+                            "JidePopupMenu.uiExtensionDisabled", Boolean.TRUE,// disabled it so that the popup menu will be displayed correctly
                     };
                     overwriteDefaults(defaults, uiDefaults);
                 }
