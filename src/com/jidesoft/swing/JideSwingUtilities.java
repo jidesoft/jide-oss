@@ -3806,9 +3806,32 @@ public class JideSwingUtilities implements SwingConstants {
                 return;
             }
             Map<JViewport, Integer> slaveViewportMap = (Map) property;
-            for (JViewport slaveViewport : slaveViewportMap.keySet()) {
+            Map<JViewport, Integer> allViewportToSync = new HashMap<JViewport, Integer>();
+            allViewportToSync.putAll(slaveViewportMap);
+            do {
+                Map<JViewport, Integer> viewportToAdd = new HashMap<JViewport, Integer>();
+                for (JViewport slaveViewport : allViewportToSync.keySet()) {
+                    Object slaveProperty = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
+                    if (!(slaveProperty instanceof Map)) {
+                        continue;
+                    }
+                    int orientation = allViewportToSync.get(slaveViewport);
+                    Map<JViewport, Integer> viewportMap = (Map) slaveProperty;
+                    for (JViewport viewport : viewportMap.keySet()) {
+                        if (viewport != masterViewport && !allViewportToSync.containsKey(viewport) && viewportMap.get(viewport) == orientation) {
+                            viewportToAdd.put(viewport, viewportMap.get(viewport));
+                        }
+                    }
+                }
+                if (viewportToAdd.isEmpty()) {
+                    break;
+                }
+                allViewportToSync.putAll(viewportToAdd);
+            }
+            while (true);
+            for (JViewport slaveViewport : allViewportToSync.keySet()) {
                 slaveViewport.removeChangeListener(getViewportSynchronizationChangeListener());
-                int orientation = slaveViewportMap.get(slaveViewport);
+                int orientation = allViewportToSync.get(slaveViewport);
                 if (orientation == HORIZONTAL) {
                     Point v1 = masterViewport.getViewPosition();
                     Point v2 = slaveViewport.getViewPosition();

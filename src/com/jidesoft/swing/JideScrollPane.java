@@ -264,9 +264,11 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
         super.setRowHeader(rowHeader);
         if (old != null) {
             JideSwingUtilities.unsynchronizeView(old, getViewport());
+            JideSwingUtilities.unsynchronizeView(getViewport(), old);
         }
         if (getRowHeader() != null) {
             JideSwingUtilities.synchronizeView(getRowHeader(), getViewport(), SwingConstants.VERTICAL);
+            JideSwingUtilities.synchronizeView(getViewport(), getRowHeader(), SwingConstants.VERTICAL);
         }
     }
 
