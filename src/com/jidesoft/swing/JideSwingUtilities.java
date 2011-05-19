@@ -305,12 +305,18 @@ public class JideSwingUtilities implements SwingConstants {
      * Synchronizes the two viewports. The view position changes in the master view, the slave view's view position will
      * change too. Generally speaking, if you want the two viewports to synchronize vertically, they should have the
      * same height. If horizontally, the same width.
+     * <p/>
+     * It's OK if you call this method with the same master viewport and slave viewport duplicate times. It won't cause
+     * multiple events fired.
      *
      * @param masterViewport the master viewport
      * @param slaveViewport  the slave viewport
      * @param orientation    the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
      */
     public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation) {
+        if (masterViewport == null || slaveViewport == null) {
+            return;
+        }
         ChangeListener[] changeListeners = masterViewport.getChangeListeners();
         int i = 0;
         for (; i < changeListeners.length; i++) {
@@ -346,6 +352,9 @@ public class JideSwingUtilities implements SwingConstants {
      * @param slaveViewport  the slave viewport
      */
     public static void unsynchronizeView(final JViewport masterViewport, final JViewport slaveViewport) {
+        if (masterViewport == null || slaveViewport == null) {
+            return;
+        }
         Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
         if (property instanceof Map) {
             Map slaveViewportMap = (Map) property;
