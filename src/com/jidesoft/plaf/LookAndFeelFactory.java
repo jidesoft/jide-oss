@@ -179,6 +179,11 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String GTK_LNF = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
 
     /**
+     * Class name of Bizlaf L&F provided by Centigrade.
+     */
+    public static final String BIZ_LNF = "de.centigrade.bizlaf.BizLookAndFeel";
+
+    /**
      * The name of Nimbus L&F. We didn't create a constant for Nimbus is because the package name will be changed in
      * JDK7 release
      */
@@ -960,6 +965,15 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isAlloyLnfInstalled() {
         return isLnfInstalled(ALLOY_LNF);
+    }
+
+    /**
+     * Returns whether Bizlaf L&F is in classpath
+     *
+     * @return <tt>true</tt> Bizlaf L&F is in classpath, <tt>false</tt> otherwise
+     */
+    public static boolean isBizlafLnfInstalled() {
+        return isLnfInstalled(BIZ_LNF);
     }
 
     /**
