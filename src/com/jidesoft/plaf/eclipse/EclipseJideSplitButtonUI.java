@@ -120,7 +120,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
      * <code>installKeyboardActions</code>.
      *
      * @param condition the condition
-     * @param c the component
+     * @param c         the component
      * @return the input map.
      */
     public InputMap getInputMap(int condition, JComponent c) {
@@ -293,7 +293,6 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
     @Override
     protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
-        System.out.println("painting: " + menuItem);
         ButtonModel model = menuItem.getModel();
         int menuWidth;
         int menuHeight;
@@ -1027,6 +1026,7 @@ public class EclipseJideSplitButtonUI extends EclipseMenuUI {
 
     /**
      * Populates Buttons actions.
+     *
      * @param map the action map to load
      */
     public static void loadActionMap(LazyActionMap map) {
