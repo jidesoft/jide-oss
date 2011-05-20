@@ -102,6 +102,11 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Class name of Windows L&F provided in Sun JDK.
      */
+    public static final String WINDOWS_CLASSIC_LNF = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
+
+    /**
+     * Class name of Windows L&F provided in Sun JDK.
+     */
     public static final String WINDOWS_LNF = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 
     /**
