@@ -95,7 +95,7 @@ abstract public class ArrayConverter implements ObjectConverter {
         String[] ss = string.split(_separator);
 //        StringTokenizer token = new StringTokenizer(string, sep);
         Object[] objects = new Object[_size != -1 ? _size : ss.length];
-        for (int i = 0; i < objects.length; i++) {
+        for (int i = 0; i < objects.length && i < ss.length; i++) {
             String s = ss[i].trim();
             objects[i] = fromString(i, s, context);
         }
