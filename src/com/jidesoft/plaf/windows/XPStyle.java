@@ -24,6 +24,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.security.AccessController;
 import java.util.HashMap;
 
@@ -51,12 +53,20 @@ public class XPStyle {
 
     static {
         invalidateStyle();
+
+        // make sure whenever L&F changes, we clear the xpstyle.
+        UIManager.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("lookAndFeel".equals(evt.getPropertyName()))
+                    invalidateStyle();
+            }
+        });
     }
 
     /**
      * Static method for clearing the hashmap and loading the current XP style and theme
      */
-    static synchronized void invalidateStyle() {
+    public static synchronized void invalidateStyle() {
         xp = null;
         themeActive = null;
         skinPainter.flush();
