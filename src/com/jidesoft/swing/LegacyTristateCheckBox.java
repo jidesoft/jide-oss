@@ -8,6 +8,9 @@ import javax.swing.plaf.ActionMapUIResource;
 import java.awt.event.*;
 
 /**
+ * <strong>This class is deprecated and replaced by {@link TristateCheckBox}. We will no longer provide support for this
+ * class.</strong>
+ * <p/>
  * Maintenance tip - There were some tricks to getting this code working:
  * <p/>
  * 1. You have to overwrite addMouseListener() to do nothing 2. You have to add a mouse event on mousePressed by calling
@@ -22,8 +25,9 @@ import java.awt.event.*;
  *
  * @author Dr. Heinz M. Kabutz
  * @author JIDE Software
+ * @deprecated Replaced by {@link TristateCheckBox}.
  */
-public class TristateCheckBox extends JCheckBox {
+public class LegacyTristateCheckBox extends JCheckBox {
     /**
      * Property name for the state. Listen to this property change if you want to get notified for the state change.
      */
@@ -43,7 +47,7 @@ public class TristateCheckBox extends JCheckBox {
 
     private final TristateDecorator model;
 
-    public TristateCheckBox(String text, Icon icon, State initial) {
+    public LegacyTristateCheckBox(String text, Icon icon, State initial) {
         super(text, icon);
         // Add a listener for when the mouse is pressed
         super.addMouseListener(new MouseAdapter() {
@@ -71,15 +75,15 @@ public class TristateCheckBox extends JCheckBox {
         setState(initial);
     }
 
-    public TristateCheckBox(String text, State initial) {
+    public LegacyTristateCheckBox(String text, State initial) {
         this(text, null, initial);
     }
 
-    public TristateCheckBox(String text) {
+    public LegacyTristateCheckBox(String text) {
         this(text, DONT_CARE);
     }
 
-    public TristateCheckBox() {
+    public LegacyTristateCheckBox() {
         this(null);
     }
 

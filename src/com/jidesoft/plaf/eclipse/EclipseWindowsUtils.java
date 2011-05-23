@@ -16,6 +16,7 @@ import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.HeaderCellBorder;
+import com.jidesoft.plaf.windows.WindowsIconFactory;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
@@ -103,11 +104,11 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
         Object sunkenBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                 new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                    public Object convert(Object[] obj) {
-                        return new SunkenBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                new Insets(1, 1, 2, 1));
-                    }
-                });
+            public Object convert(Object[] obj) {
+                return new SunkenBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                        new Insets(1, 1, 2, 1));
+            }
+        });
 
         Object focusedButtonColor = new ExtWindowsDesktopProperty(new String[]{"win.item.highlightColor"}, new Object[]{UIDefaultsLookup.get("textHighlight")}, toolkit, new ConvertListener() {
             public Object convert(Object[] obj) {
@@ -169,11 +170,13 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "ENTER", "pressed",
-                        "released ENTER", "released"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "ENTER", "pressed",
+                "released ENTER", "released"
+        }),
+
+                "TristateCheckBox.icon", WindowsIconFactory.getCheckBoxIcon(),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -282,13 +285,13 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
                 "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "ENTER", "pressed",
-                        "released ENTER", "released",
-                        "DOWN", "downPressed",
-                        "released DOWN", "downReleased"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "ENTER", "pressed",
+                "released ENTER", "released",
+                "DOWN", "downPressed",
+                "released DOWN", "downReleased"
+        }),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
@@ -326,35 +329,35 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         if ((products & PRODUCT_DOCK) != 0) {
             Object slidingEastFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                        public Object convert(Object[] obj) {
-                            return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                    new Insets(0, 4, 0, 0));
-                        }
-                    });
+                public Object convert(Object[] obj) {
+                    return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                            new Insets(0, 4, 0, 0));
+                }
+            });
 
             Object slidingWestFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                        public Object convert(Object[] obj) {
-                            return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                    new Insets(0, 0, 0, 4));
-                        }
-                    });
+                public Object convert(Object[] obj) {
+                    return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                            new Insets(0, 0, 0, 4));
+                }
+            });
 
             Object slidingNorthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                        public Object convert(Object[] obj) {
-                            return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                    new Insets(0, 0, 4, 0));
-                        }
-                    });
+                public Object convert(Object[] obj) {
+                    return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                            new Insets(0, 0, 4, 0));
+                }
+            });
 
             Object slidingSouthFrameBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                        public Object convert(Object[] obj) {
-                            return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                    new Insets(4, 0, 0, 0));
-                        }
-                    });
+                public Object convert(Object[] obj) {
+                    return new FrameBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                            new Insets(4, 0, 0, 0));
+                }
+            });
 
             ImageIcon titleButtonImage = IconsFactory.getImageIcon(Eclipse3xWindowsUtils.class, "icons/title_buttons_eclipse.gif"); // 16 x 16 x 8
             final int titleButtonSize = 16;
@@ -480,7 +483,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor.createValue(table), 2),
-                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.separatorSize", 3,
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
@@ -518,9 +521,9 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "NestedTableHeader.cellBorder", new HeaderCellBorder(),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                            "TAB", "selectNextGroup",
-                            "shift TAB", "selectPreviousGroup",
-                    }),
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }
@@ -577,11 +580,11 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
 
             Object menuBorder = new ExtWindowsDesktopProperty(new String[]{"win.3d.lightColor", "win.3d.highlightColor", "win.3d.shadowColor", "win.3d.darkShadowColor"},
                     new Object[]{UIDefaultsLookup.get("control"), UIDefaultsLookup.get("controlLtHighlight"), UIDefaultsLookup.get("controlShadow"), UIDefaultsLookup.get("controlDkShadow")}, toolkit, new ConvertListener() {
-                        public Object convert(Object[] obj) {
-                            return new RaisedBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
-                                    new Insets(2, 2, 2, 2));
-                        }
-                    });
+                public Object convert(Object[] obj) {
+                    return new RaisedBorder((Color) obj[0], (Color) obj[1], (Color) obj[2], (Color) obj[3],
+                            new Insets(2, 2, 2, 2));
+                }
+            });
 
             Object menuFont = JideSwingUtilities.getMenuFont(toolkit, table);
 

@@ -23,6 +23,7 @@ import com.jidesoft.plaf.xerto.XertoWindowsUtils;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.TristateCheckBoxIcon;
 import com.jidesoft.utils.ProductNames;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
@@ -182,6 +183,11 @@ public class LookAndFeelFactory implements ProductNames {
      * Class name of GTK L&F provided by Sun JDK.
      */
     public static final String GTK_LNF = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+
+    /**
+     * Class name of Motif L&F provided by Sun JDK.
+     */
+    public static final String MOTIF_LNF = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
 
     /**
      * Class name of Bizlaf L&F provided by Centigrade.
@@ -858,6 +864,12 @@ public class LookAndFeelFactory implements ProductNames {
             else if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
                 new SyntheticaCustomizer().customize(uiDefaults);
             }
+            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
+                new NimbusCustomizer().customize(uiDefaults);
+            }
+            else if (isLnfInUse(MOTIF_LNF)) {
+                new MotifCustomizer().customize(uiDefaults);
+            }
         }
 
         uiDefaults.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
@@ -1224,7 +1236,25 @@ public class LookAndFeelFactory implements ProductNames {
     public static class GTKCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
             Object[] uiDefaults = {
+                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
+                public Object createValue(UIDefaults table) {
+                    return table.getIcon("CheckBox.icon");
+                }
+            }),
                     "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
+            };
+            overwriteDefaults(defaults, uiDefaults);
+        }
+    }
+
+    public static class MotifCustomizer implements UIDefaultsCustomizer {
+        public void customize(UIDefaults defaults) {
+            Object[] uiDefaults = {
+                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
+                public Object createValue(UIDefaults table) {
+                    return table.getIcon("CheckBox.icon");
+                }
+            }),
             };
             overwriteDefaults(defaults, uiDefaults);
         }
@@ -1264,6 +1294,10 @@ public class LookAndFeelFactory implements ProductNames {
                 int products = LookAndFeelFactory.getProductsUsed();
                 {
                     Object[] uiDefaults = {
+                            "TristateCheckBox.icon", null,
+                            "TristateCheckBox.setMixed.componentName", "HalfSelected",
+                            "TristateCheckBox.clearMixed.componentName", "",
+
                             "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
                             "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
                             "JideSplitPane.dividerSize", 6,
@@ -1531,6 +1565,20 @@ public class LookAndFeelFactory implements ProductNames {
                     "RadioButtonMenuItem.border", marginBorder,
             };
             putDefaults(defaults, uiDefaults);
+        }
+    }
+
+    public static class NimbusCustomizer implements UIDefaultsCustomizer {
+        public void customize(UIDefaults defaults) {
+            Object[] uiDefaults = {
+                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
+                public Object createValue(UIDefaults table) {
+                    return table.getIcon("CheckBox.icon");
+                }
+            }),
+                    "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
+            };
+            overwriteDefaults(defaults, uiDefaults);
         }
     }
 

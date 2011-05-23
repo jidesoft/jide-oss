@@ -6,8 +6,8 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
 /**
@@ -20,8 +20,9 @@ import java.awt.*;
  * null-component. The feature is very helpful if you want to make sure all components in a JPanel has the same
  * background, foreground or font.
  * <p/>
- * Even in null-components, you can still change the foreground, background or font value if you do want. However, you'll
- * have to use a font which is not an instance of FontUIResource or a color which is not an instance of ColorUIResource.
+ * Even in null-components, you can still change the foreground, background or font value if you do want. However,
+ * you'll have to use a font which is not an instance of FontUIResource or a color which is not an instance of
+ * ColorUIResource.
  * <p/>
  * We creates a few null-components. It doesn't cover all components. You can always create your own. All you need to do
  * is this
@@ -77,13 +78,8 @@ public class NullTristateCheckBox extends TristateCheckBox {
         clearAttribute();
     }
 
-    public NullTristateCheckBox(String text, State initial) {
-        super(text, initial);
-        clearAttribute();
-    }
-
-    public NullTristateCheckBox(String text, Icon icon, State initial) {
-        super(text, icon, initial);
+    public NullTristateCheckBox(String text, Icon icon) {
+        super(text, icon);
         clearAttribute();
     }
 

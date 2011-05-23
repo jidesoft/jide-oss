@@ -60,7 +60,7 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
 
     /**
      * Create the check box in the cell.
-     * <p>
+     * <p/>
      * By default, it creates a TristateCheckBox and set opaque to false.
      *
      * @return the check box instance.
@@ -131,9 +131,9 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
      */
     protected void updateCheckBoxState(TristateCheckBox checkBox, TreePath path, CheckBoxTreeSelectionModel selectionModel) {
         if (selectionModel.isPathSelected(path, selectionModel.isDigIn()))
-            checkBox.setState(TristateCheckBox.SELECTED);
+            checkBox.setState(TristateCheckBox.STATE_SELECTED);
         else
-            checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? null : TristateCheckBox.NOT_SELECTED);
+            checkBox.setState(selectionModel.isDigIn() && selectionModel.isPartiallySelected(path) ? TristateCheckBox.STATE_MIXED : TristateCheckBox.STATE_UNSELECTED);
     }
 
     @Override
@@ -156,5 +156,4 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
         }
         return super.getToolTipText(event);
     }
-
 }

@@ -11,6 +11,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.metal.MetalIconFactory;
 import com.jidesoft.plaf.metal.MetalPainter;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
@@ -150,9 +151,11 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 2,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released"
+        }),
+
+                "TristateCheckBox.icon", MetalIconFactory.getCheckBoxIcon(),
 
                 "JideScrollPane.border", singleLineBorder,
 
@@ -256,11 +259,11 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionBackground", UIDefaultsLookup.getColor("MenuItem.selectionBackground"),
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "DOWN", "downPressed",
-                        "released DOWN", "downReleased"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "DOWN", "downPressed",
+                "released DOWN", "downReleased"
+        }),
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
@@ -435,7 +438,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor, 2),
-                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -473,9 +476,9 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                     "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                            "TAB", "selectNextGroup",
-                            "shift TAB", "selectPreviousGroup",
-                    }),
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }

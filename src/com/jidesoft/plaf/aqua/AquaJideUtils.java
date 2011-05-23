@@ -92,17 +92,17 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
 
         Object defaultFormBackground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("control")}, toolkit, new ConvertListener() {
-                    public Object convert(Object[] obj) {
-                        return obj[0];
-                    }
-                });
+            public Object convert(Object[] obj) {
+                return obj[0];
+            }
+        });
 
         Object inactiveTabForeground = new ExtWindowsDesktopProperty(// Not exactly right
                 new String[]{"win.3d.shadowColor"}, new Object[]{UIDefaultsLookup.get("controlShadow")}, toolkit, new ConvertListener() {
-                    public Object convert(Object[] obj) {
-                        return ((Color) obj[0]).darker();
-                    }
-                });
+            public Object convert(Object[] obj) {
+                return ((Color) obj[0]).darker();
+            }
+        });
 
         Object focusedButtonColor = UIDefaultsLookup.get("Menu.selectionBackground"); // AquaImageFactory.getMenuSelectionBackgroundColorUIResource();
 
@@ -138,11 +138,15 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "ENTER", "pressed",
-                        "released ENTER", "released"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "ENTER", "pressed",
+                "released ENTER", "released"
+        }),
+
+                "TristateCheckBox.icon", null,
+                "TristateCheckBox.setMixed.clientProperty", new Object[]{"JButton.selectedState", "indeterminate"},
+                "TristateCheckBox.clearMixed.clientProperty", new Object[]{"JButton.selectedState", null},
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -261,13 +265,13 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.borderPainted", Boolean.FALSE,
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "ENTER", "pressed",
-                        "released ENTER", "released",
-                        "DOWN", "downPressed",
-                        "released DOWN", "downReleased"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "ENTER", "pressed",
+                "released ENTER", "released",
+                "DOWN", "downPressed",
+                "released DOWN", "downReleased"
+        }),
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
@@ -453,9 +457,9 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "AbstractComboBox.useJButton", Boolean.FALSE,
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                            "TAB", "selectNextGroup",
-                            "shift TAB", "selectPreviousGroup",
-                    }),
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }

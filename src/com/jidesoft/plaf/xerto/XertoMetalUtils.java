@@ -12,6 +12,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.metal.MetalIconFactory;
 import com.jidesoft.plaf.vsnet.ResizeFrameBorder;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
 import com.jidesoft.swing.JideButton;
@@ -27,7 +28,8 @@ import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for MetalLookAndFeel. Xerto Style is designed by Xerto at http://www.xerto.com.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components using Xerto style for MetalLookAndFeel.
+ * Xerto Style is designed by Xerto at http://www.xerto.com.
  */
 public class XertoMetalUtils extends VsnetLookAndFeelExtension {
 
@@ -248,11 +250,13 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideButton.textIconGap", 2,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
+                "SPACE", "pressed",
+                "released SPACE", "released",
 //                "ENTER", "pressed",
 //                "released ENTER", "released"   // no last two for metal
-                }),
+        }),
+
+                "TristateCheckBox.icon", MetalIconFactory.getCheckBoxIcon(),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -389,13 +393,13 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.textIconGap", 3,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
+                "SPACE", "pressed",
+                "released SPACE", "released",
 //                "ENTER", "pressed",
 //                "released ENTER", "released", // no these two for metal
-                        "DOWN", "downPressed",
-                        "released DOWN", "downReleased"
-                }),
+                "DOWN", "downPressed",
+                "released DOWN", "downReleased"
+        }),
         };
         table.putDefaults(uiDefaults);
 
@@ -574,7 +578,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(1, 1, 1, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("activeCaption"), 2),
-                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
                             "UP", "navigateUp",
@@ -609,9 +613,9 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                     "NestedTableHeader.cellBorder", UIDefaultsLookup.getBorder("TableHeader.cellBorder"),
 
                     "GroupList.ancestorInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                            "TAB", "selectNextGroup",
-                            "shift TAB", "selectPreviousGroup",
-                    }),
+                    "TAB", "selectNextGroup",
+                    "shift TAB", "selectPreviousGroup",
+            }),
             };
             table.putDefaults(uiDefaults);
         }

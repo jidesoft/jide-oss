@@ -11,6 +11,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.metal.MetalIconFactory;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
@@ -134,9 +135,11 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released"
+        }),
+
+                "TristateCheckBox.icon", MetalIconFactory.getCheckBoxIcon(),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
@@ -238,11 +241,11 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
                 "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
-                        "SPACE", "pressed",
-                        "released SPACE", "released",
-                        "DOWN", "downPressed",
-                        "released DOWN", "downReleased"
-                }),
+                "SPACE", "pressed",
+                "released SPACE", "released",
+                "DOWN", "downPressed",
+                "released DOWN", "downReleased"
+        }),
 
                 "ButtonPanel.order", "ACO",
                 "ButtonPanel.oppositeOrder", "H",
@@ -404,7 +407,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                     "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder(2, 1, 2, 1)),
                     "CommandBar.borderFloating", new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) activeTitleBackgroundColor, 2),
-                            BorderFactory.createEmptyBorder(1, 1, 1, 1))),
+                    BorderFactory.createEmptyBorder(1, 1, 1, 1))),
                     "CommandBar.separatorSize", 3,
                     "CommandBar.ancestorInputMap",
                     new UIDefaults.LazyInputMap(new Object[]{
