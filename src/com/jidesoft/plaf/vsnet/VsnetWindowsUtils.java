@@ -62,8 +62,10 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         if ((products & PRODUCT_GRIDS) != 0) {
             // grids
+            table.put("SortableTableHeaderUI", windowsPackageName + "WindowsSortableTableHeaderUI");
             table.put("NestedTableHeaderUI", windowsPackageName + "WindowsNestedTableHeaderUI");
             table.put("EditableTableHeaderUI", windowsPackageName + "WindowsEditableTableHeaderUI");
+            table.put("AutoFilterTableHeaderUI", windowsPackageName + "WindowsAutoFilterTableHeaderUI");
             table.put("ExComboBoxUI", windowsPackageName + "WindowsExComboBoxUI");
         }
     }
