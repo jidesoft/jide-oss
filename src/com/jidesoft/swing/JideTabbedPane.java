@@ -743,12 +743,8 @@ public class JideTabbedPane extends JTabbedPane {
 
     public int getTabAtLocation(int x, int y) {
         int tabCount = getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            if (getUI().getTabBounds(this, i).contains(x, y)) {
-                return i;
-            }
-        }
-        return -1;
+        int i = getUI().tabForCoordinate(this, x, y);
+        return i < 0 || i >= tabCount ? -1 : i;
     }
 
 
