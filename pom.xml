@@ -4,7 +4,7 @@
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
-    <version>2.11.3</version>
+    <version>2.11.4</version>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://jide-oss.dev.java.net</url>
     <licenses>
