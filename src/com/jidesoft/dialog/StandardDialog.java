@@ -31,6 +31,11 @@ import java.beans.PropertyChangeListener;
  * createContentPanel()
  */
 abstract public class StandardDialog extends JDialog implements ButtonNames {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9114102922553383723L;
+
     private boolean _lazyConstructorCalled = false;
 
     protected StandardDialogPane _standardDialogPane;
@@ -338,8 +343,11 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
             }
         };
         JButton okButton = new JButton(okAction);
+        okButton.setName(OK);
         buttonPanel.addButton(okButton, ButtonPanel.AFFIRMATIVE_BUTTON);
-        buttonPanel.addButton(new JButton(cancelAction), ButtonPanel.CANCEL_BUTTON);
+        JButton cancelButton = new JButton(cancelAction);
+        cancelButton.setName(CANCEL);
+        buttonPanel.addButton(cancelButton, ButtonPanel.CANCEL_BUTTON);
 
         setDefaultCancelAction(cancelAction);
         setDefaultAction(okAction);
@@ -389,7 +397,12 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     protected class DefaultStandardDialogPane extends StandardDialogPane {
-        @Override
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6976658176495038104L;
+
+	@Override
         public JComponent createBannerPanel() {
             return StandardDialog.this.createBannerPanel();
         }
