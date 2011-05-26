@@ -3,9 +3,15 @@
  */
 package com.jidesoft.plaf.windows;
 
+import com.jidesoft.plaf.windows.TMSchema.Part;
+import com.jidesoft.plaf.windows.TMSchema.Prop;
+import com.jidesoft.plaf.windows.TMSchema.State;
+import com.jidesoft.plaf.windows.TMSchema.TypeEnum;
+import com.jidesoft.utils.ReflectionUtils;
+import com.jidesoft.utils.SystemInfo;
 import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 import com.sun.java.swing.plaf.windows.WindowsComboBoxUI;
-import sun.awt.image.CachingSurfaceManager;
+import sun.awt.image.SunWritableRaster;
 import sun.awt.image.SurfaceManager;
 import sun.awt.windows.ThemeReader;
 import sun.security.action.GetPropertyAction;
@@ -22,14 +28,13 @@ import javax.swing.plaf.UIResource;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.security.AccessController;
 import java.util.HashMap;
-
-import static com.jidesoft.plaf.windows.TMSchema.*;
 
 
 /**
@@ -630,62 +635,73 @@ public class XPStyle {
 
         protected void paintToImage(Component c, Image image, Graphics g,
                                     int w, int h, Object[] args) {
-            CachingSurfaceManager csm = null;
-            boolean accEnabled = false;
-            Skin skin = (Skin) args[0];
-            TMSchema.Part part = skin.part;
-            TMSchema.State state = (TMSchema.State) args[1];
-            if (state == null) {
-                state = skin.state;
-            }
-            if (c == null) {
-                c = skin.component;
-            }
-            BufferedImage bi = (BufferedImage) image;
+            if (!SystemInfo.isJdk7Above()) {
+                sun.awt.image.CachingSurfaceManager csm = null;
+                boolean accEnabled = false;
+                Skin skin = (Skin) args[0];
+                TMSchema.Part part = skin.part;
+                TMSchema.State state = (TMSchema.State) args[1];
+                if (state == null) {
+                    state = skin.state;
+                }
+                if (c == null) {
+                    c = skin.component;
+                }
+                BufferedImage bi = (BufferedImage) image;
 
-            // Getting the DataBuffer for an image (as it's done below) defeats
-            // possible future acceleration.
-            // Calling setLocalAccelerationEnabled on that image's surface
-            // manager re-enables it.
-            SurfaceManager sm = SurfaceManager.getManager(bi);
-            if (sm instanceof CachingSurfaceManager) {
-                csm = (CachingSurfaceManager) sm;
-                accEnabled = csm.isLocalAccelerationEnabled();
+                // Getting the DataBuffer for an image (as it's done below) defeats
+                // possible future acceleration.
+                // Calling setLocalAccelerationEnabled on that image's surface
+                // manager re-enables it.
+                SurfaceManager sm = SurfaceManager.getManager(bi);
+                if (sm instanceof sun.awt.image.CachingSurfaceManager) {
+                    csm = (sun.awt.image.CachingSurfaceManager) sm;
+                    accEnabled = csm.isLocalAccelerationEnabled();
+                }
+
+                WritableRaster raster = bi.getRaster();
+                DataBufferInt buffer = (DataBufferInt) raster.getDataBuffer();
+                ThemeReader.paintBackground(buffer.getData(),
+                        part.getControlName(c), part.getValue(),
+                        TMSchema.State.getValue(part, state),
+                        0, 0, w, h, w);
+
+                if (csm != null && accEnabled != csm.isLocalAccelerationEnabled()) {
+                    csm.setLocalAccelerationEnabled(accEnabled);
+                    csm.rasterChanged();
+                }
             }
+            else {  // copied from JDK7 XPStyle. To make the code compilable under JDk6, we use RefectionUtils
+                boolean accEnabled = false;
+                Skin skin = (Skin) args[0];
+                Part part = skin.part;
+                State state = (State) args[1];
+                if (state == null) {
+                    state = skin.state;
+                }
+                if (c == null) {
+                    c = skin.component;
+                }
+                BufferedImage bi = (BufferedImage) image;
 
-            WritableRaster raster = bi.getRaster();
-            DataBufferInt buffer = (DataBufferInt) raster.getDataBuffer();
-            ThemeReader.paintBackground(buffer.getData(),
-                    part.getControlName(c), part.getValue(),
-                    TMSchema.State.getValue(part, state),
-                    0, 0, w, h, w);
-
-            if (csm != null && accEnabled != csm.isLocalAccelerationEnabled()) {
-                csm.setLocalAccelerationEnabled(accEnabled);
-                csm.rasterChanged();
+                WritableRaster raster = bi.getRaster();
+                DataBufferInt dbi = (DataBufferInt) raster.getDataBuffer();
+                // Note that stealData() requires a markDirty() afterwards
+                // since we modify the data in it.
+                try {
+                    ThemeReader.paintBackground(
+                            (int[]) ReflectionUtils.callStatic(SunWritableRaster.class, "stealData", new Class[]{DataBufferInt.class, int.class}, new Object[]{dbi, 0}),
+                            /*SunWritableRaster.stealData(dbi, 0),*/
+                            part.getControlName(c), part.getValue(),
+                            State.getValue(part, state),
+                            0, 0, w, h, w);
+                    ReflectionUtils.callStatic(SunWritableRaster.class, "makeDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
+//                    SunWritableRaster.markDirty(dbi);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-//            boolean accEnabled = false;
-//            Skin skin = (Skin)args[0];
-//            Part part = skin.part;
-//            State state = (State)args[1];
-//            if (state == null) {
-//                state = skin.state;
-//            }
-//            if (c == null) {
-//                c = skin.component;
-//            }
-//            BufferedImage bi = (BufferedImage)image;
-//
-//            WritableRaster raster = bi.getRaster();
-//            DataBufferInt dbi = (DataBufferInt)raster.getDataBuffer();
-//            // Note that stealData() requires a markDirty() afterwards
-//            // since we modify the data in it.
-//            ThemeReader.paintBackground(SunWritableRaster.stealData(dbi, 0),
-//                                        part.getControlName(c), part.getValue(),
-//                                        State.getValue(part, state),
-//                                        0, 0, w, h, w);
-//            SunWritableRaster.markDirty(dbi);
         }
 
         protected Image createImage(Component c, int w, int h,
