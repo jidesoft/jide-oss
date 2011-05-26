@@ -100,7 +100,7 @@ public class XPStyle {
         return xp;
     }
 
-    static boolean isVista() {
+    public static boolean isVista() {
         XPStyle xp = XPStyle.getXP();
         return (xp != null && xp.isSkinDefined(null, Part.CP_DROPDOWNBUTTONRIGHT));
     }
@@ -116,11 +116,11 @@ public class XPStyle {
      *         This is currently only used by WindowsInternalFrameTitlePane for painting title foreground and can be
      *         removed when no longer needed
      */
-    String getString(Component c, Part part, State state, Prop prop) {
+    public String getString(Component c, Part part, State state, Prop prop) {
         return getTypeEnumName(c, part, state, prop);
     }
 
-    TypeEnum getTypeEnum(Component c, Part part, State state, Prop prop) {
+    public TypeEnum getTypeEnum(Component c, Part part, State state, Prop prop) {
         int enumValue = ThemeReader.getEnum(part.getControlName(c), part.getValue(),
                 State.getValue(part, state),
                 prop.getValue());
@@ -144,7 +144,7 @@ public class XPStyle {
      * @param part a <code>Part</code>
      * @return an <code>int</code> or null if key is not found in the current style
      */
-    int getInt(Component c, Part part, State state, Prop prop, int fallback) {
+    public int getInt(Component c, Part part, State state, Prop prop, int fallback) {
         return ThemeReader.getInt(part.getControlName(c), part.getValue(),
                 State.getValue(part, state),
                 prop.getValue());
@@ -158,7 +158,7 @@ public class XPStyle {
      *         This is currently only used by WindowsProgressBarUI and the value should probably be cached there instead
      *         of here.
      */
-    Dimension getDimension(Component c, Part part, State state, Prop prop) {
+    public Dimension getDimension(Component c, Part part, State state, Prop prop) {
         return ThemeReader.getPosition(part.getControlName(c), part.getValue(),
                 State.getValue(part, state),
                 prop.getValue());
@@ -172,7 +172,7 @@ public class XPStyle {
      *         This is currently only used by WindowsInternalFrameTitlePane for painting title foregound and can be
      *         removed when no longer needed
      */
-    Point getPoint(Component c, Part part, State state, Prop prop) {
+    public Point getPoint(Component c, Part part, State state, Prop prop) {
         Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
                 State.getValue(part, state),
                 prop.getValue());
@@ -192,7 +192,7 @@ public class XPStyle {
      *         This is currently only used to create borders and by WindowsInternalFrameTitlePane for painting title
      *         foregound. The return value is already cached in those places.
      */
-    Insets getMargin(Component c, Part part, State state, Prop prop) {
+    public Insets getMargin(Component c, Part part, State state, Prop prop) {
         return ThemeReader.getThemeMargins(part.getControlName(c), part.getValue(),
                 State.getValue(part, state),
                 prop.getValue());
@@ -204,7 +204,7 @@ public class XPStyle {
      *
      * @return a <code>Color</code> or null if key is not found in the current style
      */
-    synchronized Color getColor(Skin skin, Prop prop, Color fallback) {
+    public synchronized Color getColor(Skin skin, Prop prop, Color fallback) {
         String key = skin.toString() + "." + prop.name();
         Part part = skin.part;
         Color color = colorMap.get(key);
@@ -232,7 +232,7 @@ public class XPStyle {
      * @return a <code>Border</code> or null if key is not found in the current style or if the style for the particular
      *         part is not defined as "borderfill".
      */
-    synchronized Border getBorder(Component c, Part part) {
+    public synchronized Border getBorder(Component c, Part part) {
         if (part == Part.MENU) {
             // Special case because XP has no skin for menus
             if (flatMenus) {
@@ -425,7 +425,7 @@ public class XPStyle {
         }
     }
 
-    boolean isSkinDefined(Component c, Part part) {
+    public boolean isSkinDefined(Component c, Part part) {
         return (part.getValue() == 0)
                 || ThemeReader.isThemePartDefined(
                 part.getControlName(c), part.getValue(), 0);
@@ -438,7 +438,7 @@ public class XPStyle {
      * @param part a <code>Part</code>
      * @return a <code>Skin</code> object
      */
-    synchronized Skin getSkin(Component c, Part part) {
+    public synchronized Skin getSkin(Component c, Part part) {
         assert isSkinDefined(c, part) : "part " + part + " is not defined";
         return new Skin(c, part, null);
     }
@@ -458,7 +458,7 @@ public class XPStyle {
      * A class which encapsulates attributes for a given part (component type) and which provides methods for painting
      * backgrounds and glyphs
      */
-    static class Skin {
+    public static class Skin {
         final Component component;
         final Part part;
         final State state;
@@ -540,7 +540,7 @@ public class XPStyle {
          * @param dy    the destination <i>y</i> coordinate
          * @param state which state to paint
          */
-        void paintSkin(Graphics g, int dx, int dy, State state) {
+        public void paintSkin(Graphics g, int dx, int dy, State state) {
             if (state == null) {
                 state = this.state;
             }
@@ -555,7 +555,7 @@ public class XPStyle {
          *              tiled
          * @param state which state to paint
          */
-        void paintSkin(Graphics g, Rectangle r, State state) {
+        public void paintSkin(Graphics g, Rectangle r, State state) {
             paintSkin(g, r.x, r.y, r.width, r.height, state);
         }
 
@@ -569,7 +569,7 @@ public class XPStyle {
          * @param dh    the height of the area to fill, may cause the image to be stretched or tiled
          * @param state which state to paint
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state) {
+        public void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state) {
             if (ThemeReader.isGetThemeTransitionDurationDefined()
                     && component instanceof JComponent
                     && SwingUtilities.getAncestorOfClass(CellRendererPane.class,
@@ -593,7 +593,7 @@ public class XPStyle {
          * @param dh    the height of the area to fill, may cause the image to be stretched or tiled
          * @param state which state to paint
          */
-        void paintSkinRaw(Graphics g, int dx, int dy, int dw, int dh, State state) {
+        public void paintSkinRaw(Graphics g, int dx, int dy, int dw, int dh, State state) {
             skinPainter.paint(null, g, dx, dy, dw, dh, this, state);
         }
 
@@ -608,8 +608,8 @@ public class XPStyle {
          * @param state      which state to paint
          * @param borderFill should test if the component uses a border fill and skip painting if it is
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state,
-                       boolean borderFill) {
+        public void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state,
+                              boolean borderFill) {
             if (borderFill && "borderfill".equals(getTypeEnumName(component, part,
                     state, Prop.BGTYPE))) {
                 return;

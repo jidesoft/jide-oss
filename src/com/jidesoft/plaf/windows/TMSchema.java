@@ -44,7 +44,8 @@ public class TMSchema {
         TOOLBAR,
         TRACKBAR,
         TREEVIEW,
-        WINDOW
+        WINDOW,
+        EXPLORERBAR
     }
 
 
@@ -86,7 +87,12 @@ public class TMSchema {
         EP_EDITTEXT(Control.EDIT, 1),
 
         HP_HEADERITEM(Control.HEADER, 1),
+        HP_HEADERITEMLEFT(Control.HEADER, 2),
+        HP_HEADERITEMRIGHT(Control.HEADER, 3),
         HP_HEADERSORTARROW(Control.HEADER, 4),
+        HP_HEADERDROPDOWN(Control.HEADER, 5),
+        HP_HEADERDROPDOWNFILTER(Control.HEADER, 6),
+        HP_HEADEROVERFLOW(Control.HEADER, 7),
 
         LBP_LISTBOX(Control.LISTBOX, 0),
 
@@ -128,6 +134,7 @@ public class TMSchema {
         TP_SPLITBUTTONDROPDOWN(Control.TOOLBAR, 4),
         TP_SEPARATOR(Control.TOOLBAR, 5),
         TP_SEPARATORVERT(Control.TOOLBAR, 6),
+        TP_DROPDOWNBUTTONGLYPH(Control.TOOLBAR, 7),
 
         TKP_TRACK(Control.TRACKBAR, 1),
         TKP_TRACKVERT(Control.TRACKBAR, 2),
@@ -158,7 +165,21 @@ public class TMSchema {
         WP_CLOSEBUTTON(Control.WINDOW, 18),
         WP_MDICLOSEBUTTON(Control.WINDOW, 20),
         WP_RESTOREBUTTON(Control.WINDOW, 21),
-        WP_MDIRESTOREBUTTON(Control.WINDOW, 22);
+        WP_MDIRESTOREBUTTON(Control.WINDOW, 22),
+
+        EBP_EXPLORERBAR(Control.EXPLORERBAR, 0),
+        EBP_HEADERBACKGROUND(Control.EXPLORERBAR, 1),
+        EBP_HEADERCLOSE(Control.EXPLORERBAR, 2),
+        EBP_HEADERPIN(Control.EXPLORERBAR, 3),
+        EBP_IEBARMENU(Control.EXPLORERBAR, 4),
+        EBP_NORMALGROUPBACKGROUND(Control.EXPLORERBAR, 5),
+        EBP_NORMALGROUPCOLLAPSE(Control.EXPLORERBAR, 6),
+        EBP_NORMALGROUPEXPAND(Control.EXPLORERBAR, 7),
+        EBP_NORMALGROUPHEAD(Control.EXPLORERBAR, 8),
+        EBP_SPECIALGROUPBACKGROUND(Control.EXPLORERBAR, 9),
+        EBP_SPECIALGROUPCOLLAPSE(Control.EXPLORERBAR, 10),
+        EBP_SPECIALGROUPEXPAND(Control.EXPLORERBAR, 11),
+        EBP_SPECIALGROUPHEAD(Control.EXPLORERBAR, 12),;
 
         private final Control control;
         private final int value;
@@ -218,6 +239,8 @@ public class TMSchema {
         FOCUSED,
         HOT,
         HOTCHECKED,
+        NEARHOT,
+        OTHERSIDEHOT,
         ICONHOT,
         ICONNORMAL,
         ICONPRESSED,
@@ -237,6 +260,14 @@ public class TMSchema {
         MIXEDHOT,
         MIXEDNORMAL,
         MIXEDPRESSED,
+        IMPLICITDISABLED,
+        IMPLICITHOT,
+        IMPLICITNORMAL,
+        IMPLICITPRESSED,
+        EXCLUDEDDISABLED,
+        EXCLUDEDHOT,
+        EXCLUDEDNORMAL,
+        EXCLUDEDPRESSED,
         NORMAL,
         PRESSED,
         OPENED,
@@ -264,7 +295,9 @@ public class TMSchema {
         SORTEDHOT,
         SORTEDNORMAL,
         SORTEDPRESSED,
-        SORTEDUP;
+        SORTEDUP,
+        SOFTHOT,
+        DEFAULTED_ANIMATING;
 
 
         /**
@@ -281,7 +314,7 @@ public class TMSchema {
                     });
 
             stateMap.put(Part.BP_PUSHBUTTON,
-                    new State[]{NORMAL, HOT, PRESSED, DISABLED, DEFAULTED});
+                    new State[]{NORMAL, HOT, PRESSED, DISABLED, DEFAULTED, DEFAULTED_ANIMATING});
 
             stateMap.put(Part.BP_RADIOBUTTON,
                     new State[]{
@@ -293,7 +326,19 @@ public class TMSchema {
                     new State[]{
                             UNCHECKEDNORMAL, UNCHECKEDHOT, UNCHECKEDPRESSED, UNCHECKEDDISABLED,
                             CHECKEDNORMAL, CHECKEDHOT, CHECKEDPRESSED, CHECKEDDISABLED,
-                            MIXEDNORMAL, MIXEDHOT, MIXEDPRESSED, MIXEDDISABLED
+                            MIXEDNORMAL, MIXEDHOT, MIXEDPRESSED, MIXEDDISABLED,
+                            IMPLICITNORMAL, IMPLICITHOT, IMPLICITPRESSED, IMPLICITDISABLED,
+                            EXCLUDEDNORMAL, EXCLUDEDHOT, EXCLUDEDPRESSED, EXCLUDEDDISABLED
+                    });
+
+            stateMap.put(Part.BP_COMMANDLINK,
+                    new State[]{
+                            DEFAULTED, DEFAULTED_ANIMATING, DISABLED, HOT, NORMAL, PRESSED
+                    });
+
+            stateMap.put(Part.BP_COMMANDLINKGLYPH,
+                    new State[]{
+                            DEFAULTED, DISABLED, HOT, NORMAL, PRESSED
                     });
 
             State[] comboBoxStates = new State[]{NORMAL, HOT, PRESSED, DISABLED};
@@ -314,6 +359,15 @@ public class TMSchema {
 
             stateMap.put(Part.HP_HEADERSORTARROW,
                     new State[]{SORTEDDOWN, SORTEDUP});
+
+            stateMap.put(Part.HP_HEADERDROPDOWN,
+                    new State[]{NORMAL, SOFTHOT, HOT});
+
+            stateMap.put(Part.HP_HEADERDROPDOWNFILTER,
+                    new State[]{NORMAL, SOFTHOT, HOT});
+
+            stateMap.put(Part.HP_HEADEROVERFLOW,
+                    new State[]{NORMAL, HOT});
 
             State[] scrollBarStates = new State[]{NORMAL, HOT, PRESSED, DISABLED, HOVER};
             stateMap.put(Part.SBP_SCROLLBAR, scrollBarStates);
@@ -384,6 +438,17 @@ public class TMSchema {
                             NORMAL, HOT, PRESSED, DISABLED, CHECKED, HOTCHECKED
                     });
 
+            State[] buttonStates = {
+                    NORMAL, HOT, PRESSED, DISABLED, CHECKED, HOTCHECKED, NEARHOT, OTHERSIDEHOT
+            };
+            stateMap.put(Part.TP_DROPDOWNBUTTON, buttonStates);
+
+            stateMap.put(Part.TP_SPLITBUTTON, buttonStates);
+
+            stateMap.put(Part.TP_SPLITBUTTONDROPDOWN, buttonStates);
+
+            stateMap.put(Part.TP_DROPDOWNBUTTONGLYPH, buttonStates);
+
             State[] frameStates = new State[]{ACTIVE, INACTIVE};
             stateMap.put(Part.WP_WINDOW, frameStates);
             stateMap.put(Part.WP_FRAMELEFT, frameStates);
@@ -410,8 +475,31 @@ public class TMSchema {
             stateMap.put(Part.MP_POPUPSUBMENU,
                     new State[]{NORMAL, DISABLED});
 
+            State[] headerStates = {
+                    NORMAL, HOT, PRESSED
+            };
+
+            stateMap.put(Part.EBP_HEADERCLOSE, headerStates);
+
+            stateMap.put(Part.EBP_HEADERPIN, new State[]{
+                    NORMAL, HOT, PRESSED, CHECKED, CHECKEDHOT, CHECKEDPRESSED
+            });
+
+            stateMap.put(Part.EBP_IEBARMENU, headerStates);
+            stateMap.put(Part.EBP_NORMALGROUPCOLLAPSE, headerStates);
+            stateMap.put(Part.EBP_NORMALGROUPEXPAND, headerStates);
+            stateMap.put(Part.EBP_SPECIALGROUPCOLLAPSE, headerStates);
+            stateMap.put(Part.EBP_SPECIALGROUPEXPAND, headerStates);
         }
 
+
+        public static synchronized Enum[] getState(Part part) {
+            if (stateMap == null) {
+                initStates();
+            }
+
+            return stateMap.get(part);
+        }
 
         public static synchronized int getValue(Part part, State state) {
             if (stateMap == null) {
