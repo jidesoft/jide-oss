@@ -695,7 +695,7 @@ public class XPStyle {
                             part.getControlName(c), part.getValue(),
                             State.getValue(part, state),
                             0, 0, w, h, w);
-                    ReflectionUtils.callStatic(SunWritableRaster.class, "makeDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
+                    ReflectionUtils.callStatic(SunWritableRaster.class, "markDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
 //                    SunWritableRaster.markDirty(dbi);
                 }
                 catch (Exception e) {
