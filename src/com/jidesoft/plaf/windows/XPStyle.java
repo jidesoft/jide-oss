@@ -575,7 +575,7 @@ public class XPStyle {
          * @param state which state to paint
          */
         public void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state) {
-            if (ThemeReader.isGetThemeTransitionDurationDefined()
+            if (SystemInfo.isJdk6Above() && ThemeReader.isGetThemeTransitionDurationDefined()
                     && component instanceof JComponent
                     && SwingUtilities.getAncestorOfClass(CellRendererPane.class,
                     component) == null) {
