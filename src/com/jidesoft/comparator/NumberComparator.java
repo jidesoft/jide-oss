@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Comparator for Number type. This is a singleton class. Call getInstance() to get the comparator.
  */
-public class NumberComparator implements Comparator {
+public class NumberComparator implements Comparator<Object> {
     /**
      * Comparator Context to compare two values using the absolute value.
      */

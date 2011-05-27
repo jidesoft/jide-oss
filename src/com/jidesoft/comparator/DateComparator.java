@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Comparator for Date type. This is a singleton class. Call getInstance() to get the comparator.
  */
-public class DateComparator implements Comparator {
+public class DateComparator implements Comparator<Object> {
     private static DateComparator singleton = null;
 
     /**

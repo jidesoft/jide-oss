@@ -16,7 +16,9 @@ import java.util.Comparator;
  * will be treated as equal. If one is null and the other is not, the null value will be treated as smaller then
  * non-null value.
  */
-public class CharSequenceComparator implements Comparator, Serializable {
+public class CharSequenceComparator implements Comparator<Object>, Serializable {
+    private static final long serialVersionUID = -4749963150099170895L;
+    
     private boolean _caseSensitive;
     public static final ComparatorContext CONTEXT = new ComparatorContext("IgnoreLocale");
     public static final ComparatorContext CONTEXT_IGNORE_CASE = new ComparatorContext("IgnoreLocale_Ignorecase");

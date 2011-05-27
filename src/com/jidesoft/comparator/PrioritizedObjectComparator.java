@@ -8,8 +8,7 @@ import java.util.Comparator;
  * <code>Comparator</code> for objects that implements {@link com.jidesoft.swing.Prioritized}
  * interface. It is a singleton pattern. You use {@link #getInstance()} to get an instance.
  */
-@SuppressWarnings({"RawUseOfParameterizedType"})
-public class PrioritizedObjectComparator implements Comparator {
+public class PrioritizedObjectComparator implements Comparator<Object> {
     private static PrioritizedObjectComparator singleton = null;
 
     protected PrioritizedObjectComparator() {

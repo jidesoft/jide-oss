@@ -14,6 +14,7 @@ import java.io.Serializable;
  * example, in <code>ConverterContext</code>, we sometimes used it to pass in a <code>Format</code>.
  */
 abstract public class AbstractContext implements Serializable {
+  private static final long serialVersionUID = -8924789128314897783L;
 
     private String _name;
 

@@ -6,7 +6,7 @@ import java.util.Comparator;
  * Badly named, this class compares objects by first converting them to <tt>String</tt>s using the
  * <tt>toString</tt> method.
  */
-public class DefaultComparator implements Comparator {
+public class DefaultComparator implements Comparator<Object> {
     private static DefaultComparator singleton = null;
 
     /**

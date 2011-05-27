@@ -544,7 +544,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
         }
     }
 
-    private int layoutButtonsRightAlign(List buttons, int x, int y, Dimension alloc, boolean ltr) {
+    private int layoutButtonsRightAlign(List<Component> buttons, int x, int y, Dimension alloc, boolean ltr) {
         boolean containsVisibleButton = false;
         for (int i = _target.getComponentCount() - 1; i >= 0; i--) {
             Component component;

@@ -12,6 +12,8 @@ import com.jidesoft.converter.AbstractContext;
  * compare them. This context is used so that user can register different comparators for the same type.
  */
 public class ComparatorContext extends AbstractContext {
+    private static final long serialVersionUID = -4846614433415551998L;
+    
     /**
      * Default comparator context with empty name and no user object.
      */

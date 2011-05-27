@@ -19,6 +19,8 @@ import java.awt.*;
  */
 public class ButtonPanel extends JPanel implements ButtonListener, ButtonNames {
 
+    private static final long serialVersionUID = -7840551457656712357L;
+
     /**
      * This option will make all buttons have the same size. If all buttons have the same size, the GUI will certainly
      * look better.

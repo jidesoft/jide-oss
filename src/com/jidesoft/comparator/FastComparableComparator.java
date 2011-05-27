@@ -19,8 +19,9 @@ import java.util.Comparator;
  * @author bayard@generationjava.com
  * @author JIDE Software
  */
-public class FastComparableComparator implements Comparator, Serializable {
-
+public class FastComparableComparator implements Comparator<Object>, Serializable {
+    private static final long serialVersionUID = -5332640135652727575L;
+    
     private static final FastComparableComparator instance =
             new FastComparableComparator();
 
@@ -41,6 +42,7 @@ public class FastComparableComparator implements Comparator, Serializable {
     public FastComparableComparator() {
     }
 
+    @SuppressWarnings("unchecked")
     public int compare(Object o1, Object o2) {
         if (o1 == null && o2 == null) {
             return 0;
@@ -54,7 +56,7 @@ public class FastComparableComparator implements Comparator, Serializable {
 
         if (o1 instanceof Comparable) {
             if (o2 instanceof Comparable) {
-                return ((Comparable) o1).compareTo(o2);
+                return ((Comparable<Object>) o1).compareTo(o2);
             }
             else {
                 // o2 wasn't comparable

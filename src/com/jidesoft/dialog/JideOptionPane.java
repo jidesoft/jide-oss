@@ -25,6 +25,7 @@ import java.beans.PropertyChangeListener;
  * we add all necessary UIDefaults using UIDefaultCustomizer.
  */
 public class JideOptionPane extends JOptionPane {
+    private static final long serialVersionUID = 1916857052448620771L;
     private Object _title;
     private Object _details;
 //    private boolean _bannerVisible = true;

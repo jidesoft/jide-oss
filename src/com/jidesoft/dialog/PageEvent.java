@@ -13,6 +13,8 @@ import java.util.EventObject;
  */
 public class PageEvent extends EventObject {
 
+    private static final long serialVersionUID = 3505923526872133295L;
+
     /**
      * The first number in the range of IDs used for <code>AbstractPage</code> events.
      */

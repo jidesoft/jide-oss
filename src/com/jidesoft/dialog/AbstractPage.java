@@ -32,6 +32,7 @@ import java.util.logging.Logger;
  * so that subclass can fire {@link PageEvent} </ul>
  */
 public abstract class AbstractPage extends JPanel implements Laziness {
+    private static final long serialVersionUID = 3566789990192642869L;
 
     /**
      * Used by setInvokeCondition(). This value means initialize will be called in all paint/repaint/update methods.

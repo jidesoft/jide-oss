@@ -39,6 +39,8 @@ import java.util.*;
  * AbstractDialogPage associated with that list row or tree node.
  */
 public class MultiplePageDialog extends StandardDialog {
+    private static final long serialVersionUID = 4915689214157425081L;
+
     /**
      * Predefined style of multiple page dialog.
      */
@@ -986,6 +988,8 @@ public class MultiplePageDialog extends StandardDialog {
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         final JScrollPane pane = new JScrollPane(buttonsPanel) {
+            private static final long serialVersionUID = -5872376661587310320L;
+
             @Override
             public Dimension getPreferredSize() {
                 if (buttonsPanel.getAlignment() == SwingConstants.TOP || buttonsPanel.getAlignment() == SwingConstants.BOTTOM)

@@ -7,7 +7,7 @@ import java.util.Comparator;
  * Comparator for Calendar type. This is a singleton class. Call getInstance() to
  * get the comparator.
  */
-public class CalendarComparator implements Comparator {
+public class CalendarComparator implements Comparator<Object> {
     private static CalendarComparator singleton = null;
 
     /**

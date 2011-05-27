@@ -13,6 +13,8 @@ import java.util.EventObject;
  * An <code>AWTEvent</code> that adds support for registration objects as the event source.
  */
 public class RegistrationEvent extends EventObject {
+    private static final long serialVersionUID = 3575113313761938714L;
+
     /**
      * The first number in the range of IDs used for <code>DockableFrame</code> events.
      */

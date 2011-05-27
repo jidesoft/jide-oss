@@ -32,6 +32,8 @@ public class CacheMap<T, K> {
     }
 
     static class Cache<K, T> extends HashMap<K, T> {
+      private static final long serialVersionUID = 7764545350468551102L;
+
         public T getObject(K context) {
             return get(context);
         }
@@ -153,7 +155,7 @@ public class CacheMap<T, K> {
             Class<?>[] interfaces = clazz.getInterfaces();
             classesToSearch.addAll(Arrays.asList(interfaces));
 
-            Class superClass = clazz;
+            Class<?> superClass = clazz;
             // Direct super class, recursively
             while (!superClass.isInterface()) {
                 superClass = superClass.getSuperclass();
@@ -256,6 +258,7 @@ public class CacheMap<T, K> {
      *
      * @param clazz the class
      */
+    @SuppressWarnings("unchecked")
     public void remove(Class<?> clazz) {
         Cache<K, T> cache = getCache(clazz);
         if (cache != null) {

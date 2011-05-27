@@ -17,6 +17,7 @@ import java.awt.*;
  * A tree cell renderer for AbstractDialogPage.
  */
 public class DialogPageTreeCellRenderer extends JLabel implements TreeCellRenderer {
+    private static final long serialVersionUID = 3680042627478398736L;
     /**
      * text selection color
      */

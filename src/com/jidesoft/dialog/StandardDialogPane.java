@@ -43,6 +43,7 @@ import java.awt.event.KeyEvent;
  */
 abstract public class StandardDialogPane extends JPanel implements ButtonNames {
 
+    private static final long serialVersionUID = -2699141371295650648L;
     protected JComponent _bannerPanel;
     protected JComponent _contentPanel;
     protected ButtonPanel _buttonPanel;

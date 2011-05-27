@@ -6,7 +6,7 @@ import java.util.Comparator;
  * Comparator for boolean type. This is a singleton class. Call getInstance() to
  * get the comparator.
  */
-public class BooleanComparator implements Comparator {
+public class BooleanComparator implements Comparator<Object> {
     private static BooleanComparator singleton = null;
 
     /**

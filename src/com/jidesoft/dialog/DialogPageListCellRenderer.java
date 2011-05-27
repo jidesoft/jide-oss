@@ -12,6 +12,8 @@ import java.awt.*;
  * A list cell renderer for AbstractDialogPage.
  */
 class DialogPageListCellRenderer extends DefaultListCellRenderer {
+    private static final long serialVersionUID = -3622981818484859949L;
+
     @Override
     public Component getListCellRendererComponent(
             JList list,

@@ -9,6 +9,7 @@ import java.awt.*;
  * ButtonPanel. In addition, it has title, icon, description and parent attribute.
  */
 public abstract class AbstractDialogPage extends AbstractPage {
+    private static final long serialVersionUID = -469903356785298291L;
 
     protected transient ButtonEvent _buttonEvent = null;
 

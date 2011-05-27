@@ -67,8 +67,9 @@ import java.util.Comparator;
  * @author bayard@generationjava.com
  * @author JIDE Software
  */
-public class ComparableComparator implements Comparator, Serializable {
-
+public class ComparableComparator implements Comparator<Object>, Serializable {
+    private static final long serialVersionUID = -291439688585137865L;
+  
     private static final ComparableComparator instance =
             new ComparableComparator();
 
@@ -82,15 +83,14 @@ public class ComparableComparator implements Comparator, Serializable {
     public static ComparableComparator getInstance() {
         return instance;
     }
-
-    private static final long serialVersionUID = -291439688585137865L;
-
+    
     /**
      * Constructs a ComparableComparator.
      */
     public ComparableComparator() {
     }
 
+    @SuppressWarnings("unchecked")
     public int compare(Object o1, Object o2) {
         if (o1 == null && o2 == null) {
             return 0;
@@ -107,8 +107,8 @@ public class ComparableComparator implements Comparator, Serializable {
                 int result1;
                 int result2;
                 try {
-                    result1 = ((Comparable) o1).compareTo(o2);
-                    result2 = ((Comparable) o2).compareTo(o1);
+                    result1 = ((Comparable<Object>) o1).compareTo(o2);
+                    result2 = ((Comparable<Object>) o2).compareTo(o1);
                 }
                 catch (ClassCastException e) {
                     return o1.getClass().getName().compareTo(o2.getClass().getName()); // fall back to compare the string
