@@ -22,7 +22,7 @@ public class ObjectComparatorManager {
 
     private static final Comparator<Object> _defaultComparator = new DefaultComparator();
 
-    public static void registerComparator(Class<?> clazz, Comparator<?> comparator) {
+    public static void registerComparator(Class<?> clazz, Comparator comparator) {
         registerComparator(clazz, comparator, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -33,7 +33,7 @@ public class ObjectComparatorManager {
      * @param comparator the comparator to be registered.
      * @param context    the comparator context.
      */
-    public static void registerComparator(Class<?> clazz, Comparator<?> comparator, ComparatorContext context) {
+    public static void registerComparator(Class<?> clazz, Comparator comparator, ComparatorContext context) {
         if (clazz == null) {
             throw new IllegalArgumentException("Parameter clazz cannot be null");
         }
@@ -92,7 +92,7 @@ public class ObjectComparatorManager {
      * @param clazz the data type.
      * @return the registered comparator.
      */
-    public static <T> Comparator<T> getComparator(Class<T> clazz) {
+    public static Comparator getComparator(Class<?> clazz) {
         return getComparator(clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
@@ -103,8 +103,7 @@ public class ObjectComparatorManager {
      * @param context the comparator context.
      * @return the comparator.
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Comparator<T> getComparator(Class<T> clazz, ComparatorContext context) {
+    public static Comparator getComparator(Class<?> clazz, ComparatorContext context) {
         if (isAutoInit()) {
             initDefaultComparator();
         }
@@ -112,12 +111,12 @@ public class ObjectComparatorManager {
         if (context == null) {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
-        Comparator<?> object = _cache.getRegisteredObject(clazz, context);
+        Comparator object = _cache.getRegisteredObject(clazz, context);
         if (object != null) {
-            return (Comparator<T>) object;
+            return object;
         }
         else {
-            return (Comparator<T>) _defaultComparator;
+            return _defaultComparator;
         }
     }
 
@@ -206,12 +205,11 @@ public class ObjectComparatorManager {
      * @param context the comparator context
      * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
      */
-    @SuppressWarnings("unchecked")
-    public static <T> int compare(Object o1, Object o2, Class<T> clazz, ComparatorContext context) {
-        Comparator<T> comparator = getComparator(clazz, context);
+    public static int compare(Object o1, Object o2, Class<?> clazz, ComparatorContext context) {
+        Comparator comparator = getComparator(clazz, context);
         if (comparator != null) {
             try {
-                return comparator.compare((T)o1, (T)o2);
+                return comparator.compare(o1, o2);
             }
             catch (Exception e) {
                 // ignore and let the code below handles it.
