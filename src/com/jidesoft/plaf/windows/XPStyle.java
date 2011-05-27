@@ -359,33 +359,33 @@ public class XPStyle {
             skin.paintSkin(g, x, y, width, height, null);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
-            Insets margin = null;
-            Insets borderInsets = skin.getContentMargin();
-            if (borderInsets == null) {
-                borderInsets = new Insets(0, 0, 0, 0);
-            }
-            //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
-            //
-            if (c instanceof AbstractButton) {
-                margin = ((AbstractButton) c).getMargin();
-            }
-            else if (c instanceof JToolBar) {
-                margin = ((JToolBar) c).getMargin();
-            }
-            else if (c instanceof JTextComponent) {
-                margin = ((JTextComponent) c).getMargin();
-            }
-            insets.top = (margin != null ? margin.top : 0) + borderInsets.top;
-            insets.left = (margin != null ? margin.left : 0) + borderInsets.left;
-            insets.bottom = (margin != null ? margin.bottom : 0) + borderInsets.bottom;
-            insets.right = (margin != null ? margin.right : 0) + borderInsets.right;
-
-            return insets;
-        }
+//        public Insets getBorderInsets(Component c, Insets insets) {
+//            Insets margin = null;
+//            Insets borderInsets = skin.getContentMargin();
+//            if (borderInsets == null) {
+//                borderInsets = new Insets(0, 0, 0, 0);
+//            }
+//            //
+//            // Ideally we'd have an interface defined for classes which
+//            // support margins (to avoid this hackery), but we've
+//            // decided against it for simplicity
+//            //
+//            if (c instanceof AbstractButton) {
+//                margin = ((AbstractButton) c).getMargin();
+//            }
+//            else if (c instanceof JToolBar) {
+//                margin = ((JToolBar) c).getMargin();
+//            }
+//            else if (c instanceof JTextComponent) {
+//                margin = ((JTextComponent) c).getMargin();
+//            }
+//            insets.top = (margin != null ? margin.top : 0) + borderInsets.top;
+//            insets.left = (margin != null ? margin.left : 0) + borderInsets.left;
+//            insets.bottom = (margin != null ? margin.bottom : 0) + borderInsets.bottom;
+//            insets.right = (margin != null ? margin.right : 0) + borderInsets.right;
+//
+//            return insets;
+//        }
     }
 
     private class XPEmptyBorder extends EmptyBorder implements UIResource {
@@ -491,17 +491,17 @@ public class XPStyle {
             string = str;
         }
 
-        Insets getContentMargin() {
-            /* idk: it seems margins are the same for all 'big enough'
-             * bounding rectangles.
-             */
-            int boundingWidth = 100;
-            int boundingHeight = 100;
-
-            return ThemeReader.getThemeBackgroundContentMargins(
-                    part.getControlName(null), part.getValue(),
-                    0, boundingWidth, boundingHeight);
-        }
+//        Insets getContentMargin() {
+//            /* idk: it seems margins are the same for all 'big enough'
+//             * bounding rectangles.
+//             */
+//            int boundingWidth = 100;
+//            int boundingHeight = 100;
+//
+//            return ThemeReader.getThemeBackgroundContentMargins(
+//                    part.getControlName(null), part.getValue(),
+//                    0, boundingWidth, boundingHeight);
+//        }
 
         private int getWidth(State state) {
             if (size == null) {
