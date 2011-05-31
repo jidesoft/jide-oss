@@ -3910,4 +3910,18 @@ public class JideSwingUtilities implements SwingConstants {
             // ignore
         }
     }
+
+    public static boolean isValidEditingKey(KeyEvent keyEvent) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE || keyEvent.getKeyCode() == KeyEvent.VK_DELETE || keyEvent.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            return false;
+        }
+        else if (keyEvent.getKeyCode() == KeyEvent.VK_F2) {
+            return true;
+        }
+        else if (keyEvent.getKeyCode() >= KeyEvent.VK_F1 && keyEvent.getKeyCode() <= KeyEvent.VK_F24) {
+            return keyEvent.getKeyChar() != 65535;
+        }
+
+        return true;
+    }
 }

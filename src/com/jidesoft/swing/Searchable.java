@@ -1250,8 +1250,7 @@ public abstract class Searchable {
      * @return true if the keyChar is a letter or a digit or '*' or '?'.
      */
     protected boolean isActivateKey(KeyEvent e) {
-        char keyChar = e.getKeyChar();
-        return e.getID() == KeyEvent.KEY_TYPED && (Character.isLetterOrDigit(keyChar) || keyChar == '*' || keyChar == '?');
+        return e.getID() == KeyEvent.KEY_TYPED && JideSwingUtilities.isValidEditingKey(e);
     }
 
     /**
