@@ -7,7 +7,9 @@
 package com.jidesoft.swing;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 
 
 /**
@@ -45,6 +47,82 @@ public class TristateButtonModel extends JToggleButton.ToggleButtonModel {
         else return TristateCheckBox.STATE_UNSELECTED;
     }
 
+    /**
+     * We rotate between STATE_UNSELECTED, STATE_SELECTED and STATE_MIXED. Subclass can override this method to tell the
+     * check box what next state is. Here is the default implementation.
+     * <code><pre>
+     * if (current == TristateCheckBox.STATE_UNSELECTED) {
+     *     return TristateCheckBox.STATE_SELECTED;
+     * }
+     * else if (current == TristateCheckBox.STATE_SELECTED) {
+     *     return TristateCheckBox.STATE_MIXED;
+     * }
+     * else if (current == TristateCheckBox.STATE_MIXED) {
+     *     return TristateCheckBox.STATE_UNSELECTED;
+     * }
+     * </code></pre>
+     *
+     * @param current the current state
+     * @return the next state of the current state.
+     */
+    protected int getNextState(int current) {
+        if (current == TristateCheckBox.STATE_UNSELECTED) {
+            return TristateCheckBox.STATE_SELECTED;
+        }
+        else if (current == TristateCheckBox.STATE_SELECTED) {
+            return TristateCheckBox.STATE_MIXED;
+        }
+        else /*if (current == STATE_MIXED)*/ {
+            return TristateCheckBox.STATE_UNSELECTED;
+        }
+    }
+
+    @Override
+    public void setPressed(boolean b) {
+        if ((isPressed() == b) || !isEnabled()) {
+            return;
+        }
+
+        if (!b && isArmed()) {
+            updateState();
+        }
+
+        if (b) {
+            stateMask |= PRESSED;
+        }
+        else {
+            stateMask &= ~PRESSED;
+        }
+
+        fireStateChanged();
+
+        if (!isPressed() && isArmed()) {
+            int modifiers = 0;
+            AWTEvent currentEvent = EventQueue.getCurrentEvent();
+            if (currentEvent instanceof InputEvent) {
+                modifiers = ((InputEvent) currentEvent).getModifiers();
+            }
+            else if (currentEvent instanceof ActionEvent) {
+                modifiers = ((ActionEvent) currentEvent).getModifiers();
+            }
+            fireActionPerformed(
+                    new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+                            getActionCommand(),
+                            EventQueue.getMostRecentEventTime(),
+                            modifiers));
+        }
+    }
+
+    /**
+     * Updates the state when the mouse is clicked. The default implementation is
+     * <pre><code>
+     * setState(getNextState(getState()));
+     * </code></pre>
+     */
+    protected void updateState() {
+        setState(getNextState(getState()));
+    }
+
     @Override
     public void setSelected(boolean b) {
         boolean mixed = isMixed();
@@ -53,7 +131,6 @@ public class TristateButtonModel extends JToggleButton.ToggleButtonModel {
             internalSetSelected(!isSelected());
         }
         super.setSelected(b);
-        fireActionPerformed(new ActionEvent(this, 0, "stateChanged"));
     }
 
     void internalSetSelected(boolean b) {
@@ -83,6 +160,5 @@ public class TristateButtonModel extends JToggleButton.ToggleButtonModel {
         }
 
         fireStateChanged();
-        fireActionPerformed(new ActionEvent(this, 0, "stateChanged"));
     }
 }

@@ -57,9 +57,19 @@ public class TristateCheckBox extends JCheckBox {
 
     @Override
     protected void init(String text, Icon icon) {
-        model = new TristateButtonModel();
+        model = createButtonModel();
         setModel(model);
         super.init(text, icon);
+    }
+
+
+    /**
+     * Creates the button model. In this case, it is always a TristateButtonModel.
+     *
+     * @return TristateButtonModel
+     */
+    protected ButtonModel createButtonModel() {
+        return new TristateButtonModel();
     }
 
     @Override
@@ -162,36 +172,6 @@ public class TristateCheckBox extends JCheckBox {
             if (name != null) {
                 setName(name); // for Synthetica
             }
-        }
-    }
-
-    /**
-     * We rotate between STATE_UNSELECTED, STATE_SELECTED and STATE_MIXED. Subclass can override this method to tell the
-     * check box what next state is. Here is the default implementation.
-     * <code><pre>
-     * if (current == STATE_UNSELECTED) {
-     *     return STATE_SELECTED;
-     * }
-     * else if (current == STATE_SELECTED) {
-     *     return STATE_MIXED;
-     * }
-     * else if (current == STATE_MIXED) {
-     *     return STATE_UNSELECTED;
-     * }
-     * </code></pre>
-     *
-     * @param current the current state
-     * @return the next state of the current state.
-     */
-    protected int getNextState(int current) {
-        if (current == STATE_UNSELECTED) {
-            return STATE_SELECTED;
-        }
-        else if (current == STATE_SELECTED) {
-            return STATE_MIXED;
-        }
-        else /*if (current == STATE_MIXED)*/ {
-            return STATE_UNSELECTED;
         }
     }
 }
