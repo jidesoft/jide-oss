@@ -231,7 +231,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             if ((model.isSelected())) {
                 if (isAlwaysDropdown(b)) {
                     Rectangle rect = new Rectangle(0, 0, menuWidth, menuHeight);
-                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_ROLLOVER);
+                    getPainter().paintButtonBackground(b, g, rect, orientation, ThemePainter.STATE_SELECTED);
                 }
                 else if (b.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION) != null) {
                     Rectangle rect = getButtonRect(b, orientation, menuWidth, menuHeight);
