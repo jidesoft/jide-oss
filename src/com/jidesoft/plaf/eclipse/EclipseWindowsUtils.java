@@ -62,10 +62,8 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
         table.put("RangeSliderUI", windowsPackageName + "WindowsRangeSliderUI");
 
         if ((products & PRODUCT_GRIDS) != 0) {
-            table.put("SortableTableHeaderUI", windowsPackageName + "WindowsSortableTableHeaderUI");
             table.put("NestedTableHeaderUI", windowsPackageName + "WindowsNestedTableHeaderUI");
             table.put("EditableTableHeaderUI", windowsPackageName + "WindowsEditableTableHeaderUI");
-            table.put("AutoFilterTableHeaderUI", windowsPackageName + "WindowsAutoFilterTableHeaderUI");
             table.put("ExComboBoxUI", windowsPackageName + "WindowsExComboBoxUI");
         }
     }
