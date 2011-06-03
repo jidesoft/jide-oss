@@ -7,10 +7,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * <code>AutoRepeatButtonUtils</code> is a utility class which can make a button automatically
- * trigger action events continuously. To enable this feature on any button, just call
- * AutoRepeatButtonUtils.install(button) or AutoRepeatButtonUtils.install(button, delay,
- * initialDelay).
+ * <code>AutoRepeatButtonUtils</code> is a utility class which can make a button automatically trigger action events
+ * continuously. To enable this feature on any button, just call AutoRepeatButtonUtils.install(button) or
+ * AutoRepeatButtonUtils.install(button, delay, initialDelay).
  */
 public class AutoRepeatButtonUtils implements ActionListener, MouseListener {
     public static String AUTO_REPEAT = "AutoRepeat";
@@ -35,9 +34,8 @@ public class AutoRepeatButtonUtils implements ActionListener, MouseListener {
      * Enable auto-repeat feature on the button.
      *
      * @param button       the button.
-     * @param delay        the delay between action events.
-     * @param initialDelay the initial delay. It is from the time mouse is pressed to the first
-     *                     action event.
+     * @param delay        the delay between action events, in ms.
+     * @param initialDelay the initial delay, in ms. It is from the time mouse is pressed to the first action event.
      */
     public static void install(AbstractButton button, int delay, int initialDelay) {
         uninstall(button);
