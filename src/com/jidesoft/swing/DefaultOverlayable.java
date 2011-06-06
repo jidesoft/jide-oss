@@ -141,7 +141,12 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         }
     }
 
-    private Rectangle getOverlayComponentBounds(JComponent component) {
+    /**
+     * Gets the bounds of an overlay component.
+     * @param component an overlay component
+     * @return the bounds of the overlay component.
+     */
+    protected Rectangle getOverlayComponentBounds(JComponent component) {
         Component relativeComponent = getActualComponent();
 
         Rectangle bounds = relativeComponent.getBounds();
