@@ -27,7 +27,8 @@ import java.util.TreeMap;
 /**
  * Painter for Office2003 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class Office2003Painter extends BasicPainter {
 
@@ -511,6 +512,19 @@ public class Office2003Painter extends BasicPainter {
                 else {
                     startColor = getCurrentTheme().getColor("selection.SelectedLt");
                     endColor = getCurrentTheme().getColor("selection.SelectedDk");
+                }
+                break;
+            case STATE_DISABLE_SELECTED:
+                if (c instanceof ComponentStateSupport) {
+                    background = ((ComponentStateSupport) c).getBackgroundOfState(state);
+                }
+                if (background != null && !(background instanceof UIResource)) {
+                    startColor = ColorUtils.toGrayscale(ColorUtils.getDerivedColor(background, 0.6f));
+                    endColor = ColorUtils.toGrayscale(ColorUtils.getDerivedColor(background, 0.4f));
+                }
+                else {
+                    startColor = ColorUtils.toGrayscale(getCurrentTheme().getColor("selection.SelectedLt"));
+                    endColor = ColorUtils.toGrayscale(getCurrentTheme().getColor("selection.SelectedDk"));
                 }
                 break;
             case STATE_PRESSED:

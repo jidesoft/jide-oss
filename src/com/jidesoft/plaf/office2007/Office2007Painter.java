@@ -29,7 +29,8 @@ import java.awt.geom.Area;
 /**
  * Painter for Office2007 L&F.
  * <p/>
- * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version might break your build if you use it.
+ * Please note, this class is an internal class which is meant to be used by other JIDE classes only. Future version
+ * might break your build if you use it.
  */
 public class Office2007Painter extends BasicPainter {
 
@@ -218,6 +219,11 @@ public class Office2007Painter extends BasicPainter {
                     background = ((ComponentStateSupport) c).getBackgroundOfState(state);
                 }
                 break;
+            case STATE_DISABLE_SELECTED:
+                if (c instanceof ComponentStateSupport) {
+                    background = ((ComponentStateSupport) c).getBackgroundOfState(state);
+                }
+                break;
             case STATE_PRESSED:
                 if (c instanceof ComponentStateSupport) {
                     background = ((ComponentStateSupport) c).getBackgroundOfState(state);
@@ -283,6 +289,17 @@ public class Office2007Painter extends BasicPainter {
             paintShadowedButtonBackground(g2d, rect,
                     new Color[]{new Color(0xF3CFA5), new Color(0xF0B159), new Color(0xF1B151), new Color(0xFBC860)},
                     new Color[]{new Color(0xFDCD98), new Color(0xF8B35B), new Color(0xFBD582)});
+        }
+        else if (state == STATE_DISABLE_SELECTED) {
+            Color[] baseColors = {new Color(0xF3CFA5), new Color(0xF0B159), new Color(0xF1B151), new Color(0xFBC860)};
+            Color[] innerBackgroundColors = {new Color(0xFDCD98), new Color(0xF8B35B), new Color(0xFBD582)};
+            for (int i = 0, length = baseColors.length; i < length; i++) {
+                baseColors[i] = ColorUtils.toGrayscale(baseColors[i]);
+            }
+            for (int i = 0, length = innerBackgroundColors.length; i < length; i++) {
+                innerBackgroundColors[i] = ColorUtils.toGrayscale(innerBackgroundColors[i]);
+            }
+            paintShadowedButtonBackground(g2d, rect, baseColors, innerBackgroundColors);
         }
         else if (state == STATE_DEFAULT) {
             if (1 != height - 2) {
@@ -401,7 +418,7 @@ public class Office2007Painter extends BasicPainter {
     @Override
     public void paintStatusBarSeparator
             (JComponent
-                    c, Graphics
+                     c, Graphics
                     g, Rectangle
                     rect, int orientation,
              int state) {

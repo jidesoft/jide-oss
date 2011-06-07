@@ -8,6 +8,7 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -303,6 +304,9 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
                 return getRolloverBackground();
             case ThemePainter.STATE_SELECTED:
                 return getSelectedBackground();
+            case ThemePainter.STATE_DISABLE_SELECTED:
+                Color background = getSelectedBackground();
+                return background != null ? ColorUtils.toGrayscale(background) : background;
             case ThemePainter.STATE_PRESSED:
                 return getPressedBackground();
         }
