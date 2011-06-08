@@ -38,12 +38,15 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     private Component _titleComponent;
 
     private ThemePainter _painter;
+    private PropertyChangeListener _propertyListener;
 
     // keep track of detail component width.
     private int _detailsPreferredWidth = -1;
 
     /**
      * Creates a new BasicOptionPaneUI instance.
+     * @param x the component to create UI
+     * @return the UI instance.
      */
     public static ComponentUI createUI(JComponent x) {
         return new BasicJideOptionPaneUI();
@@ -69,7 +72,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     /**
      * Sets if details area is visible initially.
      *
-     * @param detailsVisible
+     * @param detailsVisible the flag
      */
     public static void setDetailsVisible(boolean detailsVisible) {
         _detailsVisible = detailsVisible;
@@ -100,8 +103,12 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         if (shouldDetailsButtonVisible()) {
             updateDetailsComponent();
         }
+    }
 
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+    @Override
+    protected void installListeners() {
+        super.installListeners();
+        _propertyListener = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (JideOptionPane.DETAILS_PROPERTY.equals(evt.getPropertyName())) {
                     updateDetailsComponent();
@@ -116,7 +123,14 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     updateTitleComponent(_bannerArea);
                 }
             }
-        });
+        };
+        optionPane.addPropertyChangeListener(_propertyListener);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        super.uninstallListeners();
+        optionPane.removePropertyChangeListener(_propertyListener);
     }
 
     protected void updateDetailsComponent() {
@@ -292,6 +306,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
                     if (ButtonNames.DETAILS.equals(aButton.getName())) {
                         aButton.addActionListener(new AbstractAction() {
+                            private static final long serialVersionUID = -6121325145433592319L;
+
                             public void actionPerformed(ActionEvent e) {
                                 JButton defaultButton = (JButton) e.getSource();
                                 Container top = defaultButton.getTopLevelAncestor();
@@ -437,9 +453,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     protected Object[] addDetailsButton(Object[] options, boolean showDetails) {
         if (showDetails) {
             Object[] newOptions = new Object[options.length + 1];
-            for (int i = 0; i < options.length; i++) {
-                newOptions[i] = options[i];
-            }
+            System.arraycopy(options, 0, newOptions, 0, options.length);
             final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
             newOptions[newOptions.length - 1] = new ButtonFactory(
                     ButtonNames.DETAILS,
@@ -460,6 +474,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     /**
      * Configures any necessary colors/fonts for the specified button used representing the button portion of the
      * OptionPane.
+     *
+     * @param button the button to configure
      */
     protected void configureButton(JButton button) {
         Font buttonFont = (Font) UIDefaultsLookup.get("OptionPane.buttonFont");
@@ -478,6 +494,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             return Integer.parseInt(value);
         }
         catch (NumberFormatException nfe) {
+            // null
         }
         return 0;
     }
@@ -593,8 +610,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         Object title = optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getTitle() : null;
         if (title instanceof String) {
             if (((String) title).startsWith("<html>") || ((String) title).startsWith("<HTML>")) {
-                JLabel titleLabel = new JLabel(((String) title));
-                _titleComponent = titleLabel;
+                _titleComponent = new JLabel(((String) title));
             }
             else {
                 String[] titles = fitInWidth((String) title, UIDefaultsLookup.getInt("OptionPane.bannerMaxCharsPerLine"));
@@ -627,8 +643,8 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      * 1. Do not break a word/number. If the character is letter/digit, break at the most recent non- one; 2. Expand
      * "\n" to a blank line 3. Expand "\t" to four " " 4. Trim leading empty spaces
      *
-     * @param str
-     * @param width
+     * @param str   the string
+     * @param width the target width
      * @return An array of Strings with length of "width"
      */
     private static String[] fitInWidth(String str, int width) {
@@ -638,7 +654,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         str = replaceOccurrences(str, "\n", BLANK_STR);
         str = replaceOccurrences(str, "\t", "    ");
 
-        ArrayList strArray = new ArrayList();
+        ArrayList<String> strArray = new ArrayList<String>();
         str = str.trim();
         while (str.length() > width) {
             int breakPos = width;
@@ -667,7 +683,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             str = str + blankString(width - str.length(), (byte) 32);
         }
         strArray.add(str);
-        return (String[]) strArray.toArray(new String[1]);
+        return strArray.toArray(new String[1]);
     }
 
     private static String blankString(int width, byte b) {
