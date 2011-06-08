@@ -3,6 +3,7 @@ package com.jidesoft.converter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Converter for BigDecimal.
@@ -11,6 +12,10 @@ public class BigDecimalConverter extends NumberFormatConverter {
 
     public BigDecimalConverter() {
         super(new DecimalFormat("#,##0.00"));
+    }
+
+    public BigDecimalConverter(NumberFormat format) {
+        super(format);
     }
 
     @Override
