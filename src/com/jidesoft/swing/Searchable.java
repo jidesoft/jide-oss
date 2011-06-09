@@ -1247,11 +1247,11 @@ public abstract class Searchable {
      * Checks if the key in KeyEvent should activate the search popup.
      *
      * @param e the key event
-     * @return true if the keyChar is a letter or a digit or '*' or '?'.
+     * @return true if the keyChar is visible except space and tab.
      */
     protected boolean isActivateKey(KeyEvent e) {
         char keyChar = e.getKeyChar();
-        return e.getID() == KeyEvent.KEY_TYPED && keyChar >= KeyEvent.VK_SPACE && keyChar != KeyEvent.VK_DELETE;
+        return e.getID() == KeyEvent.KEY_TYPED && keyChar > KeyEvent.VK_SPACE && keyChar != KeyEvent.VK_DELETE;
     }
 
     /**
