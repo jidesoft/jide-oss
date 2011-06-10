@@ -25,6 +25,8 @@ public class RangeSlider extends JSlider {
 
     private boolean _rangeDraggable = true;
     public static final String CLIENT_PROPERTY_MOUSE_POSITION = "RangeSlider.mousePosition";
+    public static final String PROPERTY_LOW_VALUE = "lowValue";
+    public static final String PROPERTY_HIGH_VALUE = "highValue";
 
     /**
      * Creates a horizontal range slider with the range 0 to 100 and initial low and high values both at 50.
@@ -81,7 +83,7 @@ public class RangeSlider extends JSlider {
             Class acClass = javax.swing.JComponent.class;
             Method m = uiClass.getMethod("createUI", new Class[]{acClass});
             if (m != null) {
-                Object uiObject = m.invoke(null, new Object[]{this});
+                Object uiObject = m.invoke(null, this);
                 setUI((ComponentUI) uiObject);
             }
         }
@@ -153,6 +155,7 @@ public class RangeSlider extends JSlider {
      * @param lowValue the new low value
      */
     public void setLowValue(int lowValue) {
+        int old = getLowValue();
         int high;
         if ((lowValue + getModel().getExtent()) > getMaximum()) {
             high = getMaximum();
@@ -164,6 +167,8 @@ public class RangeSlider extends JSlider {
 
         getModel().setRangeProperties(lowValue, extent,
                 getMinimum(), getMaximum(), true);
+        firePropertyChange(PROPERTY_LOW_VALUE, old, getLowValue());
+
     }
 
     /**
@@ -172,7 +177,9 @@ public class RangeSlider extends JSlider {
      * @param highValue the new high value
      */
     public void setHighValue(int highValue) {
+        int old = getHighValue();
         getModel().setExtent(highValue - getLowValue());
+        firePropertyChange(PROPERTY_HIGH_VALUE, old, getHighValue());
     }
 
     /**
