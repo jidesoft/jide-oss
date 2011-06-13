@@ -995,11 +995,17 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         }
         else {
             // For Win95, the selected text color is the selection foreground color
-            if (model.isSelected()) {
-                g.setColor(selectionForeground); // Uses protected field.
+            Color color = getForegroundOfState(menuItem);
+            if(color == null || color instanceof UIResource) {
+                if (model.isSelected()) {
+                    g.setColor(selectionForeground);
+                }
+                else {
+                    g.setColor(color);
+                }
             }
             else {
-                g.setColor(getForegroundOfState(menuItem));
+                g.setColor(color);
             }
             drawStringUnderlineCharAt(menuItem, g, text,
                     mnemonicIndex,
