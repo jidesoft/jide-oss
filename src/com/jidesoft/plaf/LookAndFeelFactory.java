@@ -915,6 +915,9 @@ public class LookAndFeelFactory implements ProductNames {
      * @return true or false.
      */
     public static boolean isLnfInUse(String lnfName) {
+        if (NIMBUS_LNF_NAME.equals(lnfName)) {
+            return isNimbusLnfInstalled() && UIManager.getLookAndFeel().getClass().getName().contains(lnfName);
+        }
         return !(_installedLookAndFeels.containsKey(lnfName)
                 && (_installedLookAndFeels.get(lnfName) == null || _installedLookAndFeels.get(lnfName).equals(LAF_NOT_INSTALLED)))
                 && isAssignableFrom(lnfName, UIManager.getLookAndFeel().getClass());
