@@ -911,13 +911,13 @@ public class LookAndFeelFactory implements ProductNames {
     /**
      * Checks if the L&F is the L&F or a subclass of the L&F.
      *
-     * @param lnfName the L&F name.
+     * @param lnf the full class name of the L&F (including the package).
      * @return true or false.
      */
-    public static boolean isLnfInUse(String lnfName) {
-        return !(_installedLookAndFeels.containsKey(lnfName)
-                && (_installedLookAndFeels.get(lnfName) == null || _installedLookAndFeels.get(lnfName).equals(LAF_NOT_INSTALLED)))
-                && isAssignableFrom(lnfName, UIManager.getLookAndFeel().getClass());
+    public static boolean isLnfInUse(String lnf) {
+        return !(_installedLookAndFeels.containsKey(lnf)
+                && (_installedLookAndFeels.get(lnf) == null || _installedLookAndFeels.get(lnf).equals(LAF_NOT_INSTALLED)))
+                && isAssignableFrom(lnf, UIManager.getLookAndFeel().getClass());
     }
 
     /**
