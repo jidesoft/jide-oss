@@ -1346,6 +1346,8 @@ public class LookAndFeelFactory implements ProductNames {
                             "GroupTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUI",
                             "NestedTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUI",
                             "EditableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaEditableTableHeaderUI",
+                            "TableHeader.autoFilterTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaAutoFilterTableHeaderUIDelegate",
+                            "TableHeader.nestedTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUIDelegate",
                             "TableHeader.groupTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUIDelegate",
                             "ExComboBoxUI", "com.jidesoft.plaf.synthetica.SyntheticaExComboBoxUI",
 

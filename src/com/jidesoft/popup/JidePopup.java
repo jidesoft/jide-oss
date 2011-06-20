@@ -1308,7 +1308,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void installBorder() {
-        if (getPopupBorder() != null) {
+        if (getPopupBorder() != null && (!(_resizableSupport instanceof Component) || getPopupBorder().getBorderInsets((Component) _resizableSupport) != null)) {
             if (isResizable()) {
                 _resizableSupport.getResizable().setResizableCorners(Resizable.ALL);
             }
@@ -1335,7 +1335,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     _resizableSupport.getResizable().setResizableCorners(Resizable.NONE);
                 }
                 if (!CLIENT_PROPERTY_VALUE_POPUP_TYPE_COMBOBOX.equals(getClientProperty(CLIENT_PROPERTY_POPUP_TYPE))) {
-                    _resizableSupport.setBorder(UIDefaultsLookup.getBorder("PopupMenu.border"));
+                    Border border = UIDefaultsLookup.getBorder("PopupMenu.border");
+                    if (border != null && (!(_resizableSupport instanceof Component) || border.getBorderInsets((Component) _resizableSupport) != null)) {
+                        _resizableSupport.setBorder(border);
+                    }
                 }
             }
         }
