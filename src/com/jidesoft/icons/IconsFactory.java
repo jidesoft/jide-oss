@@ -149,6 +149,10 @@ public class IconsFactory {
      */
     public static ImageIcon getImageIcon(Class<?> clazz, String fileName) {
         String id = clazz.getName() + ":" + fileName;
+        Object iconInUIDefaults = UIManager.getDefaults().get(id);
+        if (iconInUIDefaults instanceof ImageIcon) {
+            return (ImageIcon) iconInUIDefaults;
+        }
         Icon saved = icons.get(id);
         if (saved != null)
             return (ImageIcon) saved;
@@ -170,6 +174,10 @@ public class IconsFactory {
      */
     public static ImageIcon findImageIcon(Class<?> clazz, String fileName) throws IOException {
         String id = clazz.getName() + ":" + fileName;
+        Object iconInUIDefaults = UIManager.getDefaults().get(id);
+        if (iconInUIDefaults instanceof ImageIcon) {
+            return (ImageIcon) iconInUIDefaults;
+        }
         ImageIcon saved = icons.get(id);
         if (saved != null)
             return saved;

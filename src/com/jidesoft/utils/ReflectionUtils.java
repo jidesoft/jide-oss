@@ -6,6 +6,7 @@
 
 package com.jidesoft.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
@@ -170,5 +171,33 @@ public class ReflectionUtils {
     public static Object callStatic(Class<?> thisClass, String methodName, Class<?>[] argTypes, Object[] args) throws Exception {
         Method method = thisClass.getMethod(methodName, argTypes);
         return method.invoke(null, args);
+    }
+
+    /**
+     * Instantiate an object based on the class name.
+     *
+     * @param className the class name
+     * @param types     the class types for the constructor
+     * @param args      the constructor values
+     * @return the object instance. null if any exception occurs.
+     */
+    public static Object createInstance(String className, Class<?>[] types, Object[] args) {
+        Object instantiation = null;
+        // try default class
+        try {
+            Class<?> cls = Class.forName(className);
+            if (types != null && types.length != 0) {
+                Constructor<?> constructor = cls.getConstructor(types);
+                instantiation = constructor.newInstance(args);
+            }
+            else {
+                instantiation = cls.newInstance();
+            }
+        }
+        catch (Exception e) {
+            // null
+        }
+
+        return instantiation;
     }
 }

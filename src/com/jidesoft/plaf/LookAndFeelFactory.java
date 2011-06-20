@@ -1341,8 +1341,12 @@ public class LookAndFeelFactory implements ProductNames {
 
                 if ((products & PRODUCT_GRIDS) != 0) {
                     Object[] uiDefaults = {
+                            "SortableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaSortableTableHeaderUI",
+                            "AutoFilterTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaAutoFilterTableHeaderUI",
+                            "GroupTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUI",
                             "NestedTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUI",
                             "EditableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaEditableTableHeaderUI",
+                            "TableHeader.groupTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUIDelegate",
                             "ExComboBoxUI", "com.jidesoft.plaf.synthetica.SyntheticaExComboBoxUI",
 
                             "List.focusInputMap",

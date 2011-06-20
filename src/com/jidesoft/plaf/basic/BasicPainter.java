@@ -852,6 +852,22 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         g.setColor(oldColor);
     }
 
+    public Insets getSortableTableHeaderColumnCellDecoratorInsets(JComponent c, Graphics g, Rectangle rect, int orientation, int state, int sortOrder, Icon sortIcon, int orderIndex, Color indexColor, boolean paintIndex) {
+        int iconWidth = sortIcon == null ? 0 : sortIcon.getIconWidth();
+        int textWidthAndGap = 0;
+        if (paintIndex && orderIndex != -1) {
+            Font oldFont = g.getFont();
+            Font font = g.getFont().deriveFont(Font.PLAIN, oldFont.getSize() - 3);
+            String str = "" + (orderIndex + 1);
+            int textWidth = SwingUtilities.computeStringWidth(c.getFontMetrics(font), str);
+            textWidthAndGap = ARROW_TEXT_GAP + textWidth;
+        }
+        if (shouldDisplayOnTop() || textWidthAndGap + iconWidth == 0) {
+            return null;
+        }
+        return new Insets(0, 0, 0, textWidthAndGap + iconWidth);
+    }
+
     public void paintSortableTableHeaderColumn(JComponent c, Graphics g, Rectangle rect, int orientation, int state, int sortOrder, Icon sortIcon, int orderIndex, Color indexColor, boolean paintIndex) {
         int iconHeight = sortIcon == null ? 0 : sortIcon.getIconHeight();
         int iconWidth = sortIcon == null ? 0 : sortIcon.getIconWidth();
