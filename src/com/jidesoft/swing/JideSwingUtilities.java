@@ -3704,20 +3704,25 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Removes duplicate separators if any. This can be used when you remove some menu items and leave duplicate
-     * separators on the UI.
+     * Removes extra separators, if any. This can be used when you remove some menu items and leave extra separators on
+     * the UI.
      *
      * @param popup the popup menu.
      */
-    public static void removeDuplicateSeparators(JPopupMenu popup) {
+    public static void removeExtraSeparators(JPopupMenu popup) {
         Component[] components = popup.getComponents();
         if (components.length <= 1) {
             return;
         }
-        for (int i = 1; i < components.length; i++) {
+        for (int i = 0; i < components.length; i++) {
             Component component = components[i];
-            if (component instanceof JSeparator && components[i - 1] instanceof JSeparator) {
-                popup.remove(component);
+            if (component instanceof JSeparator) {
+                if (i == 0 || i == components.length - 1) { // if the separator is the first one or the last one, remove it because the separator is not necessary here
+                    popup.remove(component);
+                }
+                else if (components[i - 1] instanceof JSeparator) {
+                    popup.remove(component);
+                }
             }
         }
     }
