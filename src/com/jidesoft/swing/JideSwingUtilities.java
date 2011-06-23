@@ -858,7 +858,8 @@ public class JideSwingUtilities implements SwingConstants {
          * #condition(java.awt.Component)} returns true.
          *
          * @param c the component
-         * @return the component that will be returned from {@link com.jidesoft.swing.JideSwingUtilities#getRecursively(java.awt.Component,com.jidesoft.swing.JideSwingUtilities.GetHandler)}.
+         * @return the component that will be returned from {@link com.jidesoft.swing.JideSwingUtilities#getRecursively(java.awt.Component,
+         *         com.jidesoft.swing.JideSwingUtilities.GetHandler)}.
          */
         Component action(Component c);
     }
@@ -902,6 +903,58 @@ public class JideSwingUtilities implements SwingConstants {
             for (Component child : children) {
                 setRecursively0(child, handler);
             }
+        }
+    }
+
+    /**
+     * Gets the first component inside the specified container that has the specified name.
+     *
+     * @param c    the container
+     * @param name the name of the component
+     * @return the component. Null if not found.
+     */
+    public static Component findFirstComponentByName(final Container c, final String name) {
+        if (name != null && name.trim().length() != 0) {
+            return getRecursively(c, new GetHandler() {
+                @Override
+                public boolean condition(Component c) {
+                    return name.equals(c.getName());
+                }
+
+                @Override
+                public Component action(Component c) {
+                    return c;
+                }
+            });
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the first component inside the specified container that has the specified class.
+     *
+     * @param c     the container
+     * @param clazz the class of the component
+     * @return the component. Null if not found.
+     */
+    public static Component findFirstComponentByClass(final Container c, final Class<?> clazz) {
+        if (clazz != null) {
+            return getRecursively(c, new GetHandler() {
+                @Override
+                public boolean condition(Component c) {
+                    return c.getClass().isAssignableFrom(clazz);
+                }
+
+                @Override
+                public Component action(Component c) {
+                    return c;
+                }
+            });
+        }
+        else {
+            return null;
         }
     }
 
@@ -1732,7 +1785,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Disables the double buffered flag of the component and its children. The return map contains the components that
      * were double buffered. After this call, you can then restore the double buffered flag using {@link
-     * #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from this method.
+     * #restoreDoubleBuffered(java.awt.Component, java.util.Map)} using the map that is returned from this method.
      *
      * @param c the parent container.
      * @return the map that contains all components that were double buffered.
@@ -1761,7 +1814,7 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Enables the double buffered flag of the component and its children. The return map contains the components that
      * weren't double buffered. After this call, you can then restore the double buffered flag using {@link
-     * #restoreDoubleBuffered(java.awt.Component,java.util.Map)} using the map that is returned from this method.
+     * #restoreDoubleBuffered(java.awt.Component, java.util.Map)} using the map that is returned from this method.
      *
      * @param c the parent container.
      * @return the map that contains all components that weren't double buffered.
@@ -1968,7 +2021,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @param c the component
      * @param g the Graphics instance
      * @return the old hints. You will need this value as the third parameter in {@link
-     *         #restoreAntialiasing(java.awt.Component,java.awt.Graphics,Object)}.
+     *         #restoreAntialiasing(java.awt.Component, java.awt.Graphics, Object)}.
      */
     public static Object setupAntialiasing(Component c, Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -1993,7 +2046,7 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param c
      * @param g
-     * @param oldHints the value returned from {@link #setupAntialiasing(java.awt.Component,java.awt.Graphics)}.
+     * @param oldHints the value returned from {@link #setupAntialiasing(java.awt.Component, java.awt.Graphics)}.
      */
     public static void restoreAntialiasing(Component c, Graphics g, Object oldHints) {
         Graphics2D g2d = (Graphics2D) g;
@@ -2012,7 +2065,7 @@ public class JideSwingUtilities implements SwingConstants {
      *
      * @param g
      * @return the old hints. You will need this value as the third parameter in {@link
-     *         #restoreShapeAntialiasing(java.awt.Graphics,Object)}.
+     *         #restoreShapeAntialiasing(java.awt.Graphics, Object)}.
      */
     public static Object setupShapeAntialiasing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -2083,12 +2136,12 @@ public class JideSwingUtilities implements SwingConstants {
     public static void registerTabKey(Container container) {
         if (container instanceof JComponent) {
             ((JComponent) container).registerKeyboardAction(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    // JDK 1.3 Porting Hint
-                    // comment out for now
-                    DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
-                }
-            }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
+                        public void actionPerformed(ActionEvent e) {
+                            // JDK 1.3 Porting Hint
+                            // comment out for now
+                            DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+                        }
+                    }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
         }
         else {
             for (int i = 0; i < container.getComponentCount(); i++) {
@@ -2097,12 +2150,12 @@ public class JideSwingUtilities implements SwingConstants {
                 // change to isFocusTraversable()
                 if (c instanceof JComponent && c.isFocusable()) {
                     ((JComponent) container).registerKeyboardAction(new AbstractAction() {
-                        public void actionPerformed(ActionEvent e) {
-                            // JDK 1.3 Porting Hint
-                            // comment out for now
-                            DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
-                        }
-                    }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
+                                public void actionPerformed(ActionEvent e) {
+                                    // JDK 1.3 Porting Hint
+                                    // comment out for now
+                                    DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+                                }
+                            }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
                 }
             }
         }
