@@ -3704,6 +3704,25 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
+     * Removes duplicate separators if any. This can be used when you remove some menu items and leave duplicate
+     * separators on the UI.
+     *
+     * @param popup the popup menu.
+     */
+    public static void removeDuplicateSeparators(JPopupMenu popup) {
+        Component[] components = popup.getComponents();
+        if (components.length <= 1) {
+            return;
+        }
+        for (int i = 1; i < components.length; i++) {
+            Component component = components[i];
+            if (component instanceof JSeparator && components[i - 1] instanceof JSeparator) {
+                popup.remove(component);
+            }
+        }
+    }
+
+    /**
      * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
      * in case the L&F doesn't respect the opaque flag.
      *
