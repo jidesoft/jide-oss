@@ -24,7 +24,7 @@ public class TristateButtonModel extends JToggleButton.ToggleButtonModel {
      */
     public final static int MIXED = 1 << 7;
 
-    TristateButtonModel() {
+    public TristateButtonModel() {
     }
 
     public void setState(int state) {
