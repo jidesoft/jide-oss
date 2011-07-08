@@ -683,7 +683,10 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             str = str + blankString(width - str.length(), (byte) 32);
         }
         strArray.add(str);
-        return strArray.toArray(new String[1]);
+        if (strArray.size() == 1) {
+            return new String[] {strArray.get(0).trim()};
+        }
+        return strArray.toArray(new String[strArray.size()]);
     }
 
     private static String blankString(int width, byte b) {
