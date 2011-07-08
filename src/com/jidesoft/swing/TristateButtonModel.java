@@ -147,7 +147,7 @@ public class TristateButtonModel extends JToggleButton.ToggleButtonModel {
     }
 
     public void setMixed(boolean b) {
-        if ((isMixed() == b) || !isEnabled()) {
+        if ((isMixed() == b)) {
             return;
         }
 
