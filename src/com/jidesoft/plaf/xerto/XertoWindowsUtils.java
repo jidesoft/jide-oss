@@ -19,6 +19,7 @@ import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.HeaderCellBorder;
 import com.jidesoft.plaf.vsnet.ResizeFrameBorder;
 import com.jidesoft.plaf.vsnet.VsnetLookAndFeelExtension;
+import com.jidesoft.plaf.windows.WindowsIconFactory;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.SecurityUtils;
@@ -311,6 +312,8 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
                         "ENTER", "pressed",
                         "released ENTER", "released"   // no last two for metal
                 }),
+
+                "TristateCheckBox.icon", WindowsIconFactory.getCheckBoxIcon(),
 
                 "JideSplitPane.dividerSize", 3,
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
