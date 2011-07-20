@@ -9,7 +9,7 @@ package com.jidesoft.utils;
 public class HtmlUtils {
     public static final String HTML_START = "<html>";
     public static final String HTML_END = "</html>";
-    public static final String HTML_LINE_BREAK = "</br>";
+    public static final String HTML_LINE_BREAK = "<br>";
 
     public static String formatHtmlSubString(String text) {
         if (text != null) {
