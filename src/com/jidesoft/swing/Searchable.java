@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -59,7 +60,7 @@ import java.util.regex.PatternSyntaxException;
  * Even though it's possible to implement full regular expression support, we don't want to do that. The reason is the
  * regular expression is very complex, it's probably not a good idea to let user type in such a complex expression in a
  * small popup window. However if your user is very familiar with regular expression, you can add the feature to
- * <code>Searchable</code>. All you need to do is to override {@link #compare(String,String)} method and implement by
+ * <code>Searchable</code>. All you need to do is to override {@link #compare(String, String)} method and implement by
  * yourself.
  * <p/>
  * As this is an abstract class, please refer to to javadoc of {@link ListSearchable},{@link TreeSearchable}, and {@link
@@ -506,9 +507,9 @@ public abstract class Searchable {
         getComponent().addFocusListener(_focusListener);
         addSearchableListener(new SearchableListener() {
             public void searchableEventFired(SearchableEvent e) {
-                if(e.getID() == SearchableEvent.SEARCHABLE_START) {
+                if (e.getID() == SearchableEvent.SEARCHABLE_START) {
                     if (getPopupTimeout() > 0) {
-                        _popupTimer= new Timer(getPopupTimeout(), new ActionListener() {
+                        _popupTimer = new Timer(getPopupTimeout(), new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 if (isPopupVisible()) {
                                     hidePopup();
@@ -520,7 +521,7 @@ public abstract class Searchable {
                     }
                 }
                 else if (_popupTimer != null) {
-                    if(e.getID() == SearchableEvent.SEARCHABLE_END) {
+                    if (e.getID() == SearchableEvent.SEARCHABLE_END) {
                         _popupTimer.stop();
                     }
                     else {
@@ -685,7 +686,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks if the element string matches the searching text. Different from {@link #compare(Object,String)}, this
+     * Checks if the element string matches the searching text. Different from {@link #compare(Object, String)}, this
      * method is after the element has been converted to string using {@link #convertElementToString(Object)}.
      *
      * @param text          the text to be checked
@@ -764,8 +765,8 @@ public abstract class Searchable {
     /**
      * Highlight all matching cases in the target.
      * <p/>
-     * In default implementation, it will just search all texts in the target to highlight all. If you have a really huge
-     * text to search, you may want to override this method to have a lazy behavior on visible areas only.
+     * In default implementation, it will just search all texts in the target to highlight all. If you have a really
+     * huge text to search, you may want to override this method to have a lazy behavior on visible areas only.
      */
     protected void highlightAll() {
         int firstIndex = -1;
@@ -800,7 +801,7 @@ public abstract class Searchable {
      * this method to notify your Searchable that the highlightAll button is to be released.
      */
     protected void cancelHighlightAll() {
-        
+
     }
 
     /**
@@ -1804,6 +1805,7 @@ public abstract class Searchable {
      * Gets the timeout for showing the popup.
      *
      * @return the popup timeout.
+     *
      * @see #setPopupTimeout(int)
      */
     public int getPopupTimeout() {
@@ -1820,5 +1822,22 @@ public abstract class Searchable {
      */
     public void setPopupTimeout(int popupTimeout) {
         _popupTimeout = popupTimeout;
+    }
+
+    /**
+     * <code>findAll</code> uses the Searchable to find all the element indices that match the string.
+     *
+     * @param s the string to be found.
+     * @return the list of indices.
+     */
+    public java.util.List<Integer> findAll(String s) {
+        java.util.List<Integer> list = new ArrayList<Integer>();
+        for (int i = 0, count = getElementCount(); i < count; i++) {
+            Object elementAt = getElementAt(i);
+            if (compare(elementAt, s)) {
+                list.add(i);
+            }
+        }
+        return list;
     }
 }
