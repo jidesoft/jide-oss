@@ -864,6 +864,9 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 Font oldFont = g.getFont();
                 font = g.getFont().deriveFont(Font.PLAIN, oldFont.getSize() - 3);
             }
+            else if (c.getFont() != null) {
+                font = c.getFont().deriveFont(Font.PLAIN, c.getFont().getSize() - 3);
+            }
             else {
                 font = Font.getFont("Arial");
             }
