@@ -1825,19 +1825,30 @@ public abstract class Searchable {
     }
 
     /**
-     * <code>findAll</code> uses the Searchable to find all the element indices that match the string.
+     * <code>findAll</code> uses the Searchable to find all the element indices that match the searching string.
      *
-     * @param s the string to be found.
+     * @param s the searching string.
      * @return the list of indices.
      */
     public java.util.List<Integer> findAll(String s) {
+        String str = isCaseSensitive() ? s : s.toLowerCase();
         java.util.List<Integer> list = new ArrayList<Integer>();
         for (int i = 0, count = getElementCount(); i < count; i++) {
             Object elementAt = getElementAt(i);
-            if (compare(elementAt, s)) {
+            if (compare(elementAt, str)) {
                 list.add(i);
             }
         }
         return list;
+    }
+
+    /**
+     * Gets the element at the specified index as string using {@link #convertElementToString(Object)} method.
+     *
+     * @param index the index.
+     * @return the element at the index converted to string.
+     */
+    public String getElementAtAsString(int index) {
+        return convertElementToString(getElementAt(index));
     }
 }
