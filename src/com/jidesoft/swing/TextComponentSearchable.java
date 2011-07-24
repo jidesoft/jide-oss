@@ -292,7 +292,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
     @Override
     protected boolean isActivateKey(KeyEvent e) {
         if (_component instanceof JTextComponent && ((JTextComponent) _component).isEditable()) {
-            return (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F && (KeyEvent.CTRL_MASK & e.getModifiers()) != 0);
+            return (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F && JideSwingUtilities.isMenuShortcutKeyDown(e));
         }
         else {
             return super.isActivateKey(e);
