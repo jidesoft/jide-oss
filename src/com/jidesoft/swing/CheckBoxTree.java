@@ -264,15 +264,29 @@ public class CheckBoxTree extends JTree {
         _selectPartialOnToggling = selectPartialOnToggling;
     }
 
+    /**
+     * CheckBoxTree's mouse event handler, key event handler and tree selection event handler.
+     */
     protected static class Handler implements MouseListener, KeyListener, TreeSelectionListener {
         protected CheckBoxTree _tree;
         int _hotspot = new JCheckBox().getPreferredSize().width;
         private int _toggleCount = -1;
 
+        /**
+         * The constructor.
+         *
+         * @param tree the CheckBoxTree
+         */
         public Handler(CheckBoxTree tree) {
             _tree = tree;
         }
 
+        /**
+         * Gets the tree path according to the mouse event.
+         *
+         * @param e the mouse event
+         * @return the tree path the mouse is over. null if no tree node is under the mouse position.
+         */
         protected TreePath getTreePathForMouseEvent(MouseEvent e) {
             if (!SwingUtilities.isLeftMouseButton(e)) {
                 return null;
@@ -294,6 +308,13 @@ public class CheckBoxTree extends JTree {
             }
         }
 
+        /**
+         * Checks if the mouse event happens for the tree path.
+         *
+         * @param e    the mouse event
+         * @param path the tree path
+         * @return true if the mouse event need change the state of the tree node. Otherwise false.
+         */
         protected boolean clicksInCheckBox(MouseEvent e, TreePath path) {
             if (!_tree.isCheckBoxVisible(path)) {
                 return false;
@@ -384,6 +405,9 @@ public class CheckBoxTree extends JTree {
             _tree.treeDidChange();
         }
 
+        /**
+         * Toggles the selected paths' selection state.
+         */
         protected void toggleSelections() {
             TreePath[] treePaths = _tree.getSelectionPaths();
             toggleSelections(treePaths);
