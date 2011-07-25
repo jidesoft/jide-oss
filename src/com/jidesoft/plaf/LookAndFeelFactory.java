@@ -386,6 +386,7 @@ public class LookAndFeelFactory implements ProductNames {
     private static List<UIDefaultsCustomizer> _uiDefaultsCustomizers = new Vector<UIDefaultsCustomizer>();
     private static List<UIDefaultsInitializer> _uiDefaultsInitializers = new Vector<UIDefaultsInitializer>();
     private static Map<String, String> _installedLookAndFeels = new HashMap<String, String>();
+    private static boolean _installLookAndFeelOnChecking = true;
 
     public static final String LAF_INSTALLED = "installed";
     public static final String LAF_NOT_INSTALLED = "not installed";
@@ -893,7 +894,7 @@ public class LookAndFeelFactory implements ProductNames {
         if (installed != null) {
             return LAF_INSTALLED.equals(installed);
         }
-        return loadLnfClass(lnfName) != null;
+        return isInstallLookAndFeelOnChecking() && loadLnfClass(lnfName) != null;
     }
 
     public static ClassLoader getUIManagerClassLoader() {
@@ -1764,6 +1765,32 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isCurrentLnfDecorated() {
         return !isLnfInstalled(SYNTHETICA_LNF) || !isLnfInUse(SYNTHETICA_LNF);
+    }
+
+    /**
+     * Gets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
+     *
+     * @return true if JIDE will try to load the LnF class. Otherwise false
+     * @see #setInstallLookAndFeelOnChecking(boolean)
+     * @since 3.1.2
+     */
+    public static boolean isInstallLookAndFeelOnChecking() {
+        return _installLookAndFeelOnChecking;
+    }
+
+    /**
+     * Sets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
+     * <p/>
+     * By default, this flag is true to keep previous behavior. However, it may cause unexpected class loading, which may
+     * be a performance issue for web start applications. If this is a concern to your application, please try to set
+     * this flag to false and invoke {@link #setLnfInstalled(String, boolean)} to make {@link #isLnfInstalled(String)}
+     * returns correct value as you wish.
+     *
+     * @param installLookAndFeelOnChecking the flag
+     * @since 3.1.2
+     */
+    public static void setInstallLookAndFeelOnChecking(boolean installLookAndFeelOnChecking) {
+        _installLookAndFeelOnChecking = installLookAndFeelOnChecking;
     }
 
     public static void main(String[] args) {
