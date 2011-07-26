@@ -33,6 +33,20 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         return styledLabelUI;
     }
 
+    class StyledText {
+        StyleRange styleRange;
+        String text;
+
+        public StyledText(String text) {
+            this.text = text;
+        }
+
+        public StyledText(String text, StyleRange styleRange) {
+            this.text = text;
+            this.styleRange = styleRange;
+        }
+    }
+
     private final List<StyledText> _styledTexts = new ArrayList<StyledText>();
 
     @Override
