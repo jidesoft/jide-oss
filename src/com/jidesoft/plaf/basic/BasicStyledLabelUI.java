@@ -33,20 +33,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         return styledLabelUI;
     }
 
-    class StyledText {
-        StyleRange styleRange;
-        String text;
-
-        public StyledText(String text) {
-            this.text = text;
-        }
-
-        public StyledText(String text, StyleRange styleRange) {
-            this.text = text;
-            this.styleRange = styleRange;
-        }
-    }
-
     private final List<StyledText> _styledTexts = new ArrayList<StyledText>();
 
     @Override
@@ -293,7 +279,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     stop = true;
                 }
                 else if (i < _styledTexts.size() - 1) {
-                    BasicStyledLabelUI.StyledText nextStyledText = _styledTexts.get(i + 1);
+                    StyledText nextStyledText = _styledTexts.get(i + 1);
                     String nextText = nextStyledText.text;
                     StyleRange nextStyle = nextStyledText.styleRange;
                     int size = (nextStyle != null &&
