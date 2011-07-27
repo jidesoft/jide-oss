@@ -637,7 +637,10 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
             }
-            uiDefaults.put("Theme.painter", BasicPainter.getInstance());
+            if (uiDefaults.get("Theme.painter") == null) {
+                uiDefaults.put("Theme.painter", BasicPainter.getInstance());
+            }
+
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
