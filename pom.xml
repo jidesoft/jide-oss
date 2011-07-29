@@ -4,7 +4,7 @@
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
-    <version>3.1.1</version>
+    <version>3.2-pre</version>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://jide-oss.dev.java.net</url>
     <licenses>
@@ -67,8 +67,11 @@
         </plugins>
     </build>
     <profiles>
-        <profile><id>aqua</id>
-            <activation><activeByDefault>true</activeByDefault></activation>
+        <profile>
+            <id>aqua</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>aqua_ui</groupId>
