@@ -9,6 +9,7 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.Vector;
 
@@ -49,6 +50,10 @@ public class StyledLabel extends JLabel {
      * The list of StyleRanges.
      */
     private List<StyleRange> _styleRanges;
+    private boolean _lineWrap;
+    private int _rows;
+    private int _columns;
+    private int _rowGap;
 
     private boolean _ignoreColorSettings;
 
@@ -56,26 +61,32 @@ public class StyledLabel extends JLabel {
     public static final String PROPERTY_IGNORE_COLOR_SETTINGS = "ignoreColorSettings";
 
     public StyledLabel() {
+        setMaximumSize(null);
     }
 
     public StyledLabel(Icon image) {
         super(image);
+        setMaximumSize(null);
     }
 
     public StyledLabel(Icon image, int horizontalAlignment) {
         super(image, horizontalAlignment);
+        setMaximumSize(null);
     }
 
     public StyledLabel(String text) {
         super(text);
+        setMaximumSize(null);
     }
 
     public StyledLabel(String text, int horizontalAlignment) {
         super(text, horizontalAlignment);
+        setMaximumSize(null);
     }
 
     public StyledLabel(String text, Icon icon, int horizontalAlignment) {
         super(text, icon, horizontalAlignment);
+        setMaximumSize(null);
     }
 
     /**
@@ -212,5 +223,103 @@ public class StyledLabel extends JLabel {
             _ignoreColorSettings = ignoreColorSettings;
             firePropertyChange(PROPERTY_IGNORE_COLOR_SETTINGS, old, ignoreColorSettings);
         }
+    }
+
+    @Override
+    public void setMaximumSize(Dimension maximumSize) {
+        if (maximumSize == null) {
+            super.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        }
+        else {
+            super.setMaximumSize(maximumSize);
+        }
+    }
+
+    /**
+     * Gets the flag indicating if the line should be automatically wrapped when the column width is limited.
+     *
+     * @return true if line wrap is needed. Otherwise false.
+     * @since 3.1.2
+     */
+    public boolean isLineWrap() {
+        return _lineWrap;
+    }
+
+    /**
+     * Sets the flag indicating if the line should be automatically wrapped when the column width is limited.
+     *
+     * @param lineWrap the flag
+     * @since 3.1.2
+     */
+    public void setLineWrap(boolean lineWrap) {
+        _lineWrap = lineWrap;
+    }
+
+    /**
+     * Gets the maximum row count to wrap the {@link StyledLabel}.
+     *
+     * @return the row count.
+     * @see #setRows(int)
+     */
+    public int getRows() {
+        return _rows;
+    }
+
+    /**
+     * Sets the maximum row count to wrap the {@link StyledLabel}.
+     * <p/>
+     * By default, the value is 0. Any non-positive value is deemed as not configured.
+     * <p/>
+     * This has lower priority than {@link #setColumns(int)} and {@link #getMaximumSize()}.
+     *
+     * @param rows the row count
+     */
+    public void setRows(int rows) {
+        _rows = rows;
+    }
+
+    /**
+     * Gets the maximum character count to wrap the {@link StyledLabel}.
+     *
+     * @return the character count.
+     * @see #setColumns(int)
+     */
+    public int getColumns() {
+        return _columns;
+    }
+
+    /**
+     * Sets the maximum character count to wrap the {@link StyledLabel}.
+     * <p/>
+     * By default, the value is 0. Any non-positive value is deemed as not configured.
+     * <p/>
+     * This has higher priority than {@link #setRows(int)}. However, if the width is wider than {@link #getMaximumSize()},
+     * maximum size will be respected.
+     *
+     * @param columns the character count
+     */
+    public void setColumns(int columns) {
+        _columns = columns;
+    }
+
+    /**
+     * Gets the gap pixels between rows.
+     *
+     * @return the gap pixels.
+     * @see #setRowGap(int)
+     */
+    public int getRowGap() {
+        return _rowGap;
+    }
+
+    /**
+     * Sets the gap pixels between rows.
+     * <p/>
+     * By default, the value is 0.
+     *
+     * @param rowGap the gap pixels.
+     */
+    public void setRowGap(int rowGap) {
+        _rowGap = rowGap;
     }
 }
