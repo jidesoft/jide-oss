@@ -53,7 +53,7 @@ import java.util.StringTokenizer;
  * reading from disk again.
  * <p/>
  * There are a few methods on IconsFactory to create difference variation from the original icon. For example, {@link
- * #getDisabledImageIcon(Class,String)} will get the imaage icon with disabled effect.
+ * #getDisabledImageIcon(Class, String)} will get the imaage icon with disabled effect.
  * <p/>
  * We also suggest you to use the template below to create a number of IconsFactory classes in your application. The
  * idea is that you should have one for each functional area so that all your image files can be grouped into each
@@ -140,8 +140,20 @@ public class IconsFactory {
      * Please note, getImageIcon will print out error message to stderr if image is not found. The reason we did so is
      * because we want you to make sure all image files are there in your application. If you ever see the error
      * message, you should correct it before shipping the product. But if you just want to test if the image file is
-     * there, you don't want any error message print out. If so, you can use {@link #findImageIcon(Class,String)}
+     * there, you don't want any error message print out. If so, you can use {@link #findImageIcon(Class, String)}
      * method. It will throw IOException when image is not found.
+     * <p/>
+     * We used this method to create all the icons we used in JIDE's code. If you ever want to use your own icon instead
+     * of JIDE's default icon, you just need to put it onto UIManager. For example, AutoFilterTableHeader uses an icon
+     * on the table header. This is how it was called. <br/> <code> IconsFactory.getImageIcon(AutoFilterTableHeader.class,
+     * "icons/filterYes_over.png") </code>
+     * <p/>
+     * The key for this icon is "com.jidesoft.grid.AutoFilterTableHeader:icons/filterYes_over.png". So you can call the
+     * code below to register your own icon. <p/> <code> UIManager.put("com.jidesoft.grid.AutoFilterTableHeader:icons/filterYes_over.png",
+     * your_new_icon); </code>
+     * <p/>
+     * If you don't know what key to use, just put a breakpoint at this method, run it to inspect the id variable
+     * below.
      *
      * @param clazz    the Class<?>
      * @param fileName relative file name
