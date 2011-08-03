@@ -34,9 +34,10 @@ public class NumericRange extends AbstractNumericRange<Double> {
         _min = Math.min(min, max);
         _max = Math.max(min, max);
     }
-    
+
     /**
      * Creates a copy of the supplied NumericRange
+     *
      * @param numericRange the NumericRange instance to copy
      */
     public NumericRange(NumericRange numericRange) {
@@ -141,18 +142,30 @@ public class NumericRange extends AbstractNumericRange<Double> {
     public boolean contains(Double x) {
         return x != null && x >= _min && x <= _max;
     }
-    
+
     /**
-     * Creates a new NumericRange by enlarging this numeric range about its mid-point.
-     * For example to make it 10% bigger, use a stretch factor of 1.1.
-     * Note that this method can also be used to shrink a NumericRange.
+     * Creates a new NumericRange by enlarging this numeric range about its mid-point. For example to make it 10%
+     * bigger, use a stretch factor of 1.1. Note that this method can also be used to shrink a NumericRange.
+     *
      * @param stretchFactor the multiplication factor for the enlargement
      * @return a new NumericRange
      */
     public NumericRange stretch(double stretchFactor) {
-        double mid = (_max + _min)/2.0;
-        double halfSize = size()/2.0;
-        return new NumericRange(mid - halfSize * stretchFactor, mid + halfSize*stretchFactor);
+        return stretch(stretchFactor, stretchFactor);
+    }
+
+    /**
+     * Creates a new NumericRange by enlarging this numeric range about its mid-point. For example to make it 10%
+     * bigger, use a stretch factor of 1.1. Note that this method can also be used to shrink a NumericRange.
+     *
+     * @param stretchFactorForUpper the multiplication factor for the enlargement for the upper range
+     * @param stretchFactorForLower the multiplication factor for the enlargement for the lower range
+     * @return a new NumericRange
+     */
+    public NumericRange stretch(double stretchFactorForUpper, double stretchFactorForLower) {
+        double mid = (_max + _min) / 2.0;
+        double halfSize = size() / 2.0;
+        return new NumericRange(mid - halfSize * stretchFactorForLower, mid + halfSize * stretchFactorForUpper);
     }
 
     /**
@@ -172,5 +185,30 @@ public class NumericRange extends AbstractNumericRange<Double> {
     @Override
     public String toString() {
         return String.format("#<NumericRange min=%f max=%f>", _min, _max);
+    }
+
+    /**
+     * Creates a new TimeRange as the union of two existing TimeRanges. The date format of the first time range is
+     * retained in the returned result.
+     *
+     * @param r1 the first TimeRange
+     * @param r2 the second TimeRange
+     * @return the union of the supplied TimeRanges
+     */
+    public static NumericRange union(NumericRange r1, NumericRange r2) {
+        if (r1 == null) {
+            return r2;
+        }
+        else if (r2 == null) {
+            return r1;
+        }
+        double r1Min = r1._min;
+        double r2Min = r2._min;
+        double r1Max = r1._max;
+        double r2Max = r2._max;
+
+        double min = Math.min(r1Min, r2Min);
+        double max = Math.max(r1Max, r2Max);
+        return new NumericRange(min, max);
     }
 }
