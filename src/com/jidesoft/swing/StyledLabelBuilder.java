@@ -362,12 +362,15 @@ public class StyledLabelBuilder {
                 catch (NumberFormatException e) {
                     return false;
                 }
-                if (minRows > defaultRows) {
+                if (minRows > defaultRows || minRows < 0) {
                     if (subStrings[1].trim().length() > 0) {
-                        minRows = defaultRows;
+                        minRows = 0;
+                    }
+                    else if (minRows > defaultRows) {
+                        defaultRows = minRows;
                     }
                     else {
-                        defaultRows = minRows;
+                        minRows = 0;
                     }
                 }
             }
@@ -378,8 +381,8 @@ public class StyledLabelBuilder {
                 catch (NumberFormatException e) {
                     return false;
                 }
-                if (maxRows < defaultRows) {
-                    maxRows = defaultRows;
+                if (maxRows < defaultRows || maxRows < 0) {
+                    maxRows = 0;
                 }
             }
         }
@@ -402,8 +405,8 @@ public class StyledLabelBuilder {
                 catch (NumberFormatException e) {
                     return false;
                 }
-                if (minCols > defaultCols) {
-                    minCols = defaultCols;
+                if (minCols > defaultCols || minCols < 0) {
+                    minCols = 0;
                 }
             }
             if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
@@ -413,8 +416,8 @@ public class StyledLabelBuilder {
                 catch (NumberFormatException e) {
                     return false;
                 }
-                if (maxCols < defaultCols) {
-                    maxCols = defaultCols;
+                if (maxCols < defaultCols || maxCols < 0) {
+                    maxCols = 0;
                 }
             }
         }

@@ -872,7 +872,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             }
             String str = "" + (orderIndex + 1);
             int textWidth = SwingUtilities.computeStringWidth(c.getFontMetrics(font), str);
-            textWidthAndGap = ARROW_TEXT_GAP + textWidth;
+            textWidthAndGap = ARROW_TEXT_GAP + textWidth + H_GAP;
         }
         if (textWidthAndGap + iconWidth == 0) {
             return null;
