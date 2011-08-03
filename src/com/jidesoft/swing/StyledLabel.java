@@ -53,6 +53,10 @@ public class StyledLabel extends JLabel {
     private boolean _lineWrap;
     private int _rows;
     private int _columns;
+    private int _maxRows;
+    private int _maxColumns;
+    private int _minRows;
+    private int _minColumns;
     private int _rowGap;
 
     private boolean _ignoreColorSettings;
@@ -256,7 +260,7 @@ public class StyledLabel extends JLabel {
     }
 
     /**
-     * Gets the maximum row count to wrap the {@link StyledLabel}.
+     * Gets the default row count to wrap the {@link StyledLabel}.
      *
      * @return the row count.
      * @see #setRows(int)
@@ -266,7 +270,7 @@ public class StyledLabel extends JLabel {
     }
 
     /**
-     * Sets the maximum row count to wrap the {@link StyledLabel}.
+     * Sets the default row count to wrap the {@link StyledLabel}.
      * <p/>
      * By default, the value is 0. Any non-positive value is deemed as not configured.
      * <p/>
@@ -279,7 +283,7 @@ public class StyledLabel extends JLabel {
     }
 
     /**
-     * Gets the maximum character count to wrap the {@link StyledLabel}.
+     * Gets the default character count to wrap the {@link StyledLabel}.
      *
      * @return the character count.
      * @see #setColumns(int)
@@ -289,7 +293,7 @@ public class StyledLabel extends JLabel {
     }
 
     /**
-     * Sets the maximum character count to wrap the {@link StyledLabel}.
+     * Sets the default character count to wrap the {@link StyledLabel}.
      * <p/>
      * By default, the value is 0. Any non-positive value is deemed as not configured.
      * <p/>
@@ -321,5 +325,37 @@ public class StyledLabel extends JLabel {
      */
     public void setRowGap(int rowGap) {
         _rowGap = rowGap;
+    }
+
+    public int getMaxRows() {
+        return _maxRows;
+    }
+
+    public void setMaxRows(int maxRows) {
+        _maxRows = maxRows;
+    }
+
+    public int getMaxColumns() {
+        return _maxColumns;
+    }
+
+    public void setMaxColumns(int maxColumns) {
+        _maxColumns = maxColumns;
+    }
+
+    public int getMinRows() {
+        return _minRows;
+    }
+
+    public void setMinRows(int minRows) {
+        _minRows = minRows;
+    }
+
+    public int getMinColumns() {
+        return _minColumns;
+    }
+
+    public void setMinColumns(int minColumns) {
+        _minColumns = minColumns;
     }
 }

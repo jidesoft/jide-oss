@@ -291,7 +291,16 @@ public class StyledLabelBuilder {
         StringBuffer labelText = new StringBuffer(text.length);
         boolean escaped = false;
         label.clearStyleRanges();
-        for (int i = 0; i < text.length; i++) {
+        int endOfText = text.length;
+        for (int j = text.length - 1; j >= 0; j--) {
+            if (text[j] == '@') {
+                if (isGlobalConfiguration(label, text, j + 1)) {
+                    endOfText = j;
+                }
+                break;
+            }
+        }
+        for (int i = 0; i < endOfText; i++) {
             if (escaped) {
                 labelText.append(text[i]);
                 escaped = false;
@@ -319,6 +328,104 @@ public class StyledLabelBuilder {
             }
         }
         label.setText(labelText.toString());
+    }
+
+    private static boolean isGlobalConfiguration(StyledLabel label, char[] text, int offset) {
+        String globalString = new String(text, offset, text.length - offset);
+        String[] subStrings = globalString.split(":");
+        if (subStrings.length <= 0 || subStrings[0] == null) {
+            return false;
+        }
+        int defaultRows = 1;
+        int maxRows = 0;
+        int minRows = 0;
+        int defaultCols = 0;
+        int maxCols = 0;
+        int minCols = 0;
+        String property = subStrings[0].trim().toLowerCase();
+        if ("rows".equals(property) || "row".equals(property) || "r".equals(property)) {
+            if (subStrings.length > 4 || subStrings.length < 2) {
+                return false;
+            }
+            if (subStrings[1].trim().length() > 0) {
+                try {
+                    defaultRows = Integer.valueOf(subStrings[1]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+            if (subStrings.length >= 3 && subStrings[2].trim().length() > 0) {
+                try {
+                    minRows = Integer.valueOf(subStrings[2]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+                if (minRows > defaultRows) {
+                    if (subStrings[1].trim().length() > 0) {
+                        minRows = defaultRows;
+                    }
+                    else {
+                        defaultRows = minRows;
+                    }
+                }
+            }
+            if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
+                try {
+                    maxRows = Integer.valueOf(subStrings[3]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+                if (maxRows < defaultRows) {
+                    maxRows = defaultRows;
+                }
+            }
+        }
+        else if ("columns".equals(property) || "column".equals(property) || "col".equals(property) || "c".equals(property)) {
+            if (subStrings.length > 4 || subStrings.length < 2) {
+                return false;
+            }
+            if (subStrings[1].trim().length() > 0) {
+                try {
+                    defaultCols = Integer.valueOf(subStrings[1]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+            if (subStrings.length >= 3 && subStrings[2].trim().length() > 0) {
+                try {
+                    minCols = Integer.valueOf(subStrings[2]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+                if (minCols > defaultCols) {
+                    minCols = defaultCols;
+                }
+            }
+            if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
+                try {
+                    maxCols = Integer.valueOf(subStrings[3]);
+                }
+                catch (NumberFormatException e) {
+                    return false;
+                }
+                if (maxCols < defaultCols) {
+                    maxCols = defaultCols;
+                }
+            }
+        }
+        label.setLineWrap(true);
+        label.setRows(defaultRows);
+        label.setMaxRows(maxRows);
+        label.setMinRows(minRows);
+        label.setColumns(defaultCols);
+        label.setMaxColumns(maxCols);
+        label.setMinColumns(minCols);
+        return true;
     }
 
     /**

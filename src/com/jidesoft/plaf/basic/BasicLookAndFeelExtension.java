@@ -48,6 +48,7 @@ public class BasicLookAndFeelExtension implements LookAndFeelExtension {
             table.put("CellSpanTableUI", basicPackageName + "BasicCellSpanTableUI");
             table.put("TreeTableUI", basicPackageName + "BasicTreeTableUI");
             table.put("HierarchicalTableUI", basicPackageName + "BasicHierarchicalTableUI");
+            table.put("CellStyleTableHeaderUI", basicPackageName + "BasicCellStyleTableHeaderUI");
             table.put("SortableTableHeaderUI", basicPackageName + "BasicSortableTableHeaderUI");
             table.put("NestedTableHeaderUI", basicPackageName + "BasicNestedTableHeaderUI");
             table.put("EditableTableHeaderUI", basicPackageName + "BasicEditableTableHeaderUI");
