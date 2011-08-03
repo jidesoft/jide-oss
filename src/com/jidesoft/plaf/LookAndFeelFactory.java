@@ -1355,9 +1355,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "GroupTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUI",
                             "NestedTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUI",
                             "EditableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaEditableTableHeaderUI",
-                            "TableHeader.autoFilterTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaAutoFilterTableHeaderUIDelegate",
-                            "TableHeader.nestedTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUIDelegate",
-                            "TableHeader.groupTableHeaderUIDelegate", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUIDelegate",
+                            "TableHeader.DefaultRendererInsets", new Insets(2, 4, 2, 4),
                             "ExComboBoxUI", "com.jidesoft.plaf.synthetica.SyntheticaExComboBoxUI",
 
                             "List.focusInputMap",
@@ -1604,6 +1602,7 @@ public class LookAndFeelFactory implements ProductNames {
             if ((products & PRODUCT_GRIDS) != 0) {
                 Object[] uiDefaults = {
                         // grids
+                        "CellStyleTableHeaderUI", synthPackageName + "SynthCellStyleTableHeaderUI",
                         "SortableTableHeaderUI", synthPackageName + "SynthSortableTableHeaderUI",
                         "NestedTableHeaderUI", synthPackageName + "SynthNestedTableHeaderUI",
                         "EditableTableHeaderUI", synthPackageName + "SynthEditableTableHeaderUI",
