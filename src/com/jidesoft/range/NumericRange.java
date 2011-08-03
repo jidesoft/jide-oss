@@ -158,11 +158,11 @@ public class NumericRange extends AbstractNumericRange<Double> {
      * Creates a new NumericRange by enlarging this numeric range about its mid-point. For example to make it 10%
      * bigger, use a stretch factor of 1.1. Note that this method can also be used to shrink a NumericRange.
      *
-     * @param stretchFactorForUpper the multiplication factor for the enlargement for the upper range
      * @param stretchFactorForLower the multiplication factor for the enlargement for the lower range
+     * @param stretchFactorForUpper the multiplication factor for the enlargement for the upper range
      * @return a new NumericRange
      */
-    public NumericRange stretch(double stretchFactorForUpper, double stretchFactorForLower) {
+    public NumericRange stretch(double stretchFactorForLower, double stretchFactorForUpper) {
         double mid = (_max + _min) / 2.0;
         double halfSize = size() / 2.0;
         return new NumericRange(mid - halfSize * stretchFactorForLower, mid + halfSize * stretchFactorForUpper);
