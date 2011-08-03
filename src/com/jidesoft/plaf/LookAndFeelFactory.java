@@ -1585,15 +1585,34 @@ public class LookAndFeelFactory implements ProductNames {
 
     public static class NimbusCustomizer implements UIDefaultsCustomizer {
         public void customize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
-                public Object createValue(UIDefaults table) {
-                    return table.getIcon("CheckBox.icon");
-                }
-            }),
-                    "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
-            };
-            overwriteDefaults(defaults, uiDefaults);
+            {
+                Object[] uiDefaults = {
+                        "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
+                    public Object createValue(UIDefaults table) {
+                        return table.getIcon("CheckBox.icon");
+                    }
+                }),
+                        "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
+                };
+                overwriteDefaults(defaults, uiDefaults);
+            }
+
+            int products = LookAndFeelFactory.getProductsUsed();
+
+            String synthPackageName = "com.jidesoft.plaf.synth.";
+
+            if ((products & PRODUCT_GRIDS) != 0) {
+                Object[] uiDefaults = {
+                        // grids
+                        "SortableTableHeaderUI", synthPackageName + "SynthSortableTableHeaderUI",
+                        "NestedTableHeaderUI", synthPackageName + "SynthNestedTableHeaderUI",
+                        "EditableTableHeaderUI", synthPackageName + "SynthEditableTableHeaderUI",
+                        "AutoFilterTableHeaderUI", synthPackageName + "SynthAutoFilterTableHeaderUI",
+                        "GroupTableHeaderUI", synthPackageName + "SynthGroupTableHeaderUI",
+                        "ExComboBoxUI", synthPackageName + "SynthExComboBoxUI",
+                };
+                overwriteDefaults(defaults, uiDefaults);
+            }
         }
     }
 

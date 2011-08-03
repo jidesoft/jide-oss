@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
  */
 public class RangeSlider extends JSlider {
 
-    private static final String uiClassID = "SliderUI";
+    private static final String uiClassID = "RangeSliderUI";
 
     private boolean _rangeDraggable = true;
     public static final String CLIENT_PROPERTY_MOUSE_POSITION = "RangeSlider.mousePosition";
@@ -68,41 +68,27 @@ public class RangeSlider extends JSlider {
                 min, max));
     }
 
-    /**
-     * Resets the UI property to a value from the current look and feel.
-     *
-     * @see javax.swing.JComponent#updateUI
-     */
+    public String getActualUIClassID() {
+        return uiClassID;
+    }
+
     @Override
     public void updateUI() {
-        if (UIDefaultsLookup.get("RangeSliderUI") == null) {
+        if (UIDefaultsLookup.get(getActualUIClassID()) == null) {
             LookAndFeelFactory.installJideExtension();
         }
         try {
-            Class<?> uiClass = Class.forName(UIManager.getString("RangeSliderUI"));
+            Class<?> uiClass = Class.forName(UIManager.getString(getActualUIClassID()));
             Class acClass = javax.swing.JComponent.class;
             Method m = uiClass.getMethod("createUI", new Class[]{acClass});
             if (m != null) {
-                Object uiObject = m.invoke(null, this);
+                Object uiObject = m.invoke(null, new Object[]{this});
                 setUI((ComponentUI) uiObject);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * Returns a string that specifies the name of the L&F class that renders this component.
-     *
-     * @return the string "RangeSliderUI"
-     * @see javax.swing.JComponent#getUIClassID
-     * @see javax.swing.UIDefaults#getUI
-     */
-    @Override
-    public String getUIClassID() {
-        return uiClassID;
     }
 
     /**
@@ -136,11 +122,11 @@ public class RangeSlider extends JSlider {
     @Override
     public void setValue(int value) {
         Object clientProperty = getClientProperty(CLIENT_PROPERTY_MOUSE_POSITION);
-        if(clientProperty != null) {
-            if(Boolean.TRUE.equals(clientProperty)) {
+        if (clientProperty != null) {
+            if (Boolean.TRUE.equals(clientProperty)) {
                 setLowValue(value);
             }
-            else{
+            else {
                 setHighValue(value);
             }
         }
@@ -192,7 +178,8 @@ public class RangeSlider extends JSlider {
     }
 
     /**
-     * Sets the flag if the range is draggable. If true, user can drag the area between the two thumbs to drag the range.
+     * Sets the flag if the range is draggable. If true, user can drag the area between the two thumbs to drag the
+     * range.
      *
      * @param rangeDraggable true or false.
      */
