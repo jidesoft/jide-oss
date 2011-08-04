@@ -227,6 +227,16 @@ public class StyledLabel extends JLabel {
         }
     }
 
+    @Override
+    public Dimension getMinimumSize() {
+        return isLineWrap() ? new Dimension(1, 1): super.getMinimumSize();
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return isLineWrap() ? new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE) : super.getMaximumSize();
+    }
+
     /**
      * Sets the preferred width of the styled label.
      *
