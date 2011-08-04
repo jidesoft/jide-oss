@@ -172,13 +172,6 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static final String PGS_LNF = "com.pagosoft.plaf.PgsLookAndFeel";
 
-    /*
-     * Class name of Substance L&F.
-     */
-//    public static final String SUBSTANCE_LNF = "org.jvnet.substance.SubstanceLookAndFeel";
-
-//    private static final String SUBSTANCE_LNF_PREFIX = "org.jvnet.substance.skin";
-
     /**
      * Class name of GTK L&F provided by Sun JDK.
      */
@@ -1064,15 +1057,6 @@ public class LookAndFeelFactory implements ProductNames {
         return isLnfInstalled(PGS_LNF);
     }
 
-    /*
-     * Returns whether or not the Substance L&F is in classpath.
-     *
-     * @return <tt>true</tt> if Substance L&F is in classpath, <tt>false</tt> otherwise
-     */
-//    public static boolean isSubstanceLnfInstalled() {
-//        return isLnfInstalled(SUBSTANCE_LNF);
-//    }
-
     /**
      * Returns whether or not the Synthetica L&F is in classpath.
      *
@@ -1288,8 +1272,6 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
     }
-
-    //TODO: Miss SubstanceCustomizer here
 
     public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
         @SuppressWarnings({"ConstantConditions"})
