@@ -201,28 +201,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 maxRowHeight = Math.max(maxRowHeight, styleHeight);
             }
 
-            int maxWidth = 0;
             int rowCount = 1;
             int nextRowStartIndex = 0;
-            int charsThisRow = 0;
-            int oneLineWidth = 0;
-            // get one line width and maximum width if (label.getColumns() > 0 || label.getMaxColumns() > 0)
-            for (int i = 0; i < _styledTexts.size(); i++) {
-                StyledText styledText = _styledTexts.get(i);
+            // get one line width
+            for (StyledText styledText : _styledTexts) {
                 StyleRange style = styledText.styleRange;
                 int size = (style != null &&
                         (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
                 font = getFont(label);
                 String s = styledText.text.substring(nextRowStartIndex);
-                int columnsLeft = label.getColumns() > 0 ? label.getColumns() - charsThisRow : (label.getMaxColumns() > 0 ? label.getMaxColumns() - charsThisRow : -1);
-                if (label.isLineWrap() && (label.getColumns() > 0 || label.getMaxColumns() > 0) && s.length() > columnsLeft) {
-                    nextRowStartIndex += columnsLeft;
-                    s = s.substring(0, columnsLeft);
-                }
-                else {
-                    nextRowStartIndex = 0;
-                    charsThisRow += s.length();
-                }
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
@@ -232,26 +219,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 //                    fm2 = fm;
                     width += fm.stringWidth(s);
                 }
-                if (nextRowStartIndex > 0) {
-                    maxWidth = Math.max(maxWidth, width);
-                    rowCount++;
-                    i--;
-                    charsThisRow = 0;
-                    oneLineWidth += width;
-                }
             }
-            maxWidth = Math.max(maxWidth, width);
-            oneLineWidth += width;
+            int maxWidth = width;
+            int oneLineWidth = width;
 
-            // if getColumns() and getMaxColumns() is not set but getRows() is set, get maximum width and row count based on the required rows.
-            if (label.isLineWrap() && label.getColumns() <= 0 && label.getMaxColumns() <= 0 && label.getRows() > 0) {
+            // if getPreferredWidth() is not set but getRows() is set, get maximum width and row count based on the required rows.
+            if (label.isLineWrap() && label.getPreferredWidth() <= 0 && label.getRows() > 0) {
                 maxWidth = getMaximumWidth(label, oneLineWidth, label.getRows());
                 rowCount = label.getRows();
             }
 
             // if calculated maximum width is larger than label's maximum size, wrap again to get the updated row count and use the label's maximum width as the maximum width.
-            if (label.isLineWrap() && maxWidth >= label.getMaximumSize().width) {
-                maxWidth = label.getMaximumSize().width;
+            if (label.isLineWrap() && label.getPreferredWidth() > 0) {
+                maxWidth = label.getPreferredWidth();
                 nextRowStartIndex = 0;
                 int x = 0;
                 rowCount = 1;
@@ -278,28 +258,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
                     boolean wrapped = false;
                     int widthLeft = maxWidth - x;
-                    if (widthLeft < strWidth || (label.getColumns() > 0 && s.length() + characterThisRow > label.getColumns()) || (label.getMaxColumns() > 0 && s.length() + characterThisRow > label.getMaxColumns())) {
+                    if (widthLeft < strWidth) {
                         wrapped = true;
-                        int availLength;
-                        if (label.getColumns() > 0 && s.length() + characterThisRow > label.getColumns()) {
-                            availLength = label.getColumns() - characterThisRow;
-                            String subString = s.substring(0, Math.min(availLength, s.length()));
-                            int subStrWidth = fm2.stringWidth(subString);
-                            if (subStrWidth > widthLeft) {
-                                availLength = subString.length() * widthLeft / subStrWidth + 1;
-                            }
-                        }
-                        else if (label.getMaxColumns() > 0 && s.length() + characterThisRow > label.getMaxColumns()) {
-                            availLength = label.getMaxColumns() - characterThisRow;
-                            String subString = s.substring(0, Math.min(availLength, s.length()));
-                            int subStrWidth = fm2.stringWidth(subString);
-                            if (subStrWidth > widthLeft) {
-                                availLength = subString.length() * widthLeft / subStrWidth + 1;
-                            }
-                        }
-                        else {
-                            availLength = s.length() * widthLeft / strWidth + 1;
-                        }
+                        int availLength = s.length() * widthLeft / strWidth + 1;
                         int nextWordStartIndex;
                         int nextRowStartIndexInSubString = 0;
                         boolean needBreak = false;
@@ -381,19 +342,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
             }
 
-            // label.getColumns() <= 0 && label.getMaxColumns() <= 0 && label.getMaxRows() > 0 && rowCount > label.getMaxRows(), recalculate the maximum width according to the maximum rows
-            if (label.isLineWrap() && label.getColumns() <= 0 && label.getMaxColumns() <= 0 && label.getMaxRows() > 0 && rowCount > label.getMaxRows()) {
+            // label.getPreferredWidth() <= 0 && label.getMaxRows() > 0 && rowCount > label.getMaxRows(), recalculate the maximum width according to the maximum rows
+            if (label.isLineWrap() && label.getPreferredWidth() <= 0 && label.getMaxRows() > 0 && rowCount > label.getMaxRows()) {
                 maxWidth = getMaximumWidth(label, oneLineWidth, label.getMaxRows());
                 rowCount = label.getMaxRows();
             }
 
-            // label.getColumns() <= 0 && label.getMaxColumns() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows(), recalculate the maximum width according to the minimum rows
-            if (label.isLineWrap() && label.getColumns() <= 0 && label.getMaxColumns() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows()) {
+            // label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows(), recalculate the maximum width according to the minimum rows
+            if (label.isLineWrap() && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows()) {
                 maxWidth = getMaximumWidth(label, oneLineWidth, label.getMinRows());
                 rowCount = label.getMinRows();
             }
             _preferredRowCount = rowCount;
-            return new Dimension(maxWidth, Math.min(label.getMaximumSize().height, (maxRowHeight + Math.max(0, label.getRowGap())) * rowCount));
+            return new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * rowCount);
         }
     }
 
@@ -473,25 +434,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
-        Dimension oldMaximumSize = label.getMaximumSize();
-        int oldRows = label.getRows();
         int paintWidth = label.getWidth();
-        if (label.isLineWrap()) {
-            try {
-                label.setMaximumSize(label.getSize());
-                Dimension preferredSize = getPreferredSize(label);
-                paintWidth = preferredSize.width;
-                if (label.isLineWrap() && label.getMinRows() > 0 && _preferredRowCount > label.getMinRows() && paintWidth < label.getWidth()) {
-                    label.setMaximumSize(null);
-                    label.setRows(label.getMinRows());
-                    preferredSize = getPreferredSize(label);
-                    paintWidth = Math.min(preferredSize.width, label.getWidth());
-                }
-            }
-            finally {
-                label.setRows(oldRows);
-                label.setMaximumSize(oldMaximumSize);
-            }
+        if (label.isLineWrap() && label.getPreferredWidth() > 0 && label.getPreferredWidth() < paintWidth) {
+            paintWidth = label.getPreferredWidth();
         }
 
         int x = textX < label.getInsets().left ? label.getInsets().left : textX;
@@ -516,6 +461,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         synchronized (_styledTexts) {
             String nextS;
             int maxRowHeight = fm.getHeight();
+            int minStartY = fm.getAscent();
             for (StyledText styledText : _styledTexts) {
                 StyleRange style = styledText.styleRange;
                 int size = (style != null && (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
@@ -525,12 +471,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
                     maxRowHeight = Math.max(maxRowHeight, fm2.getHeight());
+                    minStartY = Math.max(minStartY, fm2.getAscent());
                 }
+            }
+            if (label.isLineWrap() && textY < minStartY) {
+                textY = minStartY;
             }
 
             int nextRowStartIndex = 0;
             int rowCount = 0;
-            int characterThisRow = 0;
             for (int i = 0; i < _styledTexts.size(); i++) {
                 StyledText styledText = _styledTexts.get(i);
                 StyleRange style = styledText.styleRange;
@@ -572,29 +521,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 boolean stop = false;
                 boolean wrapped = false;
                 int widthLeft = paintWidth - x;
-                if (widthLeft < strWidth || (label.isLineWrap() && ((label.getColumns() > 0 && s.length() + characterThisRow > label.getColumns()) || (label.getMaxColumns() > 0 && s.length() + characterThisRow > label.getMaxColumns())))) {
-                    if (label.isLineWrap()) {
+                if (widthLeft < strWidth) {
+                    if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount >= label.getMaxRows() - 1) || y + 5 < label.getHeight())) {
                         wrapped = true;
-                        int availLength;
-                        if (label.getColumns() > 0 && s.length() + characterThisRow > label.getColumns()) {
-                            availLength = label.getColumns() - characterThisRow;
-                            String subString = s.substring(0, Math.min(availLength, s.length()));
-                            int subStrWidth = fm2.stringWidth(subString);
-                            if (subStrWidth > widthLeft) {
-                                availLength = subString.length() * widthLeft / subStrWidth + 1;
-                            }
-                        }
-                        else if (label.getMaxColumns() > 0 && s.length() + characterThisRow > label.getMaxColumns()) {
-                            availLength = label.getMaxColumns() - characterThisRow;
-                            String subString = s.substring(0, Math.min(availLength, s.length()));
-                            int subStrWidth = fm2.stringWidth(subString);
-                            if (subStrWidth > widthLeft) {
-                                availLength = subString.length() * widthLeft / subStrWidth + 1;
-                            }
-                        }
-                        else {
-                            availLength = s.length() * widthLeft / strWidth + 1;
-                        }
+                        int availLength = s.length() * widthLeft / strWidth + 1;
                         int nextWordStartIndex;
                         int nextRowStartIndexInSubString = 0;
                         boolean needBreak = false;
@@ -610,7 +540,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                     x = textX;
                                     i--;
                                     rowCount++;
-                                    characterThisRow = 0;
                                     if (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) {
                                         needBreak = true;
                                     }
@@ -660,7 +589,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             }
                         }
                         charDisplayed += s.length();
-                        characterThisRow += s.length();
                         nextRowStartIndex += nextRowStartIndexInSubString;
                     }
                     else {
@@ -673,7 +601,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
                 else if (label.isLineWrap()) {
                     nextRowStartIndex = 0;
-                    characterThisRow += s.length();
                 }
                 else if (i < _styledTexts.size() - 1) {
                     StyledText nextStyledText = _styledTexts.get(i + 1);
@@ -778,7 +705,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     x = textX;
                     i--;
                     rowCount++;
-                    characterThisRow = 0;
                     if ((label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY > label.getHeight()) {
                         break;
                     }

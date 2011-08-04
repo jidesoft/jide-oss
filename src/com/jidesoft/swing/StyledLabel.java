@@ -52,11 +52,9 @@ public class StyledLabel extends JLabel {
     private List<StyleRange> _styleRanges;
     private boolean _lineWrap;
     private int _rows;
-    private int _columns;
     private int _maxRows;
-    private int _maxColumns;
     private int _minRows;
-    private int _minColumns;
+    private int _preferredWidth;
     private int _rowGap;
 
     private boolean _ignoreColorSettings;
@@ -229,21 +227,30 @@ public class StyledLabel extends JLabel {
         }
     }
 
-    @Override
-    public void setMaximumSize(Dimension maximumSize) {
-        if (maximumSize == null) {
-            super.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        }
-        else {
-            super.setMaximumSize(maximumSize);
-        }
+    /**
+     * Sets the preferred width of the styled label.
+     *
+     * @param preferredWidth the preferred width
+     * @since 3.2.0
+     */
+    public void setPreferredWidth(int preferredWidth) {
+        _preferredWidth = preferredWidth;
     }
 
+    /**
+     * Gets the preferred width of the styled label.
+     *
+     * @return the preferred width
+     * @since 3.2.0
+     */
+    public int getPreferredWidth() {
+        return _preferredWidth;
+    }
     /**
      * Gets the flag indicating if the line should be automatically wrapped when the column width is limited.
      *
      * @return true if line wrap is needed. Otherwise false.
-     * @since 3.1.2
+     * @since 3.2.0
      */
     public boolean isLineWrap() {
         return _lineWrap;
@@ -253,7 +260,7 @@ public class StyledLabel extends JLabel {
      * Sets the flag indicating if the line should be automatically wrapped when the column width is limited.
      *
      * @param lineWrap the flag
-     * @since 3.1.2
+     * @since 3.2.0
      */
     public void setLineWrap(boolean lineWrap) {
         _lineWrap = lineWrap;
@@ -264,6 +271,7 @@ public class StyledLabel extends JLabel {
      *
      * @return the row count.
      * @see #setRows(int)
+     * @since 3.2.0
      */
     public int getRows() {
         return _rows;
@@ -274,36 +282,14 @@ public class StyledLabel extends JLabel {
      * <p/>
      * By default, the value is 0. Any non-positive value is deemed as not configured.
      * <p/>
-     * This has lower priority than {@link #setColumns(int)} and {@link #getMaximumSize()}.
+     * This has lower priority than {@link #setPreferredWidth(int)}. If preferred width is set, this flag does not take
+     * effect.
      *
      * @param rows the row count
+     * @since 3.2.0
      */
     public void setRows(int rows) {
         _rows = rows;
-    }
-
-    /**
-     * Gets the default character count to wrap the {@link StyledLabel}.
-     *
-     * @return the character count.
-     * @see #setColumns(int)
-     */
-    public int getColumns() {
-        return _columns;
-    }
-
-    /**
-     * Sets the default character count to wrap the {@link StyledLabel}.
-     * <p/>
-     * By default, the value is 0. Any non-positive value is deemed as not configured.
-     * <p/>
-     * This has higher priority than {@link #setRows(int)}. However, if the width is wider than {@link #getMaximumSize()},
-     * maximum size will be respected.
-     *
-     * @param columns the character count
-     */
-    public void setColumns(int columns) {
-        _columns = columns;
     }
 
     /**
@@ -311,6 +297,7 @@ public class StyledLabel extends JLabel {
      *
      * @return the gap pixels.
      * @see #setRowGap(int)
+     * @since 3.2.0
      */
     public int getRowGap() {
         return _rowGap;
@@ -327,35 +314,47 @@ public class StyledLabel extends JLabel {
         _rowGap = rowGap;
     }
 
+    /**
+     * Gets the maximum rows possible after wrapping.
+     *
+     * @return the maximum rows.
+     * @since 3.2.0
+     */
     public int getMaxRows() {
         return _maxRows;
     }
 
+    /**
+     * Sets the maximum rows possible after wrapping.
+     * <p/>
+     * By default, the value is 0. Any non-positive value is deemed as not configured.
+     *
+     * @param maxRows the maximum rows
+     * @since 3.2.0
+     */
     public void setMaxRows(int maxRows) {
         _maxRows = maxRows;
     }
 
-    public int getMaxColumns() {
-        return _maxColumns;
-    }
-
-    public void setMaxColumns(int maxColumns) {
-        _maxColumns = maxColumns;
-    }
-
+    /**
+     * Gets the minimum rows possible after wrapping.
+     *
+     * @return the minimum rows.
+     * @since 3.2.0
+     */
     public int getMinRows() {
         return _minRows;
     }
 
+    /**
+     * Sets the minimum rows possible after wrapping.
+     * <p/>
+     * By default, the value is 0. Any non-positive value is deemed as not configured.
+     *
+     * @param minRows the minimum rows
+     * @since 3.2.0
+     */
     public void setMinRows(int minRows) {
         _minRows = minRows;
-    }
-
-    public int getMinColumns() {
-        return _minColumns;
-    }
-
-    public void setMinColumns(int minColumns) {
-        _minColumns = minColumns;
     }
 }

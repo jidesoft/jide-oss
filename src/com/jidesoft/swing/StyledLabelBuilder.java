@@ -339,15 +339,13 @@ public class StyledLabelBuilder {
         int defaultRows = 1;
         int maxRows = 0;
         int minRows = 0;
-        int defaultCols = 0;
-        int maxCols = 0;
-        int minCols = 0;
+        int preferredWidth = 0;
         String property = subStrings[0].trim().toLowerCase();
         if ("rows".equals(property) || "row".equals(property) || "r".equals(property)) {
-            if (subStrings.length > 4 || subStrings.length < 2) {
+            if (subStrings.length > 4 || subStrings.length < 1) {
                 return false;
             }
-            if (subStrings[1].trim().length() > 0) {
+            if (subStrings.length >= 2 && subStrings[1].trim().length() > 0) {
                 try {
                     defaultRows = Integer.valueOf(subStrings[1]);
                 }
@@ -386,38 +384,16 @@ public class StyledLabelBuilder {
                 }
             }
         }
-        else if ("columns".equals(property) || "column".equals(property) || "col".equals(property) || "c".equals(property)) {
-            if (subStrings.length > 4 || subStrings.length < 2) {
+        else if ("w".equals(property) || "width".equals(property) || "preferredwidth".equals(property)) {
+            if (subStrings.length != 2) {
                 return false;
             }
             if (subStrings[1].trim().length() > 0) {
                 try {
-                    defaultCols = Integer.valueOf(subStrings[1]);
+                    preferredWidth = Integer.valueOf(subStrings[1]);
                 }
                 catch (NumberFormatException e) {
                     return false;
-                }
-            }
-            if (subStrings.length >= 3 && subStrings[2].trim().length() > 0) {
-                try {
-                    minCols = Integer.valueOf(subStrings[2]);
-                }
-                catch (NumberFormatException e) {
-                    return false;
-                }
-                if (minCols > defaultCols || minCols < 0) {
-                    minCols = 0;
-                }
-            }
-            if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
-                try {
-                    maxCols = Integer.valueOf(subStrings[3]);
-                }
-                catch (NumberFormatException e) {
-                    return false;
-                }
-                if (maxCols < defaultCols || maxCols < 0) {
-                    maxCols = 0;
                 }
             }
         }
@@ -425,9 +401,10 @@ public class StyledLabelBuilder {
         label.setRows(defaultRows);
         label.setMaxRows(maxRows);
         label.setMinRows(minRows);
-        label.setColumns(defaultCols);
-        label.setMaxColumns(maxCols);
-        label.setMinColumns(minCols);
+        label.setPreferredWidth(preferredWidth);
+        if (defaultRows == 1 && maxRows == 1 && minRows == 1) {
+            label.setLineWrap(false);
+        }
         return true;
     }
 
