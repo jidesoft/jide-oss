@@ -149,25 +149,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int oldPreferredWidth = ((StyledLabel) label).getPreferredWidth();
             int oldRows = ((StyledLabel) label).getRows();
             try {
-                if (((StyledLabel) label).isLineWrap()) {
-                    size = getPreferredSize((StyledLabel) label);
+                if (((StyledLabel) label).isLineWrap() && label.getWidth() > 0) {
                     ((StyledLabel) label).setPreferredWidth(label.getWidth());
-                    Dimension sizeOnWidth = getPreferredSize((StyledLabel) label);
-                    if (sizeOnWidth.width < size.width) {
-                        size = sizeOnWidth;
-                        if (oldRows > 0 && ((StyledLabel) label).getMaxRows() > 0) {
-                            ((StyledLabel) label).setRows(((StyledLabel) label).getMaxRows());
-                            ((StyledLabel) label).setPreferredWidth(0);
-                            Dimension sizeMaxRows = getPreferredSize((StyledLabel) label);
-                            if (size.height > sizeMaxRows.height) {
-                                size.height = sizeMaxRows.height;
-                            }
-                        }
-                    }
                 }
-                else {
-                    size = getPreferredSize((StyledLabel) label);
-                }
+                size = getPreferredSize((StyledLabel) label);
             }
             finally {
                 ((StyledLabel) label).setPreferredWidth(oldPreferredWidth);
@@ -477,6 +462,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int oldPreferredWidth = label.getPreferredWidth();
             int oldRows = label.getRows();
             try {
+                label.setRows(0);
                 paintWidth = getPreferredSize(label).width;
                 label.setPreferredWidth(label.getWidth());
                 Dimension sizeOnWidth = getPreferredSize(label);
@@ -492,6 +478,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
         int x = textX < label.getInsets().left ? label.getInsets().left : textX;
         int y;
+        paintWidth += x;
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
         if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
                 WindowsLookAndFeel.isMnemonicHidden()) {

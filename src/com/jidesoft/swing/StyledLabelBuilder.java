@@ -291,6 +291,7 @@ public class StyledLabelBuilder {
         StringBuffer labelText = new StringBuffer(text.length);
         boolean escaped = false;
         label.clearStyleRanges();
+        label.setLineWrap(false);
         int endOfText = text.length;
         for (int j = text.length - 1; j >= 0; j--) {
             if (text[j] == '@') {
@@ -396,6 +397,9 @@ public class StyledLabelBuilder {
                     return false;
                 }
             }
+        }
+        else {
+            return false;
         }
         label.setLineWrap(true);
         label.setRows(defaultRows);
