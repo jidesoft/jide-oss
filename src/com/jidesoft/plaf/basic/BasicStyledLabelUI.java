@@ -150,25 +150,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int oldRows = ((StyledLabel) label).getRows();
             try {
                 if (((StyledLabel) label).isLineWrap()) {
-                    Dimension[] sizes = new Dimension[3];
-                    sizes[0] = getPreferredSize((StyledLabel) label);
+                    size = getPreferredSize((StyledLabel) label);
                     ((StyledLabel) label).setPreferredWidth(label.getWidth());
-                    sizes[1] = getPreferredSize((StyledLabel) label);
-                    if (!JideSwingUtilities.equals(sizes[0], sizes[1]) && oldRows > 0 && ((StyledLabel) label).getMaxRows() > 0) {
-                        ((StyledLabel) label).setRows(((StyledLabel) label).getMaxRows());
-                        ((StyledLabel) label).setPreferredWidth(0);
-                        sizes[2] = getPreferredSize((StyledLabel) label);
-                    }
-                    else {
-                        sizes[2] = sizes[0];
-                    }
-                    size = sizes[0];
-                    for (int i = 1; i < sizes.length; i++) {
-                        if (sizes[i].width < size.width) {
-                            size.width = sizes[i].width;
-                        }
-                        if (sizes[i].height > size.height) {
-                            size.height = sizes[i].height;
+                    Dimension sizeOnWidth = getPreferredSize((StyledLabel) label);
+                    if (sizeOnWidth.width < size.width) {
+                        size.width = sizeOnWidth.width;
+                        size.height = sizeOnWidth.height;
+                        if (oldRows > 0 && ((StyledLabel) label).getMaxRows() > 0) {
+                            ((StyledLabel) label).setRows(((StyledLabel) label).getMaxRows());
+                            ((StyledLabel) label).setPreferredWidth(0);
+                            Dimension sizeMaxRows = getPreferredSize((StyledLabel) label);
+                            if (size.height > sizeMaxRows.height) {
+                                size.height = sizeMaxRows.height;
+                            }
                         }
                     }
                 }
