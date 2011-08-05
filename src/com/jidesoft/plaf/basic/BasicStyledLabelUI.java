@@ -262,7 +262,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
 
             // if calculated maximum width is larger than label's maximum size, wrap again to get the updated row count and use the label's maximum width as the maximum width.
-            if (label.isLineWrap() && label.getPreferredWidth() > 0) {
+            if (label.isLineWrap() && label.getPreferredWidth() > 0 && maxWidth > label.getPreferredWidth()) {
                 maxWidth = label.getPreferredWidth();
                 nextRowStartIndex = 0;
                 int x = 0;
@@ -442,6 +442,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 s = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
                 strWidth = fm2.stringWidth(s);
                 nextRowStartIndex += nextRowStartIndexInSubString;
+                if (x + strWidth >= oneLineWidth) {
+                    x = Math.max(x, strWidth);
+                    break;
+                }
                 if (x + strWidth >= estimatedWidth) {
                     x += strWidth;
                     break;
