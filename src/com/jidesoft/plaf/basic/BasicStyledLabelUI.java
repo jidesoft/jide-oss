@@ -154,8 +154,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     ((StyledLabel) label).setPreferredWidth(label.getWidth());
                     Dimension sizeOnWidth = getPreferredSize((StyledLabel) label);
                     if (sizeOnWidth.width < size.width) {
-                        size.width = sizeOnWidth.width;
-                        size.height = sizeOnWidth.height;
+                        size = sizeOnWidth;
                         if (oldRows > 0 && ((StyledLabel) label).getMaxRows() > 0) {
                             ((StyledLabel) label).setRows(((StyledLabel) label).getMaxRows());
                             ((StyledLabel) label).setPreferredWidth(0);
@@ -471,21 +470,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
         int paintWidth = label.getWidth();
         if (label.isLineWrap()) {
-            if (label.getPreferredWidth() > 0 && label.getPreferredWidth() < paintWidth) {
-                paintWidth = label.getPreferredWidth();
+            int oldPreferredWidth = label.getPreferredWidth();
+            int oldRows = label.getRows();
+            try {
+                paintWidth = getPreferredSize(label).width;
+                label.setPreferredWidth(label.getWidth());
+                Dimension sizeOnWidth = getPreferredSize(label);
+                if (sizeOnWidth.width < paintWidth) {
+                    paintWidth = sizeOnWidth.width;
+                }
             }
-            else if (label.getPreferredWidth() <= 0 && (label.getMaxRows() > 0 || label.getMinRows() > 0)) {
-                int oldRows = label.getRows();
-                try {
-                    label.setRows(0);
-                    Dimension preferredSize = getPreferredSize(label);
-                    if (preferredSize.width < paintWidth) {
-                        paintWidth = preferredSize.width;
-                    }
-                }
-                finally {
-                    label.setRows(oldRows);
-                }
+            finally {
+                label.setPreferredWidth(oldPreferredWidth);
+                label.setRows(oldRows);
             }
         }
 
