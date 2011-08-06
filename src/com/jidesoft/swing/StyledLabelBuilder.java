@@ -92,7 +92,9 @@ import java.util.List;
  * <p/>
  * <b>Font styles</b> <ul> <li>plain or p <li>bold or b <li>italic or i <li>bolditalic or bi </ul> <b>Additional
  * styles</b> <ul> <li>strike or s <li>doublestrike or ds <li>waved or w <li>underlined or u <li>dotted or d
- * <li>superscript or sp <li>subscript or sb </ul>
+ * <li>superscript or sp <li>subscript or sb </ul> <b>Global flags</b>: You can enable global flags by using "@" at the
+ * end of the String. <ul> <li>rows or row or r: it can take up to three parameters separately ":". The first one is
+ * preferred rows, the second one is minimum rows and the last one is the maximum rows. </ul>
  * <p/>
  *
  * @author Patrick Gotthardt
