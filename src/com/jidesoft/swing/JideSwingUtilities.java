@@ -1939,12 +1939,12 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
-    static RenderingHints renderingHints = null;
+    static Map renderingHints = null;
 
     static {
         if (SystemInfo.isJdk6Above()) {
             Toolkit tk = Toolkit.getDefaultToolkit();
-            renderingHints = (RenderingHints) (tk.getDesktopProperty("awt.font.desktophints"));
+            renderingHints = (Map) (tk.getDesktopProperty("awt.font.desktophints"));
             tk.addPropertyChangeListener("awt.font.desktophints", new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent evt) {
                     if (evt.getNewValue() instanceof RenderingHints) {
@@ -1960,9 +1960,9 @@ public class JideSwingUtilities implements SwingConstants {
      * key present in that map, the value of that hint is obtained from the Graphics and stored as the value for the key
      * in savedHints.
      */
-    private static RenderingHints getRenderingHints(Graphics2D g2d,
-                                                    RenderingHints hintsToSave,
-                                                    RenderingHints savedHints) {
+    private static Map getRenderingHints(Graphics2D g2d,
+                                         Map hintsToSave,
+                                         Map savedHints) {
         if (savedHints == null) {
             savedHints = new RenderingHints(null);
         }
@@ -1986,7 +1986,7 @@ public class JideSwingUtilities implements SwingConstants {
     public static void drawString(JComponent c, Graphics g, String text, int x, int y) {
         if (SystemInfo.isJdk6Above()) {
             Graphics2D g2d = (Graphics2D) g;
-            RenderingHints oldHints = null;
+            Map oldHints = null;
             if (renderingHints != null) {
                 oldHints = getRenderingHints(g2d, renderingHints, null);
                 g2d.addRenderingHints(renderingHints);
