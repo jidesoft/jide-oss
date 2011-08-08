@@ -398,7 +398,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "StatusBar.gap", 2,
                     "StatusBar.background", defaultBackgroundColor,
                     "StatusBar.font", controlFont,
-                    "StatusBar.paintResizableIcon", Boolean.FALSE,
+                    "StatusBar.paintResizableIcon", Boolean.TRUE,
                     "MemoryStatusBarItem.fillColor", new ColorUIResource(236, 233, 176),
 
                     "DocumentPane.groupBorder", new BorderUIResource(BorderFactory.createLineBorder(Color.gray)),
