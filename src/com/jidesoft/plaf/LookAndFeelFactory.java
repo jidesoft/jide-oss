@@ -1746,7 +1746,7 @@ public class LookAndFeelFactory implements ProductNames {
      *
      * @return true if JIDE will try to load the LnF class. Otherwise false
      * @see #setLoadLookAndFeelClass(boolean)
-     * @since 3.1.2
+     * @since 3.2.0
      */
     public static boolean isLoadLookAndFeelClass() {
         return _loadLookAndFeelClass;
@@ -1761,7 +1761,7 @@ public class LookAndFeelFactory implements ProductNames {
      * you wish.
      *
      * @param loadLookAndFeelClass the flag
-     * @since 3.1.2
+     * @since 3.2.0
      */
     public static void setLoadLookAndFeelClass(boolean loadLookAndFeelClass) {
         _loadLookAndFeelClass = loadLookAndFeelClass;
