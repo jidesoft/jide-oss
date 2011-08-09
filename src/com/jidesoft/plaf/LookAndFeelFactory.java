@@ -143,13 +143,16 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String SYNTHETICA_LNF_PREFIX = "de.javasoft.plaf.synthetica.Synthetica";
 
     /**
-     * Class name of Plastic3D L&F before JGoodies Look 1.3 release.
+     * Class name of Plastic3D L&F.
      */
-    public static final String PLASTIC3D_LNF = "com.jgoodies.plaf.plastic.Plastic3DLookAndFeel";
+    public static final String PLASTIC3D_LNF = "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
 
     /**
      * Class name of Plastic3D L&F after JGoodies Look 1.3 release.
+     *
+     * @deprecated replaced by PLASTIC3D_LNF
      */
+    @Deprecated
     public static final String PLASTIC3D_LNF_1_3 = "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
 
     /**
@@ -399,7 +402,8 @@ public class LookAndFeelFactory implements ProductNames {
             String defaultStyle = SecurityUtils.getProperty("jide.defaultStyle", "-1");
             try {
                 _defaultStyle = Integer.parseInt(defaultStyle);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 // ignore
             }
             if (_defaultStyle == -1) {
@@ -407,12 +411,15 @@ public class LookAndFeelFactory implements ProductNames {
                 try {
                     if (SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
                         suggestedStyle = OFFICE2007_STYLE;
-                    } else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
+                    }
+                    else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
                         suggestedStyle = OFFICE2003_STYLE;
-                    } else {
+                    }
+                    else {
                         suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
                     }
-                } catch (UnsupportedOperationException e) {
+                }
+                catch (UnsupportedOperationException e) {
                     suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
                 }
                 return suggestedStyle;
@@ -555,7 +562,6 @@ public class LookAndFeelFactory implements ProductNames {
         else */
         if ((lnf.getClass().getName().equals(ALLOY_LNF) && isAlloyLnfInstalled())
                 || (lnf.getClass().getName().equals(PLASTIC3D_LNF) && isPlastic3DLnfInstalled())
-                || (lnf.getClass().getName().equals(PLASTIC3D_LNF_1_3) && isPlastic3D13LnfInstalled())
                 || (lnf.getClass().getName().equals(PLASTICXP_LNF) && isPlasticXPLnfInstalled())
                 || (lnf.getClass().getName().equals(PGS_LNF) && isPgsLnfInstalled())
                 || (lnf.getClass().getName().equals(TONIC_LNF) && isTonicLnfInstalled())) {
@@ -630,7 +636,8 @@ public class LookAndFeelFactory implements ProductNames {
                 uiDefaults.put("Theme.painter", BasicPainter.getInstance());
             }
 
-        } else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
+        }
+        else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
                 case OFFICE2007_STYLE:
                 case OFFICE2003_STYLE:
@@ -657,7 +664,8 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
                 default:
             }
-        } else if (lnf instanceof MetalLookAndFeel) {
+        }
+        else if (lnf instanceof MetalLookAndFeel) {
             switch (style) {
                 case OFFICE2007_STYLE:
                 case OFFICE2003_STYLE:
@@ -680,7 +688,8 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
             }
-        } else if (lnf instanceof WindowsLookAndFeel) {
+        }
+        else if (lnf instanceof WindowsLookAndFeel) {
             switch (style) {
                 case OFFICE2007_STYLE:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -729,27 +738,36 @@ public class LookAndFeelFactory implements ProductNames {
                 Class<?> aquaJideUtils = getUIManagerClassLoader().loadClass("com.jidesoft.plaf.aqua.AquaJideUtils");
                 aquaJideUtils.getMethod("initComponentDefaults", UIDefaults.class).invoke(null, uiDefaults);
                 aquaJideUtils.getMethod("initClassDefaults", UIDefaults.class).invoke(null, uiDefaults);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalArgumentException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                JideSwingUtilities.throwInvocationTargetException(e);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            } catch (SecurityException e) {
+            }
+            catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+            catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            catch (IllegalArgumentException e) {
+                throw new RuntimeException(e);
+            }
+            catch (InvocationTargetException e) {
+                JideSwingUtilities.throwInvocationTargetException(e);
+            }
+            catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            catch (SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
             // built in initializer
             if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
                 new GTKInitializer().initialize(uiDefaults);
-            } else if (isSyntheticaLnfInstalled()
+            }
+            else if (isSyntheticaLnfInstalled()
                     && (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF))) {
                 new SyntheticaInitializer().initialize(uiDefaults);
-            } else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
+            }
+            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
                 new NimbusInitializer().initialize(uiDefaults);
             }
 
@@ -760,7 +778,8 @@ public class LookAndFeelFactory implements ProductNames {
                         Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                         Office2007WindowsUtils.initComponentDefaults(uiDefaults);
                         Office2007WindowsUtils.initClassDefaults(uiDefaults);
-                    } else {
+                    }
+                    else {
                         VsnetMetalUtils.initComponentDefaults(uiDefaults);
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -770,7 +789,8 @@ public class LookAndFeelFactory implements ProductNames {
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                         Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                         Office2003WindowsUtils.initClassDefaults(uiDefaults);
-                    } else {
+                    }
+                    else {
                         VsnetMetalUtils.initComponentDefaults(uiDefaults);
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -779,7 +799,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         EclipseWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         EclipseWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
-                    } else {
+                    }
+                    else {
                         EclipseMetalUtils.initClassDefaults(uiDefaults);
                         EclipseMetalUtils.initComponentDefaults(uiDefaults);
                     }
@@ -788,7 +809,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         Eclipse3xWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         Eclipse3xWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
-                    } else {
+                    }
+                    else {
                         Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                         Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     }
@@ -797,7 +819,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
-                    } else {
+                    }
+                    else {
                         VsnetMetalUtils.initComponentDefaults(uiDefaults);
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -806,7 +829,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initClassDefaults(uiDefaults);
                         VsnetWindowsUtils.initComponentDefaults(uiDefaults);
-                    } else {
+                    }
+                    else {
                         VsnetMetalUtils.initComponentDefaults(uiDefaults);
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -815,7 +839,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         XertoWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         XertoWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
-                    } else {
+                    }
+                    else {
                         XertoMetalUtils.initComponentDefaults(uiDefaults);
                         XertoMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -824,7 +849,8 @@ public class LookAndFeelFactory implements ProductNames {
                     if (SystemInfo.isWindows()) {
                         XertoWindowsUtils.initClassDefaults(uiDefaults);
                         XertoWindowsUtils.initComponentDefaults(uiDefaults);
-                    } else {
+                    }
+                    else {
                         XertoMetalUtils.initComponentDefaults(uiDefaults);
                         XertoMetalUtils.initClassDefaults(uiDefaults);
                     }
@@ -833,11 +859,14 @@ public class LookAndFeelFactory implements ProductNames {
 
             if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
                 new GTKCustomizer().customize(uiDefaults);
-            } else if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
+            }
+            else if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
                 new SyntheticaCustomizer().customize(uiDefaults);
-            } else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
+            }
+            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
                 new NimbusCustomizer().customize(uiDefaults);
-            } else if (isLnfInUse(MOTIF_LNF)) {
+            }
+            else if (isLnfInUse(MOTIF_LNF)) {
                 new MotifCustomizer().customize(uiDefaults);
             }
         }
@@ -913,7 +942,8 @@ public class LookAndFeelFactory implements ProductNames {
             map.put(lnfName, LAF_INSTALLED);
             _installedLookAndFeels = map;
             return clazz;
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) {
             Map<String, String> map = new HashMap<String, String>(_installedLookAndFeels);
             map.put(lnfName, LAF_NOT_INSTALLED);
             _installedLookAndFeels = map;
@@ -988,9 +1018,12 @@ public class LookAndFeelFactory implements ProductNames {
      * Returns whether Plastic3D L&F is in classpath
      *
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
+     *
+     * @deprecated replace by {@link #isPlastic3DLnfInstalled()}
      */
+    @Deprecated
     public static boolean isPlastic3D13LnfInstalled() {
-        return isLnfInstalled(PLASTIC3D_LNF_1_3);
+        return isLnfInstalled(PLASTIC3D_LNF);
     }
 
     /**
@@ -1075,10 +1108,12 @@ public class LookAndFeelFactory implements ProductNames {
             String lnfName = SecurityUtils.getProperty("swing.defaultlaf", null);
             if (lnfName == null) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } else {
+            }
+            else {
                 UIManager.setLookAndFeel(lnfName);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -1250,7 +1285,8 @@ public class LookAndFeelFactory implements ProductNames {
                         "PopupMenu.border", syntheticaPopupBorder.newInstance(),
                 };
                 putDefaults(defaults, uiDefaults);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -1485,7 +1521,8 @@ public class LookAndFeelFactory implements ProductNames {
                 Method getInstanceMethod = painterClass.getMethod("getInstance");
                 Object painter = getInstanceMethod.invoke(null);
                 UIDefaultsLookup.put(UIManager.getDefaults(), "Theme.painter", painter);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -1495,7 +1532,8 @@ public class LookAndFeelFactory implements ProductNames {
         try {
             Method method = syntheticaClass.getMethod("loadIcon", String.class);
             return (Icon) method.invoke(null, key);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString(key));
         }
     }
@@ -1584,7 +1622,8 @@ public class LookAndFeelFactory implements ProductNames {
             Object value = keyValueList[i + 1];
             if (value == null) {
                 System.out.println("The value for " + keyValueList[i] + " is null");
-            } else {
+            }
+            else {
                 Object oldValue = table.get(keyValueList[i]);
                 if (oldValue != null) {
                     System.out.println("The value for " + keyValueList[i] + " exists which is " + oldValue);
@@ -1608,7 +1647,8 @@ public class LookAndFeelFactory implements ProductNames {
             Object value = keyValueArray[i + 1];
             if (value == null) {
                 table.remove(keyValueArray[i]);
-            } else {
+            }
+            else {
                 if (table.get(keyValueArray[i]) == null) {
                     table.put(keyValueArray[i], value);
                 }
@@ -1631,7 +1671,8 @@ public class LookAndFeelFactory implements ProductNames {
             Object value = keyValueArray[i + 1];
             if (value == null) {
                 table.remove(keyValueArray[i]);
-            } else {
+            }
+            else {
                 table.put(keyValueArray[i], value);
             }
         }
@@ -1645,73 +1686,85 @@ public class LookAndFeelFactory implements ProductNames {
             try {
                 Class.forName("com.jidesoft.docking.Product");
                 _productsUsed |= PRODUCT_DOCK;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.action.Product");
                 _productsUsed |= PRODUCT_ACTION;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.document.Product");
                 _productsUsed |= PRODUCT_COMPONENTS;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.grid.Product");
                 _productsUsed |= PRODUCT_GRIDS;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.wizard.Product");
                 _productsUsed |= PRODUCT_DIALOGS;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.pivot.Product");
                 _productsUsed |= PRODUCT_PIVOT;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.shortcut.Product");
                 _productsUsed |= PRODUCT_SHORTCUT;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.editor.Product");
                 _productsUsed |= PRODUCT_CODE_EDITOR;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.rss.Product");
                 _productsUsed |= PRODUCT_FEEDREADER;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.treemap.Product");
                 _productsUsed |= PRODUCT_TREEMAP;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.chart.Product");
                 _productsUsed |= PRODUCT_CHARTS;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
             try {
                 Class.forName("com.jidesoft.diff.Product");
                 _productsUsed |= PRODUCT_DIFF;
-            } catch (Throwable e) {
+            }
+            catch (Throwable e) {
                 //
             }
         }
@@ -1745,6 +1798,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Gets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
      *
      * @return true if JIDE will try to load the LnF class. Otherwise false
+     *
      * @see #setLoadLookAndFeelClass(boolean)
      * @since 3.2.0
      */

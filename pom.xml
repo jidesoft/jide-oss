@@ -21,6 +21,7 @@
     </licenses>
     <scm>
         <connection>https://svn.java.net/svn/jide-oss~svn/trunk</connection>
+        <developerConnection>scm:svn:https://svn.java.net/svn/jide-oss~svn/trunk</developerConnection>
         <url>https://svn.java.net/svn/jide-oss~svn/trunk</url>
     </scm>
     <build>
