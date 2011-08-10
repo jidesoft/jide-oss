@@ -20,21 +20,15 @@ import com.jidesoft.plaf.vsnet.VsnetMetalUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.plaf.xerto.XertoMetalUtils;
 import com.jidesoft.plaf.xerto.XertoWindowsUtils;
-import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
-import com.jidesoft.swing.TristateCheckBoxIcon;
 import com.jidesoft.utils.ProductNames;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import sun.swing.SwingLazyValue;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -560,11 +554,14 @@ public class LookAndFeelFactory implements ProductNames {
             uiDefaults.put("DockableFrameTitlePane.buttonGap", new Integer(4)); // gap between buttons
         }
         else */
+        initialize(lnf.getClass().getName(), uiDefaults);
+
         if ((lnf.getClass().getName().equals(ALLOY_LNF) && isAlloyLnfInstalled())
                 || (lnf.getClass().getName().equals(PLASTIC3D_LNF) && isPlastic3DLnfInstalled())
                 || (lnf.getClass().getName().equals(PLASTICXP_LNF) && isPlasticXPLnfInstalled())
                 || (lnf.getClass().getName().equals(PGS_LNF) && isPgsLnfInstalled())
                 || (lnf.getClass().getName().equals(TONIC_LNF) && isTonicLnfInstalled())) {
+
             switch (style) {
                 case OFFICE2007_STYLE:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
@@ -632,6 +629,7 @@ public class LookAndFeelFactory implements ProductNames {
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
             }
+
             if (uiDefaults.get("Theme.painter") == null) {
                 uiDefaults.put("Theme.painter", BasicPainter.getInstance());
             }
@@ -759,18 +757,6 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         else {
-            // built in initializer
-            if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
-                new GTKInitializer().initialize(uiDefaults);
-            }
-            else if (isSyntheticaLnfInstalled()
-                    && (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || isLnfInUse(SYNTHETICA_LNF))) {
-                new SyntheticaInitializer().initialize(uiDefaults);
-            }
-            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
-                new NimbusInitializer().initialize(uiDefaults);
-            }
-
             switch (style) {
                 case OFFICE2007_STYLE:
                     if (SystemInfo.isWindows()) {
@@ -856,22 +842,11 @@ public class LookAndFeelFactory implements ProductNames {
                     }
                     break;
             }
-
-            if (isGTKLnfInstalled() && isLnfInUse(GTK_LNF)) {
-                new GTKCustomizer().customize(uiDefaults);
-            }
-            else if (lnf.getClass().getName().startsWith(SYNTHETICA_LNF_PREFIX) || (isLnfInstalled(SYNTHETICA_LNF) && isLnfInUse(SYNTHETICA_LNF))) {
-                new SyntheticaCustomizer().customize(uiDefaults);
-            }
-            else if (isNimbusLnfInstalled() && lnf.getClass().getName().indexOf(NIMBUS_LNF_NAME) != -1) {
-                new NimbusCustomizer().customize(uiDefaults);
-            }
-            else if (isLnfInUse(MOTIF_LNF)) {
-                new MotifCustomizer().customize(uiDefaults);
-            }
         }
 
         uiDefaults.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
+
+        customize(lnf.getClass().getName(), uiDefaults);
 
         UIDefaultsCustomizer[] customizers = getUIDefaultsCustomizers();
         for (UIDefaultsCustomizer customizer : customizers) {
@@ -879,6 +854,213 @@ public class LookAndFeelFactory implements ProductNames {
                 customizer.customize(uiDefaults);
             }
         }
+    }
+
+    private static Map<String, String> _defaultInitializers;
+    private static Map<String, String> _defaultCustomizers;
+
+    public static void registerDefaultInitializer(String lnfClassName, String initializerClassName) {
+        if (_defaultInitializers == null) {
+            _defaultInitializers = new HashMap<String, String>();
+        }
+        _defaultInitializers.put(lnfClassName, initializerClassName);
+    }
+
+    public static void unregisterDefaultInitializer(String LnfClassName) {
+        if (_defaultInitializers != null) {
+            _defaultInitializers.remove(LnfClassName);
+        }
+    }
+
+    public static void clearDefaultInitializers() {
+        if (_defaultInitializers != null) {
+            _defaultInitializers.clear();
+        }
+    }
+
+    public static void registerDefaultCustomizer(String lnfClassName, String CustomizerClassName) {
+        if (_defaultCustomizers == null) {
+            _defaultCustomizers = new HashMap<String, String>();
+        }
+        _defaultCustomizers.put(lnfClassName, CustomizerClassName);
+    }
+
+    public static void unregisterDefaultCustomizer(String LnfClassName) {
+        if (_defaultCustomizers != null) {
+            _defaultCustomizers.remove(LnfClassName);
+        }
+    }
+
+    public static void clearDefaultCustomizers() {
+        if (_defaultCustomizers != null) {
+            _defaultCustomizers.clear();
+        }
+    }
+
+    private static void initialize(String lnfClassName, UIDefaults uiDefaults) {
+        Vector<String> lookup = new Vector<String>();
+        Vector<String> classLookup = new Vector<String>();
+        classLookup.insertElementAt(lnfClassName, 0);
+        String lnf = guessLookAndFeelName(lnfClassName);
+        if (lnf != null && lnf.trim().length() > 0) lookup.insertElementAt(lnf, 0);
+        try {
+            Class<?> clazz = Class.forName(lnfClassName);
+            while (clazz != null) {
+                Class<?> superclass = clazz.getSuperclass();
+                if (superclass != null && LookAndFeel.class.isAssignableFrom(superclass)) {
+                    lnfClassName = superclass.getName();
+                }
+                else {
+                    break;
+                }
+                classLookup.insertElementAt(lnfClassName, 0);
+                lnf = guessLookAndFeelName(lnfClassName);
+                if (lnf != null && lnf.trim().length() > 0) lookup.insertElementAt(lnf, 0);
+                clazz = superclass;
+            }
+        }
+        catch (ClassNotFoundException e) {
+            // ignore
+        }
+
+        for (String s : classLookup) {
+            String initializer = findDefaultInitializer(s);
+            if (initializer != null) {
+                invokeInitialize(uiDefaults, initializer);
+            }
+        }
+
+        for (String s : lookup) {
+            String initializer = getDefaultInitializer(s);
+            if (initializer != null) {
+                invokeInitialize(uiDefaults, initializer);
+            }
+        }
+    }
+
+    private static void invokeInitialize(UIDefaults uiDefaults, String initializer) {
+        try {
+            Class<?> clazz = Class.forName(initializer);
+            Object o = clazz.newInstance();
+            Method method = o.getClass().getMethod("initialize", UIDefaults.class);
+            method.invoke(o, uiDefaults);
+        }
+        catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            // ignore
+        }
+    }
+
+    private static String getDefaultInitializer(String lnf) {
+        return "com.jidesoft.plaf." + lnf.toLowerCase() + "." + lnf + "Initializer";
+    }
+
+    private static String findDefaultInitializer(String lnfClassName) {
+        if (_defaultInitializers != null) {
+            String s = _defaultInitializers.get(lnfClassName);
+            if (s != null) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    private static void customize(String lnfClassName, UIDefaults uiDefaults) {
+        Vector<String> lookup = new Vector<String>();
+        Vector<String> classLookup = new Vector<String>();
+        classLookup.insertElementAt(lnfClassName, 0);
+        String lnf = guessLookAndFeelName(lnfClassName);
+        if (lnf != null && lnf.trim().length() > 0) lookup.insertElementAt(lnf, 0);
+        try {
+            Class<?> clazz = Class.forName(lnfClassName);
+            while (clazz != null) {
+                Class<?> superclass = clazz.getSuperclass();
+                if (superclass != null && LookAndFeel.class.isAssignableFrom(superclass)) {
+                    lnfClassName = superclass.getName();
+                }
+                else {
+                    break;
+                }
+                classLookup.insertElementAt(lnfClassName, 0);
+                lnf = guessLookAndFeelName(lnfClassName);
+                if (lnf != null && lnf.trim().length() > 0) lookup.insertElementAt(lnf, 0);
+                clazz = superclass;
+            }
+        }
+        catch (ClassNotFoundException e) {
+            // ignore
+        }
+
+        for (String s : classLookup) {
+            String customizer = findDefaultCustomizer(s);
+            if (customizer != null) {
+                invokeCustomize(uiDefaults, customizer);
+            }
+        }
+
+        for (String s : lookup) {
+            String customizer = getDefaultCustomizer(s);
+            if (customizer != null) {
+                invokeCustomize(uiDefaults, customizer);
+            }
+        }
+    }
+
+    private static void invokeCustomize(UIDefaults uiDefaults, String customizer) {
+        try {
+            Class<?> clazz = Class.forName(customizer);
+            Object o = clazz.newInstance();
+            Method method = o.getClass().getMethod("customize", UIDefaults.class);
+            method.invoke(o, uiDefaults);
+        }
+        catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            // ignore
+        }
+    }
+
+    private static String getDefaultCustomizer(String lnf) {
+        return "com.jidesoft.plaf." + lnf.toLowerCase() + "." + lnf + "Customizer";
+    }
+
+    private static String findDefaultCustomizer(String lnfClassName) {
+        if (_defaultCustomizers != null) {
+            String s = _defaultCustomizers.get(lnfClassName);
+            if (s != null) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    private static String guessLookAndFeelName(String lnfClassName) {
+        int start = lnfClassName.lastIndexOf(".") + 1;
+        if (lnfClassName.endsWith("LookAndFeel")) {
+            return lnfClassName.substring(start, lnfClassName.length() - "LookAndFeel".length());
+        }
+        return null;
     }
 
     /**
@@ -1217,404 +1399,6 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static void removeUIDefaultsInitializer(UIDefaultsInitializer uiDefaultsInitializer) {
         _uiDefaultsInitializers.remove(uiDefaultsInitializer);
-    }
-
-    public static class GTKInitializer implements UIDefaultsInitializer {
-        public void initialize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "activeCaption", defaults.getColor("textHighlight"),
-                    "activeCaptionText", defaults.getColor("textHighlightText"),
-                    "inactiveCaptionBorder", defaults.getColor("controlShadowtextHighlightText"),
-            };
-            putDefaults(defaults, uiDefaults);
-        }
-    }
-
-    public static class GTKCustomizer implements UIDefaultsCustomizer {
-        public void customize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
-                public Object createValue(UIDefaults table) {
-                    return table.getIcon("CheckBox.icon");
-                }
-            }),
-                    "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
-            };
-            overwriteDefaults(defaults, uiDefaults);
-
-            if (SystemInfo.isJdk7Above()) {
-                String synthPackage = "com.jidesoft.plaf.synth.";
-                Object[] uiDefaultsJDK7 = {
-                        "CellStyleTableHeaderUI", synthPackage + "SynthCellStyleTableHeaderUI",
-                        "SortableTableHeaderUI", synthPackage + "SynthSortableTableHeaderUI",
-                        "AutoFilterTableHeaderUI", synthPackage + "SynthAutoFilterTableHeaderUI",
-                        "GroupTableHeaderUI", synthPackage + "SynthGroupTableHeaderUI",
-                        "NestedTableHeaderUI", synthPackage + "SynthNestedTableHeaderUI",
-                        "EditableTableHeaderUI", synthPackage + "SynthEditableTableHeaderUI",
-                        "ExComboBoxUI", synthPackage + "SynthExComboBoxUI",
-                };
-                overwriteDefaults(defaults, uiDefaultsJDK7);
-            }
-        }
-    }
-
-    public static class MotifCustomizer implements UIDefaultsCustomizer {
-        public void customize(UIDefaults defaults) {
-            Object[] uiDefaults = {
-                    "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
-                public Object createValue(UIDefaults table) {
-                    return table.getIcon("CheckBox.icon");
-                }
-            }),
-            };
-            overwriteDefaults(defaults, uiDefaults);
-        }
-    }
-
-    public static class SyntheticaInitializer implements UIDefaultsInitializer {
-        public void initialize(UIDefaults defaults) {
-            try {
-                Class syntheticaPopupBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaPopupBorder");
-                Object[] uiDefaults = {
-                        "Label.font", UIDefaultsLookup.getFont("Button.font"),
-                        "ToolBar.font", UIDefaultsLookup.getFont("Button.font"),
-                        "MenuItem.acceleratorFont", UIDefaultsLookup.getFont("Button.font"),
-                        "ComboBox.disabledForeground", defaults.get("Synthetica.comboBox.disabled.textColor"),
-                        "ComboBox.disabledBackground", defaults.get("Synthetica.comboBox.disabled.backgroundColor"),
-                        "Slider.focusInsets", new InsetsUIResource(0, 0, 0, 0),
-                        "PopupMenu.border", syntheticaPopupBorder.newInstance(),
-                };
-                putDefaults(defaults, uiDefaults);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static class SyntheticaCustomizer implements UIDefaultsCustomizer {
-        @SuppressWarnings({"ConstantConditions"})
-        public void customize(UIDefaults defaults) {
-            try {
-                Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
-                Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
-                Class syntheticaPopupBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaPopupBorder");
-                String prefix = "com.jidesoft.plaf.synthetica.Synthetica";
-                Color toolbarBackground = new JToolBar().getBackground();
-                int products = LookAndFeelFactory.getProductsUsed();
-                {
-                    Object[] uiDefaults = {
-                            "TristateCheckBox.icon", null,
-                            "TristateCheckBox.setMixed.componentName", "HalfSelected",
-                            "TristateCheckBox.clearMixed.componentName", "",
-
-                            "JideTabbedPaneUI", prefix + "JideTabbedPaneUI",
-                            "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
-                            "JideSplitPane.dividerSize", 6,
-                            "JideTabbedPane.foreground", UIManager.getColor("TabbedPane.foreground"),
-                            "JideTabbedPane.unselectedTabTextForeground", UIManager.getColor("TabbedPane.foreground"),
-                            "JideTabbedPane.tabAreaBackground", UIManager.getColor("control"),
-                            "JideTabbedPane.background", UIManager.getColor("control"),
-                            "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                            "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_ROUNDED_VSNET,
-                            "JideTabbedPane.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-                            "JideButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
-                            "JideSplitButton.foreground", UIDefaultsLookup.getColor("Button.foreground"),
-                            "Icon.floating", Boolean.FALSE,
-                            "ContentContainer.background", toolbarBackground,
-                            "PopupMenu.border", syntheticaPopupBorder.newInstance(),
-                            "JideLabel.font", UIManager.getFont("Label.font"),
-                            "JideLabel.background", UIManager.getColor("Label.background"),
-                            "JideLabel.foreground", UIManager.getColor("Label.foreground"),
-                            "JidePopupMenu.uiExtensionDisabled", Boolean.TRUE,// disabled it so that the popup menu will be displayed correctly
-                    };
-                    overwriteDefaults(defaults, uiDefaults);
-                }
-
-                if ((products & PRODUCT_COMPONENTS) != 0) {
-                    Object[] uiDefaults = {
-                            "CollapsiblePane.background", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                            "CollapsiblePane.emphasizedBackground", UIDefaultsLookup.getColor("TaskPane.borderColor"),
-                            "CollapsiblePane.foreground", UIDefaultsLookup.getColor("TaskPane.titleForeground"),
-                            "CollapsiblePane.emphasizedForeground", UIDefaultsLookup.getColor("TaskPane.specialTitleForeground"),
-                            "CollapsiblePane.contentBackground", UIDefaultsLookup.getColor("Panel.background"),
-                            "CollapsiblePane.font", UIDefaultsLookup.getFont("TaskPane.font") != null ? UIDefaultsLookup.getFont("TaskPane.font") : UIDefaultsLookup.getFont("Label.font"),
-                            "StatusBarItem.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 2, 2)),
-                            "StatusBar.childrenOpaque", false,
-                            "StatusBar.paintResizableIcon", false,
-
-                            "OutlookTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
-                            "FloorTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
-                    };
-                    overwriteDefaults(defaults, uiDefaults);
-                }
-
-                if ((products & PRODUCT_GRIDS) != 0) {
-                    Object[] uiDefaults = {
-                            "CellStyleTableHeaderUI", prefix + "CellStyleTableHeaderUI",
-                            "SortableTableHeaderUI", prefix + "SortableTableHeaderUI",
-                            "AutoFilterTableHeaderUI", prefix + "AutoFilterTableHeaderUI",
-                            "GroupTableHeaderUI", prefix + "GroupTableHeaderUI",
-                            "NestedTableHeaderUI", prefix + "NestedTableHeaderUI",
-                            "EditableTableHeaderUI", prefix + "EditableTableHeaderUI",
-                            "TableHeader.DefaultRendererInsets", new Insets(2, 4, 2, 4),
-                            "ExComboBoxUI", prefix + "ExComboBoxUI",
-
-                            "List.focusInputMap",
-                            new UIDefaults.LazyInputMap(new Object[]{
-                                    "ctrl C", "copy",
-                                    "ctrl V", "paste",
-                                    "ctrl X", "cut",
-                                    "COPY", "copy",
-                                    "PASTE", "paste",
-                                    "CUT", "cut",
-                                    "control INSERT", "copy",
-                                    "shift INSERT", "paste",
-                                    "shift DELETE", "cut",
-                                    "UP", "selectPreviousRow",
-                                    "KP_UP", "selectPreviousRow",
-                                    "shift UP", "selectPreviousRowExtendSelection",
-                                    "shift KP_UP", "selectPreviousRowExtendSelection",
-                                    "ctrl shift UP", "selectPreviousRowExtendSelection",
-                                    "ctrl shift KP_UP", "selectPreviousRowExtendSelection",
-                                    "ctrl UP", "selectPreviousRowChangeLead",
-                                    "ctrl KP_UP", "selectPreviousRowChangeLead",
-                                    "DOWN", "selectNextRow",
-                                    "KP_DOWN", "selectNextRow",
-                                    "shift DOWN", "selectNextRowExtendSelection",
-                                    "shift KP_DOWN", "selectNextRowExtendSelection",
-                                    "ctrl shift DOWN", "selectNextRowExtendSelection",
-                                    "ctrl shift KP_DOWN", "selectNextRowExtendSelection",
-                                    "ctrl DOWN", "selectNextRowChangeLead",
-                                    "ctrl KP_DOWN", "selectNextRowChangeLead",
-                                    "LEFT", "selectPreviousColumn",
-                                    "KP_LEFT", "selectPreviousColumn",
-                                    "shift LEFT", "selectPreviousColumnExtendSelection",
-                                    "shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                                    "ctrl shift LEFT", "selectPreviousColumnExtendSelection",
-                                    "ctrl shift KP_LEFT", "selectPreviousColumnExtendSelection",
-                                    "ctrl LEFT", "selectPreviousColumnChangeLead",
-                                    "ctrl KP_LEFT", "selectPreviousColumnChangeLead",
-                                    "RIGHT", "selectNextColumn",
-                                    "KP_RIGHT", "selectNextColumn",
-                                    "shift RIGHT", "selectNextColumnExtendSelection",
-                                    "shift KP_RIGHT", "selectNextColumnExtendSelection",
-                                    "ctrl shift RIGHT", "selectNextColumnExtendSelection",
-                                    "ctrl shift KP_RIGHT", "selectNextColumnExtendSelection",
-                                    "ctrl RIGHT", "selectNextColumnChangeLead",
-                                    "ctrl KP_RIGHT", "selectNextColumnChangeLead",
-                                    "HOME", "selectFirstRow",
-                                    "shift HOME", "selectFirstRowExtendSelection",
-                                    "ctrl shift HOME", "selectFirstRowExtendSelection",
-                                    "ctrl HOME", "selectFirstRowChangeLead",
-                                    "END", "selectLastRow",
-                                    "shift END", "selectLastRowExtendSelection",
-                                    "ctrl shift END", "selectLastRowExtendSelection",
-                                    "ctrl END", "selectLastRowChangeLead",
-                                    "PAGE_UP", "scrollUp",
-                                    "shift PAGE_UP", "scrollUpExtendSelection",
-                                    "ctrl shift PAGE_UP", "scrollUpExtendSelection",
-                                    "ctrl PAGE_UP", "scrollUpChangeLead",
-                                    "PAGE_DOWN", "scrollDown",
-                                    "shift PAGE_DOWN", "scrollDownExtendSelection",
-                                    "ctrl shift PAGE_DOWN", "scrollDownExtendSelection",
-                                    "ctrl PAGE_DOWN", "scrollDownChangeLead",
-                                    "ctrl A", "selectAll",
-                                    "ctrl SLASH", "selectAll",
-                                    "ctrl BACK_SLASH", "clearSelection",
-                                    "SPACE", "addToSelection",
-                                    "ctrl SPACE", "toggleAndAnchor",
-                                    "shift SPACE", "extendTo",
-                                    "ctrl shift SPACE", "moveSelectionTo"
-                            }),
-                            "List.focusInputMap.RightToLeft",
-                            new UIDefaults.LazyInputMap(new Object[]{
-                                    "LEFT", "selectNextColumn",
-                                    "KP_LEFT", "selectNextColumn",
-                                    "shift LEFT", "selectNextColumnExtendSelection",
-                                    "shift KP_LEFT", "selectNextColumnExtendSelection",
-                                    "ctrl shift LEFT", "selectNextColumnExtendSelection",
-                                    "ctrl shift KP_LEFT", "selectNextColumnExtendSelection",
-                                    "ctrl LEFT", "selectNextColumnChangeLead",
-                                    "ctrl KP_LEFT", "selectNextColumnChangeLead",
-                                    "RIGHT", "selectPreviousColumn",
-                                    "KP_RIGHT", "selectPreviousColumn",
-                                    "shift RIGHT", "selectPreviousColumnExtendSelection",
-                                    "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                                    "ctrl shift RIGHT", "selectPreviousColumnExtendSelection",
-                                    "ctrl shift KP_RIGHT", "selectPreviousColumnExtendSelection",
-                                    "ctrl RIGHT", "selectPreviousColumnChangeLead",
-                                    "ctrl KP_RIGHT", "selectPreviousColumnChangeLead",
-                            }),
-                    };
-                    overwriteDefaults(defaults, uiDefaults);
-                }
-
-                if ((products & PRODUCT_ACTION) != 0) {
-                    Object[] uiDefaults = {
-                            "CommandBar.background", toolbarBackground,
-                            "CommandBar.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                            "CommandBar.borderVert", new BorderUIResource(BorderFactory.createEmptyBorder()),
-                            "CommandBar.borderFloating", syntheticaFrameBorder.newInstance(),
-                            "CommandBar.titleBarBackground", UIDefaultsLookup.getColor("InternalFrame.activeTitleBackground"),
-                            "CommandBar.titleBarForeground", UIDefaultsLookup.getColor("InternalFrame.activeTitleForeground"),
-                            "CommandBarContainer.verticalGap", 0,
-                    };
-                    overwriteDefaults(defaults, uiDefaults);
-                }
-
-                if ((products & PRODUCT_DOCK) != 0) {
-                    Object[] uiDefaults = {
-                            "Workspace.background", UIManager.getColor("control"),
-
-                            "DockableFrame.inactiveTitleForeground", UIDefaultsLookup.getColor("JYDocking.titlebar.foreground"),
-                            "DockableFrame.activeTitleForeground", UIDefaultsLookup.getColor("JYDocking.titlebar.active.foreground"),
-                            "DockableFrame.titleBorder", UIDefaultsLookup.getColor("JYDocking.contentPane.border.color"),
-                            "FrameContainer.contentBorderInsets", new InsetsUIResource(2, 2, 2, 2),
-
-                            "DockableFrameTitlePane.hideIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.closeButton.icon")),
-                            "DockableFrameTitlePane.hideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.closeButton.icon.hover")),
-                            "DockableFrameTitlePane.hideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.closeButton.icon")),
-                            "DockableFrameTitlePane.hideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.closeButton.icon.hover")),
-
-                            "DockableFrameTitlePane.floatIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.floatButton.icon")),
-                            "DockableFrameTitlePane.floatRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.floatButton.icon.hover")),
-                            "DockableFrameTitlePane.floatActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.floatButton.icon")),
-                            "DockableFrameTitlePane.floatRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.floatButton.icon.hover")),
-
-                            "DockableFrameTitlePane.unfloatIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.floatButton.icon.selected")),
-                            "DockableFrameTitlePane.unfloatRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.floatButton.icon.hover.selected")),
-                            "DockableFrameTitlePane.unfloatActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.floatButton.icon.selected")),
-                            "DockableFrameTitlePane.unfloatRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.floatButton.icon.hover.selected")),
-
-                            "DockableFrameTitlePane.autohideIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.minimizeButton.icon")),
-                            "DockableFrameTitlePane.autohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.minimizeButton.icon.hover")),
-                            "DockableFrameTitlePane.autohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.minimizeButton.icon")),
-                            "DockableFrameTitlePane.autohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.minimizeButton.icon.hover")),
-
-                            "DockableFrameTitlePane.stopAutohideIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon.selected")),
-                            "DockableFrameTitlePane.stopAutohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon.hover.selected")),
-                            "DockableFrameTitlePane.stopAutohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon.selected")),
-                            "DockableFrameTitlePane.stopAutohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon.hover.selected")),
-
-                            "DockableFrameTitlePane.hideAutohideIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.minimizeButton.icon")),
-                            "DockableFrameTitlePane.hideAutohideRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.minimizeButton.icon.hover")),
-                            "DockableFrameTitlePane.hideAutohideActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.minimizeButton.icon")),
-                            "DockableFrameTitlePane.hideAutohideRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.minimizeButton.icon.hover")),
-
-                            "DockableFrameTitlePane.maximizeIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon")),
-                            "DockableFrameTitlePane.maximizeRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon.hover")),
-                            "DockableFrameTitlePane.maximizeActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon")),
-                            "DockableFrameTitlePane.maximizeRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon.hover")),
-
-                            "DockableFrameTitlePane.restoreIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon.selected")),
-                            "DockableFrameTitlePane.restoreRolloverIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.maximizeButton.icon.hover.selected")),
-                            "DockableFrameTitlePane.restoreActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon.selected")),
-                            "DockableFrameTitlePane.restoreRolloverActiveIcon", loadSyntheticaIcon(syntheticaClass, ("JYDocking.titlebar.active.maximizeButton.icon.hover.selected")),
-
-                            "DockableFrameTitlePane.use3dButtons", Boolean.FALSE,
-                            "DockableFrameTitlePane.contentFilledButtons", Boolean.FALSE,
-                            "DockableFrameTitlePane.buttonGap", 0,
-                    };
-                    overwriteDefaults(defaults, uiDefaults);
-                }
-                Class<?> painterClass = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaJidePainter");
-                Method getInstanceMethod = painterClass.getMethod("getInstance");
-                Object painter = getInstanceMethod.invoke(null);
-                UIDefaultsLookup.put(UIManager.getDefaults(), "Theme.painter", painter);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static Icon loadSyntheticaIcon(Class syntheticaClass, String key) {
-        try {
-            Method method = syntheticaClass.getMethod("loadIcon", String.class);
-            return (Icon) method.invoke(null, key);
-        }
-        catch (Exception e) {
-            return IconsFactory.getImageIcon(syntheticaClass, UIDefaultsLookup.getString(key));
-        }
-    }
-
-    public static class NimbusInitializer implements UIDefaultsInitializer {
-        public void initialize(UIDefaults defaults) {
-            Object marginBorder = new SwingLazyValue(
-                    "javax.swing.plaf.basic.BasicBorders$MarginBorder");
-
-            Object[] uiDefaults = {
-                    "textHighlight", new ColorUIResource(197, 218, 233),
-                    "controlText", new ColorUIResource(Color.BLACK),
-                    "activeCaptionText", new ColorUIResource(Color.BLACK),
-                    "MenuItem.acceleratorFont", new FontUIResource("Arial", Font.PLAIN, 12),
-                    "ComboBox.background", new ColorUIResource(Color.WHITE),
-                    "ComboBox.disabledForeground", new ColorUIResource(Color.DARK_GRAY),
-                    "ComboBox.disabledBackground", new ColorUIResource(Color.GRAY),
-
-                    "activeCaption", new ColorUIResource(197, 218, 233),
-                    "inactiveCaption", new ColorUIResource(Color.DARK_GRAY),
-                    "control", new ColorUIResource(220, 223, 228),
-                    "controlLtHighlight", new ColorUIResource(Color.WHITE),
-                    "controlHighlight", new ColorUIResource(Color.LIGHT_GRAY),
-                    "controlShadow", new ColorUIResource(133, 137, 144),
-                    "controlDkShadow", new ColorUIResource(Color.BLACK),
-                    "MenuItem.background", new ColorUIResource(237, 239, 242),
-                    "SplitPane.background", new ColorUIResource(220, 223, 228),
-                    "Tree.hash", new ColorUIResource(Color.GRAY),
-
-                    "TextField.foreground", new ColorUIResource(Color.BLACK),
-                    "TextField.inactiveForeground", new ColorUIResource(Color.BLACK),
-                    "TextField.selectionForeground", new ColorUIResource(Color.WHITE),
-                    "TextField.selectionBackground", new ColorUIResource(197, 218, 233),
-                    "Table.gridColor", new ColorUIResource(Color.BLACK),
-                    "TextField.background", new ColorUIResource(Color.WHITE),
-
-                    "Table.selectionBackground", defaults.getColor("Tree.selectionBackground"),
-                    "Table.selectionForeground", defaults.getColor("Tree.selectionForeground"),
-
-                    "Menu.border", marginBorder,
-                    "MenuItem.border", marginBorder,
-                    "CheckBoxMenuItem.border", marginBorder,
-                    "RadioButtonMenuItem.border", marginBorder,
-            };
-            putDefaults(defaults, uiDefaults);
-        }
-    }
-
-    public static class NimbusCustomizer implements UIDefaultsCustomizer {
-        public void customize(UIDefaults defaults) {
-            {
-                Object[] uiDefaults = {
-                        "TristateCheckBox.icon", new TristateCheckBoxIcon(new UIDefaults.LazyValue() {
-                    public Object createValue(UIDefaults table) {
-                        return table.getIcon("CheckBox.icon");
-                    }
-                }),
-                        "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
-                };
-                overwriteDefaults(defaults, uiDefaults);
-            }
-
-            int products = LookAndFeelFactory.getProductsUsed();
-
-            String synthPackageName = "com.jidesoft.plaf.synth.";
-
-            if ((products & PRODUCT_GRIDS) != 0) {
-                Object[] uiDefaults = {
-                        // grids
-                        "CellStyleTableHeaderUI", synthPackageName + "SynthCellStyleTableHeaderUI",
-                        "SortableTableHeaderUI", synthPackageName + "SynthSortableTableHeaderUI",
-                        "NestedTableHeaderUI", synthPackageName + "SynthNestedTableHeaderUI",
-                        "EditableTableHeaderUI", synthPackageName + "SynthEditableTableHeaderUI",
-                        "AutoFilterTableHeaderUI", synthPackageName + "SynthAutoFilterTableHeaderUI",
-                        "GroupTableHeaderUI", synthPackageName + "SynthGroupTableHeaderUI",
-                        "ExComboBoxUI", synthPackageName + "SynthExComboBoxUI",
-                };
-                overwriteDefaults(defaults, uiDefaults);
-            }
-        }
     }
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
