@@ -1299,6 +1299,7 @@ public class LookAndFeelFactory implements ProductNames {
                 Class syntheticaClass = Class.forName(SYNTHETICA_LNF);
                 Class syntheticaFrameBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaFrameBorder");
                 Class syntheticaPopupBorder = Class.forName("com.jidesoft.plaf.synthetica.SyntheticaPopupBorder");
+                String prefix = "com.jidesoft.plaf.synthetica.Synthetica";
                 Color toolbarBackground = new JToolBar().getBackground();
                 int products = LookAndFeelFactory.getProductsUsed();
                 {
@@ -1307,7 +1308,7 @@ public class LookAndFeelFactory implements ProductNames {
                             "TristateCheckBox.setMixed.componentName", "HalfSelected",
                             "TristateCheckBox.clearMixed.componentName", "",
 
-                            "JideTabbedPaneUI", "com.jidesoft.plaf.synthetica.SyntheticaJideTabbedPaneUI",
+                            "JideTabbedPaneUI", prefix + "JideTabbedPaneUI",
                             "RangeSliderUI", "javax.swing.plaf.synth.SynthRangeSliderUI",
                             "JideSplitPane.dividerSize", 6,
                             "JideTabbedPane.foreground", UIManager.getColor("TabbedPane.foreground"),
@@ -1350,14 +1351,14 @@ public class LookAndFeelFactory implements ProductNames {
 
                 if ((products & PRODUCT_GRIDS) != 0) {
                     Object[] uiDefaults = {
-                            "CellStyleTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaCellStyleTableHeaderUI",
-                            "SortableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaSortableTableHeaderUI",
-                            "AutoFilterTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaAutoFilterTableHeaderUI",
-                            "GroupTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaGroupTableHeaderUI",
-                            "NestedTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaNestedTableHeaderUI",
-                            "EditableTableHeaderUI", "com.jidesoft.plaf.synthetica.SyntheticaEditableTableHeaderUI",
+                            "CellStyleTableHeaderUI", prefix + "CellStyleTableHeaderUI",
+                            "SortableTableHeaderUI", prefix + "SortableTableHeaderUI",
+                            "AutoFilterTableHeaderUI", prefix + "AutoFilterTableHeaderUI",
+                            "GroupTableHeaderUI", prefix + "GroupTableHeaderUI",
+                            "NestedTableHeaderUI", prefix + "NestedTableHeaderUI",
+                            "EditableTableHeaderUI", prefix + "EditableTableHeaderUI",
                             "TableHeader.DefaultRendererInsets", new Insets(2, 4, 2, 4),
-                            "ExComboBoxUI", "com.jidesoft.plaf.synthetica.SyntheticaExComboBoxUI",
+                            "ExComboBoxUI", prefix + "ExComboBoxUI",
 
                             "List.focusInputMap",
                             new UIDefaults.LazyInputMap(new Object[]{
