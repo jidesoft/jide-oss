@@ -9275,6 +9275,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             tabRect.width = 200;
 
         String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
+        if (title == null || title.length() == 0) {
+            title = "i"; // adjust so that the editor is painted at correct position
+        }
 //        while (title == null || title.length() < 3)
 //            title += " ";
 
