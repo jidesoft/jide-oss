@@ -560,7 +560,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 boolean wrapped = false;
                 int widthLeft = paintWidth - x;
                 if (widthLeft < strWidth) {
-                    if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount < label.getMaxRows() - 1) || label.getMaxRows() <= 0) && y + 5 < label.getHeight()) {
+                    if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount < label.getMaxRows() - 1) || label.getMaxRows() <= 0) && y + maxRowHeight + Math.max(0, label.getRowGap()) <= label.getHeight()) {
                         wrapped = true;
                         int availLength = s.length() * widthLeft / strWidth + 1;
                         int nextWordStartIndex;
