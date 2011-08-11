@@ -117,7 +117,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 int index = 0;
                 for (StyleRange styleRange : styleRanges) {
                     if (styleRange.getStart() > index) { // fill in the gap
-                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart())));
+                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart()), new StyleRange(index, styleRange.getStart() - index, Font.PLAIN)));
                         index = styleRange.getStart();
                     }
 
@@ -136,7 +136,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                 }
                 if (index < s.length()) {
-                    _styledTexts.add(new StyledText(s.substring(index, s.length())));
+                    _styledTexts.add(new StyledText(s.substring(index, s.length()), new StyleRange(index, s.length() - index, Font.PLAIN)));
                 }
             }
         }
@@ -500,6 +500,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             String nextS;
             int maxRowHeight = fm.getHeight();
             int minStartY = fm.getAscent();
+            int horizontalAlignment = label.getHorizontalAlignment();
+            switch (horizontalAlignment) {
+                case LEADING:
+                    horizontalAlignment = label.getComponentOrientation().isLeftToRight() ? LEFT : RIGHT;
+                    break;
+                case TRAILING:
+                    horizontalAlignment = label.getComponentOrientation().isLeftToRight() ? RIGHT : LEFT;
+                    break;
+            }
             for (StyledText styledText : _styledTexts) {
                 StyleRange style = styledText.styleRange;
                 int size = (style != null && (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
@@ -518,6 +527,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
             int nextRowStartIndex = 0;
             int rowCount = 0;
+            int rowStartOffset = 0;
             for (int i = 0; i < _styledTexts.size(); i++) {
                 StyledText styledText = _styledTexts.get(i);
                 StyleRange style = styledText.styleRange;
@@ -574,11 +584,25 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             nextWordStartIndex = firstRowWordEndIndex < 0 ? 0 : findNextWordStartIndex(s, firstRowWordEndIndex);
                             if (firstRowWordEndIndex < 0) {
                                 if (x != textX) {
+                                    boolean lastRow = label.getMaxRows() > 0 && rowCount >= label.getMaxRows();
+                                    if (horizontalAlignment != LEFT) {
+                                        int startX = textX;
+                                        int width = x;
+                                        if (horizontalAlignment == RIGHT) {
+                                            width = x - startX;
+                                            startX = label.getWidth() - width;
+                                        }
+                                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
+                                            startX += (label.getWidth() - width) / 2;
+                                        }
+                                        paintRow(label, g, startX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
+                                    }
                                     textY += maxRowHeight + Math.max(0, label.getRowGap());
                                     x = textX;
                                     i--;
                                     rowCount++;
-                                    if (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) {
+                                    rowStartOffset = style.getStart() + Math.min(nextRowStartIndex, styledText.text.length());
+                                    if (lastRow) {
                                         needBreak = true;
                                     }
                                     needContinue = true;
@@ -668,92 +692,365 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
 
                 // start of actual painting
-                if (style != null && style.isSuperscript()) {
-                    y -= fm.getHeight() - fm2.getHeight();
-                }
-
-                if (style != null && style.getBackgroundColor() != null) {
-                    g.setColor(style.getBackgroundColor());
-                    g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
-                }
-
-                Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
-                if (!label.isEnabled()) {
-                    textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
-                }
-                g.setColor(textColor);
-
-                if (displayMnemonic) {
-                    JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
-                }
-                else {
-                    JideSwingUtilities.drawString(label, g, s, x, y);
-                }
-
-                if (style != null) {
-                    Stroke oldStroke = ((Graphics2D) g).getStroke();
-                    if (style.getLineStroke() != null) {
-                        ((Graphics2D) g).setStroke(style.getLineStroke());
+                if (horizontalAlignment == LEFT) {
+                    if (style != null && style.isSuperscript()) {
+                        y -= fm.getHeight() - fm2.getHeight();
                     }
 
-                    if (!label.isIgnoreColorSettings() && style.getLineColor() != null) {
-                        g.setColor(style.getLineColor());
+                    if (style != null && style.getBackgroundColor() != null) {
+                        g.setColor(style.getBackgroundColor());
+                        g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
                     }
 
-                    if (style.isStrikethrough()) {
-                        int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
-                        g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                    Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
+                    if (!label.isEnabled()) {
+                        textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
                     }
-                    if (style.isDoublestrikethrough()) {
-                        int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
-                        g.drawLine(x, lineY - 1, x + strWidth - 1, lineY - 1);
-                        g.drawLine(x, lineY + 1, x + strWidth - 1, lineY + 1);
+                    g.setColor(textColor);
+
+                    if (displayMnemonic) {
+                        JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
                     }
-                    if (style.isUnderlined()) {
-                        int lineY = y + 1;
-                        g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                    else {
+                        JideSwingUtilities.drawString(label, g, s, x, y);
                     }
-                    if (style.isDotted()) {
-                        int dotY = y + 1;
-                        for (int dotX = x; dotX < x + strWidth; dotX += 4) {
-                            g.drawRect(dotX, dotY, 1, 1);
+
+                    if (style != null) {
+                        Stroke oldStroke = ((Graphics2D) g).getStroke();
+                        if (style.getLineStroke() != null) {
+                            ((Graphics2D) g).setStroke(style.getLineStroke());
                         }
-                    }
-                    if (style.isWaved()) {
-                        int waveY = y + 1;
-                        for (int waveX = x; waveX < x + strWidth; waveX += 4) {
-                            if (waveX + 2 <= x + strWidth - 1)
-                                g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
-                            if (waveX + 4 <= x + strWidth - 1)
-                                g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
+
+                        if (!label.isIgnoreColorSettings() && style.getLineColor() != null) {
+                            g.setColor(style.getLineColor());
                         }
-                    }
-                    if (style.getLineStroke() != null) {
-                        ((Graphics2D) g).setStroke(oldStroke);
+
+                        if (style.isStrikethrough()) {
+                            int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                            g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                        }
+                        if (style.isDoublestrikethrough()) {
+                            int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                            g.drawLine(x, lineY - 1, x + strWidth - 1, lineY - 1);
+                            g.drawLine(x, lineY + 1, x + strWidth - 1, lineY + 1);
+                        }
+                        if (style.isUnderlined()) {
+                            int lineY = y + 1;
+                            g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                        }
+                        if (style.isDotted()) {
+                            int dotY = y + 1;
+                            for (int dotX = x; dotX < x + strWidth; dotX += 4) {
+                                g.drawRect(dotX, dotY, 1, 1);
+                            }
+                        }
+                        if (style.isWaved()) {
+                            int waveY = y + 1;
+                            for (int waveX = x; waveX < x + strWidth; waveX += 4) {
+                                if (waveX + 2 <= x + strWidth - 1)
+                                    g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
+                                if (waveX + 4 <= x + strWidth - 1)
+                                    g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
+                            }
+                        }
+                        if (style.getLineStroke() != null) {
+                            ((Graphics2D) g).setStroke(oldStroke);
+                        }
                     }
                 }
                 // end of actual painting
 
                 if (stop) {
+                    if (horizontalAlignment != LEFT) {
+                        x += strWidth;
+                        int startX = textX;
+                        int width = x;
+                        if (horizontalAlignment == RIGHT) {
+                            width = x - startX;
+                            startX = label.getWidth() - width;
+                        }
+                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
+                            startX += (label.getWidth() - width) / 2;
+                        }
+                        paintRow(label, g, startX, textY, rowStartOffset, -1, width, true);
+                    }
                     break;
                 }
 
                 if (wrapped) {
+                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > label.getHeight();
+                    if (horizontalAlignment != LEFT) {
+                        x += strWidth;
+                        int startX = textX;
+                        int width = x;
+                        if (horizontalAlignment == RIGHT) {
+                            width = x - startX;
+                            startX = label.getWidth() - width;
+                        }
+                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
+                            startX += (label.getWidth() - width) / 2;
+                        }
+                        paintRow(label, g, startX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
+                    }
                     textY += maxRowHeight + Math.max(0, label.getRowGap());
                     x = textX;
                     i--;
                     rowCount++;
-                    if ((label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY > label.getHeight()) {
+                    rowStartOffset = style.getStart() + Math.min(nextRowStartIndex, styledText.text.length());
+                    if (lastRow) {
                         break;
                     }
                 }
                 else {
                     x += strWidth;
                 }
+                if (i == _styledTexts.size() - 1) {
+                    if (horizontalAlignment != LEFT) {
+                        int startX = textX;
+                        int width = x;
+                        if (horizontalAlignment == RIGHT) {
+                            width = x - startX;
+                            startX = label.getWidth() - width;
+                        }
+                        else if (horizontalAlignment == CENTER && label.isLineWrap() && rowCount > 1) {
+                            startX += (label.getWidth() - width) / 2;
+                        }
+                        paintRow(label, g, startX, textY, rowStartOffset, -1, width, true);
+                    }
+                }
             }
         }
 
         g.setColor(oldColor);
+    }
+
+    private void paintRow(StyledLabel label, Graphics g, int textX, int textY, int startOffset, int endOffset, int paintWidth, boolean lastRow) {
+        int mnemonicIndex = label.getDisplayedMnemonicIndex();
+        if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
+                WindowsLookAndFeel.isMnemonicHidden()) {
+            mnemonicIndex = -1;
+        }
+
+        int charDisplayed = 0;
+        boolean displayMnemonic;
+        int mneIndex = 0;
+        Font font = getFont(label);
+        FontMetrics fm = label.getFontMetrics(font);
+        FontMetrics fm2;
+        FontMetrics nextFm2 = null;
+        int defaultFontSize = font.getSize();
+
+        int x = textX;
+        for (int i = 0; i < _styledTexts.size() && (endOffset < 0 || charDisplayed < endOffset); i++) {
+            StyledText styledText = _styledTexts.get(i);
+            StyleRange style = styledText.styleRange;
+            int length = style.getLength();
+            if (length < 0) {
+                length = styledText.text.length();
+            }
+            if (style.getStart() + length <= startOffset) {
+                charDisplayed += length;
+                continue;
+            }
+            int nextRowStartIndex = style.getStart() >= startOffset ? 0 : startOffset - style.getStart();
+            charDisplayed += nextRowStartIndex;
+
+            if (mnemonicIndex >= 0 && styledText.text.length() - nextRowStartIndex > mnemonicIndex - charDisplayed) {
+                displayMnemonic = true;
+                mneIndex = mnemonicIndex - charDisplayed;
+            }
+            else {
+                displayMnemonic = false;
+            }
+            int paintLength = styledText.text.length() - nextRowStartIndex;
+            if (endOffset >= 0 && charDisplayed + paintLength >= endOffset) {
+                paintLength = endOffset - charDisplayed;
+            }
+            charDisplayed += paintLength;
+
+            int y = textY;
+
+            if (nextFm2 == null) {
+                int size = (style != null &&
+                        (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
+
+                font = getFont(label);
+                if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                    font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                    fm2 = label.getFontMetrics(font);
+                }
+                else {
+                    fm2 = fm;
+                }
+            }
+            else {
+                fm2 = nextFm2;
+            }
+
+            g.setFont(font);
+
+            String s = styledText.text.substring(Math.min(nextRowStartIndex, styledText.text.length()));
+            if (s.length() > paintLength) {
+                s = s.substring(0, paintLength);
+            }
+
+            int strWidth = fm2.stringWidth(s);
+
+            int widthLeft = paintWidth + textX - x;
+            if (widthLeft < strWidth) {
+                if (label.isLineWrap() && !lastRow) {
+                    int availLength = s.length() * widthLeft / strWidth + 1;
+                    int nextWordStartIndex;
+                    int nextRowStartIndexInSubString = 0;
+                    int loopCount = 0;
+                    do {
+                        String subString = s.substring(0, Math.min(availLength, s.length()));
+                        int firstRowWordEndIndex = findFirstRowWordEndIndex(subString);
+                        nextWordStartIndex = firstRowWordEndIndex < 0 ? 0 : findNextWordStartIndex(s, firstRowWordEndIndex);
+                        if (firstRowWordEndIndex < 0) {
+                            if (x == textX) {
+                                firstRowWordEndIndex = 0;
+                                nextWordStartIndex = Math.min(s.length(), availLength);
+                            }
+                        }
+                        nextRowStartIndexInSubString = firstRowWordEndIndex + 1;
+                        String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
+                        strWidth = fm2.stringWidth(subStringThisRow);
+                        if (strWidth > widthLeft) {
+                            availLength = subString.length() * widthLeft / strWidth;
+                        }
+                        loopCount++;
+                        if (loopCount > 5) {
+                            System.err.println("Painting Styled Label Error: " + styledText);
+                            break;
+                        }
+                    } while (strWidth > widthLeft && availLength > 0);
+                    while (nextRowStartIndexInSubString < nextWordStartIndex) {
+                        strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
+                        if (strWidth >= widthLeft) {
+                            break;
+                        }
+                        nextRowStartIndexInSubString++;
+                    }
+                    s = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
+                    strWidth = fm2.stringWidth(s);
+                    charDisplayed -= styledText.text.length() - nextRowStartIndex;
+                    if (displayMnemonic) {
+                        if (mnemonicIndex >= 0 && s.length() > mnemonicIndex - charDisplayed) {
+                            displayMnemonic = true;
+                            mneIndex = mnemonicIndex - charDisplayed;
+                        }
+                        else {
+                            displayMnemonic = false;
+                        }
+                    }
+                    charDisplayed += s.length();
+                    nextRowStartIndex += nextRowStartIndexInSubString;
+                }
+                else {
+                    // use this method to clip string
+                    s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                            label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                    strWidth = fm2.stringWidth(s);
+                }
+            }
+            else if (label.isLineWrap()) {
+                nextRowStartIndex = 0;
+            }
+            else if (i < _styledTexts.size() - 1) {
+                StyledText nextStyledText = _styledTexts.get(i + 1);
+                String nextText = nextStyledText.text;
+                StyleRange nextStyle = nextStyledText.styleRange;
+                int size = (nextStyle != null &&
+                        (nextStyle.isSuperscript() || nextStyle.isSubscript())) ? Math.round((float) defaultFontSize / nextStyle.getFontShrinkRatio()) : defaultFontSize;
+
+                font = getFont(label);
+                if (nextStyle != null && ((nextStyle.getFontStyle() != -1 && font.getStyle() != nextStyle.getFontStyle()) || font.getSize() != size)) {
+                    font = FontUtils.getCachedDerivedFont(font, nextStyle.getFontStyle() == -1 ? font.getStyle() : nextStyle.getFontStyle(), size);
+                    nextFm2 = label.getFontMetrics(font);
+                }
+                else {
+                    nextFm2 = fm;
+                }
+                if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
+                    String nextS = SwingUtilities.layoutCompoundLabel(label, nextFm2, nextText, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                            label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x + strWidth, y, widthLeft - strWidth, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                    if (nextFm2.stringWidth(nextS) > widthLeft - strWidth) {
+                        s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
+                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, strWidth - 1, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                        strWidth = fm2.stringWidth(s);
+                    }
+                }
+            }
+
+            // start of actual painting
+            if (style != null && style.isSuperscript()) {
+                y -= fm.getHeight() - fm2.getHeight();
+            }
+
+            if (style != null && style.getBackgroundColor() != null) {
+                g.setColor(style.getBackgroundColor());
+                g.fillRect(x, y - fm2.getHeight(), strWidth, fm2.getHeight() + 4);
+            }
+
+            Color textColor = (style != null && !label.isIgnoreColorSettings() && style.getFontColor() != null) ? style.getFontColor() : label.getForeground();
+            if (!label.isEnabled()) {
+                textColor = UIDefaultsLookup.getColor("Label.disabledForeground");
+            }
+            g.setColor(textColor);
+
+            if (displayMnemonic) {
+                JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
+            }
+            else {
+                JideSwingUtilities.drawString(label, g, s, x, y);
+            }
+
+            if (style != null) {
+                Stroke oldStroke = ((Graphics2D) g).getStroke();
+                if (style.getLineStroke() != null) {
+                    ((Graphics2D) g).setStroke(style.getLineStroke());
+                }
+
+                if (!label.isIgnoreColorSettings() && style.getLineColor() != null) {
+                    g.setColor(style.getLineColor());
+                }
+
+                if (style.isStrikethrough()) {
+                    int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                    g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                }
+                if (style.isDoublestrikethrough()) {
+                    int lineY = y + (fm2.getDescent() - fm2.getAscent()) / 2;
+                    g.drawLine(x, lineY - 1, x + strWidth - 1, lineY - 1);
+                    g.drawLine(x, lineY + 1, x + strWidth - 1, lineY + 1);
+                }
+                if (style.isUnderlined()) {
+                    int lineY = y + 1;
+                    g.drawLine(x, lineY, x + strWidth - 1, lineY);
+                }
+                if (style.isDotted()) {
+                    int dotY = y + 1;
+                    for (int dotX = x; dotX < x + strWidth; dotX += 4) {
+                        g.drawRect(dotX, dotY, 1, 1);
+                    }
+                }
+                if (style.isWaved()) {
+                    int waveY = y + 1;
+                    for (int waveX = x; waveX < x + strWidth; waveX += 4) {
+                        if (waveX + 2 <= x + strWidth - 1)
+                            g.drawLine(waveX, waveY + 2, waveX + 2, waveY);
+                        if (waveX + 4 <= x + strWidth - 1)
+                            g.drawLine(waveX + 3, waveY + 1, waveX + 4, waveY + 2);
+                    }
+                }
+                if (style.getLineStroke() != null) {
+                    ((Graphics2D) g).setStroke(oldStroke);
+                }
+            }
+            // end of actual painting
+            x += strWidth;
+        }
     }
 
     private int findNextWordStartIndex(String string, int firstRowEndIndex) {
