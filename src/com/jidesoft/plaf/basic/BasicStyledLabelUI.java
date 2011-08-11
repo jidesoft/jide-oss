@@ -812,7 +812,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             width = x - startX;
                             startX = label.getWidth() - width;
                         }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap() && rowCount > 1) {
+                        else if (horizontalAlignment == CENTER && label.isLineWrap() && rowCount >= 1) {
                             startX += (label.getWidth() - width) / 2;
                         }
                         paintRow(label, g, startX, textY, rowStartOffset, -1, width, true);
