@@ -117,7 +117,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 int index = 0;
                 for (StyleRange styleRange : styleRanges) {
                     if (styleRange.getStart() > index) { // fill in the gap
-                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart()), new StyleRange(index, styleRange.getStart() - index, Font.PLAIN)));
+                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart()), new StyleRange(index, styleRange.getStart() - index, -1)));
                         index = styleRange.getStart();
                     }
 
@@ -136,7 +136,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                 }
                 if (index < s.length()) {
-                    _styledTexts.add(new StyledText(s.substring(index, s.length()), new StyleRange(index, s.length() - index, Font.PLAIN)));
+                    _styledTexts.add(new StyledText(s.substring(index, s.length()), new StyleRange(index, s.length() - index, -1)));
                 }
             }
         }
