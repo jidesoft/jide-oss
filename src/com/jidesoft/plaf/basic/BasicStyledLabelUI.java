@@ -153,6 +153,14 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     ((StyledLabel) label).setPreferredWidth(label.getWidth());
                 }
                 size = getPreferredSize((StyledLabel) label);
+                if (((StyledLabel) label).isLineWrap() && ((StyledLabel) label).getMinRows() > 0) {
+                    ((StyledLabel) label).setPreferredWidth(0);
+                    ((StyledLabel) label).setRows(0);
+                    Dimension minSize = getPreferredSize((StyledLabel) label);
+                    if (minSize.height > size.height) {
+                        size = minSize;
+                    }
+                }
             }
             finally {
                 ((StyledLabel) label).setPreferredWidth(oldPreferredWidth);
@@ -593,7 +601,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                             startX = label.getWidth() - width;
                                         }
                                         else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                                            startX += (label.getWidth() - width) / 2;
+                                            if (startX == 0) {
+                                                startX += (label.getWidth() - width) / 2;
+                                            }
+                                            else {
+                                                startX += (paintWidth - width) / 2;
+                                            }
                                         }
                                         paintRow(label, g, startX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
                                     }
@@ -770,7 +783,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             startX = label.getWidth() - width;
                         }
                         else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            startX += (label.getWidth() - width) / 2;
+                            if (startX == 0) {
+                                startX += (label.getWidth() - width) / 2;
+                            }
+                            else {
+                                startX += (paintWidth - width) / 2;
+                            }
                         }
                         paintRow(label, g, startX, textY, rowStartOffset, -1, width, true);
                     }
@@ -788,7 +806,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             startX = label.getWidth() - width;
                         }
                         else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            startX += (label.getWidth() - width) / 2;
+                            if (startX == 0) {
+                                startX += (label.getWidth() - width) / 2;
+                            }
+                            else {
+                                startX += (paintWidth - width) / 2;
+                            }
                         }
                         paintRow(label, g, startX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
                     }
@@ -812,8 +835,13 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             width = x - startX;
                             startX = label.getWidth() - width;
                         }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap() && rowCount >= 1) {
-                            startX += (label.getWidth() - width) / 2;
+                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
+                            if (startX == 0) {
+                                startX += (label.getWidth() - width) / 2;
+                            }
+                            else {
+                                startX += (paintWidth - width) / 2;
+                            }
                         }
                         paintRow(label, g, startX, textY, rowStartOffset, -1, width, true);
                     }
