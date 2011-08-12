@@ -1,9 +1,13 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.swing.*;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SecurityUtils;
+import com.jidesoft.utils.SystemInfo;
+import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import sun.swing.plaf.synth.SynthIcon;
 
 import javax.swing.*;
@@ -224,7 +228,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         g.drawLine(rect.x + rect.width - 2, rect.y, rect.x + rect.width - 2, rect.y + rect.height);
         if (orientation == SwingConstants.HORIZONTAL) {
             g.drawLine(rect.x, rect.y, rect.x + rect.width - 3, rect.y);
-        } else {
+        }
+        else {
             g.drawLine(rect.x, rect.y + rect.height - 1, rect.x + rect.width - 3, rect.y + rect.height - 1);
         }
         g.setColor(oldColor);
@@ -314,29 +319,36 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 Object position = c.getClientProperty(JideButton.CLIENT_PROPERTY_SEGMENT_POSITION);
                 if (position == null || JideButton.SEGMENT_POSITION_ONLY.equals(position)) {
                     g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
-                } else if (JideButton.SEGMENT_POSITION_FIRST.equals(position)) {
+                }
+                else if (JideButton.SEGMENT_POSITION_FIRST.equals(position)) {
                     if (orientation == SwingConstants.HORIZONTAL) {
                         g.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
-                    } else {
+                    }
+                    else {
                         g.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
                     }
-                } else if (JideButton.SEGMENT_POSITION_MIDDLE.equals(position)) {
+                }
+                else if (JideButton.SEGMENT_POSITION_MIDDLE.equals(position)) {
                     if (orientation == SwingConstants.HORIZONTAL) {
                         g.drawRect(rect.x, rect.y, rect.width, rect.height - 1);
-                    } else {
+                    }
+                    else {
                         g.drawRect(rect.x, rect.y, rect.width - 1, rect.height);
                     }
-                } else if (JideButton.SEGMENT_POSITION_LAST.equals(position)) {
+                }
+                else if (JideButton.SEGMENT_POSITION_LAST.equals(position)) {
                     if (orientation == SwingConstants.HORIZONTAL) {
                         g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
-                    } else {
+                    }
+                    else {
                         g.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
                     }
                 }
             }
             g.setColor(background);
             g.fillRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
-        } else {
+        }
+        else {
             g.setColor(background);
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -401,7 +413,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (rect.width > rect.height) {
             rect.x = rect.x + rect.width / 2 - 10;
             rect.width = 22;
-        } else {
+        }
+        else {
             rect.y = rect.y + rect.height / 2 - 10;
             rect.height = 22;
         }
@@ -412,13 +425,15 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                 for (int i = 0; i < (rect.height - 2 * MARGIN) / 2; i++) {
                     g.drawLine(rect.x + 3, rect.y + MARGIN + i * 2, rect.x + rect.width - MARGIN, rect.y + MARGIN + i * 2);
                 }
-            } else { // for gripper in popup
+            }
+            else { // for gripper in popup
                 final int MARGIN = 2;
                 for (int i = 0; i < (rect.height - 2 * MARGIN) / 2; i++) {
                     g.drawLine((rect.width - rect.width) / 2, rect.y + MARGIN + i * 2, (rect.width + rect.width) / 2, rect.y + MARGIN + i * 2);
                 }
             }
-        } else {
+        }
+        else {
             final int MARGIN = 3;
             int count = (rect.width - 2 * MARGIN) / 2;
             for (int i = 0; i < count; i++) {
@@ -439,7 +454,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     g.drawLine(rect.x + 6 + offset, y, rect.x + 7 + offset, y);
                     y++;
                 }
-            } else {
+            }
+            else {
                 int y = rect.y + 4;
                 for (int i = -2; i <= 2; i++) {
                     int offset = -Math.abs(i);
@@ -448,7 +464,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     y++;
                 }
             }
-        } else if (orientation == SwingConstants.VERTICAL) {
+        }
+        else if (orientation == SwingConstants.VERTICAL) {
             int x = rect.x + 4;
             for (int i = -2; i <= 2; i++) {
                 int offset = -Math.abs(i);
@@ -465,13 +482,15 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (orientation == SwingConstants.HORIZONTAL || !c.getComponentOrientation().isLeftToRight()) {
             startX = rect.x + 3;
             startY = rect.y + rect.height - 7;
-        } else {
+        }
+        else {
             startX = rect.x + rect.width - 7;
             startY = rect.y + 3;
         }
         if (orientation == SwingConstants.HORIZONTAL || !c.getComponentOrientation().isLeftToRight()) {
             JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("CommandBar.darkShadow"), startX, startY, 5, SwingConstants.HORIZONTAL);
-        } else {
+        }
+        else {
             JideSwingUtilities.paintArrow(g, UIDefaultsLookup.getColor("CommandBar.darkShadow"), startX, startY, 5, orientation);
         }
     }
@@ -481,7 +500,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         int startY = rect.height / 2 - 2;
         if (state == STATE_ROLLOVER) {
             JideSwingUtilities.paintArrow(g, Color.BLACK, startX, startY, 9, orientation);
-        } else {
+        }
+        else {
             JideSwingUtilities.paintArrow(g, Color.WHITE, startX, startY, 9, orientation);
         }
     }
@@ -513,12 +533,14 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             g.setColor(UIDefaultsLookup.getColor("DockableFrame.activeTitleBorderColor"));
             if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                 g.drawRoundRect(x, y, w, h, 2, 2);
-            } else {
+            }
+            else {
                 g.drawRect(x, y, w, h);
             }
             g.setColor(highContrast ? UIDefaultsLookup.getColor("JideButton.selectedBackground") : UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground"));
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
-        } else {
+        }
+        else {
             g.setColor(UIDefaultsLookup.getColor("DockableFrame.inactiveTitleBorderColor"));
             g.drawRoundRect(x, y, w, h, 2, 2);
             g.setColor(UIDefaultsLookup.getColor("DockableFrame.inactiveTitleBackground"));
@@ -533,7 +555,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
-        } else {
+        }
+        else {
             g.setColor(UIDefaultsLookup.getColor(highContrast ? "JideButton.background" : "CollapsiblePane.background"));
         }
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -546,7 +569,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     public void paintCollapsiblePaneTitlePaneBackgroundEmphasized(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
-        } else {
+        }
+        else {
             g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.emphasizedBackground"));
         }
         g.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -560,7 +584,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
-        } else {
+        }
+        else {
             g.setColor(UIDefaultsLookup.getColor("TextField.background"));
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -574,7 +599,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     public void paintCollapsiblePaneTitlePaneBackgroundPlain(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (!(c.getBackground() instanceof UIResource)) {
             g.setColor(c.getBackground());
-        } else {
+        }
+        else {
             g.setColor(UIDefaultsLookup.getColor("CollapsiblePane.background"));
         }
         switch (orientation) {
@@ -614,13 +640,16 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             int colorTheme = tabbedPane.getColorTheme();
             if (tabShape == JideTabbedPane.SHAPE_BOX) {
                 g.setColor(UIDefaultsLookup.getColor("control"));
-            } else {
+            }
+            else {
                 if (colorTheme == JideTabbedPane.COLOR_THEME_WIN2K) {
                     g.setColor(UIDefaultsLookup.getColor("control"));
 
-                } else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
+                }
+                else if (colorTheme == JideTabbedPane.COLOR_THEME_VSNET) {
                     g.setColor(UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground"));
-                } else {
+                }
+                else {
                     g.setColor(UIDefaultsLookup.getColor("control"));
                 }
             }
@@ -698,7 +727,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             if (isCellEditor) {
                 g.setColor(color);
                 g.fillRect(rect.x, rect.y, rect.width, rect.height);
-            } else {
+            }
+            else {
                 g.setColor(color);
                 g.fillRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 4, 4);
 
@@ -714,11 +744,13 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
             g.setColor(ColorUtils.getDerivedColor(baseColor, 0.40f));
             g.drawLine(rect.x + 3, rect.y + rect.height - 1, rect.x + rect.width - 4, rect.y + rect.height - 1);
-        } else {
+        }
+        else {
             if (isCellEditor) {
                 g.setColor(baseColor);
                 g.fillRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
-            } else {
+            }
+            else {
                 g.setColor(baseColor);
                 g.fillRoundRect(rect.x, rect.y, rect.width - 1, rect.height - 1, 2, 2);
 
@@ -748,7 +780,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         if (orientation == SwingConstants.HORIZONTAL) {
             g.setColor(c.getForeground());
             g.drawLine(rect.x + rect.width / 2, rect.y + 1, rect.x + rect.width / 2, rect.y + rect.height - 2);
-        } else { // HORIZONTAL
+        }
+        else { // HORIZONTAL
             g.setColor(c.getForeground());
             g.drawLine(rect.x + 1, rect.y + rect.height / 2, rect.x + rect.width - 2, rect.y + rect.height / 2);
         }
@@ -773,7 +806,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
 
             g.setColor(foreground);
             g.drawLine(rect.x + defaultShadowWidth + defaultTextIconGap, rect.y + 1, rect.x + rect.width, rect.y + 1);
-        } else {
+        }
+        else {
             g.fillRect(rect.x + rect.width, rect.y, defaultShadowWidth, rect.height);
             if ("true".equals(SecurityUtils.getProperty("shadingtheme", "false"))) {
                 JideSwingUtilities.fillSingleGradient(g, new Rectangle(rect.x + rect.width - defaultTextIconGap, rect.y, defaultShadowWidth, 2), SwingConstants.WEST, 255);
@@ -812,7 +846,8 @@ public class BasicPainter implements SwingConstants, ThemePainter {
      * @return true to display the sort arrow on top. Otherwise false.
      */
     protected boolean shouldDisplayOnTop() {
-        return false;
+        return SystemInfo.isWindowsVistaAbove() &&
+                (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && !(UIManager.getLookAndFeel() instanceof WindowsClassicLookAndFeel)) && XPUtils.isXPStyleOn();
     }
 
     public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
@@ -833,15 +868,18 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             if (g != null) {
                 Font oldFont = g.getFont();
                 font = g.getFont().deriveFont(Font.PLAIN, oldFont.getSize() - 3);
-            } else if (c.getFont() != null) {
+            }
+            else if (c.getFont() != null) {
                 font = c.getFont().deriveFont(Font.PLAIN, c.getFont().getSize() - 3);
-            } else {
+            }
+            else {
                 font = Font.getFont("Arial");
             }
             String str = "" + (orderIndex + 1);
             int textWidth = SwingUtilities.computeStringWidth(c.getFontMetrics(font), str);
             textWidthAndGap = ARROW_TEXT_GAP + textWidth + H_GAP;
-        } else {
+        }
+        else {
             textWidthAndGap = H_GAP;
         }
         if (textWidthAndGap + iconWidth == 0) {
@@ -867,9 +905,11 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             int x = rect.x + rect.width / 2 - (iconWidth + ARROW_TEXT_GAP + textWidth) / 2;
             if (shouldDisplayOnTop()) {
                 JideSwingUtilities.drawString(c, g, str, x + ARROW_TEXT_GAP + iconWidth, rect.y + V_GAP + c.getFontMetrics(font).getAscent() - 2);
-            } else if (leftToRight) {
+            }
+            else if (leftToRight) {
                 JideSwingUtilities.drawString(c, g, str, rect.x + rect.width - textWidth - H_GAP, rect.y + yOffset + iconHeight / 2 + 1);
-            } else {
+            }
+            else {
                 JideSwingUtilities.drawString(c, g, str, rect.x + H_GAP, rect.y + yOffset + iconHeight / 2 + 1);
             }
             g.setColor(oldColor);
@@ -879,46 +919,57 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, x, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, x, rect.y + V_GAP);
                     }
-                } else if (leftToRight) {
+                }
+                else if (leftToRight) {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset);
                     }
-                } else {
+                }
+                else {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset);
                     }
                 }
             }
-        } else {
+        }
+        else {
             if (sortIcon != null) {
                 if (shouldDisplayOnTop()) {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP);
                     }
-                } else if (leftToRight) {
+                }
+                else if (leftToRight) {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset);
                     }
-                } else {
+                }
+                else {
                     if (sortIcon instanceof SynthIcon) {
                         SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
                         ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    } else {
+                    }
+                    else {
                         sortIcon.paintIcon(c, g, rect.x + H_GAP, rect.y + yOffset);
                     }
                 }

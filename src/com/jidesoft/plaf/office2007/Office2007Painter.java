@@ -8,7 +8,6 @@ package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
@@ -18,7 +17,6 @@ import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SystemInfo;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -73,19 +71,6 @@ public class Office2007Painter extends BasicPainter {
             super.uninstallDefaults();
         }
     }
-
-    @Override
-    protected boolean shouldDisplayOnTop() {
-        return SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && XPUtils.isXPStyleOn();
-    }
-
-    //    private static final Color[] CONTENT_BG = new Color[]{
-//            new Color(0xA3C2EA),
-//            new Color(0x87A9D5),
-//            new Color(0x567DB0),
-//            new Color(0x6591CD),
-//    };
-
 
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g.create();
