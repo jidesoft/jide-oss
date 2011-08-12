@@ -184,7 +184,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
 
     private void configureCursor() {
         if (getButtonStyle() == HYPERLINK_STYLE
-                && isRolloverEnabled() && getModel().isRollover()
+                && isRolloverEnabled()
                 && ((getText() != null && getText().length() > 0) || getIcon() != null)) {
             _savedCursor = getCursor();
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
