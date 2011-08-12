@@ -29,6 +29,7 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
     private boolean _alwaysShowHyperlink = false;
 
     private int _buttonStyle = TOOLBAR_STYLE;
+    private Cursor _savedCursor;
 
     /**
      * By default, if a JideButton is added to a popup menu, clicking on the button will dismiss the popup menu. However
@@ -177,7 +178,41 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
         int oldStyle = _buttonStyle;
         _buttonStyle = buttonStyle;
 
+        configureCursor();
         firePropertyChange(BUTTON_STYLE_PROPERTY, oldStyle, _buttonStyle);
+    }
+
+    private void configureCursor() {
+        if (getButtonStyle() == HYPERLINK_STYLE
+                && isRolloverEnabled() && getModel().isRollover()
+                && ((getText() != null && getText().length() > 0) || getIcon() != null)) {
+            _savedCursor = getCursor();
+            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+        else {
+            if (_savedCursor != null) {
+                setCursor(_savedCursor);
+                _savedCursor = null;
+            }
+        }
+    }
+
+    @Override
+    public void setRolloverEnabled(boolean b) {
+        super.setRolloverEnabled(b);
+        configureCursor();
+    }
+
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        configureCursor();
+    }
+
+    @Override
+    public void setIcon(Icon defaultIcon) {
+        super.setIcon(defaultIcon);
+        configureCursor();
     }
 
     /**
@@ -204,18 +239,6 @@ public class JideButton extends JButton implements Alignable, ButtonStyle, Compo
             boolean old = _alwaysShowHyperlink;
             _alwaysShowHyperlink = alwaysShowHyperlink;
             firePropertyChange(PROPERTY_ALWAYS_SHOW_HYPERLINK, old, alwaysShowHyperlink);
-        }
-    }
-
-    @Override
-    public Cursor getCursor() {
-        if (getButtonStyle() == HYPERLINK_STYLE
-                && isRolloverEnabled() && getModel().isRollover()
-                && ((getText() != null && getText().length() > 0) || getIcon() != null)) {
-            return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-        }
-        else {
-            return super.getCursor();
         }
     }
 
