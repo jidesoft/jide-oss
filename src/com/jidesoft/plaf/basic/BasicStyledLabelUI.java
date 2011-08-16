@@ -117,17 +117,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 int index = 0;
                 for (StyleRange styleRange : styleRanges) {
                     if (styleRange.getStart() > index) { // fill in the gap
-                        _styledTexts.add(new StyledText(s.substring(index, styleRange.getStart()), new StyleRange(index, styleRange.getStart() - index, -1)));
+                        String text = s.substring(index, styleRange.getStart());
+                        StyleRange newRange = new StyleRange(index, styleRange.getStart() - index, -1);
+                        addStyledTexts(text, newRange);
                         index = styleRange.getStart();
                     }
 
                     if (styleRange.getStart() == index) { // exactly on
                         if (styleRange.getLength() == -1) {
-                            _styledTexts.add(new StyledText(s.substring(index), styleRange));
+                            String text = s.substring(index);
+                            addStyledTexts(text, styleRange);
                             index = s.length();
                         }
                         else {
-                            _styledTexts.add(new StyledText(s.substring(index, Math.min(index + styleRange.getLength(), s.length())), styleRange));
+                            String text = s.substring(index, Math.min(index + styleRange.getLength(), s.length()));
+                            addStyledTexts(text, styleRange);
                             index += styleRange.getLength();
                         }
                     }
@@ -136,9 +140,46 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                 }
                 if (index < s.length()) {
-                    _styledTexts.add(new StyledText(s.substring(index, s.length()), new StyleRange(index, s.length() - index, -1)));
+                    String text = s.substring(index, s.length());
+                    StyleRange range = new StyleRange(index, s.length() - index, -1);
+                    addStyledTexts(text, range);
                 }
             }
+        }
+    }
+
+    private void addStyledTexts(String text, StyleRange range) {
+        range = new StyleRange(range); // keep the passed-in parameter no change
+        int index1 = text.indexOf('\r');
+        int index2 = text.indexOf('\n');
+        while (index1 >= 0 || index2 >= 0) {
+            int index = index1 >= 0 ? index1 : -1;
+            if (index2 >= 0 && index2 < index1) {
+                index = index2;
+            }
+            String subString = text.substring(0, index);
+            StyleRange newRange = new StyleRange(range);
+            newRange.setStart(range.getStart());
+            newRange.setLength(index);
+            _styledTexts.add(new StyledText(subString, newRange));
+            int length = 1;
+            if (text.charAt(index) == '\r' && index + 1 < text.length() && text.charAt(index + 1) == '\n') {
+                length++;
+            }
+            newRange = new StyleRange(range);
+            newRange.setStart(range.getStart() + index);
+            newRange.setLength(length);
+            _styledTexts.add(new StyledText(text.substring(index, index + length), newRange));
+
+            text = text.substring(index + length);
+            range.setStart(range.getStart() + index + length);
+            range.setLength(range.getLength() - index - length);
+
+            index1 = text.indexOf('\r');
+            index2 = text.indexOf('\n');
+        }
+        if (text.length() > 0) {
+            _styledTexts.add(new StyledText(text, range));
         }
     }
 
@@ -191,11 +232,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     protected Dimension getPreferredSize(StyledLabel label) {
         buildStyledText(label);
 
-        int width = 0;
         Font font = getFont(label);
         FontMetrics fm = label.getFontMetrics(font);
         FontMetrics fm2;
         int defaultFontSize = font.getSize();
+        boolean lineWrap = label.isLineWrap() || (label.getText() != null && (label.getText().contains("\r") || label.getText().contains("\n")));
         synchronized (_styledTexts) {
             StyledText[] texts = _styledTexts.toArray(new StyledText[_styledTexts.size()]);
 
@@ -226,8 +267,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 maxRowHeight = Math.max(maxRowHeight, styleHeight);
             }
 
-            int rowCount = 1;
+            int naturalRowCount = 1;
             int nextRowStartIndex = 0;
+            int width = 0;
+            int maxWidth = 0;
             // get one line width
             for (StyledText styledText : _styledTexts) {
                 StyleRange style = styledText.styleRange;
@@ -235,6 +278,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
                 font = getFont(label);
                 String s = styledText.text.substring(nextRowStartIndex);
+                if (s.startsWith("\r") || s.startsWith("\n")) {
+                    maxWidth = Math.max(width, maxWidth);
+                    width = 0;
+                    naturalRowCount++;
+                    continue;
+                }
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
@@ -245,148 +294,174 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     width += fm.stringWidth(s);
                 }
             }
-            int maxWidth = width;
-            int oneLineWidth = width;
+            maxWidth = Math.max(width, maxWidth);
+            _preferredRowCount = naturalRowCount;
 
             // if getPreferredWidth() is not set but getRows() is set, get maximum width and row count based on the required rows.
-            if (label.isLineWrap() && label.getPreferredWidth() <= 0 && label.getRows() > 0) {
-                maxWidth = getMaximumWidth(label, oneLineWidth, label.getRows());
-                rowCount = label.getRows();
+            if (lineWrap && label.getPreferredWidth() <= 0 && label.getRows() > 0) {
+                maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getRows());
             }
 
             // if calculated maximum width is larger than label's maximum size, wrap again to get the updated row count and use the label's maximum width as the maximum width.
-            if (label.isLineWrap() && label.getPreferredWidth() > 0 && maxWidth > label.getPreferredWidth()) {
-                maxWidth = label.getPreferredWidth();
-                nextRowStartIndex = 0;
-                int x = 0;
-                rowCount = 1;
-                int characterThisRow = 0;
-                for (int i = 0; i < _styledTexts.size(); i++) {
-                    StyledText styledText = _styledTexts.get(i);
-                    StyleRange style = styledText.styleRange;
-
-                    int size = (style != null &&
-                            (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
-
-                    font = getFont(label);
-                    if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
-                        font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
-                        fm2 = label.getFontMetrics(font);
-                    }
-                    else {
-                        fm2 = fm;
-                    }
-
-                    String s = styledText.text.substring(nextRowStartIndex);
-
-                    int strWidth = fm2.stringWidth(s);
-
-                    boolean wrapped = false;
-                    int widthLeft = maxWidth - x;
-                    if (widthLeft < strWidth) {
-                        wrapped = true;
-                        int availLength = s.length() * widthLeft / strWidth + 1;
-                        int nextWordStartIndex;
-                        int nextRowStartIndexInSubString = 0;
-                        boolean needBreak = false;
-                        boolean needContinue = false;
-                        int loopCount = 0;
-                        do {
-                            String subString = s.substring(0, Math.min(availLength, s.length()));
-                            int firstRowWordEndIndex = findFirstRowWordEndIndex(subString);
-                            nextWordStartIndex = firstRowWordEndIndex < 0 ? 0 : findNextWordStartIndex(s, firstRowWordEndIndex);
-                            if (firstRowWordEndIndex < 0) {
-                                if (x != 0) {
-                                    x = 0;
-                                    i--;
-                                    rowCount++;
-                                    characterThisRow = 0;
-                                    if (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) {
-                                        needBreak = true;
-                                    }
-                                    needContinue = true;
-                                    break;
-                                }
-                                else {
-                                    firstRowWordEndIndex = 0;
-                                    nextWordStartIndex = Math.min(s.length(), availLength);
-                                }
-                            }
-                            nextRowStartIndexInSubString = firstRowWordEndIndex + 1;
-                            String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
-                            strWidth = fm2.stringWidth(subStringThisRow);
-                            if (strWidth > widthLeft) {
-                                availLength = subString.length() * widthLeft / strWidth;
-                            }
-                            loopCount++;
-                            if (loopCount > 5) {
-                                System.err.println("Painting Styled Label Error: " + styledText);
-                                break;
-                            }
-                        } while (strWidth > widthLeft && availLength > 0);
-                        if (needBreak) {
-                            break;
-                        }
-                        if (needContinue) {
-                            continue;
-                        }
-                        while (nextRowStartIndexInSubString < nextWordStartIndex) {
-                            strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
-                            if (strWidth >= widthLeft) {
-                                break;
-                            }
-                            nextRowStartIndexInSubString++;
-                        }
-                        String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
-                        strWidth = fm2.stringWidth(subStringThisRow);
-                        while (nextRowStartIndexInSubString < nextWordStartIndex) {
-                            strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
-                            if (strWidth >= widthLeft) {
-                                break;
-                            }
-                            nextRowStartIndexInSubString++;
-                        }
-                        s = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
-                        strWidth = fm2.stringWidth(s);
-                        nextRowStartIndex += nextRowStartIndexInSubString;
-                        characterThisRow += s.length();
-                    }
-                    else {
-                        nextRowStartIndex = 0;
-                    }
-
-                    if (wrapped) {
-                        rowCount++;
-                        x = 0;
-                        i--;
-                        characterThisRow = 0;
-                    }
-                    else {
-                        x += strWidth;
-                    }
-                }
+            if (lineWrap && label.getPreferredWidth() > 0 && maxWidth > label.getPreferredWidth()) {
+                maxWidth = getLayoutWidth(label, label.getPreferredWidth());
             }
 
             // label.getPreferredWidth() <= 0 && label.getMaxRows() > 0 && rowCount > label.getMaxRows(), recalculate the maximum width according to the maximum rows
-            if (label.isLineWrap() && label.getMaxRows() > 0 && rowCount > label.getMaxRows()) {
+            if (lineWrap && label.getMaxRows() > 0 && _preferredRowCount > label.getMaxRows()) {
                 if (label.getPreferredWidth() <= 0) {
-                    maxWidth = getMaximumWidth(label, oneLineWidth, label.getMaxRows());
+                    maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getMaxRows());
                 }
-                rowCount = label.getMaxRows();
+                else {
+                    _preferredRowCount = label.getMaxRows();
+                }
             }
 
             // label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows(), recalculate the maximum width according to the minimum rows
-            if (label.isLineWrap() && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows()) {
-                maxWidth = getMaximumWidth(label, oneLineWidth, label.getMinRows());
-                rowCount = label.getMinRows();
+            if (lineWrap && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && _preferredRowCount < label.getMinRows()) {
+                maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getMinRows());
             }
-            _preferredRowCount = rowCount;
-            return new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * rowCount);
+            return new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
         }
     }
 
-    private int getMaximumWidth(StyledLabel label, int oneLineWidth, int limitedRows) {
-        int estimatedWidth = oneLineWidth / limitedRows + 1;
+    private int getLayoutWidth(StyledLabel label, int maxWidth) {
+        int nextRowStartIndex;
+        Font font = getFont(label);
+        int defaultFontSize = font.getSize();
+        FontMetrics fm = label.getFontMetrics(font);
+        FontMetrics fm2;
+        nextRowStartIndex = 0;
+        int x = 0;
+        _preferredRowCount = 1;
+        for (int i = 0; i < _styledTexts.size(); i++) {
+            StyledText styledText = _styledTexts.get(i);
+            StyleRange style = styledText.styleRange;
+            if (styledText.text.contains("\r") || styledText.text.contains("\n")) {
+                x = 0;
+                _preferredRowCount++;
+                continue;
+            }
+
+            int size = (style != null &&
+                    (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
+
+            if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
+                font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
+                fm2 = label.getFontMetrics(font);
+            }
+            else {
+                fm2 = fm;
+            }
+
+            String s = styledText.text.substring(nextRowStartIndex);
+
+            int strWidth = fm2.stringWidth(s);
+
+            boolean wrapped = false;
+            int widthLeft = maxWidth - x;
+            if (widthLeft < strWidth) {
+                wrapped = true;
+                int availLength = s.length() * widthLeft / strWidth + 1;
+                int nextWordStartIndex;
+                int nextRowStartIndexInSubString = 0;
+                boolean needBreak = false;
+                boolean needContinue = false;
+                int loopCount = 0;
+                do {
+                    String subString = s.substring(0, Math.min(availLength, s.length()));
+                    int firstRowWordEndIndex = findFirstRowWordEndIndex(subString);
+                    nextWordStartIndex = firstRowWordEndIndex < 0 ? 0 : findNextWordStartIndex(s, firstRowWordEndIndex);
+                    if (firstRowWordEndIndex < 0) {
+                        if (x != 0) {
+                            x = 0;
+                            i--;
+                            _preferredRowCount++;
+                            if (label.getMaxRows() > 0 && _preferredRowCount >= label.getMaxRows()) {
+                                needBreak = true;
+                            }
+                            needContinue = true;
+                            break;
+                        }
+                        else {
+                            firstRowWordEndIndex = 0;
+                            nextWordStartIndex = Math.min(s.length(), availLength);
+                        }
+                    }
+                    nextRowStartIndexInSubString = firstRowWordEndIndex + 1;
+                    String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
+                    strWidth = fm2.stringWidth(subStringThisRow);
+                    if (strWidth > widthLeft) {
+                        availLength = subString.length() * widthLeft / strWidth;
+                    }
+                    loopCount++;
+                    if (loopCount > 5) {
+                        System.err.println("Painting Styled Label Error: " + styledText);
+                        break;
+                    }
+                } while (strWidth > widthLeft && availLength > 0);
+                if (needBreak) {
+                    break;
+                }
+                if (needContinue) {
+                    continue;
+                }
+                while (nextRowStartIndexInSubString < nextWordStartIndex) {
+                    strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
+                    if (strWidth >= widthLeft) {
+                        break;
+                    }
+                    nextRowStartIndexInSubString++;
+                }
+                String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
+                strWidth = fm2.stringWidth(subStringThisRow);
+                while (nextRowStartIndexInSubString < nextWordStartIndex) {
+                    strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
+                    if (strWidth >= widthLeft) {
+                        break;
+                    }
+                    nextRowStartIndexInSubString++;
+                }
+                s = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
+                strWidth = fm2.stringWidth(s);
+                nextRowStartIndex += nextRowStartIndexInSubString;
+            }
+            else {
+                nextRowStartIndex = 0;
+            }
+
+            if (wrapped) {
+                _preferredRowCount++;
+                x = 0;
+                i--;
+            }
+            else {
+                x += strWidth;
+            }
+        }
+        return maxWidth;
+    }
+
+    private int getMaximumWidth(StyledLabel label, int maxWidth, int naturalRowCount, int limitedRows) {
+        if (naturalRowCount > 1) {
+            int proposedMaxWidthMin = 1;
+            int proposedMaxWidthMax = maxWidth;
+            _preferredRowCount = naturalRowCount;
+            while (proposedMaxWidthMin < proposedMaxWidthMax) {
+                int middle = (proposedMaxWidthMax + proposedMaxWidthMin) / 2;
+                maxWidth = getLayoutWidth(label, middle);
+                if (_preferredRowCount > limitedRows) {
+                    proposedMaxWidthMin = middle + 1;
+                    _preferredRowCount = naturalRowCount;
+                }
+                else {
+                    proposedMaxWidthMax = middle - 1;
+                }
+            }
+            return maxWidth + maxWidth / 20;
+        }
+
+        int estimatedWidth = maxWidth / limitedRows + 1;
         int x = 0;
         int nextRowStartIndex = 0;
         Font font = getFont(label);
@@ -435,7 +510,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 s = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
                 strWidth = fm2.stringWidth(s);
                 nextRowStartIndex += nextRowStartIndexInSubString;
-                if (x + strWidth >= oneLineWidth) {
+                if (x + strWidth >= maxWidth) {
                     x = Math.max(x, strWidth);
                     break;
                 }
@@ -447,6 +522,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
             x += strWidth;
         }
+        _preferredRowCount = limitedRows;
         return x;
     }
 
@@ -548,6 +624,35 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     displayMnemonic = false;
                 }
                 charDisplayed += styledText.text.length() - nextRowStartIndex;
+                if (styledText.text.contains("\r") || styledText.text.contains("\n")) {
+                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > label.getHeight();
+                    if (horizontalAlignment != LEFT) {
+                        int startX = textX;
+                        int width = x;
+                        if (horizontalAlignment == RIGHT) {
+                            width = x - startX;
+                            startX = label.getWidth() - width;
+                        }
+                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
+                            if (startX == 0) {
+                                startX += (label.getWidth() - width) / 2;
+                            }
+                            else {
+                                startX += (paintWidth - width) / 2;
+                            }
+                        }
+                        paintRow(label, g, startX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
+                    }
+                    textY += maxRowHeight + Math.max(0, label.getRowGap());
+                    x = textX;
+                    rowCount++;
+                    rowStartOffset = style.getStart() + style.getLength();
+                    if (lastRow) {
+                        break;
+                    }
+                    nextRowStartIndex = 0;
+                    continue;
+                }
 
                 y = textY;
 
@@ -705,6 +810,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
 
                 // start of actual painting
+                if (rowCount > 0 && x == textX && s.startsWith(" ")) {
+                    s = s.substring(1);
+                    strWidth = fm2.stringWidth(s);
+                }
                 if (horizontalAlignment == LEFT) {
                     if (style != null && style.isSuperscript()) {
                         y -= fm.getHeight() - fm2.getHeight();

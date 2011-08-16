@@ -35,8 +35,8 @@ public class StyleRange {
     private final Stroke _lineStroke;
     private final int _additionalStyle;
 
-    private final int _start;
-    private final int _length;
+    private int _start;
+    private int _length;
 
     private float _fontShrinkRatio = 1.5f;
 
@@ -318,6 +318,16 @@ public class StyleRange {
     }
 
     /**
+     * Creates a style range exactly the same with the existing range.
+     *
+     * @param range the old range
+     * @since 3.2.1
+     */
+    public StyleRange(StyleRange range) {
+        this(range.getStart(), range.getLength(), range.getFontStyle(), range.getFontColor(), range.getBackgroundColor(), range.getAdditionalStyle(), range.getLineColor(), range.getLineStroke(), range.getFontShrinkRatio());
+    }
+
+    /**
      * Creates a style range with a specified font style, font color, additional style, line color, line stroke and a
      * range.
      *
@@ -359,12 +369,30 @@ public class StyleRange {
     }
 
     /**
+     * Sets the start index of the range.
+     *
+     * @param start the start index of the range
+     */
+    public void setStart(int start) {
+        _start = start;
+    }
+
+    /**
      * Gets the length of the range.
      *
      * @return the length of the range.
      */
     public int getLength() {
         return _length;
+    }
+
+    /**
+     * Sets the length of the range.
+     *
+     * @param length the length of the range
+     */
+    public void setLength(int length) {
+        _length = length;
     }
 
     /**
