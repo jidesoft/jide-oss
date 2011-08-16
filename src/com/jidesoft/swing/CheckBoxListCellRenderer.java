@@ -32,6 +32,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
     public CheckBoxListCellRenderer(ListCellRenderer renderer) {
         _checkBox.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
+        _checkBox.setOpaque(false);
         setOpaque(true);
         setLayout(new BorderLayout(0, 0));
         add(_checkBox, BorderLayout.BEFORE_LINE_BEGINS);
@@ -147,8 +148,12 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
                 remove(1);
             }
             add(listCellRendererComponent);
+
+            // copy the background and foreground for the renderer component
             setBackground(listCellRendererComponent.getBackground());
+            listCellRendererComponent.setBackground(null);
             setForeground(listCellRendererComponent.getForeground());
+            listCellRendererComponent.setForeground(null);
         }
         else {
             if (isSelected) {

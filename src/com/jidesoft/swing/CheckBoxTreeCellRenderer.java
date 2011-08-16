@@ -66,7 +66,7 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
      * @return the check box instance.
      */
     protected TristateCheckBox createCheckBox() {
-        TristateCheckBox checkBox = new TristateCheckBox();
+        TristateCheckBox checkBox = new NullTristateCheckBox();
         checkBox.setOpaque(false);
         return checkBox;
     }
@@ -114,6 +114,12 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
                 add(_emptyBox, BorderLayout.AFTER_LINE_ENDS); // expand the tree node size to be the same as the one with check box.
             }
             add(treeCellRendererComponent);
+
+            // copy the background and foreground for the renderer component
+            setBackground(treeCellRendererComponent.getBackground());
+            treeCellRendererComponent.setBackground(null);
+            setForeground(treeCellRendererComponent.getForeground());
+            treeCellRendererComponent.setForeground(null);
         }
 
         return this;

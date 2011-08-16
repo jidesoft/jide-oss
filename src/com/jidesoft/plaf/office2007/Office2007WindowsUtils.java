@@ -36,32 +36,14 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
      * @param withMenu
      */
     public static void initClassDefaults(UIDefaults table, boolean withMenu) {
-        Office2003WindowsUtils.initClassDefaults(table);
+        Office2003WindowsUtils.initClassDefaults(table, withMenu);
 
         int products = LookAndFeelFactory.getProductsUsed();
 
-//        table.put("JideSplitButtonUI", "com.jidesoft.plaf.office2007.Office2007JideSplitButtonUI");
-//        table.put("JideComboBoxUI", "com.jidesoft.plaf.office2007.Office2007JideComboBoxUI");
-//        table.put("JideLabelUI", "com.jidesoft.plaf.basic.BasicJideLabelUI");
-//        table.put("SpinnerUI", "com.jidesoft.plaf.office2007.Office2007SpinnerUI");
-
         table.put("JideTabbedPaneUI", "com.jidesoft.plaf.office2007.Office2007JideTabbedPaneUI");
-//        table.put("HeaderBoxUI", "com.jidesoft.plaf.office2003.Office2003HeaderBoxUI");
-//        table.put("GripperUI", "com.jidesoft.plaf.office2003.Office2003GripperUI");
 
         if ((products & PRODUCT_DOCK) != 0) {
             table.put("SidePaneUI", "com.jidesoft.plaf.office2007.Office2007SidePaneUI");
-        }
-
-        if ((products & PRODUCT_COMPONENTS) != 0) {
-//            table.put("CollapsiblePaneUI", "com.jidesoft.plaf.office2003.Office2003CollapsiblePaneUI");
-//            table.put("StatusBarSeparatorUI", "com.jidesoft.plaf.office2003.Office2003StatusBarSeparatorUI");
-        }
-
-        if ((products & PRODUCT_ACTION) != 0) {
-//            table.put("CommandBarUI", "com.jidesoft.plaf.office2003.Office2003CommandBarUI");
-//            table.put("CommandBarSeparatorUI", "com.jidesoft.plaf.office2003.Office2003CommandBarSeparatorUI");
-//            table.put("CommandBarTitleBarUI", "com.jidesoft.plaf.office2003.Office2003CommandBarTitleBarUI");
         }
     }
 

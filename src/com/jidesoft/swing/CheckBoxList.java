@@ -142,7 +142,7 @@ public class CheckBoxList extends JList {
      * @return the cell renderer.
      */
     protected CheckBoxListCellRenderer createCellRenderer() {
-        return new CheckBoxListCellRenderer();
+        return new CheckBoxListCellRenderer.UIResource();
     }
 
     /**
@@ -157,7 +157,7 @@ public class CheckBoxList extends JList {
     @Override
     public ListCellRenderer getCellRenderer() {
         if (_listCellRenderer != null) {
-            _listCellRenderer.setActualListRenderer(super.getCellRenderer());
+            _listCellRenderer.setActualListRenderer(getActualCellRenderer());
             return _listCellRenderer;
         }
         else {
