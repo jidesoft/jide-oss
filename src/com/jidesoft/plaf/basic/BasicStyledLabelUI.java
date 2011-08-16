@@ -154,7 +154,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int index2 = text.indexOf('\n');
         while (index1 >= 0 || index2 >= 0) {
             int index = index1 >= 0 ? index1 : -1;
-            if (index2 >= 0 && index2 < index1) {
+            if (index2 >= 0 && (index2 < index1 || index < 0)) {
                 index = index2;
             }
             String subString = text.substring(0, index);
