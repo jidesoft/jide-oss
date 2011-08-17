@@ -120,11 +120,15 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         super.setBounds(x, y, width, height);
 
         Insets insets = getOverlayLocationInsets();
-        x = Math.max(0, insets.left);
-        y = Math.max(0, insets.top);
-        width -= Math.max(0, insets.left) + Math.max(0, insets.right);
-        height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
-        getActualComponent().setBounds(x, y, width, height);
+        if (insets != null) {
+            x = Math.max(0, insets.left);
+            y = Math.max(0, insets.top);
+            width -= Math.max(0, insets.left) + Math.max(0, insets.right);
+            height -= Math.max(0, insets.top) + Math.max(0, insets.bottom);
+        }
+        if (getActualComponent() != null) {
+            getActualComponent().setBounds(x, y, width, height);
+        }
 
         updateLocation();
     }
