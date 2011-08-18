@@ -56,6 +56,7 @@ public class StyledLabel extends JLabel {
     private int _minRows;
     private int _preferredWidth;
     private int _rowGap;
+    private boolean _truncated = false;
 
     private boolean _ignoreColorSettings;
 
@@ -366,5 +367,28 @@ public class StyledLabel extends JLabel {
      */
     public void setMinRows(int minRows) {
         _minRows = minRows;
+    }
+
+    /**
+     * Gets the status indicating if the StyledLabel is painted truncated.
+     *
+     * @return true if its truncated. Otherwise false.
+     * @since 3.2.1
+     */
+    public boolean isTruncated() {
+        return _truncated;
+    }
+
+    /**
+     * It will be invoked by {@link com.jidesoft.plaf.basic.BasicStyledLabelUI} each time the StyledLabel is painted.
+     * Please do NOT try to call this method to change the flag and NOT expect the setting could change the behavior of
+     * {@link #isTruncated()}.
+     *
+     * @param truncated the flag
+     * @since 3.2.1
+     */
+    public void setTruncated(boolean truncated) {
+        _truncated = truncated;
+        System.out.println(isTruncated());
     }
 }

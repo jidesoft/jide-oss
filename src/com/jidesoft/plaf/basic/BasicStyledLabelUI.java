@@ -548,6 +548,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     protected void paintStyledText(StyledLabel label, Graphics g, int textX, int textY) {
+        label.setTruncated(false);
         int paintWidth = label.getWidth();
         if (label.isLineWrap()) {
             int oldPreferredWidth = label.getPreferredWidth();
@@ -785,7 +786,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
                         strWidth = fm2.stringWidth(s);
                     }
-                    stop = !label.isLineWrap() || textY >= label.getHeight();
+                    stop = !label.isLineWrap() || textY >= label.getHeight() || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
                 }
                 else if (label.isLineWrap()) {
                     nextRowStartIndex = 0;
@@ -909,6 +910,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
                     }
+                    label.setTruncated(true);
                     break;
                 }
 
