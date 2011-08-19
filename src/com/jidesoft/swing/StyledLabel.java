@@ -110,6 +110,7 @@ public class StyledLabel extends JLabel {
      * Returns a string that specifies the name of the L&F class that renders this component.
      *
      * @return the string "StyledLabelUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -230,7 +231,7 @@ public class StyledLabel extends JLabel {
 
     @Override
     public Dimension getMinimumSize() {
-        return isLineWrap() ? new Dimension(1, 1): super.getMinimumSize();
+        return isLineWrap() ? new Dimension(1, 1) : super.getMinimumSize();
     }
 
     @Override
@@ -252,15 +253,18 @@ public class StyledLabel extends JLabel {
      * Gets the preferred width of the styled label.
      *
      * @return the preferred width
+     *
      * @since 3.2.0
      */
     public int getPreferredWidth() {
         return _preferredWidth;
     }
+
     /**
      * Gets the flag indicating if the line should be automatically wrapped when the column width is limited.
      *
      * @return true if line wrap is needed. Otherwise false.
+     *
      * @since 3.2.0
      */
     public boolean isLineWrap() {
@@ -281,6 +285,7 @@ public class StyledLabel extends JLabel {
      * Gets the default row count to wrap the {@link StyledLabel}.
      *
      * @return the row count.
+     *
      * @see #setRows(int)
      * @since 3.2.0
      */
@@ -307,6 +312,7 @@ public class StyledLabel extends JLabel {
      * Gets the gap pixels between rows.
      *
      * @return the gap pixels.
+     *
      * @see #setRowGap(int)
      * @since 3.2.0
      */
@@ -329,6 +335,7 @@ public class StyledLabel extends JLabel {
      * Gets the maximum rows possible after wrapping.
      *
      * @return the maximum rows.
+     *
      * @since 3.2.0
      */
     public int getMaxRows() {
@@ -351,6 +358,7 @@ public class StyledLabel extends JLabel {
      * Gets the minimum rows possible after wrapping.
      *
      * @return the minimum rows.
+     *
      * @since 3.2.0
      */
     public int getMinRows() {
@@ -373,6 +381,7 @@ public class StyledLabel extends JLabel {
      * Gets the status indicating if the StyledLabel is painted truncated.
      *
      * @return true if its truncated. Otherwise false.
+     *
      * @since 3.2.1
      */
     public boolean isTruncated() {
@@ -389,6 +398,5 @@ public class StyledLabel extends JLabel {
      */
     public void setTruncated(boolean truncated) {
         _truncated = truncated;
-        System.out.println(isTruncated());
     }
 }
