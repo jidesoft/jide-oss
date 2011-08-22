@@ -638,6 +638,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             if (lowerLeft != null && lowerLeft.isVisible()) {
                 rowHeadWidth = Math.max(rowHeadWidth, lowerLeft.getPreferredSize().width);
             }
+            if (_subUpperLeft != null && _subUpperLeft.isVisible()) {
+                rowHeadWidth = Math.max(rowHeadWidth, _subUpperLeft.getPreferredSize().width);
+            }
 
             rowHeadR.width = rowHeadWidth;
             availR.width -= rowHeadWidth;
@@ -673,6 +676,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             int rowFootWidth = _rowFoot.getPreferredSize().width;
             if (upperRight != null && upperRight.isVisible()) {
                 rowFootWidth = Math.max(rowFootWidth, upperRight.getPreferredSize().width);
+            }
+            if (_subUpperRight != null && _subUpperRight.isVisible()) {
+                rowFootWidth = Math.max(rowFootWidth, _subUpperRight.getPreferredSize().width);
             }
             if (lowerRight != null && lowerRight.isVisible()) {
                 rowFootWidth = Math.max(rowFootWidth, lowerRight.getPreferredSize().width);
