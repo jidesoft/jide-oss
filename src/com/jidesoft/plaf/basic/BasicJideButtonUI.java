@@ -757,6 +757,13 @@ public class BasicJideButtonUI extends JideButtonUI {
             SynthContext sc = new SynthContext(b, Region.BUTTON, ss, 0);
             Insets insets = ss.getInsets(sc, new InsetsUIResource(0, 0, 0, 0));
             if (insets != null) {
+                final Insets oldMargin = b.getMargin();
+                if (oldMargin != null) {
+                    insets.top += oldMargin.top;
+                    insets.bottom += oldMargin.bottom;
+                    insets.left += oldMargin.left;
+                    insets.right += oldMargin.right;
+                }
                 b.setMargin(insets);
             }
         }
