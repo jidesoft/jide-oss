@@ -353,6 +353,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int size = (style != null &&
                     (style.isSuperscript() || style.isSubscript())) ? Math.round((float) defaultFontSize / style.getFontShrinkRatio()) : defaultFontSize;
 
+            font = getFont(label); // cannot omit this one
             if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                 font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                 fm2 = label.getFontMetrics(font);
