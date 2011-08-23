@@ -247,7 +247,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideButton.highlight", defaultLtHighlightColor,
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
-                "JideButton.textIconGap", 2,
+                "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
@@ -390,7 +390,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", 2,
+                "JideSplitButton.textIconGap", 4,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",

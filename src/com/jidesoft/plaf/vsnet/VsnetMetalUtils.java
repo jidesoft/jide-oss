@@ -148,7 +148,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideButton.highlight", defaultLtHighlightColor,
                 "JideButton.border", buttonBorder,
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 3),
-                "JideButton.textIconGap", 2,
+                "JideButton.textIconGap", 4,
                 "JideButton.textShiftOffset", 0,
                 "JideButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
@@ -256,7 +256,7 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", 2,
+                "JideSplitButton.textIconGap", 4,
                 "JideSplitButton.selectionBackground", UIDefaultsLookup.getColor("MenuItem.selectionBackground"),
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
