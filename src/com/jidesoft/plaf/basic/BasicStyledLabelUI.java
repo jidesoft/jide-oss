@@ -253,6 +253,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     fm2 = label.getFontMetrics(font);
                     styleHeight = fm2.getHeight();
                 }
+/*
                 if (style != null) {
                     if (style.isWaved()) {
                         styleHeight += 4;
@@ -264,6 +265,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         styleHeight += 2;
                     }
                 }
+*/
                 maxRowHeight = Math.max(maxRowHeight, styleHeight);
             }
 
