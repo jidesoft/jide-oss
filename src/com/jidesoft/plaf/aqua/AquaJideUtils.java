@@ -267,7 +267,7 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", 3,
+                "JideSplitButton.textIconGap", 4,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",
                 "released SPACE", "released",

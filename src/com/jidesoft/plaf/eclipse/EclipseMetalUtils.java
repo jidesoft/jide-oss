@@ -237,7 +237,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", 3,
+                "JideSplitButton.textIconGap", 2,
                 "JideSplitButton.selectionBackground", selectionBackgroundColor,
                 "JideSplitButton.selectionForeground", defaultTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{

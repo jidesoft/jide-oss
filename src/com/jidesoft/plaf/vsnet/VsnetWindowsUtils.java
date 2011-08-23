@@ -296,7 +296,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 7),
                 "JideSplitButton.border", buttonBorder,
                 "JideSplitButton.borderPainted", Boolean.FALSE,
-                "JideSplitButton.textIconGap", 3,
+                "JideSplitButton.textIconGap", 2,
                 "JideSplitButton.selectionForeground", menuTextColor,
                 "JideSplitButton.focusInputMap", new UIDefaults.LazyInputMap(new Object[]{
                 "SPACE", "pressed",

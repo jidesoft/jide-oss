@@ -111,7 +111,7 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
                 "JideSplitButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 4),
                 "JideSplitButton.nonActiveRolloverAlpha", 40,
-                "JideSplitButton.textIconGap", 4,
+                "JideSplitButton.textIconGap", 2,
 //                "JideSplitButton.foreground", new Color(0x3e6aaa),
 //                "JideButton.foreground", new Color(0x3e6aaa),
 //                "JideLabel.foreground", new Color(0x3e6aaa),
