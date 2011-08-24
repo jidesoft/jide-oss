@@ -645,13 +645,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (horizontalAlignment == RIGHT) {
                             width = x - newStartX;
                             newStartX = label.getWidth() - width;
-                        }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            if (newStartX == 0) {
-                                newStartX += (label.getWidth() - width) / 2;
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right;
                             }
-                            else {
-                                newStartX += (endX - width) / 2;
+                        }
+                        else if (horizontalAlignment == CENTER) {
+                            if (label.isLineWrap()) {
+                                if (newStartX == 0) {
+                                    newStartX += (label.getWidth() - width) / 2;
+                                }
+                                else {
+                                    newStartX += (endX - width) / 2;
+                                }
+                            }
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -717,13 +725,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                         if (horizontalAlignment == RIGHT) {
                                             width = x - newStartX;
                                             newStartX = label.getWidth() - width;
-                                        }
-                                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                                            if (newStartX == 0) {
-                                                newStartX += (label.getWidth() - width) / 2;
+                                            if (label.getInsets() != null) {
+                                                newStartX -= label.getInsets().right;
                                             }
-                                            else {
-                                                newStartX += (endX - width) / 2;
+                                        }
+                                        else if (horizontalAlignment == CENTER) {
+                                            if (label.isLineWrap()) {
+                                                if (newStartX == 0) {
+                                                    newStartX += (label.getWidth() - width) / 2;
+                                                }
+                                                else {
+                                                    newStartX += (endX - width) / 2;
+                                                }
+                                            }
+                                            if (label.getInsets() != null) {
+                                                newStartX -= label.getInsets().right / 2;
                                             }
                                         }
                                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -903,13 +919,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (horizontalAlignment == RIGHT) {
                             width = x - newStartX;
                             newStartX = label.getWidth() - width;
-                        }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            if (newStartX == 0) {
-                                newStartX += (label.getWidth() - width) / 2;
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right;
                             }
-                            else {
-                                newStartX += (endX - width) / 2;
+                        }
+                        else if (horizontalAlignment == CENTER) {
+                            if (label.isLineWrap()) {
+                                if (newStartX == 0) {
+                                    newStartX += (label.getWidth() - width) / 2;
+                                }
+                                else {
+                                    newStartX += (endX - width) / 2;
+                                }
+                            }
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
@@ -927,13 +951,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (horizontalAlignment == RIGHT) {
                             width = x - newStartX;
                             newStartX = label.getWidth() - width;
-                        }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            if (newStartX == 0) {
-                                newStartX += (label.getWidth() - width) / 2;
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right;
                             }
-                            else {
-                                newStartX += (endX - width) / 2;
+                        }
+                        else if (horizontalAlignment == CENTER) {
+                            if (label.isLineWrap()) {
+                                if (newStartX == 0) {
+                                    newStartX += (label.getWidth() - width) / 2;
+                                }
+                                else {
+                                    newStartX += (endX - width) / 2;
+                                }
+                            }
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -957,13 +989,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (horizontalAlignment == RIGHT) {
                             width = x - newStartX;
                             newStartX = label.getWidth() - width;
-                        }
-                        else if (horizontalAlignment == CENTER && label.isLineWrap()) {
-                            if (newStartX == 0) {
-                                newStartX += (label.getWidth() - width) / 2;
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right;
                             }
-                            else {
-                                newStartX += (endX - width) / 2;
+                        }
+                        else if (horizontalAlignment == CENTER) {
+                            if (label.isLineWrap()) {
+                                if (newStartX == 0) {
+                                    newStartX += (label.getWidth() - width) / 2;
+                                }
+                                else {
+                                    newStartX += (endX - width) / 2;
+                                }
+                            }
+                            if (label.getInsets() != null) {
+                                newStartX -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
