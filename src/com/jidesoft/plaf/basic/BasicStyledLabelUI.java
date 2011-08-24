@@ -659,7 +659,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 }
                             }
                             if (label.getInsets() != null) {
-                                newStartX -= label.getInsets().right / 2;
+                                width -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -739,7 +739,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                                 }
                                             }
                                             if (label.getInsets() != null) {
-                                                newStartX -= label.getInsets().right / 2;
+                                                width -= label.getInsets().right / 2;
                                             }
                                         }
                                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -933,7 +933,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 }
                             }
                             if (label.getInsets() != null) {
-                                newStartX -= label.getInsets().right / 2;
+                                width -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
@@ -965,7 +965,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 }
                             }
                             if (label.getInsets() != null) {
-                                newStartX -= label.getInsets().right / 2;
+                                width -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), width, lastRow);
@@ -1003,7 +1003,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 }
                             }
                             if (label.getInsets() != null) {
-                                newStartX -= label.getInsets().right / 2;
+                                width -= label.getInsets().right / 2;
                             }
                         }
                         paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
