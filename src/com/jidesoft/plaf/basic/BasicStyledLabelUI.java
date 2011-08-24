@@ -253,6 +253,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     fm2 = label.getFontMetrics(font);
                     styleHeight = fm2.getHeight();
                 }
+                styleHeight++;
 /*
                 if (style != null) {
                     if (style.isWaved()) {
