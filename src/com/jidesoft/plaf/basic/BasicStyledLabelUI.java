@@ -1081,6 +1081,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             g.setFont(font);
 
             String s = styledText.text.substring(Math.min(nextRowStartIndex, styledText.text.length()));
+            if (startOffset > 0 && x == textX && s.startsWith(" ")) {
+                s = s.substring(1);
+            }
             if (s.length() > paintLength) {
                 s = s.substring(0, paintLength);
             }
