@@ -53,7 +53,7 @@ import java.util.StringTokenizer;
  * reading from disk again.
  * <p/>
  * There are a few methods on IconsFactory to create difference variation from the original icon. For example, {@link
- * #getDisabledImageIcon(Class, String)} will get the imaage icon with disabled effect.
+ * #getDisabledImageIcon(Class, String)} will get the image icon with disabled effect.
  * <p/>
  * We also suggest you to use the template below to create a number of IconsFactory classes in your application. The
  * idea is that you should have one for each functional area so that all your image files can be grouped into each
@@ -112,9 +112,10 @@ import java.util.StringTokenizer;
  */
 public class IconsFactory {
 
-    static Map<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
-    static Map<String, ImageIcon> disableIcons = new HashMap<String, ImageIcon>();
-    static Map<String, ImageIcon> enhancedIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _icons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _disableIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _brighterIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _tintedIcons = new HashMap<String, ImageIcon>();
 
     public static ImageIcon EMPTY_ICON = new ImageIcon() {
         private static final long serialVersionUID = 5081581607741629368L;
@@ -165,12 +166,12 @@ public class IconsFactory {
         if (iconInUIDefaults instanceof ImageIcon) {
             return (ImageIcon) iconInUIDefaults;
         }
-        Icon saved = icons.get(id);
+        Icon saved = _icons.get(id);
         if (saved != null)
             return (ImageIcon) saved;
         else {
             ImageIcon icon = createImageIcon(clazz, fileName);
-            icons.put(id, icon);
+            _icons.put(id, icon);
             return icon;
         }
     }
@@ -190,12 +191,12 @@ public class IconsFactory {
         if (iconInUIDefaults instanceof ImageIcon) {
             return (ImageIcon) iconInUIDefaults;
         }
-        ImageIcon saved = icons.get(id);
+        ImageIcon saved = _icons.get(id);
         if (saved != null)
             return saved;
         else {
             ImageIcon icon = createImageIconWithException(clazz, fileName);
-            icons.put(id, icon);
+            _icons.put(id, icon);
             return icon;
         }
     }
@@ -209,12 +210,12 @@ public class IconsFactory {
      */
     public static ImageIcon getDisabledImageIcon(Class<?> clazz, String fileName) {
         String id = clazz.getName() + ":" + fileName;
-        ImageIcon saved = disableIcons.get(id);
+        ImageIcon saved = _disableIcons.get(id);
         if (saved != null)
             return saved;
         else {
             ImageIcon icon = createGrayImage(getImageIcon(clazz, fileName));
-            disableIcons.put(id, icon);
+            _disableIcons.put(id, icon);
             return icon;
         }
     }
@@ -227,13 +228,13 @@ public class IconsFactory {
      * @return the ImageIcon
      */
     public static ImageIcon getBrighterImageIcon(Class<?> clazz, String fileName) {
-        String id = clazz.getName() + ":" + fileName;
-        ImageIcon saved = enhancedIcons.get(id);
+        String id = clazz.getName() + ":" + fileName + ":" + ColorFilter.getPercent();
+        ImageIcon saved = _brighterIcons.get(id);
         if (saved != null)
             return saved;
         else {
             ImageIcon icon = createBrighterImage(getImageIcon(clazz, fileName));
-            enhancedIcons.put(id, icon);
+            _brighterIcons.put(id, icon);
             return icon;
         }
     }
@@ -247,13 +248,33 @@ public class IconsFactory {
      * @return the ImageIcon
      */
     public static ImageIcon getBrighterImageIcon(Class<?> clazz, String fileName, int percent) {
-        String id = clazz.getName() + ":" + fileName;
-        ImageIcon saved = enhancedIcons.get(id);
+        String id = clazz.getName() + ":" + fileName + ":" + percent;
+        ImageIcon saved = _brighterIcons.get(id);
         if (saved != null)
             return saved;
         else {
             ImageIcon icon = createBrighterImage(getImageIcon(clazz, fileName), percent);
-            enhancedIcons.put(id, icon);
+            _brighterIcons.put(id, icon);
+            return icon;
+        }
+    }
+
+    /**
+     * Gets a tinted ImageIcon by passing class, a relative image file path and a color.
+     *
+     * @param clazz    the Class<?>
+     * @param fileName relative file name
+     * @param color    the color
+     * @return the ImageIcon
+     */
+    public static ImageIcon getTintedImageIcon(Class<?> clazz, String fileName, Color color) {
+        String id = clazz.getName() + ":" + fileName + ":" + color.toString();
+        ImageIcon saved = _tintedIcons.get(id);
+        if (saved != null)
+            return saved;
+        else {
+            ImageIcon icon = createTintedImage(getImageIcon(clazz, fileName), color);
+            _tintedIcons.put(id, icon);
             return icon;
         }
     }
@@ -392,6 +413,19 @@ public class IconsFactory {
         return new ImageIcon(ColorFilter.createBrighterImage(icon.getImage(), percent));
     }
 
+    /**
+     * Creates a tinted image from an input image with a given color. If input image is null, a blank ImageIcon will be
+     * returned.
+     *
+     * @param icon  image
+     * @param color the color
+     * @return a tinted version of the image
+     */
+    public static ImageIcon createTintedImage(ImageIcon icon, Color color) {
+        if (icon == null)
+            return EMPTY_ICON;
+        return new ImageIcon(TintFilter.createTintedImage(icon.getImage(), color, null));
+    }
 
     /**
      * Creates a gray version from an input image. Usually gray icon indicates disabled. If input image is null, a blank

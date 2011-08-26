@@ -37,11 +37,14 @@ public class ColorFilter extends RGBImageFilter {
         _percent = percent;
     }
 
+    public static int getPercent() {
+        return _percent;
+    }
+
     /**
      * Creates a brighter image
      *
      * @param i the original image
-     *
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i) {
@@ -55,7 +58,6 @@ public class ColorFilter extends RGBImageFilter {
      *
      * @param i the original image
      * @param p percentage of brightness
-     *
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i, int p) {
@@ -68,7 +70,6 @@ public class ColorFilter extends RGBImageFilter {
      * Creates a darker image
      *
      * @param i the original image
-     *
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i) {
@@ -83,7 +84,6 @@ public class ColorFilter extends RGBImageFilter {
      *
      * @param i the original image
      * @param p percentage of darkness
-     *
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i, int p) {
@@ -93,13 +93,12 @@ public class ColorFilter extends RGBImageFilter {
 
 
     /**
-     * Constructs a ColorFilter object that filters a color image to a brighter or a darker image.
-     * Please note, you can also use {@link #getInstance(boolean,int)} to reuse the same instance of
-     * ColorFilter.
+     * Constructs a ColorFilter object that filters a color image to a brighter or a darker image. Please note, you can
+     * also use {@link #getInstance(boolean, int)} to reuse the same instance of ColorFilter.
      *
      * @param b a boolean -- true if the pixels should be brightened
-     * @param p an int in the range 0..100 that determines the percentage of gray, where 100 is the
-     *          darkest gray, and 0 is the lightest
+     * @param p an int in the range 0..100 that determines the percentage of gray, where 100 is the darkest gray, and 0
+     *          is the lightest
      */
     public ColorFilter(boolean b, int p) {
         _brighter = b;
