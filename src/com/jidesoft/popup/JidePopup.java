@@ -1414,6 +1414,12 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     SwingUtilities.invokeLater(runnable);
                 }
             }
+
+            JButton defaultButton = getRootPane().getDefaultButton();
+            if (defaultButton != null) {
+                getRootPane().setDefaultButton(null);
+                getRootPane().setDefaultButton(defaultButton); // reset the default button after _window is created so that the KeyboardManager could register the resize window correctly to handle default button
+            }
         }
 
         if (getTimeout() != 0) {
