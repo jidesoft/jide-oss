@@ -9,7 +9,9 @@ import com.jidesoft.plaf.JideTabbedPaneUI;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideTabbedPaneUI;
+import com.jidesoft.popup.JidePopup;
 import com.jidesoft.utils.JideFocusTracker;
+import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
@@ -245,6 +247,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _closeTabOnMouseMiddleButton = false;
     private boolean _layoutTrailingComponentBeforeButtons = false;
+    private JidePopup _tabListPopup;
 
     /**
      * Creates an empty <code>TabbedPane</code> with a default tab placement of <code>JTabbedPane.TOP</code>.
@@ -1971,6 +1974,346 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public String getResourceString(String key) {
         return com.jidesoft.plaf.basic.Resource.getResourceBundle(getLocale()).getString(key);
+    }
+
+    /**
+     * Creates tab list popup.
+     *
+     * @return the tab list popup instance.
+     * @since 3.2.2
+     */
+    protected JidePopup createTabListPopup() {
+        return new JidePopup();
+    }
+
+    /**
+     * Checks if the tab list popup is visible.
+     *
+     * @return true if the tab list popup is visible. Otherwise false.
+     * @since 3.2.2
+     */
+    public boolean isTabListPopupVisible() {
+        return _tabListPopup != null && _tabListPopup.isPopupVisible();
+    }
+
+    /**
+     * Hides the tab list popup if it's visible.
+     *
+     * @since 3.2.2
+     */
+    public void hideTabListPopup() {
+        if (_tabListPopup != null) {
+            if (_tabListPopup.isPopupVisible()) {
+                _tabListPopup.hidePopupImmediately();
+            }
+            _tabListPopup = null;
+        }
+    }
+
+    /**
+     * Shows the tab list popup by clicking on the list button.
+     *
+     * @param listButton the list button being clicked.
+     * @since 3.2.2
+     */
+    public void showTabListPopup(JButton listButton) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(UIDefaultsLookup.getColor("JideTabbedPane.tabListBackground"));
+        panel.setOpaque(true);
+        panel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+        JList list = createTabList(panel.getInsets());
+        JScrollPane scroller = new JScrollPane(list);
+        scroller.setBorder(BorderFactory.createEmptyBorder());
+        scroller.getViewport().setOpaque(false);
+        scroller.setOpaque(false);
+        panel.add(scroller);
+
+        hideTabListPopup();
+        _tabListPopup = createTabListPopup();
+        _tabListPopup.setPopupBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("JideTabbedPane.darkShadow")));
+        _tabListPopup.add(panel);
+        _tabListPopup.addExcludedComponent(listButton);
+        _tabListPopup.setDefaultFocusComponent(list);
+
+
+        _tabListPopup.setOwner(this);
+        _tabListPopup.removeExcludedComponent(this);
+
+        Point point = calculateTabListPopupPosition(listButton);
+        _tabListPopup.showPopup(point.x, point.y);
+    }
+
+    /**
+     * Calculates the position where the tab list popup is to be displayed based on the list button being clicked.
+     *
+     * @param listButton the list button being clicked.
+     * @return the point.
+     * @since 3.2.2
+     */
+    protected Point calculateTabListPopupPosition(JButton listButton) {
+        Dimension size = _tabListPopup.getPreferredSize();
+        Rectangle bounds = listButton.getBounds();
+        Point p = listButton.getLocationOnScreen();
+        bounds.x = p.x;
+        bounds.y = p.y;
+        int x;
+        int y;
+        switch (getTabPlacement()) {
+            case TOP:
+            default:
+                if (getComponentOrientation().isLeftToRight()) {
+                    x = bounds.x + bounds.width - size.width;
+                } else {
+                    x = bounds.x;
+                }
+                y = bounds.y + bounds.height + 2;
+                break;
+            case BOTTOM:
+                if (getComponentOrientation().isLeftToRight()) {
+                    x = bounds.x + bounds.width - size.width;
+                } else {
+                    x = bounds.x;
+                }
+                y = bounds.y - size.height - 2;
+                break;
+            case LEFT:
+                x = bounds.x + bounds.width + 2;
+                y = bounds.y + bounds.height - size.height;
+                break;
+            case RIGHT:
+                x = bounds.x - size.width - 2;
+                y = bounds.y + bounds.height - size.height;
+                break;
+        }
+
+        Rectangle screenBounds = PortingUtils.getScreenBounds(this);
+        int right = x + size.width + 3;
+        int bottom = y + size.height + 3;
+
+        if (right > screenBounds.x + screenBounds.width) {
+            x -= right - screenBounds.x - screenBounds.width; // move left so that the whole popup can fit in
+        }
+
+        if (x < screenBounds.x) {
+            x = screenBounds.x; // move right so that the whole popup can fit in
+        }
+
+        if (bottom > screenBounds.height) {
+            y -= bottom - screenBounds.height;
+        }
+
+        if (y < screenBounds.y) {
+            y = screenBounds.y;
+        }
+        return new Point(x, y);
+    }
+
+    /**
+     * Creates the tab list.
+     *
+     * @param insets the insets of its parent container which helps determine the visible row count of the list.
+     * @return the created list instance.
+     * @since 3.2.2
+     */
+    protected JList createTabList(Insets insets) {
+        final JList list = new JList() {
+            // override this method to disallow deselect by ctrl-click
+            @Override
+            public void removeSelectionInterval(int index0, int index1) {
+                super.removeSelectionInterval(index0, index1);
+                if (getSelectedIndex() == -1) {
+                    setSelectedIndex(index0);
+                }
+            }
+
+            @Override
+            public Dimension getPreferredScrollableViewportSize() {
+                Dimension preferredScrollableViewportSize = super.getPreferredScrollableViewportSize();
+                if (preferredScrollableViewportSize.width < 150) {
+                    preferredScrollableViewportSize.width = 150;
+                }
+                int screenWidth = PortingUtils.getScreenSize(this).width;
+                if (preferredScrollableViewportSize.width >= screenWidth) {
+                    preferredScrollableViewportSize.width = screenWidth;
+                }
+                return preferredScrollableViewportSize;
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                Dimension preferredSize = super.getPreferredSize();
+                int screenWidth = PortingUtils.getScreenSize(this).width;
+                if (preferredSize.width >= screenWidth) {
+                    preferredSize.width = screenWidth;
+                }
+                return preferredSize;
+            }
+        };
+        DefaultListModel listModel = new DefaultListModel();
+
+        // drop down menu items
+        int selectedIndex = getSelectedIndex();
+        int totalCount = getTabCount();
+        for (int i = 0; i < totalCount; i++) {
+            listModel.addElement(this);
+        }
+        list.setCellRenderer(getTabListCellRenderer());
+        list.setModel(listModel);
+        list.setSelectedIndex(selectedIndex);
+        list.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+            }
+
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    componentSelected(list);
+                }
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                componentSelected(list);
+            }
+        });
+
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        int max = (PortingUtils.getLocalScreenSize(this).height - insets.top - insets.bottom) / list.getCellBounds(0, 0).height;
+        if (listModel.getSize() > max) {
+            list.setVisibleRowCount(max);
+        }
+        else {
+            list.setVisibleRowCount(listModel.getSize());
+        }
+        new Sticky(list);
+        list.setBackground(UIDefaultsLookup.getColor("JideTabbedPane.tabListBackground"));
+        return list;
+    }
+
+    private void componentSelected(JList list) {
+        int tabIndex = list.getSelectedIndex();
+        if (tabIndex != -1 && isEnabledAt(tabIndex)) {
+            if (tabIndex == getSelectedIndex() && JideSwingUtilities.isAncestorOfFocusOwner(this)) {
+                if (isAutoFocusOnTabHideClose() && isRequestFocusEnabled()) {
+                    Runnable runnable = new Runnable() {
+                        public void run() {
+                            requestFocus();
+                        }
+                    };
+                    SwingUtilities.invokeLater(runnable);
+                }
+            }
+            else {
+                setSelectedIndex(tabIndex);
+                final Component comp = getComponentAt(tabIndex);
+                if (isAutoFocusOnTabHideClose() && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
+                    comp.addComponentListener(new ComponentAdapter() {
+                        @Override
+                        public void componentShown(ComponentEvent e) {
+                            // remove the listener
+                            comp.removeComponentListener(this);
+
+                            final Component lastFocused = getLastFocusedComponent(comp);
+                            Runnable runnable = new Runnable() {
+                                public void run() {
+                                    if (lastFocused != null) {
+                                        lastFocused.requestFocus();
+                                    }
+                                    else if (isRequestFocusEnabled()) {
+                                        requestFocus();
+                                    }
+                                }
+                            };
+                            SwingUtilities.invokeLater(runnable);
+                        }
+                    });
+                }
+                else {
+                    final Component lastFocused = getLastFocusedComponent(comp);
+                    if (lastFocused != null) {
+                        Runnable runnable = new Runnable() {
+                            public void run() {
+                                lastFocused.requestFocus();
+                            }
+                        };
+                        SwingUtilities.invokeLater(runnable);
+                    }
+                    else {
+                        Container container;
+                        if (comp instanceof Container) {
+                            container = (Container) comp;
+                        }
+                        else {
+                            container = comp.getFocusCycleRootAncestor();
+                        }
+                        FocusTraversalPolicy traversalPolicy = container.getFocusTraversalPolicy();
+                        Component focusComponent;
+                        if (traversalPolicy != null) {
+                            focusComponent = traversalPolicy.getDefaultComponent(container);
+                            if (focusComponent == null) {
+                                focusComponent = traversalPolicy.getFirstComponent(container);
+                            }
+                        }
+                        else if (comp instanceof Container) {
+                            // not sure if it is correct
+                            focusComponent = findFocusableComponent((Container) comp);
+                        }
+                        else {
+                            focusComponent = comp;
+                        }
+                        if (focusComponent != null) {
+                            final Component theComponent = focusComponent;
+                            Runnable runnable = new Runnable() {
+                                public void run() {
+                                    theComponent.requestFocus();
+                                }
+                            };
+                            SwingUtilities.invokeLater(runnable);
+                        }
+                    }
+                }
+            }
+            if (getUI() instanceof BasicJideTabbedPaneUI) {
+                ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(false);
+            }
+            hideTabListPopup();
+        }
+    }
+
+    private Component findFocusableComponent(Container parent) {
+        FocusTraversalPolicy traversalPolicy = parent.getFocusTraversalPolicy();
+        Component focusComponent = null;
+        if (traversalPolicy != null) {
+            focusComponent = traversalPolicy.getDefaultComponent(parent);
+            if (focusComponent == null) {
+                focusComponent = traversalPolicy.getFirstComponent(parent);
+            }
+        }
+        if (focusComponent != null) {
+            return focusComponent;
+        }
+        int i = 0;
+        while (i < parent.getComponentCount()) {
+            Component comp = parent.getComponent(i);
+            if (comp instanceof Container) {
+                focusComponent = findFocusableComponent((Container) comp);
+                if (focusComponent != null) {
+                    return focusComponent;
+                }
+            }
+            else if (comp.isFocusable()) {
+                return comp;
+            }
+            i++;
+        }
+        if (parent.isFocusable()) {
+            return parent;
+        }
+        return null;
     }
 
     /**
