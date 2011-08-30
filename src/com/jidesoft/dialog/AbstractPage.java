@@ -207,6 +207,18 @@ public abstract class AbstractPage extends JPanel implements Laziness {
     }
 
     /**
+     * Resets the page which will result all child components being removed and the method {@link #initialize()} being
+     * invoked again.
+     *
+     * @since 3.2.2
+     */
+    public synchronized final void reset() {
+        _lazyConstructorCalled = false;
+        removeAll();
+        initialize();
+    }
+
+    /**
      * Adds a <code>PageListener</code> to the page.
      *
      * @param l the <code>PageListener</code> to be added
