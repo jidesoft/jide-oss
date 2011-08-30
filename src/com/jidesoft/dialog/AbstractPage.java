@@ -212,10 +212,9 @@ public abstract class AbstractPage extends JPanel implements Laziness {
      *
      * @since 3.2.2
      */
-    public synchronized final void reset() {
+    public synchronized void reset() {
         _lazyConstructorCalled = false;
         removeAll();
-        initialize();
     }
 
     /**
