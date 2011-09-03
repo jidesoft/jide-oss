@@ -45,6 +45,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
     /**
      * Creates a new BasicOptionPaneUI instance.
+     *
      * @param x the component to create UI
      * @return the UI instance.
      */
@@ -455,10 +456,18 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
             Object[] newOptions = new Object[options.length + 1];
             System.arraycopy(options, 0, newOptions, 0, options.length);
             final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
-            newOptions[newOptions.length - 1] = new ButtonFactory(
-                    ButtonNames.DETAILS,
-                    optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"),
-                    optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0), null);
+            if (isDetailsVisible()) {
+                newOptions[newOptions.length - 1] = new ButtonFactory(
+                        ButtonNames.DETAILS,
+                        optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails") : resourceBundle.getString("Button.hideDetails"),
+                        optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.hideDetails.mnemonic").charAt(0), null);
+            }
+            else {
+                newOptions[newOptions.length - 1] = new ButtonFactory(
+                        ButtonNames.DETAILS,
+                        optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"),
+                        optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0), null);
+            }
             return newOptions;
         }
         else {
@@ -684,7 +693,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
         }
         strArray.add(str);
         if (strArray.size() == 1) {
-            return new String[] {strArray.get(0).trim()};
+            return new String[]{strArray.get(0).trim()};
         }
         return strArray.toArray(new String[strArray.size()]);
     }
