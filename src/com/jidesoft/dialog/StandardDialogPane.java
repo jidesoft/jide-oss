@@ -10,6 +10,7 @@ import com.jidesoft.swing.DelegateAction;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 /**
@@ -75,9 +76,41 @@ abstract public class StandardDialogPane extends JPanel implements ButtonNames {
      * @param defaultCancelAction the default cancel action
      */
     public void setDefaultCancelAction(Action defaultCancelAction) {
-        Action oldAction = _defaultCancelAction;
-        _defaultCancelAction = defaultCancelAction;
-        firePropertyChange(PROPERTY_CANCEL_ACTION, oldAction, _defaultCancelAction);
+        if (defaultCancelAction != _defaultCancelAction) {
+            Action oldAction = _defaultCancelAction;
+            _defaultCancelAction = defaultCancelAction;
+            if (getRootPane() != null) {
+                ActionListener actionForKeyStroke = getRootPane().getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+                if (actionForKeyStroke instanceof DelegateAction) {
+                    getRootPane().unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+                }
+                if (getDefaultCancelAction() != null) {
+                    getRootPane().registerKeyboardAction(new DelegateAction(getDefaultCancelAction()) {
+                        private static final long serialVersionUID = 7321038745798788445L;
+
+                        @Override
+                        public boolean delegateActionPerformed(ActionEvent e) {
+                            if (hasSelectionPath()) {
+                                MenuSelectionManager.defaultManager().clearSelectedPath();
+                                return true;
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public boolean isDelegateEnabled() {
+                            return hasSelectionPath();
+                        }
+
+                        private boolean hasSelectionPath() {
+                            MenuElement[] selectedPath = MenuSelectionManager.defaultManager().getSelectedPath();
+                            return selectedPath != null && selectedPath.length > 0;
+                        }
+                    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+                }
+            }
+            firePropertyChange(PROPERTY_CANCEL_ACTION, oldAction, _defaultCancelAction);
+        }
     }
 
     /**
