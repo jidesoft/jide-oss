@@ -206,8 +206,8 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
             if (evt.getNewValue() instanceof ComboBoxModel) {
                 ((ComboBoxModel) evt.getNewValue()).addListDataListener(this);
             }
+            fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
         }
-        fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MODEL_CHANGE));
     }
 
     public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
