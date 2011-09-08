@@ -533,6 +533,26 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
             x += strWidth;
         }
+        int paintWidth = x;
+        if (label.getInsets() != null) {
+            paintWidth += label.getInsets().left + label.getInsets().right;
+        }
+        int paintRows = internalPaintStyledText(label, null, 0, 0, paintWidth);
+        if (paintRows != limitedRows) {
+            maxWidth = Math.min(maxWidth, label.getWidth() - label.getInsets().left - label.getInsets().right);
+            while (paintRows > limitedRows && paintWidth < maxWidth) {
+                paintWidth += 2;
+                paintRows = internalPaintStyledText(label, null, 0, 0, paintWidth);
+            }
+            while (paintRows < limitedRows && paintWidth > 0) {
+                paintWidth -= 2;
+                paintRows = internalPaintStyledText(label, null, 0, 0, paintWidth);
+            }
+            x = paintWidth;
+            if (label.getInsets() != null) {
+                x -= label.getInsets().left + label.getInsets().right;
+            }
+        }
         _preferredRowCount = limitedRows;
         return x;
     }
@@ -571,7 +591,17 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 label.setRows(oldRows);
             }
         }
+        Color oldColor = g.getColor();
         paintWidth = Math.min(paintWidth, label.getWidth() - label.getInsets().left - label.getInsets().right);
+        internalPaintStyledText(label, g, textX, textY, paintWidth);
+        g.setColor(oldColor);
+    }
+
+    private int internalPaintStyledText(StyledLabel label, Graphics g, int textX, int textY, int paintWidth) {
+        int labelHeight = label.getHeight();
+        if (labelHeight <= 0) {
+            labelHeight = Integer.MAX_VALUE;
+        }
         int startX = textX < label.getInsets().left ? label.getInsets().left : textX;
         int y;
         int endX = paintWidth + startX;
@@ -581,8 +611,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 WindowsLookAndFeel.isMnemonicHidden()) {
             mnemonicIndex = -1;
         }
-
-        Color oldColor = g.getColor();
 
         int charDisplayed = 0;
         boolean displayMnemonic;
@@ -638,8 +666,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
                 charDisplayed += styledText.text.length() - nextRowStartIndex;
                 if (styledText.text.contains("\r") || styledText.text.contains("\n")) {
-                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > label.getHeight();
-                    if (horizontalAlignment != LEFT) {
+                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > labelHeight;
+                    if (horizontalAlignment != LEFT && g != null) {
                         int newStartX = startX;
                         int width = x;
                         if (horizontalAlignment == RIGHT) {
@@ -694,7 +722,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     fm2 = nextFm2;
                 }
 
-                g.setFont(font);
+                if (g != null) {
+                    g.setFont(font);
+                }
 
                 String s = styledText.text.substring(Math.min(nextRowStartIndex, styledText.text.length()));
 
@@ -704,7 +734,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 boolean wrapped = false;
                 int widthLeft = endX - x;
                 if (widthLeft < strWidth) {
-                    if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount < label.getMaxRows() - 1) || label.getMaxRows() <= 0) && y + maxRowHeight + Math.max(0, label.getRowGap()) <= label.getHeight()) {
+                    if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount < label.getMaxRows() - 1) || label.getMaxRows() <= 0) && y + maxRowHeight + Math.max(0, label.getRowGap()) <= labelHeight) {
                         wrapped = true;
                         int availLength = s.length() * widthLeft / strWidth + 1;
                         int nextWordStartIndex;
@@ -719,7 +749,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             if (firstRowWordEndIndex < 0) {
                                 if (x != startX) {
                                     boolean lastRow = label.getMaxRows() > 0 && rowCount >= label.getMaxRows();
-                                    if (horizontalAlignment != LEFT) {
+                                    if (horizontalAlignment != LEFT && g != null) {
                                         int newStartX = startX;
                                         int width = x;
                                         if (horizontalAlignment == RIGHT) {
@@ -803,10 +833,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     else {
                         // use this method to clip string
                         s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
-                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, labelHeight), new Rectangle(), new Rectangle(), 0);
                         strWidth = fm2.stringWidth(s);
                     }
-                    stop = !label.isLineWrap() || textY >= label.getHeight() || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
+                    stop = !label.isLineWrap() || textY >= labelHeight || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
                 }
                 else if (label.isLineWrap()) {
                     nextRowStartIndex = 0;
@@ -828,10 +858,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                     if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
                         nextS = SwingUtilities.layoutCompoundLabel(label, nextFm2, nextText, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
-                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x + strWidth, y, widthLeft - strWidth, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                                label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x + strWidth, y, widthLeft - strWidth, labelHeight), new Rectangle(), new Rectangle(), 0);
                         if (nextFm2.stringWidth(nextS) > widthLeft - strWidth) {
                             s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
-                                    label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, strWidth - 1, label.getHeight()), new Rectangle(), new Rectangle(), 0);
+                                    label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, strWidth - 1, labelHeight), new Rectangle(), new Rectangle(), 0);
                             strWidth = fm2.stringWidth(s);
                             stop = true;
                         }
@@ -843,7 +873,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     s = s.substring(1);
                     strWidth = fm2.stringWidth(s);
                 }
-                if (horizontalAlignment == LEFT) {
+                if (horizontalAlignment == LEFT && g != null) {
                     if (style != null && style.isSuperscript()) {
                         y -= fm.getHeight() - fm2.getHeight();
                     }
@@ -912,7 +942,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 // end of actual painting
 
                 if (stop) {
-                    if (horizontalAlignment != LEFT) {
+                    if (horizontalAlignment != LEFT && g != null) {
                         x += strWidth;
                         int newStartX = startX;
                         int width = x;
@@ -943,8 +973,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
 
                 if (wrapped) {
-                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > label.getHeight();
-                    if (horizontalAlignment != LEFT) {
+                    boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > labelHeight;
+                    if (horizontalAlignment != LEFT && g != null) {
                         x += strWidth;
                         int newStartX = startX;
                         int width = x;
@@ -983,7 +1013,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     x += strWidth;
                 }
                 if (i == _styledTexts.size() - 1) {
-                    if (horizontalAlignment != LEFT) {
+                    if (horizontalAlignment != LEFT && g != null) {
                         int newStartX = startX;
                         int width = x;
                         if (horizontalAlignment == RIGHT) {
@@ -1002,6 +1032,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                     newStartX += (endX - width) / 2;
                                 }
                             }
+                            width += 2;
                             if (label.getInsets() != null) {
                                 width -= label.getInsets().right / 2;
                             }
@@ -1010,12 +1041,14 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                 }
             }
+            return (int) Math.ceil((double) textY / maxRowHeight);
         }
-
-        g.setColor(oldColor);
     }
 
     private void paintRow(StyledLabel label, Graphics g, int textX, int textY, int startOffset, int endOffset, int paintWidth, boolean lastRow) {
+        if (g == null) {
+            return;
+        }
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
         if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
                 WindowsLookAndFeel.isMnemonicHidden()) {
@@ -1049,8 +1082,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (mnemonicIndex >= 0 && styledText.text.length() - nextRowStartIndex > mnemonicIndex - charDisplayed) {
                 displayMnemonic = true;
                 mneIndex = mnemonicIndex - charDisplayed;
-            }
-            else {
+            } else {
                 displayMnemonic = false;
             }
             int paintLength = styledText.text.length() - nextRowStartIndex;
@@ -1069,12 +1101,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
-                }
-                else {
+                } else {
                     fm2 = fm;
                 }
-            }
-            else {
+            } else {
                 fm2 = nextFm2;
             }
 
@@ -1133,25 +1163,21 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (mnemonicIndex >= 0 && s.length() > mnemonicIndex - charDisplayed) {
                             displayMnemonic = true;
                             mneIndex = mnemonicIndex - charDisplayed;
-                        }
-                        else {
+                        } else {
                             displayMnemonic = false;
                         }
                     }
                     charDisplayed += s.length();
                     nextRowStartIndex += nextRowStartIndexInSubString;
-                }
-                else {
+                } else {
                     // use this method to clip string
                     s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
                             label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
                     strWidth = fm2.stringWidth(s);
                 }
-            }
-            else if (label.isLineWrap()) {
+            } else if (label.isLineWrap()) {
                 nextRowStartIndex = 0;
-            }
-            else if (i < _styledTexts.size() - 1) {
+            } else if (i < _styledTexts.size() - 1) {
                 StyledText nextStyledText = _styledTexts.get(i + 1);
                 String nextText = nextStyledText.text;
                 StyleRange nextStyle = nextStyledText.styleRange;
@@ -1162,8 +1188,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (nextStyle != null && ((nextStyle.getFontStyle() != -1 && font.getStyle() != nextStyle.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, nextStyle.getFontStyle() == -1 ? font.getStyle() : nextStyle.getFontStyle(), size);
                     nextFm2 = label.getFontMetrics(font);
-                }
-                else {
+                } else {
                     nextFm2 = fm;
                 }
                 if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
@@ -1195,8 +1220,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
             if (displayMnemonic) {
                 JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
-            }
-            else {
+            } else {
                 JideSwingUtilities.drawString(label, g, s, x, y);
             }
 
