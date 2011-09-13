@@ -7318,7 +7318,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                         else {
                             Icon icon = _tabPane.getIconForTab(k);
-                            _rects[k].height = icon.getIconHeight() + _compressedStyleIconMargin;
+                            _rects[k].height = (icon == null ? 0 : icon.getIconHeight()) + _compressedStyleIconMargin;
                         }
 
                         if (isShowCloseButton() && isShowCloseButtonOnTab() && !_tabPane.isShowCloseButtonOnSelectedTab()) {
@@ -7345,7 +7345,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                         else {
                             Icon icon = _tabPane.getIconForTab(k);
-                            _rects[k].width = icon.getIconWidth() + _compressedStyleIconMargin;
+                            _rects[k].width = (icon == null ? 0 : icon.getIconWidth()) + _compressedStyleIconMargin;
                         }
 
                         if (isShowCloseButton() && isShowCloseButtonOnTab() && !_tabPane.isShowCloseButtonOnSelectedTab()) {
