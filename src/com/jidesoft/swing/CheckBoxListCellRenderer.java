@@ -154,6 +154,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
             listCellRendererComponent.setBackground(null);
             setForeground(listCellRendererComponent.getForeground());
             listCellRendererComponent.setForeground(null);
+            listCellRendererComponent.setEnabled(_checkBox.isEnabled());
         }
         else {
             if (isSelected) {
