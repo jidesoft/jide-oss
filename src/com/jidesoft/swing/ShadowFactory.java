@@ -1,8 +1,7 @@
 /*
- * ShadowFactory.java
+ * @(#)ShadowFactory.java 9/14/2011
  *
- * Copyright 2005 Sun Microsystems, Inc., 4150 Network Circle,
- * Santa Clara, California 95054, U.S.A. All rights reserved.
+ * Copyright 2002 - 2011 JIDE Software Inc. All rights reserved.
  */
 
 package com.jidesoft.swing;
@@ -131,7 +130,7 @@ public class ShadowFactory {
      * @param size    The size of the shadow in pixels. Defines the fuzziness.
      * @param opacity The opacity of the shadow.
      * @param color   The color of the shadow.
-     * @see #setRenderingHint(Object,Object)
+     * @see #setRenderingHint(Object, Object)
      */
     public ShadowFactory(final int size, final float opacity, final Color color) {
         hints = new HashMap();
@@ -357,7 +356,7 @@ public class ShadowFactory {
         for (int srcY = 0, dstOffset = left * dstWidth; srcY < srcHeight; srcY++) {
 
             // first pixels are empty
-            for (historyIdx = 0; historyIdx < shadowSize;) {
+            for (historyIdx = 0; historyIdx < shadowSize; ) {
                 aHistory[historyIdx++] = 0;
             }
 
@@ -404,7 +403,7 @@ public class ShadowFactory {
             aSum = 0;
 
             // first pixels are empty
-            for (historyIdx = 0; historyIdx < left;) {
+            for (historyIdx = 0; historyIdx < left; ) {
                 aHistory[historyIdx++] = 0;
             }
 

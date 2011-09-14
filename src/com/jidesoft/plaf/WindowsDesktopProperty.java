@@ -1,8 +1,8 @@
 /*
  * @(#)DesktopProperty.java
  *
- * Copyright 2002 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 package com.jidesoft.plaf;
 
@@ -15,15 +15,13 @@ import java.beans.PropertyChangeListener;
 import java.lang.ref.WeakReference;
 
 /**
- * Wrapper for a value from the desktop. The value is lazily looked up, and
- * can be accessed using the <code>UIManager.ActiveValue</code> method
- * <code>createValue</code>. If the underlying desktop property changes this
- * will force the UIs to update all known Frames. You can invoke
- * <code>invalidate</code> to force the value to be fetched again.
+ * Wrapper for a value from the desktop. The value is lazily looked up, and can be accessed using the
+ * <code>UIManager.ActiveValue</code> method <code>createValue</code>. If the underlying desktop property changes this
+ * will force the UIs to update all known Frames. You can invoke <code>invalidate</code> to force the value to be
+ * fetched again.
  * <p/>
- * Note: This class is the same as DesktopProperty under com.sun.java.swing.plaf.windows.
- * We keep a copy of it here is mainly for compatibility reason in case Sun
- * decides to change the location of this class.
+ * Note: This class is the same as DesktopProperty under com.sun.java.swing.plaf.windows. We keep a copy of it here is
+ * mainly for compatibility reason in case Sun decides to change the location of this class.
  */
 
 public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
@@ -100,8 +98,7 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
      *
      * @param key      Key used in looking up desktop value.
      * @param fallback Value used if desktop property is null.
-     * @param toolkit  Toolkit used to fetch property from, can be null
-     *                 in which default will be used.
+     * @param toolkit  Toolkit used to fetch property from, can be null in which default will be used.
      */
     public WindowsDesktopProperty(String key, Object fallback, Toolkit toolkit) {
         this.key = key;
@@ -125,8 +122,8 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
     }
 
     /**
-     * UIManager.LazyValue method, returns the value from the desktop
-     * or the fallback value if the desktop value is null.
+     * UIManager.LazyValue method, returns the value from the desktop or the fallback value if the desktop value is
+     * null.
      */
     public Object createValue(UIDefaults table) {
         if (value == null) {
@@ -164,8 +161,8 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
     }
 
     /**
-     * Invalides the current value so that the next invocation of
-     * <code>createValue</code> will ask for the property again.
+     * Invalides the current value so that the next invocation of <code>createValue</code> will ask for the property
+     * again.
      */
     public void invalidate() {
         if (pcl != null) {
@@ -177,11 +174,9 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
     }
 
     /**
-     * Requests that all components in the GUI hierarchy be updated
-     * to reflect dynamic changes in this look&feel.  This update occurs
-     * by uninstalling and re-installing the UI objects. Requests are
-     * batched and collapsed into a single update pass because often
-     * many desktop properties will change at once.
+     * Requests that all components in the GUI hierarchy be updated to reflect dynamic changes in this look&feel.  This
+     * update occurs by uninstalling and re-installing the UI objects. Requests are batched and collapsed into a single
+     * update pass because often many desktop properties will change at once.
      */
     protected void updateUI() {
         if (!isUpdatePending()) {
@@ -197,8 +192,7 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
     }
 
     /**
-     * Configures the value as appropriate for a defaults property in
-     * the UIDefaults table.
+     * Configures the value as appropriate for a defaults property in the UIDefaults table.
      */
     protected Object configureValue(Object value) {
         if (value != null) {
@@ -238,9 +232,8 @@ public class WindowsDesktopProperty implements UIDefaults.ActiveValue {
 
 
     /**
-     * As there is typically only one Toolkit, the PropertyChangeListener
-     * is handled via a WeakReference so as not to pin down the
-     * DesktopProperty.
+     * As there is typically only one Toolkit, the PropertyChangeListener is handled via a WeakReference so as not to
+     * pin down the DesktopProperty.
      */
     private static class WeakPCL extends WeakReference
             implements PropertyChangeListener {

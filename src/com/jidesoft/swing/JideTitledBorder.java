@@ -3,8 +3,8 @@
  *
  * Copyright 2002 - 2003 JIDE Software. All rights reserved.
  *
- * Copyright 2003 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 package com.jidesoft.swing;
 
@@ -16,10 +16,10 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * The source code is the same as TitledBorder in JDK 1.4.2 except field TEXT_INSET_H is 0 instead
- * of 5.
+ * The source code is the same as TitledBorder in JDK 1.4.2 except field TEXT_INSET_H is 0 instead of 5.
  */
 public class JideTitledBorder extends AbstractBorder {
+    private static final long serialVersionUID = 5409659168893849250L;
 
     protected String title;
     protected Border border;
@@ -76,13 +76,13 @@ public class JideTitledBorder extends AbstractBorder {
      */
     static public final int RIGHT = 3;
     /**
-     * Position title text at the left side of the border line for left to right orientation, at the
-     * right side of the border line for right to left orientation.
+     * Position title text at the left side of the border line for left to right orientation, at the right side of the
+     * border line for right to left orientation.
      */
     static public final int LEADING = 4;
     /**
-     * Position title text at the right side of the border line for left to right orientation, at
-     * the left side of the border line for right to left orientation.
+     * Position title text at the right side of the border line for left to right orientation, at the left side of the
+     * border line for right to left orientation.
      */
     static public final int TRAILING = 5;
 
@@ -126,8 +126,7 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
-     * and title-position.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification, and title-position.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -143,8 +142,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
-     * title-position, and title-font.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification, title-position, and
+     * title-font.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -162,8 +161,8 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Creates a JideTitledBorder instance with the specified border, title, title-justification,
-     * title-position, title-font, and title-color.
+     * Creates a JideTitledBorder instance with the specified border, title, title-justification, title-position,
+     * title-font, and title-color.
      *
      * @param border             the border
      * @param title              the title the border should display
@@ -598,8 +597,7 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
-     * Returns the minimum dimensions this border requires in order to fully display the border and
-     * title.
+     * Returns the minimum dimensions this border requires in order to fully display the border and title.
      *
      * @param c the component where this border will be drawn
      */

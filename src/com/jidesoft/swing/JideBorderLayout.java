@@ -3,14 +3,13 @@
  *
  * Copyright 2002 JIDE Software Inc. All rights reserved.
 
- * Copyright 2002 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
 package com.jidesoft.swing;
 
 import java.awt.*;
-import java.io.Serializable;
 
 /**
  * This is a modified version of <code>BorderLayout</code>. Different from <code>BorderLayout</code>, the TOP and BOTTOM
@@ -19,17 +18,26 @@ import java.io.Serializable;
  *
  * @see BorderLayout
  */
-public class JideBorderLayout implements LayoutManager2, Serializable {
 
+public class JideBorderLayout implements LayoutManager2,
+        java.io.Serializable {
     /**
      * Constructs a border layout with the horizontal gaps between components. The horizontal gap is specified by
      * <code>hgap</code>.
+     *
+     * @serial
+     * @see #getHgap()
+     * @see #setHgap(int)
      */
     int hgap;
 
     /**
      * Constructs a border layout with the vertical gaps between components. The vertical gap is specified by
      * <code>vgap</code>.
+     *
+     * @serial
+     * @see #getVgap()
+     * @see #setVgap(int)
      */
     int vgap;
 
@@ -37,7 +45,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * Constant to specify components location to be the north portion of the border layout.
      *
      * @serial
+     * @see #getChild(String, boolean)
      * @see #addLayoutComponent
+     * @see #getLayoutAlignmentX
+     * @see #getLayoutAlignmentY
      * @see #removeLayoutComponent
      */
     Component north;
@@ -45,7 +56,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * Constant to specify components location to be the west portion of the border layout.
      *
      * @serial
+     * @see #getChild(String, boolean)
      * @see #addLayoutComponent
+     * @see #getLayoutAlignmentX
+     * @see #getLayoutAlignmentY
      * @see #removeLayoutComponent
      */
     Component west;
@@ -53,7 +67,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * Constant to specify components location to be the east portion of the border layout.
      *
      * @serial
+     * @see #getChild(String, boolean)
      * @see #addLayoutComponent
+     * @see #getLayoutAlignmentX
+     * @see #getLayoutAlignmentY
      * @see #removeLayoutComponent
      */
     Component east;
@@ -61,7 +78,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * Constant to specify components location to be the south portion of the border layout.
      *
      * @serial
+     * @see #getChild(String, boolean)
      * @see #addLayoutComponent
+     * @see #getLayoutAlignmentX
+     * @see #getLayoutAlignmentY
      * @see #removeLayoutComponent
      */
     Component south;
@@ -69,7 +89,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * Constant to specify components location to be the center portion of the border layout.
      *
      * @serial
+     * @see #getChild(String, boolean)
      * @see #addLayoutComponent
+     * @see #getLayoutAlignmentX
+     * @see #getLayoutAlignmentY
      * @see #removeLayoutComponent
      */
     Component center;
@@ -167,7 +190,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * The component comes before the first line of the layout's content. For Western, left-to-right and top-to-bottom
      * orientations, this is equivalent to NORTH.
      *
-     * @see Component#getComponentOrientation
+     * @see java.awt.Component#getComponentOrientation
      * @since 1.4
      */
     public static final String PAGE_START = BEFORE_FIRST_LINE;
@@ -176,7 +199,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * The component comes after the last line of the layout's content. For Western, left-to-right and top-to-bottom
      * orientations, this is equivalent to SOUTH.
      *
-     * @see Component#getComponentOrientation
+     * @see java.awt.Component#getComponentOrientation
      * @since 1.4
      */
     public static final String PAGE_END = AFTER_LAST_LINE;
@@ -185,7 +208,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * The component goes at the beginning of the line direction for the layout. For Western, left-to-right and
      * top-to-bottom orientations, this is equivalent to WEST.
      *
-     * @see Component#getComponentOrientation
+     * @see java.awt.Component#getComponentOrientation
      * @since 1.4
      */
     public static final String LINE_START = BEFORE_LINE_BEGINS;
@@ -194,7 +217,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * The component goes at the end of the line direction for the layout. For Western, left-to-right and top-to-bottom
      * orientations, this is equivalent to EAST.
      *
-     * @see Component#getComponentOrientation
+     * @see java.awt.Component#getComponentOrientation
      * @since 1.4
      */
     public static final String LINE_END = AFTER_LINE_ENDS;
@@ -226,7 +249,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
     /**
      * Returns the horizontal gap between components.
      *
-     * @return the horizontal gap between components
+     * @since JDK1.1
      */
     public int getHgap() {
         return hgap;
@@ -245,7 +268,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
     /**
      * Returns the vertical gap between components.
      *
-     * @return the vertical gap between components
+     * @since JDK1.1
      */
     public int getVgap() {
         return vgap;
@@ -273,7 +296,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * @param constraints an object that specifies how and where the component is added to the layout.
      * @throws IllegalArgumentException if the constraint object is not a string, or if it not one of the five specified
      *                                  constants.
-     * @see Container#add(Component,Object)
+     * @see java.awt.Container#add(java.awt.Component, java.lang.Object)
      * @since JDK1.1
      */
     public void addLayoutComponent(Component comp, Object constraints) {
@@ -287,6 +310,10 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
         }
     }
 
+    /**
+     * @deprecated replaced by <code>addLayoutComponent(Component, Object)</code>.
+     */
+    @Deprecated
     public void addLayoutComponent(String name, Component comp) {
         synchronized (comp.getTreeLock()) {
             /* Special case:  treat null the same as "Center". */
@@ -295,7 +322,7 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
             }
 
             /* Assign the component to one of the known regions of the layout.
-             */
+            */
             if ("Center".equals(name)) {
                 center = comp;
             }
@@ -334,8 +361,8 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * <code>remove</code> or <code>removeAll</code> methods. Most applications do not call this method directly.
      *
      * @param comp the component to be removed.
-     * @see Container#remove(Component)
-     * @see Container#removeAll()
+     * @see java.awt.Container#remove(java.awt.Component)
+     * @see java.awt.Container#removeAll()
      */
     public void removeLayoutComponent(Component comp) {
         synchronized (comp.getTreeLock()) {
@@ -370,6 +397,149 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
     }
 
     /**
+     * Gets the component that was added using the given constraint
+     *
+     * @param constraints the desired constraint, one of <code>CENTER</code>, <code>NORTH</code>, <code>SOUTH</code>,
+     *                    <code>WEST</code>, <code>EAST</code>, <code>PAGE_START</code>, <code>PAGE_END</code>,
+     *                    <code>LINE_START</code>, <code>LINE_END</code>
+     * @return the component at the given location, or <code>null</code> if the location is empty
+     *
+     * @throws IllegalArgumentException if the constraint object is not one of the nine specified constants
+     * @see #addLayoutComponent(java.awt.Component, java.lang.Object)
+     * @since 1.5
+     */
+    public Component getLayoutComponent(Object constraints) {
+        if (CENTER.equals(constraints)) {
+            return center;
+        }
+        else if (NORTH.equals(constraints)) {
+            return north;
+        }
+        else if (SOUTH.equals(constraints)) {
+            return south;
+        }
+        else if (WEST.equals(constraints)) {
+            return west;
+        }
+        else if (EAST.equals(constraints)) {
+            return east;
+        }
+        else if (PAGE_START.equals(constraints)) {
+            return firstLine;
+        }
+        else if (PAGE_END.equals(constraints)) {
+            return lastLine;
+        }
+        else if (LINE_START.equals(constraints)) {
+            return firstItem;
+        }
+        else if (LINE_END.equals(constraints)) {
+            return lastItem;
+        }
+        else {
+            throw new IllegalArgumentException("cannot get component: unknown constraint: " + constraints);
+        }
+    }
+
+
+    /**
+     * Returns the component that corresponds to the given constraint location based on the target
+     * <code>Container</code>'s component orientation. Components added with the relative constraints
+     * <code>PAGE_START</code>, <code>PAGE_END</code>, <code>LINE_START</code>, and <code>LINE_END</code> take
+     * precedence over components added with the explicit constraints <code>NORTH</code>, <code>SOUTH</code>,
+     * <code>WEST</code>, and <code>EAST</code>. The <code>Container</code>'s component orientation is used to determine
+     * the location of components added with <code>LINE_START</code> and <code>LINE_END</code>.
+     *
+     * @param constraints the desired absolute position, one of <code>CENTER</code>, <code>NORTH</code>,
+     *                    <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>
+     * @param target      the {@code Container} used to obtain the constraint location based on the target {@code
+     *                    Container}'s component orientation.
+     * @return the component at the given location, or <code>null</code> if the location is empty
+     *
+     * @throws IllegalArgumentException if the constraint object is not one of the five specified constants
+     * @throws NullPointerException     if the target parameter is null
+     * @see #addLayoutComponent(java.awt.Component, java.lang.Object)
+     * @since 1.5
+     */
+    public Component getLayoutComponent(Container target, Object constraints) {
+        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        Component result = null;
+
+        if (NORTH.equals(constraints)) {
+            result = (firstLine != null) ? firstLine : north;
+        }
+        else if (SOUTH.equals(constraints)) {
+            result = (lastLine != null) ? lastLine : south;
+        }
+        else if (WEST.equals(constraints)) {
+            result = ltr ? firstItem : lastItem;
+            if (result == null) {
+                result = west;
+            }
+        }
+        else if (EAST.equals(constraints)) {
+            result = ltr ? lastItem : firstItem;
+            if (result == null) {
+                result = east;
+            }
+        }
+        else if (CENTER.equals(constraints)) {
+            result = center;
+        }
+        else {
+            throw new IllegalArgumentException("cannot get component: invalid constraint: " + constraints);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Gets the constraints for the specified component
+     *
+     * @param comp the component to be queried
+     * @return the constraint for the specified component, or null if component is null or is not present in this
+     *         layout
+     *
+     * @see #addLayoutComponent(java.awt.Component, java.lang.Object)
+     * @since 1.5
+     */
+    public Object getConstraints(Component comp) {
+        //fix for 6242148 : API method java.awt.BorderLayout.getConstraints(null) should return null
+        if (comp == null) {
+            return null;
+        }
+        if (comp == center) {
+            return CENTER;
+        }
+        else if (comp == north) {
+            return NORTH;
+        }
+        else if (comp == south) {
+            return SOUTH;
+        }
+        else if (comp == west) {
+            return WEST;
+        }
+        else if (comp == east) {
+            return EAST;
+        }
+        else if (comp == firstLine) {
+            return PAGE_START;
+        }
+        else if (comp == lastLine) {
+            return PAGE_END;
+        }
+        else if (comp == firstItem) {
+            return LINE_START;
+        }
+        else if (comp == lastItem) {
+            return LINE_END;
+        }
+        return null;
+    }
+
+    /**
      * Determines the minimum size of the <code>target</code> container using this layout manager.
      * <p/>
      * This method is called when a container calls its <code>getMinimumSize</code> method. Most applications do not
@@ -378,15 +548,16 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * @param target the container in which to do the layout.
      * @return the minimum dimensions needed to lay out the subcomponents of the specified container.
      *
-     * @see Container
-     * @see Container#getMinimumSize()
+     * @see java.awt.Container
+     * @see java.awt.BorderLayout#preferredLayoutSize
+     * @see java.awt.Container#getMinimumSize()
      */
     public Dimension minimumLayoutSize(Container target) {
         synchronized (target.getTreeLock()) {
             Dimension dim = new Dimension(0, 0);
 
             boolean ltr = target.getComponentOrientation().isLeftToRight();
-            Component c;
+            Component c = null;
 
             if ((c = getChild(CENTER, ltr)) != null) {
                 Dimension d = c.getMinimumSize();
@@ -432,15 +603,16 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * @param target the container in which to do the layout.
      * @return the preferred dimensions to lay out the subcomponents of the specified container.
      *
-     * @see Container
-     * @see Container#getPreferredSize()
+     * @see java.awt.Container
+     * @see java.awt.BorderLayout#minimumLayoutSize
+     * @see java.awt.Container#getPreferredSize()
      */
     public Dimension preferredLayoutSize(Container target) {
         synchronized (target.getTreeLock()) {
             Dimension dim = new Dimension(0, 0);
 
             boolean ltr = target.getComponentOrientation().isLeftToRight();
-            Component c;
+            Component c = null;
 
             if ((c = getChild(CENTER, ltr)) != null) {
                 Dimension d = c.getPreferredSize();
@@ -525,8 +697,8 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      * <code>doLayout</code> method.
      *
      * @param target the container in which to do the layout.
-     * @see Container
-     * @see Container#doLayout()
+     * @see java.awt.Container
+     * @see java.awt.Container#doLayout()
      */
     public void layoutContainer(Container target) {
         synchronized (target.getTreeLock()) {
@@ -592,30 +764,29 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      *
      * @param key The desired absolute position, either NORTH, SOUTH, EAST, or WEST.
      * @param ltr Is the component line direction left-to-right?
-     * @return the child component.
      */
     private Component getChild(String key, boolean ltr) {
         Component result = null;
 
-        if (key.equals(NORTH)) {
+        if (key == NORTH) {
             result = (firstLine != null) ? firstLine : north;
         }
-        else if (key.equals(SOUTH)) {
+        else if (key == SOUTH) {
             result = (lastLine != null) ? lastLine : south;
         }
-        else if (key.equals(WEST)) {
+        else if (key == WEST) {
             result = ltr ? firstItem : lastItem;
             if (result == null) {
                 result = west;
             }
         }
-        else if (key.equals(EAST)) {
+        else if (key == EAST) {
             result = ltr ? lastItem : firstItem;
             if (result == null) {
                 result = east;
             }
         }
-        else if (key.equals(CENTER)) {
+        else if (key == CENTER) {
             result = center;
         }
         if (result != null && !result.isVisible()) {
@@ -629,7 +800,6 @@ public class JideBorderLayout implements LayoutManager2, Serializable {
      *
      * @return a string representation of this border layout.
      */
-    @Override
     public String toString() {
         return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
     }

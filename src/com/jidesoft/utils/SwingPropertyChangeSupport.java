@@ -1,8 +1,8 @@
 /* 
  * $Id: SwingPropertyChangeSupport.java,v 1.1 2005/06/18 21:27:14 idk Exp $
  * 
- * Copyright ?2005 Sun Microsystems, Inc. All rights
- * reserved. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
 package com.jidesoft.utils;
@@ -13,7 +13,7 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * This subclass of {@code java.beans.PropertyChangeSupport} is almost identical in functionality. The only difference
- * is if constructed with {@code SwingPropertyChangeSupport(sourceBean,true)} it ensures listeners are only ever
+ * is if constructed with {@code SwingPropertyChangeSupport(sourceBean, true)} it ensures listeners are only ever
  * notified on the <i>Event Dispatch Thread</i>.
  *
  * @author Igor Kushnirskiy
@@ -79,6 +79,7 @@ public final class SwingPropertyChangeSupport extends PropertyChangeSupport {
      * Returns {@code notifyOnEDT} property.
      *
      * @return {@code notifyOnEDT} property
+     *
      * @since 1.6
      */
     public final boolean isNotifyOnEDT() {

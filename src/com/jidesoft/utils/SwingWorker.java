@@ -1,8 +1,8 @@
 /* 
  * $Id: SwingWorker.java,v 1.5 2007/03/01 19:55:54 idk Exp $
  * 
- * Copyright ?2005 Sun Microsystems, Inc. All rights
- * reserved. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
 package com.jidesoft.utils;
@@ -90,7 +90,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *       public String doInBackground() {
  *           return findTheMeaningOfLife();
  *       }
- * <p/>
+ *
  *       {@code @Override}
  *       protected void done() {
  *           try {
@@ -99,7 +99,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *           }
  *       }
  *   }
- * <p/>
+ *
  *   (new MeaningOfLifeFinder()).execute();
  * </pre>
  * <p/>
@@ -117,7 +117,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *     PrimeNumbersTask(JTextArea textArea, int numbersToFind) {
  *         //initialize
  *     }
- * <p/>
+ *
  *     {@code @Override}
  *     public List&lt;Integer&gt; doInBackground() {
  *         while (! enough &amp;&amp; ! isCancelled()) {
@@ -128,7 +128,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *         }
  *         return numbers;
  *     }
- * <p/>
+ *
  *     {@code @Override}
  *     protected void process(List&lt;Integer&gt; chunks) {
  *         for (int number : chunks) {
@@ -136,7 +136,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *         }
  *     }
  * }
- * <p/>
+ *
  * JTextArea textArea = new JTextArea();
  * final JProgressBar progressBar = new JProgressBar(0, 100);
  * PrimeNumbersTask task = new PrimeNumbersTask(textArea, N);
@@ -148,7 +148,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *             }
  *         }
  *     });
- * <p/>
+ *
  * task.execute();
  * System.out.println(task.get()); //prints all prime numbers we have got
  * </pre>
@@ -157,11 +157,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * Because {@code SwingWorker} implements {@code Runnable}, a {@code SwingWorker} can be submitted to an {@link
  * java.util.concurrent.Executor} for execution.
  *
- * @author Igor Kushnirskiy
- * @version $Revision: 1.5 $ $Date: 2007/03/01 19:55:54 $
  * @param <T> the result type returned by this {@code SwingWorker's} {@code doInBackground} and {@code get} methods
  * @param <V> the type used for carrying out intermediate results by this {@code SwingWorker's} {@code publish} and
- * {@code process} methods
+ *            {@code process} methods
+ * @author Igor Kushnirskiy
+ * @version $Revision: 1.5 $ $Date: 2007/03/01 19:55:54 $
  */
 public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
     /**
@@ -307,11 +307,11 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
      * class TableSwingWorker extends
      *         SwingWorker&lt;DefaultTableModel, Object[]&gt; {
      *     private final DefaultTableModel tableModel;
-     * <p/>
+     *
      *     public TableSwingWorker(DefaultTableModel tableModel) {
      *         this.tableModel = tableModel;
      *     }
-     * <p/>
+     *
      *     {@code @Override}
      *     protected DefaultTableModel doInBackground() throws Exception {
      *         for (Object[] row = loadData();
@@ -321,7 +321,7 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
      *         }
      *         return tableModel;
      *     }
-     * <p/>
+     *
      *     {@code @Override}
      *     protected void process(List&lt;Object[]&gt; chunks) {
      *         for (Object[] row : chunks) {
@@ -457,6 +457,7 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
     }
 
     // Future methods START
+
     /**
      * {@inheritDoc}
      */
@@ -494,11 +495,11 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
      * <pre>
      * class SwingWorkerCompletionWaiter extends PropertyChangeListener {
      *     private JDialog dialog;
-     * <p/>
+     *
      *     public SwingWorkerCompletionWaiter(JDialog dialog) {
      *         this.dialog = dialog;
      *     }
-     * <p/>
+     *
      *     public void propertyChange(PropertyChangeEvent event) {
      *         if (&quot;state&quot;.equals(event.getPropertyName())
      *                 &amp;&amp; SwingWorker.StateValue.DONE == event.getNewValue()) {

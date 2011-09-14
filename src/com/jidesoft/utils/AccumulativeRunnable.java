@@ -1,8 +1,8 @@
 /* 
  * $Id: AccumulativeRunnable.java,v 1.2 2006/09/28 20:20:28 idk Exp $
  * 
- * Copyright ?2005 Sun Microsystems, Inc. All rights
- * reserved. Use is subject to license terms.
+ * Copyright (c) 1995, 2006, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
 package com.jidesoft.utils;
@@ -61,9 +61,9 @@ import java.util.List;
  *  }
  * </pre>
  *
+ * @param <T> the type this {@code Runnable} accumulates
  * @author Igor Kushnirskiy
  * @version $Revision: 1.2 $ $Date: 2006/09/28 20:20:28 $
- * @param <T> the type this {@code Runnable} accumulates
  */
 abstract class AccumulativeRunnable<T> implements Runnable {
     private List<T> arguments = null;
