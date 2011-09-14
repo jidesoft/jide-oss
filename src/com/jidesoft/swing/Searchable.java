@@ -270,7 +270,7 @@ public abstract class Searchable {
      */
     protected class SearchField extends JTextField {
         SearchField() {
-            JideSwingUtilities.setTextComponentTransparent(this);
+            JideSwingUtilities.setComponentTransparent(this);
         }
 
         @Override

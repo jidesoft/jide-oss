@@ -78,7 +78,7 @@ public class LabeledTextField extends JPanel {
         _button = createButton();
         _textField = createTextField();
         initLayout(_label, _textField, _button);
-        setContextMenuKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,  KeyEvent.ALT_DOWN_MASK));
+        setContextMenuKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, KeyEvent.ALT_DOWN_MASK));
         registerContextMenuKeyStroke(getContextMenuKeyStroke());
         updateUI();
     }
@@ -86,10 +86,10 @@ public class LabeledTextField extends JPanel {
     private void registerContextMenuKeyStroke(KeyStroke keyStroke) {
         if (keyStroke != null) {
             registerKeyboardAction(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    showContextMenu();
-                }
-            }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                        public void actionPerformed(ActionEvent e) {
+                            showContextMenu();
+                        }
+                    }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         }
     }
 
@@ -189,7 +189,7 @@ public class LabeledTextField extends JPanel {
     protected JTextField createTextField() {
         JTextField textField = new OverlayTextField();
         SelectAllUtils.install(textField);
-        JideSwingUtilities.setTextComponentTransparent(textField);
+        JideSwingUtilities.setComponentTransparent(textField);
         textField.setColumns(20);
         return textField;
     }

@@ -3731,16 +3731,28 @@ public class JideSwingUtilities implements SwingConstants {
      * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
      * in case the L&F doesn't respect the opaque flag.
      *
-     * @param textComponent the text component to be set to transparent.
+     * @param component the text component to be set to transparent.
+     * @deprecated replaced by {@link #setComponentTransparent(javax.swing.JComponent)}.
      */
-    public static void setTextComponentTransparent(JTextComponent textComponent) {
-        textComponent.setOpaque(false);
+    @Deprecated
+    public static void setTextComponentTransparent(JComponent component) {
+        setComponentTransparent(component);
+    }
+
+    /**
+     * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
+     * in case the L&F doesn't respect the opaque flag.
+     *
+     * @param component the text component to be set to transparent.
+     */
+    public static void setComponentTransparent(JComponent component) {
+        component.setOpaque(false);
 
 // add this for the Synthetica
-        textComponent.putClientProperty("Synthetica.opaque", false);
+        component.putClientProperty("Synthetica.opaque", false);
 // add this for Nimbus to disable all the painting of a component in Nimbus
-        textComponent.putClientProperty("Nimbus.Overrides.InheritDefaults", false);
-        textComponent.putClientProperty("Nimbus.Overrides", new UIDefaults());
+        component.putClientProperty("Nimbus.Overrides.InheritDefaults", false);
+        component.putClientProperty("Nimbus.Overrides", new UIDefaults());
 
     }
 

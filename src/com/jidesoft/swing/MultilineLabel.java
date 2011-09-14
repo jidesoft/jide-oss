@@ -46,7 +46,7 @@ public class MultilineLabel extends JTextArea {
         setEditable(false);
         setRequestFocusEnabled(false);
         setFocusable(false);
-        JideSwingUtilities.setTextComponentTransparent(this);
+        JideSwingUtilities.setComponentTransparent(this);
 
         setCaret(new DefaultCaret() {
             private static final long serialVersionUID = 1242467463492127346L;
