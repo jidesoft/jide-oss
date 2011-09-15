@@ -166,9 +166,9 @@ final public class SystemInfo {
     /**
      * Returns the version of the java class we're using.
      *
-     * @return the java clasversionon.
+     * @return the java class version.
      */
-    public static String getJavaClassVerion() {
+    public static String getJavaClassVersion() {
         return SecurityUtils.getProperty("java.class.version", "");
     }
 
