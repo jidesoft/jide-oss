@@ -486,7 +486,7 @@ public class LookAndFeelFactory implements ProductNames {
      * </code></pre>
      */
     public static void installJideExtension() {
-        installJideExtension(getDefaultStyle());
+        installJideExtension(_style == -1 ? getDefaultStyle() : _style);
     }
 
     /**
