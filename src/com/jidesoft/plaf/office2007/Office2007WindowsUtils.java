@@ -108,6 +108,8 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
 
                 "JideButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
                 "JideButton.margin", new InsetsUIResource(3, 3, 3, 4),
+                "JideButton.paintDefaultBorder", false,
+
                 "JideSplitButton.margin.vertical", new InsetsUIResource(2, 5, 1, 5),
                 "JideSplitButton.margin", new InsetsUIResource(3, 3, 3, 4),
                 "JideSplitButton.nonActiveRolloverAlpha", 40,

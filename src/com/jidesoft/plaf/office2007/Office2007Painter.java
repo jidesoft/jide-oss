@@ -13,6 +13,7 @@ import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.office2003.Office2003Painter;
 import com.jidesoft.swing.ComponentStateSupport;
+import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.utils.ColorUtils;
@@ -164,17 +165,26 @@ public class Office2007Painter extends BasicPainter {
         else if (state == STATE_DEFAULT) {
             // paint border
             gfx.setColor(new Color(0x7793b9));
-            gfx.drawLine(x + 1, y, x + w - 2, y); // top
-            gfx.drawLine(x, y + 1, x, y + h - 2); // left
-            gfx.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 2); // right
-            gfx.drawLine(x + 1, y + h - 1, x + w - 2, y + h - 1); // bottom
 
-            // paint dots
-            gfx.setColor(new Color(0x9cb4d4));
-            gfx.drawLine(x + 1, y + 1, x + 1, y + 1); // top left
-            gfx.drawLine(x + 1, y + h - 2, x + 1, y + h - 2); // bottom left
-            gfx.drawLine(x + w - 2, y + 1, x + w - 2, y + 1); // top right
-            gfx.drawLine(x + w - 2, y + h - 2, x + w - 2, y + h - 2); // bottom right
+            if (c instanceof JideButton && ((JideButton) c).getButtonStyle() == JideButton.TOOLBAR_STYLE) {
+                gfx.drawLine(x + 1, y, x + w - 2, y); // top
+                gfx.drawLine(x, y + 1, x, y + h - 2); // left
+                gfx.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 2); // right
+                gfx.drawLine(x + 1, y + h - 1, x + w - 2, y + h - 1); // bottom
+
+                // paint dots
+                gfx.setColor(new Color(0x9cb4d4));
+                gfx.drawLine(x + 1, y + 1, x + 1, y + 1); // top left
+                gfx.drawLine(x + 1, y + h - 2, x + 1, y + h - 2); // bottom left
+                gfx.drawLine(x + w - 2, y + 1, x + w - 2, y + 1); // top right
+                gfx.drawLine(x + w - 2, y + h - 2, x + w - 2, y + h - 2); // bottom right
+            }
+            else {
+                gfx.drawLine(x + 1, y, x + w - 1, y); // top
+                gfx.drawLine(x, y + 1, x, y + h - 1); // left
+                gfx.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1); // right
+                gfx.drawLine(x + 1, y + h - 1, x + w - 1, y + h - 1); // bottom
+            }
         }
     }
 
