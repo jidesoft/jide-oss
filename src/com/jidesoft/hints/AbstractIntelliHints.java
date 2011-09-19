@@ -10,6 +10,7 @@ import com.jidesoft.popup.JidePopup;
 import com.jidesoft.swing.DelegateAction;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
@@ -18,6 +19,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
 
 /**
@@ -43,6 +46,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     // Default is true for backward compatibility.
     private boolean _autoPopup = true;
     private int _showHintsDelay = 200;
+    private List<KeyStroke> _showHintsKeyStrokes;
+    private DelegateAction _showAction;
 
     /**
      * Creates an IntelliHints object for a given JTextComponent.
@@ -86,28 +91,29 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             }
         });
 
-        DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, getShowHintsKeyStroke(), new DelegateAction() {
-                private static final long serialVersionUID = 2243999895981912016L;
+        _showAction = new DelegateAction() {
+            private static final long serialVersionUID = 2243999895981912016L;
 
-                @Override
-                public boolean delegateActionPerformed(ActionEvent e) {
-                    JComponent tf = (JComponent) e.getSource();
-                    IntelliHints hints = getIntelliHints(tf);
-                    if (hints instanceof AbstractIntelliHints) {
-                        AbstractIntelliHints aih = (AbstractIntelliHints) hints;
-                        if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
-                            aih.showHintsPopup();
-                            return true;
-                        }
+            @Override
+            public boolean delegateActionPerformed(ActionEvent e) {
+                JComponent tf = (JComponent) e.getSource();
+                IntelliHints hints = getIntelliHints(tf);
+                if (hints instanceof AbstractIntelliHints) {
+                    AbstractIntelliHints aih = (AbstractIntelliHints) hints;
+                    if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
+                        aih.showHintsPopup();
+                        return true;
                     }
-                    return false;
                 }
+                return false;
+            }
 
-                @Override
-                public boolean isDelegateEnabled() {
-                    return !isHintsPopupVisible();
-                }
-            });
+            @Override
+            public boolean isDelegateEnabled() {
+                return !isHintsPopupVisible();
+            }
+        };
+        addShowHintsKeyStroke(getShowHintsKeyStroke());
 
         KeyStroke[] keyStrokes = getDelegateKeyStrokes();
         for (KeyStroke keyStroke : keyStrokes) {
@@ -548,6 +554,48 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      */
     public void setShowHintsDelay(int showHintsDelay) {
         _showHintsDelay = showHintsDelay;
+    }
+
+    /**
+     * Adds a new key stroke to show hints popup.
+     *
+     * @param keyStroke the key stroke
+     * @see #removeShowHintsKeyStroke(javax.swing.KeyStroke)
+     * @see #getAllShowHintsKeyStrokes()
+     * @since 3.2.2
+     */
+    public void addShowHintsKeyStroke(KeyStroke keyStroke) {
+        if (_showHintsKeyStrokes == null) {
+            _showHintsKeyStrokes = new ArrayList<KeyStroke>();
+        }
+        _showHintsKeyStrokes.add(keyStroke);
+        DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, keyStroke, _showAction);
+    }
+
+    /**
+     * Removes a key stroke from the list to show hints popup.
+     *
+     * @param keyStroke the key stroke
+     * @since 3.2.2
+     */
+    public void removeShowHintsKeyStroke(KeyStroke keyStroke) {
+        if (_showHintsKeyStrokes != null) {
+            _showHintsKeyStrokes.remove(keyStroke);
+            DelegateAction.restoreAction(getTextComponent(), JComponent.WHEN_FOCUSED, keyStroke, _showAction);
+        }
+    }
+
+    /**
+     * Gets all key strokes that will show hints popup.
+     *
+     * @return the key stroke array.
+     * @since 3.2.2
+     */
+    public KeyStroke[] getAllShowHintsKeyStrokes() {
+        if (_showHintsKeyStrokes == null) {
+            return new KeyStroke[0];
+        }
+        return _showHintsKeyStrokes.toArray(new KeyStroke[_showHintsKeyStrokes.size()]);
     }
 
     private class LazyDelegateAction extends DelegateAction {
