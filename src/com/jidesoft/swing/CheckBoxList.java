@@ -804,7 +804,8 @@ public class CheckBoxList extends JList {
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
-        return JideSwingUtilities.adjustPreferredScrollableViewportSize(this, super.getPreferredScrollableViewportSize());
+        Dimension size = super.getPreferredScrollableViewportSize();
+        return size != null && size.width > 0 && size.height > 0 ? JideSwingUtilities.adjustPreferredScrollableViewportSize(this, size) : size;
 
     }
 }
