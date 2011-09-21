@@ -207,7 +207,8 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
                         }
 
                         if (delta != 0) {
-                            offset(delta);
+                            rangeSlider.setLowValue(rangeSlider.getLowValue() + delta);
+                            rangeSlider.setHighValue(rangeSlider.getHighValue() + delta);
                         }
                     }
                     break;
@@ -295,10 +296,6 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             slider.repaint();
             setCursor(Cursor.DEFAULT_CURSOR);
         }
-    }
-
-    private void offset(int delta) {
-        slider.getModel().setValue(((RangeSlider) slider).getLowValue() + delta);
     }
 
     protected static final int MOUSE_HANDLE_NONE = 0;
