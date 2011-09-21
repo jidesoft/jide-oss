@@ -1039,7 +1039,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
                     - arrowIconRect.width;
         }
 
-        if (verticalTextPosition == SwingConstants.CENTER) {
+        if (verticalTextPosition == SwingConstants.CENTER && verticalAlignment == SwingConstants.CENTER) {
             // put it in the middle
             if (text != null && !text.equals("")) {
                 textRect.y = viewRect.y + ((viewRect.height - textRect.height) >> 1);

@@ -959,7 +959,7 @@ public class EclipseMenuItemUI extends MenuItemUI {
             // isLeftToRight is false
         }
 
-        if (verticalTextPosition == SwingConstants.CENTER) {
+        if (verticalTextPosition == SwingConstants.CENTER && verticalAlignment == SwingConstants.CENTER) {
             // put it in the middle
             textRect.y = ((viewRect.height - textRect.height) >> 1) + 1;
             iconRect.y = ((viewRect.height - iconRect.height) >> 1) + 1;
