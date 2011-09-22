@@ -12,7 +12,9 @@ import com.jidesoft.plaf.LookAndFeelFactory;
 import javax.swing.*;
 
 /**
- * Initialize the uiClassID to BasicComponentUI mapping for JIDE components. The JComponent classes define their own uiClassID constants (see AbstractComponent.getUIClassID).  This table must map those constants to a BasicComponentUI class of the appropriate type.
+ * Initialize the uiClassID to BasicComponentUI mapping for JIDE components. The JComponent classes define their own
+ * uiClassID constants (see AbstractComponent.getUIClassID).  This table must map those constants to a BasicComponentUI
+ * class of the appropriate type.
  */
 public class BasicLookAndFeelExtension implements LookAndFeelExtension {
 
@@ -76,6 +78,10 @@ public class BasicLookAndFeelExtension implements LookAndFeelExtension {
             table.put("CommandBarSeparatorUI", basicPackageName + "BasicCommandBarSeparatorUI");
             table.put("ChevronUI", basicPackageName + "BasicChevronUI");
             table.put("CommandBarTitleBarUI", basicPackageName + "BasicCommandBarTitleBarUI");
+        }
+        if ((products & PRODUCT_TREEMAP) != 0) {
+            // action
+            table.put("TreeMapUI", basicPackageName + "BasicTreeMapUI");
         }
     }
 }
