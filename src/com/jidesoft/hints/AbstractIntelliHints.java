@@ -518,10 +518,14 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
         void startTimer() {
             if (timer.isRunning()) {
+                timer.setInitialDelay(getShowHintsDelay());
+                timer.setDelay(getShowHintsDelay());
                 timer.restart();
             }
             else {
                 timer.setRepeats(false);
+                timer.setInitialDelay(getShowHintsDelay());
+                timer.setDelay(getShowHintsDelay());
                 timer.start();
             }
         }
