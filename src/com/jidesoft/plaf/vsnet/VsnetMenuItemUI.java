@@ -99,6 +99,9 @@ public class VsnetMenuItemUI extends MenuItemUI {
         String prefix = getPropertyPrefix();
 
         acceleratorFont = UIDefaultsLookup.getFont("MenuItem.acceleratorFont");
+        if (acceleratorFont == null) {
+            acceleratorFont = UIManager.getFont("MenuItem.font");
+        }
 
         menuItem.setOpaque(true);
         if (menuItem.getMargin() == null ||
