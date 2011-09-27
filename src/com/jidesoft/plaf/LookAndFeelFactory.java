@@ -56,11 +56,13 @@ import java.util.Vector;
  * OFFICE2003_STYLE <li> OS: any Windows, L&F: Windows L&F => VSNET_STYLE <li> OS: Linux, L&F: any L&F based on Metal
  * L&F => VSNET_STYLE <li> OS: Mac OS X, L&F: Aqua L&F => AQUA_STYLE <li> OS: any OS, L&F: Quaqua L&F => AQUA_STYLE <li>
  * Otherwise => VSNET_STYLE </ul> There is also another installJideExtension which takes an int style parameter. You can
- * pass in {@link #VSNET_STYLE}, {@link #ECLIPSE_STYLE}, {@link #ECLIPSE3X_STYLE}, {@link #OFFICE2003_STYLE}, {@link
- * #OFFICE2007_STYLE}, or {@link #XERTO_STYLE}. In the other word, you will make the choice of style instead of letting
- * LookAndFeelFactory to decide one for you. Please note, there is no constant defined for AQUA_STYLE. The only way to
- * use it is when you are using Aqua L&F or Quaqua L&F and you call installJideExtension() method, the one without
- * parameter.
+ * pass in {@link #EXTENSION_STYLE_VSNET}, {@link #EXTENSION_STYLE_ECLIPSE}, {@link #EXTENSION_STYLE_ECLIPSE3X},
+ * {@link #EXTENSION_STYLE_OFFICE2003}, {@link #EXTENSION_STYLE_OFFICE2007}, or {@link #EXTENSION_STYLE_XERTO},
+ * {@link #EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU}, {@link #EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU},
+ * {@link #EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU}, {@link #EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU}. In the other word,
+ * you will make the choice of style instead of letting LookAndFeelFactory to decide one for you. Please note, there is
+ * no constant defined for AQUA_STYLE. The only way to use it is when you are using Aqua L&F or Quaqua L&F and you call
+ * installJideExtension() method, the one without parameter.
  * <p/>
  * Another way is to call {@link LookAndFeelFactory#installDefaultLookAndFeelAndExtension()} which will set the default
  * L&Fs based on the OS and install JIDE extension.
@@ -212,14 +214,70 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String NIMBUS_LNF_NAME = "NimbusLookAndFeel";
 
     /**
+     * The same as {@link #EXTENSION_STYLE_VSNET_WITHOUT_MENU}
+     *
+     * @see #EXTENSION_STYLE_VSNET_WITHOUT_MENU
+     */
+    public static final int VSNET_STYLE_WITHOUT_MENU = 0;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_VSNET}
+     *
+     * @see #EXTENSION_STYLE_VSNET
+     */
+    public static final int VSNET_STYLE = 1;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_ECLIPSE}
+     *
+     * @see #EXTENSION_STYLE_ECLIPSE
+     */
+    public static final int ECLIPSE_STYLE = 2;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_OFFICE2003}
+     *
+     * @see #EXTENSION_STYLE_OFFICE2003
+     */
+    public static final int OFFICE2003_STYLE = 3;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_XERTO}
+     *
+     * @see #EXTENSION_STYLE_XERTO
+     */
+    public static final int XERTO_STYLE = 4;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_XERTO_WITHOUT_MENU}
+     *
+     * @see #EXTENSION_STYLE_XERTO_WITHOUT_MENU
+     */
+    public static final int XERTO_STYLE_WITHOUT_MENU = 6;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_ECLIPSE}
+     *
+     * @see #EXTENSION_STYLE_ECLIPSE
+     */
+    public static final int ECLIPSE3X_STYLE = 5;
+
+    /**
+     * The same as {@link #EXTENSION_STYLE_OFFICE2007}
+     *
+     * @see #EXTENSION_STYLE_OFFICE2007
+     */
+    public static final int OFFICE2007_STYLE = 7;
+
+    /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as VSNET_STYLE
      * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
      * JIDE Action Framework.
      * <p/>
      *
-     * @see #VSNET_STYLE
+     * @see #EXTENSION_STYLE_VSNET
      */
-    public static final int VSNET_STYLE_WITHOUT_MENU = 0;
+    public static final int EXTENSION_STYLE_VSNET_WITHOUT_MENU = 0;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -237,7 +295,7 @@ public class LookAndFeelFactory implements ProductNames {
      * <code><pre>
      * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
      * exceptions on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.VSNET_STYLE);
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_VSNET);
      * </pre></code>
      * There is a special system property "shading theme" you can use. If you turn it on using the code below, you will
      * see a gradient on dockable frame's title pane and rounded corner and gradient on the tabs of JideTabbedPane. So
@@ -247,24 +305,24 @@ public class LookAndFeelFactory implements ProductNames {
      * System.setProperty("shadingtheme", "true");
      * </pre></code>
      */
-    public static final int VSNET_STYLE = 1;
+    public static final int EXTENSION_STYLE_VSNET = 1;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
      * Eclipse 2.x for the toolbars, menus and dockable windows.
      * <p/>
      * Eclipse style works for almost all L&Fs and on any operating systems, although it looks the best on Windows. For
-     * any other operating systems we suggest you to use XERTO_STYLE or VSNET_STYLE.
+     * any other operating systems we suggest you to use EXTENSION_STYLE_XERTO or EXTENSION_STYLE_VSNET.
      * <p/>
      * Here is the code to set to any L&F with Eclipse style extension.
      * <code><pre>
      * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the
      * exceptions
      * on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE_STYLE);
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_ECLIPSE);
      * </pre></code>
      */
-    public static final int ECLIPSE_STYLE = 2;
+    public static final int EXTENSION_STYLE_ECLIPSE = 2;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -277,7 +335,7 @@ public class LookAndFeelFactory implements ProductNames {
      * <code><pre>
      * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
      * exceptions on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.OFFICE2003_STYLE);
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_OFFICE2003);
      * </pre></code>
      * It works either on any other Windows such asWindows 2000, Windows 98 etc. If you are on Windows XP, Office2003
      * style will change theme based on the theme setting in Windows Display Property. But if you are not on XP,
@@ -288,7 +346,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Office2003 style doesn't work on any operating systems other than Windows mainly because the design of Office2003
      * style is so centric to Windows that it doesn't look good on other operating systems.
      */
-    public static final int OFFICE2003_STYLE = 3;
+    public static final int EXTENSION_STYLE_OFFICE2003 = 3;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is created by Xerto
@@ -300,14 +358,29 @@ public class LookAndFeelFactory implements ProductNames {
      * <code><pre>
      * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
      * exceptions on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.XERTO_STYLE);
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_XERTO);
      * </pre></code>
      * Although it looks the best on Windows, Xerto style also supports Linux or Solaris if you use any L&Fs based on
      * Metal L&F or Synth L&F. For example, we recommend you to use Xerto style as default if you use SyntheticaL&F, a
      * L&F based on Synth. To use it, you basically replace WindowsLookAndFeel to the L&F you want to use in
      * setLookAndFeel line above.
      */
-    public static final int XERTO_STYLE = 4;
+    public static final int EXTENSION_STYLE_XERTO = 4;
+
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
+     * Eclipse 3.x for the toolbars, menus and dockable windows.
+     * <p/>
+     * Eclipse 3x style works for almost all L&Fs and on any operating systems, although it looks the best on Windows.
+     * For any other OS's we suggest you to use EXTENSION_STYLE_XERTO or EXTENSION_STYLE_VSNET.
+     * <code><pre>
+     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the
+     * exceptions
+     * on this call.
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_ECLIPSE3X);
+     * </pre></code>
+     */
+    public static final int EXTENSION_STYLE_ECLIPSE3X = 5;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as XERTO_STYLE
@@ -317,24 +390,9 @@ public class LookAndFeelFactory implements ProductNames {
      * used even you use XERTO_STYLE when calling to installJideExtension().
      * <p/>
      *
-     * @see #XERTO_STYLE
+     * @see #EXTENSION_STYLE_XERTO
      */
-    public static final int XERTO_STYLE_WITHOUT_MENU = 6;
-
-    /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
-     * Eclipse 3.x for the toolbars, menus and dockable windows.
-     * <p/>
-     * Eclipse 3x style works for almost all L&Fs and on any operating systems, although it looks the best on Windows.
-     * For any other OS's we suggest you to use XERTO_STYLE or VSNET_STYLE.
-     * <code><pre>
-     * UIManager.setLookAndFeel(AnyLookAndFeel.class.getName()); // you need to catch the
-     * exceptions
-     * on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE3X_STYLE);
-     * </pre></code>
-     */
-    public static final int ECLIPSE3X_STYLE = 5;
+    public static final int EXTENSION_STYLE_XERTO_WITHOUT_MENU = 6;
 
     /**
      * A style that you can use with {@link #installJideExtension(int)} method. This style mimics the visual style of
@@ -347,7 +405,7 @@ public class LookAndFeelFactory implements ProductNames {
      * <code><pre>
      * UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName()); // you need to catch the
      * exceptions on this call.
-     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.OFFICE2007_STYLE);
+     * LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_OFFICE2007);
      * </pre></code>
      * <p/>
      * Office2007 style doesn't work on any operating systems other than Windows mainly because the design of Office2003
@@ -356,7 +414,47 @@ public class LookAndFeelFactory implements ProductNames {
      * Because we use some painting code that is only available in JDK6, Office 2007 style only runs if you are using
      * JDK6 and above.
      */
-    public static final int OFFICE2007_STYLE = 7;
+    public static final int EXTENSION_STYLE_OFFICE2007 = 7;
+
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_OFFICE2003
+     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
+     * JIDE Action Framework.
+     * <p/>
+     *
+     * @see #EXTENSION_STYLE_OFFICE2003
+     */
+    public static final int EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU = 8;
+
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_OFFICE2007
+     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
+     * JIDE Action Framework.
+     * <p/>
+     *
+     * @see #EXTENSION_STYLE_OFFICE2007
+     */
+    public static final int EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU = 9;
+
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_ECLIPSE
+     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
+     * JIDE Action Framework.
+     * <p/>
+     *
+     * @see #EXTENSION_STYLE_ECLIPSE3X
+     */
+    public static final int EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU = 10;
+
+    /**
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_ECLIPSE3X
+     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
+     * JIDE Action Framework.
+     * <p/>
+     *
+     * @see #EXTENSION_STYLE_ECLIPSE3X
+     */
+    public static final int EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU = 11;
 
     private static int _style = -1;
     private static int _defaultStyle = -1;
@@ -425,17 +523,17 @@ public class LookAndFeelFactory implements ProductNames {
                 int suggestedStyle;
                 try {
                     if (SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
-                        suggestedStyle = OFFICE2007_STYLE;
+                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU : EXTENSION_STYLE_OFFICE2007;
                     }
                     else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
-                        suggestedStyle = OFFICE2003_STYLE;
+                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU : EXTENSION_STYLE_OFFICE2003;
                     }
                     else {
-                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
+                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_VSNET_WITHOUT_MENU : EXTENSION_STYLE_VSNET;
                     }
                 }
                 catch (UnsupportedOperationException e) {
-                    suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? VSNET_STYLE_WITHOUT_MENU : VSNET_STYLE;
+                    suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_VSNET_WITHOUT_MENU : EXTENSION_STYLE_VSNET;
                 }
                 return suggestedStyle;
             }
@@ -585,19 +683,21 @@ public class LookAndFeelFactory implements ProductNames {
                 || (lnf.getClass().getName().equals(TONIC_LNF) && isTonicLnfInstalled())) {
 
             switch (style) {
-                case OFFICE2007_STYLE:
+                case EXTENSION_STYLE_OFFICE2007:
+                case EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initClassDefaults(uiDefaults, false);
                     break;
-                case OFFICE2003_STYLE:
+                case EXTENSION_STYLE_OFFICE2003:
+                case EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2003WindowsUtils.initClassDefaults(uiDefaults, false);
                     break;
-                case VSNET_STYLE:
-                case VSNET_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_VSNET:
+                case EXTENSION_STYLE_VSNET_WITHOUT_MENU:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
 
@@ -637,16 +737,18 @@ public class LookAndFeelFactory implements ProductNames {
                         uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
                     }
                     break;
-                case ECLIPSE_STYLE:
+                case EXTENSION_STYLE_ECLIPSE:
+                case EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU:
                     EclipseMetalUtils.initComponentDefaults(uiDefaults);
                     EclipseMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case ECLIPSE3X_STYLE:
+                case EXTENSION_STYLE_ECLIPSE3X:
+                case EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU:
                     Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case XERTO_STYLE:
-                case XERTO_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_XERTO:
+                case EXTENSION_STYLE_XERTO_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -659,26 +761,28 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
-                case OFFICE2007_STYLE:
-                case OFFICE2003_STYLE:
-                case VSNET_STYLE:
+                case EXTENSION_STYLE_OFFICE2007:
+                case EXTENSION_STYLE_OFFICE2003:
+                case EXTENSION_STYLE_VSNET:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaultsWithMenu(uiDefaults);
                     break;
-                case ECLIPSE_STYLE:
+                case EXTENSION_STYLE_ECLIPSE:
                     EclipseMetalUtils.initComponentDefaults(uiDefaults);
                     EclipseMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case ECLIPSE3X_STYLE:
+                case EXTENSION_STYLE_ECLIPSE3X:
                     Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case VSNET_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_VSNET_WITHOUT_MENU:
+                case EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU:
+                case EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case XERTO_STYLE:
-                case XERTO_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_XERTO:
+                case EXTENSION_STYLE_XERTO_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -687,23 +791,27 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf instanceof MetalLookAndFeel) {
             switch (style) {
-                case OFFICE2007_STYLE:
-                case OFFICE2003_STYLE:
-                case VSNET_STYLE:
-                case VSNET_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_OFFICE2007:
+                case EXTENSION_STYLE_OFFICE2003:
+                case EXTENSION_STYLE_VSNET:
+                case EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU:
+                case EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU:
+                case EXTENSION_STYLE_VSNET_WITHOUT_MENU:
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
                     break;
-                case ECLIPSE_STYLE:
+                case EXTENSION_STYLE_ECLIPSE:
+                case EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU:
                     EclipseMetalUtils.initClassDefaults(uiDefaults);
                     EclipseMetalUtils.initComponentDefaults(uiDefaults);
                     break;
-                case ECLIPSE3X_STYLE:
+                case EXTENSION_STYLE_ECLIPSE3X:
+                case EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU:
                     Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
                     Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     break;
-                case XERTO_STYLE:
-                case XERTO_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_XERTO:
+                case EXTENSION_STYLE_XERTO_WITHOUT_MENU:
                     XertoMetalUtils.initComponentDefaults(uiDefaults);
                     XertoMetalUtils.initClassDefaults(uiDefaults);
                     break;
@@ -711,40 +819,61 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else if (lnf instanceof WindowsLookAndFeel) {
             switch (style) {
-                case OFFICE2007_STYLE:
+                case EXTENSION_STYLE_OFFICE2007:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initComponentDefaults(uiDefaults);
                     Office2007WindowsUtils.initClassDefaults(uiDefaults);
                     break;
-                case OFFICE2003_STYLE:
+                case EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU:
+                    VsnetWindowsUtils.initComponentDefaults(uiDefaults);
+                    VsnetWindowsUtils.initClassDefaults(uiDefaults);
+                    Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initComponentDefaults(uiDefaults);
+                    Office2007WindowsUtils.initClassDefaults(uiDefaults);
+                    break;
+                case EXTENSION_STYLE_OFFICE2003:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     Office2003WindowsUtils.initClassDefaults(uiDefaults);
                     Office2003WindowsUtils.initComponentDefaults(uiDefaults);
                     break;
-                case ECLIPSE_STYLE:
+                case EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU:
+                    VsnetWindowsUtils.initComponentDefaults(uiDefaults);
+                    VsnetWindowsUtils.initClassDefaults(uiDefaults);
+                    Office2003WindowsUtils.initClassDefaults(uiDefaults);
+                    Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                    break;
+                case EXTENSION_STYLE_ECLIPSE:
                     EclipseWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     EclipseWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     break;
-                case ECLIPSE3X_STYLE:
+                case EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU:
+                    EclipseWindowsUtils.initClassDefaults(uiDefaults);
+                    EclipseWindowsUtils.initComponentDefaults(uiDefaults);
+                    break;
+                case EXTENSION_STYLE_ECLIPSE3X:
                     Eclipse3xWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     Eclipse3xWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     break;
-                case VSNET_STYLE:
+                case EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU:
+                    Eclipse3xWindowsUtils.initClassDefaults(uiDefaults);
+                    Eclipse3xWindowsUtils.initComponentDefaults(uiDefaults);
+                    break;
+                case EXTENSION_STYLE_VSNET:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     break;
-                case VSNET_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_VSNET_WITHOUT_MENU:
                     VsnetWindowsUtils.initComponentDefaults(uiDefaults);
                     VsnetWindowsUtils.initClassDefaults(uiDefaults);
                     break;
-                case XERTO_STYLE:
+                case EXTENSION_STYLE_XERTO:
                     XertoWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                     XertoWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                     break;
-                case XERTO_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_XERTO_WITHOUT_MENU:
                     XertoWindowsUtils.initComponentDefaults(uiDefaults);
                     XertoWindowsUtils.initClassDefaults(uiDefaults);
                     break;
@@ -780,7 +909,7 @@ public class LookAndFeelFactory implements ProductNames {
         }
         else {
             switch (style) {
-                case OFFICE2007_STYLE:
+                case EXTENSION_STYLE_OFFICE2007:
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                         Office2003WindowsUtils.initComponentDefaults(uiDefaults);
@@ -792,7 +921,19 @@ public class LookAndFeelFactory implements ProductNames {
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                case OFFICE2003_STYLE:
+                case EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU:
+                    if (SystemInfo.isWindows()) {
+                        VsnetWindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2007WindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2007WindowsUtils.initClassDefaults(uiDefaults);
+                    }
+                    else {
+                        VsnetMetalUtils.initComponentDefaults(uiDefaults);
+                        VsnetMetalUtils.initClassDefaults(uiDefaults);
+                    }
+                    break;
+                case EXTENSION_STYLE_OFFICE2003:
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
                         Office2003WindowsUtils.initComponentDefaults(uiDefaults);
@@ -803,7 +944,18 @@ public class LookAndFeelFactory implements ProductNames {
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                case ECLIPSE_STYLE:
+                case EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU:
+                    if (SystemInfo.isWindows()) {
+                        VsnetWindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2003WindowsUtils.initComponentDefaults(uiDefaults);
+                        Office2003WindowsUtils.initClassDefaults(uiDefaults);
+                    }
+                    else {
+                        VsnetMetalUtils.initComponentDefaults(uiDefaults);
+                        VsnetMetalUtils.initClassDefaults(uiDefaults);
+                    }
+                    break;
+                case EXTENSION_STYLE_ECLIPSE:
                     if (SystemInfo.isWindows()) {
                         EclipseWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         EclipseWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -813,7 +965,17 @@ public class LookAndFeelFactory implements ProductNames {
                         EclipseMetalUtils.initComponentDefaults(uiDefaults);
                     }
                     break;
-                case ECLIPSE3X_STYLE:
+                case EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU:
+                    if (SystemInfo.isWindows()) {
+                        EclipseWindowsUtils.initClassDefaults(uiDefaults);
+                        EclipseWindowsUtils.initComponentDefaults(uiDefaults);
+                    }
+                    else {
+                        EclipseMetalUtils.initClassDefaults(uiDefaults);
+                        EclipseMetalUtils.initComponentDefaults(uiDefaults);
+                    }
+                    break;
+                case EXTENSION_STYLE_ECLIPSE3X:
                     if (SystemInfo.isWindows()) {
                         Eclipse3xWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         Eclipse3xWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -823,7 +985,17 @@ public class LookAndFeelFactory implements ProductNames {
                         Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
                     }
                     break;
-                case VSNET_STYLE:
+                case EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU:
+                    if (SystemInfo.isWindows()) {
+                        Eclipse3xWindowsUtils.initClassDefaults(uiDefaults);
+                        Eclipse3xWindowsUtils.initComponentDefaults(uiDefaults);
+                    }
+                    else {
+                        Eclipse3xMetalUtils.initClassDefaults(uiDefaults);
+                        Eclipse3xMetalUtils.initComponentDefaults(uiDefaults);
+                    }
+                    break;
+                case EXTENSION_STYLE_VSNET:
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -833,7 +1005,7 @@ public class LookAndFeelFactory implements ProductNames {
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                case VSNET_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_VSNET_WITHOUT_MENU:
                     if (SystemInfo.isWindows()) {
                         VsnetWindowsUtils.initClassDefaults(uiDefaults);
                         VsnetWindowsUtils.initComponentDefaults(uiDefaults);
@@ -843,7 +1015,7 @@ public class LookAndFeelFactory implements ProductNames {
                         VsnetMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                case XERTO_STYLE:
+                case EXTENSION_STYLE_XERTO:
                     if (SystemInfo.isWindows()) {
                         XertoWindowsUtils.initClassDefaultsWithMenu(uiDefaults);
                         XertoWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -853,7 +1025,7 @@ public class LookAndFeelFactory implements ProductNames {
                         XertoMetalUtils.initClassDefaults(uiDefaults);
                     }
                     break;
-                case XERTO_STYLE_WITHOUT_MENU:
+                case EXTENSION_STYLE_XERTO_WITHOUT_MENU:
                     if (SystemInfo.isWindows()) {
                         XertoWindowsUtils.initClassDefaults(uiDefaults);
                         XertoWindowsUtils.initComponentDefaults(uiDefaults);
