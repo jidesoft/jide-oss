@@ -154,7 +154,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 int cursor = _searchable.getSelectedIndex();
                 _searchable.setCursor(cursor);
                 int found = _searchable.findNext(text);
-                if (found != -1 && _searchable.isRepeats() && found <= cursor) {
+                if (found == cursor) {
+                    select(found, text, false);
+                    clearStatus();
+                }
+                else if (found != -1 && _searchable.isRepeats() && found <= cursor) {
                     select(found, text, false);
                     setStatus(getResourceString("SearchableBar.reachedBottomRepeat"), getImageIcon(SearchableBarIconsFactory.Buttons.REPEAT));
                 }
@@ -177,7 +181,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 int cursor = _searchable.getSelectedIndex();
                 _searchable.setCursor(cursor);
                 int found = _searchable.findPrevious(text);
-                if (found != -1 && _searchable.isRepeats() && found >= cursor) {
+                if (found == cursor) {
+                    select(found, text, false);
+                    clearStatus();
+                }
+                else if (found != -1 && _searchable.isRepeats() && found >= cursor) {
                     select(found, text, false);
                     setStatus(getResourceString("SearchableBar.reachedTopRepeat"), getImageIcon(SearchableBarIconsFactory.Buttons.REPEAT));
                 }

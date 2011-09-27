@@ -552,7 +552,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
             // if not found, start over from the beginning
             if (found == -1 && isRepeats()) {
                 found = isCaseSensitive() ? text.indexOf(s, 0) : indexOf(text, s, 0);
-                if (found >= selectedIndex) {
+                if (found > selectedIndex) {
                     found = -1;
                 }
             }
@@ -581,7 +581,7 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
             // if not found, start over from the beginning
             if (found == -1 && isRepeats()) {
                 found = isCaseSensitive() ? text.lastIndexOf(s, count - 1) : lastIndexOf(text, s, count - 1);
-                if (found <= selectedIndex) {
+                if (found < selectedIndex) {
                     found = -1;
                 }
             }
