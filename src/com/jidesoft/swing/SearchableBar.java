@@ -66,16 +66,16 @@ import java.util.Locale;
 public class SearchableBar extends JToolBar implements SearchableProvider {
     private Searchable _searchable;
 
-    private JLabel _statusLabel;
-    private JTextField _textField;
+    protected JLabel _statusLabel;
+    protected JTextField _textField;
 
     protected AbstractButton _closeButton;
     protected AbstractButton _findPrevButton;
     protected AbstractButton _findNextButton;
     protected AbstractButton _highlightsButton;
 
-    private AbstractButton _matchCaseCheckBox;
-    private AbstractButton _repeatCheckBox;
+    protected AbstractButton _matchCaseCheckBox;
+    protected AbstractButton _repeatCheckBox;
 
     public static final int SHOW_CLOSE = 0x1;
     public static final int SHOW_NAVIGATION = 0x2;
