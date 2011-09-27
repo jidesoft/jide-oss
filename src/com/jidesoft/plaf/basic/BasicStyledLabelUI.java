@@ -119,19 +119,19 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     if (styleRange.getStart() > index) { // fill in the gap
                         String text = s.substring(index, styleRange.getStart());
                         StyleRange newRange = new StyleRange(index, styleRange.getStart() - index, -1);
-                        addStyledTexts(text, newRange);
+                        addStyledTexts(text, newRange, label);
                         index = styleRange.getStart();
                     }
 
                     if (styleRange.getStart() == index) { // exactly on
                         if (styleRange.getLength() == -1) {
                             String text = s.substring(index);
-                            addStyledTexts(text, styleRange);
+                            addStyledTexts(text, styleRange, label);
                             index = s.length();
                         }
                         else {
                             String text = s.substring(index, Math.min(index + styleRange.getLength(), s.length()));
-                            addStyledTexts(text, styleRange);
+                            addStyledTexts(text, styleRange, label);
                             index += styleRange.getLength();
                         }
                     }
@@ -142,13 +142,17 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (index < s.length()) {
                     String text = s.substring(index, s.length());
                     StyleRange range = new StyleRange(index, s.length() - index, -1);
-                    addStyledTexts(text, range);
+                    addStyledTexts(text, range, label);
                 }
             }
         }
     }
 
-    private void addStyledTexts(String text, StyleRange range) {
+    private void addStyledTexts(String text, StyleRange range, StyledLabel label) {
+        if (!label.isLineWrap()) {
+            _styledTexts.add(new StyledText(text, range));
+            return;
+        }
         range = new StyleRange(range); // keep the passed-in parameter no change
         int index1 = text.indexOf('\r');
         int index2 = text.indexOf('\n');
