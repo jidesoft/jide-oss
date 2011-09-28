@@ -9,8 +9,8 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * TristateCheckBox is a check box with three states - selected, unselected and mixed (a.k.a partial selected state).
@@ -40,11 +40,10 @@ import java.awt.event.ActionListener;
  * is only fired when changing from selected state to unselected state or vice versa. Only ActionListener will be fired
  * for all three states.
  */
-public class TristateCheckBox extends JCheckBox {
+public class TristateCheckBox extends JCheckBox implements ChangeListener {
     public static final int STATE_UNSELECTED = 0;
     public static final int STATE_SELECTED = 1;
     public static final int STATE_MIXED = 2;
-    private ActionListener _actionListener;
 
     public TristateCheckBox(String text, Icon icon) {
         super(text, icon);
@@ -60,29 +59,12 @@ public class TristateCheckBox extends JCheckBox {
 
     @Override
     protected void init(String text, Icon icon) {
-        _actionListener = new AbstractAction() {
-            private static final long serialVersionUID = 7111347735187493000L;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stateUpdated(getState());
-            }
-        };
         model = createButtonModel();
         setModel(model);
+        addChangeListener(this);
         super.init(text, icon);
     }
 
-    @Override
-    public void setModel(ButtonModel newModel) {
-        if (getModel() != null && _actionListener != null) {
-            getModel().removeActionListener(_actionListener);
-        }
-        super.setModel(newModel);
-        if (newModel != null && _actionListener != null) {
-            newModel.addActionListener(_actionListener);
-        }
-    }
 
     /**
      * Creates the button model. In this case, it is always a TristateButtonModel.
@@ -164,6 +146,11 @@ public class TristateCheckBox extends JCheckBox {
         else {
             throw new IllegalStateException("TristateButtonModel is required for TristateCheckBox");
         }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        stateUpdated(getState());
     }
 
     /**
