@@ -9,8 +9,8 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * TristateCheckBox is a check box with three states - selected, unselected and mixed (a.k.a partial selected state).
@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
  * is only fired when changing from selected state to unselected state or vice versa. Only ActionListener will be fired
  * for all three states.
  */
-public class TristateCheckBox extends JCheckBox implements ChangeListener {
+public class TristateCheckBox extends JCheckBox implements ActionListener {
     public static final int STATE_UNSELECTED = 0;
     public static final int STATE_SELECTED = 1;
     public static final int STATE_MIXED = 2;
@@ -61,7 +61,7 @@ public class TristateCheckBox extends JCheckBox implements ChangeListener {
     protected void init(String text, Icon icon) {
         model = createButtonModel();
         setModel(model);
-        addChangeListener(this);
+        addActionListener(this);
         super.init(text, icon);
     }
 
@@ -149,7 +149,7 @@ public class TristateCheckBox extends JCheckBox implements ChangeListener {
     }
 
     @Override
-    public void stateChanged(ChangeEvent e) {
+    public void actionPerformed(ActionEvent e) {
         stateUpdated(getState());
     }
 
