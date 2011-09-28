@@ -9,6 +9,8 @@ package com.jidesoft.swing;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * TristateCheckBox is a check box with three states - selected, unselected and mixed (a.k.a partial selected state).
@@ -42,6 +44,7 @@ public class TristateCheckBox extends JCheckBox {
     public static final int STATE_UNSELECTED = 0;
     public static final int STATE_SELECTED = 1;
     public static final int STATE_MIXED = 2;
+    private ActionListener _actionListener;
 
     public TristateCheckBox(String text, Icon icon) {
         super(text, icon);
@@ -57,11 +60,29 @@ public class TristateCheckBox extends JCheckBox {
 
     @Override
     protected void init(String text, Icon icon) {
+        _actionListener = new AbstractAction() {
+            private static final long serialVersionUID = 7111347735187493000L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stateUpdated(getState());
+            }
+        };
         model = createButtonModel();
         setModel(model);
         super.init(text, icon);
     }
 
+    @Override
+    public void setModel(ButtonModel newModel) {
+        if (getModel() != null && _actionListener != null) {
+            getModel().removeActionListener(_actionListener);
+        }
+        super.setModel(newModel);
+        if (newModel != null && _actionListener != null) {
+            newModel.addActionListener(_actionListener);
+        }
+    }
 
     /**
      * Creates the button model. In this case, it is always a TristateButtonModel.
