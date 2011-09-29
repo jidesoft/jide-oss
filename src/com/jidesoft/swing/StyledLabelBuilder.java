@@ -326,73 +326,79 @@ public class StyledLabelBuilder {
 
     private static boolean isGlobalConfiguration(StyledLabel label, char[] text, int offset) {
         String globalString = new String(text, offset, text.length - offset);
-        String[] subStrings = globalString.split(":");
-        if (subStrings.length <= 0 || subStrings[0] == null) {
+        String[] subStringsLevel0 = globalString.split(",");
+        if (subStringsLevel0.length <= 0 || subStringsLevel0[0] == null) {
             return false;
         }
         int defaultRows = 1;
         int maxRows = 0;
         int minRows = 0;
         int preferredWidth = 0;
-        String property = subStrings[0].trim().toLowerCase();
-        if ("rows".equals(property) || "row".equals(property) || "r".equals(property)) {
-            if (subStrings.length > 4 || subStrings.length < 1) {
+        for (String subStringLevel0 : subStringsLevel0) {
+            String[] subStrings = subStringLevel0.split(":");
+            if (subStrings.length <= 0 || subStrings[0] == null) {
                 return false;
             }
-            if (subStrings.length >= 2 && subStrings[1].trim().length() > 0) {
-                try {
-                    defaultRows = Integer.valueOf(subStrings[1]);
-                }
-                catch (NumberFormatException e) {
+            String property = subStrings[0].trim().toLowerCase();
+            if ("rows".equals(property) || "row".equals(property) || "r".equals(property)) {
+                if (subStrings.length > 4 || subStrings.length < 1) {
                     return false;
                 }
-            }
-            if (subStrings.length >= 3 && subStrings[2].trim().length() > 0) {
-                try {
-                    minRows = Integer.valueOf(subStrings[2]);
+                if (subStrings.length >= 2 && subStrings[1].trim().length() > 0) {
+                    try {
+                        defaultRows = Integer.valueOf(subStrings[1]);
+                    }
+                    catch (NumberFormatException e) {
+                        return false;
+                    }
                 }
-                catch (NumberFormatException e) {
+                if (subStrings.length >= 3 && subStrings[2].trim().length() > 0) {
+                    try {
+                        minRows = Integer.valueOf(subStrings[2]);
+                    }
+                    catch (NumberFormatException e) {
+                        return false;
+                    }
+                    if (minRows > defaultRows || minRows < 0) {
+                        if (subStrings[1].trim().length() > 0) {
+                            minRows = 0;
+                        }
+                        else if (minRows > defaultRows) {
+                            defaultRows = minRows;
+                        }
+                        else {
+                            minRows = 0;
+                        }
+                    }
+                }
+                if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
+                    try {
+                        maxRows = Integer.valueOf(subStrings[3]);
+                    }
+                    catch (NumberFormatException e) {
+                        return false;
+                    }
+                    if (maxRows < defaultRows || maxRows < 0) {
+                        maxRows = 0;
+                    }
+                }
+            }
+            else if ("w".equals(property) || "width".equals(property) || "preferredwidth".equals(property)) {
+                if (subStrings.length != 2) {
                     return false;
                 }
-                if (minRows > defaultRows || minRows < 0) {
-                    if (subStrings[1].trim().length() > 0) {
-                        minRows = 0;
+                if (subStrings[1].trim().length() > 0) {
+                    try {
+                        preferredWidth = Integer.valueOf(subStrings[1]);
                     }
-                    else if (minRows > defaultRows) {
-                        defaultRows = minRows;
-                    }
-                    else {
-                        minRows = 0;
+                    catch (NumberFormatException e) {
+                        return false;
                     }
                 }
             }
-            if (subStrings.length >= 4 && subStrings[3].trim().length() > 0) {
-                try {
-                    maxRows = Integer.valueOf(subStrings[3]);
-                }
-                catch (NumberFormatException e) {
-                    return false;
-                }
-                if (maxRows < defaultRows || maxRows < 0) {
-                    maxRows = 0;
-                }
-            }
-        }
-        else if ("w".equals(property) || "width".equals(property) || "preferredwidth".equals(property)) {
-            if (subStrings.length != 2) {
+            else {
                 return false;
             }
-            if (subStrings[1].trim().length() > 0) {
-                try {
-                    preferredWidth = Integer.valueOf(subStrings[1]);
-                }
-                catch (NumberFormatException e) {
-                    return false;
-                }
-            }
-        }
-        else {
-            return false;
         }
         label.setLineWrap(true);
         label.setRows(defaultRows);

@@ -198,7 +198,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     ((StyledLabel) label).setPreferredWidth(label.getWidth());
                 }
                 size = getPreferredSize((StyledLabel) label);
-                if (((StyledLabel) label).isLineWrap() && ((StyledLabel) label).getMinRows() > 0) {
+                if (oldPreferredWidth > 0 && oldPreferredWidth < label.getWidth()) {
+                    ((StyledLabel) label).setPreferredWidth(oldPreferredWidth);
+                    size = getPreferredSize((StyledLabel) label);
+                }
+                else if (((StyledLabel) label).isLineWrap() && ((StyledLabel) label).getMinRows() > 0) {
                     ((StyledLabel) label).setPreferredWidth(0);
                     ((StyledLabel) label).setRows(0);
                     Dimension minSize = getPreferredSize((StyledLabel) label);
@@ -584,7 +588,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             try {
                 label.setRows(0);
                 paintWidth = getPreferredSize(label).width;
-                label.setPreferredWidth(label.getWidth());
+                label.setPreferredWidth(oldPreferredWidth > 0 ? Math.min(label.getWidth(), oldPreferredWidth) : label.getWidth());
                 Dimension sizeOnWidth = getPreferredSize(label);
                 if (sizeOnWidth.width < paintWidth) {
                     paintWidth = sizeOnWidth.width;
@@ -846,14 +850,16 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         }
                         charDisplayed += s.length();
                         nextRowStartIndex += nextRowStartIndexInSubString;
+                        stop = false;
                     }
                     else {
                         // use this method to clip string
                         s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
                                 label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, labelHeight), new Rectangle(), new Rectangle(), 0);
                         strWidth = fm2.stringWidth(s);
+                        stop = true;
                     }
-                    stop = !label.isLineWrap() || textY >= labelHeight || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
+//                    stop = !label.isLineWrap() || textY >= labelHeight || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
                 }
                 else if (label.isLineWrap()) {
                     nextRowStartIndex = 0;
@@ -983,7 +989,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 width -= label.getInsets().right / 2;
                             }
                         }
-                        paintRow(label, g, newStartX, textY, rowStartOffset, -1, width, true);
+                        if (s.length() > 3) {
+                            paintRow(label, g, newStartX, textY, rowStartOffset, rowStartOffset + s.length() - 3, width, true);
+                        }
                     }
                     label.setTruncated(true);
                     break;
