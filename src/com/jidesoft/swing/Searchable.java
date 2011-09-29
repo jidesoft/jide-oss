@@ -1522,6 +1522,23 @@ public abstract class Searchable {
     }
 
     /**
+     * Returns if a given listener is already installed.
+     *
+     * @param l the listener
+     * @return true if the listener is already installed. Otherwise false.
+     * @since 3.2.3
+     */
+    public boolean isSearchableListenerInstalled(SearchableListener l) {
+        SearchableListener[] listeners = getSearchableListeners();
+        for (SearchableListener listener : listeners) {
+            if (listener == l) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Fires a searchable event.
      *
      * @param e the event
