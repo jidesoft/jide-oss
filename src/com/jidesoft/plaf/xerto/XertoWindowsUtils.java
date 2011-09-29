@@ -707,6 +707,16 @@ public class XertoWindowsUtils extends Office2003WindowsUtils {
             table.putDefaults(uiDefaults);
         }
 
+        if ((products & PRODUCT_DIFF) != 0) {
+            uiDefaults = new Object[]{
+                    "DiffMerge.changed", new ColorUIResource(196, 196, 255),
+                    "DiffMerge.deleted", new ColorUIResource(200, 200, 200),
+                    "DiffMerge.inserted", new ColorUIResource(196, 255, 196),
+                    "DiffMerge.conflicted", new ColorUIResource(255, 153, 153),
+            };
+            table.putDefaults(uiDefaults);
+        }
+
         if (!JideSwingUtilities.shouldUseSystemFont()) {
             Object uiDefaultsFont[] = {
                     "TabbedPane.font", controlFont,
