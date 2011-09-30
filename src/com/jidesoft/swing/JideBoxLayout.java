@@ -227,11 +227,13 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.fine("layoutContainer ended");
             }
-            for (int i = 0; i < container.getComponentCount(); i++) {
-                container.getComponent(i).invalidate();
-            }
-            if (needRedoLayout) {
-                redoLayout(container);
+            if (_target instanceof JideOptionPane) {
+                for (int i = 0; i < container.getComponentCount(); i++) {
+                    container.getComponent(i).invalidate();
+                }
+                if (needRedoLayout) {
+                    redoLayout(container);
+                }
             }
         }
     }
