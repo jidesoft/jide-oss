@@ -488,13 +488,13 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
 
             int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
             if (clientProperty == null) {
-                slider.setValue(oldValue + delta);
+                slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
             else if (Boolean.TRUE.equals(clientProperty)) {
-                ((RangeSlider) slider).setLowValue(oldValue + delta);
+                ((RangeSlider) slider).setLowValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
             else {
-                ((RangeSlider) slider).setHighValue(oldValue + delta);
+                ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
         }
     }
@@ -517,13 +517,13 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             int delta = 1 * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
 
             if (clientProperty == null) {
-                slider.setValue(oldValue + delta);
+                slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
             else if (Boolean.TRUE.equals(clientProperty)) {
-                ((RangeSlider) slider).setLowValue(oldValue + delta);
+                ((RangeSlider) slider).setLowValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
             else {
-                ((RangeSlider) slider).setHighValue(oldValue + delta);
+                ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
         }
     }
