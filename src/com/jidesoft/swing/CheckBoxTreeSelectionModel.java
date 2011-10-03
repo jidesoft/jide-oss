@@ -367,10 +367,15 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             }
         }
         finally {
+            if (isSingleEventMode() && fireEventAtTheEnd) {
+                setBatchMode(false);
+            }
             _fireEvent = true;
-            setBatchMode(false);
             if (isSingleEventMode() && fireEventAtTheEnd) {
                 notifyPathChange(paths, true, paths[0]);
+            }
+            else {
+                setBatchMode(false);
             }
         }
     }
@@ -504,10 +509,15 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
             }
         }
         finally {
+            if (isSingleEventMode() && fireEventAtTheEnd) {
+                setBatchMode(false);
+            }
             _fireEvent = true;
-            setBatchMode(false);
             if (isSingleEventMode() && fireEventAtTheEnd) {
                 notifyPathChange(paths, false, paths[0]);
+            }
+            else {
+                setBatchMode(false);
             }
         }
     }
