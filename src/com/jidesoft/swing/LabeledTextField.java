@@ -221,11 +221,12 @@ public class LabeledTextField extends JPanel {
             LookAndFeel.installColors(this, "TextField.background", "TextField.foreground");
         }
         else {
-            LookAndFeel.installColors(this, "TextField.inactiveBackground", "TextField.foreground");
+            LookAndFeel.installColors(this, "TextField.disableBackground", "TextField.inactiveForeground");
         }
         if (textFieldBorder != null && _textField != null) {
             _textField.setBorder(BorderFactory.createEmptyBorder());
         }
+        setEnabled(isEnabled());
     }
 
     /**
@@ -378,7 +379,6 @@ public class LabeledTextField extends JPanel {
             if (getButton() != null) {
                 getButton().setEnabled(true);
             }
-            setBackground(UIDefaultsLookup.getColor("TextField.background"));
         }
         else {
             if (getTextField() != null) {
@@ -391,6 +391,32 @@ public class LabeledTextField extends JPanel {
                 getButton().setEnabled(false);
             }
             setBackground(UIDefaultsLookup.getColor("control"));
+        }
+        if (_hintLabel != null) {
+            _hintLabel.setVisible(isEnabled());
+        }
+        JTextField textField = getTextField();
+        if(textField != null) {
+            // this probably won't work with L&F which ignore the background property like GTK L&F
+            setBackground(textField.getBackground());
+            setForeground(textField.getForeground());
+        }
+        else {
+            if(enabled) {
+                setBackground(UIDefaultsLookup.getColor("TextField.background"));
+                setForeground(UIDefaultsLookup.getColor("TextField.foreground"));
+            }
+            else {
+                Color background = UIDefaultsLookup.getColor("TextField.disabledBackground");
+                if(background == null) {
+                    // TextField.disabledBackground not defined by metal
+                    background = UIDefaultsLookup.getColor("TextField.inactiveBackground");
+                    // Nimbus uses TextField[Disabled].backgroundPainter (not a Color)
+                    // but don't know how to set that for a single panel instance, maybe with a ClientProperty?
+                }
+                setBackground(background);
+                setForeground(UIDefaultsLookup.getColor("TextField.inactiveForeground"));
+            }
         }
     }
 
