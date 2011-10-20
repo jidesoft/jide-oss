@@ -53,7 +53,7 @@ public class SearchableUtils {
     /**
      * Installs the searchable function onto a JTree.
      *
-     * @param tree
+     * @param tree the JTree to install searchable
      * @return A TreeSearchable
      */
     public static TreeSearchable installSearchable(JTree tree) {
@@ -63,7 +63,7 @@ public class SearchableUtils {
     /**
      * Installs the searchable function onto a JTable.
      *
-     * @param table
+     * @param table the JTable to install searchable
      * @return A TableSearchable
      */
     public static TableSearchable installSearchable(JTable table) {
@@ -73,7 +73,7 @@ public class SearchableUtils {
     /**
      * Installs the searchable function onto a JList.
      *
-     * @param list
+     * @param list the JList to install searchable
      * @return A ListSearchable
      */
     public static ListSearchable installSearchable(JList list) {
@@ -83,7 +83,7 @@ public class SearchableUtils {
     /**
      * Installs the searchable function onto a JComboBox.
      *
-     * @param combobox
+     * @param combobox the combo box to install searchable
      * @return A ComboBoxSearchable
      */
     public static ComboBoxSearchable installSearchable(JComboBox combobox) {
@@ -93,7 +93,7 @@ public class SearchableUtils {
     /**
      * Installs the searchable function onto a JTextComponent.
      *
-     * @param textComponent
+     * @param textComponent the text component to install searchable
      * @return A TextComponentSearchable
      */
     public static TextComponentSearchable installSearchable(JTextComponent textComponent) {
@@ -101,6 +101,7 @@ public class SearchableUtils {
     }
 
     public static void uninstallSearchable(Searchable searchable) {
+        searchable.hidePopup();
         searchable.uninstallListeners();
     }
 }
