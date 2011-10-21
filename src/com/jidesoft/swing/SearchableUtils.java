@@ -103,5 +103,11 @@ public class SearchableUtils {
     public static void uninstallSearchable(Searchable searchable) {
         searchable.hidePopup();
         searchable.uninstallListeners();
+        if (searchable.getComponent() instanceof JComponent) {
+            Object clientProperty = ((JComponent) searchable.getComponent()).getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE);
+            if (clientProperty == searchable) {
+                ((JComponent) searchable.getComponent()).putClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE, null);
+            }
+        }
     }
 }

@@ -110,6 +110,7 @@ public abstract class Searchable {
     protected ComponentListener _componentListener;
     protected KeyListener _keyListener;
     protected FocusListener _focusListener;
+    private SearchableListener _searchableListener;
 
     public static final String PROPERTY_SEARCH_TEXT = "searchText";
 
@@ -505,31 +506,34 @@ public abstract class Searchable {
             _focusListener = createFocusListener();
         }
         getComponent().addFocusListener(_focusListener);
-        addSearchableListener(new SearchableListener() {
-            public void searchableEventFired(SearchableEvent e) {
-                if (e.getID() == SearchableEvent.SEARCHABLE_START) {
-                    if (getPopupTimeout() > 0) {
-                        _popupTimer = new Timer(getPopupTimeout(), new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                if (isPopupVisible()) {
-                                    hidePopup();
+        if (_searchableListener == null) {
+            _searchableListener = new SearchableListener() {
+                public void searchableEventFired(SearchableEvent e) {
+                    if (e.getID() == SearchableEvent.SEARCHABLE_START) {
+                        if (getPopupTimeout() > 0) {
+                            _popupTimer = new Timer(getPopupTimeout(), new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    if (isPopupVisible()) {
+                                        hidePopup();
+                                    }
                                 }
-                            }
-                        });
-                        _popupTimer.setRepeats(false);
-                        _popupTimer.start();
+                            });
+                            _popupTimer.setRepeats(false);
+                            _popupTimer.start();
+                        }
+                    }
+                    else if (_popupTimer != null) {
+                        if (e.getID() == SearchableEvent.SEARCHABLE_END) {
+                            _popupTimer.stop();
+                        }
+                        else {
+                            _popupTimer.restart();
+                        }
                     }
                 }
-                else if (_popupTimer != null) {
-                    if (e.getID() == SearchableEvent.SEARCHABLE_END) {
-                        _popupTimer.stop();
-                    }
-                    else {
-                        _popupTimer.restart();
-                    }
-                }
-            }
-        });
+            };
+        }
+        addSearchableListener(_searchableListener);
     }
 
     /**
@@ -612,8 +616,8 @@ public abstract class Searchable {
 
     /**
      * Uninstall the listeners that installed before. This method is never called because we don't have the control of
-     * the life cycle of the component. However you can call this method if you don't want the searchable component not
-     * searchable.
+     * the life cycle of the component. However you can call this method if you don't want the component to be searchable
+     * any more.
      */
     public void uninstallListeners() {
         if (_componentListener != null) {
@@ -633,6 +637,11 @@ public abstract class Searchable {
         if (_focusListener != null) {
             getComponent().removeFocusListener(_focusListener);
             _focusListener = null;
+        }
+
+        if (_searchableListener != null) {
+            removeSearchableListener(_searchableListener);
+            _searchableListener = null;
         }
     }
 
