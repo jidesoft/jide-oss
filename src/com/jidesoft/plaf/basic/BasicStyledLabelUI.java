@@ -149,10 +149,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     }
 
     private void addStyledTexts(String text, StyleRange range, StyledLabel label) {
-        if (!label.isLineWrap()) {
-            _styledTexts.add(new StyledText(text, range));
-            return;
-        }
         range = new StyleRange(range); // keep the passed-in parameter no change
         int index1 = text.indexOf('\r');
         int index2 = text.indexOf('\n');
