@@ -294,6 +294,7 @@ public class StyledLabelBuilder {
                 break;
             }
         }
+        boolean foundStyle = false;
         for (int i = 0; i < endOfText; i++) {
             if (escaped) {
                 labelText.append(text[i]);
@@ -303,6 +304,11 @@ public class StyledLabelBuilder {
             switch (text[i]) {
                 case '{':
                     ParsedStyleResult result = parseStylePart(text, i + 1, builder);
+                    if (result == null) {
+                        labelText.append(text[i]);
+                        continue;
+                    }
+                    foundStyle = true;
                     int realIndex = labelText.length();
                     labelText.append(result.text);
                     if (result.text.length() > 0) {
@@ -321,7 +327,12 @@ public class StyledLabelBuilder {
                     break;
             }
         }
-        label.setText(labelText.toString());
+        if (foundStyle) {
+            label.setText(labelText.toString());
+        }
+        else {
+            label.setText(new String(text));
+        }
     }
 
     private static boolean isGlobalConfiguration(StyledLabel label, char[] text, int offset) {
@@ -429,6 +440,9 @@ public class StyledLabelBuilder {
         int findIndex, i = start;
         // find end of text first
         findIndex = findNext(text, ':', i);
+        if (findIndex < 0) {
+            return null;
+        }
         result.text = createTrimmedString(text, i, findIndex - 1);
         return parseStyleAnnotation(text, findIndex + 1, builder, result);
     }
