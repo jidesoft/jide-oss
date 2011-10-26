@@ -331,7 +331,7 @@ public class StyledLabelBuilder {
             label.setText(labelText.toString());
         }
         else {
-            label.setText(new String(text));
+            label.setText(new String(text, 0, endOfText));
         }
     }
 
