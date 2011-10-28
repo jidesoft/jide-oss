@@ -988,16 +988,26 @@ public class VsnetMenuItemUI extends MenuItemUI {
             arrowIconRect.width = arrowIconRect.height = 0;
         }
         else {
-            arrowIconRect.width = arrowIcon.getIconWidth();
-            arrowIconRect.height = arrowIcon.getIconHeight();
+            try {
+                arrowIconRect.width = arrowIcon.getIconWidth();
+                arrowIconRect.height = arrowIcon.getIconHeight();
+            }
+            catch (Exception e) {
+                arrowIconRect.width = arrowIconRect.height = 0;
+            }
         }
 
         if (checkIcon == null) {
             checkIconRect.width = checkIconRect.height = 0;
         }
         else {
-            checkIconRect.width = checkIcon.getIconWidth();
-            checkIconRect.height = checkIcon.getIconHeight();
+            try {
+                checkIconRect.width = checkIcon.getIconWidth();
+                checkIconRect.height = checkIcon.getIconHeight();
+            }
+            catch (Exception e) {
+                checkIconRect.width = checkIconRect.height = 0;
+            }
         }
 
         // left a shadow for non-top level menu
