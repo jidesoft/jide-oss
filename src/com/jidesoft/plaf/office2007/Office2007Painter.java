@@ -73,6 +73,12 @@ public class Office2007Painter extends BasicPainter {
         }
     }
 
+    @Override
+    public Color getMenuItemBorderColor() {
+        return new Color(100, 100, 100);
+    }
+
+
     public void paintContentBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         Graphics2D g2d = (Graphics2D) g.create();
         Boolean highContrast = UIManager.getBoolean("Theme.highContrast");

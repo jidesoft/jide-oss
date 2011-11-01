@@ -7,6 +7,7 @@
 package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
@@ -14,12 +15,14 @@ import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.Painter;
 import com.jidesoft.plaf.basic.ThemePainter;
 import com.jidesoft.plaf.office2003.Office2003WindowsUtils;
+import com.jidesoft.plaf.vsnet.ConvertListener;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ColorUtils;
 
 import javax.swing.*;
+import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import java.awt.*;
@@ -191,5 +194,13 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         }
 
         UIDefaultsLookup.put(table, "Theme.painter", Office2007Painter.getInstance());
+
+        // since it used BasicPainter, make sure it is after Theme.Painter is set first.
+        Object popupMenuBorder = new ExtWindowsDesktopProperty(new String[]{"null"}, new Object[]{((ThemePainter) UIDefaultsLookup.get("Theme.painter")).getMenuItemBorderColor()}, toolkit, new ConvertListener() {
+            public Object convert(Object[] obj) {
+                return new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder((Color) obj[0]), BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+            }
+        });
+        table.put("PopupMenu.border", popupMenuBorder);
     }
 }
