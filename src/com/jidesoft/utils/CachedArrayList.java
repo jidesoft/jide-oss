@@ -195,7 +195,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
         if (!isLazyCaching()) {
             initializeCache();
             E e = super.set(index, element);
-            uncacheIt(e);
+            uncacheIt(element);
             cacheIt(element, index);
             return e;
         }
