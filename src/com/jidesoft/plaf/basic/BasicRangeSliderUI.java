@@ -106,7 +106,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
     }
 
     @Override
-    protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
+    protected TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener(super.createTrackListener(slider));
     }
 
@@ -114,9 +114,9 @@ public class BasicRangeSliderUI extends BasicSliderUI {
         int handle;
         int handleOffset;
         int mouseStartLocation;
-        BasicSliderUI.TrackListener _listener;
+        TrackListener _listener;
 
-        public RangeTrackListener(BasicSliderUI.TrackListener listener) {
+        public RangeTrackListener(TrackListener listener) {
             _listener = listener;
         }
 
@@ -136,7 +136,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
             handle = getMouseHandle(e.getX(), e.getY());
             setMousePressed(handle);
 
-            if (handle == MOUSE_HANDLE_MAX || handle == MOUSE_HANDLE_MIN || handle == MOUSE_HANDLE_MIDDLE) {
+            if (handle == MOUSE_HANDLE_MAX || handle == MOUSE_HANDLE_MIN || handle == MOUSE_HANDLE_MIDDLE || handle == MOUSE_HANDLE_BOTH) {
                 handleOffset = (slider.getOrientation() == JSlider.VERTICAL) ?
                         e.getY() - yPositionForValue(((RangeSlider) slider).getLowValue()) :
                         e.getX() - xPositionForValue(((RangeSlider) slider).getLowValue());
@@ -172,11 +172,11 @@ public class BasicRangeSliderUI extends BasicSliderUI {
                 newValue = slider.getModel().getMaximum();
             }
 
-            if (handle == (MOUSE_HANDLE_MIN | MOUSE_HANDLE_MAX)) {
-                if ((newLocation - mouseStartLocation) > 2) {
+            if (handle == MOUSE_HANDLE_BOTH) {
+                if ((newLocation - mouseStartLocation) >= 1) {
                     handle = MOUSE_HANDLE_MAX;
                 }
-                else if ((newLocation - mouseStartLocation) < -2) {
+                else if ((newLocation - mouseStartLocation) <= -1) {
                     handle = MOUSE_HANDLE_MIN;
                 }
                 else {
@@ -251,6 +251,7 @@ public class BasicRangeSliderUI extends BasicSliderUI {
                     setCursor(Cursor.DEFAULT_CURSOR);
                     break;
                 case MOUSE_HANDLE_MIDDLE:
+                case MOUSE_HANDLE_BOTH:
                     if (slider instanceof RangeSlider && ((RangeSlider) slider).isRangeDraggable()) {
                         setCursor(Cursor.MOVE_CURSOR);
                     }
@@ -309,20 +310,32 @@ public class BasicRangeSliderUI extends BasicSliderUI {
 
     protected static final int MOUSE_HANDLE_UPPER = 6;
 
+    protected static final int MOUSE_HANDLE_BOTH = 7;
+
     protected int getMouseHandle(int x, int y) {
         Rectangle rect = trackRect;
 
         slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
 
+        boolean inMin = false;
+        boolean inMax = false;
         if (thumbRect.contains(x, y)) {
-            return MOUSE_HANDLE_MIN;
+            inMin = true;
         }
         Point p = adjustThumbForHighValue();
         if (thumbRect.contains(x, y)) {
-            restoreThumbForLowValue(p);
-            return MOUSE_HANDLE_MAX;
+            inMax = true;
         }
         restoreThumbForLowValue(p);
+        if (inMin && inMax) {
+            return MOUSE_HANDLE_BOTH;
+        }
+        else if (inMin) {
+            return MOUSE_HANDLE_MIN;
+        }
+        else if (inMax) {
+            return MOUSE_HANDLE_MAX;
+        }
 
         if (slider.getOrientation() == JSlider.VERTICAL) {
             int minY = yPositionForValue(((RangeSlider) slider).getLowValue());
@@ -408,7 +421,8 @@ public class BasicRangeSliderUI extends BasicSliderUI {
                 rollover1 = false;
             }
             break;
-            case MOUSE_HANDLE_MIDDLE: {
+            case MOUSE_HANDLE_MIDDLE:
+            case MOUSE_HANDLE_BOTH: {
                 rollover1 = true;
                 rollover2 = true;
             }
@@ -436,7 +450,8 @@ public class BasicRangeSliderUI extends BasicSliderUI {
                 pressed1 = false;
             }
             break;
-            case MOUSE_HANDLE_MIDDLE: {
+            case MOUSE_HANDLE_MIDDLE:
+            case MOUSE_HANDLE_BOTH: {
                 pressed1 = true;
                 pressed2 = true;
             }
