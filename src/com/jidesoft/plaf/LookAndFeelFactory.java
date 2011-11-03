@@ -31,6 +31,8 @@ import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -459,6 +461,7 @@ public class LookAndFeelFactory implements ProductNames {
     private static int _style = -1;
     private static int _defaultStyle = -1;
     private static LookAndFeel _lookAndFeel;
+    private static PropertyChangeListener _listener;
 
     /**
      * If installJideExtension is called, it will put an entry on UIDefaults table.
@@ -644,6 +647,18 @@ public class LookAndFeelFactory implements ProductNames {
         if (isJideExtensionInstalled() && _style == style && _lookAndFeel == lnf) {
             return;
         }
+        if (_listener == null) {
+            _listener = new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("lookAndFeel".equals(evt.getPropertyName())) {
+                        _style = -1;
+                    }
+                }
+            };
+        }
+        UIManager.removePropertyChangeListener(_listener);
+        UIManager.addPropertyChangeListener(_listener);
 
         _style = style;
         uiDefaults.put(JIDE_STYLE_INSTALLED, _style);
@@ -1422,7 +1437,6 @@ public class LookAndFeelFactory implements ProductNames {
      * Returns whether Plastic3D L&F is in classpath
      *
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
-     *
      * @deprecated replace by {@link #isPlastic3DLnfInstalled()}
      */
     @Deprecated
@@ -1805,7 +1819,6 @@ public class LookAndFeelFactory implements ProductNames {
      * Gets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
      *
      * @return true if JIDE will try to load the LnF class. Otherwise false
-     *
      * @see #setLoadLookAndFeelClass(boolean)
      * @since 3.2.0
      */
