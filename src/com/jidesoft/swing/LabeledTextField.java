@@ -393,7 +393,11 @@ public class LabeledTextField extends JPanel {
             setBackground(UIDefaultsLookup.getColor("control"));
         }
         if (_hintLabel != null) {
-            _hintLabel.setVisible(isEnabled());
+            boolean textEmpty = true;
+            if (getTextField() != null) {
+                textEmpty = getTextField().getText() == null || getTextField().getText().isEmpty();
+            }
+            _hintLabel.setVisible(isEnabled() && textEmpty);
         }
         JTextField textField = getTextField();
         if(textField != null) {
