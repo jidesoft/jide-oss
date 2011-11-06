@@ -11,12 +11,15 @@ import com.jidesoft.utils.SecurityUtils;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 /**
  * <code>IconsFactory</code> provides a consistent way to access icon resource in any application.
@@ -964,4 +967,248 @@ public class IconsFactory {
             return new ImageIcon(JideSwingUtilities.getFasterScaledInstance(temp, w, h, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true));
         }
     }
+
+    /**
+     * Writes a GIF image of the supplied component to the given file. In particular, you can use this method to take a
+     * 'screen shot' of a Chart component as a GIF Image.
+     *
+     * @param c    the component to save as an image
+     * @param file the file to save it to
+     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file, does not exist
+     *                               but cannot be created, or cannot be opened for any other reason
+     */
+    public static void writeGifToFile(Component c, File file) throws FileNotFoundException {
+        FileOutputStream fos = new FileOutputStream(file);
+        writeToStream(c, "gif", fos);
+        try {
+            fos.close();
+        }
+        catch (IOException e) {
+            Logger.getAnonymousLogger().severe(e.getMessage());
+        }
+    }
+
+    /**
+     * Writes a JPEG image of the supplied component to the given file. In particular, you can use this method to take a
+     * 'screen shot' of a Chart component as a JPEG Image.
+     *
+     * @param c    the component to save as an image
+     * @param file the file to save it to
+     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file, does not exist
+     *                               but cannot be created, or cannot be opened for any other reason
+     */
+    public static void writeJpegToFile(Component c, File file) throws FileNotFoundException {
+        FileOutputStream fos = new FileOutputStream(file);
+        writeToStream(c, "jpg", fos);
+        try {
+            fos.close();
+        }
+        catch (IOException e) {
+            Logger.getAnonymousLogger().severe(e.getMessage());
+        }
+    }
+
+    /**
+     * Writes a PNG image of the supplied component to the given file. In particular, you can use this method to take a
+     * 'screen shot' of a Chart component as a PNG Image.
+     *
+     * @param c    the component to save as an image
+     * @param file the file to save it to
+     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file, does not exist
+     *                               but cannot be created, or cannot be opened for any other reason
+     */
+    public static void writePngToFile(Component c, File file) throws FileNotFoundException {
+        FileOutputStream fos = new FileOutputStream(file);
+        writeToStream(c, "png", fos);
+        try {
+            fos.close();
+        }
+        catch (IOException e) {
+            Logger.getAnonymousLogger().severe(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Paints the component as a PNG image to the supplied output stream
+     *
+     * @param c      the component to capture as a PNG image
+     * @param stream the stream to write the PNG data to
+     */
+    public static void writeToStream(Component c, OutputStream stream) {
+        writeToStream(c, "png", stream);
+    }
+
+    /**
+     * Paints the component to the supplied output stream
+     *
+     * @param c      the component to capture as an image
+     * @param format the format of the image output data, currently "png", "jpg" or "gif"
+     * @param stream the stream to write the image data to
+     */
+    private static void writeToStream(Component c, String format, OutputStream stream) {
+        BufferedImage img = createImage(c);
+        try {
+            ImageIO.write(img, format, stream);
+        }
+        catch (IOException e) {
+            // could happen if the output format is not supported
+            Logger.getAnonymousLogger().severe(e.getMessage());
+        }
+    }
+
+    /**
+     * Creates a buffered image of type TYPE_INT_RGB from the supplied component.
+     *
+     * @param component the component to draw
+     * @return an image of the component
+     */
+    public static BufferedImage createImage(Component component) {
+        return createImage(component, BufferedImage.TYPE_INT_RGB);
+    }
+
+    /**
+     * Creates a buffered image (of the specified type) from the supplied component.
+     *
+     * @param component the component to draw
+     * @param bounds    the area relative to the component where the image will be created.
+     * @param imageType the type of buffered image to draw
+     * @return an image of the component
+     */
+    public static BufferedImage createImage(final Component component, Rectangle bounds, int imageType) {
+        BufferedImage img = new BufferedImage(bounds.width,
+                bounds.height,
+                imageType);
+        final Graphics2D graphics = img.createGraphics();
+        graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
+        // If we are painting a JComponent then switch off double buffering because it
+        // causes a failure when running headlessly on Linux
+        if (component instanceof JComponent) {
+            JComponent c = (JComponent) component;
+            boolean isDoubleBuffered = c.isDoubleBuffered();
+            c.setDoubleBuffered(false);
+            graphics.translate(-bounds.x, -bounds.y);
+            graphics.setClip(bounds.x, bounds.y, bounds.width, bounds.height);
+            c.paint(graphics);
+            c.setDoubleBuffered(isDoubleBuffered);
+        }
+        else {
+            component.paint(graphics);
+        }
+        graphics.dispose();
+        return img;
+    }
+
+    /**
+     * Creates a buffered image (of the specified type) from the supplied component.
+     *
+     * @param component the component to draw
+     * @param imageType the type of buffered image to draw
+     * @return an image of the component
+     */
+    public static BufferedImage createImage(final Component component, int imageType) {
+        Dimension componentSize = component.getSize();
+        BufferedImage img = new BufferedImage(componentSize.width,
+                componentSize.height,
+                imageType);
+        final Graphics2D graphics = img.createGraphics();
+        graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
+        // If we are painting a JComponent then switch off double buffering because it
+        // causes a failure when running headlessly on Linux
+        if (component instanceof JComponent) {
+            JComponent c = (JComponent) component;
+            boolean isDoubleBuffered = c.isDoubleBuffered();
+            c.setDoubleBuffered(false);
+            c.paint(graphics);
+            c.setDoubleBuffered(isDoubleBuffered);
+        }
+        else {
+            component.paint(graphics);
+        }
+        graphics.dispose();
+        return img;
+    }
+
+    /**
+     * Creates a thumbnail from the supplied component (such as a chart). If you want to display the thumbnail as a
+     * component you can pass the created ImageIcon as a parameter to the constructor of a JLabel.
+     *
+     * @param component the component from which we would like to generate a thumbnail
+     * @param width     the width of the thumbnail
+     * @param height    the height of the thumbnail
+     * @return a thumbnail Image of the supplied component
+     */
+    public static Image createThumbnailImage(Component component, int width, int height) {
+        BufferedImage image = createImage(component);
+        BufferedImage thumbnailImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = thumbnailImage.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        double w = (double) width / image.getWidth();
+        double h = (double) height / image.getHeight();
+        assert w <= 1.0 : "The thumbnail should be smaller than the original";
+        assert h <= 1.0 : "The thumbnail should be smaller than the original";
+        AffineTransform transform = AffineTransform.getScaleInstance(w, h);
+        g.drawRenderedImage(image, transform);
+        return thumbnailImage;
+    }
+
+    /**
+     * Creates a thumbnail from the supplied component (such as a chart). If you want to display the thumbnail as a
+     * component you can pass the created ImageIcon as a parameter to the constructor of a JLabel.
+     *
+     * @param component the component from which we would like to generate a thumbnail
+     * @param width     the width of the thumbnail
+     * @param height    the height of the thumbnail
+     * @return an ImageIcon of the supplied component
+     */
+    public static ImageIcon createThumbnail(Component component, int width, int height) {
+        return new ImageIcon(createThumbnailImage(component, width, height));
+    }
+
+
+    /**
+     * Utility method to create a texture paint from a graphics file
+     *
+     * @param observer the observer to be informed when the texture image has been drawn
+     * @param fileName the name of a file on the classpath, e.g., com/mycompany/project/images/widget.gif
+     * @return a TexturePaint instance
+     */
+
+    public static TexturePaint createTexture(JComponent observer, String fileName) {
+        Image image = createImage(fileName);
+        MediaTracker tracker = new MediaTracker(observer);
+        tracker.addImage(image, 1);
+        try {
+            tracker.waitForAll();
+        }
+        catch (Exception e) {
+        }
+        int w = image.getWidth(observer);
+        int h = image.getHeight(observer);
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics2D big = bi.createGraphics();
+        big.drawImage(image, 0, 0, observer);
+        return new TexturePaint(bi, new Rectangle(0, 0, bi.getWidth(), bi.getHeight()));
+    }
+
+    /**
+     * Creates an image from a file on the classpath
+     *
+     * @param path the path to the file
+     * @return an Image object
+     */
+    public static Image createImage(String path) {
+        ClassLoader loader = IconsFactory.class.getClassLoader();
+        if (loader != null) {
+            URL url = loader.getResource(path);
+            if (url == null) {
+                url = loader.getResource("/" + path);
+            }
+            return Toolkit.getDefaultToolkit().createImage(url);
+        }
+        return null;
+    }
+
 }

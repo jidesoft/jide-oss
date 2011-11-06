@@ -530,6 +530,9 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 == null) {
             return false;
         }
+        else if (o1 instanceof CharSequence && o2 instanceof CharSequence) {
+            return equals((CharSequence) o1, (CharSequence) o2, true);
+        }
         else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
@@ -555,6 +558,56 @@ public class JideSwingUtilities implements SwingConstants {
                 return o1.equals(o2);
             }
         }
+    }
+
+    public static boolean equals(CharSequence s1, CharSequence s2, boolean caseSensitive) {
+        if (s1 == s2) return true;
+        if (s1 == null || s2 == null) return false;
+
+        // Algorithm from String.regionMatches()
+
+        if (s1.length() != s2.length()) return false;
+        int to = 0;
+        int po = 0;
+        int len = s1.length();
+
+        while (len-- > 0) {
+            char c1 = s1.charAt(to++);
+            char c2 = s2.charAt(po++);
+            if (c1 == c2) {
+                continue;
+            }
+            if (!caseSensitive && charsEqualIgnoreCase(c1, c2)) continue;
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean charsEqualIgnoreCase(char a, char b) {
+        return a == b || toUpperCase(a) == toUpperCase(b) || toLowerCase(a) == toLowerCase(b);
+    }
+
+    public static char toUpperCase(char a) {
+        if (a < 'a') {
+            return a;
+        }
+        if (a >= 'a' && a <= 'z') {
+            return (char) (a + ('A' - 'a'));
+        }
+        return Character.toUpperCase(a);
+    }
+
+    public static char toLowerCase(final char a) {
+        if (a < 'A' || a >= 'a' && a <= 'z') {
+            return a;
+        }
+
+        if (a >= 'A' && a <= 'Z') {
+            return (char) (a + ('a' - 'A'));
+        }
+
+        return Character.toLowerCase(a);
     }
 
     /**
