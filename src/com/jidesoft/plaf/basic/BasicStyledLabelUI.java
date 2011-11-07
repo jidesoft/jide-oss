@@ -846,16 +846,14 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         }
                         charDisplayed += s.length();
                         nextRowStartIndex += nextRowStartIndexInSubString;
-                        stop = false;
                     }
                     else {
                         // use this method to clip string
                         s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
                                 label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, labelHeight), new Rectangle(), new Rectangle(), 0);
                         strWidth = fm2.stringWidth(s);
-                        stop = true;
                     }
-//                    stop = !label.isLineWrap() || textY >= labelHeight || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
+                    stop = !label.isLineWrap() || textY >= labelHeight || (label.getMaxRows() > 0 && rowCount + 1 >= label.getMaxRows());
                 }
                 else if (label.isLineWrap()) {
                     nextRowStartIndex = 0;
