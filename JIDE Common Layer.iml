@@ -16,6 +16,7 @@
     <orderEntry type="library" name="trove" level="project" />
     <orderEntry type="library" name="javolution" level="project" />
     <orderEntry type="library" exported="" name="aqua" level="project" />
+    <orderEntry type="library" exported="" name="trident" level="project" />
   </component>
   <component name="copyright">
     <Base>
