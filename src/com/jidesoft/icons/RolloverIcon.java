@@ -89,9 +89,16 @@ public class RolloverIcon implements Icon {
             Color orgColor = g2.getColor();
             Object o = JideSwingUtilities.setupShapeAntialiasing(g);
             Path2D path = new Path2D.Double();
-            path.moveTo(x, y);
-            path.lineTo(x + 4, y + 4);
-            path.lineTo(x, y + 8);
+            if (c.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+                path.moveTo(x + 4, y);
+                path.lineTo(x, y + 4);
+                path.lineTo(x + 4, y + 8);
+            }
+            else {
+                path.moveTo(x, y);
+                path.lineTo(x + 4, y + 4);
+                path.lineTo(x, y + 8);
+            }
             path.closePath();
             boolean rollover = _rolloverSupport.isIconRollover(x, y, getIconWidth(), getIconHeight());
             g2.setColor(rollover ? COLOR_COLLAPSED_FILL_ROLLOVER : COLOR_COLLAPSED_FILL);
@@ -129,9 +136,16 @@ public class RolloverIcon implements Icon {
             Color orgColor = g2.getColor();
             Object o = JideSwingUtilities.setupShapeAntialiasing(g);
             Path2D path = new Path2D.Double();
-            path.moveTo(x + 5, y);
-            path.lineTo(x + 5, y + 5);
-            path.lineTo(x, y + 5);
+            if (c.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+                path.moveTo(x, y);
+                path.lineTo(x, y + 5);
+                path.lineTo(x + 5, y + 5);
+            }
+            else {
+                path.moveTo(x + 5, y);
+                path.lineTo(x + 5, y + 5);
+                path.lineTo(x, y + 5);
+            }
             path.closePath();
             boolean rollover = _rolloverSupport.isIconRollover(x, y, getIconWidth(), getIconHeight());
             g2.setColor(rollover ? COLOR_EXPANDED_FILL_ROLLOVER : COLOR_EXPANDED_FILL);
