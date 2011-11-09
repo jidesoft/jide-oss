@@ -15,7 +15,7 @@ public class MultilineStringConverter implements ObjectConverter {
 
     public String toString(Object object, ConverterContext context) {
         if (object instanceof String) {
-            return ((String) object).replaceAll("\n", "\\\\n").replaceAll("\r", "\\\\r");
+            return ((String) object).replaceAll("\\\\n", "\\\\\\\\n").replaceAll("\\\\r", "\\\\\\\\r").replaceAll("\n", "\\\\n").replaceAll("\r", "\\\\r");
         }
         else if (object == null) {
             return "";
@@ -31,7 +31,7 @@ public class MultilineStringConverter implements ObjectConverter {
 
     public Object fromString(String string, ConverterContext context) {
         if (string != null) {
-            return string.replaceAll("\\\\n", "\n").replaceAll("\\\\r", "\r");
+            return string.replaceAll("\\\\\\\\n", "\\\\n").replaceAll("\\\\\\\\r", "\\\\r");
         }
         else {
             return null;
