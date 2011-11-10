@@ -144,9 +144,10 @@ public class TristateCheckBoxIcon implements Icon, SynthConstants {
 
     // the following method added for LegacyTristateCheckBox
     protected void drawSquare(Component c, Graphics g, int x, int y) {
-        final int w = getIconWidth();
-        final int h = getIconHeight();
-        int margin = w / 3;
-        g.fillRect(x + margin, y + margin, w - margin * 2, h - margin * 2);
+        final int w = Math.min(getIconWidth(), getIconHeight());
+        final int h = Math.min(getIconWidth(), getIconHeight());
+        int xMargin = w / 3;
+        int yMargin = h / 3;
+        g.fillRect(x + xMargin, y + yMargin, w - xMargin * 2, h - yMargin * 2);
     }
 }
