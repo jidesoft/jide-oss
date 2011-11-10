@@ -5508,7 +5508,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         public ScrollTabsForwardAction() {
             super();
-            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString("JideTabbedPane.scrollForward"));
+            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString(BUTTON_NAME_SCROLL_FORWARD));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -5536,7 +5536,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         public ScrollTabsBackwardAction() {
             super();
-            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString("JideTabbedPane.scrollBackward"));
+            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString(BUTTON_NAME_SCROLL_BACKWARD));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -5565,7 +5565,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         public ScrollTabsListAction() {
             super();
-            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString("JideTabbedPane.showList"));
+            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString(BUTTON_NAME_TAB_LIST));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -5609,7 +5609,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         public CloseTabAction() {
             super();
-            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString("JideTabbedPane.close"));
+            putValue(Action.SHORT_DESCRIPTION, Resource.getResourceBundle(Locale.getDefault()).getString(BUTTON_NAME_CLOSE));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -7601,19 +7601,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             viewport.addChangeListener(this);
 
             scrollForwardButton = createButton(JideTabbedPane.BUTTON_EAST);
-            scrollForwardButton.setName(BUTTON_NAME_SCROLL_FORWARD);
             scrollBackwardButton = createButton(JideTabbedPane.BUTTON_WEST);
-            scrollBackwardButton.setName(BUTTON_NAME_SCROLL_BACKWARD);
 
             scrollForwardButton.setBackground(viewport.getBackground());
             scrollBackwardButton.setBackground(viewport.getBackground());
 
             listButton = createButton(JideTabbedPane.BUTTON_LIST);
-            listButton.setName(BUTTON_NAME_TAB_LIST);
             listButton.setBackground(viewport.getBackground());
 
             closeButton = createButton(JideTabbedPane.BUTTON_CLOSE);
-            closeButton.setName(BUTTON_NAME_CLOSE);
             closeButton.setBackground(viewport.getBackground());
         }
 
@@ -8954,7 +8950,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 JButton closeButton = _closeButtons[i];
                 if (closeButton == null) {
                     closeButton = createButton(JideTabbedPane.BUTTON_CLOSE);
-                    closeButton.setName("JideTabbedPane.close");
                     _closeButtons[i] = closeButton;
                     closeButton.setBounds(0, 0, 0, 0);
                     Action action = _tabPane.getCloseAction();
