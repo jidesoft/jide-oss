@@ -343,7 +343,7 @@ public class EclipseJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 Color background1;
                 Color background2;
                 if (showFocusIndicator()) {
-                    background1 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
+                    background1 = _activeBackground;
                     background2 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground2");
                 }
                 else {

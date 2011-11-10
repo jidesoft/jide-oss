@@ -350,8 +350,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                     }
                 }
             }
-            else
-            if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_COMPRESSED && isShowCloseButton() && isShowCloseButtonOnTab()) {
+            else if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_COMPRESSED && isShowCloseButton() && isShowCloseButtonOnTab()) {
                 if (!_tabPane.isShowCloseButtonOnSelectedTab()) {
                     if (!isSelected) {
                         iconRect.width = iconRect.width
@@ -678,11 +677,11 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
             Color background1;
             Color background2;
             if (showFocusIndicator()) {
-                background1 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
+                background1 = _activeBackground;
                 background2 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground2");
             }
             else {
-                background1 = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
+                background1 = _activeBackground;
                 background2 = _background;
             }
 
@@ -749,7 +748,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
         if (selectedIndex < 0) {
             return;
         }
-        
+
         if (getTabShape() == JideTabbedPane.SHAPE_ECLIPSE3X) {
             int width = _tabPane.getWidth();
             int height = _tabPane.getHeight();
@@ -1007,6 +1006,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the component border of every tab
+
     @Override
     protected void paintContentBorder(Graphics g, int x, int y, int w, int h) {
         if (!PAINT_CONTENT_BORDER) {
@@ -1030,6 +1030,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the top line of the content when the tab is on the top
+
     @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
                                              int selectedIndex, int x, int y, int w, int h) {
@@ -1073,6 +1074,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
     }
 
     // paint the bottom line of the content when the tab is on the bottom
+
     @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
                                                 int selectedIndex, int x, int y, int w, int h) {

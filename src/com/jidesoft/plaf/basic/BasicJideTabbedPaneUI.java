@@ -107,10 +107,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected Color _focus;
 
     protected Color _inactiveTabForeground;
+    protected Color _inactiveSelectedTabForeground;
     protected Color _activeTabForeground;
     protected Color _tabListBackground;
 
     protected Color _selectedColor;
+    protected Color _activeBackground;
 
     protected int _textIconGap;
 
@@ -492,15 +494,28 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             _background = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground");
             _tabBackground = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground");
             _inactiveTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.foreground"); // text is black
+            _inactiveSelectedTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.foreground"); // text is black
             _activeTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.foreground"); // text is black
             _selectedColor = _lightHighlight;
+            _activeBackground = _lightHighlight;
         }
         else {
             _background = UIDefaultsLookup.getColor("JideTabbedPane.background");
             _tabBackground = UIDefaultsLookup.getColor("JideTabbedPane.tabAreaBackground");
             _inactiveTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.unselectedTabTextForeground");
-            _activeTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabTextForeground");
+            _inactiveSelectedTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabTextForeground");
+            _activeTabForeground = UIDefaultsLookup.getColor("JideTabbedPane.activeTabTextForeground");
+            if (_activeTabForeground == null) {
+                _activeTabForeground = _inactiveSelectedTabForeground;
+            }
             _selectedColor = UIDefaultsLookup.getColor("JideTabbedPane.selectedTabBackground");
+            _activeBackground = UIDefaultsLookup.getColor("DockableFrame.activeTitleBackground");
+            if (_activeBackground == null) {
+                _activeBackground = UIDefaultsLookup.getColor("JideTabbedPane.activeTabBackground");
+            }
+            if (_activeBackground == null) {
+                _activeBackground = _selectedColor;
+            }
         }
 
         _tabListBackground = UIDefaultsLookup.getColor("JideTabbedPane.tabListBackground");
@@ -1361,6 +1376,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                         else {
                             g2d.setColor(_activeTabForeground);
+                        }
+                    }
+                    else if (isSelected) {
+                        if (!(color instanceof ColorUIResource)) {
+                            g2d.setColor(color);
+                        }
+                        else {
+                            g2d.setColor(_inactiveSelectedTabForeground);
                         }
                     }
                     else {
