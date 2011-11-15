@@ -426,6 +426,7 @@ public class LookAndFeelFactory implements ProductNames {
      *
      * @see #EXTENSION_STYLE_OFFICE2003
      */
+    @Deprecated
     public static final int EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU = 8;
 
     /**
@@ -436,6 +437,7 @@ public class LookAndFeelFactory implements ProductNames {
      *
      * @see #EXTENSION_STYLE_OFFICE2007
      */
+    @Deprecated
     public static final int EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU = 9;
 
     /**
@@ -526,10 +528,10 @@ public class LookAndFeelFactory implements ProductNames {
                 int suggestedStyle;
                 try {
                     if (SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
-                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU : EXTENSION_STYLE_OFFICE2007;
+                        suggestedStyle = EXTENSION_STYLE_OFFICE2007;
                     }
                     else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
-                        suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU : EXTENSION_STYLE_OFFICE2003;
+                        suggestedStyle = EXTENSION_STYLE_OFFICE2003;
                     }
                     else {
                         suggestedStyle = ((LookAndFeelFactory.getProductsUsed() & PRODUCT_ACTION) == 0) ? EXTENSION_STYLE_VSNET_WITHOUT_MENU : EXTENSION_STYLE_VSNET;
