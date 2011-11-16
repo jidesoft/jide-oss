@@ -7,6 +7,7 @@
 package com.jidesoft.plaf.office2007;
 
 import com.jidesoft.icons.IconsFactory;
+import com.jidesoft.icons.MenuCheckIcon;
 import com.jidesoft.plaf.ExtWindowsDesktopProperty;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
@@ -94,7 +95,7 @@ public class Office2007WindowsUtils extends VsnetWindowsUtils {
         };
 
         Object uiDefaults[] = new Object[]{
-                "MenuItem.checkIcon", IconsFactory.getImageIcon(Office2007Painter.class, "icons/menu_checkbox.png"),
+                "MenuItem.checkIcon", new MenuCheckIcon(IconsFactory.getImageIcon(Office2007Painter.class, "icons/menu_checkbox.png")),
                 "MenuItem.shadowColor", new ColorUIResource(0xE9EEEE),
 
                 "PopupMenuSeparator.foreground", new ColorUIResource(0xC5C5C5),
