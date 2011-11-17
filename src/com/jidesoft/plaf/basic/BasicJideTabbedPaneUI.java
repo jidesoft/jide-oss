@@ -7972,9 +7972,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public void doLayout() {
-            if (getComponentCount() > 0) {
-                Component child = getComponent(0);
-                child.setBounds(0, 0, getWidth(), getHeight());
+            if (_tabContainer != null && _tabContainer.getParent() == this) {
+                _tabContainer.setBounds(0, 0, getWidth(), getHeight());
             }
         }
     }
