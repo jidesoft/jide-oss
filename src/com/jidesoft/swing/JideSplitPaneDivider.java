@@ -598,6 +598,7 @@ public class JideSplitPaneDivider extends JPanel
      */
     protected class VerticalDragController extends DragController {
         /* Vertical DragControllers  are now in terms of y, not x. */
+
         protected VerticalDragController(MouseEvent e) {
             super(e);
             Component leftC = getFirstComponent(false);
@@ -835,7 +836,7 @@ public class JideSplitPaneDivider extends JPanel
             public void paint(Graphics g) {
                 if (_jideSplitPane != null) {
                     g.setColor(JideSplitPaneDivider.this.getBackground());
-                    if (JideSplitPaneDivider.this.isOpaque()) {
+                    if (isOpaque()) {
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     }
 
@@ -896,7 +897,7 @@ public class JideSplitPaneDivider extends JPanel
             public void paint(Graphics g) {
                 if (_jideSplitPane != null) {
                     g.setColor(JideSplitPaneDivider.this.getBackground());
-                    if (JideSplitPaneDivider.this.isOpaque()) {
+                    if (isOpaque()) {
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     }
 
