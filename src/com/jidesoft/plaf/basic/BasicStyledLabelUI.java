@@ -1663,6 +1663,20 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         if (iconR.x < 0) {
             iconR.x = 0;
         }
+        int maxIconY = c.getHeight() / 2;
+        Insets insets = c.getInsets();
+        if (insets != null) {
+            maxIconY -= (insets.bottom + insets.top) / 2;
+        }
+        if (icon != null) {
+            maxIconY -= icon.getIconHeight() / 2;
+        }
+        if (verticalAlignment == TOP) {
+            iconR.y = Math.min(maxIconY, iconR.y);
+        }
+        else if (verticalAlignment == BOTTOM) {
+            iconR.y = Math.max(maxIconY, iconR.y);
+        }
 
         return text;
     }
