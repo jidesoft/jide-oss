@@ -169,6 +169,12 @@ public abstract class Flashable {
         stopFlashing();
         _animator.dispose();
         _animator = null;
+        if (_synchronizedFlashTimer != null) {
+            if (_synchronizedFlashTimer.isRunning()) {
+                _synchronizedFlashTimer.stop();
+            }
+            _synchronizedFlashTimer = null;
+        }
         getComponent().putClientProperty(CLIENT_PROPERTY_FLASHABLE, null);
     }
 
