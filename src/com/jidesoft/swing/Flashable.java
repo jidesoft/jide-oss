@@ -63,7 +63,6 @@ public abstract class Flashable {
                 if (_synchronizedFlashTimer == null) {
                     _synchronizedFlashTimer = new FlashTimer(delay, listener);
                 }
-                _synchronizedFlashTimer.addActionListener(listener);
                 return _synchronizedFlashTimer;
             }
         };
@@ -169,12 +168,6 @@ public abstract class Flashable {
         stopFlashing();
         _animator.dispose();
         _animator = null;
-        if (_synchronizedFlashTimer != null) {
-            if (_synchronizedFlashTimer.isRunning()) {
-                _synchronizedFlashTimer.stop();
-            }
-            _synchronizedFlashTimer = null;
-        }
         getComponent().putClientProperty(CLIENT_PROPERTY_FLASHABLE, null);
     }
 
