@@ -16,13 +16,15 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 
 /**
- * <code>NavigationComponentHelper</code> is a helper class to implement on JTree, JList and JTable (or JIDE table
- * subclasses) so they can be used for the navigation purpose. In order to make the component suitable for the
- * navigation, we want the selection effect to be easily noticeable and covers the row (instead of just one cell or one
- * node in the case of JTable and JTree respectively). We also want to have rollover effect the mouse is over a row.
- * Further more, the selection should have different color when the component is focused so that when multiple
- * navigation components are used, we can tell which one is active. Some L&Fs already do it by default but the most L&Fs
- * don't do it. This class provides some common code to make the implementation easy.
+ * <code>NavigationComponentHelper</code> is a helper class to implement on JTree, JList and JTable
+ * (or JIDE table subclasses) so they can be used for the navigation purpose. In order to make the
+ * component suitable for the navigation, we want the selection effect to be easily noticeable and
+ * covers the row (instead of just one cell or one node in the case of JTable and JTree
+ * respectively). We also want to have rollover effect the mouse is over a row. Further more, the
+ * selection should have different color when the component is focused so that when multiple
+ * navigation components are used, we can tell which one is active. Some L&Fs already do it by
+ * default but the most L&Fs don't do it. This class provides some common code to make the
+ * implementation easy.
  */
 abstract public class NavigationComponentHelper {
     private int _rolloverRow = -1;
@@ -34,13 +36,20 @@ abstract public class NavigationComponentHelper {
 
     protected abstract int[] getSelectedRows();
 
-    protected abstract void selectRow(int row);
-
     @SuppressWarnings({"UnusedParameters"})
     public void mouseMoved(MouseEvent e) {
     }
 
     public void mouseExited(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -71,10 +80,11 @@ abstract public class NavigationComponentHelper {
     }
 
     /**
-     * Paints the selected row. This method is called after the tree is painted. It will paint over the content of the
-     * tree. In order to not cover the content, the painting code must be semi-transparent. By default, we paint it
-     * using the selection color which can be retrieved from UIDefault "Tree.selectionBackground"  but with an alpha
-     * between 70 to 100 to create a gradient effect.
+     * Paints the selected row. This method is called after the tree is painted. It will paint over
+     * the content of the tree. In order to not cover the content, the painting code must be
+     * semi-transparent. By default, we paint it using the selection color which can be retrieved
+     * from UIDefault "Tree.selectionBackground"  but with an alpha between 70 to 100 to create a
+     * gradient effect.
      *
      * @param g   the Graphics
      * @param c   the component
@@ -88,14 +98,15 @@ abstract public class NavigationComponentHelper {
         Rectangle bounds = getRowBounds(row);
         bounds.width -= 1;
         bounds.height -= 1;
-        paintRow(g, row, bounds, selectedColor, 70, 100, 80, 255);
+        paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
     }
 
     /**
-     * Paints the rollover row. This method is called after the tree is painted. It will paint over the content of the
-     * tree. In order to not cover the content, the painting code must be semi-transparent. By default, we paint it
-     * using the selection color which can be retrieved from UIDefault "Tree.selectionBackground"  but with an alpha
-     * between 10 to 40 to create a gradient effect.
+     * Paints the rollover row. This method is called after the tree is painted. It will paint over
+     * the content of the tree. In order to not cover the content, the painting code must be
+     * semi-transparent. By default, we paint it using the selection color which can be retrieved
+     * from UIDefault "Tree.selectionBackground"  but with an alpha between 10 to 40 to create a
+     * gradient effect.
      *
      * @param g   the Graphics
      * @param c   the component
@@ -145,10 +156,17 @@ abstract public class NavigationComponentHelper {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                int row = rowAtPoint(e.getPoint());
-                if (row != -1) {
-                    selectRow(row);
-                }
+                NavigationComponentHelper.this.mousePressed(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                NavigationComponentHelper.this.mouseReleased(e);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NavigationComponentHelper.this.mouseClicked(e);
             }
 
             @Override
