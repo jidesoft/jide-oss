@@ -333,6 +333,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
             Insets insets = label.getInsets();
             Dimension dimension = new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
+            if (label.getIcon() != null) {
+                dimension = new Dimension(dimension.width + label.getIconTextGap() + label.getIcon().getIconWidth(), dimension.height);
+            }
             if (insets == null) {
                 return dimension;
             }
