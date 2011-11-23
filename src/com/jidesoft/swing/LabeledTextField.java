@@ -395,7 +395,7 @@ public class LabeledTextField extends JPanel {
         if (_hintLabel != null) {
             boolean textEmpty = true;
             if (getTextField() != null) {
-                textEmpty = getTextField().getText() == null || getTextField().getText().isEmpty();
+                textEmpty = getTextField().getText() == null || getTextField().getText().length() == 0;
             }
             _hintLabel.setVisible(isEnabled() && textEmpty);
         }
