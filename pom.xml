@@ -4,7 +4,7 @@
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
-    <version>3.2.4</version>
+    <version>3.3.0</version>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://jide-oss.dev.java.net</url>
     <licenses>
