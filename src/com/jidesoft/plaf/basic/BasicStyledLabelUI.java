@@ -116,8 +116,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (s != null && s.length() > 0) { // do not do anything if the text is empty
                 int index = 0;
                 for (StyleRange styleRange : styleRanges) {
+                    if (index >= s.length()) {
+                        break;
+                    }
                     if (styleRange.getStart() > index) { // fill in the gap
-                        String text = s.substring(index, styleRange.getStart());
+                        String text = s.substring(index, Math.min(styleRange.getStart(), s.length()));
                         StyleRange newRange = new StyleRange(index, styleRange.getStart() - index, -1);
                         addStyledTexts(text, newRange, label);
                         index = styleRange.getStart();
