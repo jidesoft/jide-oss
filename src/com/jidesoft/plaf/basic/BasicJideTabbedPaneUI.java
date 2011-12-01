@@ -4835,6 +4835,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected int calculateTabHeight(int tabPlacement, int tabIndex, FontMetrics metrics) {
         int height = 0;
+        Component c = _tabPane.getTabComponentAt(tabIndex);
+        if (c != null) {
+            height = c.getPreferredSize().height;
+            return height;
+        }
         if (tabPlacement == JideTabbedPane.TOP || tabPlacement == JideTabbedPane.BOTTOM) {
             View v = getTextViewForTab(tabIndex);
             if (v != null) {
@@ -4909,6 +4914,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
             width = tabInsets.left + tabInsets.right + 3 + getTabGap();
+            Component tabComponent = _tabPane.getTabComponentAt(tabIndex);
+            if (tabComponent != null) {
+                width += tabComponent.getPreferredSize().width;
+                return width;
+            }
 
             if (icon != null) {
                 width += icon.getIconWidth() + _textIconGap;
@@ -4945,6 +4955,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //            width += _tabRectPadding;
         }
         else {
+            Component tabComponent = _tabPane.getTabComponentAt(tabIndex);
+            if (tabComponent != null) {
+                Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
+                width = tabComponent.getPreferredSize().width + tabInsets.left + tabInsets.right + 3;
+                return width;
+            }
             View v = getTextViewForTab(tabIndex);
             if (v != null) {
                 // html
