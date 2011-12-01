@@ -257,6 +257,7 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
         }),
 
                 "TristateCheckBox.icon", MetalIconFactory.getCheckBoxIcon(),
+                "JideSplitPane.dividerSize", 3,
 
                 "JideSplitPaneDivider.border", new BorderUIResource(BorderFactory.createEmptyBorder()),
                 "JideSplitPaneDivider.background", defaultBackgroundColor,
