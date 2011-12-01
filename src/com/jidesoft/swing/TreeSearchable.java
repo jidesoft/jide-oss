@@ -224,17 +224,15 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
                 JTree tree = (JTree) getComponent();
                 TreePath[] selectionPaths = tree.getSelectionPaths();
                 boolean selected = false;
-                for (TreePath selectedPath : selectionPaths) {
-                    if (selectedPath == object) {
-                        selected = true;
-                        break;
+                if (selectionPaths != null) {
+                    for (TreePath selectedPath : selectionPaths) {
+                        if (selectedPath == object) {
+                            selected = true;
+                            break;
+                        }
                     }
                 }
-                boolean leaf = true;
-                if (treeNode instanceof MutableTreeNode) {
-                    leaf = ((MutableTreeNode) treeNode).isLeaf();
-                }
-                return tree.convertValueToText(object, selected, tree.isExpanded((TreePath) object), leaf, tree.getRowForPath((TreePath) object), tree.hasFocus());
+                return tree.convertValueToText(treeNode, selected, tree.isExpanded((TreePath) object), tree.getModel().isLeaf(treeNode), tree.getRowForPath((TreePath) object), tree.hasFocus() && tree.getLeadSelectionPath() == object);
             }
             return treeNode.toString();
         }
