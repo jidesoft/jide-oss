@@ -226,8 +226,8 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.closeButtonMargin", 2,
                 "JideTabbedPane.gripLeftMargin", 4,
                 "JideTabbedPane.closeButtonMarginSize", 6,
-                "JideTabbedPane.closeButtonLeftMargin", 1,
-                "JideTabbedPane.closeButtonRightMargin", 1,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 

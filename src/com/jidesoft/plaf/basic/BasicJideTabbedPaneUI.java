@@ -4436,6 +4436,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             bounds = new Rectangle(_rects[i].x + _rects[i].width - size.width - _closeButtonRightMargin,
                                     _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
                             bounds.x -= getTabGap();
+                            if (i > _tabPane.getSelectedIndex() && (JideTabbedPane.SHAPE_ROUNDED_VSNET == _tabPane.getTabShape() || JideTabbedPane.SHAPE_VSNET == _tabPane.getTabShape())) {
+                                bounds.x--;
+                            }
                         }
                         else {
                             bounds = new Rectangle(_rects[i].x + _closeButtonLeftMargin + getTabGap(), _rects[i].y + (_rects[i].height - size.height) / 2, size.width, size.height);
