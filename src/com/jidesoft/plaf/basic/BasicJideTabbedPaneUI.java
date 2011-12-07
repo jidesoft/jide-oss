@@ -414,7 +414,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     private void installTabContainer() {
         for (int i = 0; i < _tabPane.getTabCount(); i++) {
-            Component tabComponent = _tabPane.getTabComponentAt(i);
+            Component tabComponent = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt(i) : null;
             if (tabComponent != null) {
                 if (_tabContainer == null) {
                     _tabContainer = new TabContainer();
@@ -1089,10 +1089,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         layoutLabel(tabPlacement, metrics, tabIndex, title, icon,
                 tempTabRect, iconRect, textRect, isSelected);
 
-        if ((!_isEditing || (!isSelected)) && _tabPane.getTabComponentAt(tabIndex) == null)
+        if ((!_isEditing || (!isSelected)) && (!SystemInfo.isJdk6Above() || _tabPane.getTabComponentAt(tabIndex) == null))
             paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
 
-        if (_tabPane.getTabComponentAt(tabIndex) == null) {
+        if (!SystemInfo.isJdk6Above() || _tabPane.getTabComponentAt(tabIndex) == null) {
             paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
         }
 
@@ -4838,7 +4838,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected int calculateTabHeight(int tabPlacement, int tabIndex, FontMetrics metrics) {
         int height = 0;
-        Component c = _tabPane.getTabComponentAt(tabIndex);
+        Component c = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt(tabIndex) : null;
         if (c != null) {
             height = c.getPreferredSize().height;
             return height;
@@ -4917,7 +4917,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             Icon icon = _tabPane.getIconForTab(tabIndex);
             Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
             width = tabInsets.left + tabInsets.right + 3 + getTabGap();
-            Component tabComponent = _tabPane.getTabComponentAt(tabIndex);
+            Component tabComponent = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt(tabIndex) : null;
             if (tabComponent != null) {
                 width += tabComponent.getPreferredSize().width;
                 return width;
@@ -4958,7 +4958,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //            width += _tabRectPadding;
         }
         else {
-            Component tabComponent = _tabPane.getTabComponentAt(tabIndex);
+            Component tabComponent = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt(tabIndex) : null;
             if (tabComponent != null) {
                 Insets tabInsets = getTabInsets(tabPlacement, tabIndex);
                 width = tabComponent.getPreferredSize().width + tabInsets.left + tabInsets.right + 3;
@@ -6062,7 +6062,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 translatePointToTabPanel(0, 0, delta);
             }
             for (int i = 0; i < _tabPane.getTabCount(); i++) {
-                Component c = _tabPane.getTabComponentAt(i);
+                Component c = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt(i) : null;
                 if (c == null) {
                     continue;
                 }
@@ -8380,7 +8380,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (_tabContainer != null) {
                     _tabContainer.removeUnusedTabComponents();
                 }
-                Component c = _tabPane.getTabComponentAt((Integer) e.getNewValue());
+                Component c = SystemInfo.isJdk6Above() ? _tabPane.getTabComponentAt((Integer) e.getNewValue()) : null;
                 if (c != null) {
                     if (_tabContainer == null) {
                         installTabContainer();
