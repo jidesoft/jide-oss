@@ -127,6 +127,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
         return true;
     }
 
+    @Override
+    public boolean isPathSelected(TreePath path) {
+        return super.isPathSelected(path); // Cannot return isPathSelected(path, isDigIn()). Otherwise FilterableCheckBoxTreeSelectionModel will have problem. FilterableCheckBoxTreeTest
+    }
+
     /**
      * Tells whether given path is selected. if dig is true, then a path is assumed to be selected, if one of its
      * ancestor is selected.
