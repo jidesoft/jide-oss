@@ -12,11 +12,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="junit" level="project" />
-    <orderEntry type="library" name="trove" level="project" />
-    <orderEntry type="library" name="javolution" level="project" />
+    <orderEntry type="library" exported="" name="junit" level="project" />
     <orderEntry type="library" exported="" name="aqua" level="project" />
-    <orderEntry type="library" exported="" name="trident" level="project" />
   </component>
   <component name="copyright">
     <Base>
