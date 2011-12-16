@@ -86,9 +86,12 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
 
     private boolean _horizontalScrollBarCoversWholeWidth;
     private boolean _verticalScrollBarCoversWholeHeight;
+    private boolean _flatLayout = false;
 
     public static final String PROPERTY_HORIZONTAL_SCROLL_BAR_COVERS_WHOLE_WIDTH = "horizontalScrollBarCoversWholeWidth";
     public static final String PROPERTY_VERTICAL_SCROLL_BAR_COVERS_WHOLE_HEIGHT = "verticalScrollBarCoversWholeHeight";
+    public static final String PROPERTY_KEEP_CORNER_VISIBLE = "keepCornerVisible";
+    public static final String PROPERTY_FLAT_LAYOUT = "flatLayout";
 
     private boolean _columnHeadersHeightUnified;
     private boolean _columnFootersHeightUnified;
@@ -699,6 +702,41 @@ public class JideScrollPane extends JScrollPane implements JideScrollPaneConstan
      * @param keepCornerVisible the flag
      */
     public void setKeepCornerVisible(boolean keepCornerVisible) {
-        _keepCornerVisible = keepCornerVisible;
+        if (_keepCornerVisible != keepCornerVisible) {
+            boolean old = _keepCornerVisible;
+            _keepCornerVisible = keepCornerVisible;
+            firePropertyChange(PROPERTY_KEEP_CORNER_VISIBLE, old, _keepCornerVisible);
+            invalidate();
+            doLayout();
+        }
+    }
+
+    /**
+     * Gets the flag indicating if the JideScrollPane will layout its view flat without scroll bars.
+     *
+     * @return true if flat layout. Otherwise false.
+     * @see #setFlatLayout(boolean)
+     * @since 3.3.3
+     */
+    public boolean isFlatLayout() {
+        return _flatLayout;
+    }
+
+    /**
+     * Sets the flag indicating if the JideScrollPane will layout its view flat without scroll bars.
+     * <p/>
+     * By default, the value is false to keep normal behavior.
+     *
+     * @param flatLayout the flag
+     * @since 3.3.3
+     */
+    public void setFlatLayout(boolean flatLayout) {
+        if (_flatLayout != flatLayout) {
+            boolean old = _flatLayout;
+            _flatLayout = flatLayout;
+            firePropertyChange(PROPERTY_FLAT_LAYOUT, old, _flatLayout);
+            invalidate();
+            doLayout();
+        }
     }
 }
