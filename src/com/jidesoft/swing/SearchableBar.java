@@ -1,5 +1,5 @@
 /*
- * @(#)FirefoxSearchBar.java 10/11/2005
+ * @(#)SearchableBar.java 10/11/2005
  *
  * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
  */
@@ -105,7 +105,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates a searchable bar in compact mode or full mode.
      *
      * @param searchable the searchable
-     * @param compact the flag indicating compact mode or full mode
+     * @param compact    the flag indicating compact mode or full mode
      */
     public SearchableBar(Searchable searchable, boolean compact) {
         this(searchable, "", compact);
@@ -114,9 +114,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     /**
      * Creates a searchable bar with initial searching text and in compact mode or full mode.
      *
-     * @param searchable the searchable
+     * @param searchable  the searchable
      * @param initialText the initial text
-     * @param compact the flag indicating compact mode or full mode
+     * @param compact     the flag indicating compact mode or full mode
      */
     public SearchableBar(Searchable searchable, String initialText, boolean compact) {
         setFloatable(false);
@@ -311,6 +311,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the close button. Subclass can override it to create your own close button.
      *
      * @param closeAction the close action
+     *
      * @return the close button.
      */
     protected AbstractButton createCloseButton(AbstractAction closeAction) {
@@ -329,6 +330,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the find next button. Subclass can override it to create your own find next button.
      *
      * @param findNextAction the find next action
+     *
      * @return the find next button.
      */
     protected AbstractButton createFindNextButton(AbstractAction findNextAction) {
@@ -349,6 +351,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the find prev button. Subclass can override it to create your own find prev button.
      *
      * @param findPrevAction the find previous action
+     *
      * @return the find prev button.
      */
     protected AbstractButton createFindPrevButton(AbstractAction findPrevAction) {
@@ -496,18 +499,20 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     /**
      * Set if the SearchableBar will highlight all matches.
      *
-     * @see #isHighlightAll()  
      * @param highlightAll the flag
+     *
+     * @see #isHighlightAll()
      */
     public void setHighlightAll(boolean highlightAll) {
         _highlightsButton.setSelected(highlightAll);
     }
 
     private int _previousCursor;
+
     private void highlightAllOrNext() {
         if (_highlightsButton.isSelected()) {
             _previousCursor = _searchable.getCurrentIndex();
-            highlighAll();
+            highlightAll();
         }
         else {
             if (_previousCursor >= 0) {
@@ -518,7 +523,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
     }
 
-    private void highlighAll() {
+    private void highlightAll() {
         String text = getSearchingText();
         if (text == null || text.length() == 0) {
             _findNextButton.setEnabled(false);
@@ -736,8 +741,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * </pre></code>
      *
      * @param searchable the searchable
-     * @param keyStroke the key stroke
-     * @param installer the installer
+     * @param keyStroke  the key stroke
+     * @param installer  the installer
+     *
      * @return the SearchableBar that is created.
      */
     public static SearchableBar install(Searchable searchable, KeyStroke keyStroke, Installer installer) {
@@ -808,6 +814,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * own icon.
      *
      * @param name the icon name
+     *
      * @return the icon of the specified name.
      */
     protected ImageIcon getImageIcon(String name) {
@@ -819,6 +826,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * keys are defined in swing.properties that begin with "SearchableBar.".
      *
      * @param key the resource key
+     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
