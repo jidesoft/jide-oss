@@ -88,7 +88,10 @@ abstract public class NavigationComponentHelper {
      * @param row the row index
      */
     protected void paintSelectedRow(Graphics g, JComponent c, int row) {
-        Color selectedColor = UIManager.getColor("Tree.selectionBackground");
+        Color selectedColor = UIManager.getColor("NavigationComponent.selectionBackground");
+        if (selectedColor == null) {
+            selectedColor = UIManager.getColor("Tree.selectionBackground");
+        }
         if (!c.hasFocus()) {
             selectedColor = ColorUtils.toGrayscale(selectedColor).brighter();
         }
@@ -169,13 +172,15 @@ abstract public class NavigationComponentHelper {
             public void mouseMoved(MouseEvent e) {
                 int row = rowAtPoint(e.getPoint());
                 if (row != -1) {
-                    int maxIconSize = getRowBounds(row).height;
-                    if (_mousePosition != null) {
-                        c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
-                    }
-                    _mousePosition = e.getPoint();
-                    if (_mousePosition != null) {
-                        c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                    if (c instanceof JTree) {
+                        int maxIconSize = getRowBounds(row).height;
+                        if (_mousePosition != null) {
+                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                        }
+                        _mousePosition = e.getPoint();
+                        if (_mousePosition != null) {
+                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                        }
                     }
                     if (_rolloverRow != row) {
                         int old = _rolloverRow;
