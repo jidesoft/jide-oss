@@ -41,7 +41,7 @@ public class ObjectComparatorManager {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
 
-        if (isAutoInit() && !_initing) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultComparator();
         }
 
@@ -54,7 +54,7 @@ public class ObjectComparatorManager {
      * @param clazz the data type.
      */
     public static void unregisterComparator(Class<?> clazz) {
-        _cache.unregister(clazz, ComparatorContext.DEFAULT_CONTEXT);
+        unregisterComparator(clazz, ComparatorContext.DEFAULT_CONTEXT);
     }
 
     /**
@@ -67,6 +67,11 @@ public class ObjectComparatorManager {
         if (context == null) {
             context = ComparatorContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_inited && !_initing) {
+            initDefaultComparator();
+        }
+
         _cache.unregister(clazz, context);
     }
 
@@ -90,6 +95,7 @@ public class ObjectComparatorManager {
      * Gets the registered comparator associated with class and default context.
      *
      * @param clazz the data type.
+     *
      * @return the registered comparator.
      */
     public static Comparator getComparator(Class<?> clazz) {
@@ -101,10 +107,11 @@ public class ObjectComparatorManager {
      *
      * @param clazz   the data type.
      * @param context the comparator context.
+     *
      * @return the comparator.
      */
     public static Comparator getComparator(Class<?> clazz, ComparatorContext context) {
-        if (isAutoInit()) {
+        if (isAutoInit() && !_inited) {
             initDefaultComparator();
         }
 
@@ -126,7 +133,8 @@ public class ObjectComparatorManager {
      *
      * @param o1 the first object to be compared.
      * @param o2 the second object to be compared.
-     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     *
+     * @return the compare result as defined in {@link Comparator#compare(Object, Object)}
      */
 
     public static int compare(Object o1, Object o2) {
@@ -140,7 +148,8 @@ public class ObjectComparatorManager {
      * @param o1      the first object to be compared.
      * @param o2      the second object to be compared.
      * @param context the comparator context
-     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     *
+     * @return the compare result as defined in {@link Comparator#compare(Object, Object)}
      */
 
     public static int compare(Object o1, Object o2, ComparatorContext context) {
@@ -187,8 +196,9 @@ public class ObjectComparatorManager {
      * @param o1    the first object to be compared.
      * @param o2    the second object to be compared.
      * @param clazz the data type of the two objects. If your two objects have the same type, you may just use {@link
-     *              #compare(Object,Object)} methods.
-     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     *              #compare(Object, Object)} methods.
+     *
+     * @return the compare result as defined in {@link Comparator#compare(Object, Object)}
      */
     public static int compare(Object o1, Object o2, Class<?> clazz) {
         return compare(o1, o2, clazz, ComparatorContext.DEFAULT_CONTEXT);
@@ -201,9 +211,10 @@ public class ObjectComparatorManager {
      * @param o1      the first object to be compared.
      * @param o2      the second object to be compared.
      * @param clazz   the data type of the two objects. If your two objects have the same type, you may just use {@link
-     *                #compare(Object,Object)} methods.
+     *                #compare(Object, Object)} methods.
      * @param context the comparator context
-     * @return the compare result as defined in {@link Comparator#compare(Object,Object)}
+     *
+     * @return the compare result as defined in {@link Comparator#compare(Object, Object)}
      */
     public static int compare(Object o1, Object o2, Class<?> clazz, ComparatorContext context) {
         Comparator comparator = getComparator(clazz, context);
@@ -297,6 +308,7 @@ public class ObjectComparatorManager {
      * Gets the available ComparatorContexts registered with the class.
      *
      * @param clazz the class.
+     *
      * @return the available ComparatorContext.
      */
     public static ComparatorContext[] getComparatorContexts(Class<?> clazz) {

@@ -38,7 +38,7 @@ public class ObjectGrouperManager {
             context = GrouperContext.DEFAULT_CONTEXT;
         }
 
-        if (isAutoInit() && !_initing) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultGrouper();
         }
 
@@ -65,6 +65,11 @@ public class ObjectGrouperManager {
         if (context == null) {
             context = GrouperContext.DEFAULT_CONTEXT;
         }
+
+        if (isAutoInit() && !_inited && !_initing) {
+            initDefaultGrouper();
+        }
+
         _cache.unregister(clazz, context);
     }
 
@@ -98,10 +103,11 @@ public class ObjectGrouperManager {
      *
      * @param clazz   the data type.
      * @param context the grouper context.
+     *
      * @return the registered grouper. It could return null if there is no grouper for the type and the context.
      */
     public static ObjectGrouper getGrouper(Class<?> clazz, GrouperContext context) {
-        if (isAutoInit()) {
+        if (isAutoInit() && !_inited) {
             initDefaultGrouper();
         }
 
@@ -121,6 +127,7 @@ public class ObjectGrouperManager {
      * Gets the grouper associated with the type.
      *
      * @param clazz the data type.
+     *
      * @return the grouper. It could return null if there is no grouper for the type.
      */
     public static ObjectGrouper getGrouper(Class<?> clazz) {
@@ -131,6 +138,7 @@ public class ObjectGrouperManager {
      * Converts an object to string using default grouper context.
      *
      * @param object object to be converted.
+     *
      * @return the string
      */
     public static Object getGroupValue(Object object) {
@@ -145,6 +153,7 @@ public class ObjectGrouperManager {
      *
      * @param object object to be converted.
      * @param clazz  type of the object
+     *
      * @return the string
      */
     public static Object getGroupValue(Object object, Class<?> clazz) {
@@ -157,6 +166,7 @@ public class ObjectGrouperManager {
      * @param object  object to be converted.
      * @param clazz   type of the object
      * @param context group context
+     *
      * @return the string converted from object
      */
     public static Object getGroupValue(Object object, Class<?> clazz, GrouperContext context) {
@@ -232,6 +242,7 @@ public class ObjectGrouperManager {
      * Gets the available GrouperContexts registered with the class.
      *
      * @param clazz the class.
+     *
      * @return the available GrouperContexts.
      */
     public static GrouperContext[] getGrouperContexts(Class<?> clazz) {
