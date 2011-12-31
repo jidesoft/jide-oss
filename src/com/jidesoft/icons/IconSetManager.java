@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <code>IconSetManager</code> contains all the icon sets that you purchased in one class so that you can access all of them from one single place and switch to different icon set just by calling {@link #setActiveIconSetName(String)}.
+ * <code>IconSetManager</code> contains all the JIDE icon sets in one class so that you can access all of them from one
+ * single place and switch to different icon set just by calling {@link #setActiveIconSetName(String)}.
  * <p/>
- * In order to use IconSetManager, you need to define and register the JIDE icon set first. You can do something like this.
+ * In order to use IconSetManager, you need to define and register the JIDE icon set first. You can do something like
+ * this.
  * <code><pre>
  * public static IconSetManager ICON_SET_MANAGER = new IconSetManager();
  * <p/>
@@ -33,6 +35,7 @@ public class IconSetManager {
      * finds the icon set if it is available.
      *
      * @param iconSetName the icon set name
+     *
      * @return the icon set. Null if not found.
      */
     public IconSet findIconSet(String iconSetName) {
@@ -43,7 +46,8 @@ public class IconSetManager {
     }
 
     /**
-     * Gets the active icon set name. The active icon set will be used when you call {@link #getImageIcon(String)} method.
+     * Gets the active icon set name. The active icon set will be used when you call {@link #getImageIcon(String)}
+     * method.
      *
      * @return the active icon set name.
      */
@@ -80,6 +84,7 @@ public class IconSetManager {
      * Sets the active icon set name. If the icon set is not found, IllegalArgumentException will be thrown.
      *
      * @param activeIconSetName the new active icon set name.
+     *
      * @throws IllegalArgumentException if the icon set is not found by that name.
      */
     public void setActiveIconSetName(String activeIconSetName) {
@@ -95,6 +100,7 @@ public class IconSetManager {
      * Gets the ImageIcon.
      *
      * @param iconName the icon name as defined in IconSet.
+     *
      * @return the ImageIcon.
      */
     public ImageIcon getImageIcon(String iconName) {
@@ -105,7 +111,9 @@ public class IconSetManager {
      * Gets the ImageIcon.
      *
      * @param iconName the icon name as defined in IconSet.
-     * @param size     the icon size. If the size is not available, it will find the closest size that is larger than the requested size.
+     * @param size     the icon size. If the size is not available, it will find the closest size that is larger than
+     *                 the requested size.
+     *
      * @return the ImageIcon.
      */
     public ImageIcon getImageIcon(String iconName, int size) {
@@ -125,9 +133,12 @@ public class IconSetManager {
      * Gets the ImageIcon.
      *
      * @param iconName        the icon name as defined in IconSet.
-     * @param size            the icon size. If the size is not available, it will find the closest size that is larger than the requested size.
+     * @param size            the icon size. If the size is not available, it will find the closest size that is larger
+     *                        than the requested size.
      * @param overlayIconName the overlay icon name as defined in IconSet.
-     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST,
+     *                        NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     *
      * @return the ImageIcon.
      */
     public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location) {
@@ -138,10 +149,15 @@ public class IconSetManager {
      * Gets the ImageIcon with an overlay icon on it.
      *
      * @param iconName        the icon name as defined in IconSet.
-     * @param size            the icon size. If the size is not available, it will find the closest size that is larger than the requested size.
-     * @param overlayIconName the overlay icon name as defined in IconSet. The icons in the Overlay category are half the size of the regular icons. So this method will take the middle portion of the overlay icon specified in the overlayIconName and use it as the overlay icon.
-     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @param size            the icon size. If the size is not available, it will find the closest size that is larger
+     *                        than the requested size.
+     * @param overlayIconName the overlay icon name as defined in IconSet. The icons in the Overlay category are half
+     *                        the size of the regular icons. So this method will take the middle portion of the overlay
+     *                        icon specified in the overlayIconName and use it as the overlay icon.
+     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST,
+     *                        NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
      * @param insets          the margin of the overlay icon to the border of the icon.
+     *
      * @return the ImageIcon.
      */
     public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location, Insets insets) {
@@ -164,11 +180,16 @@ public class IconSetManager {
      * Gets the ImageIcon with an overlay icon on it.
      *
      * @param iconName        the icon name as defined in IconSet.
-     * @param size            the icon size. If the size is not available, it will find the closest size that is larger than the requested size.
-     * @param overlayIconName the overlay icon name as defined in IconSet. The overlay icon doesn't have to be in the overlay category. It can be any regular icon. Of course the size of the overlay icon should be smaller than the size of the regular icon.
+     * @param size            the icon size. If the size is not available, it will find the closest size that is larger
+     *                        than the requested size.
+     * @param overlayIconName the overlay icon name as defined in IconSet. The overlay icon doesn't have to be in the
+     *                        overlay category. It can be any regular icon. Of course the size of the overlay icon
+     *                        should be smaller than the size of the regular icon.
      * @param overlayIconSize the size of the overlay icon.
-     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST, NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
+     * @param location        the location as defined in SwingConstants - CENTER, NORTH, SOUTH, WEST, EAST, NORTH_EAST,
+     *                        NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
      * @param insets          the margin of the overlay icon to the border of the icon.
+     *
      * @return the ImageIcon.
      */
     public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int overlayIconSize, int location, Insets insets) {

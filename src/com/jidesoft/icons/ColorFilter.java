@@ -11,7 +11,7 @@ import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 
 /**
- * An image filter that brighten or darken an existing image.
+ * An image filter that brightens or darkens an existing image.
  */
 public class ColorFilter extends RGBImageFilter {
     private boolean _brighter;
@@ -45,6 +45,7 @@ public class ColorFilter extends RGBImageFilter {
      * Creates a brighter image
      *
      * @param i the original image
+     *
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i) {
@@ -58,6 +59,7 @@ public class ColorFilter extends RGBImageFilter {
      *
      * @param i the original image
      * @param p percentage of brightness
+     *
      * @return a brighter image
      */
     public static Image createBrighterImage(Image i, int p) {
@@ -70,6 +72,7 @@ public class ColorFilter extends RGBImageFilter {
      * Creates a darker image
      *
      * @param i the original image
+     *
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i) {
@@ -84,6 +87,7 @@ public class ColorFilter extends RGBImageFilter {
      *
      * @param i the original image
      * @param p percentage of darkness
+     *
      * @return a darker image.
      */
     public static Image createDarkerImage(Image i, int p) {
