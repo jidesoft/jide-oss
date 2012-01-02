@@ -57,6 +57,8 @@ public class CheckBoxList extends JList {
     private CheckBoxListSelectionModel _checkBoxListSelectionModel;
     protected Handler _handler;
 
+    public static final String ALL = "(All)";
+
     /**
      * Constructs a <code>CheckBoxList</code> with an empty model.
      */
@@ -306,17 +308,45 @@ public class CheckBoxList extends JList {
 
             CheckBoxListSelectionModel selectionModel = _list.getCheckBoxListSelectionModel();
             boolean selected = selectionModel.isSelectedIndex(index);
-            selectionModel.removeListSelectionListener(this);
-            try {
-                if (selected)
-                    selectionModel.removeSelectionInterval(index, index);
-                else
-                    selectionModel.addSelectionInterval(index, index);
+            if (ALL.equals(_list.getModel().getElementAt(index))) {
+                if (!selected) {
+                    _list.selectAll();
+                }
+                else {
+                    _list.selectNone();
+                }
             }
-            finally {
-                selectionModel.addListSelectionListener(this);
-                _list.repaint();
+            else {
+                selectionModel.removeListSelectionListener(this);
+                try {
+                    if (selected) {
+                        selectionModel.removeSelectionInterval(index, index);
+                        if (ALL.equals(_list.getModel().getElementAt(0))) {
+                            selectionModel.removeSelectionInterval(0, 0);
+                        }
+                    }
+                    else {
+                        selectionModel.addSelectionInterval(index, index);
+                        if (ALL.equals(_list.getModel().getElementAt(0)) && isAllSelected(_list)) {
+                            selectionModel.addSelectionInterval(0, 0);
+                        }
+                    }
+                }
+                finally {
+                    selectionModel.addListSelectionListener(this);
+                    _list.repaint();
+                }
             }
+        }
+
+        private boolean isAllSelected(CheckBoxList list) {
+            CheckBoxListSelectionModel model = list.getCheckBoxListSelectionModel();
+            for (int i = 1; i < list.getModel().getSize(); i++) {
+                if (!model.isSelectedIndex(i)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         protected void toggleSelection() {

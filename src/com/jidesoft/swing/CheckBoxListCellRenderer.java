@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
+import java.util.Locale;
 
 
 /**
@@ -83,6 +84,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
         _checkBox.setPreferredSize(new Dimension(_checkBox.getPreferredSize().width, 0));
         applyComponentOrientation(list.getComponentOrientation());
+        setLocale(list.getLocale());
 
         Object actualValue;
         if (list instanceof CheckBoxList) {
@@ -131,6 +133,13 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
         if (_actualListRenderer != null) {
             JComponent listCellRendererComponent = (JComponent) _actualListRenderer.getListCellRendererComponent(list, actualValue, index, isSelected, cellHasFocus);
+
+            // make sure the (All) is converted to the localized string.
+            if (listCellRendererComponent instanceof JLabel) {
+                String v = convertElementToString(getLocale(), ((JLabel) listCellRendererComponent).getText());
+                ((JLabel) listCellRendererComponent).setText(v);
+            }
+
             if (list instanceof CheckBoxListWithSelectable) {
                 if (!((CheckBoxListWithSelectable) list).isCheckBoxVisible(index)) {
                     return listCellRendererComponent;
@@ -176,6 +185,13 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
         return this;
     }
 
+    private String convertElementToString(Locale locale, Object value) {
+        if (CheckBoxList.ALL.equals(value)) {
+            return Resource.getResourceBundle(locale).getString("CheckBoxList.all");
+        }
+        return (value == null) ? "" : value.toString();
+    }
+
     /**
      * Customizes the cell renderer. By default, it will use toString to covert the object and use it as the text for
      * the checkbox. You can subclass it to set an icon, change alignment etc. Since "this" is a JCheckBox, you can call
@@ -190,7 +206,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
         }
         else {
             _label.setIcon(null);
-            _label.setText((value == null) ? "" : value.toString());
+            _label.setText(convertElementToString(getLocale(), value));
         }
     }
 
