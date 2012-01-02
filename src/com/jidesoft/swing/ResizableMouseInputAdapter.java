@@ -7,6 +7,9 @@ package com.jidesoft.swing;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
+
+import com.jidesoft.utils.PortingUtils;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -592,6 +595,16 @@ public class ResizableMouseInputAdapter extends MouseInputAdapter {
                 break;
             default:
                 return;
+        }
+
+        Rectangle screenBounds = PortingUtils.getScreenBounds(_resizable.getComponent());
+        newX = Math.max(newX, screenBounds.x); 
+        newY = Math.max(newY, screenBounds.y);
+        if(newX + newW > screenBounds.width) {
+            newW = screenBounds.width - newX;
+        }
+        if(newY + newH > screenBounds.height) {
+            newH = screenBounds.height - newY;
         }
 
         _resizable.resizing(_resizeCorner, newX, newY, newW, newH);
