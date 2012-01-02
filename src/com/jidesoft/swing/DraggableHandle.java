@@ -9,5 +9,5 @@ package com.jidesoft.swing;
 /**
  * An interface to indicate a component can be used as a handle to be drag.
  */
-public interface DragableHandle {
+public interface DraggableHandle {
 }
