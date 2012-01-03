@@ -220,7 +220,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
         textR.width = size.width;
         textR.height = size.height;
-        if (label.getIcon() != null && label.getHorizontalAlignment() != RIGHT) {
+        if (label.getIcon() != null) {
             textR.width -= label.getIcon().getIconWidth() + label.getIconTextGap();
         }
 
@@ -239,6 +239,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 label.getIconTextGap());
     }
 
+    /**
+     * Gets the preferred size of the text portion of the StyledLabel including the icon.
+     *
+     * @param label the StyledLabel
+     * @return the preferred size.
+     */
     protected Dimension getPreferredSize(StyledLabel label) {
         buildStyledText(label);
 
@@ -604,7 +610,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
         Color oldColor = g.getColor();
         int textWidth = label.getWidth() - label.getInsets().left - label.getInsets().right;
-        if (label.getIcon() != null) {
+        if (label.getIcon() != null && label.getHorizontalTextPosition() != SwingConstants.CENTER) {
             textWidth -= label.getIcon().getIconWidth() + label.getIconTextGap();
         }
         paintWidth = Math.min(paintWidth, textWidth);
@@ -1095,6 +1101,17 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
     private void paintRow(StyledLabel label, Graphics g, int textX, int textY, int startOffset, int endOffset, int paintWidth, boolean lastRow) {
         if (g == null) {
             return;
+        }
+        int horizontalTextPosition = label.getHorizontalTextPosition();
+        int horizontalAlignment = label.getHorizontalAlignment();
+        if ((horizontalTextPosition == SwingConstants.TRAILING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalTextPosition == SwingConstants.LEADING && label.getComponentOrientation().isLeftToRight())) {
+            horizontalTextPosition = SwingConstants.LEFT;
+        }
+        if ((horizontalAlignment == SwingConstants.LEADING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalAlignment == SwingConstants.TRAILING && label.getComponentOrientation().isLeftToRight())) {
+            horizontalAlignment = SwingConstants.RIGHT;
+        }
+        if (label.getIcon() != null && horizontalTextPosition == SwingConstants.LEFT && horizontalAlignment == SwingConstants.RIGHT) {
+            textX -= label.getIcon().getIconWidth() + label.getIconTextGap();
         }
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
         if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
