@@ -41,6 +41,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _showCloseButton = false;
     private boolean _showCloseButtonOnTab = false;
+    private boolean _showCloseButtonOnMouseOver = false;
     private boolean _useDefaultShowCloseButtonOnTab = false;
     private boolean _showTabArea = true;
     private boolean _showTabContent = true;
@@ -137,6 +138,7 @@ public class JideTabbedPane extends JTabbedPane {
     public static final String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
     public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
     public static final String PROPERTY_SELECTED_INDEX = "selectedIndex";
+    public static final String PROPERTY_SHOW_CLOSE_BUTTON_ON_MOUSE_OVER = "showCloseButtonOnMouseOver";
 
     public static final int BUTTON_CLOSE = 0;
     public static final int BUTTON_EAST = 1;
@@ -1394,6 +1396,34 @@ public class JideTabbedPane extends JTabbedPane {
         _showCloseButtonOnSelectedTab = i;
     }
 
+    /**
+     * Gets the flag indicating if the close button should only be displayed when the mouse is over the tab.
+     *
+     * @return true if the close button should only be displayed when the mouse is over the tab. Otherwise false.
+     * @see #setShowCloseButtonOnMouseOver(boolean)
+     * @since 3.3.3
+     */
+    public boolean isShowCloseButtonOnMouseOver() {
+        return _showCloseButtonOnMouseOver;
+    }
+
+    /**
+     * Sets the flag indicating if the close button should only be displayed when the mouse is over the tab.
+     * <p/>
+     * The default value of the flag is false to keep default behavior not changed.
+     *
+     * @param showCloseButtonOnMouseOverOnly the flag
+     * @since 3.3.3
+     */
+    public void setShowCloseButtonOnMouseOver(boolean showCloseButtonOnMouseOverOnly) {
+        if (_showCloseButtonOnMouseOver != showCloseButtonOnMouseOverOnly) {
+            boolean old = _showCloseButtonOnMouseOver;
+            _showCloseButtonOnMouseOver = showCloseButtonOnMouseOverOnly;
+            updateUI();
+            firePropertyChange(PROPERTY_SHOW_CLOSE_BUTTON_ON_MOUSE_OVER, old, _showCloseButtonOnMouseOver);
+        }
+    }
+
 
     private ColorProvider _tabColorProvider;
 
@@ -2437,6 +2467,12 @@ public class JideTabbedPane extends JTabbedPane {
             }
             switch (type) {
                 case BUTTON_CLOSE:
+                    if (isShowCloseButtonOnMouseOver() && !isMouseOver()) {
+                        Object property = JideTabbedPane.this.getClientProperty("JideTabbedPane.mouseOverTabIndex");
+                        if (property instanceof Integer && getIndex() >= 0 && (Integer) property != getIndex()) {
+                            return;
+                        }
+                    }
                     if (isEnabled()) {
                         g.drawLine(centerX - 3, centerY - 3, centerX + 3, centerY + 3);
                         g.drawLine(centerX - 4, centerY - 3, centerX + 2, centerY + 3);

@@ -8969,6 +8969,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 if (closeButton == null) {
                     closeButton = createButton(JideTabbedPane.BUTTON_CLOSE);
                     _closeButtons[i] = closeButton;
+                    if (closeButton instanceof JideTabbedPane.NoFocusButton) {
+                        ((JideTabbedPane.NoFocusButton) closeButton).setIndex(i);
+                    }
                     closeButton.setBounds(0, 0, 0, 0);
                     Action action = _tabPane.getCloseAction();
                     Icon closeIcon = closeButton.getIcon();
@@ -9590,7 +9593,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected MouseListener createMouseListener() {
-        if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS || getTabShape() == JideTabbedPane.SHAPE_WINDOWS_SELECTED) {
+        if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS || getTabShape() == JideTabbedPane.SHAPE_WINDOWS_SELECTED || _tabPane.isShowCloseButtonOnMouseOver()) {
             return new RolloverMouseHandler();
         }
         else {
@@ -9603,7 +9606,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     protected MouseMotionListener createMouseMotionListener() {
-        if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS || getTabShape() == JideTabbedPane.SHAPE_WINDOWS_SELECTED) {
+        if (getTabShape() == JideTabbedPane.SHAPE_WINDOWS || getTabShape() == JideTabbedPane.SHAPE_WINDOWS_SELECTED || _tabPane.isShowCloseButtonOnMouseOver()) {
             return new RolloverMouseMotionHandler();
         }
         else {
@@ -9730,7 +9733,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     private void setMouseOverTabIndex(int index) {
-        _indexMouseOver = index;
-        _tabPane.putClientProperty("JideTabbedPane.mouseOverTabIndex", _indexMouseOver);
+        if (_indexMouseOver != index) {
+            _indexMouseOver = index;
+            _tabPane.putClientProperty("JideTabbedPane.mouseOverTabIndex", _indexMouseOver);
+/*
+            if (_tabPane.isShowCloseButtonOnMouseOver()) {
+                _tabPane.invalidate();
+                _tabPane.repaint();
+            }
+*/
+        }
     }
 }
