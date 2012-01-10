@@ -294,7 +294,6 @@ public class StyledLabelBuilder {
                 break;
             }
         }
-        boolean foundStyle = false;
         for (int i = 0; i < endOfText; i++) {
             if (escaped) {
                 labelText.append(text[i]);
@@ -308,7 +307,6 @@ public class StyledLabelBuilder {
                         labelText.append(text[i]);
                         continue;
                     }
-                    foundStyle = true;
                     int realIndex = labelText.length();
                     labelText.append(result.text);
                     if (result.text.length() > 0) {
@@ -327,12 +325,7 @@ public class StyledLabelBuilder {
                     break;
             }
         }
-        if (foundStyle) {
-            label.setText(labelText.toString());
-        }
-        else {
-            label.setText(new String(text, 0, endOfText));
-        }
+        label.setText(labelText.toString());
     }
 
     private static boolean isGlobalConfiguration(StyledLabel label, char[] text, int offset) {
