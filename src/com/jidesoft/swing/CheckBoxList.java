@@ -95,6 +95,7 @@ public class CheckBoxList extends JList {
      * <p/>
      *
      * @param dataModel the data model for this list
+     *
      * @throws IllegalArgumentException if <code>dataModel</code> is <code>null</code>
      */
     public CheckBoxList(ListModel dataModel) {
@@ -314,9 +315,11 @@ public class CheckBoxList extends JList {
             if (ALL.equals(_list.getModel().getElementAt(index))) {
                 if (!selected) {
                     _list.selectAll();
+                    _list.repaint();
                 }
                 else {
                     _list.selectNone();
+                    _list.repaint();
                 }
             }
             else {
@@ -395,6 +398,7 @@ public class CheckBoxList extends JList {
      * or false.
      *
      * @param index the row index.
+     *
      * @return true or false. If false, the check box on the particular row index will be disabled.
      */
     public boolean isCheckBoxEnabled(int index) {
@@ -406,6 +410,7 @@ public class CheckBoxList extends JList {
      * or false.
      *
      * @param index whether the check box on the row index is visible.
+     *
      * @return true or false. If false, there is not check box on the particular row index. By default, we always return
      *         true. You override this method to return true of false depending on your need.
      */
@@ -517,6 +522,7 @@ public class CheckBoxList extends JList {
      * Selects a single cell and clear all other selections.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -531,6 +537,7 @@ public class CheckBoxList extends JList {
      * Selects a single cell and keeps all previous selections.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -545,6 +552,7 @@ public class CheckBoxList extends JList {
      * Deselects a single cell.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -559,6 +567,7 @@ public class CheckBoxList extends JList {
      * Selects a set of cells.
      *
      * @param indices an array of the indices of the cells to select
+     *
      * @see ListSelectionModel#addSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
