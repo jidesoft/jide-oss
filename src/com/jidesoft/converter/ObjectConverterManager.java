@@ -112,7 +112,7 @@ public class ObjectConverterManager {
      * @return the registered converter.
      */
     public static ObjectConverter getConverter(Class<?> clazz, ConverterContext context) {
-        if (isAutoInit() && !_inited) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultConverter();
         }
 

@@ -111,7 +111,7 @@ public class ObjectComparatorManager {
      * @return the comparator.
      */
     public static Comparator getComparator(Class<?> clazz, ComparatorContext context) {
-        if (isAutoInit() && !_inited) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultComparator();
         }
 

@@ -107,7 +107,7 @@ public class ObjectGrouperManager {
      * @return the registered grouper. It could return null if there is no grouper for the type and the context.
      */
     public static ObjectGrouper getGrouper(Class<?> clazz, GrouperContext context) {
-        if (isAutoInit() && !_inited) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultGrouper();
         }
 
