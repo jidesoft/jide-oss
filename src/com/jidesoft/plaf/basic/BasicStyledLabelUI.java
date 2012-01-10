@@ -11,9 +11,11 @@ import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
 import com.jidesoft.swing.FontUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.text.View;
 import java.awt.*;
@@ -1010,7 +1012,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
         Insets insets = label.getInsets();
         int textX = leftAlignmentX;
-        int paintWidth = thisLineEndX;
+        int paintWidth = thisLineEndX - leftAlignmentX;
         if (horizontalAlignment == RIGHT) {
             paintWidth = thisLineEndX - textX;
             textX = label.getWidth() - paintWidth;
@@ -1022,7 +1024,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
         }
         else if (horizontalAlignment == CENTER) {
-            if (textX == 0) {
+            int leftMostX = 0;
+            if (horizontalTextPosition == SwingConstants.RIGHT && label.getIcon() != null) {
+                leftMostX += label.getIcon().getIconWidth() + label.getIconTextGap();
+            }
+            if (textX == leftMostX) {
                 int labelWidth = label.getWidth();
                 if (insets != null) {
                     labelWidth -= insets.right + insets.left;
@@ -1030,14 +1036,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
                 if (label.getIcon() != null && horizontalTextPosition != SwingConstants.CENTER) {
                     labelWidth -= label.getIcon().getIconWidth() + label.getIconTextGap();
-                    if (horizontalTextPosition == SwingConstants.RIGHT) {
-                        textX += label.getIcon().getIconWidth() + label.getIconTextGap();
-                    }
                 }
                 textX += (labelWidth - paintWidth) / 2;
-            }
-            else {
-                textX += (rightMostX - paintWidth) / 2;
             }
         }
         paintWidth = Math.min(paintWidth, rightMostX - leftAlignmentX);
@@ -1606,23 +1606,32 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             // visually drawn at the right location.
             textR.x -= lsb;
         }
-        int maxIconY = c.getHeight() / 2;
+        int maxIconY = viewR.height / 2;
         Insets insets = c.getInsets();
-        int leftMostX = 0;
-        int rightMostX = c.getWidth();
+        int leftMostX = viewR.x;
+        int rightMostX = viewR.width;
         rightMostX -= iconR.width;
         if (insets != null) {
             leftMostX += insets.left;
             rightMostX -= insets.right;
         }
         if (horizontalTextPosition == SwingConstants.CENTER) {
-            iconR.x = (leftMostX + rightMostX) / 2;
+            if (viewR.width < textR.width) {
+                iconR.x = (leftMostX + rightMostX) / 2;
+            }
+            else {
+                int leftMostTextX = textR.x;
+                int rightMostTextX = textR.x + textR.width - iconR.width;
+                iconR.x = textR.x + (textR.width - iconR.width) / 2;
+            }
         }
         else if (iconR.x < leftMostX) {
+            textR.x += leftMostX - iconR.x;
             iconR.x = leftMostX;
         }
         else if (iconR.x > rightMostX) {
             iconR.x = rightMostX;
+            textR.x -= iconR.x - rightMostX;
         }
         if (insets != null) {
             maxIconY -= (insets.bottom + insets.top) / 2;
