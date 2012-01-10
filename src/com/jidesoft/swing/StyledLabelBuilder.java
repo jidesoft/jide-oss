@@ -533,7 +533,7 @@ public class StyledLabelBuilder {
                     result.additionalStyle |= StyleRange.STYLE_SUPERSCRIPT;
 
                 }
-                else if (style.equals("subscipt") || style.equals("sb")) {
+                else if (style.equals("subscript") || style.equals("sb")) {
                     result.additionalStyle |= StyleRange.STYLE_SUBSCRIPT;
                 }
                 else if (builder != null && builder.styles.containsKey(style)) {
