@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class CheckBoxListSelectionModel extends DefaultListSelectionModel implements ListDataListener{
+public class CheckBoxListSelectionModel extends DefaultListSelectionModel implements ListDataListener {
     private static final long serialVersionUID = -4133723317923726786L;
     private ListModel _model;
     private boolean _checkAllEntry = true;
@@ -50,7 +50,13 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
         if (_model != null) {
             newLength = _model.getSize();
             _model.removeListDataListener(this);
-            _model.addListDataListener(this);
+            if (isCheckAllEntry()) {
+                _model.addListDataListener(this);
+                _allEntryIndex = findAllEntryIndex();
+            }
+            else {
+                _allEntryIndex = -1;
+            }
         }
         if (oldLength > newLength) {
             removeIndexInterval(newLength, oldLength);
@@ -172,7 +178,8 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
         if (index0 == _allEntryIndex || index1 == _allEntryIndex) {
             clearSelection();
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -228,6 +235,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     // implements javax.swing.ListSelectionModel
+
     @Override
     public void removeSelectionInterval(int index0, int index1) {
         if (!unselectAll(index0, index1)) {
