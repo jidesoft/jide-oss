@@ -7,7 +7,7 @@ import javax.swing.event.ListDataListener;
 public class CheckBoxListSelectionModel extends DefaultListSelectionModel implements ListDataListener {
     private static final long serialVersionUID = -4133723317923726786L;
     private ListModel _model;
-    private boolean _checkAllEntry = true;
+    private boolean _allEntryConsidered = true;
     private int _allEntryIndex = -1;
 
     public CheckBoxListSelectionModel() {
@@ -16,7 +16,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
 
     public CheckBoxListSelectionModel(ListModel model) {
         _model = model;
-        if (isCheckAllEntry()) {
+        if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
             _model.addListDataListener(this);
         }
@@ -50,7 +50,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
         if (_model != null) {
             newLength = _model.getSize();
             _model.removeListDataListener(this);
-            if (isCheckAllEntry()) {
+            if (isAllEntryConsidered()) {
                 _model.addListDataListener(this);
                 _allEntryIndex = findAllEntryIndex();
             }
@@ -65,21 +65,21 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
 
     @Override
     public void intervalAdded(ListDataEvent e) {
-        if (isCheckAllEntry()) {
+        if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
         }
     }
 
     @Override
     public void intervalRemoved(ListDataEvent e) {
-        if (isCheckAllEntry()) {
+        if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
         }
     }
 
     @Override
     public void contentsChanged(ListDataEvent e) {
-        if (isCheckAllEntry()) {
+        if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
         }
     }
@@ -115,30 +115,31 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     /**
-     * Gets the flag indicating if this CheckBoxListSelectionModel should check for CheckBoxList.ALL item.
+     * Gets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is one.
      *
      * @return true if need check. Otherwise false.
-     * @see #setCheckAllEntry(boolean)
+     * @see #setAllEntryConsidered(boolean)
      * @since 3.3.3
      */
-    public boolean isCheckAllEntry() {
-        return _checkAllEntry;
+    public boolean isAllEntryConsidered() {
+        return _allEntryConsidered;
     }
 
     /**
-     * Sets the flag indicating if this CheckBoxListSelectionModel should check for CheckBoxList.ALL item.
+     * Sets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is one.
      * <p/>
-     * By default, the flag is true. If you want to improve the performance and don't have "all" entry, please set it to false.
+     * By default, the flag is true. If you want to improve the performance and don't have "all" entry, or if you do have
+     * an entry similar to "all" entry but want to treat it as a normal entry, please set it to false.
      *
-     * @param checkAllEntry the flag
+     * @param allEntryConsidered the flag
      * @since 3.3.3
      */
-    public void setCheckAllEntry(boolean checkAllEntry) {
-        _checkAllEntry = checkAllEntry;
+    public void setAllEntryConsidered(boolean allEntryConsidered) {
+        _allEntryConsidered = allEntryConsidered;
         if (_model != null) {
             _model.removeListDataListener(this);
         }
-        if (isCheckAllEntry()) {
+        if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
             if (_model != null) {
                 _model.addListDataListener(this);
