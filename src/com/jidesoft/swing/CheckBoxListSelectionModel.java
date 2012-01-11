@@ -113,7 +113,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
      *
      * @return true if need check. Otherwise false.
      * @see #setCheckAllEntry(boolean)
-     * @since 3.3.4
+     * @since 3.3.3
      */
     public boolean isCheckAllEntry() {
         return _checkAllEntry;
@@ -125,7 +125,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
      * By default, the flag is true. If you want to improve the performance and don't have "all" entry, please set it to false.
      *
      * @param checkAllEntry the flag
-     * @since 3.3.4
+     * @since 3.3.3
      */
     public void setCheckAllEntry(boolean checkAllEntry) {
         _checkAllEntry = checkAllEntry;
