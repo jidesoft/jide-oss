@@ -56,7 +56,6 @@ public class CheckBoxList extends JList {
 
     private boolean _checkBoxEnabled = true;
     private boolean _clickInCheckBoxOnly = true;
-    private boolean _allowAllEntry = true;
 
     private CheckBoxListSelectionModel _checkBoxListSelectionModel;
     protected Handler _handler;
@@ -313,47 +312,17 @@ public class CheckBoxList extends JList {
 
             CheckBoxListSelectionModel selectionModel = _list.getCheckBoxListSelectionModel();
             boolean selected = selectionModel.isSelectedIndex(index);
-            if (_list.isAllowAllEntry() && ALL.equals(_list.getModel().getElementAt(index))) {
-                if (!selected) {
-                    _list.selectAll();
-                    _list.repaint();
-                }
-                else {
-                    _list.selectNone();
-                    _list.repaint();
-                }
+            selectionModel.removeListSelectionListener(this);
+            try {
+                if (selected)
+                    selectionModel.removeSelectionInterval(index, index);
+                else
+                    selectionModel.addSelectionInterval(index, index);
             }
-            else {
-                selectionModel.removeListSelectionListener(this);
-                try {
-                    if (selected) {
-                        selectionModel.removeSelectionInterval(index, index);
-                        if (_list.isAllowAllEntry() && ALL.equals(_list.getModel().getElementAt(0))) {
-                            selectionModel.removeSelectionInterval(0, 0);
-                        }
-                    }
-                    else {
-                        selectionModel.addSelectionInterval(index, index);
-                        if (_list.isAllowAllEntry() && ALL.equals(_list.getModel().getElementAt(0)) && isAllSelected(_list)) {
-                            selectionModel.addSelectionInterval(0, 0);
-                        }
-                    }
-                }
-                finally {
-                    selectionModel.addListSelectionListener(this);
-                    _list.repaint();
-                }
+            finally {
+                selectionModel.addListSelectionListener(this);
+                _list.repaint();
             }
-        }
-
-        private boolean isAllSelected(CheckBoxList list) {
-            CheckBoxListSelectionModel model = list.getCheckBoxListSelectionModel();
-            for (int i = 1; i < list.getModel().getSize(); i++) {
-                if (!model.isSelectedIndex(i)) {
-                    return false;
-                }
-            }
-            return true;
         }
 
         protected void toggleSelection() {
@@ -494,7 +463,7 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public int[] getCheckBoxListSelectedIndices() {
-        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        CheckBoxListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
         int iMin = listSelectionModel.getMinSelectionIndex();
         int iMax = listSelectionModel.getMaxSelectionIndex();
 
@@ -505,7 +474,7 @@ public class CheckBoxList extends JList {
         int[] temp = new int[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (isAllowAllEntry() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
+            if (listSelectionModel.isCheckAllEntry() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {
@@ -642,7 +611,7 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public Object[] getCheckBoxListSelectedValues() {
-        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        CheckBoxListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
         ListModel model = getModel();
 
         int iMin = listSelectionModel.getMinSelectionIndex();
@@ -655,7 +624,7 @@ public class CheckBoxList extends JList {
         Object[] temp = new Object[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (isAllowAllEntry() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
+            if (listSelectionModel.isCheckAllEntry() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {
@@ -856,19 +825,5 @@ public class CheckBoxList extends JList {
         Dimension size = super.getPreferredScrollableViewportSize();
         return size != null && size.width > 0 && size.height > 0 ? JideSwingUtilities.adjustPreferredScrollableViewportSize(this, size) : size;
 
-    }
-
-    /**
-     * Not for public use. Will be removed soon.
-     */
-    public boolean isAllowAllEntry() {
-        return _allowAllEntry;
-    }
-
-    /**
-     * Not for public use. Will be removed soon.
-     */
-    public void setAllowAllEntry(boolean allowAllEntry) {
-        _allowAllEntry = allowAllEntry;
     }
 }
