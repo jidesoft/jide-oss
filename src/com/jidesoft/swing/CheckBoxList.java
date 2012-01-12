@@ -474,7 +474,7 @@ public class CheckBoxList extends JList {
         int[] temp = new int[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (listSelectionModel.isCheckAllEntry() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
+            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {
@@ -624,7 +624,7 @@ public class CheckBoxList extends JList {
         Object[] temp = new Object[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (listSelectionModel.isCheckAllEntry() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
+            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {
