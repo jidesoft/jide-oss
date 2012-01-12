@@ -1,5 +1,5 @@
 /*
- * @(#)IconBorder.java 1/10/2012
+ * @(#)IconBorder.java 1/11/2012
  *
  * Copyright 2002 - 2012 JIDE Software Inc. All rights reserved.
  */
@@ -17,7 +17,7 @@ import java.awt.*;
  * This border is useful when attempting to add Icons to pre-existing components without requiring specialty painting.
  * For example, use in the CellStyle to decorate the cell renderer with an icon.
  *
- * @since 3.3.4
+ * @since 3.3.3
  */
 public class IconBorder extends MatteBorder {
     private static final long serialVersionUID = -5657747462265533365L;
