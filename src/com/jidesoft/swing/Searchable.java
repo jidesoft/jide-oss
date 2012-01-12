@@ -153,6 +153,10 @@ public abstract class Searchable {
      * @param component component where the Searchable will be installed.
      */
     public Searchable(JComponent component) {
+        Searchable searchable = getSearchable(component);
+        if (searchable != null) {
+            SearchableUtils.uninstallSearchable(searchable);
+        }
         _previousSearchText = null;
         _component = component;
         _selection = new HashSet<Integer>();
@@ -167,6 +171,10 @@ public abstract class Searchable {
      * @param searchableProvider the Searchable Provider.
      */
     public Searchable(JComponent component, SearchableProvider searchableProvider) {
+        Searchable searchable = getSearchable(component);
+        if (searchable != null) {
+            SearchableUtils.uninstallSearchable(searchable);
+        }
         _searchableProvider = searchableProvider;
         _previousSearchText = null;
         _component = component;
