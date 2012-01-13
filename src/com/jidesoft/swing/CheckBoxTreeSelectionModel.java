@@ -48,6 +48,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     public void setModel(TreeModel model) {
         if (_model != model) {
+            clearSelection();
             if (_model != null) {
                 _model.removeTreeModelListener(this);
             }
