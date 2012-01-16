@@ -718,15 +718,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (styledText.text.contains("\r") || styledText.text.contains("\n")) {
                     boolean lastRow = (label.getMaxRows() > 0 && rowCount >= label.getMaxRows()) || textY + maxRowHeight + Math.max(0, label.getRowGap()) > labelHeight;
                     if (horizontalAlignment != LEFT && g != null) {
-                        paintRow(label, g, startX, x, endX, textY, rowStartOffset, style.getStart() + Math.min(nextRowStartIndex, styledText.text.length()), lastRow);
+                        if (lastRow && i != _styledTexts.size() - 1) {
+                            x += fm.stringWidth("...");
+                        }
+                        paintRow(label, g, startX, x, endX, textY, rowStartOffset, style.getStart() + styledText.text.length(), lastRow);
                     }
-                    textY += maxRowHeight + Math.max(0, label.getRowGap());
-                    x = startX;
-                    rowCount++;
-                    rowStartOffset = style.getStart() + style.getLength();
-                    if (lastRow) {
-                        break;
-                    }
+                    rowStartOffset = style.getStart();
                     nextRowStartIndex = 0;
                     if (i < _styledTexts.size() - 1) {
                         StyledText nextStyledText = _styledTexts.get(i + 1);
@@ -741,7 +738,16 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             nextFm2 = fm;
                         }
                     }
-                    continue;
+                    if (!lastRow) {
+                        rowStartOffset += style.getLength();
+                        rowCount++;
+                        x = startX;
+                        textY += maxRowHeight + Math.max(0, label.getRowGap());
+                        continue; // continue to paint "..." if lastRow is true
+                    }
+                    else if (horizontalAlignment != LEFT && g != null) {
+                        break;
+                    }
                 }
 
                 y = textY;
@@ -767,11 +773,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     g.setFont(font);
                 }
 
+                boolean stop = false;
                 String s = styledText.text.substring(Math.min(nextRowStartIndex, styledText.text.length()));
+                if (s.contains("\r") || s.contains("\n")) {
+                    s = "...";
+                    stop = true;
+                }
 
                 int strWidth = fm2.stringWidth(s);
 
-                boolean stop = false;
                 boolean wrapped = false;
                 int widthLeft = endX - x;
                 if (widthLeft < strWidth) {
@@ -1109,6 +1119,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
             if (s.length() > paintLength) {
                 s = s.substring(0, paintLength);
+            }
+            if (s.contains("\r") || s.contains("\n")) {
+                s = "...";
             }
 
             int strWidth = fm2.stringWidth(s);
