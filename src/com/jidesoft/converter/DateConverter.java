@@ -150,7 +150,7 @@ public class DateConverter implements ObjectConverter {
                             return _longDatetimeFormat.parse(string);
                         }
                         catch (ParseException e4) {
-                            return string;  // nothing works just return null so that old value will be kept.
+                            // null
                         }
                     }
                 }
@@ -186,12 +186,26 @@ public class DateConverter implements ObjectConverter {
                             return _longFormat.parse(string);
                         }
                         catch (ParseException e4) {
-                            return string;  // nothing works just return null so that old value will be kept.
+                            // null
                         }
                     }
                 }
             }
         }
+
+        // try other default formats
+        String[] formatStrings = {"yyyy-mm-dd", "yy-mm-dd", "yyyymmdd", "yymmdd", "dd-MMM-yy", "dd-MMM-yyyy"};
+        SimpleDateFormat sdf;
+        for (String formatString : formatStrings) {
+            try {
+                sdf = new SimpleDateFormat(formatString);
+                return sdf.parse(string);
+            }
+            catch (ParseException ex) {
+                // break;
+            }
+        }
+        return string;  // nothing works just return null so that old value will be kept.
     }
 
     public boolean supportFromString(String string, ConverterContext context) {
