@@ -303,6 +303,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     maxWidth = Math.max(width, maxWidth);
                     width = 0;
                     naturalRowCount++;
+                    if (naturalRowCount >= label.getMaxRows()) {
+                        break;
+                    }
                     continue;
                 }
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
