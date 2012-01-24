@@ -19,6 +19,7 @@ import com.jidesoft.plaf.office2007.Office2007WindowsUtils;
 import com.jidesoft.plaf.vsnet.VsnetMetalUtils;
 import com.jidesoft.plaf.vsnet.VsnetWindowsUtils;
 import com.jidesoft.plaf.xerto.XertoMetalUtils;
+import com.jidesoft.plaf.xerto.XertoPainter;
 import com.jidesoft.plaf.xerto.XertoWindowsUtils;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
@@ -771,10 +772,12 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
             }
 
-            if (uiDefaults.get("Theme.painter") == null) {
+            if (style == EXTENSION_STYLE_XERTO || style == EXTENSION_STYLE_XERTO_WITHOUT_MENU) {
+                uiDefaults.put("Theme.painter", XertoPainter.getInstance());
+            }
+            else {
                 uiDefaults.put("Theme.painter", BasicPainter.getInstance());
             }
-
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
             switch (style) {
