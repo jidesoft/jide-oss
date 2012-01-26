@@ -88,7 +88,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
                         if (removedListener != null) {
                             model.addListDataListener(removedListener);
                         }
-                        if (comboBox.getClass().getName().equals(JComboBox.class.getName())) { // only cover the JComboBox for now but not the subclass of JComboBox because don't want dependency on ExComboBox in JCL
+                        if (!comboBox.getUI().getClass().getName().contains("ExComboBoxUI")) { // only cover the JComboBox for now but not the subclass of JComboBox because don't want dependency on ExComboBox in JCL
                             comboBox.hidePopup();
                         }
                         comboBox.showPopup();
@@ -166,24 +166,11 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         if (((JComboBox) _component).getSelectedIndex() != index) {
             ((JComboBox) _component).setSelectedIndex(index);
         }
-        if (isRefreshPopupDuringSearching()) {
-            boolean old = isHideSearchPopupOnEvent();
-            setHideSearchPopupOnEvent(false);
-            ((JComboBox) _component).hidePopup();
-            setHideSearchPopupOnEvent(old);
-        }
-        if (isShowPopupDuringSearching() || isRefreshPopupDuringSearching()) {
-            try {
-                if (!((JComboBox) _component).isPopupVisible() &&
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null &&
-                        SwingUtilities.isDescendingFrom(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner(), _component)) {
-                    ((JComboBox) _component).showPopup();
-                }
-            }
-            catch (IllegalComponentStateException e) {
-                //null
-            }
-        }
+        boolean old = isHideSearchPopupOnEvent();
+        setHideSearchPopupOnEvent(false);
+        ((JComboBox) _component).hidePopup();
+        setHideSearchPopupOnEvent(old);
+        ((JComboBox) _component).showPopup();
     }
 
     @Override

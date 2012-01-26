@@ -1017,6 +1017,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         return screenDim;
     }
 
+    /**
+     * Packs the popup. Setting size only if it's a light weight popup. Otherwise do pack.
+     */
     public void packPopup() {
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             if (_panel == null) {
