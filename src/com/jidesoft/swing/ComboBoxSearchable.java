@@ -88,8 +88,9 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
                         if (removedListener != null) {
                             model.addListDataListener(removedListener);
                         }
-                        comboBox.hidePopup();
-                        comboBox.showPopup();
+                        if (!comboBox.isPopupVisible()) {
+                            comboBox.showPopup();
+                        }
                     }
                 }
             });
