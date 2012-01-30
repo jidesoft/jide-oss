@@ -212,9 +212,9 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
 
 
     /**
-     * A subclass of DefaultListCellRenderer that implements UIResource. DefaultListCellRenderer doesn't implement
+     * A subclass of CheckBoxListCellRenderer that implements UIResource. CheckBoxListCellRenderer doesn't implement
      * UIResource directly so that applications can safely override the cellRenderer property with
-     * DefaultListCellRenderer subclasses.
+     * CheckBoxListCellRenderer subclasses.
      * <p/>
      * <strong>Warning:</strong> Serialized objects of this class will not be compatible with future Swing releases. The
      * current serialization support is appropriate for short term storage or RMI between applications running the same

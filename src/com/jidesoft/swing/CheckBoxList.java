@@ -111,6 +111,11 @@ public class CheckBoxList extends JList {
         }
     }
 
+    @Override
+    public void updateUI() {
+        super.updateUI();
+    }
+
     /**
      * Initialize the CheckBoxList.
      */
@@ -148,7 +153,7 @@ public class CheckBoxList extends JList {
      * @return the cell renderer.
      */
     protected CheckBoxListCellRenderer createCellRenderer() {
-        return new CheckBoxListCellRenderer.UIResource();
+        return new CheckBoxListCellRenderer();
     }
 
     /**
