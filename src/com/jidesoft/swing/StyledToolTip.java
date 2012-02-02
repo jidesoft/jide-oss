@@ -53,7 +53,7 @@ public class StyledToolTip extends JToolTip {
     public void setTipText(String tipText) {
         super.setTipText(tipText != null ? "" : null);
 
-        StyledLabelBuilder.setStyledText(label, tipText);
+        StyledLabelBuilder.setStyledText(label, tipText != null ? tipText : "");
         revalidate();
     }
 }
