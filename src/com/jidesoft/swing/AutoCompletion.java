@@ -428,6 +428,39 @@ public class AutoCompletion {
                 }
                 else { // didn't find a matching one
                     if (isStrict()) {
+                        if (offs == 0 && text.equals(str)) {
+                            getSearchable().textChanged("");
+                            index = getSearchable().findFromCursor(text);
+                            if (index != -1) {
+                                item = getSearchable().getElementAt(index);
+                                setSelectedItem(item);
+                                setText(getSearchable().convertElementToString(item)); // this is what auto complete is
+                                // select the completed part
+                                highlightCompletedText(offs + str.length());
+                            }
+                            else { // didn't find a matching one
+                                if (isStrict()) {
+                                    index = getSearchable().getSelectedIndex();
+                                    if (index == -1) {
+                                        if (getSearchable().getElementCount() > 0) {
+                                            index = 0;
+                                            getSearchable().setSelectedIndex(0, false);
+                                        }
+                                    }
+
+                                    if (index != -1) {
+                                        item = getSearchable().getElementAt(index);
+                                        offs = offs - str.length();
+                                        // imitate no insert (later on offs will be incremented by str.length(): selection won't move forward)
+                                        PortingUtils.notifyUser(_textComponent);
+                                        setText(getSearchable().convertElementToString(item));
+                                        // select the completed part
+                                        highlightCompletedText(offs + str.length());
+                                    }
+                                }
+                            }
+                            return;
+                        }
                         index = getSearchable().getSelectedIndex();
                         if (index == -1) {
                             if (getSearchable().getElementCount() > 0) {
