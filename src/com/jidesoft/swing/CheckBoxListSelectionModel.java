@@ -9,6 +9,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     private ListModel _model;
     private boolean _allEntryConsidered = true;
     private int _allEntryIndex = -1;
+    private boolean _allEntryIndexSet = false;
 
     public CheckBoxListSelectionModel() {
         setSelectionMode(MULTIPLE_INTERVAL_SELECTION);
@@ -21,6 +22,30 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
             _model.addListDataListener(this);
         }
         setSelectionMode(MULTIPLE_INTERVAL_SELECTION);
+    }
+
+    /**
+     * Gets the index of the "all" entry in the CheckBoxList.
+     *
+     * @return the index of the "all" entry. -1 if no "all" entry exists.
+     * @see #setAllEntryIndex(int)
+     * @since 3.3.5
+     */
+    public int getAllEntryIndex() {
+        return _allEntryIndex;
+    }
+
+    /**
+     * Sets the index of the "all" entry in the CheckBoxList.
+     * <p/>
+     * If the CheckBoxList has an "all" entry, check that entry on/off will check/uncheck all other entries. Uncheck any
+     * other entry will uncheck the "all" entry.
+     *
+     * @param allEntryIndex the index of the "all" entry.
+     */
+    public void setAllEntryIndex(int allEntryIndex) {
+        _allEntryIndex = allEntryIndex;
+        _allEntryIndexSet = _allEntryIndex != -1;
     }
 
     private int findAllEntryIndex() {
@@ -54,7 +79,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
                 _model.addListDataListener(this);
                 _allEntryIndex = findAllEntryIndex();
             }
-            else {
+            else if (!_allEntryIndexSet) {
                 _allEntryIndex = -1;
             }
         }
@@ -153,17 +178,17 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     @Override
     public boolean isSelectedIndex(int index) {
         boolean selected = super.isSelectedIndex(index);
-        return selected || (_allEntryIndex >= 0 && super.isSelectedIndex(_allEntryIndex));
+        return selected || (getAllEntryIndex() >= 0 && super.isSelectedIndex(getAllEntryIndex()));
     }
 
     private boolean selectAll(int index0, int index1) {
-        if (_allEntryIndex < 0) {
+        if (getAllEntryIndex() < 0) {
             return false;
         }
         if ((index0 == 0 && index1 == getModel().getSize() - 1) || (index1 == 0 && index0 == getModel().getSize() - 1)) {
             return false;
         }
-        if ((index0 >= _allEntryIndex && index1 <= _allEntryIndex) || (index1 >= _allEntryIndex && index0 <= _allEntryIndex)) {
+        if ((index0 >= getAllEntryIndex() && index1 <= getAllEntryIndex()) || (index1 >= getAllEntryIndex() && index0 <= getAllEntryIndex())) {
             setSelectionInterval(0, getModel().getSize() - 1);
             return true;
         }
@@ -173,10 +198,10 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     private boolean unselectAll(int index0, int index1) {
-        if (_allEntryIndex < 0) {
+        if (getAllEntryIndex() < 0) {
             return false;
         }
-        if (index0 == _allEntryIndex || index1 == _allEntryIndex) {
+        if (index0 == getAllEntryIndex() || index1 == getAllEntryIndex()) {
             clearSelection();
             return true;
         }
@@ -186,15 +211,15 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     private void selectAllIf() {
-        if (_allEntryIndex < 0) {
+        if (getAllEntryIndex() < 0) {
             return;
         }
         for (int i = getModel().getSize() - 1; i >= 0; i--) {
-            if (i != _allEntryIndex && !isSelectedIndex(i)) {
+            if (i != getAllEntryIndex() && !isSelectedIndex(i)) {
                 return;
             }
         }
-        super.addSelectionInterval(_allEntryIndex, _allEntryIndex);
+        super.addSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
     }
 
     @Override
@@ -208,11 +233,11 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     @Override
     public int getMinSelectionIndex() {
         int index = super.getMinSelectionIndex();
-        if (_allEntryIndex < 0) {
+        if (getAllEntryIndex() < 0) {
             return index;
         }
-        if (super.isSelectedIndex(_allEntryIndex) && _allEntryIndex == 0) {
-            return 1; // todo: should return _allEntryIndex or not?
+        if (super.isSelectedIndex(getAllEntryIndex()) && getAllEntryIndex() == 0) {
+            return 1;
         }
         return index;
     }
@@ -240,8 +265,8 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     @Override
     public void removeSelectionInterval(int index0, int index1) {
         if (!unselectAll(index0, index1)) {
-            if (_allEntryIndex >= 0) {
-                super.removeSelectionInterval(_allEntryIndex, _allEntryIndex);
+            if (getAllEntryIndex() >= 0) {
+                super.removeSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
             }
             super.removeSelectionInterval(index0, index1);
         }
