@@ -82,7 +82,6 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
                                                   boolean isSelected,
                                                   boolean cellHasFocus) {
 
-        _checkBox.setPreferredSize(new Dimension(_checkBox.getPreferredSize().width, 0));
         applyComponentOrientation(list.getComponentOrientation());
         setLocale(list.getLocale());
 
