@@ -809,6 +809,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         Component actualOwner = (owner != null) ? owner : getOwner();
         Dimension ownerSize = actualOwner != null ? actualOwner.getSize() : new Dimension(0, 0);
         Dimension screenSize = PortingUtils.getScreenSize(owner);
+        Rectangle screenBounds = PortingUtils.getScreenBounds(owner);
 
         if (size.width == 0) {
             size = this.getPreferredSize();
@@ -820,10 +821,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
         if (left > screenSize.width) {
             p.x -= left - screenSize.width; // move left so that the whole popup can fit in
+            if (p.x < screenBounds.x) {
+                p.x = screenBounds.x;
+            }
         }
 
         if (bottom > screenSize.height) {
             p.y = point.y + _insets.top - size.height; // flip to upward
+            if (p.y < screenBounds.y) {
+                p.y = screenBounds.y;
+            }
             if (isResizable()) {
                 setupResizeCorner(Resizable.UPPER_RIGHT);
             }
