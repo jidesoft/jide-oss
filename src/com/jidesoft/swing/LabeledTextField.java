@@ -31,9 +31,11 @@ public class LabeledTextField extends JPanel {
     protected String _labelText;
     protected Icon _icon;
     protected String _hintText;
+    protected boolean _showHintTextWhenFocused = false;
     protected JLabel _hintLabel;
     protected PopupMenuCustomizer _customizer;
     protected KeyStroke _contextMenuKeyStroke;
+    private DefaultOverlayable _hintOverlayable;
 
     /**
      * The PopupMenuCustomizer for the context menu when clicking on the label/icon before the text field.
@@ -86,10 +88,10 @@ public class LabeledTextField extends JPanel {
     private void registerContextMenuKeyStroke(KeyStroke keyStroke) {
         if (keyStroke != null) {
             registerKeyboardAction(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            showContextMenu();
-                        }
-                    }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                public void actionPerformed(ActionEvent e) {
+                    showContextMenu();
+                }
+            }, keyStroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         }
     }
 
@@ -135,38 +137,66 @@ public class LabeledTextField extends JPanel {
             foreground = Color.GRAY;
         }
         _hintLabel.setForeground(foreground);
-        final DefaultOverlayable overlayable = new DefaultOverlayable(field, _hintLabel, DefaultOverlayable.WEST);
-        overlayable.setOpaque(false);
+        _hintOverlayable = new DefaultOverlayable(field, _hintLabel, DefaultOverlayable.WEST);
+        _hintOverlayable.setOpaque(false);
         field.addFocusListener(new FocusListener() {
             public void focusLost(FocusEvent e) {
-                adjustOverlay(field, overlayable);
+                adjustOverlay(field, _hintOverlayable);
             }
 
             public void focusGained(FocusEvent e) {
-                adjustOverlay(field, overlayable);
+                adjustOverlay(field, _hintOverlayable);
             }
         });
         field.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                adjustOverlay(field, overlayable);
+                adjustOverlay(field, _hintOverlayable);
             }
 
             public void removeUpdate(DocumentEvent e) {
-                adjustOverlay(field, overlayable);
+                adjustOverlay(field, _hintOverlayable);
             }
 
             public void changedUpdate(DocumentEvent e) {
-                adjustOverlay(field, overlayable);
+                adjustOverlay(field, _hintOverlayable);
             }
         });
-        add(overlayable);
+        add(_hintOverlayable);
         if (button != null) {
             add(button, BorderLayout.AFTER_LINE_ENDS);
         }
     }
 
-    private void adjustOverlay(JTextField field, DefaultOverlayable overlayable) {
-        if (field.hasFocus()) {
+    /**
+     * Checks if the hint text will still be shown when the text field has focus. By default, the hint text is only
+     * shown when the text field doesn't have focus.
+     *
+     * @return true or false.
+     *
+     * @since 3.3.6
+     */
+    public boolean isShowHintTextWhenFocused() {
+        return _showHintTextWhenFocused;
+    }
+
+    /**
+     * Sets the flag if the hint text will still be shown when the text field has focus. By default, the hint text is
+     * only shown when the text field doesn't have focus. If you set it to true, the hint text will always be shown
+     * regardless if the text field has focus.
+     *
+     * @param showHintTextWhenFocused true or false.
+     *
+     * @since 3.3.6
+     */
+    public void setShowHintTextWhenFocused(boolean showHintTextWhenFocused) {
+        _showHintTextWhenFocused = showHintTextWhenFocused;
+        if (_textField != null && _hintOverlayable != null) {
+            adjustOverlay(_textField, _hintOverlayable);
+        }
+    }
+
+    private void adjustOverlay(JTextField field, Overlayable overlayable) {
+        if (field.hasFocus() && !isShowHintTextWhenFocused()) {
             overlayable.setOverlayVisible(false);
         }
         else {
@@ -400,19 +430,19 @@ public class LabeledTextField extends JPanel {
             _hintLabel.setVisible(isEnabled() && textEmpty);
         }
         JTextField textField = getTextField();
-        if(textField != null) {
+        if (textField != null) {
             // this probably won't work with L&F which ignore the background property like GTK L&F
             setBackground(textField.getBackground());
             setForeground(textField.getForeground());
         }
         else {
-            if(enabled) {
+            if (enabled) {
                 setBackground(UIDefaultsLookup.getColor("TextField.background"));
                 setForeground(UIDefaultsLookup.getColor("TextField.foreground"));
             }
             else {
                 Color background = UIDefaultsLookup.getColor("TextField.disabledBackground");
-                if(background == null) {
+                if (background == null) {
                     // TextField.disabledBackground not defined by metal
                     background = UIDefaultsLookup.getColor("TextField.inactiveBackground");
                     // Nimbus uses TextField[Disabled].backgroundPainter (not a Color)
