@@ -356,6 +356,9 @@ public class ObjectComparatorManager {
             Collator caseInsensitiveCollator = Collator.getInstance();
             caseInsensitiveCollator.setStrength(Collator.PRIMARY);
             registerComparator(String.class, caseInsensitiveCollator, new ComparatorContext("Ignorecase"));
+            Collator secondaryCollator = Collator.getInstance();
+            secondaryCollator.setStrength(Collator.SECONDARY);
+            registerComparator(String.class, secondaryCollator, new ComparatorContext("Secondary"));
             registerComparator(CharSequence.class, new CharSequenceComparator(), CharSequenceComparator.CONTEXT);
             registerComparator(CharSequence.class, new CharSequenceComparator(false), CharSequenceComparator.CONTEXT_IGNORE_CASE);
             registerComparator(CharSequence.class, new AlphanumComparator(), AlphanumComparator.CONTEXT);
