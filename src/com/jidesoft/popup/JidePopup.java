@@ -1370,6 +1370,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void showPopupImmediately() {
+        boolean needFireEvents = true;
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             if (_panel == null) {
                 return;
@@ -1377,14 +1378,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
             _panel.applyComponentOrientation(getComponentOrientation());
 
-            firePopupMenuWillBecomeVisible();
+            if (_panel.isVisible()) {
+                needFireEvents = false;
+            }
+            if (needFireEvents) {
+                firePopupMenuWillBecomeVisible();
+            }
 
             if (!_panel.isVisible()) {
                 packPopup();
                 _panel.setVisible(true);
             }
 
-            firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            if (needFireEvents) {
+                firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            }
 
             if (isFocusable() || getDefaultFocusComponent() != null) {
                 // only allow window to have focus when there is a default focus component.
@@ -1405,9 +1413,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (_window == null) {
                 return;
             }
+            if (_window.isVisible()) {
+                needFireEvents = false;
+            }
             _window.applyComponentOrientation(getComponentOrientation());
 
-            firePopupMenuWillBecomeVisible();
+            if (needFireEvents) {
+                firePopupMenuWillBecomeVisible();
+            }
 
             // only when the focus cycle root is true, the component in JidePopup won't request focus automatically.
             if (!isFocusable() && getDefaultFocusComponent() == null) {
@@ -1422,7 +1435,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 _window.setVisible(true);
             }
 
-            firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            if (needFireEvents) {
+                firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            }
 
             if (isFocusable() || getDefaultFocusComponent() != null) {
                 // only allow window to have focus when there is a default focus component.
