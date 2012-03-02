@@ -183,6 +183,11 @@ public class NumericRange extends AbstractNumericRange<Double> {
     }
 
     @Override
+    public int hashCode() {
+        return (int)(_max * 29 + _min);
+    }
+
+    @Override
     public String toString() {
         return String.format("#<NumericRange min=%f max=%f>", _min, _max);
     }

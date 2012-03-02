@@ -180,6 +180,11 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     @Override
+    public int hashCode() {
+        return (_max == null ? 0 : _max.hashCode()) * 29 + (_min == null ? 0 : _min.hashCode());
+    }
+
+    @Override
     public String toString() {
         DateFormat f = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
         return String.format("[%s, %s] rounded to [%s, %s]", _min == null ? "null" : f.format(_min), _max == null ? "null" : f.format(_max), _min == null ? "null" : f.format(minimum()), _max == null ? "null" : f.format(maximum()));

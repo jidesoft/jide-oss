@@ -153,6 +153,11 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
     }
 
     @Override
+    public int hashCode() {
+        return _max * 29 + _min;
+    }
+
+    @Override
     public String toString() {
         return String.format("#<IntegerRange min=%d max=%d>", _min, _max);
     }
