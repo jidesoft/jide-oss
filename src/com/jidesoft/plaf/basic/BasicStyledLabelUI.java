@@ -188,6 +188,20 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         }
     }
 
+    private boolean _gettingPreferredSize;
+    @Override
+    public Dimension getPreferredSize(JComponent c) {
+        _gettingPreferredSize = true;
+        Dimension preferredSize;
+        try {
+            preferredSize = super.getPreferredSize(c);
+        }
+        finally {
+            _gettingPreferredSize = false;
+        }
+        return preferredSize;
+    }
+
     @Override
     protected String layoutCL(JLabel label, FontMetrics fontMetrics, String text, Icon icon, Rectangle viewR, Rectangle iconR, Rectangle textR) {
         Dimension size = null;
@@ -351,6 +365,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             // label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && rowCount < label.getMinRows(), recalculate the maximum width according to the minimum rows
             if (lineWrap && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && _preferredRowCount < label.getMinRows()) {
                 maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getMinRows());
+            }
+            if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows()) {
+                _preferredRowCount = label.getRows();
             }
             Dimension dimension = new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
             if (label.getIcon() != null) {
