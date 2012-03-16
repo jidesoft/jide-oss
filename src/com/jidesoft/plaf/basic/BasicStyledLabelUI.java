@@ -11,11 +11,9 @@ import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
 import com.jidesoft.swing.FontUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.text.View;
 import java.awt.*;
@@ -1068,17 +1066,15 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (horizontalTextPosition == SwingConstants.RIGHT && label.getIcon() != null) {
                 leftMostX += label.getIcon().getIconWidth() + label.getIconTextGap();
             }
-            if (textX == leftMostX) {
-                int labelWidth = label.getWidth();
-                if (insets != null) {
-                    labelWidth -= insets.right + insets.left;
-                    textX += insets.left;
-                }
-                if (label.getIcon() != null && horizontalTextPosition != SwingConstants.CENTER) {
-                    labelWidth -= label.getIcon().getIconWidth() + label.getIconTextGap();
-                }
-                textX += (labelWidth - paintWidth) / 2;
+            int labelWidth = label.getWidth();
+            if (insets != null) {
+                labelWidth -= insets.right + insets.left;
+                leftMostX += insets.left;
             }
+            if (label.getIcon() != null && horizontalTextPosition != SwingConstants.CENTER) {
+                labelWidth -= label.getIcon().getIconWidth() + label.getIconTextGap();
+            }
+            textX = leftMostX + (labelWidth - paintWidth) / 2;
         }
         paintWidth = Math.min(paintWidth, rightMostX - leftAlignmentX);
 
@@ -1115,7 +1111,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (mnemonicIndex >= 0 && styledText.text.length() - nextRowStartIndex > mnemonicIndex - charDisplayed) {
                 displayMnemonic = true;
                 mneIndex = mnemonicIndex - charDisplayed;
-            } else {
+            }
+            else {
                 displayMnemonic = false;
             }
             int paintLength = styledText.text.length() - nextRowStartIndex;
@@ -1134,10 +1131,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (style != null && ((style.getFontStyle() != -1 && font.getStyle() != style.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, style.getFontStyle() == -1 ? font.getStyle() : style.getFontStyle(), size);
                     fm2 = label.getFontMetrics(font);
-                } else {
+                }
+                else {
                     fm2 = fm;
                 }
-            } else {
+            }
+            else {
                 fm2 = nextFm2;
             }
 
@@ -1151,6 +1150,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 s = s.substring(0, paintLength);
             }
             if (s.contains("\r") || s.contains("\n")) {
+                if (styledText.styleRange.getStart() + styledText.styleRange.getLength() >= endOffset) {
+                    break;
+                }
                 s = "...";
             }
 
@@ -1189,7 +1191,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             System.err.println("Painting Styled Label Error: " + styledText);
                             break;
                         }
-                    } while (strWidth > widthLeft && availLength > 0);
+                    }
+                    while (strWidth > widthLeft && availLength > 0);
                     while (nextRowStartIndexInSubString < nextWordStartIndex) {
                         strWidth += fm2.charWidth(s.charAt(nextRowStartIndexInSubString));
                         if (strWidth >= widthLeft) {
@@ -1204,21 +1207,25 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         if (mnemonicIndex >= 0 && s.length() > mnemonicIndex - charDisplayed) {
                             displayMnemonic = true;
                             mneIndex = mnemonicIndex - charDisplayed;
-                        } else {
+                        }
+                        else {
                             displayMnemonic = false;
                         }
                     }
                     charDisplayed += s.length();
                     nextRowStartIndex += nextRowStartIndexInSubString;
-                } else {
+                }
+                else {
                     // use this method to clip string
                     s = SwingUtilities.layoutCompoundLabel(label, fm2, s, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
                             label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x, y, widthLeft, label.getHeight()), new Rectangle(), new Rectangle(), 0);
                     strWidth = fm2.stringWidth(s);
                 }
-            } else if (label.isLineWrap()) {
+            }
+            else if (label.isLineWrap()) {
                 nextRowStartIndex = 0;
-            } else if (i < _styledTexts.size() - 1) {
+            }
+            else if (i < _styledTexts.size() - 1) {
                 StyledText nextStyledText = _styledTexts.get(i + 1);
                 String nextText = nextStyledText.text;
                 StyleRange nextStyle = nextStyledText.styleRange;
@@ -1229,7 +1236,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 if (nextStyle != null && ((nextStyle.getFontStyle() != -1 && font.getStyle() != nextStyle.getFontStyle()) || font.getSize() != size)) {
                     font = FontUtils.getCachedDerivedFont(font, nextStyle.getFontStyle() == -1 ? font.getStyle() : nextStyle.getFontStyle(), size);
                     nextFm2 = label.getFontMetrics(font);
-                } else {
+                }
+                else {
                     nextFm2 = fm;
                 }
                 if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
@@ -1261,7 +1269,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
             if (displayMnemonic) {
                 JideSwingUtilities.drawStringUnderlineCharAt(label, g, s, mneIndex, x, y);
-            } else {
+            }
+            else {
                 JideSwingUtilities.drawString(label, g, s, x, y);
             }
 
@@ -1659,10 +1668,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int leftMostX = viewR.x;
         int rightMostX = viewR.width;
         rightMostX -= iconR.width;
-        if (insets != null) {
-            leftMostX += insets.left;
-            rightMostX -= insets.right;
-        }
         if (horizontalTextPosition == SwingConstants.CENTER) {
             if (viewR.width < textR.width) {
                 iconR.x = (leftMostX + rightMostX) / 2;
