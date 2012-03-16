@@ -1160,6 +1160,9 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
             int widthLeft = paintWidth + textX - x;
             if (widthLeft < strWidth) {
+                if (strWidth <= 0) {
+                    return;
+                }
                 if (label.isLineWrap() && !lastRow) {
                     int availLength = s.length() * widthLeft / strWidth + 1;
                     int nextWordStartIndex;
@@ -1179,12 +1182,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                         String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
                         strWidth = fm2.stringWidth(subStringThisRow);
                         if (strWidth > widthLeft) {
-                            if (strWidth > 0) {
-                                availLength = subString.length() * widthLeft / strWidth;
-                            }
-                            else {
-                                availLength = 0;
-                            }
+                            availLength = subString.length() * widthLeft / strWidth;
                         }
                         loopCount++;
                         if (loopCount > 50) {
