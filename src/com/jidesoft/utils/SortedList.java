@@ -38,11 +38,14 @@ public class SortedList<E> implements List<E> {
     }
 
     public boolean addAll(Collection<? extends E> c) {
-        return delegate.addAll(c);
+        for (E o : c) {
+            add(o);
+        }
+        return true;
     }
 
     public boolean addAll(int index, Collection<? extends E> c) {
-        return delegate.addAll(index, c);
+        return addAll(c);
     }
 
     public void clear() {

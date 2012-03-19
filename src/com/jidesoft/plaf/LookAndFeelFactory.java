@@ -726,33 +726,33 @@ public class LookAndFeelFactory implements ProductNames {
                     };
 
                     // set all grippers to Office2003 style gripper
-                    uiDefaults.put("Gripper.painter", gripperPainter);
-                    uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
-                    uiDefaults.put("JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003);
-                    uiDefaults.put("JideTabbedPane.selectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
-                    uiDefaults.put("JideTabbedPane.unselectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
-                    uiDefaults.put("JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
-                    uiDefaults.put("JideTabbedPane.light", UIDefaultsLookup.getColor("control"));
-                    uiDefaults.put("JideSplitPaneDivider.gripperPainter", gripperPainter);
+                    UIDefaultsLookup.put(uiDefaults, "Gripper.painter", gripperPainter);
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.gripperPainter", gripperPainter);
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003);
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.selectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.unselectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
+                    UIDefaultsLookup.put(uiDefaults, "JideTabbedPane.light", UIDefaultsLookup.getColor("control"));
+                    UIDefaultsLookup.put(uiDefaults, "JideSplitPaneDivider.gripperPainter", gripperPainter);
 
                     int products = LookAndFeelFactory.getProductsUsed();
                     if ((products & PRODUCT_DOCK) != 0) {
                         ImageIcon titleButtonImage = IconsFactory.getImageIcon(VsnetWindowsUtils.class, "icons/title_buttons_windows.gif"); // 10 x 10 x 8
                         final int titleButtonSize = 10;
 
-                        uiDefaults.put("DockableFrameUI", "com.jidesoft.plaf.vsnet.VsnetDockableFrameUI");
-                        uiDefaults.put("DockableFrameTitlePane.hideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 0, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.unfloatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.floatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 2 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.autohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 3 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 4 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
-                        uiDefaults.put("DockableFrameTitlePane.buttonGap", 4); // gap between buttons
-                        uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 2, 0)));
-                        uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
-                        uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameUI", "com.jidesoft.plaf.vsnet.VsnetDockableFrameUI");
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.hideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 0, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.unfloatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.floatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 2 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.autohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 3 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 4 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.buttonGap", 4); // gap between buttons
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 2, 0)));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
+                        UIDefaultsLookup.put(uiDefaults, "DockableFrameTitlePane.gripperPainter", gripperPainter);
                     }
                     break;
                 case EXTENSION_STYLE_ECLIPSE:
@@ -773,10 +773,10 @@ public class LookAndFeelFactory implements ProductNames {
             }
 
             if (style == EXTENSION_STYLE_XERTO || style == EXTENSION_STYLE_XERTO_WITHOUT_MENU) {
-                uiDefaults.put("Theme.painter", XertoPainter.getInstance());
+                UIDefaultsLookup.put(uiDefaults, "Theme.painter", XertoPainter.getInstance());
             }
             else {
-                uiDefaults.put("Theme.painter", BasicPainter.getInstance());
+                UIDefaultsLookup.put(uiDefaults, "Theme.painter", BasicPainter.getInstance());
             }
         }
         else if (lnf.getClass().getName().equals(MetalLookAndFeel.class.getName())) {
@@ -1058,7 +1058,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
 
-        uiDefaults.put(JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
+        UIDefaultsLookup.put(uiDefaults, JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
 
         customize(lnf.getClass().getName(), uiDefaults);
 
