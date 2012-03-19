@@ -59,12 +59,12 @@ import java.util.Vector;
  * OFFICE2003_STYLE <li> OS: any Windows, L&F: Windows L&F => VSNET_STYLE <li> OS: Linux, L&F: any L&F based on Metal
  * L&F => VSNET_STYLE <li> OS: Mac OS X, L&F: Aqua L&F => AQUA_STYLE <li> OS: any OS, L&F: Quaqua L&F => AQUA_STYLE <li>
  * Otherwise => VSNET_STYLE </ul> There is also another installJideExtension which takes an int style parameter. You can
- * pass in {@link #EXTENSION_STYLE_VSNET}, {@link #EXTENSION_STYLE_ECLIPSE}, {@link #EXTENSION_STYLE_ECLIPSE3X},
- * {@link #EXTENSION_STYLE_OFFICE2003}, {@link #EXTENSION_STYLE_OFFICE2007}, or {@link #EXTENSION_STYLE_XERTO},
- * {@link #EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU}, {@link #EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU},
- * {@link #EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU}, {@link #EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU}. In the other word,
- * you will make the choice of style instead of letting LookAndFeelFactory to decide one for you. Please note, there is
- * no constant defined for AQUA_STYLE. The only way to use it is when you are using Aqua L&F or Quaqua L&F and you call
+ * pass in {@link #EXTENSION_STYLE_VSNET}, {@link #EXTENSION_STYLE_ECLIPSE}, {@link #EXTENSION_STYLE_ECLIPSE3X}, {@link
+ * #EXTENSION_STYLE_OFFICE2003}, {@link #EXTENSION_STYLE_OFFICE2007}, or {@link #EXTENSION_STYLE_XERTO}, {@link
+ * #EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU}, {@link #EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU}, {@link
+ * #EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU}, {@link #EXTENSION_STYLE_ECLIPSE3X_WITHOUT_MENU}. In the other word, you will
+ * make the choice of style instead of letting LookAndFeelFactory to decide one for you. Please note, there is no
+ * constant defined for AQUA_STYLE. The only way to use it is when you are using Aqua L&F or Quaqua L&F and you call
  * installJideExtension() method, the one without parameter.
  * <p/>
  * Another way is to call {@link LookAndFeelFactory#installDefaultLookAndFeelAndExtension()} which will set the default
@@ -420,9 +420,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static final int EXTENSION_STYLE_OFFICE2007 = 7;
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_OFFICE2003
-     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
-     * JIDE Action Framework.
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as
+     * EXTENSION_STYLE_OFFICE2003 except it doesn't have menu related UIDefaults. You can only use this style if you
+     * didn't use any component from JIDE Action Framework.
      * <p/>
      *
      * @see #EXTENSION_STYLE_OFFICE2003
@@ -431,9 +431,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static final int EXTENSION_STYLE_OFFICE2003_WITHOUT_MENU = 8;
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_OFFICE2007
-     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
-     * JIDE Action Framework.
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as
+     * EXTENSION_STYLE_OFFICE2007 except it doesn't have menu related UIDefaults. You can only use this style if you
+     * didn't use any component from JIDE Action Framework.
      * <p/>
      *
      * @see #EXTENSION_STYLE_OFFICE2007
@@ -442,9 +442,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static final int EXTENSION_STYLE_OFFICE2007_WITHOUT_MENU = 9;
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_ECLIPSE
-     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
-     * JIDE Action Framework.
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as
+     * EXTENSION_STYLE_ECLIPSE except it doesn't have menu related UIDefaults. You can only use this style if you didn't
+     * use any component from JIDE Action Framework.
      * <p/>
      *
      * @see #EXTENSION_STYLE_ECLIPSE3X
@@ -452,9 +452,9 @@ public class LookAndFeelFactory implements ProductNames {
     public static final int EXTENSION_STYLE_ECLIPSE_WITHOUT_MENU = 10;
 
     /**
-     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as EXTENSION_STYLE_ECLIPSE3X
-     * except it doesn't have menu related UIDefaults. You can only use this style if you didn't use any component from
-     * JIDE Action Framework.
+     * A style that you can use with {@link #installJideExtension(int)} method. This style is the same as
+     * EXTENSION_STYLE_ECLIPSE3X except it doesn't have menu related UIDefaults. You can only use this style if you
+     * didn't use any component from JIDE Action Framework.
      * <p/>
      *
      * @see #EXTENSION_STYLE_ECLIPSE3X
@@ -471,14 +471,14 @@ public class LookAndFeelFactory implements ProductNames {
      * UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED) will return true. You can also use {@link
      * #isJideExtensionInstalled()} to check the value instead of using UIManagerLookup.getBoolean(JIDE_EXTENSION_INSTALLLED).
      */
-    public static final String JIDE_EXTENSION_INSTALLLED = "jidesoft.extendsionInstalled";
+    public static final String JIDE_EXTENSION_INSTALLED = "jidesoft.extensionInstalled";
 
     /**
      * If installJideExtension is called, a JIDE style will be installed on UIDefaults table. If so,
      * UIManagerLookup.getInt(JIDE_STYLE_INSTALLED) will return you the style that is installed. For example, if the
      * value is 1, it means VSNET_STYLE is installed because 1 is the value of VSNET_STYLE.
      */
-    public static final String JIDE_STYLE_INSTALLED = "jidesoft.extendsionStyle";
+    public static final String JIDE_STYLE_INSTALLED = "jidesoft.extensionStyle";
 
     /**
      * An interface to make the customization of UIDefaults easier. This customizer will be called after
@@ -636,7 +636,7 @@ public class LookAndFeelFactory implements ProductNames {
      * @return true if installed.
      */
     public static boolean isJideExtensionInstalled() {
-        return UIDefaultsLookup.getBoolean(JIDE_EXTENSION_INSTALLLED);
+        return UIDefaultsLookup.getBoolean(JIDE_EXTENSION_INSTALLED);
     }
 
     /**
@@ -1058,7 +1058,7 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
 
-        UIDefaultsLookup.put(uiDefaults, JIDE_EXTENSION_INSTALLLED, Boolean.TRUE);
+        UIDefaultsLookup.put(uiDefaults, JIDE_EXTENSION_INSTALLED, Boolean.TRUE);
 
         customize(lnf.getClass().getName(), uiDefaults);
 
@@ -1313,6 +1313,7 @@ public class LookAndFeelFactory implements ProductNames {
      * if the L&F is installed.
      *
      * @param lnfName the L&F name.
+     *
      * @return <tt>true</tt> if the L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isLnfInstalled(String lnfName) {
@@ -1339,6 +1340,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Checks if the L&F is the L&F or a subclass of the L&F.
      *
      * @param lnf the full class name of the L&F (including the package).
+     *
      * @return true or false.
      */
     public static boolean isLnfInUse(String lnf) {
@@ -1442,6 +1444,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Returns whether Plastic3D L&F is in classpath
      *
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
+     *
      * @deprecated replace by {@link #isPlastic3DLnfInstalled()}
      */
     @Deprecated
@@ -1824,6 +1827,7 @@ public class LookAndFeelFactory implements ProductNames {
      * Gets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
      *
      * @return true if JIDE will try to load the LnF class. Otherwise false
+     *
      * @see #setLoadLookAndFeelClass(boolean)
      * @since 3.2.0
      */
@@ -1840,6 +1844,7 @@ public class LookAndFeelFactory implements ProductNames {
      * you wish.
      *
      * @param loadLookAndFeelClass the flag
+     *
      * @since 3.2.0
      */
     public static void setLoadLookAndFeelClass(boolean loadLookAndFeelClass) {

@@ -106,7 +106,7 @@ class CachedLookAndFeel extends LookAndFeel {
             Class lafFactory = newLoader.loadClass("com.jidesoft.plaf.LookAndFeelFactory");
             Method installJideExtension = lafFactory.getDeclaredMethod("installJideExtension", new Class[]{int.class});
             int style = LookAndFeelFactory.getDefaultStyle();
-            UIManager.put(LookAndFeelFactory.JIDE_EXTENSION_INSTALLLED, null); // force population
+            UIManager.put(LookAndFeelFactory.JIDE_EXTENSION_INSTALLED, null); // force population
             installJideExtension.invoke(null, style);
 
         }
