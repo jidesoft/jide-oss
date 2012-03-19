@@ -315,7 +315,7 @@ public class StyledLabelBuilder {
                                 result.fontStyle, result.fontColor, result.backgroundColor,
                                 result.additionalStyle, result.lineColor));
                     }
-                    i = result.endOffset;
+                    i = Math.max(i, result.endOffset);
                     break;
                 case '\\':
                     escaped = true;
@@ -433,11 +433,51 @@ public class StyledLabelBuilder {
         int findIndex, i = start;
         // find end of text first
         findIndex = findNext(text, ':', i);
-        if (findIndex < 0) {
+        int indexMatchingBracket = findMatchingBracket(text, start);
+        if (findIndex < 0 || findIndex > indexMatchingBracket) {
             return null;
         }
         result.text = createTrimmedString(text, i, findIndex - 1);
         return parseStyleAnnotation(text, findIndex + 1, builder, result);
+    }
+
+    private static int findMatchingBracket(char[] text, int offset) {
+        if (text.length == 0)
+            return -1;
+        if (offset >= text.length)
+            return -1;
+
+        // Count is 1 initially because we have already
+        // `found' one opening bracket
+        int count = 1;
+
+        // Number of characters to check
+        int len = text.length - offset;
+
+        // Scan forwards
+        for (int i = 0; i < len; i++, offset++) {
+            // If text[i] == c, we have found another
+            // opening bracket, therefore we will need
+            // two closing brackets to complete the
+            // match.
+            char x = text[offset];
+
+            if (x == '{') {
+                count++;
+            }
+
+            // If text[i] == cprime, we have found an
+            // closing bracket, so we return i if
+            // --count == 0
+            else if (x == '}') {
+                if (--count == 0) {
+                    return offset;
+                }
+            }
+        }
+
+        // Nothing found
+        return -1;
     }
 
     private static ParsedStyleResult parseStyleAnnotation(char[] text, int start, StyledLabelBuilder builder) {
