@@ -11,7 +11,6 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
-import com.jidesoft.plaf.office2003.Office2003Painter;
 import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSplitButton;
@@ -49,7 +48,7 @@ public class Office2007Painter extends BasicPainter {
     }
 
     protected ThemePainter createDefaultPainter() {
-        return Office2003Painter.getInstance();
+        return Office2007Painter.getInstance();
     }
 
     public ThemePainter getDefaultPainter() {
