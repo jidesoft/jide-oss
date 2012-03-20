@@ -5,8 +5,8 @@
  */
 package com.jidesoft.comparator;
 
-import com.jidesoft.converter.CacheMap;
-import com.jidesoft.converter.RegistrationListener;
+import com.jidesoft.utils.CacheMap;
+import com.jidesoft.utils.RegistrationListener;
 
 import java.text.Collator;
 import java.util.Calendar;

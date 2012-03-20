@@ -5,6 +5,9 @@
  */
 package com.jidesoft.converter;
 
+import com.jidesoft.utils.CacheMap;
+import com.jidesoft.utils.RegistrationListener;
+
 import java.awt.*;
 import java.io.File;
 import java.math.BigDecimal;
