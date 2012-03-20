@@ -7,14 +7,13 @@ package com.jidesoft.converter;
 
 import com.jidesoft.utils.TypeUtils;
 
-import javax.swing.event.EventListenerList;
 import java.util.*;
 
 /**
  * <code>CacheMap</code> is a two-level <code>HashMap</code>. It uses Class as the key and you can map the key to an
  * object and a context as a pair. We use context because we want to register multiple objects with the same Class.
- * {@link #register(Class,Object,Object)} is the method to register a new entry. {@link
- * #getRegisteredObject(Class,Object)} will allow you to look up the object by specifying the Class and the context.
+ * {@link #register(Class, Object, Object)} is the method to register a new entry. {@link #getRegisteredObject(Class,
+ * Object)} will allow you to look up the object by specifying the Class and the context.
  */
 public class CacheMap<T, K> {
 
@@ -32,7 +31,7 @@ public class CacheMap<T, K> {
     }
 
     static class Cache<K, T> extends HashMap<K, T> {
-      private static final long serialVersionUID = 7764545350468551102L;
+        private static final long serialVersionUID = 7764545350468551102L;
 
         public T getObject(K context) {
             return get(context);
@@ -60,6 +59,7 @@ public class CacheMap<T, K> {
      *
      * @param clazz the class
      * @param a     the array to receive the keys.
+     *
      * @return the secondary keys.
      */
     public K[] getKeys(Class<?> clazz, K[] a) {
@@ -131,6 +131,7 @@ public class CacheMap<T, K> {
      * @param clazz   the class which is used as the primary key.
      * @param context the context which is used as the secondary key. This parameter could be null in which case the
      *                default context is used.
+     *
      * @return registered object the object associated with the class and the context.
      */
     public T getRegisteredObject(Class<?> clazz, K context) {
@@ -218,6 +219,7 @@ public class CacheMap<T, K> {
      * @param clazz   the class which is used as the primary key.
      * @param context the context which is used as the secondary key. This parameter could be null in which case the
      *                default context is used.
+     *
      * @return registered object the object associated with the class and the context.
      */
     public T getMatchRegisteredObject(Class<?> clazz, K context) {
@@ -280,7 +282,7 @@ public class CacheMap<T, K> {
     /**
      * List of listeners
      */
-    protected EventListenerList listenerList = new EventListenerList();
+    protected List<RegistrationListener> listenerList = new ArrayList<RegistrationListener>();
 
     /**
      * Adds a listener to the list that's notified each time a change to the registration occurs.
@@ -288,7 +290,7 @@ public class CacheMap<T, K> {
      * @param l the RegistrationListener
      */
     public void addRegistrationListener(RegistrationListener l) {
-        listenerList.add(RegistrationListener.class, l);
+        listenerList.add(l);
     }
 
     /**
@@ -297,7 +299,7 @@ public class CacheMap<T, K> {
      * @param l the RegistrationListener
      */
     public void removeRegistrationListener(RegistrationListener l) {
-        listenerList.remove(RegistrationListener.class, l);
+        listenerList.remove(l);
     }
 
     /**
@@ -310,7 +312,7 @@ public class CacheMap<T, K> {
      * @see #removeRegistrationListener
      */
     public RegistrationListener[] getRegistrationListeners() {
-        return listenerList.getListeners(RegistrationListener.class);
+        return listenerList.toArray(new RegistrationListener[listenerList.size()]);
     }
 
     /**
@@ -318,19 +320,16 @@ public class CacheMap<T, K> {
      * listeners for this table model.
      *
      * @param e the event to be forwarded
+     *
      * @see #addRegistrationListener
      * @see RegistrationEvent
-     * @see EventListenerList
      */
     public void fireRegistrationChanged(RegistrationEvent e) {
         // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == RegistrationListener.class) {
-                ((RegistrationListener) listeners[i + 1]).registrationChanged(e);
-            }
+        for (int i = listenerList.size() - 2; i >= 0; i -= 2) {
+            listenerList.get(i + 1).registrationChanged(e);
         }
     }
 }
