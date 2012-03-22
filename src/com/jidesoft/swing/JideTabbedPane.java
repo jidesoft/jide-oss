@@ -1435,7 +1435,6 @@ public class JideTabbedPane extends JTabbedPane {
         if (_showCloseButtonOnMouseOver != showCloseButtonOnMouseOverOnly) {
             boolean old = _showCloseButtonOnMouseOver;
             _showCloseButtonOnMouseOver = showCloseButtonOnMouseOverOnly;
-            updateUI();
             firePropertyChange(PROPERTY_SHOW_CLOSE_BUTTON_ON_MOUSE_OVER, old, _showCloseButtonOnMouseOver);
         }
     }
