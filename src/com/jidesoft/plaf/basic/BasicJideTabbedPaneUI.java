@@ -1004,11 +1004,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return;
         }
 
-        Rectangle tabRect = new Rectangle(rects[tabIndex]);
-        if ((tabPlacement == TOP || tabPlacement == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight()) {
-            tabRect.x += _tabScroller.viewport.getExpectedViewX();
-        }
-
+        Rectangle tabRect = rects[tabIndex];
         int selectedIndex = _tabPane.getSelectedIndex();
         boolean isSelected = selectedIndex == tabIndex;
         boolean leftToRight = _tabPane.getComponentOrientation().isLeftToRight();
@@ -6599,6 +6595,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     _maxTabHeight);
                             tx = insets.left;
                             ty = insets.top;
+                            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+                            if (tabAreaInsets != null) { // TODO: after adding this, setting trailing/leading components cause painting issue in the tab area insets area
+                                tx += tabAreaInsets.left;
+                                tw -= tabAreaInsets.left + tabAreaInsets.right;
+                            }
 
                             if (leftToRight) {
                                 if (isTabLeadingComponentVisible()) {
@@ -6638,8 +6639,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             // calculate content area bounds
                             cx = insets.left + contentInsets.left;
                             cy = insets.top + th + contentInsets.top;
-                            cw = bounds.width - insets.left - insets.right
-                                    - contentInsets.left - contentInsets.right;
+                            cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
                             ch = bounds.height - insets.top - insets.bottom - th - contentInsets.top - contentInsets.bottom;
                     }
 
@@ -6667,7 +6667,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         if (child instanceof ScrollableTabViewport) {
                             viewport = (JViewport) child;
 //                            Rectangle viewRect = viewport.getViewRect();
+                            int vx = tx;
                             int vw = tw;
+                            int vy = ty;
                             int vh = th;
                             int numberOfButtons = getNumberOfTabButtons();
                             switch (tabPlacement) {
@@ -6706,7 +6708,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         // Need to allow space for scrollbuttons
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
                                         if (!leftToRight) {
-                                            tx = _buttonSize * numberOfButtons;
+                                            vx += _buttonSize * numberOfButtons;
                                         }
 
 //                                        if (totalTabWidth - viewRect.x <= vw) {
@@ -6722,13 +6724,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                         // Allow space for scrollbuttons
                                         vw = Math.max(tw - _buttonSize * numberOfButtons, 0);
                                         if (!leftToRight) {
-                                            tx = _buttonSize * numberOfButtons;
+                                            vx += _buttonSize * numberOfButtons;
                                         }
                                     }
                                     if (vw + getLayoutSize() < tw - _buttonSize * numberOfButtons) {
                                         vw += getLayoutSize();
                                         if (!leftToRight) {
-                                            tx -= getLayoutSize();
+                                            vx -= getLayoutSize();
                                         }
                                     }
                                     break;
@@ -6736,8 +6738,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                             if (_tabTrailingComponent != null && _tabPane.isHideTrailingWhileNoButtons()) {
                                 _tabTrailingComponent.setVisible(tabButtonsVisible);
                             }
-                            child.setBounds(tx, ty, vw, vh);
-
+                            child.setBounds(vx, vy, vw, vh);
                         }
                         else if (child instanceof JideTabbedPane.NoFocusButton) {
                             JideTabbedPane.NoFocusButton scrollbutton = (JideTabbedPane.NoFocusButton) child;
@@ -6826,8 +6827,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     case TOP:
                                     case BOTTOM:
                                     default:
-                                        int totalTabWidth = _rects[tabCount - 1].x + _rects[tabCount - 1].width;
-                                        boolean widthEnough = leftToRight ? totalTabWidth <= tw : _rects[tabCount - 1].x >= 0;
+                                        boolean widthEnough = leftToRight ? _rects[tabCount - 1].x + _rects[tabCount - 1].width <= tw : _rects[tabCount - 1].x >= 0;
                                         if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
                                             // NoFocusButton.BUTTON_WEST;
@@ -6899,7 +6899,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             _tabTrailingComponent.setVisible(tabButtonsVisible);
                                         }
                                         if (isTabTrailingComponentVisible()) {
-                                            bx -= tsize.width;
+                                            if (leftToRight) {
+                                                bx -= tsize.width;
+                                            }
+                                            else {
+                                                bx += tsize.width;
+                                            }
                                         }
                                         temp = -1;
                                         if (isTabLeadingComponentVisible()) {
@@ -7255,17 +7260,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             // if right to left and tab placement on the top or
             // the bottom, flip x positions and adjust by widths
             if (!leftToRight && !verticalTabRuns) {
-                int rightMargin = size.width
-                        - (insets.right + tabAreaInsets.right) - _tabScroller.viewport.getLocation().x;
+                int rightMargin = size.width - (insets.right + tabAreaInsets.right);
                 if (isTabLeadingComponentVisible()) {
                     rightMargin -= lsize.width;
                 }
-                int offset = 0;
-                if (isTabTrailingComponentVisible()) {
-                    offset += tsize.width;
-                }
                 for (int i = 0; i < tabCount; i++) {
-                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width - offset + tabAreaInsets.left;
+                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width;
 //                    if(i == tabCount - 1) {
 //                        _rects[i].width += getLeftMargin();
 //                        _rects[i].x -= getLeftMargin();
@@ -7838,7 +7838,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     public class ScrollableTabViewport extends JViewport implements UIResource {
-        int _expectViewX = 0;
         boolean _protectView = false;
 
         public ScrollableTabViewport() {
@@ -7876,6 +7875,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         // workaround for swing bug
 
+/*
         @Override
         public void setViewPosition(Point p) {
             int oldX = _expectViewX;
@@ -7887,9 +7887,15 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 super.setViewPosition(savedPosition);
             }
         }
+*/
+
+        @Override
+        public void setViewPosition(Point p) {
+            super.setViewPosition(p);
+        }
 
         public int getExpectedViewX() {
-            return _expectViewX;
+            return getViewPosition().x;
         }
     }
 
