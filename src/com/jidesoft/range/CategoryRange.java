@@ -72,6 +72,9 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      * @return the category with the supplied position value.
      */
     public Category<T> getCategory(int position) {
+        if (position < 1) {
+            throw new IllegalArgumentException("Supplied category index was " + position + " but it should be >= 1");
+        }
         return getCategoryValues().get(position - 1);
     }
 
