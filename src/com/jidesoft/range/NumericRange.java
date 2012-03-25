@@ -1,8 +1,8 @@
 /*
  * @(#)NumericRange.java
  * 
- * 2002 - 2010 JIDE Software Incorporated. All rights reserved.
- * Copyright (c) 2005 - 2010 Catalysoft Limited. All rights reserved.
+ * 2002 - 2012 JIDE Software Incorporated. All rights reserved.
+ * Copyright (c) 2005 - 2012 Catalysoft Limited. All rights reserved.
  */
 
 package com.jidesoft.range;

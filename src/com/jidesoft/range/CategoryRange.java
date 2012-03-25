@@ -1,8 +1,8 @@
 /*
  * @(#)CategoryRange.java
  * 
- * 2002 - 2009 JIDE Software Incorporated. All rights reserved.
- * Copyright (c) 2005 - 2009 Catalysoft Limited. All rights reserved.
+ * 2002 - 2012 JIDE Software Incorporated. All rights reserved.
+ * Copyright (c) 2005 - 2012 Catalysoft Limited. All rights reserved.
  */
 
 package com.jidesoft.range;
@@ -16,15 +16,22 @@ import java.util.*;
  * @author Simon White (swhite@catalysoft.com)
  */
 public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Category<T>> {
-    private static final String PROPERTY_VALUES = "values";
+    public static final String PROPERTY_VALUES = "values";
+    public static final String PROPERTY_COMPARATOR = "comparator";
+    public static final String PROPERTY_SORTED = "sorted";
     private List<T> _possibleValues = null;
     private List<Category<T>> _categoryValues = null;
     private Double minimum;
     private Double maximum;
+    private Comparator<T> comparator = null;
+    private boolean sorted = false;
+    // Private member variable to flag whether the possible values have been sorted or are in need of a sort
+    private boolean alreadySorted = false;
 
     public CategoryRange() {
         _possibleValues = new ArrayList<T>();
         _categoryValues = new ArrayList<Category<T>>();
+        alreadySorted = false;
     }
 
     /**
@@ -35,6 +42,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     public CategoryRange(T... values) {
         _possibleValues = new ArrayList<T>();
         _possibleValues.addAll(Arrays.asList(values));
+        alreadySorted = false;
     }
 
     /**
@@ -45,6 +53,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      */
     public CategoryRange(Set<T> values) {
         _possibleValues = new ArrayList<T>(values);
+        alreadySorted = false;
     }
 
     /**
@@ -56,12 +65,44 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     public CategoryRange(CategoryRange<T> categoryRange) {
         _categoryValues = new ArrayList<Category<T>>(categoryRange.getCategoryValues());
         _possibleValues = new ArrayList<T>(categoryRange.getPossibleValues());
-        CategoryRange<T> range = new CategoryRange<T>();
+        comparator = categoryRange.getComparator();
         setMinimum(categoryRange.minimum());
         setMaximum(categoryRange.maximum());
+        alreadySorted = false;
     }
 
+    // When you call getCategoryValues() it will call this method and retrieve a list of possible values
+    // which is sorted if necessary
     public List<T> getPossibleValues() {
+        if (sorted && alreadySorted == false) {
+            if (comparator == null) {
+                Comparator<T> defaultComparator = new Comparator<T>() {
+                    public int compare(T o1, T o2) {
+                        if (o1 == null && o2 == null) {
+                            return 0;
+                        } else if (o1 == null) {
+                            return -1;
+                        } else if (o2 == null) {
+                            return 1;
+                        } else {
+                            // Use natural sort order if available
+                            if (o1 instanceof Comparable) {
+                                Comparable t1 = (Comparable) o1;
+                                return t1.compareTo(o2);
+                            } else {
+                                // otherwise use the toString method to derive a string comparator
+                                String s1 = o1.toString();
+                                String s2 = o2.toString();
+                                return s1.compareTo(s2);
+                            }
+                        }
+                    }
+                };
+                Collections.sort(_possibleValues, defaultComparator);
+            } else {
+                Collections.sort(_possibleValues, comparator);
+            }
+        }
         return _possibleValues;
     }
 
@@ -88,14 +129,69 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
      */
     public CategoryRange<T> add(Category<T> c) {
         if (!contains(c)) {
-            _possibleValues.add(c.getValue());
-            _categoryValues.add(c);
+            if (comparator == null) {
+                _possibleValues.add(c.getValue());
+                _categoryValues.add(c);
+            } else {
+                _possibleValues.add(c.getValue());
+                alreadySorted = false;
+                // Force the category values to be recomputed
+                _categoryValues = null;
+            }
             c.setRange(this);
             firePropertyChange(PROPERTY_VALUES, null, _possibleValues);
         }
         return this;
     }
 
+    /**
+     * Specify whether the categories of the range should be sorted.
+     * If you call this method with <code>true</code> but do not explicitly
+     * set a comparator for the sort ordering, then the natural ordering of the
+     * objects (using java.util.Comparable) will be used. If the objects do not
+     * implement Comparable, then a string comparator is constructed based on the
+     * toString() method of the object.
+     * @param sorted whether the categories of the range should be sorted
+     */
+    public void setSorted(boolean sorted) {
+        boolean oldValue = this.sorted;
+        this.sorted = sorted;
+        // Force the category values to be recomputed
+        if (sorted) {
+            _categoryValues = null;
+        }
+        firePropertyChange(PROPERTY_SORTED, oldValue, sorted);
+    }
+
+    /**
+     * Returns a value to indicate whether the categories of the range are sorted
+     * @return a value to indicate whether the categories of the range are sorted
+     */
+    public boolean isSorted() {
+        return this.sorted;
+    }
+
+    /**
+     * Returns the comparator that, if set, will be used to sort the values in the range
+     * @return the comparator that, if set, will be used to sort the values in the range
+     */
+    public Comparator<T> getComparator() {
+        return comparator;
+    }
+
+    /**
+     * Specify the comparator that will be used to sort the values in the range.
+     * Calling this method implicitly calls setSorted(): the sorted property will be set
+     * to true if the comparator is non-null and will be set to false if the comparator is null
+     * @param comparator the comparator to be used to sort the values in the range
+     */
+    public void setComparator(Comparator<T> comparator) {
+        Comparator<T> oldValue = this.comparator;
+        this.comparator = comparator;
+        // This call will also force the category values to be recomputed
+        setSorted(comparator != null);
+        firePropertyChange(PROPERTY_COMPARATOR, oldValue, comparator);
+    }
 
     @Override
     public Range<T> copy() {
@@ -250,14 +346,22 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         }
     }
 
+    /**
+     * Returns an iterator for the category values
+     * @return an iterator for the category values
+     */
     public Iterator<Category<T>> iterator() {
         return getCategoryValues().iterator();
     }
 
+    /**
+     * Returns a list of the category values in this range
+     * @return a list of category values
+     */
     public List<Category<T>> getCategoryValues() {
         if (_categoryValues == null) {
             _categoryValues = new ArrayList<Category<T>>();
-            for (T value : _possibleValues) {
+            for (T value : getPossibleValues()) {
                 _categoryValues.add(new Category<T>(value, this));
             }
         }

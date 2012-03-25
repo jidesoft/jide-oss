@@ -1,7 +1,7 @@
 /*
  * @(#)IntegerRange.java 9/5/2009
  *
- * Copyright 2005 - 2009 Catalysoft Ltd. All rights reserved.
+ * Copyright 2005 - 2012 Catalysoft Ltd. All rights reserved.
  */
 
 package com.jidesoft.range;

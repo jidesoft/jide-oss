@@ -1,8 +1,8 @@
 /*
  * @(#)Category.java
  * 
- * 2002 - 2009 JIDE Software Incorporated. All rights reserved.
- * Copyright (c) 2005 - 2009 Catalysoft Limited. All rights reserved.
+ * 2002 - 2012 JIDE Software Incorporated. All rights reserved.
+ * Copyright (c) 2005 - 2012 Catalysoft Limited. All rights reserved.
  */
 
 package com.jidesoft.range;
@@ -45,6 +45,10 @@ public class Category<T> implements Positionable {
         _range = range;
     }
 
+    /**
+     * Returns the position of the category, which will be used to decide where to place a category along an axis.
+     * @return the position of the category
+     */
     public double position() {
         if (_range == null) {
             throw new IllegalStateException("Cannot compute position for a category that does not belong to a range");
@@ -52,10 +56,19 @@ public class Category<T> implements Positionable {
         return _range.position(_value);
     }
 
+    /**
+     * Returns the original value of the category
+     * @return the value of the category
+     */
     public T getValue() {
         return _value;
     }
 
+    /**
+     * Returns the name of the category which, when set, will be used as a label for the category.
+     * If it is not set explicitly, then the toString() of the category value will be used instead.
+     * @return the name of the category.
+     */
     public String getName() {
         if (_name == null) {
             return _value.toString();
@@ -63,6 +76,11 @@ public class Category<T> implements Positionable {
         return _name;
     }
 
+    /**
+     * Specify the name of the category
+     * @param name the name of the category
+     * @see #getName()
+     */
     private void setName(String name) {
         _name = name;
     }
