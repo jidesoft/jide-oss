@@ -7934,10 +7934,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
             if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
                 if (_tabPane.getComponentOrientation().isLeftToRight()) {
-                    return new Dimension(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width, _rects[0].y + _rects[0].height);
+                    return new Dimension(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width + 10, _rects[0].y + _rects[0].height);
                 }
                 else {
-                    return new Dimension(_rects[0].x + _rects[0].width + _additionalWidth, _rects[0].y + _rects[0].height);
+                    return new Dimension(_rects[0].x + _rects[0].width + _additionalWidth + 10, _rects[0].y + _rects[0].height);
                 }
             }
             else {
