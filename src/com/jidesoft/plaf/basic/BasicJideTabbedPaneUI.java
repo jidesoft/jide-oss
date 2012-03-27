@@ -7912,7 +7912,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
-    public class ScrollableTabPanel extends JPanel implements UIResource, Scrollable {
+    public class ScrollableTabPanel extends JPanel implements UIResource {
         public ScrollableTabPanel() {
             setLayout(null);
         }
@@ -7922,7 +7922,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return false;
         }
 
-        @Override
         public Dimension getPreferredScrollableViewportSize() {
             return getPreferredSize();
         }
@@ -7945,22 +7944,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
         }
 
-        @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
             return 1;
         }
 
-        @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
             return 1;
         }
 
-        @Override
         public boolean getScrollableTracksViewportWidth() {
             return false;
         }
 
-        @Override
         public boolean getScrollableTracksViewportHeight() {
             return false;
         }
