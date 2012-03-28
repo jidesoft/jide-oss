@@ -578,7 +578,7 @@ public class StyledLabelBuilder {
                     result.lineColor = range.getLineColor();
                 }
                 else if (style.length() > 0) {
-                    System.err.println("Unknown style '" + style + "'");
+//                    System.err.println("Unknown style '" + style + "'");
                 }
             }
             i = findIndex + 1;
