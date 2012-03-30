@@ -25,6 +25,7 @@ public class RangeSlider extends JSlider {
 
     private boolean _rangeDraggable = true;
     public static final String CLIENT_PROPERTY_MOUSE_POSITION = "RangeSlider.mousePosition";
+    public static final String CLIENT_PROPERTY_ADJUST_ACTION = "RangeSlider.adjustAction";
     public static final String PROPERTY_LOW_VALUE = "lowValue";
     public static final String PROPERTY_HIGH_VALUE = "highValue";
 
@@ -66,6 +67,9 @@ public class RangeSlider extends JSlider {
     public RangeSlider(int min, int max, int low, int high) {
         super(new DefaultBoundedRangeModel(low, high - low,
                 min, max));
+        getModel().removeChangeListener(changeListener);
+        getModel().removeChangeListener(changeListener); // work around a JSlider bug which registers two change listeners with this constructor.
+        getModel().addChangeListener(changeListener);
     }
 
     public String getActualUIClassID() {
@@ -151,8 +155,9 @@ public class RangeSlider extends JSlider {
         }
         int extent = high - lowValue;
 
+        Object property = getClientProperty(CLIENT_PROPERTY_ADJUST_ACTION);
         getModel().setRangeProperties(lowValue, extent,
-                getMinimum(), getMaximum(), true);
+                getMinimum(), getMaximum(), property == null || (!property.equals("scrollByBlock") && !property.equals("scrollByUnit")));
         firePropertyChange(PROPERTY_LOW_VALUE, old, getLowValue());
 
     }

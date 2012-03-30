@@ -498,6 +498,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
                 blockIncrement = 1;
             }
 
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, "scrollByBlock");
             int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
             if (clientProperty == null) {
                 slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
@@ -508,6 +509,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             else {
                 ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, null);
         }
     }
 
@@ -528,6 +530,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             }
             int delta = 1 * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
 
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, "scrollByUnit");
             if (clientProperty == null) {
                 slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
@@ -537,6 +540,7 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
             else {
                 ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, null);
         }
     }
 }

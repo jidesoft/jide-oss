@@ -514,6 +514,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             }
 
             int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, "scrollByBlock");
             if (clientProperty == null) {
                 slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
@@ -523,6 +524,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             else {
                 ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, null);
         }
     }
 
@@ -543,6 +545,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             }
             int delta = 1 * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
 
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, "scrollByUnit");
             if (clientProperty == null) {
                 slider.setValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
@@ -552,6 +555,7 @@ public class AquaRangeSliderUI extends AquaSliderUI {
             else {
                 ((RangeSlider) slider).setHighValue(Math.max(Math.min(oldValue + delta, slider.getMaximum()), slider.getMinimum()));
             }
+            slider.putClientProperty(RangeSlider.CLIENT_PROPERTY_ADJUST_ACTION, null);
         }
     }
 }
