@@ -883,6 +883,19 @@ public class JideSplitPaneDivider extends JPanel
     }
 
     /**
+     * Gets the current collapse/expand state.
+     * <p/>
+     * The default value is DEFAULT_STATE when {@link com.jidesoft.swing.JideSplitPane#isOneTouchExpandable()} returns false.
+     * It could be EXPANDED_STATE or COLLAPSED_STATE when one touch expandable is activated.
+     *
+     * @return the current state
+     * @since 3.4.0
+     */
+    public int getCurrentState() {
+        return _currentState;
+    }
+
+    /**
      * Builds the rightButton that can be used to expand/collapse a split panes divider to the right.
      *
      * @return a JButton instance used to expand/collapse a split panes divider to the right.
