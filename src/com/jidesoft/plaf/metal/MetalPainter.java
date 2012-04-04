@@ -88,7 +88,7 @@ public class MetalPainter extends BasicPainter {
     static boolean drawGradient(Component c, Graphics g, String key,
                                 int x, int y, int w, int h, boolean vertical) {
         Object colors = UIManager.get(key);
-        if (!(colors instanceof List)) {
+        if (!(colors instanceof java.util.List)) {
             return false;
         }
 
