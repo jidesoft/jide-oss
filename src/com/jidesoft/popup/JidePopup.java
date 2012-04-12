@@ -1073,6 +1073,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(null);
+                if (_previousSize.width < 0) {
+                    _previousSize.width = getPreferredSize().width;
+                }
+                if (_previousSize.height < 0) {
+                    _previousSize.height = getPreferredSize().height;
+                }
                 setPreferredSize(_previousSize);
             }
             _previousSize = null;
@@ -1110,6 +1117,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(null);
+                if (_previousSize.width < 0) {
+                    _previousSize.width = getPreferredSize().width;
+                }
+                if (_previousSize.height < 0) {
+                    _previousSize.height = getPreferredSize().height;
+                }
                 setPreferredSize(_previousSize);
             }
             _previousSize = null;
