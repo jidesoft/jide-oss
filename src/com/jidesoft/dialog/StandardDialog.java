@@ -5,7 +5,6 @@
 */
 package com.jidesoft.dialog;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.DelegateAction;
 import com.jidesoft.swing.JideSwingUtilities;
 
@@ -326,7 +325,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         ButtonPanel buttonPanel = new ButtonPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 6, 10));
 
-        AbstractAction okAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.okButtonText")) {
+        AbstractAction okAction = new AbstractAction(JideSwingUtilities.getOKString(getLocale())) {
             private static final long serialVersionUID = -326622280892936635L;
 
             public void actionPerformed(ActionEvent e) {
@@ -334,7 +333,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
                 setVisible(false);
             }
         };
-        AbstractAction cancelAction = new AbstractAction(UIDefaultsLookup.getString("OptionPane.cancelButtonText")) {
+        AbstractAction cancelAction = new AbstractAction(JideSwingUtilities.getCancelString(getLocale())) {
             private static final long serialVersionUID = 7131352846873132805L;
 
             public void actionPerformed(ActionEvent e) {

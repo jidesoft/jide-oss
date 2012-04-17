@@ -5,9 +5,9 @@
 */
 package com.jidesoft.dialog;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideScrollPane;
+import com.jidesoft.swing.JideSwingUtilities;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -319,7 +319,7 @@ public class MultiplePageDialog extends StandardDialog {
         buttonPanel.addButton(_applyButton, ButtonPanel.OTHER_BUTTON);
 
         Locale l = getLocale();
-        _okButton.setAction(new AbstractAction(UIDefaultsLookup.getString("OptionPane.okButtonText", l)) {
+        _okButton.setAction(new AbstractAction(JideSwingUtilities.getOKString(l)) {
             private static final long serialVersionUID = 7761238902525319363L;
 
             public void actionPerformed(ActionEvent e) {
@@ -328,7 +328,7 @@ public class MultiplePageDialog extends StandardDialog {
                 dispose();
             }
         });
-        _cancelButton.setAction(new AbstractAction(UIDefaultsLookup.getString("OptionPane.cancelButtonText", l)) {
+        _cancelButton.setAction(new AbstractAction(JideSwingUtilities.getCancelString(l)) {
             private static final long serialVersionUID = 2671605366801733356L;
 
             public void actionPerformed(ActionEvent e) {
