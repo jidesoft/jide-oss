@@ -4089,4 +4089,34 @@ public class JideSwingUtilities implements SwingConstants {
         }
         return text;
     }
+
+    /**
+     * Gets the string representing Yes button.
+     *
+     * @param locale the locale
+     * @return the string.
+     * @since 3.3.8
+     */
+    public static String getYesString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.yesButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = ButtonResources.getResourceBundle(locale).getString("Button.yes");
+        }
+        return text;
+    }
+
+    /**
+     * Gets the string representing No button.
+     *
+     * @param locale the locale
+     * @return the string.
+     * @since 3.3.8
+     */
+    public static String getNoString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.noButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = ButtonResources.getResourceBundle(locale).getString("Button.no");
+        }
+        return text;
+    }
 }
