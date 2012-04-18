@@ -889,7 +889,7 @@ public class JideSplitPaneDivider extends JPanel
      * It could be EXPANDED_STATE or COLLAPSED_STATE when one touch expandable is activated.
      *
      * @return the current state
-     * @since 3.4.0
+     * @since 3.3.8
      */
     public int getCurrentState() {
         return _currentState;
