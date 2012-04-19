@@ -65,7 +65,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
         Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
         Object activeTitleTextColor = UIDefaultsLookup.get("activeCaptionText");
         Object activeTitleBackgroundColor = UIDefaultsLookup.getColor("activeCaption");
-        Object activeTitleBarGradientColor = activeTitleBackgroundColor instanceof Color ? Color.gray.darker(): ((Color) activeTitleBackgroundColor).darker();
+        Object activeTitleBarGradientColor = activeTitleBackgroundColor instanceof Color ? ((Color) activeTitleBackgroundColor).darker() : Color.gray.darker();
         Object activeTitleBorderColor = UIDefaultsLookup.get("controlDkShadow");
         Object inactiveTitleTextColor = UIDefaultsLookup.get("controlText");
         Object inactiveTitleBackgroundColor = UIDefaultsLookup.get("control");
