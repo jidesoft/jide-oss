@@ -40,14 +40,15 @@ public class EnumConverter implements ObjectConverter {
     /**
      * The constructor to convert a enum type class.
      * <p/>
-     * Reflection is used to invoke Enum#getValues(). Please consider make the enum class protected or public if you want
-     * to release your version after obfuscated. Otherwise, this constructor may not be able to find correct class method
-     * to work.
+     * Reflection is used to invoke Enum#getValues(). Please consider make the enum class protected or public if you
+     * want to release your version after obfuscated. Otherwise, this constructor may not be able to find correct class
+     * method to work.
      *
      * @param enumType the enum type
+     *
      * @since 3.4.0
      */
-    public EnumConverter(Class<?> enumType) {
+    public EnumConverter(Class<? extends Enum> enumType) {
         if (enumType == null || !enumType.isEnum()) {
             throw new IllegalArgumentException("To use this constructor, the type has to be an enum type.");
         }
@@ -145,6 +146,7 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param object  the object to be converted.
      * @param context the converter context.
+     *
      * @return the string for the object.
      */
     public String toString(Object object, ConverterContext context) {
@@ -169,6 +171,7 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param string  the string to be converted
      * @param context the converter context.
+     *
      * @return the object of the string.
      */
     public Object fromString(String string, ConverterContext context) {
@@ -243,6 +246,7 @@ public class EnumConverter implements ObjectConverter {
      * Of course, you can still define your own string array for the enum values if the default one doesn't work well.
      *
      * @param values the object array.
+     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values) {
@@ -254,6 +258,7 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param values           the object array.
      * @param converterContext the converter context used when calling ObjectConverterManager.toString.
+     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values, ConverterContext converterContext) {
