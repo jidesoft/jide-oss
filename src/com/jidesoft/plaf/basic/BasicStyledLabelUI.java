@@ -331,6 +331,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 }
             }
             maxWidth = Math.max(width, maxWidth);
+            int maxLineWidth = maxWidth;
             _preferredRowCount = naturalRowCount;
 
             // if getPreferredWidth() is not set but getRows() is set, get maximum width and row count based on the required rows.
@@ -364,10 +365,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (lineWrap && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && _preferredRowCount < label.getMinRows()) {
                 maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getMinRows());
             }
-            if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows() && label.getPreferredWidth() <= 0) {
+            if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows() && (label.getPreferredWidth() <= 0 || label.getPreferredWidth() >= maxLineWidth)) {
                 _preferredRowCount = label.getRows();
             }
-            Dimension dimension = new Dimension(maxWidth, (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
+            Dimension dimension = new Dimension(Math.min(maxWidth, maxLineWidth), (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
             if (label.getIcon() != null) {
                 dimension = new Dimension(dimension.width + label.getIconTextGap() + label.getIcon().getIconWidth(), dimension.height);
             }
