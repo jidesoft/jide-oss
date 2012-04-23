@@ -855,7 +855,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                                 availLength = subString.length() * widthLeft / strWidth;
                             }
                             loopCount++;
-                            if (loopCount > 5) {
+                            if (loopCount > 15) {
                                 System.err.println("Painting Styled Label Error: " + styledText);
                                 break;
                             }
