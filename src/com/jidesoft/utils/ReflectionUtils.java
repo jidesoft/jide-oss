@@ -170,7 +170,17 @@ public class ReflectionUtils {
      */
     public static Object callStatic(Class<?> thisClass, String methodName, Class<?>[] argTypes, Object[] args) throws Exception {
         Method method = thisClass.getMethod(methodName, argTypes);
-        return method.invoke(null, args);
+        Object result = null;
+        if (method != null) {
+            try {
+                method.setAccessible(true);
+                result = method.invoke(null, args);
+            }
+            finally {
+                method.setAccessible(false);
+            }
+        }
+        return result;
     }
 
     /**
