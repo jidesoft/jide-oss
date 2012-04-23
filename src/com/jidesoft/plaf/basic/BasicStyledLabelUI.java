@@ -304,6 +304,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             int nextRowStartIndex = 0;
             int width = 0;
             int maxWidth = 0;
+            List<Integer> lineWidths = new ArrayList<Integer>();
             // get one line width
             for (StyledText styledText : _styledTexts) {
                 StyleRange style = styledText.styleRange;
@@ -312,6 +313,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                 font = getFont(label);
                 String s = styledText.text.substring(nextRowStartIndex);
                 if (s.startsWith("\r") || s.startsWith("\n")) {
+                    lineWidths.add(width);
                     maxWidth = Math.max(width, maxWidth);
                     width = 0;
                     naturalRowCount++;
@@ -330,6 +332,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     width += fm.stringWidth(s);
                 }
             }
+            lineWidths.add(width);
             maxWidth = Math.max(width, maxWidth);
             int maxLineWidth = maxWidth;
             _preferredRowCount = naturalRowCount;
@@ -367,6 +370,10 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             }
             if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows() && (label.getPreferredWidth() <= 0 || label.getPreferredWidth() >= maxLineWidth)) {
                 _preferredRowCount = label.getRows();
+                maxLineWidth = 0;
+                for (int i = 0; i < lineWidths.size() && i < _preferredRowCount; i++) {
+                    maxLineWidth = Math.max(maxLineWidth, lineWidths.get(i));
+                }
             }
             Dimension dimension = new Dimension(Math.min(maxWidth, maxLineWidth), (maxRowHeight + Math.max(0, label.getRowGap())) * _preferredRowCount);
             if (label.getIcon() != null) {
