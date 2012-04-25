@@ -595,8 +595,6 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
 
         // make the spinner has the same font as text field
         table.put("Spinner.font", UIDefaultsLookup.get("TextField.font"));
-        table.put("Spinner.margin", UIDefaultsLookup.get("TextField.margin"));
-        table.put("Spinner.border", UIDefaultsLookup.get("TextField.border"));
         table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
         UIDefaultsLookup.put(table, "Theme.painter", BasicPainter.getInstance());
