@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import com.jidesoft.dialog.ButtonPanel;
+import com.jidesoft.dialog.ButtonResources;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.WindowsDesktopProperty;
 import com.jidesoft.plaf.basic.ThemePainter;
@@ -3998,5 +3999,67 @@ public class JideSwingUtilities implements SwingConstants {
         catch (Exception e) {
             // ignore
         }
+    }
+
+    /**
+     * Gets the string representing OK button.
+     *
+     * @param locale the locale
+     * @return the string.
+     */
+    public static String getOKString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.okButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = UIDefaultsLookup.getString("ColorChooser.okText");
+            if (text == null || text.length() <= 0) {
+                text = ButtonResources.getResourceBundle(locale).getString("Button.ok");
+            }
+        }
+        return text;
+    }
+
+    /**
+     * Gets the string representing Cancel button.
+     *
+     * @param locale the locale
+     * @return the string.
+     */
+    public static String getCancelString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.cancelButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = UIDefaultsLookup.getString("ColorChooser.cancelText");
+            if (text == null || text.length() <= 0) {
+                text = ButtonResources.getResourceBundle(locale).getString("Button.cancel");
+            }
+        }
+        return text;
+    }
+
+    /**
+     * Gets the string representing Yes button.
+     *
+     * @param locale the locale
+     * @return the string.
+     */
+    public static String getYesString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.yesButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = ButtonResources.getResourceBundle(locale).getString("Button.yes");
+        }
+        return text;
+    }
+
+    /**
+     * Gets the string representing No button.
+     *
+     * @param locale the locale
+     * @return the string.
+     */
+    public static String getNoString(Locale locale) {
+        String text = UIDefaultsLookup.getString("OptionPane.noButtonText", locale);
+        if (text == null || text.length() <= 0) {
+            text = ButtonResources.getResourceBundle(locale).getString("Button.no");
+        }
+        return text;
     }
 }

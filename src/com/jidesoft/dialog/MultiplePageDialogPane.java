@@ -5,9 +5,9 @@
 */
 package com.jidesoft.dialog;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideScrollPane;
+import com.jidesoft.swing.JideSwingUtilities;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -186,8 +186,8 @@ public class MultiplePageDialogPane extends StandardDialogPane {
     public ButtonPanel createButtonPanel() {
         ButtonPanel buttonPanel = new ButtonPanel();
         Locale l = getLocale();
-        _okButton = new JButton(UIDefaultsLookup.getString("OptionPane.okButtonText", l));
-        _cancelButton = new JButton(UIDefaultsLookup.getString("OptionPane.cancelButtonText", l));
+        _okButton = new JButton(JideSwingUtilities.getOKString(l));
+        _cancelButton = new JButton(JideSwingUtilities.getCancelString(l));
         _applyButton = new JButton();
         _okButton.setName(OK);
         _cancelButton.setName(CANCEL);
