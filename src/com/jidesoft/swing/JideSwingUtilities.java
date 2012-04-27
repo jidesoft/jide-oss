@@ -511,17 +511,17 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the two objects equal. If both are the same instance, they are equal. If both are null, they are equal.
-     * If o1 and o2 both are Comparable, we will use compareTo method to see if it equals 0. If considerArray is true
+     * If o1 and o2 both are Comparable, we will use compareTo method to see if it equals 0. If considerArrayOrList is true
      * and o1 and o2 are both array, we will compare each element in the array. At last, we will use
      * <code>o1.equals(o2)</code> to compare. If none of the above conditions match, we return false.
      *
-     * @param o1            the first object to compare
-     * @param o2            the second object to compare
-     * @param considerArray If true, and if o1 and o2 are both array, we will compare each element in the array instead
+     * @param o1                  the first object to compare
+     * @param o2                  the second object to compare
+     * @param considerArrayOrList If true, and if o1 and o2 are both array, we will compare each element in the array instead
      *                      of just compare the two array objects.
      * @return true if the two objects are equal. Otherwise false.
      */
-    public static boolean equals(Object o1, Object o2, boolean considerArray) {
+    public static boolean equals(Object o1, Object o2, boolean considerArrayOrList) {
         if (o1 == o2) {
             return true;
         }
@@ -540,16 +540,28 @@ public class JideSwingUtilities implements SwingConstants {
         else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
+        else if (considerArrayOrList && o1 instanceof List && o2 instanceof List) {
+            int length1 = ((List) o1).size();
+            int length2 = ((List) o2).size();
+            if (length1 != length2) {
+                return false;
+            }
+            for (int i = 0; i < length1; i++) {
+                if (!equals(((List) o1).get(i), ((List) o2).get(i), true)) {
+                    return false;
+                }
+            }
+            return true;
+        }
         else {
-            if (considerArray && o1.getClass().isArray() && o2.getClass().isArray()) {
+            if (considerArrayOrList && o1.getClass().isArray() && o2.getClass().isArray()) {
                 int length1 = Array.getLength(o1);
                 int length2 = Array.getLength(o2);
                 if (length1 != length2) {
                     return false;
                 }
                 for (int i = 0; i < length1; i++) {
-                    boolean equals = equals(Array.get(o1, i), Array.get(o2, i));
-                    if (!equals) {
+                    if (!equals(Array.get(o1, i), Array.get(o2, i), true)) {
                         return false;
                     }
                 }
