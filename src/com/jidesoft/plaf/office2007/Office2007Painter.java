@@ -11,6 +11,7 @@ import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.BasicJideButtonUI;
 import com.jidesoft.plaf.basic.BasicPainter;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.office2003.Office2003Painter;
 import com.jidesoft.swing.ComponentStateSupport;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSplitButton;
@@ -47,8 +48,16 @@ public class Office2007Painter extends BasicPainter {
     protected Office2007Painter() {
     }
 
+    /**
+     * Creates a default painter that paints something that could not be painted by Office2007Painter.'
+     * <p/>
+     * By default, it returns an Office2003Painter. However, if you doesn't like the painting theme of Office2003Painter,
+     * you could override this method to offer another default painter.
+     *
+     * @return the default painter instance.
+     */
     protected ThemePainter createDefaultPainter() {
-        return Office2007Painter.getInstance();
+        return Office2003Painter.getInstance();
     }
 
     public ThemePainter getDefaultPainter() {
