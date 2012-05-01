@@ -421,6 +421,9 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
             while (i >= min && source.charAt(i) != lowerTarget[strLastIndex] && source.charAt(i) != upperTarget[strLastIndex]) {
                 i--;
             }
+            if (i < min) {
+                break;
+            }
             int j = i - 1;
             int start = j - (targetCount - 1);
             int k = strLastIndex - 1;
