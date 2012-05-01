@@ -406,8 +406,8 @@ public class AquaJideUtils extends VsnetLookAndFeelExtension {
                     "DocumentPane.newVerticalGroupIcon", JideIconsFactory.getImageIcon(JideIconsFactory.WindowMenu.NEW_VERTICAL_TAB),
                     "DocumentPane.boldActiveTab", Boolean.TRUE,
 
-                    "OutlookTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
-                    "FloorTabbedPane.buttonStyle", JideButton.TOOLBOX_STYLE,
+                    "OutlookTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
+                    "FloorTabbedPane.buttonStyle", JideButton.TOOLBAR_STYLE,
             };
             table.putDefaults(uiDefaults);
         }

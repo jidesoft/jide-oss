@@ -51,7 +51,13 @@ public class AquaPainter extends BasicPainter {
     @Override
     public void paintButtonBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
         if (state == STATE_DEFAULT) {
-            super.paintButtonBackground(c, g, rect, orientation, state);
+            // use rollover effect to paint the button if the content filled is true. mainly for FloorTabbedPane and OutlookTabbedPane
+            if (c.isOpaque() && (c instanceof AbstractButton) && ((AbstractButton) c).isContentAreaFilled()) {
+                paintImageBorder(g, rect, ROLLOVER, ROLLOVER_BACKGROUND);
+            }
+            else {
+                super.paintButtonBackground(c, g, rect, orientation, state);
+            }
         }
         else if (state == STATE_ROLLOVER) {
             paintImageBorder(g, rect, ROLLOVER, ROLLOVER_BACKGROUND);
