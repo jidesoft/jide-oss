@@ -115,6 +115,9 @@ abstract public class NavigationComponentHelper {
     protected void paintRolloverRow(Graphics g, JComponent c, int row) {
         Color selectedColor = UIManager.getColor("Tree.selectionBackground");
         Rectangle bounds = getRowBounds(row);
+        if (bounds == null) {
+            return;
+        }
         bounds.width -= 1;
         bounds.height -= 1;
         paintRow(g, row, bounds, selectedColor, 10, 40, 20, 100);
