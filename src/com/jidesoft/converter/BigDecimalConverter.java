@@ -22,7 +22,7 @@ public class BigDecimalConverter extends NumberFormatConverter {
     public Object fromString(String string, ConverterContext context) {
         Object value = super.fromString(string, context);
         if (value instanceof Double) {
-            return new BigDecimal((Double) value);
+            return new BigDecimal(string);
         }
         else if (value instanceof Long) {
             return new BigDecimal((Long) value);

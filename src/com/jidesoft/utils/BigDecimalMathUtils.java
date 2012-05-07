@@ -177,8 +177,8 @@ public final class BigDecimalMathUtils {
         else                                      // d < 1.7E10^308  (the usual numbers)
         {
             double s = Math.sqrt(num);
-            iteration1 = new BigDecimal(s);                  // x = sqrt(d)
-            iteration2 = new BigDecimal(1. / 2. / s);            // v = 1/2/x
+            iteration1 = new BigDecimal(((Double) s).toString());                  // x = sqrt(d)
+            iteration2 = new BigDecimal(((Double) (1. / 2. / s)).toString());            // v = 1/2/x
             // works because Double.MIN_VALUE * Double.MAX_VALUE ~ 9E-16, so: v > 0
 
             startPrecision = 64;
