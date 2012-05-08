@@ -4,7 +4,7 @@
  * 2002 - 2012 JIDE Software Incorporated. All rights reserved.
  * Copyright (c) 2005 - 2012 Catalysoft Limited. All rights reserved.
  */
-package com.jidesoft.swing;
+package com.jidesoft.awt.geom;
 
 import java.io.Serializable;
 
