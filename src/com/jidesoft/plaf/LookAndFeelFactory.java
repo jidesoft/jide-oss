@@ -136,6 +136,11 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String METAL_LNF = "javax.swing.plaf.metal.MetalLookAndFeel";
 
     /**
+     * Class name of Synth L&F provided in Sun JDK.
+     */
+    public static final String SYNTH_LNF = "javax.swing.plaf.synth.SynthLookAndFeel";
+
+    /**
      * Class name of Aqua L&F provided in Apple Mac OS X JDK.
      */
     public static final String AQUA_LNF = "apple.laf.AquaLookAndFeel";

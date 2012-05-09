@@ -502,6 +502,7 @@ public class BasicJideButtonUI extends JideButtonUI {
      * @param b        Current button to render
      * @param textRect Bounding rectangle to render the text.
      * @param text     String to render
+     *
      * @since 1.4
      */
     protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text) {
@@ -758,7 +759,7 @@ public class BasicJideButtonUI extends JideButtonUI {
 
     protected void updateMargin(AbstractButton b) {
         String pp = getPropertyPrefix();
-        if (LookAndFeelFactory.isLnfInUse(SynthLookAndFeel.class.getName())) {
+        if (LookAndFeelFactory.isLnfInUse(LookAndFeelFactory.SYNTH_LNF)) {
             SynthStyle ss = SynthLookAndFeel.getStyle(b, Region.BUTTON);
             SynthContext sc = new SynthContext(b, Region.BUTTON, ss, 0);
             Insets insets = ss.getInsets(sc, new InsetsUIResource(0, 0, 0, 0));
@@ -781,6 +782,7 @@ public class BasicJideButtonUI extends JideButtonUI {
      * is center, we will wrap the text.
      *
      * @param c the component
+     *
      * @return true or false.
      */
     @SuppressWarnings({"UnusedDeclaration"})
