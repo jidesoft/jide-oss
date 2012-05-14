@@ -8569,6 +8569,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     else {
                         _tabPane.setSelectedIndex(tabIndex);
+                        if (_tabPane == null) {
+                            return; // in case the user invoked some APIs to cause updateUI() being invoked
+                        }
                         _tabPane.processMouseSelection(tabIndex, e);
                         final Component comp = _tabPane.getComponentAt(tabIndex);
                         if (_tabPane.isAutoFocusOnTabHideClose() && comp != null && !comp.isVisible() && SystemInfo.isJdk15Above() && !SystemInfo.isJdk6Above()) {
