@@ -185,7 +185,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
     }
 
     private String convertElementToString(Locale locale, Object value) {
-        if (CheckBoxList.ALL.equals(value)) {
+        if (CheckBoxList.ALL_ENTRY.equals(value)) {
             return Resource.getResourceBundle(locale).getString("CheckBoxList.all");
         }
         return (value == null) ? "" : value.toString();

@@ -60,7 +60,27 @@ public class CheckBoxList extends JList {
     private CheckBoxListSelectionModel _checkBoxListSelectionModel;
     protected Handler _handler;
 
+    /**
+     * @deprecated replaced by {@link #ALL_ENTRY}
+     */
+    @Deprecated
     public static final String ALL = "(All)";
+    /**
+     * The default all entry for CheckBoxList.
+     *
+     * @since 3.4.1
+     */
+    public static final Object ALL_ENTRY = new AllEntry();
+
+    private final static class AllEntry {
+        public AllEntry() {
+        }
+
+        @Override
+        public String toString() {
+            return "(All)";
+        }
+    }
 
     /**
      * Constructs a <code>CheckBoxList</code> with an empty model.
@@ -479,7 +499,7 @@ public class CheckBoxList extends JList {
         int[] temp = new int[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
+            if (listSelectionModel.isAllEntryConsidered() && i == listSelectionModel.getAllEntryIndex()) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {
@@ -629,7 +649,7 @@ public class CheckBoxList extends JList {
         Object[] temp = new Object[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
-            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
+            if (listSelectionModel.isAllEntryConsidered() && i == listSelectionModel.getAllEntryIndex()) {
                 continue;
             }
             if (listSelectionModel.isSelectedIndex(i)) {

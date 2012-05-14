@@ -52,8 +52,9 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
         if (getModel() == null) {
             return -1;
         }
-        for (int i = getModel().getSize() - 1; i >= 0; i--) {
-            if (JideSwingUtilities.equals(getModel().getElementAt(i), CheckBoxList.ALL)) {
+        int size = getModel().getSize();
+        for (int i = 0; i < size; i++) {
+            if (JideSwingUtilities.equals(getModel().getElementAt(i), CheckBoxList.ALL_ENTRY)) {
                 return i;
             }
         }
