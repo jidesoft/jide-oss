@@ -834,10 +834,10 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
             preferredSize.width = minimumSize.width;
         }
         Dimension maximumSize = comp.getMaximumSize();
-        if (preferredSize.height > maximumSize.height) {
+        if (preferredSize.height > maximumSize.height && maximumSize.height != 32767) { // 32767 is hard-coded inside Swing. If you set maximum size to null, the maximum size is 32767.
             preferredSize.height = maximumSize.height;
         }
-        if (preferredSize.width > maximumSize.width) {
+        if (preferredSize.width > maximumSize.width && maximumSize.height != 32767) {
             preferredSize.width = maximumSize.width;
         }
         return preferredSize;
