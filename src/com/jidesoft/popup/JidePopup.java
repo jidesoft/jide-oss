@@ -1761,6 +1761,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         if (c == null) {
             return;
         }
+
+        Component clickedComponent = (Component) e.getSource();
+        MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+        MenuElement[] menuElements = manager.getSelectedPath();
+        boolean found = false;
+        for (MenuElement menuElement : menuElements) {
+            if (menuElement instanceof JPopupMenu && ((JPopupMenu) menuElement).isAncestorOf(clickedComponent)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            manager.clearSelectedPath();
+        }
+
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
         if (!isClickOnPopup(e)) {
             if (isExcludedComponent(component)) {
