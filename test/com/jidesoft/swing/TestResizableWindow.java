@@ -11,7 +11,7 @@ import javax.swing.JButton;
 public class TestResizableWindow {
 
     public static void main(String[] args) {
-        // test git
+        // TEST AGAIN AND AGAIN AND AGAIN
         EventQueue.invokeLater(new Runnable() {
 
             @Override
