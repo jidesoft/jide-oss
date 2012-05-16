@@ -16,7 +16,7 @@ public class CornerScrollerVisualTest {
      * Although for typical components this won't be a problem.
      */
     public static void main(String[] args) {
-        // test git
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 LargeView largeView = new LargeView(200);
