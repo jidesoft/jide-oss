@@ -253,7 +253,7 @@ public class ColorUtils {
     /**
      * Converts from a color to gray scale color.
      *
-     * @param c a color.              dcadc
+     * @param c a color.
      *
      * @return a color in gray scale.
      */
