@@ -2094,6 +2094,7 @@ public class JideTabbedPane extends JTabbedPane {
 
         hideTabListPopup();
         _tabListPopup = createTabListPopup();
+        _tabListPopup.setComponentOrientation(getComponentOrientation());
         _tabListPopup.setPopupBorder(BorderFactory.createLineBorder(UIDefaultsLookup.getColor("JideTabbedPane.darkShadow")));
         _tabListPopup.add(panel);
         _tabListPopup.addExcludedComponent(listButton);
