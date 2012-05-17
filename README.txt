@@ -31,12 +31,12 @@ build by Maven
 ---------------
 First of all, you should have Maven installed. You can find it from http://maven.apache.org/download.html.
  
-Then make some configuration. Here is a brief instruction, you should make sure you have JDK 1.5+ installed before your Maven installation. Then you just unpack Maven package and install it by defautl. After installation you should add a system environment variables M2_HOME which link to where Maven been installed, and add the %M2_HOME%\bin to PATH environment variables as well.
+Then make some configuration. Here is a brief instruction, you should make sure you have JDK 1.5+ installed before your Maven installation. Then you just unpack Maven package and install it by defautl. After installation you should add a system environment variable M2_HOME which link to where Maven been installed, and add the %M2_HOME%\bin to PATH environment variable as well.
 
 Finally, you come to the JIDE Common Layer directory, use Maven command to compile, package or deploy the project. 
-mvn compile                   compile the source code, classes will be in sub directory target/classes
-mvn clean                     clean previous build
-mvn package                   compile the source code and package jars to sub directory target
+mvn compile    compile the source, classes output to directory "target/classes"
+mvn clean      clean previous build
+mvn package    compile the source and package jars to sub directory "target"
 
 build by Ant
 ---------------
