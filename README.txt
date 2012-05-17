@@ -66,10 +66,10 @@ Test
 We suggest to verify a release of JIDE Common Layer by Maven. You should add the following dependency to your pom.xml
 
   <dependency> 
-	    <groupId>com.jidesoft</groupId> 
-	    <artifactId>jide-oss</artifactId> 
-	    <version>3.4.0</version> 
-	</dependency> 
+    <groupId>com.jidesoft</groupId> 
+    <artifactId>jide-oss</artifactId> 
+    <version>3.4.0</version> 
+  </dependency> 
 
 Please change version to the version number you want to verify. You can find the version number from http://search.maven.org 
 by searching jide-oss. 
