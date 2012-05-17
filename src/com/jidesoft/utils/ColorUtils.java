@@ -21,6 +21,7 @@ public class ColorUtils {
      * @param color the given color.
      * @param ratio the ratio. 0.5f if the same color. Any ratio greater than 0.5f will make the result color lighter.
      *              Smaller than 0.5f will make the color darker.
+     *
      * @return the derived color.
      */
     public static Color getDerivedColor(Color color, float ratio) {
@@ -47,6 +48,7 @@ public class ColorUtils {
      * Converts a color from RBG to HSL color space.
      *
      * @param colorRGB the Color.
+     *
      * @return color space in HSL.
      */
     public static float[] RGBtoHSL(Color colorRGB) {
@@ -107,6 +109,7 @@ public class ColorUtils {
      * Converts from HSL color space to RGB color.
      *
      * @param hsl the hsl values.
+     *
      * @return the RGB color.
      */
     public static int HSLtoRGB(float[] hsl) {
@@ -236,6 +239,7 @@ public class ColorUtils {
      *
      * @param hasAlpha true to consider the alpha when creating the Color.
      * @param colors   the color value.
+     *
      * @return the colors with alpha added.
      */
     public static Color[] toColors(boolean hasAlpha, int... colors) {
@@ -250,6 +254,7 @@ public class ColorUtils {
      * Converts from a color to gray scale color.
      *
      * @param c a color.
+     *
      * @return a color in gray scale.
      */
     public static Color toGrayscale(Color c) {
