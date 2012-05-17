@@ -88,7 +88,20 @@ public class PortingUtils {
      * @return the rectangle that is in the screen bounds.
      */
     public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect) {
-        Rectangle screenBounds = getScreenBounds(invoker);
+        return containsInScreenBounds(invoker, rect, false);
+    }
+
+    /**
+     * To make sure the rectangle is within the screen bounds.
+     *
+     * @param invoker the invoker component
+     * @param rect    the rectangle
+     * @param useInvokerDevice the flag to return invoker device or not
+     * @return the rectangle that is in the screen bounds.
+     * @since 3.4.1
+     */
+    public static Rectangle containsInScreenBounds(Component invoker, Rectangle rect, boolean useInvokerDevice) {
+        Rectangle screenBounds = getScreenBounds(invoker, useInvokerDevice);
         Point p = rect.getLocation();
         if (p.x + rect.width > screenBounds.x + screenBounds.width) {
             p.x = screenBounds.x + screenBounds.width - rect.width;

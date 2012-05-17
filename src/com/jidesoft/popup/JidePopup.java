@@ -1051,6 +1051,11 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     protected void internalShowPopup(int x, int y, Component owner) {
         _actualOwner = owner != null ? owner : getOwner();
+
+        Rectangle rectangle = getAdjustedRectangle(x, y, _actualOwner);
+        x = rectangle.x;
+        y = rectangle.y;
+
         if (_actualOwner != null) {
             try {
                 _actualOwnerLocation = _actualOwner.getLocationOnScreen();
@@ -1061,6 +1066,36 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
         createWindow(_actualOwner, x, y);
         showPopupImmediately();
+    }
+
+    /**
+     * Gets the rectangle adjusted by preferred size and the monitor device settings. The client property "useAllMonitorDevices"
+     * could be registered in any ancestor component of the owner component to take effect.
+     *
+     * @param x     the original x
+     * @param y     the original y
+     * @param owner the owner component
+     * @return the adjusted rectangle according to the preferred size and monitor devie settings.
+     * @since 3.4.1
+     */
+    protected Rectangle getAdjustedRectangle(int x, int y, Component owner) {
+        boolean useAllDevices = false;
+        if (owner instanceof JComponent) {
+            JComponent comp = (JComponent) owner;
+            while (comp != null) {
+                Object property = comp.getClientProperty("useAllMonitorDevices");
+                if (property instanceof Boolean) {
+                    useAllDevices = (Boolean) property;
+                    break;
+                }
+                if (!(comp.getParent() instanceof JComponent)) {
+                    break;
+                }
+                comp = (JComponent) comp.getParent();
+            }
+        }
+        Dimension preferredSize = getPreferredSize();
+        return PortingUtils.containsInScreenBounds(owner, new Rectangle(x, y, preferredSize.width, preferredSize.height), !useAllDevices);
     }
 
     protected void createWindow(Component owner, int x, int y) {
@@ -1773,7 +1808,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
         }
         if (!found) {
-            manager.clearSelectedPath();
+//            manager.clearSelectedPath();
         }
 
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
