@@ -41,8 +41,6 @@ Finally, you come to the JIDE Common Layer directory, use Maven command to compi
 mvn compile										compile the source code, classes will be in sub directory target/classes
 mvn clean											clean previous build
 mvn package										compile the source code and package jars to sub directory target
-mvn deploy										compile the source code, package jars, and then deploy to Maven
-                              You should get deploy keys from JIDESOFT if you want to deploy release.
 
 build by Ant
 ---------------
@@ -65,13 +63,13 @@ dist (default)
 
 Test
 ===============
-We also suggest to verify a release of JIDE Common Layer by Maven. You just switch to sub directory src-test-project,
-modify the version number of JIDE Common Layer you want to test in pom.xml, you can find the version number from
-http://search.maven.org by searching jide-oss. Finally you just type the command "mvn test". You should find messages 
-of downloading jide-oss release, test cases succeed.
+We suggest to verify a release of JIDE Common Layer by Maven. You should add the following dependency to your pom.xml
 
-note
----------------
-if you have tried to deploy a jide-oss release before you commit mvn test, you should clean the specific version
-files in local repository, which is located in ~/.m2/repository/com/jidesoft/jide-oss/, for example
-rm -rf ~/.m2/repository/com/jidesoft/jide-oss/3.4.0
+  <dependency> 
+	    <groupId>com.jidesoft</groupId> 
+	    <artifactId>jide-oss</artifactId> 
+	    <version>3.4.0</version> 
+	</dependency> 
+
+Please change version to the version number you want to verify. You can find the version number from http://search.maven.org 
+by searching jide-oss. 
