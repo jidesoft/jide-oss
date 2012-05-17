@@ -8,17 +8,17 @@ The contents of the distributions are:
 
 	build.properties
 	build.xml											
-	docs													the Developer Guide
-	examples											examples for JIDE Common Layer
+	docs                        the Developer Guide
+	examples                    examples for JIDE Common Layer
 	JIDE Common Layer.iml
-	JIDE Common Layer.ipr					the JIDE Common Layer project for IntelliJ IDEA
+	JIDE Common Layer.ipr       the JIDE Common Layer project for IntelliJ IDEA
 	libs
-	LICENSE.txt										the license statement
-	oss-test-project							the test project based on Maven
-	pom.xml												the config file for Maven
+	LICENSE.txt                 the license statement
+	oss-test-project            the test project based on Maven
+	pom.xml                     the config file for Maven
 	properties									
-	README.txt										this file
-	src														the source code
+	README.txt                  this file
+	src                         the source code
 	test													
 	www														
 
@@ -38,9 +38,9 @@ you should add a system environment variables M2_HOME which link to where Maven 
 %M2_HOME%\bin to PATH environment variables as well.
 
 Finally, you come to the JIDE Common Layer directory, use Maven command to compile, package or deploy the project. 
-mvn compile										compile the source code, classes will be in sub directory target/classes
-mvn clean											clean previous build
-mvn package										compile the source code and package jars to sub directory target
+mvn compile                   compile the source code, classes will be in sub directory target/classes
+mvn clean                     clean previous build
+mvn package                   compile the source code and package jars to sub directory target
 
 build by Ant
 ---------------
