@@ -48,6 +48,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
 
     public void setModel(TreeModel model) {
         if (_model != model) {
+            clearSelection();
             if (_model != null) {
                 _model.removeTreeModelListener(this);
             }
@@ -125,6 +126,11 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      */
     protected boolean isParentActuallySelected(TreePath path, TreePath parent) {
         return true;
+    }
+
+    @Override
+    public boolean isPathSelected(TreePath path) {
+        return super.isPathSelected(path); // Cannot return isPathSelected(path, isDigIn()). Otherwise FilterableCheckBoxTreeSelectionModel will have problem. FilterableCheckBoxTreeTest
     }
 
     /**

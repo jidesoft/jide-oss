@@ -10,7 +10,7 @@ import com.jidesoft.swing.JideSwingUtilities;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Path2D;
+import java.awt.geom.GeneralPath;
 
 /**
  * <code>RolloverIcon</code> provides the expanded and collapsed tree icons that has rollover and fade effect. However
@@ -88,7 +88,7 @@ public class RolloverIcon implements Icon {
             Graphics2D g2 = (Graphics2D) g;
             Color orgColor = g2.getColor();
             Object o = JideSwingUtilities.setupShapeAntialiasing(g);
-            Path2D path = new Path2D.Double();
+            GeneralPath path = new GeneralPath();
             if (c.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
                 path.moveTo(x + 4, y);
                 path.lineTo(x, y + 4);
@@ -135,7 +135,7 @@ public class RolloverIcon implements Icon {
             Graphics2D g2 = (Graphics2D) g;
             Color orgColor = g2.getColor();
             Object o = JideSwingUtilities.setupShapeAntialiasing(g);
-            Path2D path = new Path2D.Double();
+            GeneralPath path = new GeneralPath();
             if (c.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
                 path.moveTo(x, y);
                 path.lineTo(x, y + 5);

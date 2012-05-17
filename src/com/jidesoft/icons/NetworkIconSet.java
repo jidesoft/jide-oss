@@ -8,9 +8,9 @@
 package com.jidesoft.icons;
 
 /**
- * <code>IconSet</code> is a class which works with JIDE Network Icon Set (<a href="http://www.jidesoft.com/icon/">http://www.jidesoft.com/icon/</a>).
- * It defines 72 icons in 6 sections in this class. We could add more in the future. All JIDE icon set will follow the
- * naming conversion as defined here.
+ * <code>NetworkIconSet</code> is a class which works with JIDE Network Icon Set (<a
+ * href="http://www.jidesoft.com/icon/">http://www.jidesoft.com/icon/</a>). It defines 72 icons in 6 sections in this
+ * class. We could add more in the future. All JIDE icon set will follow the naming conversion as defined here.
  *
  * @see com.jidesoft.icons.IconSetManager
  */

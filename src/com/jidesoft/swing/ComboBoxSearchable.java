@@ -10,9 +10,11 @@ import com.jidesoft.swing.event.SearchableEvent;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -46,7 +48,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
     private boolean _refreshPopupDuringSearching = false;
     private boolean _showPopupDuringSearching = true;
 
-    public ComboBoxSearchable(JComboBox comboBox) {
+    public ComboBoxSearchable(final JComboBox comboBox) {
         super(comboBox);
 
         // to avoid conflict with default type-match feature of JComboBox.
@@ -58,6 +60,59 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         comboBox.getModel().addListDataListener(this);
         comboBox.addPropertyChangeListener("model", this);
         comboBox.addPopupMenuListener(this);
+
+        if (comboBox.isEditable()) {
+            Component editorComponent = comboBox.getEditor().getEditorComponent();
+            final JTextField textField = (JTextField) editorComponent;
+            textField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED && e.getKeyCode() != KeyEvent.VK_ENTER
+                            && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+                        String text = textField.getText();
+                        ComboBoxModel model = comboBox.getModel();
+                        ListDataListener removedListener = null;
+                        // this is a hack. We have to remove the listener registered in BasicComboBoxUI while filtering the combobox model.
+                        // the code below will break if the listener is not a class in BasicComboBoxUI.
+                        if (model instanceof AbstractListModel) {
+                            ListDataListener[] listeners = ((AbstractListModel) model).getListDataListeners();
+                            for (ListDataListener listener : listeners) {
+                                //noinspection IndexOfReplaceableByContains
+                                if (listener.getClass().toString().indexOf("BasicComboBoxUI") != -1) {
+                                    removedListener = listener;
+                                    model.removeListDataListener(listener);
+                                }
+                            }
+                        }
+                        textChanged(text);
+                        if (removedListener != null) {
+                            model.addListDataListener(removedListener);
+                        }
+                        if (isShowPopupDuringSearching()) {
+                            if (!comboBox.getUI().getClass().getName().contains("ExComboBoxUI")) { // only cover the JComboBox for now but not the subclass of JComboBox because don't want dependency on ExComboBox in JCL
+                                comboBox.hidePopup();
+                            }
+                            comboBox.showPopup();
+                        }
+                    }
+                }
+            });
+            setSearchableProvider(new SearchableProvider() {
+                @Override
+                public String getSearchingText() {
+                    return textField.getText();
+                }
+
+                @Override
+                public boolean isPassive() {
+                    return true;
+                }
+
+                @Override
+                public void processKeyEvent(KeyEvent e) {
+                }
+            });
+        }
     }
 
     @Override
@@ -113,12 +168,6 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         if (((JComboBox) _component).getSelectedIndex() != index) {
             ((JComboBox) _component).setSelectedIndex(index);
         }
-        if (isRefreshPopupDuringSearching()) {
-            boolean old = isHideSearchPopupOnEvent();
-            setHideSearchPopupOnEvent(false);
-            ((JComboBox) _component).hidePopup();
-            setHideSearchPopupOnEvent(old);
-        }
         if (isShowPopupDuringSearching() || isRefreshPopupDuringSearching()) {
             try {
                 if (!((JComboBox) _component).isPopupVisible() &&
@@ -155,6 +204,7 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
      * element that returned from <code>list.getModel().getElementAt(i)</code>.
      *
      * @param object the object to be converted
+     *
      * @return the string representing the element in the JComboBox.
      */
     @Override

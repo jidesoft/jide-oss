@@ -11,29 +11,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * DelegateAction is a special AbstractAction which can do something then delegate to another action depending on
- * the return value of {@link #delegateActionPerformed(java.awt.event.ActionEvent)}.
- * There are two usages of it. First, you can use {@link #replaceAction(javax.swing.JComponent,int,javax.swing.KeyStroke,DelegateAction)}
- * to replace the action associated with the specified keystroke with the DelegateAction. The DelegateAction will be
- * triggered when the keystroke is pressed. After DelegateAction is done, it can return true or false. If false, the original action
- * associated with the keystroke will be triggered as well. This solves the problem that {@link JComponent#registerKeyboardAction(java.awt.event.ActionListener,String,javax.swing.KeyStroke,int)}
- * will replace the original action so that the original action will never be triggered.
+ * DelegateAction is a special AbstractAction which can do something then delegate to another action depending on the
+ * return value of {@link #delegateActionPerformed(java.awt.event.ActionEvent)}. There are two usages of it. First, you
+ * can use {@link #replaceAction(javax.swing.JComponent, int, javax.swing.KeyStroke, DelegateAction)} to replace the action
+ * associated with the specified keystroke with the DelegateAction. The DelegateAction will be triggered when the
+ * keystroke is pressed. After DelegateAction is done, it can return true or false. If false, the original action
+ * associated with the keystroke will be triggered as well. This solves the problem that {@link
+ * JComponent#registerKeyboardAction(java.awt.event.ActionListener, String, javax.swing.KeyStroke, int)} will replace the
+ * original action so that the original action will never be triggered.
  * <p/>
- * The second way to use DelegateAction is to delegate the action from one component to another component using {@link #replaceAction(javax.swing.JComponent,int,javax.swing.JComponent,int,javax.swing.KeyStroke,DelegateAction)}.
- * In this case, the keystroke on the first component parameter will be triggered the DelegateAction. If DelegateAction returns false, the registered action on the second component parameter will be triggered.
- * If you pass in {@link PassthroughDelegateAction}, the registered action on the second component
- * will always be triggered.
+ * The second way to use DelegateAction is to delegate the action from one component to another component using {@link
+ * #replaceAction(javax.swing.JComponent, int, javax.swing.JComponent, int, javax.swing.KeyStroke, DelegateAction)}. In this
+ * case, the keystroke on the first component parameter will be triggered the DelegateAction. If DelegateAction returns
+ * false, the registered action on the second component parameter will be triggered. If you pass in {@link
+ * PassthroughDelegateAction}, the registered action on the second component will always be triggered.
  * <p/>
- * Please notes, if you call replaceAction several times on the same component with the same keystroke,
- * it will form a chain of DelegateActions. In this case, the first call will be the first DelegateAction.
- * In the other words, the first one will have the highest priority and will be triggered first.
- * Ideally, we should assign a priority to each DelegateAction. But for the sake of simplicity,
- * we decided not doing it for now. So because of this, this class is not ready to be used as public API. We have
- * to make it public because different packages in JIDE need to use it. If you want to use, please use it with caution.
- * We don't guarantee that we will not change the public methods on this classes.
+ * Please notes, if you call replaceAction several times on the same component with the same keystroke, it will form a
+ * chain of DelegateActions. In this case, the first call will be the first DelegateAction. In the other words, the
+ * first one will have the highest priority and will be triggered first. Ideally, we should assign a priority to each
+ * DelegateAction. But for the sake of simplicity, we decided not doing it for now. So because of this, this class is
+ * not ready to be used as public API. We have to make it public because different packages in JIDE need to use it. If
+ * you want to use, please use it with caution. We don't guarantee that we will not change the public methods on this
+ * classes.
  * <p/>
  */
 abstract public class DelegateAction extends AbstractAction {
+    private static final long serialVersionUID = -3867985431184738600L;
     private Action _action;
     private JComponent _target;
 
@@ -51,7 +54,7 @@ abstract public class DelegateAction extends AbstractAction {
 
     /**
      * Returns true if either delegateIsEnabled or the action is enabled.
-     *
+     * <p/>
      * {@inheritDoc}
      */
     // Should be final like actionPerformed but not done for backward compatibility.
@@ -90,7 +93,8 @@ abstract public class DelegateAction extends AbstractAction {
     }
 
     /**
-     * Checks if an action can be performed. Returns true if delegateActionPerformed would perform an action. Otherwise returns false.
+     * Checks if an action can be performed. Returns true if delegateActionPerformed would perform an action. Otherwise
+     * returns false.
      *
      * @return <code>true</code> if the action can be performed.
      */
@@ -100,7 +104,8 @@ abstract public class DelegateAction extends AbstractAction {
     }
 
     /**
-     * Performs an action. Returns true if no further action should be taken for this keystroke. Otherwise, returns false.
+     * Performs an action. Returns true if no further action should be taken for this keystroke. Otherwise, returns
+     * false.
      *
      * @param e the action event.
      * @return true if no further action should be taken for this keystroke. Otherwise, returns false.

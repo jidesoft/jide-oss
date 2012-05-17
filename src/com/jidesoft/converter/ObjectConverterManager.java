@@ -5,6 +5,9 @@
  */
 package com.jidesoft.converter;
 
+import com.jidesoft.utils.CacheMap;
+import com.jidesoft.utils.RegistrationListener;
+
 import java.awt.*;
 import java.io.File;
 import java.math.BigDecimal;
@@ -43,7 +46,7 @@ public class ObjectConverterManager {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
 
-        if (isAutoInit() && !_initing) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultConverter();
         }
 
@@ -71,7 +74,7 @@ public class ObjectConverterManager {
             context = ConverterContext.DEFAULT_CONTEXT;
         }
 
-        if (isAutoInit() && !_initing) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultConverter();
         }
 
@@ -108,10 +111,11 @@ public class ObjectConverterManager {
      *
      * @param clazz   the type of which the converter will be registered.
      * @param context the converter context.
+     *
      * @return the registered converter.
      */
     public static ObjectConverter getConverter(Class<?> clazz, ConverterContext context) {
-        if (isAutoInit()) {
+        if (isAutoInit() && !_inited && !_initing) {
             initDefaultConverter();
         }
 
@@ -124,6 +128,9 @@ public class ObjectConverterManager {
             return converter;
         }
         else {
+            if (clazz != null && clazz.isArray()) {
+                registerConverter(clazz, new DefaultArrayConverter("; ", clazz.getComponentType()));
+            }
             return _defaultConverter;
         }
     }
@@ -132,6 +139,7 @@ public class ObjectConverterManager {
      * Gets the converter associated with the type.
      *
      * @param clazz type
+     *
      * @return the converter
      */
     public static ObjectConverter getConverter(Class<?> clazz) {
@@ -142,6 +150,7 @@ public class ObjectConverterManager {
      * Converts an object to string using default converter context.
      *
      * @param object object to be converted.
+     *
      * @return the string
      */
     public static String toString(Object object) {
@@ -156,6 +165,7 @@ public class ObjectConverterManager {
      *
      * @param object object to be converted.
      * @param clazz  type of the object
+     *
      * @return the string
      */
     public static String toString(Object object, Class<?> clazz) {
@@ -168,6 +178,7 @@ public class ObjectConverterManager {
      * @param object  object to be converted.
      * @param clazz   type of the object
      * @param context converter context
+     *
      * @return the string converted from object
      */
     public static String toString(Object object, Class<?> clazz, ConverterContext context) {
@@ -188,6 +199,7 @@ public class ObjectConverterManager {
      *
      * @param string the string to be converted
      * @param clazz  the type to be converted to
+     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz) {
@@ -200,6 +212,7 @@ public class ObjectConverterManager {
      * @param string  the string to be converted
      * @param clazz   the type to be converted to
      * @param context converter context to be used
+     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz, ConverterContext context) {
@@ -277,6 +290,7 @@ public class ObjectConverterManager {
      * Gets the available ConverterContexts registered with the class.
      *
      * @param clazz the class.
+     *
      * @return the available ConverterContexts.
      */
     public static ConverterContext[] getConverterContexts(Class<?> clazz) {

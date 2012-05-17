@@ -17,11 +17,11 @@ import java.awt.*;
 
 
 /**
- * Gripper is a component that you can drag. Actually the component itself doesn't allow you to drag, it is up to the
- * component who uses this Gripper to add mouse motion listener and do the dragging. The Gripper will paint itself so
- * that user can tell immediately that it is something dragable.
+ * <code>Gripper</code> is a component that you can drag. Actually the component itself doesn't allow you to drag, it is
+ * up to the component who uses this Gripper to add mouse motion listener and do the dragging. The Gripper will paint
+ * itself so that user can tell immediately that it is something draggable.
  */
-public class Gripper extends JComponent implements SwingConstants, Alignable, DragableHandle, UIResource {
+public class Gripper extends JComponent implements SwingConstants, Alignable, DraggableHandle, UIResource {
 
     /**
      * @see #getUIClassID

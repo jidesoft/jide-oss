@@ -106,7 +106,31 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         init(text, icon);
     }
 
-    // *********************************************************************
+    @Override
+    protected void configurePropertiesFromAction(Action action) {
+        super.configurePropertiesFromAction(action);
+        boolean selected = false;
+        if (action != null) {
+            selected = Boolean.TRUE.equals(action.getValue(Action.SELECTED_KEY));
+        }
+        if (selected != isSelected()) {
+            // This won't notify ActionListeners, but that should be
+            // ok as the change is coming from the Action.
+            setSelected(selected);
+            // Make sure the change actually took effect
+            if (!selected && isSelected()) {
+                if (getModel() instanceof DefaultButtonModel) {
+                    ButtonGroup group = (ButtonGroup)
+                            ((DefaultButtonModel)getModel()).getGroup();
+                    if (group != null) {
+                        group.clearSelection();
+                    }
+                }
+            }
+        }
+    }
+
+// *********************************************************************
 
     /**
      * The ToggleButton model

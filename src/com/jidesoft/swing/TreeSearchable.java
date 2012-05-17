@@ -8,6 +8,7 @@ package com.jidesoft.swing;
 import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.beans.PropertyChangeEvent;
@@ -219,6 +220,20 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     protected String convertElementToString(Object object) {
         if (object instanceof TreePath) {
             Object treeNode = ((TreePath) object).getLastPathComponent();
+            if (getComponent() instanceof JTree) {
+                JTree tree = (JTree) getComponent();
+                TreePath[] selectionPaths = tree.getSelectionPaths();
+                boolean selected = false;
+                if (selectionPaths != null) {
+                    for (TreePath selectedPath : selectionPaths) {
+                        if (selectedPath == object) {
+                            selected = true;
+                            break;
+                        }
+                    }
+                }
+                return tree.convertValueToText(treeNode, selected, tree.isExpanded((TreePath) object), tree.getModel().isLeaf(treeNode), tree.getRowForPath((TreePath) object), tree.hasFocus() && tree.getLeadSelectionPath() == object);
+            }
             return treeNode.toString();
         }
         else if (object != null) {

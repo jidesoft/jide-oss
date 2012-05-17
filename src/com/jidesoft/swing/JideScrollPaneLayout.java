@@ -252,6 +252,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         JScrollPane scrollPane = (JScrollPane) parent;
         vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
         hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        boolean flatLayout = scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isFlatLayout();
 
         Insets insets = parent.getInsets();
         int prefWidth = insets.left + insets.right;
@@ -270,6 +271,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             extentSize = viewport.getPreferredSize();
             viewSize = viewport.getViewSize();
             view = viewport.getView();
+            if (flatLayout && viewport.getView() != null) {
+                extentSize = viewport.getView().getPreferredSize();
+            }
         }
 
         /* If there's a viewport add its preferredSize.
@@ -337,7 +341,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
          * JViewport will always give it its preferredSize.
          */
 
-        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
+        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER) && !flatLayout) {
             if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
                 prefWidth += vsb.getPreferredSize().width;
             }
@@ -352,7 +356,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             }
         }
 
-        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER)) {
+        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER) && !flatLayout) {
             if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
                 prefHeight += hsb.getPreferredSize().height;
             }
@@ -431,6 +435,10 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
          * JScrollPane.
          */
         JScrollPane scrollPane = (JScrollPane) parent;
+        boolean flatLayout = scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isFlatLayout();
+        if (flatLayout) {
+            return preferredLayoutSize(parent);
+        }
         vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
         hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
 
@@ -443,6 +451,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
 
         if (viewport != null) {
             Dimension size = viewport.getMinimumSize();
+            if (flatLayout && viewport.getView() != null) {
+                size = viewport.getView().getMinimumSize();
+            }
             minWidth += size.width;
             minHeight += size.height;
         }
@@ -540,13 +551,13 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
          * size in.
          */
 
-        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
+        if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER) && !flatLayout) {
             Dimension size = vsb.getMinimumSize();
             minWidth += size.width;
             minHeight = Math.max(minHeight, size.height);
         }
 
-        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER)) {
+        if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER && !flatLayout)) {
             Dimension size = hsb.getMinimumSize();
             minWidth = Math.max(minWidth, size.width);
             minHeight += size.height;
@@ -586,6 +597,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
          * JScrollPane.
          */
         JScrollPane scrollPane = (JScrollPane) parent;
+        boolean flatLayout = scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isFlatLayout();
         vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
         hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
 
@@ -739,7 +751,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
         // Don't bother checking the Scrollable methods if there is no room
         // for the viewport, we aren't going to show any scrollbars in this
         // case anyway.
-        if (!isEmpty && view instanceof Scrollable) {
+        if (!isEmpty && view instanceof Scrollable && !flatLayout) {
             sv = (Scrollable) view;
             viewTracksViewportWidth = sv.getScrollableTracksViewportWidth();
             viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
@@ -771,6 +783,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 vsbNeeded = true;
             }
         }
+        if (flatLayout) {
+            vsbNeeded = false;
+        }
 
 
         if ((vsb != null) && vsbNeeded) {
@@ -799,6 +814,9 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
             if (!hsbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_hLeft != null || _hRight != null)) {
                 hsbNeeded = true;
             }
+        }
+        if (flatLayout) {
+            hsbNeeded = false;
         }
 
         if ((hsb != null) && hsbNeeded) {
@@ -847,7 +865,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 boolean oldVSBNeeded = vsbNeeded;
                 viewTracksViewportWidth = sv.getScrollableTracksViewportWidth();
                 viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
-                if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
+                if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED && !flatLayout) {
                     boolean newVSBNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height || (rowHead != null && rowHead.getView() != null && rowHead.getView().getPreferredSize().height > extentSize.height));
                     if (!newVSBNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_vBottom != null || _vTop != null)) {
                         newVSBNeeded = true;
@@ -859,7 +877,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                                 (availR.getSize());
                     }
                 }
-                if (hsb != null && hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
+                if (hsb != null && hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED && !flatLayout) {
                     boolean newHSBbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width || (colHead != null && colHead.getView() != null && colHead.getView().getPreferredSize().width > extentSize.width));
                     if (!newHSBbNeeded && scrollPane instanceof JideScrollPane && ((JideScrollPane) scrollPane).isKeepCornerVisible() && (_hLeft != null || _hRight != null)) {
                         newHSBbNeeded = true;
@@ -984,7 +1002,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 }
             }
             else {
-                if (viewPrefSize.height > extentSize.height) {
+                if (viewPrefSize.height > extentSize.height && !flatLayout) {
                     vsb.setVisible(true);
                     vsb.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y, 0, vsbR.height), ltr));
                 }
@@ -1026,7 +1044,7 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                 }
             }
             else {
-                if (viewPrefSize.width > extentSize.width) {
+                if (viewPrefSize.width > extentSize.width && !flatLayout) {
                     hsb.setVisible(true);
                     hsb.setBounds(adjustBounds(parent, new Rectangle(hsbR.x, hsbR.y, hsbR.width, 0), ltr));
                 }

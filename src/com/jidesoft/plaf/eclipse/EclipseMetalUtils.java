@@ -65,7 +65,7 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
         Object defaultDarkShadowColor = UIDefaultsLookup.get("controlDkShadow");
         Object activeTitleTextColor = UIDefaultsLookup.get("activeCaptionText");
         Object activeTitleBackgroundColor = UIDefaultsLookup.getColor("activeCaption");
-        Object activeTitleBarGradientColor = activeTitleBackgroundColor instanceof Color ? Color.gray.darker(): ((Color) activeTitleBackgroundColor).darker();
+        Object activeTitleBarGradientColor = activeTitleBackgroundColor instanceof Color ? ((Color) activeTitleBackgroundColor).darker() : Color.gray.darker();
         Object activeTitleBorderColor = UIDefaultsLookup.get("controlDkShadow");
         Object inactiveTitleTextColor = UIDefaultsLookup.get("controlText");
         Object inactiveTitleBackgroundColor = UIDefaultsLookup.get("control");
@@ -170,8 +170,8 @@ public class EclipseMetalUtils extends EclipseLookAndFeelExtension {
                 "JideTabbedPane.closeButtonMargin", 2,
                 "JideTabbedPane.gripLeftMargin", 4,
                 "JideTabbedPane.closeButtonMarginSize", 6,
-                "JideTabbedPane.closeButtonLeftMargin", 1,
-                "JideTabbedPane.closeButtonRightMargin", 1,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 

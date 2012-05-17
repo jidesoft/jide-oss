@@ -12,8 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- * <code>Sticky</code> is a helper class to make JList or JTree changing selection when mouse moves. To use it, you
- * simply call
+ * <code>Sticky</code> is a helper class to make JList or JTree or JTable changing selection when mouse moves. To use
+ * it, you simply call
  * <pre><code>
  * JList list = new JList();
  * new Sticky(list);
@@ -26,7 +26,7 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class Sticky {
     private JComponent _target;
-    private static final StrickyMouseMotionListener STICKY_MOUSE_MOTION_LISTENER = new StrickyMouseMotionListener();
+    private static final StickyMouseMotionListener STICKY_MOUSE_MOTION_LISTENER = new StickyMouseMotionListener();
 
     public Sticky(JList list) {
         _target = list;
@@ -58,7 +58,7 @@ public class Sticky {
         _target.removeMouseMotionListener(STICKY_MOUSE_MOTION_LISTENER);
     }
 
-    static private class StrickyMouseMotionListener extends MouseMotionAdapter {
+    static private class StickyMouseMotionListener extends MouseMotionAdapter {
         //
         // MouseMotionListener:
         // NOTE: this is added to both the List and ComboBox

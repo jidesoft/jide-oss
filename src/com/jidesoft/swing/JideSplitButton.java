@@ -20,6 +20,11 @@ import java.awt.event.ActionEvent;
  * splits the button into two portions. The portion before the line is a button. User can click on it and trigger an
  * action. The portion after the line is a menu. User can click on it to show a normal menu.
  * <p/>
+ * Please be noted that, when you try to use JideSplitButton as a menu item, please make sure that you will re-configure
+ * its font with the following code. Otherwise, it may look different with the other JMenuItems.
+ * <code><pre>
+ *         splitButton.setFont((Font) JideSwingUtilities.getMenuFont(Toolkit.getDefaultToolkit(), UIManager.getDefaults()));
+ * </pre></code>
  */
 public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentStateSupport {
 

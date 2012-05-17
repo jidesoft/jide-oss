@@ -12,10 +12,12 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 
 /**
- * Resizable is a class that support resizable feature.
+ * <code>Resizable</code> is a class that supports the resizable feature.
  * <p/>
- * To use it and make a component resizable, you just need to create new Resizable() and pass in that component to the
- * constructor.
+ * To use it and make a component resizable, you just need to create new Resizable(component) and pass in that component
+ * to the constructor. <code>Resizable</code> uses {@link #beginResizing(int)}, {@link #resizing(int, int, int, int,
+ * int)} and {@link #endResizing(int)} to archive the resizing effect. It should work for most cases. However if it
+ * doesn't work as expected for some layouts, you can override one of all of the three methods to make it working.
  */
 public class Resizable {
 
@@ -46,6 +48,8 @@ public class Resizable {
 
     /**
      * Creates a new <code>Resizable</code>. This call will make the component to be resizable.
+     *
+     * @param component the component that should be resizable.
      */
     public Resizable(JComponent component) {
         _component = component;
@@ -247,6 +251,7 @@ public class Resizable {
      * Gets the snap grid size.
      *
      * @return the snap grid size.
+     *
      * @see #setSnapGridSize(int)
      */
     public int getSnapGridSize() {

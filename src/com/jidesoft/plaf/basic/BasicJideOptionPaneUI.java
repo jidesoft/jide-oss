@@ -12,6 +12,7 @@ import com.jidesoft.dialog.ButtonResources;
 import com.jidesoft.dialog.JideOptionPane;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.JideBoxLayout;
+import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.NullPanel;
 import com.jidesoft.swing.PaintPanel;
 
@@ -416,12 +417,12 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     defaultOptions = new ButtonFactory[2];
                     defaultOptions[0] = new ButtonFactory(
                             ButtonNames.OK,
-                            UIDefaultsLookup.getString("OptionPane.okButtonText", l),
+                            JideSwingUtilities.getOKString(l),
                             getMnemonic("OptionPane.okButtonMnemonic", l),
                             (Icon) UIDefaultsLookup.get("OptionPane.okIcon"));
                     defaultOptions[1] = new ButtonFactory(
                             ButtonNames.CANCEL,
-                            UIDefaultsLookup.getString("OptionPane.cancelButtonText", l),
+                            JideSwingUtilities.getCancelString(l),
                             getMnemonic("OptionPane.cancelButtonMnemonic", l),
                             (Icon) UIDefaultsLookup.get("OptionPane.cancelIcon"));
                 }
@@ -438,7 +439,7 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     defaultOptions = new ButtonFactory[1];
                     defaultOptions[0] = new ButtonFactory(
                             ButtonNames.OK,
-                            UIDefaultsLookup.getString("OptionPane.okButtonText", l),
+                            JideSwingUtilities.getOKString(l),
                             getMnemonic("OptionPane.okButtonMnemonic", l),
                             (Icon) UIDefaultsLookup.get("OptionPane.okIcon"));
                 }

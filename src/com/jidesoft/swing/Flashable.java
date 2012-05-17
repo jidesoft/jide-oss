@@ -63,6 +63,7 @@ public abstract class Flashable {
                 if (_synchronizedFlashTimer == null) {
                     _synchronizedFlashTimer = new FlashTimer(delay, listener);
                 }
+                _synchronizedFlashTimer.removeActionListener(listener);
                 _synchronizedFlashTimer.addActionListener(listener);
                 return _synchronizedFlashTimer;
             }

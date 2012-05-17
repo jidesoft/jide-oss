@@ -84,7 +84,13 @@ public class BasicJideButtonUI extends JideButtonUI {
 
     protected void installDefaults(AbstractButton b) {
         // load shared instance defaults
-        _painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
+        Object o = UIDefaultsLookup.get("Theme.painter");
+        if (o instanceof ThemePainter) {
+            _painter = (ThemePainter) o;
+        }
+        else {
+            _painter = new BasicPainter();
+        }
 
         String pp = getPropertyPrefix();
         if (!defaults_initialized) {

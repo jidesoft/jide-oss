@@ -1,7 +1,7 @@
 /*
  * @(#)IntegerRange.java 9/5/2009
  *
- * Copyright 2005 - 2009 Catalysoft Ltd. All rights reserved.
+ * Copyright 2005 - 2012 Catalysoft Ltd. All rights reserved.
  */
 
 package com.jidesoft.range;
@@ -150,6 +150,11 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
         else {
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return _max * 29 + _min;
     }
 
     @Override

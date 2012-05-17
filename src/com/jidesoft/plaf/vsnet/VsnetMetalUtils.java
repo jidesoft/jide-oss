@@ -189,8 +189,8 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "JideTabbedPane.closeButtonMargin", 2,
                 "JideTabbedPane.gripLeftMargin", 4,
                 "JideTabbedPane.closeButtonMarginSize", 6,
-                "JideTabbedPane.closeButtonLeftMargin", 1,
-                "JideTabbedPane.closeButtonRightMargin", 1,
+                "JideTabbedPane.closeButtonLeftMargin", 2,
+                "JideTabbedPane.closeButtonRightMargin", 2,
 
                 "JideTabbedPane.defaultTabBorderShadowColor", new ColorUIResource(115, 109, 99),
 
@@ -495,7 +495,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
         // make the spinner has the same font as text field
         table.put("Spinner.font", UIDefaultsLookup.get("TextField.font"));
-        table.put("Spinner.margin", UIDefaultsLookup.get("TextField.margin"));
         table.put("FormattedTextField.font", UIDefaultsLookup.get("TextField.font"));
 
         UIDefaultsLookup.put(table, "Theme.painter", MetalPainter.getInstance());

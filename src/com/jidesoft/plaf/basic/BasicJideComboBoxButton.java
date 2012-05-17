@@ -85,7 +85,11 @@ public class BasicJideComboBoxButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         Color old = g.getColor();
-        ThemePainter painter = (ThemePainter) UIDefaultsLookup.get("Theme.painter");
+        Object painterObject = UIDefaultsLookup.get("Theme.painter");
+        if (!(painterObject instanceof ThemePainter)) {
+            return;
+        }
+        ThemePainter painter = (ThemePainter) painterObject;
         if (getModel().isSelected() || getModel().isPressed() || _comboBox.isPopupVisible()) {
             // paint pressed style
             painter.paintButtonBackground(this, g, new Rectangle(0, 0, getWidth(), getHeight()), 0, ThemePainter.STATE_PRESSED, false);

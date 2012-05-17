@@ -13,6 +13,7 @@ import java.awt.*;
  * and return "" in toString.
  */
 public class FontNameConverter implements ObjectConverter {
+    private boolean _ensureFontExistence = false;
     /**
      * ConverterContext for a font name.
      */
@@ -23,13 +24,21 @@ public class FontNameConverter implements ObjectConverter {
             return "";
         }
         else {
-            String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-            for (String fontName : fontNames) { // check font if it is available
-                if (fontName.equals(object)) {
-                    return fontName;
+            if (isEnsureFontExistence()) {
+                String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+                for (String fontName : fontNames) { // check font if it is available
+                    if (fontName.equals(object)) {
+                        return fontName;
+                    }
                 }
+                return "";
             }
-            return "";
+            else if (object instanceof String) {
+                return (String) object;
+            }
+            else {
+                return "";
+            }
         }
     }
 
@@ -42,17 +51,45 @@ public class FontNameConverter implements ObjectConverter {
             return null;
         }
         else {
-            String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-            for (String fontName : fontNames) { // check font if it is available
-                if (fontName.equals(string)) {
-                    return string;
+            if (isEnsureFontExistence()) {
+                String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+                for (String fontName : fontNames) { // check font if it is available
+                    if (fontName.equals(string)) {
+                        return string;
+                    }
                 }
+                return null;
             }
-            return null;
+            else {
+                return string;
+            }
         }
     }
 
     public boolean supportFromString(String string, ConverterContext context) {
         return true;
+    }
+
+    /**
+     * Checks if the FontNameConverter ensures the font exists on your OS. It is false by default. Setting it to true
+     * will slow down the performance as it takes time to check whether the font actually exists.
+     *
+     * @return true or false.
+     *
+     * @since 3.3.4
+     */
+    public boolean isEnsureFontExistence() {
+        return _ensureFontExistence;
+    }
+
+    /**
+     * Sets the flag so that FontNameConverter ensures the font exists on your OS.
+     *
+     * @param ensureFontExistence true or false.
+     *
+     * @since 3.3.4
+     */
+    public void setEnsureFontExistence(boolean ensureFontExistence) {
+        _ensureFontExistence = ensureFontExistence;
     }
 }

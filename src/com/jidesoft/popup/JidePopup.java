@@ -42,18 +42,18 @@ import java.util.List;
 public class JidePopup extends JComponent implements Accessible, WindowConstants {
 
     /**
-     * You can set client property to JidePopup control the window opacity (only when heavyweight popup is in use).
-     * The value of the client property should be a float.
+     * You can set client property to JidePopup control the window opacity (only when heavyweight popup is in use). The
+     * value of the client property should be a float.
      */
     public static final String CLIENT_PROPERTY_WINDOW_OPACITY = "windowOpacity";
     /**
-     * You can set client property to JidePopup control the window opaque (only when heavyweight popup is in use)
-     * The value of the client property should be a boolean.
+     * You can set client property to JidePopup control the window opaque (only when heavyweight popup is in use) The
+     * value of the client property should be a boolean.
      */
     public static final String CLIENT_PROPERTY_WINDOW_OPAQUE = "windowOpaque";
     /**
-     * You can set client property to JidePopup control the window shape (only when heavyweight popup is in use)
-     * The value of the client property should be a Shape.
+     * You can set client property to JidePopup control the window shape (only when heavyweight popup is in use) The
+     * value of the client property should be a Shape.
      */
     public static final String CLIENT_PROPERTY_WINDOW_SHAPE = "windowShape";
 
@@ -340,6 +340,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @param enabled a boolean value, <code>true</code> if checking is to be enabled, which cause the exceptions to be
      *                thrown
+     *
      * @see #addImpl
      * @see #setLayout
      * @see #isRootPaneCheckingEnabled
@@ -360,6 +361,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param comp        the <code>Component</code> to be added
      * @param constraints the object containing the constraints, if any
      * @param index       the index
+     *
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
@@ -377,6 +379,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Removes the specified component from this container.
      *
      * @param comp the component to be removed
+     *
      * @see #add
      */
     @Override
@@ -401,6 +404,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * disable this behavior.
      *
      * @param manager the <code>LayoutManager</code>
+     *
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
@@ -434,6 +438,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets the <code>menuBar</code> property for this <code>Popup</code>.
      *
      * @param m the <code>JMenuBar</code> to use in this Popup.
+     *
      * @see #getJMenuBar
      */
     public void setJMenuBar(JMenuBar m) {
@@ -458,6 +463,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>contentPane</code> property.
      *
      * @param c the content pane for this popup.
+     *
      * @throws java.awt.IllegalComponentStateException
      *          (a runtime exception) if the content pane parameter is <code>null</code>
      * @see javax.swing.RootPaneContainer#getContentPane
@@ -484,6 +490,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>layeredPane</code> property.
      *
      * @param layered the <code>JLayeredPane</code> for this popup
+     *
      * @throws java.awt.IllegalComponentStateException
      *          (a runtime exception) if the layered pane parameter is <code>null</code>
      * @see javax.swing.RootPaneContainer#setLayeredPane
@@ -509,6 +516,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>glassPane</code> property.
      *
      * @param glass the glass pane for this popup
+     *
      * @see javax.swing.RootPaneContainer#getGlassPane
      */
     public void setGlassPane(Component glass) {
@@ -746,7 +754,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     /**
-     * Shows the popup. By default, it will show right below the owner after considering the insets.
+     * Shows the popup. By default, it will show right below the owner after considering the insets. This call is almost
+     * the same as setOwner followed by showPopup() except in this case, the owner is only temporarily used to create
+     * the popup. It will not be added to excludedComponent list as setOwner would do.
      *
      * @param owner the popup window's owner; if unspecified, it will default to the RootPaneContainer(Applet) or
      *              ContentContainer
@@ -792,12 +802,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param point owner is top-left coordinate relative to screen.
      * @param size  the size of the popup window.
      * @param owner the owner
+     *
      * @return new popup location. By default, it will return the coordinate of the bottom-left corner of owner.
      */
     protected Point getPopupLocation(Point point, Dimension size, Component owner) {
         Component actualOwner = (owner != null) ? owner : getOwner();
         Dimension ownerSize = actualOwner != null ? actualOwner.getSize() : new Dimension(0, 0);
         Dimension screenSize = PortingUtils.getScreenSize(owner);
+        Rectangle screenBounds = PortingUtils.getScreenBounds(owner);
 
         if (size.width == 0) {
             size = this.getPreferredSize();
@@ -809,10 +821,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
         if (left > screenSize.width) {
             p.x -= left - screenSize.width; // move left so that the whole popup can fit in
+            if (p.x < screenBounds.x) {
+                p.x = screenBounds.x;
+            }
         }
 
         if (bottom > screenSize.height) {
             p.y = point.y + _insets.top - size.height; // flip to upward
+            if (p.y < screenBounds.y) {
+                p.y = screenBounds.y;
+            }
             if (isResizable()) {
                 setupResizeCorner(Resizable.UPPER_RIGHT);
             }
@@ -938,6 +956,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Set the display start location of the popup.
      *
      * @param startLocation the display start location.
+     *
      * @see #getDisplayStartLocation(java.awt.Rectangle, java.awt.Dimension, int)
      */
     public void setDisplayStartLocation(Point startLocation) {
@@ -952,6 +971,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param screenDim the dimension of the screen
      * @param size      the size of the popup
      * @param location  the direction to show the popup
+     *
      * @return the display start location.
      */
     protected Point getDisplayStartLocation(Rectangle screenDim, Dimension size, int location) {
@@ -1004,6 +1024,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         return screenDim;
     }
 
+    /**
+     * Packs the popup. Setting size only if it's a light weight popup. Otherwise do pack.
+     */
     public void packPopup() {
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             if (_panel == null) {
@@ -1050,6 +1073,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(null);
+                if (_previousSize.width < 0) {
+                    _previousSize.width = getPreferredSize().width;
+                }
+                if (_previousSize.height < 0) {
+                    _previousSize.height = getPreferredSize().height;
+                }
                 setPreferredSize(_previousSize);
             }
             _previousSize = null;
@@ -1087,6 +1117,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
+                setPreferredSize(null);
+                if (_previousSize.width < 0) {
+                    _previousSize.width = getPreferredSize().width;
+                }
+                if (_previousSize.height < 0) {
+                    _previousSize.height = getPreferredSize().height;
+                }
                 setPreferredSize(_previousSize);
             }
             _previousSize = null;
@@ -1136,6 +1173,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * @param owner the owner for this popup container. It will be used to find the top level ancestor and use it as the
      *              parent for this popup window.
+     *
      * @return a ResizableWindow.
      */
     protected ResizableWindow createHeavyweightPopupContainer(Component owner) {
@@ -1176,6 +1214,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param owner the owner for this popup container. This parameter is not used in this method. It was there mainly
      *              because the corresponding {@link #createHeavyweightPopupContainer(java.awt.Component)} has this
      *              parameter.
+     *
      * @return a ResizablePanel
      */
     @SuppressWarnings({"UnusedDeclaration"})
@@ -1345,6 +1384,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     protected void showPopupImmediately() {
+        boolean needFireEvents = true;
         if (_popupType == LIGHT_WEIGHT_POPUP) {
             if (_panel == null) {
                 return;
@@ -1352,14 +1392,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
             _panel.applyComponentOrientation(getComponentOrientation());
 
-            firePopupMenuWillBecomeVisible();
+            if (_panel.isVisible()) {
+                needFireEvents = false;
+            }
+            if (needFireEvents) {
+                firePopupMenuWillBecomeVisible();
+            }
 
             if (!_panel.isVisible()) {
                 packPopup();
                 _panel.setVisible(true);
             }
 
-            firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            if (needFireEvents) {
+                firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            }
 
             if (isFocusable() || getDefaultFocusComponent() != null) {
                 // only allow window to have focus when there is a default focus component.
@@ -1380,9 +1427,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (_window == null) {
                 return;
             }
+            if (_window.isVisible()) {
+                needFireEvents = false;
+            }
             _window.applyComponentOrientation(getComponentOrientation());
 
-            firePopupMenuWillBecomeVisible();
+            if (needFireEvents) {
+                firePopupMenuWillBecomeVisible();
+            }
 
             // only when the focus cycle root is true, the component in JidePopup won't request focus automatically.
             if (!isFocusable() && getDefaultFocusComponent() == null) {
@@ -1397,7 +1449,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 _window.setVisible(true);
             }
 
-            firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            if (needFireEvents) {
+                firePropertyChange("visible", Boolean.FALSE, Boolean.TRUE);
+            }
 
             if (isFocusable() || getDefaultFocusComponent() != null) {
                 // only allow window to have focus when there is a default focus component.
@@ -2145,10 +2199,22 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
     }
 
+    /**
+     * Gets the owner of the popup.
+     *
+     * @return the owner of the popup.
+     */
     public Component getOwner() {
         return _owner;
     }
 
+    /**
+     * Sets the owner of the popup. By default, we will call addExcludedComponent(owner) so that clicking on the owner
+     * will not hide the popup. If you prefer to hide the popup when the owner is clicked, please call {@link
+     * #removeExcludedComponent(java.awt.Component)} to remove it explicitly after setOwner is called.
+     *
+     * @param owner the new owner.
+     */
     public void setOwner(Component owner) {
         if (_owner != owner) {
             Component old = _owner;
@@ -2425,6 +2491,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Removes a <code>PopupMenuListener</code>.
      *
      * @param l the <code>PopupMenuListener</code> to remove
+     *
      * @see #addPopupMenuListener
      * @since 1.4
      */
@@ -2569,6 +2636,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * hide the popup. By default, owner is always the excluded component.
      *
      * @param component a component.
+     *
      * @return true if the component is an excluded component.
      */
     public boolean isExcludedComponent(Component component) {
@@ -2630,6 +2698,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * the mouse click is outside the popup.
      *
      * @param e the mouse event
+     *
      * @return true or false.
      */
     public boolean isClickOnPopup(MouseEvent e) {

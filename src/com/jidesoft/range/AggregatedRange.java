@@ -55,6 +55,14 @@ public class AggregatedRange implements Range<Double> {
     }
 
     /**
+     * The number of points being combined in this range
+     * @return the number of points contributing to the range
+     */
+    public int getCount() {
+        return positions.size();
+    }
+
+    /**
      * Computes the sum of all the positive Positionables
      * @return the sum of all the positive Positionables
      */

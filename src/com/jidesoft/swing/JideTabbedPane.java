@@ -27,11 +27,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * <code>JidetabbedPane</code> is an enhanced version of <code>JTabbedPane</code>. Different from
- * <code>JTabbedPane</code>, it <ul> <li> has an option to hide tab area if there is only one component in tabbed pane.
- * <li> has an option to resize tab width so that all tabs can be fitted in one row. <li> has an option to show a close
- * button along with scroll left and scroll right buttons in tab area. </ul> Except methods to set additional options
- * specified above, the usage of <code>JideTabbedPane</code> is the same as <code>JTabbedPane</code>.
+ * <code>JideTabbedPane</code> is an enhanced version of <code>JTabbedPane</code>. Different from
+ * <code>JTabbedPane</code>, it <ul> <li> has an option to hide tab area if there is only one component in the tabbed
+ * pane. <li> has an option to resize tab width so that all tabs can be fitted in one row. <li> has an option to show a
+ * close button along with scroll left and scroll right buttons in tab area. </ul> Except methods to set additional
+ * options specified above, the usage of <code>JideTabbedPane</code> is the same as <code>JTabbedPane</code>.
  */
 public class JideTabbedPane extends JTabbedPane {
 
@@ -41,6 +41,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _showCloseButton = false;
     private boolean _showCloseButtonOnTab = false;
+    private boolean _showCloseButtonOnMouseOver = false;
     private boolean _useDefaultShowCloseButtonOnTab = false;
     private boolean _showTabArea = true;
     private boolean _showTabContent = true;
@@ -137,6 +138,7 @@ public class JideTabbedPane extends JTabbedPane {
     public static final String PROPERTY_DRAG_OVER_DISABLED = "dragOverDisabled";
     public static final String SCROLL_TAB_ON_WHEEL_PROPERTY = "scrollTabOnWheel";
     public static final String PROPERTY_SELECTED_INDEX = "selectedIndex";
+    public static final String PROPERTY_SHOW_CLOSE_BUTTON_ON_MOUSE_OVER = "showCloseButtonOnMouseOver";
 
     public static final int BUTTON_CLOSE = 0;
     public static final int BUTTON_EAST = 1;
@@ -264,6 +266,7 @@ public class JideTabbedPane extends JTabbedPane {
      * <code>JTabbedPane.RIGHT</code>.
      *
      * @param tabPlacement the placement for the tabs relative to the content
+     *
      * @see #addTab
      */
     public JideTabbedPane(int tabPlacement) {
@@ -279,6 +282,7 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @param tabPlacement    the placement for the tabs relative to the content
      * @param tabLayoutPolicy the policy for laying out tabs when all tabs will not fit on one run
+     *
      * @throws IllegalArgumentException if tab placement or tab layout policy are not one of the above supported values
      * @see #addTab
      */
@@ -294,6 +298,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the UI object which implements the L&F for this component.
      *
      * @return a <code>TabbedPaneUI</code> object
+     *
      * @see #setUI
      */
     @Override
@@ -305,6 +310,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the UI object which implements the L&F for this component.
      *
      * @param ui the new UI object
+     *
      * @see UIDefaults#getUI
      */
     @Override
@@ -330,6 +336,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Returns the name of the UI class that implements the L&F for this component.
      *
      * @return the string "TabbedPaneUI"
+     *
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
@@ -653,6 +660,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Be default, the flag is false. If you want to connect visibility of those two components, please set it to true.
      *
      * @return true if the trailing component would be hidden while no buttons are visible. Otherwise false.
+     *
      * @see #isShowTabArea()
      * @see #isShowTabButtons()
      * @see #setHideTrailingWhileNoButtons(boolean)
@@ -665,6 +673,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Set the flag that if the trailing component should be hidden while no buttons are visible.
      *
      * @param hideTrailingWhileNoButtons the flag
+     *
      * @see #isHideTrailingWhileNoButtons()
      */
     public void setHideTrailingWhileNoButtons(boolean hideTrailingWhileNoButtons) {
@@ -674,8 +683,9 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Gets the flag indicating if the trailing component should be layout before the default buttons.
      *
-     * @see #setLayoutTrailingComponentBeforeButtons(boolean)
      * @return true if the trailing component should be layout to the left/up. Otherwise false.
+     *
+     * @see #setLayoutTrailingComponentBeforeButtons(boolean)
      */
     public boolean isLayoutTrailingComponentBeforeButtons() {
         return _layoutTrailingComponentBeforeButtons;
@@ -684,9 +694,11 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Sets the flag indicating if the trailing component should be layout before the default buttons.
      * <p/>
-     * The default value is false. If you want your trailing component preceding to the default buttons, please set this flag to true.
+     * The default value is false. If you want your trailing component preceding to the default buttons, please set this
+     * flag to true.
      *
-     * @param layoutTrailingComponentBeforeButtons the flag
+     * @param layoutTrailingComponentBeforeButtons
+     *         the flag
      */
     public void setLayoutTrailingComponentBeforeButtons(boolean layoutTrailingComponentBeforeButtons) {
         _layoutTrailingComponentBeforeButtons = layoutTrailingComponentBeforeButtons;
@@ -982,6 +994,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Sets the string converter.
      *
      * @param stringConverter the StringConverter.
+     *
      * @see #getStringConverter()
      */
     public void setStringConverter(StringConverter stringConverter) {
@@ -994,6 +1007,7 @@ public class JideTabbedPane extends JTabbedPane {
      * converter.
      *
      * @param index the index to display
+     *
      * @return the display title.
      */
     public String getDisplayTitleAt(int index) {
@@ -1074,6 +1088,9 @@ public class JideTabbedPane extends JTabbedPane {
         }
 
         updateUI(); // force calling updateUI so that the tab buttons will be updated
+        if (getUI() instanceof BasicJideTabbedPaneUI) {
+            ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(true);
+        }
     }
 
     @Override
@@ -1095,7 +1112,9 @@ public class JideTabbedPane extends JTabbedPane {
      * By default, this method always return true. Subclass can override this method to return a different value.
      *
      * @param tabIndex the tab index
+     *
      * @return the flag.
+     *
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
@@ -1112,6 +1131,7 @@ public class JideTabbedPane extends JTabbedPane {
      *
      * @param tabIndex the tab index
      * @param closable the flag indicating if the tab is clossable
+     *
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public void setTabClosableAt(int tabIndex, boolean closable) {
@@ -1132,6 +1152,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Gets the last focused component of a particular page.
      *
      * @param pageComponent the page component
+     *
      * @return the last focused component of a particular page.
      */
 
@@ -1338,6 +1359,7 @@ public class JideTabbedPane extends JTabbedPane {
      * note, you must implement UIResource for the component you want to use as tab leading component.
      *
      * @param component the tab leading component
+     *
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabLeadingComponent(Component component) {
@@ -1358,6 +1380,7 @@ public class JideTabbedPane extends JTabbedPane {
      * note, you must implement UIResource for the component you want to use as tab trailing component.
      *
      * @param component the tab trailing component
+     *
      * @throws IllegalArgumentException if the component doesn't implement UIResource.
      */
     public void setTabTrailingComponent(Component component) {
@@ -1387,6 +1410,35 @@ public class JideTabbedPane extends JTabbedPane {
         _showCloseButtonOnSelectedTab = i;
     }
 
+    /**
+     * Gets the flag indicating if the close button should only be displayed when the mouse is over the tab.
+     *
+     * @return true if the close button should only be displayed when the mouse is over the tab. Otherwise false.
+     *
+     * @see #setShowCloseButtonOnMouseOver(boolean)
+     * @since 3.3.3
+     */
+    public boolean isShowCloseButtonOnMouseOver() {
+        return _showCloseButtonOnMouseOver;
+    }
+
+    /**
+     * Sets the flag indicating if the close button should only be displayed when the mouse is over the tab.
+     * <p/>
+     * The default value of the flag is false to keep default behavior not changed.
+     *
+     * @param showCloseButtonOnMouseOverOnly the flag
+     *
+     * @since 3.3.3
+     */
+    public void setShowCloseButtonOnMouseOver(boolean showCloseButtonOnMouseOverOnly) {
+        if (_showCloseButtonOnMouseOver != showCloseButtonOnMouseOverOnly) {
+            boolean old = _showCloseButtonOnMouseOver;
+            _showCloseButtonOnMouseOver = showCloseButtonOnMouseOverOnly;
+            firePropertyChange(PROPERTY_SHOW_CLOSE_BUTTON_ON_MOUSE_OVER, old, _showCloseButtonOnMouseOver);
+        }
+    }
+
 
     private ColorProvider _tabColorProvider;
 
@@ -1398,6 +1450,7 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the tab background for the tab at the specified index.
          *
          * @param tabIndex the index of the tab
+         *
          * @return the tab background for the tab at the specified index.
          */
         Color getBackgroundAt(int tabIndex);
@@ -1406,6 +1459,7 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the tab foreground for the tab at the specified index.
          *
          * @param tabIndex the index of the tab
+         *
          * @return the tab foreground for the tab at the specified index.
          */
         Color getForegroudAt(int tabIndex);
@@ -1414,6 +1468,7 @@ public class JideTabbedPane extends JTabbedPane {
          * Gets the gradient ratio. We will use this ratio to provide another color in order to paint gradient.
          *
          * @param tabIndex the index of the tab
+         *
          * @return the gradient ratio. The value should be between 0 and 1. 0 will produce the darkest and color and 1
          *         will produce the lighest color. 0.5 will provide the same color.
          */
@@ -1431,6 +1486,7 @@ public class JideTabbedPane extends JTabbedPane {
          * JideTabbedPaneUI will paint a gradient using this color and the color of getBackgroundAt.
          *
          * @param tabIndex the index of the tab
+         *
          * @return the top background color.
          */
         Color getTopBackgroundAt(int tabIndex);
@@ -1474,7 +1530,7 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Sets the tab color provider.It allows you to set the background color of each tab. The reason to use this way
-     * instead of {@link #setBackgroundAt(int,java.awt.Color)} method is because this way queries the color. So it can
+     * instead of {@link #setBackgroundAt(int, java.awt.Color)} method is because this way queries the color. So it can
      * support unlimited number of tabs. When you don't know exactly how many tabs it will be, this way can still handle
      * it very well. There is {@link #ONENOTE_COLOR_PROVIDER} which provides the tab color as you see in Microsoft
      * OneNote 2003. You can also define your own ColorProvider to fit your application color theme.
@@ -1628,6 +1684,7 @@ public class JideTabbedPane extends JTabbedPane {
      * pressed.
      *
      * @return the tab list cell renderer.
+     *
      * @see #setTabListCellRenderer(javax.swing.ListCellRenderer)
      */
     public ListCellRenderer getTabListCellRenderer() {
@@ -1737,8 +1794,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab area insets. It's the inserts around the tabs. The direction of the insets
-     * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
+     * Sets the tab area insets. It's the inserts around the tabs. The direction of the insets is when the tabs are on
+     * top. We will rotate it automatically when the tabs are on other directions.
      *
      * @param tabAreaInsets the content border insets
      */
@@ -1753,8 +1810,8 @@ public class JideTabbedPane extends JTabbedPane {
     }
 
     /**
-     * Sets the tab insets. It's the inserts around the JideTabbedPane's tab. The direction of the insets
-     * is when the tabs are on top. We will rotate it automatically when the tabs are on other directions.
+     * Sets the tab insets. It's the inserts around the JideTabbedPane's tab. The direction of the insets is when the
+     * tabs are on top. We will rotate it automatically when the tabs are on other directions.
      *
      * @param tabInsets the content border insets
      */
@@ -1768,6 +1825,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks the dragOverDisabled property. By default it is false.
      *
      * @return true or false.
+     *
      * @see #setDragOverDisabled(boolean)
      */
     public boolean isDragOverDisabled() {
@@ -1805,6 +1863,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Adds a <code>TabEditingListener</code> to this tabbedpane.
      *
      * @param l the <code>TabEditingListener</code> to add
+     *
      * @see #fireTabEditing
      * @see #removeTabEditingListener(TabEditingListener)
      * @see #getTabEditingListeners()
@@ -1817,6 +1876,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Removes a <code>TabEditingListener</code> from this tabbedpane.
      *
      * @param l the <code>TabEditingListener</code> to remove
+     *
      * @see #fireTabEditing
      * @see #addTabEditingListener
      */
@@ -1871,6 +1931,7 @@ public class JideTabbedPane extends JTabbedPane {
      * because the two flags above.
      *
      * @param tabIndex the tab index.
+     *
      * @return the icon for the tab at the specified index.
      */
     public Icon getIconForTab(int tabIndex) {
@@ -1933,7 +1994,9 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Returns the alignment of the tabs for this tabbed pane.
+     *
      * @return the alignment of the tabs for this tabbed pane.
+     *
      * @see #setTabAlignment(int)
      */
     public int getTabAlignment() {
@@ -1942,16 +2005,12 @@ public class JideTabbedPane extends JTabbedPane {
 
     /**
      * Sets the tab alignment for the tabs of a tabbed pane. Currently it only supports top and bottom tab placement.
-     * Possible values are:<ul>
-     * <li><code>JideTabbedPane.LEADING</code>
-     * <li><code>JideTabbedPane.CENTER</code>
-     * </ul>
-     * The default value, if not set, is <code>JideTabbedPane.LEADING</code>.
+     * Possible values are:<ul> <li><code>JideTabbedPane.LEADING</code> <li><code>JideTabbedPane.CENTER</code> </ul> The
+     * default value, if not set, is <code>JideTabbedPane.LEADING</code>.
      *
      * @param tabAlignment the alignment for the tabs relative to the content
-     * @exception IllegalArgumentException if tab alignment value isn't one
-     *                          of the above valid values
      *
+     * @throws IllegalArgumentException if tab alignment value isn't one of the above valid values
      */
     public void setTabAlignment(int tabAlignment) {
         if (tabAlignment != LEADING && tabAlignment != CENTER) {
@@ -1970,6 +2029,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Gets the resource string used in JideTabbedPane. Subclass can override it to provide their own strings.
      *
      * @param key the resource key
+     *
      * @return the localized string.
      */
     public String getResourceString(String key) {
@@ -1980,6 +2040,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Creates tab list popup.
      *
      * @return the tab list popup instance.
+     *
      * @since 3.2.2
      */
     protected JidePopup createTabListPopup() {
@@ -1990,6 +2051,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Checks if the tab list popup is visible.
      *
      * @return true if the tab list popup is visible. Otherwise false.
+     *
      * @since 3.2.2
      */
     public boolean isTabListPopupVisible() {
@@ -2014,6 +2076,7 @@ public class JideTabbedPane extends JTabbedPane {
      * Shows the tab list popup by clicking on the list button.
      *
      * @param listButton the list button being clicked.
+     *
      * @since 3.2.2
      */
     public void showTabListPopup(JButton listButton) {
@@ -2048,7 +2111,9 @@ public class JideTabbedPane extends JTabbedPane {
      * Calculates the position where the tab list popup is to be displayed based on the list button being clicked.
      *
      * @param listButton the list button being clicked.
+     *
      * @return the point.
+     *
      * @since 3.2.2
      */
     protected Point calculateTabListPopupPosition(JButton listButton) {
@@ -2064,7 +2129,8 @@ public class JideTabbedPane extends JTabbedPane {
             default:
                 if (getComponentOrientation().isLeftToRight()) {
                     x = bounds.x + bounds.width - size.width;
-                } else {
+                }
+                else {
                     x = bounds.x;
                 }
                 y = bounds.y + bounds.height + 2;
@@ -2072,7 +2138,8 @@ public class JideTabbedPane extends JTabbedPane {
             case BOTTOM:
                 if (getComponentOrientation().isLeftToRight()) {
                     x = bounds.x + bounds.width - size.width;
-                } else {
+                }
+                else {
                     x = bounds.x;
                 }
                 y = bounds.y - size.height - 2;
@@ -2113,7 +2180,9 @@ public class JideTabbedPane extends JTabbedPane {
      * Creates the tab list.
      *
      * @param insets the insets of its parent container which helps determine the visible row count of the list.
+     *
      * @return the created list instance.
+     *
      * @since 3.2.2
      */
     protected JList createTabList(Insets insets) {
@@ -2319,7 +2388,9 @@ public class JideTabbedPane extends JTabbedPane {
     /**
      * Creates no focus buttons for JideTabbedPane.
      *
-     * @param type the button type, it could be {@link #BUTTON_LIST}, {@link #BUTTON_CLOSE}, {@link #BUTTON_EAST}, {@link #BUTTON_WEST}, {@link #BUTTON_NORTH} or {@link #BUTTON_SOUTH}
+     * @param type the button type, it could be {@link #BUTTON_LIST}, {@link #BUTTON_CLOSE}, {@link #BUTTON_EAST},
+     *             {@link #BUTTON_WEST}, {@link #BUTTON_NORTH} or {@link #BUTTON_SOUTH}
+     *
      * @return the button instance.
      */
     public NoFocusButton createNoFocusButton(int type) {
@@ -2424,6 +2495,12 @@ public class JideTabbedPane extends JTabbedPane {
             }
             switch (type) {
                 case BUTTON_CLOSE:
+                    if (isShowCloseButtonOnMouseOver() && !isMouseOver()) {
+                        Object property = JideTabbedPane.this.getClientProperty("JideTabbedPane.mouseOverTabIndex");
+                        if (property instanceof Integer && getIndex() >= 0 && (Integer) property != getIndex()) {
+                            return;
+                        }
+                    }
                     if (isEnabled()) {
                         g.drawLine(centerX - 3, centerY - 3, centerX + 3, centerY + 3);
                         g.drawLine(centerX - 4, centerY - 3, centerX + 2, centerY + 3);
@@ -2544,7 +2621,7 @@ public class JideTabbedPane extends JTabbedPane {
         }
 
         protected Color getForegroundColor() {
-            return UIDefaultsLookup.getColor("controlShadow").darker();
+            return UIDefaultsLookup.getColor("JideTabbedPane.foreground");
         }
 
         protected Color getShadowColor() {

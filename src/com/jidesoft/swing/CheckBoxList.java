@@ -36,6 +36,9 @@ import java.util.List;
  * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
  * box is checked, you need to ask the getCheckBoxListSelectionModel() by using addListSelectionListener.
  * <p/>
+ * It is possible to add an "(All)" item. All you need to do is to add CheckBoxList.ALL to the list model. Then check
+ * the (All) item will select all the check boxes and uncheck it will deselect all.
+ * <p/>
  * Please note, we changed CheckBoxList implementation in 1.9.2 release. The old CheckBoxList class is renamed to {@link
  * CheckBoxListWithSelectable}. If you want to use the old implementation, you can use CheckBoxListWithSelectable
  * instead. The main difference between the two implementation is at how the selection state is kept. In new
@@ -56,6 +59,8 @@ public class CheckBoxList extends JList {
 
     private CheckBoxListSelectionModel _checkBoxListSelectionModel;
     protected Handler _handler;
+
+    public static final String ALL = "(All)";
 
     /**
      * Constructs a <code>CheckBoxList</code> with an empty model.
@@ -90,6 +95,7 @@ public class CheckBoxList extends JList {
      * <p/>
      *
      * @param dataModel the data model for this list
+     *
      * @throws IllegalArgumentException if <code>dataModel</code> is <code>null</code>
      */
     public CheckBoxList(ListModel dataModel) {
@@ -103,6 +109,11 @@ public class CheckBoxList extends JList {
         if (getCheckBoxListSelectionModel() != null) {
             getCheckBoxListSelectionModel().clearSelection();
         }
+    }
+
+    @Override
+    public void updateUI() {
+        super.updateUI();
     }
 
     /**
@@ -142,7 +153,7 @@ public class CheckBoxList extends JList {
      * @return the cell renderer.
      */
     protected CheckBoxListCellRenderer createCellRenderer() {
-        return new CheckBoxListCellRenderer.UIResource();
+        return new CheckBoxListCellRenderer();
     }
 
     /**
@@ -362,6 +373,7 @@ public class CheckBoxList extends JList {
      * or false.
      *
      * @param index the row index.
+     *
      * @return true or false. If false, the check box on the particular row index will be disabled.
      */
     public boolean isCheckBoxEnabled(int index) {
@@ -373,6 +385,7 @@ public class CheckBoxList extends JList {
      * or false.
      *
      * @param index whether the check box on the row index is visible.
+     *
      * @return true or false. If false, there is not check box on the particular row index. By default, we always return
      *         true. You override this method to return true of false depending on your need.
      */
@@ -455,7 +468,7 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public int[] getCheckBoxListSelectedIndices() {
-        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        CheckBoxListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
         int iMin = listSelectionModel.getMinSelectionIndex();
         int iMax = listSelectionModel.getMaxSelectionIndex();
 
@@ -466,6 +479,9 @@ public class CheckBoxList extends JList {
         int[] temp = new int[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
+            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(getModel().getElementAt(i))) {
+                continue;
+            }
             if (listSelectionModel.isSelectedIndex(i)) {
                 temp[n] = i;
                 n++;
@@ -481,6 +497,7 @@ public class CheckBoxList extends JList {
      * Selects a single cell and clear all other selections.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -495,6 +512,7 @@ public class CheckBoxList extends JList {
      * Selects a single cell and keeps all previous selections.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -509,6 +527,7 @@ public class CheckBoxList extends JList {
      * Deselects a single cell.
      *
      * @param index the index of the one cell to select
+     *
      * @see ListSelectionModel#setSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -523,6 +542,7 @@ public class CheckBoxList extends JList {
      * Selects a set of cells.
      *
      * @param indices an array of the indices of the cells to select
+     *
      * @see ListSelectionModel#addSelectionInterval
      * @see #isSelectedIndex
      * @see #addListSelectionListener
@@ -596,7 +616,7 @@ public class CheckBoxList extends JList {
      * @see #addListSelectionListener
      */
     public Object[] getCheckBoxListSelectedValues() {
-        ListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
+        CheckBoxListSelectionModel listSelectionModel = getCheckBoxListSelectionModel();
         ListModel model = getModel();
 
         int iMin = listSelectionModel.getMinSelectionIndex();
@@ -609,6 +629,9 @@ public class CheckBoxList extends JList {
         Object[] temp = new Object[1 + (iMax - iMin)];
         int n = 0;
         for (int i = iMin; i <= iMax; i++) {
+            if (listSelectionModel.isAllEntryConsidered() && CheckBoxList.ALL.equals(model.getElementAt(i))) {
+                continue;
+            }
             if (listSelectionModel.isSelectedIndex(i)) {
                 temp[n] = model.getElementAt(i);
                 n++;

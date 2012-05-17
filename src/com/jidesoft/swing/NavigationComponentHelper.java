@@ -34,13 +34,20 @@ abstract public class NavigationComponentHelper {
 
     protected abstract int[] getSelectedRows();
 
-    protected abstract void selectRow(int row);
-
     @SuppressWarnings({"UnusedParameters"})
     public void mouseMoved(MouseEvent e) {
     }
 
     public void mouseExited(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -81,14 +88,17 @@ abstract public class NavigationComponentHelper {
      * @param row the row index
      */
     protected void paintSelectedRow(Graphics g, JComponent c, int row) {
-        Color selectedColor = UIManager.getColor("Tree.selectionBackground");
+        Color selectedColor = UIManager.getColor("NavigationComponent.selectionBackground");
+        if (selectedColor == null) {
+            selectedColor = UIManager.getColor("Tree.selectionBackground");
+        }
         if (!c.hasFocus()) {
             selectedColor = ColorUtils.toGrayscale(selectedColor).brighter();
         }
         Rectangle bounds = getRowBounds(row);
         bounds.width -= 1;
         bounds.height -= 1;
-        paintRow(g, row, bounds, selectedColor, 70, 100, 80, 255);
+        paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
     }
 
     /**
@@ -105,6 +115,9 @@ abstract public class NavigationComponentHelper {
     protected void paintRolloverRow(Graphics g, JComponent c, int row) {
         Color selectedColor = UIManager.getColor("Tree.selectionBackground");
         Rectangle bounds = getRowBounds(row);
+        if (bounds == null) {
+            return;
+        }
         bounds.width -= 1;
         bounds.height -= 1;
         paintRow(g, row, bounds, selectedColor, 10, 40, 20, 100);
@@ -145,23 +158,32 @@ abstract public class NavigationComponentHelper {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                int row = rowAtPoint(e.getPoint());
-                if (row != -1) {
-                    selectRow(row);
-                }
+                NavigationComponentHelper.this.mousePressed(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                NavigationComponentHelper.this.mouseReleased(e);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NavigationComponentHelper.this.mouseClicked(e);
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 int row = rowAtPoint(e.getPoint());
                 if (row != -1) {
-                    int maxIconSize = getRowBounds(row).height;
-                    if (_mousePosition != null) {
-                        c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
-                    }
-                    _mousePosition = e.getPoint();
-                    if (_mousePosition != null) {
-                        c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                    if (c instanceof JTree) {
+                        int maxIconSize = getRowBounds(row).height;
+                        if (_mousePosition != null) {
+                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                        }
+                        _mousePosition = e.getPoint();
+                        if (_mousePosition != null) {
+                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                        }
                     }
                     if (_rolloverRow != row) {
                         int old = _rolloverRow;
@@ -214,9 +236,22 @@ abstract public class NavigationComponentHelper {
         }
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
+    /**
+     * Gets the rollover row that currently has rollover effect.
+     *
+     * @return the row that has the rollover effect.
+     */
     public int getRolloverRow() {
         return _rolloverRow;
+    }
+
+    /**
+     * Sets the rollover row.
+     *
+     * @param rolloverRow the row to show the rollover effect.
+     */
+    public void setRolloverRow(int rolloverRow) {
+        _rolloverRow = rolloverRow;
     }
 
     public Point getMousePosition() {

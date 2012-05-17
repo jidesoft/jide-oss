@@ -81,7 +81,7 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
 
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         removeAll();
-        _checkBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
+//        _checkBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
         _emptyBox.setPreferredSize(new Dimension(_protoType.getPreferredSize().width, 0));
         applyComponentOrientation(tree.getComponentOrientation());
 

@@ -12,6 +12,8 @@ import java.io.PrintStream;
 
 /**
  * For usage of this class, please refer to http://weblogs.java.net/blog/alexfromsun/archive/2006/02/debugging_swing.html
+ * <p> To use it, call RepaintManager.setCurrentManager(new ThreadCheckingRepaintManager()) then watch the print out
+ * from the console of all threading violations. </p>
  */
 public class ThreadCheckingRepaintManager extends RepaintManager {
     // it is recommended to pass the complete check
@@ -52,6 +54,7 @@ public class ThreadCheckingRepaintManager extends RepaintManager {
 
     /**
      * @param completeCheck true or false.
+     *
      * @see #isCompleteCheck()
      */
     public void setCompleteCheck(boolean completeCheck) {

@@ -73,19 +73,39 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
      * Uninstalls the handler for ESC key to remove all highlights
      */
     public void uninstallHighlightsRemover() {
-        _component.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+        DelegateAction.restoreAction(_component, JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
 
     /**
      * Installs the handler for ESC key to remove all highlights
      */
     public void installHighlightsRemover() {
-        AbstractAction highlightRemover = new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                removeAllHighlights();
+        DelegateAction.replaceAction(_component, JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), new DelegateAction() {
+            private static final long serialVersionUID = 8572103995404313032L;
+
+            @Override
+            public boolean isDelegateEnabled() {
+                if (_component instanceof JTextComponent) {
+                    Iterator highlights = _highlighCache.getAllHighlights();
+                    if (!highlights.hasNext()) {
+                        return false;
+                    }
+                }
+                return super.isDelegateEnabled();
             }
-        };
-        _component.registerKeyboardAction(highlightRemover, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
+
+            @Override
+            public boolean delegateActionPerformed(ActionEvent e) {
+                if (_component instanceof JTextComponent) {
+                    Iterator highlights = _highlighCache.getAllHighlights();
+                    if (!highlights.hasNext()) {
+                        return false;
+                    }
+                }
+                removeAllHighlights();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -400,6 +420,9 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
         while (i >= min) {
             while (i >= min && source.charAt(i) != lowerTarget[strLastIndex] && source.charAt(i) != upperTarget[strLastIndex]) {
                 i--;
+            }
+            if (i < min) {
+                break;
             }
             int j = i - 1;
             int start = j - (targetCount - 1);

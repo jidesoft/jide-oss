@@ -7,6 +7,7 @@
 package com.jidesoft.dialog;
 
 import com.jidesoft.plaf.basic.BasicJideOptionPaneUI;
+import com.jidesoft.swing.JideSwingUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Locale;
 
 /**
  * <code>JideOptionPane</code> is an enhanced version of JOptionPane.
@@ -177,7 +179,15 @@ public class JideOptionPane extends JOptionPane {
         return BasicJideOptionPaneUI.isDetailsVisible();
     }
 
-//    public boolean isBannerVisible() {
+    @Override
+    public void setLocale(Locale l) {
+        if (!JideSwingUtilities.equals(l, getLocale())) {
+            super.setLocale(l);
+            updateUI();
+        }
+    }
+
+    //    public boolean isBannerVisible() {
 //        return _bannerVisible;
 //    }
 //
@@ -328,6 +338,9 @@ public class JideOptionPane extends JOptionPane {
                 OK_CANCEL_OPTION, icon,
                 null, null);
 
+        if (parentComponent != null) {
+            pane.setLocale(parentComponent.getLocale());
+        }
         pane.setWantsInput(true);
         pane.setSelectionValues(selectionValues);
         pane.setInitialSelectionValue(initialSelectionValue);
@@ -632,6 +645,9 @@ public class JideOptionPane extends JOptionPane {
                 optionType, icon,
                 options, initialValue);
 
+        if (parentComponent != null) {
+            pane.setLocale(parentComponent.getLocale());
+        }
         pane.setInitialValue(initialValue);
         pane.setComponentOrientation(((parentComponent == null) ?
                 getRootFrame() : parentComponent).getComponentOrientation());
