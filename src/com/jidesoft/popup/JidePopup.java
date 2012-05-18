@@ -241,6 +241,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
     private int _popupType = HEAVY_WEIGHT_POPUP;
     private ActionListener _escapeActionListener;
+    private Object HIDE_POPUP_KEY = null;
 
     /**
      * Creates a Popup.
@@ -252,6 +253,21 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         setRootPaneCheckingEnabled(true);
         setFocusable(false);
         updateUI();
+        initHidePopupProperty();
+    }
+
+    private void initHidePopupProperty() {
+        JComboBox comboBox = new JComboBox();
+        comboBox.setEnabled(isEnabled());
+        comboBox.setEditable(true);
+        comboBox.doLayout();
+        Component[] components = comboBox.getComponents();
+        for (Component component : components) {
+            if (component instanceof AbstractButton) {
+                HIDE_POPUP_KEY = ((AbstractButton) component).getClientProperty("doNotCancelPopup");
+                break;
+            }
+        }
     }
 
     /**
@@ -1798,17 +1814,18 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         }
 
         Component clickedComponent = (Component) e.getSource();
-        MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-        MenuElement[] menuElements = manager.getSelectedPath();
-        boolean found = false;
-        for (MenuElement menuElement : menuElements) {
-            if (menuElement instanceof JPopupMenu && ((JPopupMenu) menuElement).isAncestorOf(clickedComponent)) {
-                found = true;
-                break;
+        Object popupMenuToCancel = getClientProperty("popupMenuToCancel");
+        if (clickedComponent instanceof JComponent && HIDE_POPUP_KEY != null && popupMenuToCancel != null && ((JComponent) clickedComponent).getClientProperty("doNotCancelPopup") == HIDE_POPUP_KEY && this.isAncestorOf(clickedComponent)) {
+            MenuSelectionManager manager = MenuSelectionManager.defaultManager();
+            MenuElement[] menuElements = manager.getSelectedPath();
+            if (menuElements != null) {
+                for (MenuElement element : menuElements) {
+                    if (element == popupMenuToCancel) {
+                        manager.clearSelectedPath();
+                        break;
+                    }
+                }
             }
-        }
-        if (!found) {
-//            manager.clearSelectedPath();
         }
 
         Component component = SwingUtilities.getDeepestComponentAt(c, e.getX(), e.getY());
