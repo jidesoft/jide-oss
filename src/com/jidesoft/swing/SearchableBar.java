@@ -13,8 +13,12 @@ import com.jidesoft.swing.event.SearchableListener;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -67,7 +71,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     private Searchable _searchable;
 
     protected JLabel _statusLabel;
+    protected JLabel _leadingLabel;
     protected JTextField _textField;
+    protected JComboBox _comboBox;
 
     protected AbstractButton _closeButton;
     protected AbstractButton _findPrevButton;
@@ -85,12 +91,16 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     public static final int SHOW_STATUS = 0x20;
     public static final int SHOW_ALL = 0xFFFFFFFF;
 
+    public static final String PROPERTY_MAX_HISTORY_LENGTH = "maxHistoryLength";
+
     private int _visibleButtons = ~SHOW_REPEATS; // default is show all but repeats
     private boolean _compact;
 
     private JidePopup _messagePopup;
     private MouseMotionListener _mouseMotionListener;
     private KeyListener _keyListener;
+    private List<String> _searchHistory;
+    private int _maxHistoryLength = 0;
 
     /**
      * Creates a searchable bar.
@@ -135,7 +145,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     private void initComponents(String initialText) {
-        AbstractAction closeAction = new AbstractAction() {
+        final AbstractAction closeAction = new AbstractAction() {
             private static final long serialVersionUID = -2245391247321137224L;
 
             public void actionPerformed(ActionEvent e) {
@@ -145,12 +155,13 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             }
         };
 
-        AbstractAction findNextAction = new AbstractAction() {
+        final AbstractAction findNextAction = new AbstractAction() {
             private static final long serialVersionUID = -5263488798121831276L;
 
             public void actionPerformed(ActionEvent e) {
                 _highlightsButton.setSelected(false);
                 String text = getSearchingText();
+                addSearchingTextToHistory(text);
                 int cursor = _searchable.getSelectedIndex();
                 _searchable.setCursor(cursor);
                 int found = _searchable.findNext(text);
@@ -172,12 +183,13 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             }
         };
 
-        AbstractAction findPrevAction = new AbstractAction() {
+        final AbstractAction findPrevAction = new AbstractAction() {
             private static final long serialVersionUID = -2534332227053620232L;
 
             public void actionPerformed(ActionEvent e) {
                 _highlightsButton.setSelected(false);
                 String text = getSearchingText();
+                addSearchingTextToHistory(text);
                 int cursor = _searchable.getSelectedIndex();
                 _searchable.setCursor(cursor);
                 int found = _searchable.findPrevious(text);
@@ -240,7 +252,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             }
         });
         _textField.setColumns(13);
-        _textField.getDocument().addDocumentListener(new DocumentListener() {
+        DocumentListener listener = new DocumentListener() {
             private Timer timer = new Timer(_searchable.getSearchingDelay(), new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     highlightAllOrNext();
@@ -273,13 +285,38 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                     highlightAllOrNext();
                 }
             }
-        });
+        };
+        _textField.getDocument().addDocumentListener(listener);
         _textField.setText(initialText);
 
         _textField.registerKeyboardAction(findNextAction, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_FOCUSED);
         _textField.registerKeyboardAction(findNextAction, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
         _textField.registerKeyboardAction(findPrevAction, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), JComponent.WHEN_FOCUSED);
         _textField.registerKeyboardAction(closeAction, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
+
+        _comboBox = createComboBox();
+        if (_comboBox.getEditor().getEditorComponent() instanceof JTextField) {
+            ((JTextField) _comboBox.getEditor().getEditorComponent()).getDocument().addDocumentListener(listener);
+            registerKeyboardActions(closeAction, findNextAction, findPrevAction);
+            _comboBox.addPopupMenuListener(new PopupMenuListener() {
+                @Override
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                    unregisterKeyboardActions();
+                }
+
+                @Override
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                    registerKeyboardActions(closeAction, findNextAction, findPrevAction);
+                }
+
+                @Override
+                public void popupMenuCanceled(PopupMenuEvent e) {
+                    registerKeyboardActions(closeAction, findNextAction, findPrevAction);
+                }
+            });
+        }
+        _comboBox.setSelectedItem(initialText);
+        _comboBox.setPreferredSize(_textField.getPreferredSize());
 
         installComponents();
 
@@ -289,6 +326,20 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
     }
 
+    private void registerKeyboardActions(AbstractAction closeAction, AbstractAction findNextAction, AbstractAction findPrevAction) {
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).registerKeyboardAction(findNextAction, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), JComponent.WHEN_FOCUSED);
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).registerKeyboardAction(findNextAction, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_FOCUSED);
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).registerKeyboardAction(findPrevAction, KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), JComponent.WHEN_FOCUSED);
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).registerKeyboardAction(closeAction, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_FOCUSED);
+    }
+
+    private void unregisterKeyboardActions() {
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+        ((JTextField) _comboBox.getEditor().getEditorComponent()).unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+    }
+
     /**
      * Creates the text field where user types the text to be searched.
      *
@@ -296,6 +347,18 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      */
     protected JTextField createTextField() {
         return new JTextField();
+    }
+
+    /**
+     * Creates the combo box where user types the text to be searched.
+     *
+     * @return a combo box.
+     * @since 3.4.1
+     */
+    protected JComboBox createComboBox() {
+        JComboBox comboBox = new JComboBox();
+        comboBox.setEditable(true);
+        return comboBox;
     }
 
     /**
@@ -389,6 +452,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             private static final long serialVersionUID = 5170786863522331175L;
 
             public void actionPerformed(ActionEvent e) {
+                addSearchingTextToHistory(getSearchingText());
                 highlightAllOrNext();
             }
         };
@@ -438,6 +502,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getSource() instanceof AbstractButton) {
                     getSearchable().setCaseSensitive(((AbstractButton) e.getSource()).isSelected());
+                    addSearchingTextToHistory(getSearchingText());
                     highlightAllOrNext();
                 }
             }
@@ -458,12 +523,22 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             add(Box.createHorizontalStrut(10));
         }
         // setup the label
-        JLabel label = new JLabel(getResourceString("SearchableBar.find"));
-        label.setDisplayedMnemonic(getResourceString("SearchableBar.find.mnemonic").charAt(0));
-        label.setLabelFor(_textField);
-        add(label);
+        _leadingLabel = new JLabel(getResourceString("SearchableBar.find"));
+        _leadingLabel.setDisplayedMnemonic(getResourceString("SearchableBar.find.mnemonic").charAt(0));
+        add(_leadingLabel);
         add(Box.createHorizontalStrut(2), JideBoxLayout.FIX);
         add(JideSwingUtilities.createCenterPanel(_textField), JideBoxLayout.FIX);
+        add(JideSwingUtilities.createCenterPanel(_comboBox), JideBoxLayout.FIX);
+        if (getMaxHistoryLength() == 0) {
+            _leadingLabel.setLabelFor(_textField);
+            _textField.setVisible(true);
+            _comboBox.setVisible(false);
+        }
+        else {
+            _leadingLabel.setLabelFor(_comboBox);
+            _comboBox.setVisible(true);
+            _textField.setVisible(false);
+        }
         add(Box.createHorizontalStrut(2), JideBoxLayout.FIX);
         if ((_visibleButtons & SHOW_NAVIGATION) != 0) {
             add(_findNextButton);
@@ -589,6 +664,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _statusLabel.setIcon(null);
         _statusLabel.setText("");
         _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
+        _comboBox.getEditor().getEditorComponent().setBackground(UIDefaultsLookup.getColor("TextField.background"));
         hideMessage();
     }
 
@@ -605,8 +681,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Makes the search field having focus.
      */
     public void focusSearchField() {
-        if (_textField != null) {
+        if (_textField != null && _textField.isVisible()) {
             _textField.requestFocus();
+        }
+        if (_comboBox != null && _comboBox.isVisible()) {
+            _comboBox.requestFocus();
         }
     }
 
@@ -615,10 +694,12 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             _searchable.setSelectedIndex(index, incremental);
             _searchable.setCursor(index, incremental);
             _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
+            _comboBox.getEditor().getEditorComponent().setBackground(UIDefaultsLookup.getColor("TextField.background"));
         }
         else {
             _searchable.setSelectedIndex(-1, false);
             _textField.setBackground(getMismatchBackground());
+            _comboBox.getEditor().getEditorComponent().setBackground(UIDefaultsLookup.getColor("TextField.background"));
         }
         _searchable.firePropertyChangeEvent(searchingText);
         if (index != -1) {
@@ -636,7 +717,14 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * @return the searching text.
      */
     public String getSearchingText() {
-        return _textField != null ? _textField.getText() : "";
+        if (_textField != null && _textField.isVisible()) {
+            return _textField.getText();
+        }
+        if (_comboBox != null && _comboBox.isVisible()) {
+            Object item = _comboBox.getEditor().getItem();
+            return item == null ? "" : item.toString();
+        }
+        return "";
     }
 
     /**
@@ -645,8 +733,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * @param searchingText the new searching text.
      */
     public void setSearchingText(String searchingText) {
-        if (_textField != null) {
+        if (_textField != null && _textField.isVisible()) {
             _textField.setText(searchingText);
+        }
+        if (_comboBox != null && _comboBox.isVisible()) {
+            _comboBox.setSelectedItem(searchingText);
         }
     }
 
@@ -687,6 +778,48 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     private Installer _installer;
+
+    /**
+     * Gets the maximum search history length.
+     *
+     * @return the maximum search history length.
+     * @see {@link #setMaxHistoryLength(int)}
+     * @since 3.4.1
+     */
+    public int getMaxHistoryLength() {
+        return _maxHistoryLength;
+    }
+
+    /**
+     * Sets the maximum search history length.
+     * <p/>
+     * By default, it's 0, which means there is no history to shown to keep the behavior backward compatibility. To show
+     * history with a JComboBox, please use this method to set a positive or negative value. Any negative value means
+     * that the history size is unlimited.
+     *
+     * @param maxHistoryLength the maximum history length
+     * @since 3.4.1
+     */
+    public void setMaxHistoryLength(int maxHistoryLength) {
+        if (_maxHistoryLength != maxHistoryLength) {
+            int old = _maxHistoryLength;
+            _maxHistoryLength = maxHistoryLength;
+            if (getMaxHistoryLength() == 0) {
+                _leadingLabel.setLabelFor(_textField);
+                _textField.setVisible(true);
+                Object item = _comboBox.getEditor().getItem();
+                _textField.setText(item == null ? "" : item.toString());
+                _comboBox.setVisible(false);
+            }
+            else if (!_comboBox.isVisible()) {
+                _leadingLabel.setLabelFor(_comboBox);
+                _comboBox.setVisible(true);
+                _comboBox.getEditor().setItem(_textField.getText());
+                _textField.setVisible(false);
+            }
+            firePropertyChange(PROPERTY_MAX_HISTORY_LENGTH, old, _maxHistoryLength);
+        }
+    }
 
     /**
      * The installer for SearchableBar.
@@ -846,14 +979,24 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
         _messagePopup.getContentPane().setLayout(new BorderLayout());
         _messagePopup.getContentPane().add(label);
-        _messagePopup.setOwner(_textField);
+        if (_textField != null && _textField.isVisible()) {
+            _messagePopup.setOwner(_textField);
+        }
+        if (_comboBox != null && _comboBox.isVisible()) {
+            _messagePopup.setOwner(_comboBox);
+        }
 
         _messagePopup.setDefaultMoveOperation(JidePopup.HIDE_ON_MOVED);
         _messagePopup.setTransient(true);
         _messagePopup.showPopup();
 
         addMouseMotionListener(_mouseMotionListener);
-        _textField.addKeyListener(_keyListener);
+        if (_textField != null && _textField.isVisible()) {
+            _textField.addKeyListener(_keyListener);
+        }
+        if (_comboBox != null && _comboBox.isVisible()) {
+            _comboBox.addKeyListener(_keyListener);
+        }
     }
 
     private void hideMessage() {
@@ -866,6 +1009,36 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
         if (_keyListener != null) {
             _textField.removeKeyListener(_keyListener);
+            _comboBox.removeKeyListener(_keyListener);
         }
+    }
+
+    private void addSearchingTextToHistory(String searchingText) {
+        if (searchingText == null || searchingText.length() == 0) {
+            return;
+        }
+        if (_searchHistory == null) {
+            _searchHistory = new ArrayList<String>();
+        }
+        if (_searchHistory.size() <= 0) {
+            _searchHistory.add(searchingText);
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            model.addElement(searchingText);
+            _comboBox.setModel(model);
+            return;
+        }
+        if (JideSwingUtilities.equals(_searchHistory.get(_searchHistory.size() - 1), searchingText)) {
+            return;
+        }
+        _searchHistory.remove(searchingText); // remove existing entry first
+        _searchHistory.add(searchingText);
+        if (getMaxHistoryLength() > 0 && _searchHistory.size() > getMaxHistoryLength()) {
+            _searchHistory.remove(0);
+        }
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        for (int i = _searchHistory.size() - 1; i >= 0; i--) {
+            model.addElement(_searchHistory.get(i));
+        }
+        _comboBox.setModel(model);
     }
 }
