@@ -18,6 +18,7 @@ import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -778,6 +779,31 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     private Installer _installer;
+
+    /**
+     * Gets the search history.
+     *
+     * @return the search history.
+     * @since 3.4.1
+     */
+    public String[] getSearchHistory() {
+        return _searchHistory == null ? new String[0] : _searchHistory.toArray(new String[_searchHistory.size()]);
+    }
+
+    /**
+     * Sets the search history.
+     *
+     * @param searchHistory the search history
+     * @since 3.4.1
+     */
+    public void setSearchHistory(String[] searchHistory) {
+        if (searchHistory == null || searchHistory.length == 0) {
+            _searchHistory = null;
+        }
+        else {
+            _searchHistory = Arrays.asList(searchHistory);
+        }
+    }
 
     /**
      * Gets the maximum search history length.
