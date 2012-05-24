@@ -129,7 +129,9 @@ public class ObjectConverterManager {
         }
         else {
             if (clazz != null && clazz.isArray()) {
-                registerConverter(clazz, new DefaultArrayConverter("; ", clazz.getComponentType()));
+                DefaultArrayConverter defaultArrayConverter = new DefaultArrayConverter("; ", clazz.getComponentType());
+                registerConverter(clazz, defaultArrayConverter);
+                return defaultArrayConverter;
             }
             return _defaultConverter;
         }
