@@ -106,6 +106,7 @@ public class LabeledTextField extends JPanel {
     protected void showContextMenu() {
         if (isEnabled()) {
             JPopupMenu menu = createContextMenu();
+            customizePopupMenu(menu);
             PopupMenuCustomizer customizer = getPopupMenuCustomizer();
             if (customizer != null && menu != null) {
                 customizer.customize(LabeledTextField.this, menu);
@@ -115,6 +116,15 @@ public class LabeledTextField extends JPanel {
                 menu.show(LabeledTextField.this, location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
             }
         }
+    }
+
+    /**
+     * Customizes the popup menu.
+     *
+     * @param menu the menu to customize
+     * @since 3.4.1
+     */
+    protected void customizePopupMenu(JPopupMenu menu) {
     }
 
     /**
