@@ -501,7 +501,7 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                     int childCount = getChildrenCount(node);
                     for (int i = 0; i < childCount; i++) {
                         Object childNode = getChild(node, i);
-                        if (childNode != peekNode) {
+                        if (!JideSwingUtilities.equals(childNode, peekNode)) {
                             TreePath treePath = temp.pathByAddingChild(childNode);
                             toBeAdded.add(treePath);
                         }
