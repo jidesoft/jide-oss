@@ -24,7 +24,7 @@ The contents of the distributions are:
 Build
 =====
 
-We have migrated our code base from java.net to GtiHub, and changed our build method to Maven. We suggest you to build JIDE Common Layer project by Maven too. However the ant way to build the project is still available.
+We have migrated our code base from java.net to github, and changed our build method to Maven. We suggest you to build JIDE Common Layer project by Maven too. However the ant way to build the project is still available.
 
 Build using Maven
 ---------------
