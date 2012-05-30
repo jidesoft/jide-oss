@@ -66,7 +66,7 @@ public class BannerPanel extends JPanel {
     protected PropertyChangeListener _propertyListener;
 
     private JLabel _titleLabel;
-    private MultilineLabel _subtitleLabel;
+    private JComponent _subtitleLabel;
 
     protected Color _startColor;
     protected Color _endColor;
@@ -143,14 +143,7 @@ public class BannerPanel extends JPanel {
             setSubTitleFont(getFont());
         }
 
-        _subtitleLabel = new MultilineLabel(getSubtitle()) {
-            private static final long serialVersionUID = -1609681547852636926L;
-
-            @Override
-            public Dimension getMinimumSize() {
-                return new Dimension(0, 0);
-            }
-        };
+        _subtitleLabel = createSubtitleLabel();
         _subtitleLabel.setFont(getSubTitleFont());
         if (getSubTitleColor() == null) {
             setSubTitleColor(getForeground());
@@ -203,7 +196,12 @@ public class BannerPanel extends JPanel {
                 }
                 else if (_subtitleLabel != null && SUBTITLE_PROPERTY.equals(evt.getPropertyName())) {
                     String text = (String) evt.getNewValue();
-                    _subtitleLabel.setText(text);
+                    if (_subtitleLabel instanceof JTextArea) {
+                        ((JTextArea) _subtitleLabel).setText(text);
+                    }
+                    else if (_subtitleLabel instanceof JLabel) {
+                        ((JLabel) _subtitleLabel).setText(text);
+                    }
                     if (text != null && text.length() != 0) {
                         _textPanel.add(_titleLabel, BorderLayout.BEFORE_FIRST_LINE);
                         _textPanel.add(_subtitleLabel, BorderLayout.CENTER);
@@ -241,6 +239,23 @@ public class BannerPanel extends JPanel {
             }
         };
         addPropertyChangeListener(_propertyListener);
+    }
+
+    /**
+     * Creates the subtitle label.
+     *
+     * @return a MultilineLabel instance by default.
+     * @since 3.4.2
+     */
+    protected JComponent createSubtitleLabel() {
+        return new MultilineLabel(getSubtitle()) {
+            private static final long serialVersionUID = -1609681547852636926L;
+
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension(0, 0);
+            }
+        };
     }
 
     private void addIconComponent(JComponent component) {
@@ -594,7 +609,7 @@ public class BannerPanel extends JPanel {
     /**
      * Gets the component for the subtitle.
      *
-     * @return a MultilineLabel
+     * @return a MultilineLabel by default
      */
     public JComponent getSubtitleLabel() {
         return _subtitleLabel;
