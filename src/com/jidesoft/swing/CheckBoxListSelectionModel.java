@@ -89,21 +89,18 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
         }
     }
 
-    @Override
     public void intervalAdded(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
         }
     }
 
-    @Override
     public void intervalRemoved(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
         }
     }
 
-    @Override
     public void contentsChanged(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
