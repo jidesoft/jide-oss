@@ -7,6 +7,7 @@ package com.jidesoft.converter;
 
 import com.jidesoft.utils.CacheMap;
 import com.jidesoft.utils.RegistrationListener;
+import com.jidesoft.utils.TypeUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -220,7 +221,31 @@ public class ObjectConverterManager {
     public static Object fromString(String string, Class<?> clazz, ConverterContext context) {
         ObjectConverter converter = getConverter(clazz, context);
         if (converter != null && converter.supportFromString(string, context)) {
-            return converter.fromString(string, context);
+            Object value = converter.fromString(string, context);
+            if (value != null && !clazz.isAssignableFrom(value.getClass())) {
+                if (TypeUtils.isNumericType(clazz) && value instanceof Number) {
+                    clazz = TypeUtils.convertPrimitiveToWrapperType(clazz);
+                    if (clazz == Double.class) {
+                        return ((Number) value).doubleValue();
+                    }
+                    if (clazz == Byte.class) {
+                        return ((Number) value).byteValue();
+                    }
+                    if (clazz == Short.class) {
+                        return ((Number) value).shortValue();
+                    }
+                    if (clazz == Integer.class) {
+                        return ((Number) value).intValue();
+                    }
+                    if (clazz == Long.class) {
+                        return ((Number) value).longValue();
+                    }
+                    if (clazz == Float.class) {
+                        return ((Number) value).floatValue();
+                    }
+                }
+            }
+            return value;
         }
         else {
             return null;
