@@ -8479,8 +8479,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 setVisibleComponent(null);
             }
             else if (name.equals("componentOrientation")) {
-                if (_tabScroller != null && _tabScroller.tabPanel != null) {
-                    _tabScroller.setLeadingTabIndex(_tabPane.getTabPlacement(), _tabScroller.leadingTabIndex);
+                if (_tabPane != null) {
+                    if (_tabCount != _tabPane.getTabCount()) {
+                        _tabCount = _tabPane.getTabCount();
+                        updateMnemonics();
+                    }
+                    if (_tabScroller != null && _tabScroller.tabPanel != null) {
+                        _tabScroller.setLeadingTabIndex(_tabPane.getTabPlacement(), _tabScroller.leadingTabIndex);
+                    }
                 }
             }
         }
