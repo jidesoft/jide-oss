@@ -6704,7 +6704,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             totalTabWidth = _rects[0].x + _rects[0].width + _additionalWidth;
                                         }
                                     }
-                                    boolean widthEnough = totalTabWidth <= tw;
+                                    boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
                                     if (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1)) {
                                         if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Need to allow space for scrollbuttons
@@ -6838,7 +6838,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                 totalTabWidth = _rects[0].x + _rects[0].width + _additionalWidth;
                                             }
                                         }
-                                        boolean widthEnough = totalTabWidth <= tw;
+                                        boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
                                         if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
                                             // NoFocusButton.BUTTON_WEST;
