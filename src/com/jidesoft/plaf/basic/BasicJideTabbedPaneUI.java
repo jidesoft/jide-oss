@@ -7273,7 +7273,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                int rightMargin = size.width - (insets.right + tabAreaInsets.right);
                 int rightMargin = 0;
                 if (_rects.length > 0) {
-                    rightMargin = _rects[_rects.length - 1].x + _rects[_rects.length - 1].width;
+                    rightMargin = Math.max(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width, size.width - _rects[0].x);
                     _additionalWidth = _rects[0].x;
                 }
 //                if (isTabLeadingComponentVisible()) {
@@ -7339,7 +7339,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 totalWidth += _rects[0].x;
             }
             else {
-                totalWidth += size.width - _rects[0].x - _rects[0].width - _tabScroller.viewport.getLocation().x;
+                totalWidth += leftMargin;
             }
 
             if (_tabLeadingComponent != null) {
