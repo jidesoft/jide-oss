@@ -7441,22 +7441,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 for (int k = 0; k < tabCount; k++) {
                     Rectangle tabRect = _rects[k];
                     if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
-                        if (ltr) {
-                            tabRect.x = totalWidth + leftMargin;// give the first tab extra space when the style is not box style
-                        }
-                        else {
-                            tabRect.x = availWidth - totalWidth - tabRect.width + leftMargin;// give the first tab extra space when the style is not box style
-                        }
+                        tabRect.x = totalWidth + leftMargin;// give the first tab extra space when the style is not box style
                     }
                     else {
-                        if (ltr) {
-                            tabRect.x = totalWidth;
-                        }
-                        else {
-                            tabRect.x = availWidth - totalWidth - tabRect.width;
-                        }
+                        tabRect.x = totalWidth;
                     }
                     totalWidth += tabRect.width;
+                }
+                if (!ltr) {
+                    Insets tabAreaInsets = getTabAreaInsets(_tabPane.getTabPlacement());
+                    int rightMargin = size.width - (insets.right + tabAreaInsets.right);
+                    for (int k = 0; k < tabCount; k++) {
+                        _rects[k].x = rightMargin - _rects[k].x - _rects[k].width;
+                    }
                 }
             }
         }
@@ -8900,6 +8897,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             init(rects, insets);
             bestfit(tabs, totalAvailableSpace, 0);
             outpush(rects);
+            int totalUsedWidth = rects[rects.length - 1].x + rects[rects.length - 1].width;
+            if (totalUsedWidth > totalAvailableSpace) {
+                int gap = totalUsedWidth - totalAvailableSpace;
+                rects[rects.length - 1].width -= gap;
+            }
             clearup();
         }
 
