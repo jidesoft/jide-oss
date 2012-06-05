@@ -6704,7 +6704,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             totalTabWidth = _rects[0].x + _rects[0].width + _additionalWidth;
                                         }
                                     }
-                                    boolean widthEnough = totalTabWidth <= tw;
+                                    boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
                                     if (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1)) {
                                         if (!isShowTabButtons()) numberOfButtons += 3;
                                         // Need to allow space for scrollbuttons
@@ -6838,7 +6838,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                                 totalTabWidth = _rects[0].x + _rects[0].width + _additionalWidth;
                                             }
                                         }
-                                        boolean widthEnough = totalTabWidth <= tw;
+                                        boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
                                         if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
                                             // NoFocusButton.BUTTON_WEST;
@@ -7273,7 +7273,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                int rightMargin = size.width - (insets.right + tabAreaInsets.right);
                 int rightMargin = 0;
                 if (_rects.length > 0) {
-                    rightMargin = _rects[_rects.length - 1].x + _rects[_rects.length - 1].width;
+                    rightMargin = Math.max(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width, size.width - _rects[0].x);
                     _additionalWidth = _rects[0].x;
                 }
 //                if (isTabLeadingComponentVisible()) {
@@ -7339,7 +7339,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 totalWidth += _rects[0].x;
             }
             else {
-                totalWidth += size.width - _rects[0].x - _rects[0].width - _tabScroller.viewport.getLocation().x;
+                totalWidth += leftMargin;
             }
 
             if (_tabLeadingComponent != null) {
@@ -7441,22 +7441,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 for (int k = 0; k < tabCount; k++) {
                     Rectangle tabRect = _rects[k];
                     if (getTabShape() != JideTabbedPane.SHAPE_BOX) {
-                        if (ltr) {
-                            tabRect.x = totalWidth + leftMargin;// give the first tab extra space when the style is not box style
-                        }
-                        else {
-                            tabRect.x = availWidth - totalWidth - tabRect.width + leftMargin;// give the first tab extra space when the style is not box style
-                        }
+                        tabRect.x = totalWidth + leftMargin;// give the first tab extra space when the style is not box style
                     }
                     else {
-                        if (ltr) {
-                            tabRect.x = totalWidth;
-                        }
-                        else {
-                            tabRect.x = availWidth - totalWidth - tabRect.width;
-                        }
+                        tabRect.x = totalWidth;
                     }
                     totalWidth += tabRect.width;
+                }
+                if (!ltr) {
+                    Insets tabAreaInsets = getTabAreaInsets(_tabPane.getTabPlacement());
+                    int rightMargin = size.width - (insets.right + tabAreaInsets.right);
+                    for (int k = 0; k < tabCount; k++) {
+                        _rects[k].x = rightMargin - _rects[k].x - _rects[k].width;
+                    }
                 }
             }
         }
@@ -8479,8 +8476,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 setVisibleComponent(null);
             }
             else if (name.equals("componentOrientation")) {
-                if (_tabScroller != null && _tabScroller.tabPanel != null) {
-                    _tabScroller.setLeadingTabIndex(_tabPane.getTabPlacement(), _tabScroller.leadingTabIndex);
+                if (_tabPane != null) {
+                    if (_tabCount != _tabPane.getTabCount()) {
+                        _tabCount = _tabPane.getTabCount();
+                        updateMnemonics();
+                    }
+                    if (_tabScroller != null && _tabScroller.tabPanel != null) {
+                        _tabScroller.setLeadingTabIndex(_tabPane.getTabPlacement(), _tabScroller.leadingTabIndex);
+                    }
                 }
             }
         }
@@ -8894,6 +8897,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             init(rects, insets);
             bestfit(tabs, totalAvailableSpace, 0);
             outpush(rects);
+            int totalUsedWidth = rects[rects.length - 1].x + rects[rects.length - 1].width;
+            if (totalUsedWidth > totalAvailableSpace) {
+                int gap = totalUsedWidth - totalAvailableSpace;
+                rects[rects.length - 1].width -= gap;
+            }
             clearup();
         }
 
