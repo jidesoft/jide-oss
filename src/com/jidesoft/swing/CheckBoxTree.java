@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.List;
@@ -94,20 +95,25 @@ public class CheckBoxTree extends JTree {
         _checkBoxTreeSelectionModel.addTreeSelectionListener(handler);
 
         if (_modelChangeListener == null) {
-            _modelChangeListener = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if (JTree.SELECTION_MODEL_PROPERTY.equals(evt.getPropertyName())) {
-                        updateRowMapper();
-                    }
-                    if ("model".equals(evt.getPropertyName()) && evt.getNewValue() instanceof TreeModel) {
-                        _checkBoxTreeSelectionModel.setModel((TreeModel) evt.getNewValue());
-                    }
-                }
-            };
+            _modelChangeListener = new ModelPropertyChangeListener();
         }
         addPropertyChangeListener(JTree.SELECTION_MODEL_PROPERTY, _modelChangeListener);
         addPropertyChangeListener("model", _modelChangeListener);
         updateRowMapper();
+    }
+
+    private class ModelPropertyChangeListener implements PropertyChangeListener, Serializable {
+        private static final long serialVersionUID = 521336220746879977L;
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (JTree.SELECTION_MODEL_PROPERTY.equals(evt.getPropertyName())) {
+                updateRowMapper();
+            }
+            if ("model".equals(evt.getPropertyName()) && evt.getNewValue() instanceof TreeModel) {
+                _checkBoxTreeSelectionModel.setModel((TreeModel) evt.getNewValue());
+            }
+        }
     }
 
     /**
@@ -194,18 +200,28 @@ public class CheckBoxTree extends JTree {
      */
     protected CheckBoxTreeCellRenderer createCellRenderer(TreeCellRenderer renderer) {
         final CheckBoxTreeCellRenderer checkBoxTreeCellRenderer = new CheckBoxTreeCellRenderer(renderer, getCheckBox());
-        addPropertyChangeListener(CELL_RENDERER_PROPERTY, new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                TreeCellRenderer treeCellRenderer = (TreeCellRenderer) evt.getNewValue();
-                if (treeCellRenderer != checkBoxTreeCellRenderer) {
-                    checkBoxTreeCellRenderer.setActualTreeRenderer(treeCellRenderer);
-                }
-                else {
-                    checkBoxTreeCellRenderer.setActualTreeRenderer(null);
-                }
-            }
-        });
+        addPropertyChangeListener(CELL_RENDERER_PROPERTY, new CellRendererPropertyChangeListener(checkBoxTreeCellRenderer));
         return checkBoxTreeCellRenderer;
+    }
+
+    private class CellRendererPropertyChangeListener implements PropertyChangeListener, Serializable {
+        private static final long serialVersionUID = -5127656346976320157L;
+        private CheckBoxTreeCellRenderer _checkBoxTreeCellRenderer;
+
+        public CellRendererPropertyChangeListener(CheckBoxTreeCellRenderer renderer) {
+            _checkBoxTreeCellRenderer = renderer;
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            TreeCellRenderer treeCellRenderer = (TreeCellRenderer) evt.getNewValue();
+            if (treeCellRenderer != _checkBoxTreeCellRenderer) {
+                _checkBoxTreeCellRenderer.setActualTreeRenderer(treeCellRenderer);
+            }
+            else {
+                _checkBoxTreeCellRenderer.setActualTreeRenderer(null);
+            }
+        }
     }
 
     /**
