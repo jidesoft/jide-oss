@@ -92,6 +92,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected JideTabbedPane _tabPane;
 
+    protected Font _selectedTabFont;
     protected Color _tabBackground;
 
     protected Color _background;
@@ -480,11 +481,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         LookAndFeel.installColorsAndFont(_tabPane, "JideTabbedPane.background",
                 "JideTabbedPane.foreground", "JideTabbedPane.font");
         LookAndFeel.installBorder(_tabPane, "JideTabbedPane.border");
-        Font f = _tabPane.getSelectedTabFont();
-        if (f == null || f instanceof UIResource) {
-            _tabPane.setSelectedTabFont(UIDefaultsLookup.getFont("JideTabbedPane.selectedTabFont"));
-        }
-
+        _selectedTabFont = UIDefaultsLookup.getFont("JideTabbedPane.selectedTabFont");
         _highlight = UIDefaultsLookup.getColor("JideTabbedPane.light");
         _lightHighlight = UIDefaultsLookup.getColor("JideTabbedPane.highlight");
         _shadow = UIDefaultsLookup.getColor("JideTabbedPane.shadow");
@@ -1067,8 +1064,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
         Font font;
 
-        if (isSelected && _tabPane.getSelectedTabFont() != null) {
-            font = _tabPane.getSelectedTabFont();
+        if (isSelected) {
+            if (_tabPane.getSelectedTabFont() != null) {
+                font = _tabPane.getSelectedTabFont();
+            }
+            else {
+                if (_tabPane.getFont() instanceof UIResource) {
+                    font = _selectedTabFont;
+                }
+                else {
+                    font = _tabPane.getFont();
+                }
+            }
         }
         else {
             font = _tabPane.getFont();
