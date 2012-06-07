@@ -517,7 +517,7 @@ public class Calculator extends JPanel implements ActionListener {
                 _isFakedEqualPressed = false;
                 calculateResult(true);
                 _op1.setLength(0);
-                _op1.append(((Double) _result).toString());
+                _op1.append(getDisplayFormat().format((Double) _result));
                 _op2.setLength(0);
             }
         }
