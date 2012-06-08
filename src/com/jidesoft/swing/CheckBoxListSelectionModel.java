@@ -121,6 +121,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     public void insertIndexInterval(int index, int length, boolean before) {
         if (before) {
             boolean old = isSelectedIndex(index);
+            boolean adjusting = getValueIsAdjusting();
             super.setValueIsAdjusting(true);
             try {
                 if (old) {
@@ -132,7 +133,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
                 }
             }
             finally {
-                super.setValueIsAdjusting(false);
+                super.setValueIsAdjusting(adjusting);
             }
         }
         else {
@@ -225,9 +226,16 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
 
     @Override
     public void setSelectionInterval(int index0, int index1) {
-        if (!selectAll(index0, index1)) {
-            super.setSelectionInterval(index0, index1);
-            selectAllIf();
+        boolean adjusting = getValueIsAdjusting();
+        setValueIsAdjusting(true);
+        try {
+            if (!selectAll(index0, index1)) {
+                super.setSelectionInterval(index0, index1);
+                selectAllIf();
+            }
+        }
+        finally {
+            setValueIsAdjusting(adjusting);
         }
     }
 
@@ -255,9 +263,16 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
 
     @Override
     public void addSelectionInterval(int index0, int index1) {
-        if (!selectAll(index0, index1)) {
-            super.addSelectionInterval(index0, index1);
-            selectAllIf();
+        boolean adjusting = getValueIsAdjusting();
+        setValueIsAdjusting(true);
+        try {
+            if (!selectAll(index0, index1)) {
+                super.addSelectionInterval(index0, index1);
+                selectAllIf();
+            }
+        }
+        finally {
+            setValueIsAdjusting(adjusting);
         }
     }
 
@@ -265,11 +280,18 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
 
     @Override
     public void removeSelectionInterval(int index0, int index1) {
-        if (!unselectAll(index0, index1)) {
-            if (getAllEntryIndex() >= 0) {
-                super.removeSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
+        boolean adjusting = getValueIsAdjusting();
+        setValueIsAdjusting(true);
+        try {
+            if (!unselectAll(index0, index1)) {
+                if (getAllEntryIndex() >= 0) {
+                    super.removeSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
+                }
+                super.removeSelectionInterval(index0, index1);
             }
-            super.removeSelectionInterval(index0, index1);
+        }
+        finally {
+            setValueIsAdjusting(adjusting);
         }
     }
 }

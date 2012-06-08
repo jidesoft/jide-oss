@@ -188,7 +188,13 @@ abstract public class DelegateAction extends AbstractAction {
         }
         ActionListener action = component.getActionForKeyStroke(keyStroke);
         if (action instanceof DelegateAction) {
-            component.registerKeyboardAction(((DelegateAction) action).getAction(), keyStroke, condition);
+            Action actualAction = ((DelegateAction) action).getAction();
+            if (actualAction != null) {
+                component.registerKeyboardAction(actualAction, keyStroke, condition);
+            }
+            else {
+                component.unregisterKeyboardAction(keyStroke);
+            }
         }
     }
 

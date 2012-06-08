@@ -109,13 +109,24 @@ public class LabeledTextField extends JPanel {
             customizePopupMenu(menu);
             PopupMenuCustomizer customizer = getPopupMenuCustomizer();
             if (customizer != null && menu != null) {
-                customizer.customize(LabeledTextField.this, menu);
+                customizer.customize(this, menu);
             }
             if (menu != null && menu.getComponentCount() > 0) {
-                Point location = _label.getLocation();
-                menu.show(LabeledTextField.this, location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
+                Point location = calculateContextMenuLocation();
+                menu.show(this, location.x, location.y);
             }
         }
+    }
+
+    /**
+     * Calculates the locatioin of the context menu.
+     *
+     * @return the upper-left corner location.
+     * @since 3.4.2
+     */
+    protected Point calculateContextMenuLocation() {
+        Point location = _label.getLocation();
+        return new Point(location.x + (_label.getIcon() == null ? 1 : _label.getIcon().getIconWidth() / 2), location.y + _label.getHeight() + 1);
     }
 
     /**
