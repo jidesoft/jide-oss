@@ -218,6 +218,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     private Painter _gripperPainter;
 
     private DropTargetListener _dropListener;
+    private boolean _layouted;
 
     public DropTarget _dt;
 
@@ -6748,6 +6749,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 _tabTrailingComponent.setVisible(tabButtonsVisible);
                             }
                             child.setBounds(vx, vy, vw, vh);
+                            try {
+                                if (!leftToRight && (tabPlacement == TOP || tabPlacement == BOTTOM)) {
+                                    if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT) {
+                                        viewport.setViewPosition(new Point(0, 0));
+                                    }
+                                    else if (!_layouted) {
+                                        _tabScroller.setLeadingTabIndex(tabPlacement, 0);
+                                    }
+                                }
+                            }
+                            finally {
+                                _layouted = true;
+                            }
                         }
                         else if (child instanceof JideTabbedPane.NoFocusButton) {
                             JideTabbedPane.NoFocusButton scrollbutton = (JideTabbedPane.NoFocusButton) child;
