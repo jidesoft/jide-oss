@@ -7457,7 +7457,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 if (!ltr) {
                     Insets tabAreaInsets = getTabAreaInsets(_tabPane.getTabPlacement());
-                    int rightMargin = size.width - (insets.right + tabAreaInsets.right);
+                    int rightMargin = size.width - lsize.width - tsize.width - (insets.right + tabAreaInsets.right);
+                    if (_tabPane.isShowCloseButton()) {
+                        rightMargin -= _buttonSize;
+                    }
                     for (int k = 0; k < tabCount; k++) {
                         _rects[k].x = rightMargin - _rects[k].x - _rects[k].width;
                     }
