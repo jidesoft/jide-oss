@@ -92,6 +92,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     protected JideTabbedPane _tabPane;
 
+    protected Font _selectedTabFont;
     protected Color _tabBackground;
 
     protected Color _background;
@@ -217,6 +218,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     private Painter _gripperPainter;
 
     private DropTargetListener _dropListener;
+    private boolean _layouted;
 
     public DropTarget _dt;
 
@@ -480,11 +482,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         LookAndFeel.installColorsAndFont(_tabPane, "JideTabbedPane.background",
                 "JideTabbedPane.foreground", "JideTabbedPane.font");
         LookAndFeel.installBorder(_tabPane, "JideTabbedPane.border");
-        Font f = _tabPane.getSelectedTabFont();
-        if (f == null || f instanceof UIResource) {
-            _tabPane.setSelectedTabFont(UIDefaultsLookup.getFont("JideTabbedPane.selectedTabFont"));
-        }
-
+        _selectedTabFont = UIDefaultsLookup.getFont("JideTabbedPane.selectedTabFont");
         _highlight = UIDefaultsLookup.getColor("JideTabbedPane.light");
         _lightHighlight = UIDefaultsLookup.getColor("JideTabbedPane.highlight");
         _shadow = UIDefaultsLookup.getColor("JideTabbedPane.shadow");
@@ -1067,8 +1065,18 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         String title = getCurrentDisplayTitleAt(_tabPane, tabIndex);
         Font font;
 
-        if (isSelected && _tabPane.getSelectedTabFont() != null) {
-            font = _tabPane.getSelectedTabFont();
+        if (isSelected) {
+            if (_tabPane.getSelectedTabFont() != null) {
+                font = _tabPane.getSelectedTabFont();
+            }
+            else {
+                if (_tabPane.getFont() instanceof UIResource) {
+                    font = _selectedTabFont;
+                }
+                else {
+                    font = _tabPane.getFont();
+                }
+            }
         }
         else {
             font = _tabPane.getFont();
@@ -6741,6 +6749,19 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                 _tabTrailingComponent.setVisible(tabButtonsVisible);
                             }
                             child.setBounds(vx, vy, vw, vh);
+                            try {
+                                if (!leftToRight && (tabPlacement == TOP || tabPlacement == BOTTOM)) {
+                                    if (getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT) {
+                                        viewport.setViewPosition(new Point(0, 0));
+                                    }
+                                    else if (!_layouted) {
+                                        _tabScroller.setLeadingTabIndex(tabPlacement, 0);
+                                    }
+                                }
+                            }
+                            finally {
+                                _layouted = true;
+                            }
                         }
                         else if (child instanceof JideTabbedPane.NoFocusButton) {
                             JideTabbedPane.NoFocusButton scrollbutton = (JideTabbedPane.NoFocusButton) child;
@@ -6839,7 +6860,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             }
                                         }
                                         boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
-                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
+                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1) || (scrollbutton.getType() == JideTabbedPane.BUTTON_CLOSE && isShowCloseButton()))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
                                             // NoFocusButton.BUTTON_WEST;
                                             scrollbutton.setType(dir);
@@ -7450,7 +7471,10 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 }
                 if (!ltr) {
                     Insets tabAreaInsets = getTabAreaInsets(_tabPane.getTabPlacement());
-                    int rightMargin = size.width - (insets.right + tabAreaInsets.right);
+                    int rightMargin = size.width - lsize.width - tsize.width - (insets.right + tabAreaInsets.right);
+                    if (_tabPane.isShowCloseButton()) {
+                        rightMargin -= _buttonSize;
+                    }
                     for (int k = 0; k < tabCount; k++) {
                         _rects[k].x = rightMargin - _rects[k].x - _rects[k].width;
                     }

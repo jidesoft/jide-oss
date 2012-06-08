@@ -2486,7 +2486,7 @@ public class JideTabbedPane extends JTabbedPane {
             int centerX = getWidth() >> 1;
             int centerY = getHeight() >> 1;
             int type = getType();
-            if ((getTabPlacement() == TOP || getTabPlacement() == BOTTOM) && !getComponentOrientation().isLeftToRight()) {
+            if ((getTabPlacement() == TOP || getTabPlacement() == BOTTOM) && !JideTabbedPane.this.getComponentOrientation().isLeftToRight()) {
                 if (type == BUTTON_EAST) {
                     type = BUTTON_WEST;
                 }
