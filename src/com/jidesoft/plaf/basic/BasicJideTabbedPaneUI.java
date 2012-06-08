@@ -6846,7 +6846,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             }
                                         }
                                         boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
-                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1))) {
+                                        if (_tabPane.isTabShown() && (isShowTabButtons() || (!widthEnough && _tabPane.getTabCount() > 1) || (scrollbutton.getType() == JideTabbedPane.BUTTON_CLOSE && isShowCloseButton()))) {
                                             int dir = scrollbutton.getType();// NoFocusButton.BUTTON_EAST
                                             // NoFocusButton.BUTTON_WEST;
                                             scrollbutton.setType(dir);
