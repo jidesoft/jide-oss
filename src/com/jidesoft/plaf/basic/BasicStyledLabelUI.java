@@ -1,7 +1,7 @@
 /*
- * @(#)BasicStyledLabelUI.java 9/6/2005
+ * @(#)BasicStyledLabelUI.java 6/8/2012
  *
- * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
+ * Copyright 2002 - 2012 JIDE Software Inc. All rights reserved.
  */
 package com.jidesoft.plaf.basic;
 
@@ -1051,6 +1051,12 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int horizontalAlignment = label.getHorizontalAlignment();
         if ((horizontalTextPosition == SwingConstants.TRAILING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalTextPosition == SwingConstants.LEADING && label.getComponentOrientation().isLeftToRight())) {
             horizontalTextPosition = SwingConstants.LEFT;
+        }
+        if ((horizontalTextPosition == SwingConstants.LEADING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalTextPosition == SwingConstants.TRAILING && label.getComponentOrientation().isLeftToRight())) {
+            horizontalTextPosition = SwingConstants.RIGHT;
+        }
+        if ((horizontalAlignment == SwingConstants.TRAILING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalAlignment == SwingConstants.LEADING && label.getComponentOrientation().isLeftToRight())) {
+            horizontalAlignment = SwingConstants.LEFT;
         }
         if ((horizontalAlignment == SwingConstants.LEADING && !label.getComponentOrientation().isLeftToRight()) ||(horizontalAlignment == SwingConstants.TRAILING && label.getComponentOrientation().isLeftToRight())) {
             horizontalAlignment = SwingConstants.RIGHT;
