@@ -8945,6 +8945,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         if (scrollableTabLayoutEnabled()) {
             ensureCurrentLayout();
+/*
             if (scrollLeft && _rects.length > 0) {
                 if (_tabPane.getTabPlacement() == LEFT || _tabPane.getTabPlacement() == RIGHT || _tabPane.getComponentOrientation().isLeftToRight()) {
                     _tabScroller.viewport.setViewPosition(new Point(0, 0));
@@ -8954,6 +8955,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     _tabScroller.viewport.setViewPosition(new Point(0, 0));
                 }
             }
+*/
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
                 _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
