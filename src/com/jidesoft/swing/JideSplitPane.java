@@ -321,6 +321,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         removePane(index);
         insertPane(pane, constraint, index);
         _proportions = proportions;
+        validate();
     }
 
     /**
@@ -749,6 +750,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      */
     public void setDividerLocation(int dividerIndex, int location) {
         ((JideSplitPaneLayout) getLayout()).setDividerLocation(dividerIndex, location, true);
+        validate();
     }
 
     /**
