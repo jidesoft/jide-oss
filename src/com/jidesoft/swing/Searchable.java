@@ -1389,8 +1389,9 @@ public abstract class Searchable {
     /**
      * If this flag is set to a positive number, it will wait for that many ms before doing the search. When the
      * searching is complex, this flag will be useful to make the searching efficient. In the other words, if user types
-     * in several keys very quickly, there will be only one search. If this flag is set to 0 or a negative number, each
-     * key will generate a search with no delay.
+     * in several keys very quickly, there will be only one search. If this flag is set to 0 , each key will generate a
+     * search with no delay. If this flag is set to a negative number, there are different behaviors. SearchableBar will
+     * not generate any search while typing, but others will generate a search with no delay as well as it is set to 0.
      *
      * @param searchingDelay the number of ms delay before searching start.
      */
