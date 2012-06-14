@@ -282,7 +282,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                         timer.start();
                     }
                 }
-                else {
+                else if (_searchable.getSearchingDelay() == 0){
                     highlightAllOrNext();
                 }
             }
