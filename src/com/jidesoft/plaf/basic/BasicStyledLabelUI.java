@@ -761,19 +761,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     }
                     rowStartOffset = style.getStart();
                     nextRowStartIndex = 0;
-                    if (i < _styledTexts.size() - 1) {
-                        StyledText nextStyledText = _styledTexts.get(i + 1);
-                        StyleRange nextStyle = nextStyledText.styleRange;
-                        int size = (nextStyle != null && (nextStyle.isSuperscript() || nextStyle.isSubscript())) ? Math.round((float) defaultFontSize / nextStyle.getFontShrinkRatio()) : defaultFontSize;
-                        font = getFont(label);
-                        if (nextStyle != null && ((nextStyle.getFontStyle() != -1 && font.getStyle() != nextStyle.getFontStyle()) || font.getSize() != size)) {
-                            font = FontUtils.getCachedDerivedFont(font, nextStyle.getFontStyle() == -1 ? font.getStyle() : nextStyle.getFontStyle(), size);
-                            nextFm2 = label.getFontMetrics(font);
-                        }
-                        else {
-                            nextFm2 = fm;
-                        }
-                    }
+                    nextFm2 = null;
                     if (!lastRow) {
                         rowStartOffset += style.getLength();
                         rowCount++;
