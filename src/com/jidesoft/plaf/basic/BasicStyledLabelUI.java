@@ -1682,7 +1682,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             textR.x += leftMostX - iconR.x;
             iconR.x = leftMostX;
         }
-        else if (iconR.x > rightMostX) {
+        else if (iconR.x > rightMostX && horizontalAlignment != LEFT) {
             iconR.x = rightMostX;
             textR.x -= iconR.x - rightMostX;
         }
