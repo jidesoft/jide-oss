@@ -36,6 +36,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListenerProxy;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -3232,14 +3233,17 @@ public class JideSwingUtilities implements SwingConstants {
      * @param propertyName the property name
      * @param l         the listener
      * @return true if already registered. Otherwise false.
+     * @since 3.4.3
      */
     public static boolean isPropertyChangeListenerRegistered(Component component, String propertyName, PropertyChangeListener l) {
-        if (propertyName == null) {
-            return isPropertyChangeListenerRegistered(component, l);
-        }
-        PropertyChangeListener[] listeners = component.getPropertyChangeListeners(propertyName);
+        PropertyChangeListener[] listeners = component.getPropertyChangeListeners();
         for (PropertyChangeListener listener : listeners) {
             if (listener == l) {
+                return true;
+            }
+            if (listener instanceof PropertyChangeListenerProxy &&
+                    ((PropertyChangeListenerProxy) listener).getPropertyName().equals(propertyName) &&
+                    ((PropertyChangeListenerProxy) listener).getListener() == l) {
                 return true;
             }
         }
