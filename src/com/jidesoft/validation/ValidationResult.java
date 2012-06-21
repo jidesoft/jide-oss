@@ -22,7 +22,20 @@ public class ValidationResult {
     private boolean _valid;
     private Object _newValue;
     private int _failBehavior = FAIL_BEHAVIOR_REVERT;
+    /**
+     * If you want to change the new value in the validation result to null, please return NULL_VALUE so that JideTable
+     * will be able to change it automatically to null after validation.
+     *
+     * @since 3.4.3
+     */
+    public static final Object NULL_VALUE = new NullValue();
     private String _message;
+
+    private static class NullValue {
+        public NullValue() {
+            super();
+        }
+    }
 
     /**
      * When validation fails, reverts back to the previous valid value and stop cell editting as normal.
