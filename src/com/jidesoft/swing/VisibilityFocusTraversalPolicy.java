@@ -209,25 +209,36 @@ public class VisibilityFocusTraversalPolicy extends FocusTraversalPolicy {
         }
         Component component = _defaultPolicy.getDefaultComponent(aContainer);
         Component aComponent = component;
-        boolean componentChanged;
-        do {
-            componentChanged = false;
-            for (Container container : _containers) {
-                if (container.isAncestorOf(component)) {
-                    Rectangle collapsiblePaneBounds = container.getBounds();
-                    Container parent = container.getParent();
-                    Rectangle bounds = SwingUtilities.convertRectangle(component.getParent(), component.getBounds(), parent);
-                    if (bounds.x < collapsiblePaneBounds.x + collapsiblePaneBounds.width && bounds.x + bounds.width > collapsiblePaneBounds.x && bounds.y < collapsiblePaneBounds.y + collapsiblePaneBounds.height && bounds.y + bounds.height > collapsiblePaneBounds.y) {
-                        return component;
+        boolean old = _defaultPolicy instanceof SortingFocusTraversalPolicy && ((SortingFocusTraversalPolicy) _defaultPolicy).getImplicitDownCycleTraversal();
+        if (_defaultPolicy instanceof SortingFocusTraversalPolicy) {
+            ((SortingFocusTraversalPolicy) _defaultPolicy).setImplicitDownCycleTraversal(false);
+        }
+        try {
+            boolean componentChanged;
+            do {
+                componentChanged = false;
+                for (Container container : _containers) {
+                    if (container.isAncestorOf(component)) {
+                        Rectangle collapsiblePaneBounds = container.getBounds();
+                        Container parent = container.getParent();
+                        Rectangle bounds = SwingUtilities.convertRectangle(component.getParent(), component.getBounds(), parent);
+                        if (bounds.x < collapsiblePaneBounds.x + collapsiblePaneBounds.width && bounds.x + bounds.width > collapsiblePaneBounds.x && bounds.y < collapsiblePaneBounds.y + collapsiblePaneBounds.height && bounds.y + bounds.height > collapsiblePaneBounds.y) {
+                            return component;
+                        }
+                        component = _defaultPolicy.getComponentAfter(aContainer, component);
+                        componentChanged = true;
+                        break;
                     }
-                    component = _defaultPolicy.getComponentAfter(aContainer, component);
-                    componentChanged = true;
-                    break;
                 }
             }
+            while (component != null && aComponent != component && componentChanged);
+            return component;
         }
-        while (component != null && aComponent != component && componentChanged);
-        return component;
+        finally {
+            if (_defaultPolicy instanceof SortingFocusTraversalPolicy) {
+                ((SortingFocusTraversalPolicy) _defaultPolicy).setImplicitDownCycleTraversal(old);
+            }
+        }
     }
 
     @Override
