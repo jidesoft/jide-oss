@@ -1710,7 +1710,7 @@ public class JideTabbedPane extends JTabbedPane {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, title, index, isSelected, cellHasFocus);
                 label.setToolTipText(tooltip);
                 Font fnt;
-                if (tabbedPane.getSelectedIndex() == index) {
+                if (tabbedPane.getSelectedIndex() == index && tabbedPane.getSelectedTabFont() != null) {
                     fnt = tabbedPane.getSelectedTabFont();
                 }
                 else {
