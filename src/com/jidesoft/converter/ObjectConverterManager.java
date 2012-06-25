@@ -222,7 +222,7 @@ public class ObjectConverterManager {
         ObjectConverter converter = getConverter(clazz, context);
         if (converter != null && converter.supportFromString(string, context)) {
             Object value = converter.fromString(string, context);
-            if (value != null && !clazz.isAssignableFrom(value.getClass())) {
+            if (value != null && clazz != null && !clazz.isAssignableFrom(value.getClass())) {
                 if (TypeUtils.isNumericType(clazz) && value instanceof Number) {
                     clazz = TypeUtils.convertPrimitiveToWrapperType(clazz);
                     if (clazz == Double.class) {
