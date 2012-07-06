@@ -475,8 +475,15 @@ public class CheckBoxList extends JList {
     }
 
     public void setCheckBoxListSelectionModel(CheckBoxListSelectionModel checkBoxListSelectionModel) {
-        _checkBoxListSelectionModel = checkBoxListSelectionModel;
-        _checkBoxListSelectionModel.setModel(getModel());
+        if (_checkBoxListSelectionModel != checkBoxListSelectionModel) {
+            if (_checkBoxListSelectionModel != null) {
+                getModel().removeListDataListener(_checkBoxListSelectionModel);
+            }
+            _checkBoxListSelectionModel = checkBoxListSelectionModel;
+            if (_checkBoxListSelectionModel != null) {
+                _checkBoxListSelectionModel.setModel(getModel());
+            }
+        }
     }
 
     /**
