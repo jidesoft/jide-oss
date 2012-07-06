@@ -7873,8 +7873,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
                     }
                     else {
-                        scrollBackwardButton.setEnabled(leadingTabIndex > 0 ||viewRect.x + viewRect.width >= viewSize.width);
-                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0);
+                        scrollBackwardButton.setEnabled(_rects[0].x + _rects[0].width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
+                        boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
+                        if (enabled && _rects.length > 0) {
+                            if (_rects[0].x + _rects[0].width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
+                                enabled = false;
+                            }
+                        }
+                        scrollForwardButton.setEnabled(enabled);
                     }
                     break;
                 case TOP:
@@ -7885,8 +7891,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
                     }
                     else {
-                        scrollBackwardButton.setEnabled(leadingTabIndex > 0 || viewRect.x + viewRect.width > viewSize.width);
-                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0);
+                        scrollBackwardButton.setEnabled(_rects[0].x + _rects[0].width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
+                        boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
+                        if (enabled && _rects.length > 0) {
+                            if (_rects[0].x + _rects[0].width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
+                                enabled = false;
+                            }
+                        }
+                        scrollForwardButton.setEnabled(enabled);
                     }
             }
 
