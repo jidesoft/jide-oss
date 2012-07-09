@@ -9529,9 +9529,6 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                        Rectangle iconRect, Rectangle textRect,
                                        boolean isSelected) {
         Rectangle tabRect = new Rectangle(rects[tabIndex]);
-        if ((tabPlacement == TOP || tabPlacement == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight()) {
-            tabRect.x += _tabScroller.viewport.getViewPosition().x;
-        }
         if (_tabPane.hasFocus() && isSelected) {
             int x, y, w, h;
             g.setColor(_focus);
