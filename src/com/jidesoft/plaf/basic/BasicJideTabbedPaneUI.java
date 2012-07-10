@@ -7301,7 +7301,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                    rightMargin -= lsize.width; // this _rects is the rectangle inside the ScrollableTabPanel so no need count in TabLeadingComponent at all
 //                }
                 for (int i = 0; i < tabCount; i++) {
-                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width + tabAreaInsets.left;
+                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width + tabAreaInsets.left - _additionalWidth;
 //                    if(i == tabCount - 1) {
 //                        _rects[i].width += getLeftMargin();
 //                        _rects[i].x -= getLeftMargin();
