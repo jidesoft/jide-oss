@@ -671,14 +671,14 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         if (insets != null) {
             ComponentOrientation o = _target.getComponentOrientation();
             if (resolveAxis(_axis, o) == X_AXIS) {
-                c.setBounds(Math.max(location, 0),
+                c.setBounds(location,
                         Math.max(insets.top, 0),
                         Math.max(size, 0),
                         Math.max(containerSize.height - (insets.top + insets.bottom), 0));
             }
             else {
                 c.setBounds(Math.max(insets.left, 0),
-                        Math.max(location, 0),
+                        location,
                         Math.max(containerSize.width - (insets.left + insets.right), 0),
                         Math.max(size, 0));
             }
@@ -686,14 +686,14 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
         else {
             ComponentOrientation o = _target.getComponentOrientation();
             if (resolveAxis(_axis, o) == X_AXIS) {
-                c.setBounds(Math.max(location, 0),
+                c.setBounds(location,
                         0,
                         Math.max(size, 0),
                         Math.max(containerSize.height, 0));
             }
             else {
                 c.setBounds(0,
-                        Math.max(location, 0),
+                        location,
                         Math.max(containerSize.width, 0),
                         Math.max(size, 0));
             }
