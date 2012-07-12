@@ -474,6 +474,8 @@ public class LookAndFeelFactory implements ProductNames {
             return;
         }
 
+        workAroundSwingIssues();
+
         _style = style;
         uiDefaults.put(JIDE_STYLE_INSTALLED, _style);
 
@@ -813,6 +815,36 @@ public class LookAndFeelFactory implements ProductNames {
             if (customizer != null) {
                 customizer.customize(uiDefaults);
             }
+        }
+    }
+
+    private static void workAroundSwingIssues() {
+        Object o = UIManager.get("PopupMenu.selectedWindowInputMapBindings.RightToLeft");
+        if (o instanceof Object[]) {
+            Object[] mapArray = (Object[]) o;
+            for (Object item : mapArray) {
+                if ("DOWN".equals(item)) {
+                    return; // maybe Swing fixed the bug later, no need to work around any more.
+                }
+            }
+            Object[] newMapArray = new Object[mapArray.length + 14];
+            System.arraycopy(mapArray, 0, newMapArray, 0, mapArray.length);
+            int i = mapArray.length;
+            newMapArray[i++] = "DOWN";
+            newMapArray[i++] = "selectNext";
+            newMapArray[i++] = "UP";
+            newMapArray[i++] = "selectPrevious";
+            newMapArray[i++] = "KP_DOWN";
+            newMapArray[i++] = "selectNext";
+            newMapArray[i++] = "KP_UP";
+            newMapArray[i++] = "selectPrevious";
+            newMapArray[i++] = "ENTER";
+            newMapArray[i++] = "return";
+            newMapArray[i++] = "SPACE";
+            newMapArray[i++] = "return";
+            newMapArray[i++] = "ESCAPE";
+            newMapArray[i] = "cancel";
+            UIManager.put("PopupMenu.selectedWindowInputMapBindings.RightToLeft", newMapArray);
         }
     }
 
