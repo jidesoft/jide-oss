@@ -38,6 +38,9 @@ public class VisibilityFocusTraversalPolicy extends FocusTraversalPolicy {
      */
     public VisibilityFocusTraversalPolicy(FocusTraversalPolicy defaultPolicy, Container container) {
         super();
+        if (defaultPolicy != null && defaultPolicy.getClass().getName().contains("LegacyGlueFocusTraversalPolicy")) {
+            throw new IllegalArgumentException("VisibilityFocusTraversalPolicy can't work well with LegacyGlueFocusTraversalPolicy.");
+        }
         _defaultPolicy = defaultPolicy;
         if (container != null) {
             _containers = new HashSet<Container>();
