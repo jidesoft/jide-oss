@@ -405,6 +405,16 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
      * proportions if proportional layout is on. This will likely result in changing the divider location.
      */
     public void resetToPreferredSizes() {
+        if (getLayout() instanceof JideBoxLayout) {
+            boolean old = ((JideBoxLayout) getLayout()).isResetWhenInvalidate();
+            try {
+                ((JideBoxLayout) getLayout()).setResetWhenInvalidate(true);
+                ((JideBoxLayout) getLayout()).invalidateLayout(this);
+            }
+            finally {
+                ((JideBoxLayout) getLayout()).setResetWhenInvalidate(old);
+            }
+        }
         doLayout();
     }
 
