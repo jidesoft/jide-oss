@@ -4163,6 +4163,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         tabRegion = new Polygon(xp, yp, np);
     }
 
+    /**
+     * Paints the border of the conten pane which should reflect the tabs as well.
+     *
+     * @param g             the Graphics instance
+     * @param tabPlacement  the tab placement
+     * @param selectedIndex the selected tab index
+     */
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
         int width = _tabPane.getWidth();
         int height = _tabPane.getHeight();
@@ -6709,7 +6716,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                             totalTabWidth = _rects[tabCount - 1].x + _rects[tabCount - 1].width;
                                         }
                                         else {
-                                            totalTabWidth = _rects[0].x + _rects[0].width + _additionalWidth;
+                                            totalTabWidth = _rects[0].x + _rects[0].width + getLeftMargin();
                                         }
                                     }
                                     boolean widthEnough = totalTabWidth <= tw || _tabPane.getTabResizeMode() == JideTabbedPane.RESIZE_MODE_FIT;
@@ -7294,14 +7301,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //                int rightMargin = size.width - (insets.right + tabAreaInsets.right);
                 int rightMargin = 0;
                 if (_rects.length > 0) {
-                    rightMargin = Math.max(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width, size.width - _rects[0].x);
-                    _additionalWidth = _rects[0].x;
+                    rightMargin = Math.max(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width, size.width - tabAreaInsets.right);
+                    _additionalWidth = getLeftMargin();
                 }
 //                if (isTabLeadingComponentVisible()) {
 //                    rightMargin -= lsize.width; // this _rects is the rectangle inside the ScrollableTabPanel so no need count in TabLeadingComponent at all
 //                }
                 for (int i = 0; i < tabCount; i++) {
-                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width + tabAreaInsets.left - _additionalWidth;
+                    _rects[i].x = rightMargin - _rects[i].x - _rects[i].width + tabAreaInsets.left;
 //                    if(i == tabCount - 1) {
 //                        _rects[i].width += getLeftMargin();
 //                        _rects[i].x -= getLeftMargin();
@@ -7969,7 +7976,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     return new Dimension(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width + 10, _rects[0].y + _rects[0].height);
                 }
                 else {
-                    return new Dimension(_rects[0].x + _rects[0].width + _additionalWidth + 10, _rects[0].y + _rects[0].height);
+                    return new Dimension(_rects[0].x + _rects[0].width + getLeftMargin(), _rects[0].y + _rects[0].height);
                 }
             }
             else {
@@ -8970,7 +8977,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 */
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
-                _tabScroller.tabPanel.scrollRectToVisible(_rects[index]);
+                Rectangle rect = new Rectangle(_rects[index]);
+                if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight() && index == 0) {
+                    rect.width += getLeftMargin();
+                }
+                _tabScroller.tabPanel.scrollRectToVisible(rect);
                 if (_tabPane.getTabPlacement() == LEFT || _tabPane.getTabPlacement() == RIGHT || _tabPane.getComponentOrientation().isLeftToRight()) {
                     _tabScroller.tabPanel.getParent().doLayout();
                 }
