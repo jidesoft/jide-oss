@@ -94,6 +94,9 @@ abstract public class NavigationComponentHelper {
         }
         if (!c.hasFocus()) {
             selectedColor = ColorUtils.toGrayscale(selectedColor).brighter();
+            if (Color.WHITE.equals(selectedColor)) {
+                selectedColor = new Color(202, 202, 202);
+            }
         }
         Rectangle bounds = getRowBounds(row);
         bounds.width -= 1;
