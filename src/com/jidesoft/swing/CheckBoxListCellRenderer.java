@@ -23,7 +23,7 @@ public class CheckBoxListCellRenderer extends JPanel implements ListCellRenderer
     /**
      * The checkbox that is used to paint the check box in cell renderer
      */
-    protected JCheckBox _checkBox = new NullCheckBox();
+    protected AbstractButton _checkBox = new NullCheckBox();
     protected JLabel _label = new NullLabel();
 
     /**
