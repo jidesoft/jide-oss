@@ -5693,7 +5693,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     pane.doLayout();
                     if (pane.getSelectedIndex() >= 0) {
-                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
+                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollIndexToVisible(pane.getSelectedIndex());
                     }
                 }
                 else if (closeSelected) {
@@ -5704,7 +5704,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     }
                     pane.doLayout();
                     if (pane.getSelectedIndex() >= 0) {
-                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
+                        ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollIndexToVisible(pane.getSelectedIndex());
                     }
                 }
                 else if (src instanceof JideTabbedPane.NoFocusButton) {
@@ -5724,7 +5724,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                         }
                         pane.doLayout();
                         if (pane.getSelectedIndex() >= 0) {
-                            ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollRectToVisible(((BasicJideTabbedPaneUI) pane.getUI())._rects[pane.getSelectedIndex()]);
+                            ((BasicJideTabbedPaneUI) pane.getUI())._tabScroller.tabPanel.scrollIndexToVisible(pane.getSelectedIndex());
                         }
                     }
                 }
@@ -7966,6 +7966,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             return getPreferredSize();
         }
 
+        public void scrollIndexToVisible(int index) {
+            Rectangle rect = new Rectangle(_rects[index]);
+            if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight() && index == 0) {
+                rect.width += getLeftMargin();
+            }
+            _tabScroller.tabPanel.scrollRectToVisible(rect);
+        }
+
         @Override
         public Dimension getPreferredSize() {
             if (_rects.length <= 0) {
@@ -8977,11 +8985,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 */
             int index = _tabPane.getSelectedIndex();
             if ((!scrollLeft || index != 0) && index < _rects.length && index != -1) {
-                Rectangle rect = new Rectangle(_rects[index]);
-                if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight() && index == 0) {
-                    rect.width += getLeftMargin();
-                }
-                _tabScroller.tabPanel.scrollRectToVisible(rect);
+                _tabScroller.tabPanel.scrollIndexToVisible(index);
                 if (_tabPane.getTabPlacement() == LEFT || _tabPane.getTabPlacement() == RIGHT || _tabPane.getComponentOrientation().isLeftToRight()) {
                     _tabScroller.tabPanel.getParent().doLayout();
                 }
