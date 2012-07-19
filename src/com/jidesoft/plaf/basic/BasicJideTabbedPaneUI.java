@@ -7759,13 +7759,23 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     tabViewPosition.y = 0;
                     if (_tabPane.getComponentOrientation().isLeftToRight()) {
                         tabViewPosition.x = leadingTabIndex == 0 ? 0 : _rects[leadingTabIndex].x;
+                        // no need for RTL orientation. Just keep it for LTR as a protection.
+                        if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
+                            tabViewPosition.x = viewSize.width - viewRect.width;
+                            //                        // We've scrolled to the end, so adjust the viewport size
+                            //                        // to ensure the view position remains aligned on a tab boundary
+                            //                        Dimension extentSize = new Dimension(viewSize.width - tabViewPosition.x,
+                            //                                viewRect.height);
+                            //                        System.out.println("setExtendedSize: " + extentSize);
+                            //                        viewport.setExtentSize(extentSize);
+                        }
                     }
                     else {
                         if (_rects.length <= 0) {
                             tabViewPosition.x = 0;
                         }
                         else if (_rects.length == 1) {
-                            tabViewPosition.x = Math.max(0, _rects[0].x - _rects[0].width + _additionalWidth - viewSize.width);
+                            tabViewPosition.x = _rects[0].x + _rects[0].width + _additionalWidth - viewRect.width;
                         }
                         else {
                             Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
@@ -7782,18 +7792,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                                     tempRects[i].x = rightMargin - _rects[i].x - _rects[i].width + tabAreaInsets.left;
                                 }
                             }
-                            tabViewPosition.x = Math.max(0, tempRects[leadingTabIndex].x + tempRects[leadingTabIndex].width + (leadingTabIndex == 0 ? _additionalWidth : 0) - viewport.getWidth());
+                            tabViewPosition.x = tempRects[leadingTabIndex].x + tempRects[leadingTabIndex].width + (leadingTabIndex == 0 ? _additionalWidth : 0) - viewRect.width;
                         }
-                    }
-
-                    if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
-                        tabViewPosition.x = viewSize.width - viewRect.width;
-                        //                        // We've scrolled to the end, so adjust the viewport size
-                        //                        // to ensure the view position remains aligned on a tab boundary
-                        //                        Dimension extentSize = new Dimension(viewSize.width - tabViewPosition.x,
-                        //                                viewRect.height);
-                        //                        System.out.println("setExtendedSize: " + extentSize);
-                        //                        viewport.setExtentSize(extentSize);
                     }
 
                     break;
@@ -7940,6 +7940,11 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             setOpaque(false);
         }
 
+        @Override
+        public void setViewPosition(Point p) {
+            super.setViewPosition(p);
+        }
+
         /**
          * Gets the background color of this component.
          *
@@ -7971,7 +7976,12 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             if ((_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) && !_tabPane.getComponentOrientation().isLeftToRight() && index == 0) {
                 rect.width += getLeftMargin();
             }
-            _tabScroller.tabPanel.scrollRectToVisible(rect);
+            scrollRectToVisible(rect);
+        }
+
+        @Override
+        public void scrollRectToVisible(Rectangle aRect) {
+            super.scrollRectToVisible(aRect);
         }
 
         @Override
