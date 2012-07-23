@@ -136,6 +136,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
     public WindowAdapter _windowDeactivatedListener;
     private int _dividerStepSize = 0;
     private boolean _dragResizable = true;
+    private boolean _hiddenByMyself = false;
 
     /**
      * Creates a new <code>JideSplitPane</code> configured to arrange the child components side-by-side horizontally.
@@ -990,15 +991,21 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
         setProportions(newProportions);
     }
 
+    @Override
+    public void setVisible(boolean aFlag) {
+        _hiddenByMyself = false;
+        super.setVisible(aFlag);
+    }
+
     /**
      * Before this method is call, the panes must be separated by dividers.
      */
     protected void setDividersVisible() {
+        boolean anyVisible = false;
         if (getComponentCount() == 1) {
-            setVisible(getComponent(0).isVisible());
+            anyVisible = getComponent(0).isVisible();
         }
         else if (getComponentCount() > 1) {
-            boolean anyVisible = false;
             boolean anyPrevVisible = false;
             for (int i = 0; i < getComponentCount(); i++) {
                 Component comp = getComponent(i);
@@ -1030,8 +1037,13 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
                     }
                 }
             }
-
-            setVisible(anyVisible);
+        }
+        if (!anyVisible) {
+            super.setVisible(false);
+            _hiddenByMyself = true;
+        }
+        else if (_hiddenByMyself) {
+            super.setVisible(true);
         }
     }
 
