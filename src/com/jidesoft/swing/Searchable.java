@@ -253,6 +253,21 @@ public abstract class Searchable {
     protected abstract String convertElementToString(Object element);
 
     /**
+     * Converts the element to String.
+     * <p/>
+     * This method will invoke {@link #convertElementToString(Object)} only. This method is added to provide a public
+     * method for ShrinkSearchSupport without breaking the existing code of the customers.
+     *
+     * @param element the element to be converted
+     *
+     * @return the string representing the element in the component.
+     * @since 3.4.5
+     */
+    public String convertToString(Object element) {
+        return convertElementToString(element);
+    }
+
+    /**
      * Get the flag indicating if the search popup should be hidden on the component's event.
      * <p/>
      * By default, the value is true so that the search popup will be hidden anyway when the component get related
