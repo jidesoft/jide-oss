@@ -7,7 +7,9 @@ import java.awt.*;
  */
 public class PartialEtchedBorder extends EtchedBorder implements PartialSide {
 
+    private static final long serialVersionUID = 2711317518164196639L;
     private int _sides;
+    private boolean _roundedCorners = false;
 
     public PartialEtchedBorder() {
         this(ALL);
@@ -56,7 +58,12 @@ public class PartialEtchedBorder extends EtchedBorder implements PartialSide {
 
         if (_sides == ALL) {
             g.setColor(etchType == LOWERED ? shadowColor : highlightColor);
-            g.drawRect(0, 0, w - 2, h - 2);
+            if (isRoundedCorners()) {
+                g.drawRoundRect(0, 0, w - 2, h - 2, 2, 2);
+            }
+            else {
+                g.drawRect(0, 0, w - 2, h - 2);
+            }
 
             g.setColor(etchType == LOWERED ? highlightColor : shadowColor);
             g.drawLine(1, h - 3, 1, 1);
@@ -128,5 +135,29 @@ public class PartialEtchedBorder extends EtchedBorder implements PartialSide {
             borderInsets.right = 0;
         }
         return borderInsets;
+    }
+
+    /**
+     * Gets the flag indicating if the corner should be painted rounded.
+     *
+     * @return true if the corner should be painted rounded. Otherwise false.
+     * @since 3.4.5
+     */
+    public boolean isRoundedCorners() {
+        return _roundedCorners;
+    }
+
+    /**
+     * Sets the flag indicating if the corner should be painted rounded.
+     * <p/>
+     * By default, the value is false to keep the default behavior backward compatibility.
+     * <p/>
+     * This flag take effects only if the side is {@link #ALL}
+     *
+     * @param roundedCorners the flag
+     * @since 3.4.5
+     */
+    public void setRoundedCorners(boolean roundedCorners) {
+        _roundedCorners = roundedCorners;
     }
 }
