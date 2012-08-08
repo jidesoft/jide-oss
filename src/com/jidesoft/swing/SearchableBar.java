@@ -803,6 +803,15 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         else {
             _searchHistory = Arrays.asList(searchHistory);
         }
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        if (_searchHistory != null) {
+            for (int i = _searchHistory.size() - 1; i >= 0; i--) {
+                model.addElement(_searchHistory.get(i));
+            }
+        }
+        model.insertElementAt("", 0);
+        _comboBox.setModel(model);
+        _comboBox.setSelectedIndex(0);
     }
 
     /**
