@@ -21,6 +21,7 @@ import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 
@@ -956,18 +957,28 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
 
+        int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
+        int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D rectText = fm.getStringBounds(text, g);
         if (!(menuItem instanceof JMenu) || !((JMenu) menuItem).isTopLevelMenu()) {
             if (menuItem.getComponentOrientation().isLeftToRight()) {
-                int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
-                int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
                 textRect.x = defaultShadowWidth + defaultTextIconGap;
             }
             else {
                 // isLeftToRight is false
+                textRect.x = menuItem.getWidth() - defaultShadowWidth - iconRect.width - defaultTextIconGap - (int)rectText.getWidth();
+            }
+        }
+        else if (!menuItem.getComponentOrientation().isLeftToRight()) {
+            if (menuItem.getComponentOrientation().isHorizontal()) {
+                textRect.x = menuItem.getWidth() - iconRect.width - defaultTextIconGap - (int)rectText.getWidth();
+            }
+            else {
+                textRect.y = menuItem.getHeight() - iconRect.height - defaultTextIconGap - (int)rectText.getHeight();
             }
         }
 
-        FontMetrics fm = g.getFontMetrics();
         int mnemonicIndex = menuItem.getDisplayedMnemonicIndex();
         // W2K Feature: Check to see if the Underscore should be rendered.
         if (WindowsLookAndFeel.isMnemonicHidden()) {
@@ -1046,6 +1057,15 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
             Icon icon = getIcon(b);
 
             if (icon != null) {
+                if (!b.getComponentOrientation().isLeftToRight()) {
+                    if (b.getComponentOrientation().isHorizontal()) {
+                        iconRect.x = b.getWidth() - 3 - icon.getIconWidth();
+                    }
+                    else {
+                        iconRect.y = b.getHeight() - 3 - icon.getIconHeight();
+                    }
+                }
+
                 boolean enabled = model.isEnabled() && (!(model instanceof SplitButtonModel) || ((SplitButtonModel) model).isButtonEnabled());
                 if (isFloatingIcon() && enabled) {
                     if (model.isRollover() && !model.isPressed() && !model.isSelected()) {
