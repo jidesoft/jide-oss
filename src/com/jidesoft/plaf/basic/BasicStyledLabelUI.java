@@ -808,7 +808,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
 
                 boolean wrapped = false;
                 int widthLeft = endX - x;
-                if (widthLeft < strWidth) {
+                if (widthLeft < strWidth && widthLeft >= 0) {
                     if (label.isLineWrap() && ((label.getMaxRows() > 0 && rowCount < label.getMaxRows() - 1) || label.getMaxRows() <= 0) && y + maxRowHeight + Math.max(0, label.getRowGap()) <= labelHeight) {
                         wrapped = true;
                         int availLength = s.length() * widthLeft / strWidth + 1;
