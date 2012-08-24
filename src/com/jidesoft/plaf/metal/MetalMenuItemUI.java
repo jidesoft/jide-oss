@@ -406,7 +406,8 @@ public class MetalMenuItemUI extends MenuItemUI {
                 b.getVerticalTextPosition(), b.getHorizontalTextPosition(),
                 viewRect, iconRect, textRect, acceleratorRect, checkIconRect, arrowIconRect,
                 text == null ? 0 : defaultTextIconGap,
-                defaultTextIconGap);
+                defaultTextIconGap,
+                getIconPaddings(b));
         // find the union of the icon and text rects
         r.setBounds(textRect);
         r = SwingUtilities.computeUnion(iconRect.x,
@@ -591,7 +592,8 @@ public class MetalMenuItemUI extends MenuItemUI {
                 viewRect, iconRect, textRect, acceleratorRect,
                 checkIconRect, arrowIconRect,
                 b.getText() == null ? 0 : defaultTextIconGap,
-                defaultTextIconGap);
+                defaultTextIconGap,
+                getIconPaddings(b));
 
         // Paint background
         paintBackground(g, b, background);
@@ -704,6 +706,22 @@ public class MetalMenuItemUI extends MenuItemUI {
         g.setFont(holdf);
     }
 
+    private int[] getIconPaddings(JMenuItem b) {
+        int[] subFlags = new int[]{0, 0};
+        if (b != null && (b.getParent() instanceof JPopupMenu)) {
+            JPopupMenu parentMenu = (JPopupMenu) b.getParent();
+            for (MenuElement item : parentMenu.getSubElements()) {
+                if (item instanceof JCheckBoxMenuItem) {
+                    subFlags[0] = 10;
+                }
+                if ((item instanceof JMenuItem) && ((JMenuItem) item).getIcon() != null) {
+                    subFlags[1] = Math.max(subFlags[1], ((JMenuItem) item).getIcon().getIconWidth());
+                }
+            }
+        }
+        return subFlags;
+    }
+
     /**
      * Draws the background of the menu item.
      *
@@ -800,7 +818,8 @@ public class MetalMenuItemUI extends MenuItemUI {
                                   Rectangle checkIconRect,
                                   Rectangle arrowIconRect,
                                   int textIconGap,
-                                  int menuItemGap) {
+                                  int menuItemGap,
+                                  int[] iconPaddings) {
         if (icon != null)
             if ((icon.getIconHeight() == 0) || (icon.getIconWidth() == 0))
                 icon = null;    // An exception may occur in case of zero sized icons
@@ -899,6 +918,16 @@ public class MetalMenuItemUI extends MenuItemUI {
         if (useCheckAndArrow()) {
             arrowIconRect.y = labelRect.y + (labelRect.height / 2) - (arrowIconRect.height / 2);
             checkIconRect.y = labelRect.y + (labelRect.height / 2) - (checkIconRect.height / 2);
+        }
+
+        if (checkIcon == null && iconPaddings[0] > 0){ // Has CheckBoxMenu in the save level
+            iconRect.x += iconPaddings[0];
+            textRect.x += iconPaddings[0];
+            acceleratorRect.x += iconPaddings[0];
+        }
+        if (icon == null && iconPaddings[1] > 0) { // Has Icon in the save level
+            textRect.x += iconPaddings[1] + defaultTextIconGap;
+            acceleratorRect.x += iconPaddings[1] + defaultTextIconGap;
         }
 
         /*
