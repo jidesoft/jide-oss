@@ -60,7 +60,7 @@ import java.util.HashMap;
  * @author Sebastien Petrucci <sebastien_petrucci@yahoo.fr>
  */
 
-public class ShadowFactory {
+public class ShadowFactory implements ShadowRenderer {
     /**
      * <p>Key for the blur quality rendering hint.</p>
      */
@@ -130,6 +130,7 @@ public class ShadowFactory {
      * @param size    The size of the shadow in pixels. Defines the fuzziness.
      * @param opacity The opacity of the shadow.
      * @param color   The color of the shadow.
+     *
      * @see #setRenderingHint(Object, Object)
      */
     public ShadowFactory(final int size, final float opacity, final Color color) {
@@ -280,6 +281,7 @@ public class ShadowFactory {
      * depends on the size of the shadow, the larger the longer it takes, and on the selected rendering algorithm.</p>
      *
      * @param image the picture from which the shadow must be cast
+     *
      * @return the picture containing the shadow of <code>image</code>
      */
     public BufferedImage createShadow(final BufferedImage image) {
