@@ -326,7 +326,7 @@ public class PortingUtils {
     private static void waitForInitialization() {
         initializeScreenArea();
 
-        while (_initializationThread.isAlive()) {
+        while (_initializationThread != null && _initializationThread.isAlive()) {
             try {
                 Thread.sleep(100);
             }
