@@ -300,6 +300,7 @@ public class PortingUtils {
                     }
                     SCREENS = screensList.toArray(new Rectangle[screensList.size()]);
                     INSETS = insetsList.toArray(new Insets[screensList.size()]);
+                    _initializationThread = null;
                 }
             };
             _initializationThread.setPriority(priority);
