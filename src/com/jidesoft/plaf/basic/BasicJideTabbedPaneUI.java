@@ -5045,8 +5045,13 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     protected FontMetrics getFontMetrics(int tab) {
         Font font;
         int selectedIndex = _tabPane.getSelectedIndex();
-        if (selectedIndex == tab && _tabPane.getSelectedTabFont() != null) {
-            font = _tabPane.getSelectedTabFont();
+        if (selectedIndex == tab) {
+            if (_tabPane.getSelectedTabFont() != null) {
+                font = _tabPane.getSelectedTabFont();
+            }
+            else {
+                font = _selectedTabFont;
+            }
         }
         else {
             font = _tabPane.getFont();
