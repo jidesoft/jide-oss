@@ -172,7 +172,9 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
         setHideSearchPopupOnEvent(false);
         ((JComboBox) _component).hidePopup();
         setHideSearchPopupOnEvent(old);
-        ((JComboBox) _component).showPopup();
+        if (_component.isVisible() && _component.isShowing()) {
+            ((JComboBox) _component).showPopup();
+        }
     }
 
     @Override
