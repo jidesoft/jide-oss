@@ -88,6 +88,21 @@ abstract public class NavigationComponentHelper {
      * @param row the row index
      */
     protected void paintSelectedRow(Graphics g, JComponent c, int row) {
+        Color selectedColor = getSelectionColor(c);
+        Rectangle bounds = getRowBounds(row);
+        bounds.width -= 1;
+        bounds.height -= 1;
+        paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
+    }
+
+    /**
+     * Gets the color to paint the selected rows.
+     *
+     * @param c the component
+     * @return the selection color.
+     * @since 3.4.6
+     */
+    protected Color getSelectionColor(JComponent c) {
         Color selectedColor = UIManager.getColor("NavigationComponent.selectionBackground");
         if (selectedColor == null) {
             selectedColor = UIManager.getColor("Tree.selectionBackground");
@@ -98,10 +113,7 @@ abstract public class NavigationComponentHelper {
                 selectedColor = new Color(202, 202, 202);
             }
         }
-        Rectangle bounds = getRowBounds(row);
-        bounds.width -= 1;
-        bounds.height -= 1;
-        paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
+        return selectedColor;
     }
 
     /**
