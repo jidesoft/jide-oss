@@ -97,6 +97,7 @@ public class AutoResizingTextArea extends JTextArea {
      * @param minRows The minimum number of rows that this textarea can have
      * @param maxRows The maximum number of rows that this textarea can have.
      * @param columns The number of columns that this textarea has.
+     *
      * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
     public AutoResizingTextArea(String text, int minRows, int maxRows, int columns) {
@@ -124,6 +125,7 @@ public class AutoResizingTextArea extends JTextArea {
      * @param minRows the minimum number of rows >= 0
      * @param maxRows the maximum number of rows >= 0
      * @param columns the number of columns >= 0
+     *
      * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
 
@@ -171,7 +173,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     /**
      * Gets the maximum number of rows that will be displayed. You can set it using {@link #setMaxRows(int)} or passed
-     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * in using constructor such as {@link #AutoResizingTextArea(int, int)}.
      *
      * @return the maximum number of rows that will be displayed.
      */
@@ -191,7 +193,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     /**
      * Gets the minimum number of rows that will be displayed. You can set it using {@link #setMinRows(int)} or passed
-     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * in using constructor such as {@link #AutoResizingTextArea(int, int)}.
      *
      * @return the minimum number of rows that will be displayed.
      */
@@ -217,6 +219,7 @@ public class AutoResizingTextArea extends JTextArea {
      * Clips the given row count to fall within the range [m_minRows .. m_maxRows] (inclusive).
      *
      * @param rows The row count to clip.
+     *
      * @return a row count clipped to the above range
      */
     private int clipRowCount(int rows) {
@@ -230,34 +233,41 @@ public class AutoResizingTextArea extends JTextArea {
      */
     private class ResizingDocumentListener implements DocumentListener {
         public void insertUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
         public void removeUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
         public void changedUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
     }
 
     /**
      * Updates the row count depending on the number of lines in the underlying Document object.
-     *
-     * @param e the <code>DocumentEvent</code>.
      */
-    private void updateSize(DocumentEvent e) {
+    private void updateSize() {
+        int rowCount = getVisualRowCount();
+        setRows(clipRowCount(rowCount));
 
-        Element[] roots = e.getDocument().getRootElements();
+    }
+
+    /**
+     * Gets the visible row count that is required to display all the text. By default, we return the number of elements
+     * as in the underlying Document object but subclass can override it to return your own implementation.
+     *
+     * @return the visual row count.
+     */
+    protected int getVisualRowCount() {
+        Element[] roots = getDocument().getRootElements();
         Element root = roots[0];
 
         // ASSUMPTION: each child element of the first root element represents one line of text
         // NB: This may not be valid for document types other than the default.
-        int rowCount = root.getElementCount();
-        setRows(clipRowCount(rowCount));
-
+        return root.getElementCount();
     }
 
     /**
