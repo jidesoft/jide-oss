@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
-import javax.swing.text.Element;
 import java.awt.*;
 
 /**
@@ -32,6 +31,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     private int _maxRows;
     private int _minRows;
+    private ResizingDocumentListener _listener;
 
     /**
      * Creates a textarea with the default minimum and maximum number of rows.
@@ -60,7 +60,6 @@ public class AutoResizingTextArea extends JTextArea {
         setMinRows(minRows);
         setMaxRows(maxRows);
         setRows(minRows);
-        setupDocument();
     }
 
     /**
@@ -133,7 +132,6 @@ public class AutoResizingTextArea extends JTextArea {
         super(doc, text, minRows, columns);
         setMaxRows(maxRows);
         setMinRows(minRows);
-        setupDocument();
     }
 
     /**
@@ -211,8 +209,21 @@ public class AutoResizingTextArea extends JTextArea {
         setRows(clipRowCount(getRows()));
     }
 
-    private void setupDocument() {
-        getDocument().addDocumentListener(new ResizingDocumentListener());
+    @Override
+    public void setDocument(Document doc) {
+        Document document = getDocument();
+        if (document != null && _listener != null) {
+            document.removeDocumentListener(_listener);
+        }
+        super.setDocument(doc);
+        if (doc != null) {
+            if (_listener == null) {
+                _listener = new ResizingDocumentListener();
+            }
+            doc.addDocumentListener(_listener);
+        }
+
+        updateSize();
     }
 
     /**
@@ -246,30 +257,28 @@ public class AutoResizingTextArea extends JTextArea {
 
     }
 
-    /**
-     * Updates the row count depending on the number of lines in the underlying Document object.
-     */
-    private void updateSize() {
-        int rowCount = getVisualRowCount();
-        setRows(clipRowCount(rowCount));
-
+    private int getHeight(int rows) {
+        Insets insets = getInsets();
+        return rows * getRowHeight() + insets.top + insets.bottom;
     }
 
-    /**
-     * Gets the visible row count that is required to display all the text. By default, we return the number of elements
-     * as in the underlying Document object but subclass can override it to return your own implementation.
-     *
-     * @return the visual row count.
-     *
-     * @since 3.4.7
-     */
-    protected int getVisualRowCount() {
-        Element[] roots = getDocument().getRootElements();
-        Element root = roots[0];
+    private void updateSize() {
+        // look for a parent ScrollPane and revalidate its container
+        // otherwise revalidate the text area's container
+        Container parent = getParentScrollPane();
+        if (parent != null && parent.getParent() instanceof JComponent) {
+            JComponent component = (JComponent) parent.getParent();
+            component.revalidate();
+        }
+    }
 
-        // ASSUMPTION: each child element of the first root element represents one line of text
-        // NB: This may not be valid for document types other than the default.
-        return root.getElementCount();
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        Dimension size = getPreferredSize();
+        if (getMinRows() != 0 && getMaxRows() != 0) {
+            size.height = Math.max(getHeight(getMinRows()), Math.min(getHeight(getMaxRows()), size.height));
+        }
+        return size;
     }
 
     /**
