@@ -260,6 +260,8 @@ public class AutoResizingTextArea extends JTextArea {
      * as in the underlying Document object but subclass can override it to return your own implementation.
      *
      * @return the visual row count.
+     *
+     * @since 3.4.7
      */
     protected int getVisualRowCount() {
         Element[] roots = getDocument().getRootElements();
