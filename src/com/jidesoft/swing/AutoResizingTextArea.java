@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
-import javax.swing.text.Element;
 import java.awt.*;
 
 /**
@@ -32,6 +31,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     private int _maxRows;
     private int _minRows;
+    private ResizingDocumentListener _listener;
 
     /**
      * Creates a textarea with the default minimum and maximum number of rows.
@@ -60,7 +60,6 @@ public class AutoResizingTextArea extends JTextArea {
         setMinRows(minRows);
         setMaxRows(maxRows);
         setRows(minRows);
-        setupDocument();
     }
 
     /**
@@ -97,6 +96,7 @@ public class AutoResizingTextArea extends JTextArea {
      * @param minRows The minimum number of rows that this textarea can have
      * @param maxRows The maximum number of rows that this textarea can have.
      * @param columns The number of columns that this textarea has.
+     *
      * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
     public AutoResizingTextArea(String text, int minRows, int maxRows, int columns) {
@@ -124,6 +124,7 @@ public class AutoResizingTextArea extends JTextArea {
      * @param minRows the minimum number of rows >= 0
      * @param maxRows the maximum number of rows >= 0
      * @param columns the number of columns >= 0
+     *
      * @throws IllegalArgumentException if the rows or columns arguments are negative.
      */
 
@@ -131,7 +132,6 @@ public class AutoResizingTextArea extends JTextArea {
         super(doc, text, minRows, columns);
         setMaxRows(maxRows);
         setMinRows(minRows);
-        setupDocument();
     }
 
     /**
@@ -171,7 +171,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     /**
      * Gets the maximum number of rows that will be displayed. You can set it using {@link #setMaxRows(int)} or passed
-     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * in using constructor such as {@link #AutoResizingTextArea(int, int)}.
      *
      * @return the maximum number of rows that will be displayed.
      */
@@ -191,7 +191,7 @@ public class AutoResizingTextArea extends JTextArea {
 
     /**
      * Gets the minimum number of rows that will be displayed. You can set it using {@link #setMinRows(int)} or passed
-     * in using constructor such as {@link #AutoResizingTextArea(int,int)}.
+     * in using constructor such as {@link #AutoResizingTextArea(int, int)}.
      *
      * @return the minimum number of rows that will be displayed.
      */
@@ -209,14 +209,28 @@ public class AutoResizingTextArea extends JTextArea {
         setRows(clipRowCount(getRows()));
     }
 
-    private void setupDocument() {
-        getDocument().addDocumentListener(new ResizingDocumentListener());
+    @Override
+    public void setDocument(Document doc) {
+        Document document = getDocument();
+        if (document != null && _listener != null) {
+            document.removeDocumentListener(_listener);
+        }
+        super.setDocument(doc);
+        if (doc != null) {
+            if (_listener == null) {
+                _listener = new ResizingDocumentListener();
+            }
+            doc.addDocumentListener(_listener);
+        }
+
+        updateSize();
     }
 
     /**
      * Clips the given row count to fall within the range [m_minRows .. m_maxRows] (inclusive).
      *
      * @param rows The row count to clip.
+     *
      * @return a row count clipped to the above range
      */
     private int clipRowCount(int rows) {
@@ -230,34 +244,41 @@ public class AutoResizingTextArea extends JTextArea {
      */
     private class ResizingDocumentListener implements DocumentListener {
         public void insertUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
         public void removeUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
         public void changedUpdate(DocumentEvent e) {
-            updateSize(e);
+            updateSize();
         }
 
     }
 
-    /**
-     * Updates the row count depending on the number of lines in the underlying Document object.
-     *
-     * @param e the <code>DocumentEvent</code>.
-     */
-    private void updateSize(DocumentEvent e) {
+    private int getHeight(int rows) {
+        Insets insets = getInsets();
+        return rows * getRowHeight() + insets.top + insets.bottom;
+    }
 
-        Element[] roots = e.getDocument().getRootElements();
-        Element root = roots[0];
+    private void updateSize() {
+        // look for a parent ScrollPane and revalidate its container
+        // otherwise revalidate the text area's container
+        Container parent = getParentScrollPane();
+        if (parent != null && parent.getParent() instanceof JComponent) {
+            JComponent component = (JComponent) parent.getParent();
+            component.revalidate();
+        }
+    }
 
-        // ASSUMPTION: each child element of the first root element represents one line of text
-        // NB: This may not be valid for document types other than the default.
-        int rowCount = root.getElementCount();
-        setRows(clipRowCount(rowCount));
-
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        Dimension size = getPreferredSize();
+        if (getMinRows() != 0 && getMaxRows() != 0) {
+            size.height = Math.max(getHeight(getMinRows()), Math.min(getHeight(getMaxRows()), size.height));
+        }
+        return size;
     }
 
     /**
