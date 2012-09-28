@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 
 public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     private Container _detailsArea;
+    private JButton _detailsButton;
     private Container _buttonArea;
     private Container _bannerArea;
     private Component _titleComponent;
@@ -60,14 +61,14 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
     }
 
     // use a static to keep track of detail area visibility during the session
-    private static boolean _detailsVisible = false;
+    private boolean _detailsVisible = false;
 
     /**
      * Is details area visible initially.
      *
      * @return true if details area is visible.
      */
-    public static boolean isDetailsVisible() {
+    public boolean isDetailsVisible() {
         return _detailsVisible;
     }
 
@@ -76,8 +77,11 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
      *
      * @param detailsVisible the flag
      */
-    public static void setDetailsVisible(boolean detailsVisible) {
-        _detailsVisible = detailsVisible;
+    public void setDetailsVisible(boolean detailsVisible) {
+        if (_detailsVisible != detailsVisible) {
+            _detailsVisible = detailsVisible;
+            toggleDetailsArea();
+        }
     }
 
     @Override
@@ -312,26 +316,15 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
 
                             public void actionPerformed(ActionEvent e) {
                                 JButton defaultButton = (JButton) e.getSource();
+                                toggleDetailsArea();
                                 Container top = defaultButton.getTopLevelAncestor();
-                                final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
-                                if (_detailsArea.isVisible()) {
-                                    setDetailsVisible(false);
-                                    _detailsArea.setVisible(false);
-                                    defaultButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"));
-                                    defaultButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0));
-                                }
-                                else {
-                                    setDetailsVisible(true);
-                                    _detailsArea.setVisible(true);
-                                    defaultButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails") : resourceBundle.getString("Button.hideDetails"));
-                                    defaultButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.hideDetails.mnemonic").charAt(0));
-                                }
                                 if (top instanceof Window) {
                                     ((Window) top).pack();
                                 }
                             }
                         });
                         aButton.setVisible(shouldDetailsButtonVisible());
+                        _detailsButton = aButton;
                     }
                     else {
                         ActionListener buttonListener = createButtonActionListener(counter);
@@ -364,6 +357,22 @@ public class BasicJideOptionPaneUI extends BasicOptionPaneUI {
                     }
                 }
             }
+        }
+    }
+
+    private void toggleDetailsArea() {
+        final ResourceBundle resourceBundle = ButtonResources.getResourceBundle(optionPane.getLocale());
+        if (_detailsArea.isVisible()) {
+            setDetailsVisible(false);
+            _detailsArea.setVisible(false);
+            _detailsButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails") : resourceBundle.getString("Button.showDetails"));
+            _detailsButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.showDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.showDetails.mnemonic").charAt(0));
+        }
+        else {
+            setDetailsVisible(true);
+            _detailsArea.setVisible(true);
+            _detailsButton.setText(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails") : resourceBundle.getString("Button.hideDetails"));
+            _detailsButton.setMnemonic(optionPane instanceof JideOptionPane ? ((JideOptionPane) optionPane).getResourceString("Button.hideDetails.mnemonic").charAt(0) : resourceBundle.getString("Button.hideDetails.mnemonic").charAt(0));
         }
     }
 

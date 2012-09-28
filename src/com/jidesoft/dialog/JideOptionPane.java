@@ -154,8 +154,7 @@ public class JideOptionPane extends JOptionPane {
      * @param visible true or false.
      */
     public void setDetailsVisible(boolean visible) {
-        BasicJideOptionPaneUI.setDetailsVisible(visible);
-        updateUI();
+        ((BasicJideOptionPaneUI) getUI()).setDetailsVisible(visible);
     }
 
     /**
@@ -176,7 +175,7 @@ public class JideOptionPane extends JOptionPane {
      * @return true if visible. Otherwise false.
      */
     public boolean isDetailsVisible() {
-        return BasicJideOptionPaneUI.isDetailsVisible();
+        return ((BasicJideOptionPaneUI) getUI()).isDetailsVisible();
     }
 
     @Override
