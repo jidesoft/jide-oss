@@ -18,6 +18,7 @@ import java.util.Vector;
  */
 public class AutoCompletionComboBox extends JComboBox {
     protected AutoCompletion _autoCompletion;
+    private boolean _preventActionEvent = false;
 
     public AutoCompletionComboBox() {
         initComponents();
@@ -49,7 +50,21 @@ public class AutoCompletionComboBox extends JComboBox {
      * @return the <code>AutoCompletion</code>.
      */
     protected AutoCompletion createAutoCompletion() {
-        return new AutoCompletion(this);
+        return new AutoCompletion(this, new ComboBoxSearchable(this) {
+            @Override
+            protected void setSelectedIndex(int index, boolean incremental) {
+                Object property = AutoCompletionComboBox.this.getClientProperty("JComboBox.isTableCellEditor");
+                if (property instanceof Boolean && (Boolean) property) {
+                    _preventActionEvent = true;
+                }
+                try {
+                    super.setSelectedIndex(index, incremental);
+                }
+                finally {
+                    _preventActionEvent = false;
+                }
+            }
+        });
     }
 
     /**
@@ -104,4 +119,10 @@ public class AutoCompletionComboBox extends JComboBox {
         return _autoCompletion;
     }
 
+    @Override
+    protected void fireActionEvent() {
+        if (!_preventActionEvent) {
+            super.fireActionEvent();
+        }
+    }
 }
