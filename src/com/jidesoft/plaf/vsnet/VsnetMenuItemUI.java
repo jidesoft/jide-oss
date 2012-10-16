@@ -552,6 +552,17 @@ public class VsnetMenuItemUI extends MenuItemUI {
                                  int defaultTextIconGap) {
         JMenuItem b = (JMenuItem) c;
         ButtonModel model = b.getModel();
+        Object property = b.getClientProperty("MenuItem.shadowWidth");
+        if (property instanceof Number) {
+            defaultShadowWidth = ((Number) property).intValue();
+            if (b instanceof JMenu) {
+                for (Component comp : ((JMenu) b).getMenuComponents()) {
+                    if (comp instanceof JMenuItem && ((JMenuItem) comp).getClientProperty("MenuItem.shadowWidth") == null) {
+                        ((JMenuItem) comp).putClientProperty("MenuItem.shadowWidth", defaultShadowWidth);
+                    }
+                }
+            }
+        }
 
         int menuWidth;
         int menuHeight;

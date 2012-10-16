@@ -483,6 +483,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 }
             }
         });
+        button.setOpaque(false);
         return button;
     }
 
@@ -508,6 +509,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 }
             }
         });
+        checkBox.setOpaque(false);
         return checkBox;
     }
 
