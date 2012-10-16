@@ -368,7 +368,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
             if (lineWrap && label.getPreferredWidth() <= 0 && label.getMinRows() > 0 && _preferredRowCount < label.getMinRows()) {
                 maxWidth = getMaximumWidth(label, maxWidth, naturalRowCount, label.getMinRows());
             }
-            if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows() && (label.getPreferredWidth() <= 0 || label.getPreferredWidth() >= maxLineWidth)) {
+            if (_gettingPreferredSize && label.getRows() > 0 && _preferredRowCount > label.getRows() && (label.getPreferredWidth() <= 0 || label.getPreferredWidth() >= maxLineWidth || naturalRowCount > label.getRows())) {
                 _preferredRowCount = label.getRows();
                 maxLineWidth = 0;
                 for (int i = 0; i < lineWidths.size() && i < _preferredRowCount; i++) {
