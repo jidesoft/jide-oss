@@ -1079,6 +1079,9 @@ public class LookAndFeelFactory implements ProductNames {
     }
 
     private static void workAroundSwingIssues() {
+        if (SystemInfo.isJdk7Above() && !SystemInfo.isJdk8Above()) {
+            System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        }
         Object o = UIManager.get("PopupMenu.selectedWindowInputMapBindings.RightToLeft");
         if (o instanceof Object[]) {
             Object[] mapArray = (Object[]) o;
