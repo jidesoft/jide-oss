@@ -41,6 +41,11 @@ final public class SystemInfo {
     private static boolean _isWindows7 = false;
 
     /**
+     * Variable for whether or not we're on Windows 8.
+     */
+    private static boolean _isWindows8 = false;
+
+    /**
      * Variable for whether or not we're on Windows 2003.
      */
     private static boolean _isWindows2003 = false;
@@ -121,6 +126,9 @@ final public class SystemInfo {
         }
         if (os.indexOf("Windows 7") != -1) {
             _isWindows7 = true;
+        }
+        if (os.indexOf("Windows 8") != -1) {
+            _isWindows8 = true;
         }
         if (os.indexOf("Windows 2003") != -1) {
             _isWindows2003 = true;
@@ -282,12 +290,22 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or not the os is some version of Windows 8.
+     *
+     * @return <tt>true</tt> if the application is running on Windows 8, <tt>false</tt> otherwise.
+     * @since 3.4.9
+     */
+    public static boolean isWindows8() {
+        return _isWindows8;
+    }
+
+    /**
      * Returns whether or not the os is some version of Windows Vista or Windows 7.
      *
      * @return <tt>true</tt> if the application is running on Windows Vista or Windows 7, <tt>false</tt> otherwise.
      */
     public static boolean isWindowsVistaAbove() {
-        return _isWindowsVista || _isWindows7;
+        return _isWindowsVista || _isWindows7 || _isWindows8;
     }
 
     /**
