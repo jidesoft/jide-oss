@@ -2117,7 +2117,7 @@ public class JideSwingUtilities implements SwingConstants {
     public static void restoreAntialiasing(Component c, Graphics g, Object oldHints) {
         Graphics2D g2d = (Graphics2D) g;
         if (SystemInfo.isJdk6Above()) {
-            if (oldHints != null) {
+            if (oldHints instanceof RenderingHints) {
                 g2d.addRenderingHints((RenderingHints) oldHints);
             }
         }
