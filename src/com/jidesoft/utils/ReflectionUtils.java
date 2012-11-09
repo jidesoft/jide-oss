@@ -210,4 +210,26 @@ public class ReflectionUtils {
 
         return instantiation;
     }
+
+    /**
+     * Checks if the instance o is an instance of a subclass of the designated class name.
+     *
+     * @param o         the instance to check
+     * @param className the class name to check
+     * @return true if the instance o is an instance of a subclass of the class name. Otherwise false.
+     * @since 3.4.9
+     */
+    public static boolean isSubClassOf(Object o, String className) {
+        if (o == null) {
+            return false;
+        }
+        Class<?> aClass = o.getClass();
+        while (aClass != null) {
+            if (aClass.getName().contains(className)) {
+                return true;
+            }
+            aClass = aClass.getSuperclass();
+        }
+        return false;
+    }
 }
