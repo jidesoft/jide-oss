@@ -1121,13 +1121,11 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         if (useDefault) {
             Color[] colors = getGradientColors(_tabPane.getSelectedIndex(), true);
             if (colors != null) {
-/*
                 g.setColor(colors[1]);
                 g.fillRect(x, y, w, insets.top); // top
                 g.fillRect(x, y, insets.left, h); // left
                 g.fillRect(x, y + h - insets.bottom, w, insets.bottom); // bottom
                 g.fillRect(x + w - insets.right, y, insets.right, h); // right
-*/
             }
         }
     }
