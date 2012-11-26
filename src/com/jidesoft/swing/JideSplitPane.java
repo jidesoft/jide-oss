@@ -886,6 +886,7 @@ public class JideSplitPane extends JPanel implements ContainerListener, Componen
             if (comp instanceof JideSplitPaneDivider) {
                 extra++;
                 if (extra == 2) {
+                    comp = getComponent(i - 1); // remove the first one which was newly added
                     ((JideSplitPaneDivider) comp).setJideSplitPane(null);
                     remove(comp);
                     if (_proportions != null && getPaneCount() == _proportions.length)
