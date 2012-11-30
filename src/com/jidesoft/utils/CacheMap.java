@@ -168,9 +168,16 @@ public class CacheMap<T, K> {
                 }
             }
 
-            if (!classesToSearch.contains(Object.class)) {
-                classesToSearch.add(Object.class);  // use Object as default fallback.
+            List<Class<?>> interfacesToSearch = new ArrayList<Class<?>>();
+            for (Class<?> aClass : classesToSearch) {
+                if (aClass.isInterface()) {
+                    addInterface(aClass, interfacesToSearch, classesToSearch);
+                }
             }
+            classesToSearch.addAll(interfacesToSearch);
+
+            classesToSearch.remove(Object.class);
+            classesToSearch.add(Object.class);  // use Object as the last default fallback.
 
             // search to match context first
             for (Class<?> c : classesToSearch) {
@@ -208,6 +215,18 @@ public class CacheMap<T, K> {
         }
 
         return null;
+    }
+
+    private void addInterface(Class<?> anInterface, List<Class<?>> interfacesToSearch, List<Class<?>> classesToSearch) {
+        if (anInterface != null) {
+            Class<?>[] interfaces = anInterface.getInterfaces();
+            for (Class<?> superInterface : interfaces) {
+                if (!classesToSearch.contains(superInterface)) {
+                    interfacesToSearch.add(superInterface);
+                    addInterface(superInterface, interfacesToSearch, classesToSearch);
+                }
+            }
+        }
     }
 
     /**
