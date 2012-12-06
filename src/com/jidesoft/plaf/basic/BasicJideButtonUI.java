@@ -432,10 +432,6 @@ public class BasicJideButtonUI extends JideButtonUI {
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g2d, text, mnemonicIndex,
                         textRect.y + getTextShiftOffset(),
                         textRect.x + fm.getAscent() + getTextShiftOffset());
-                if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.HYPERLINK_STYLE
-                        && (((JideButton) b).isAlwaysShowHyperlink() || b.getModel().isRollover())) {
-                    g.drawLine(textRect.x, textRect.y, textRect.x, textRect.y + textRect.height);
-                }
             }
             else {
                 /*** paint the text disabled ***/
@@ -447,6 +443,10 @@ public class BasicJideButtonUI extends JideButtonUI {
                 // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g2d, text, mnemonicIndex,
                         textRect.y, textRect.x + fm.getAscent());
+            }
+            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.HYPERLINK_STYLE
+                    && (((JideButton) b).isAlwaysShowHyperlink() || b.getModel().isRollover())) {
+                g.drawLine(textRect.x, textRect.y, textRect.x, textRect.y + textRect.height);
             }
 
             g2d.dispose();
@@ -463,10 +463,6 @@ public class BasicJideButtonUI extends JideButtonUI {
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g, text, mnemonicIndex,
                         textRect.x + getTextShiftOffset(),
                         textRect.y + fm.getAscent() + getTextShiftOffset());
-                if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.HYPERLINK_STYLE
-                        && (((JideButton) b).isAlwaysShowHyperlink() || b.getModel().isRollover())) {
-                    g.drawLine(textRect.x, textRect.y + textRect.height - 2, textRect.x + textRect.width, textRect.y + textRect.height - 2);
-                }
             }
             else {
                 /*** paint the text disabled ***/
@@ -477,6 +473,10 @@ public class BasicJideButtonUI extends JideButtonUI {
                 // JDK1.3: No drawStringUnderlineCharAt, draw the string then draw the underline
                 JideSwingUtilities.drawStringUnderlineCharAt(b, g, text, mnemonicIndex,
                         textRect.x, textRect.y + fm.getAscent());
+            }
+            if (b instanceof JideButton && ((JideButton) b).getButtonStyle() == JideButton.HYPERLINK_STYLE
+                    && (((JideButton) b).isAlwaysShowHyperlink() || b.getModel().isRollover())) {
+                g.drawLine(textRect.x, textRect.y + textRect.height - 2, textRect.x + textRect.width, textRect.y + textRect.height - 2);
             }
             g.setColor(old);
         }
