@@ -1118,7 +1118,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
-        return !_closableMap.containsKey(tabIndex);
+        return !_closableMap.containsKey(getTitleAt(tabIndex));
     }
 
     /**
@@ -1136,10 +1136,10 @@ public class JideTabbedPane extends JTabbedPane {
      */
     public void setTabClosableAt(int tabIndex, boolean closable) {
         if (closable) {
-            _closableMap.remove(tabIndex);
+            _closableMap.remove(getTitleAt(tabIndex));
         }
         else {
-            _closableMap.put(tabIndex, Boolean.FALSE);
+            _closableMap.put(getTitleAt(tabIndex), Boolean.FALSE);
         }
         firePropertyChange(TAB_CLOSABLE_PROPERTY, !closable, closable);
     }
