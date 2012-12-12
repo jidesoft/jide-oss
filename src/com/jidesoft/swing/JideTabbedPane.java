@@ -1392,6 +1392,17 @@ public class JideTabbedPane extends JTabbedPane {
         firePropertyChange(PROPERTY_TAB_TRAILING_COMPONENT, old, component);
     }
 
+    @Override
+    public Component add(Component component) {
+        if (!(component instanceof UIResource) && component != getTabTrailingComponent() && component != getTabLeadingComponent()) {
+            addTab(component.getName(), component);
+        }
+        else {
+            addImpl(component, null, -1);
+        }
+        return component;
+    }
+
     public Component getTabTrailingComponent() {
         return _tabTrailingComponent;
     }
