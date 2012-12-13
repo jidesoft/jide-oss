@@ -5,6 +5,8 @@
  */
 package com.jidesoft.converter;
 
+import java.util.StringTokenizer;
+
 /**
  * An abstract class that is extended by any converters that convert to/from an array-like format, such as 1, 2, 3.
  * Examples are Point. Point(100, 200) can convert to/from "100, 200" <br> You have the choice of what the separator is;
@@ -19,6 +21,8 @@ abstract public class ArrayConverter implements ObjectConverter {
     private Class<?> _elementClass;
 
     private Class<?>[] _elementClasses;
+
+    private boolean _useTokenizer;
 
     /**
      * Creates an ArrayConverter.
@@ -91,9 +95,16 @@ abstract public class ArrayConverter implements ObjectConverter {
         if (string == null || string.trim().length() == 0) {
             return null;
         }
-//        String sep = _separator.equals(" ") ? _separator : _separator.trim();
+        if (isUseTokenizer()) {
+            StringTokenizer token = new StringTokenizer(string, _separator);
+            Object[] objects = new Object[_size != -1 ? _size : token.countTokens()];
+            for (int i = 0; i < objects.length && token.hasMoreTokens(); i++) {
+                String s = token.nextToken().trim();
+                objects[i] = fromString(i, s, context);
+            }
+            return objects;
+        }
         String[] ss = string.split(_separator);
-//        StringTokenizer token = new StringTokenizer(string, sep);
         Object[] objects = new Object[_size != -1 ? _size : ss.length];
         for (int i = 0; i < objects.length && i < ss.length; i++) {
             String s = ss[i].trim();
@@ -113,5 +124,28 @@ abstract public class ArrayConverter implements ObjectConverter {
      */
     public Class<?> getElementClass() {
         return _elementClass;
+    }
+
+    /**
+     * Gets the flag indicating if the converter will utilize Tokenizer to split the string or just utilize String#split().
+     *
+     * @return true if tokenizer is to be used. Otherwise false.
+     * @see #setUseTokenizer(boolean)
+     * @since 3.5.0
+     */
+    public boolean isUseTokenizer() {
+        return _useTokenizer;
+    }
+
+    /**
+     * Sets the flag indicating if the converter will utilize Tokenizer to split the string or just utilize String#split().
+     * <p/>
+     * By default, the flag is false to keep backward compatibility.
+     *
+     * @param useTokenizer the flag
+     * @since 3.5.0
+     */
+    public void setUseTokenizer(boolean useTokenizer) {
+        _useTokenizer = useTokenizer;
     }
 }
