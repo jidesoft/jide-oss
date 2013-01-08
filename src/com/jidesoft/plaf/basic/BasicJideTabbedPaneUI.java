@@ -6109,6 +6109,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             //
             // Calculate bounds within which a tab run must fit
             //
+            int calculatedMaxTabHeight = calculateMaxTabHeight(tabPlacement);
             switch (tabPlacement) {
                 case LEFT:
                     _maxTabWidth = calculateMaxTabWidth(tabPlacement);
@@ -6123,14 +6124,14 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                     returnAt = size.height - (insets.bottom + tabAreaInsets.bottom);
                     break;
                 case BOTTOM:
-                    _maxTabHeight = calculateMaxTabHeight(tabPlacement);
+                    _maxTabHeight = calculatedMaxTabHeight;
                     x = insets.left + tabAreaInsets.left;
                     y = size.height - insets.bottom - tabAreaInsets.bottom - _maxTabHeight;
                     returnAt = size.width - (insets.right + tabAreaInsets.right);
                     break;
                 case TOP:
                 default:
-                    _maxTabHeight = calculateMaxTabHeight(tabPlacement);
+                    _maxTabHeight = calculatedMaxTabHeight;
                     x = insets.left + tabAreaInsets.left;
                     y = insets.top + tabAreaInsets.top;
                     returnAt = size.width - (insets.right + tabAreaInsets.right);
@@ -7144,6 +7145,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 tsize = _tabTrailingComponent.getPreferredSize();
             }
 
+            int calculatedMaxTabHeight = calculateMaxTabHeight(tabPlacement);
             switch (tabPlacement) {
                 case LEFT:
                 case RIGHT:
@@ -7166,7 +7168,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 case BOTTOM:
                 case TOP:
                 default:
-                    _maxTabHeight = calculateMaxTabHeight(tabPlacement);
+                    _maxTabHeight = calculatedMaxTabHeight;
                     if (isTabLeadingComponentVisible()) {
                         if (tabPlacement == BOTTOM) {
                             if (_maxTabHeight < lsize.height) {
@@ -7246,7 +7248,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
                         }
                     }
-                    rect.height = calculateMaxTabHeight(tabPlacement);///* - 2 */;
+                    rect.height = calculatedMaxTabHeight;///* - 2 */;
                 }
                 else {
                     // Tabs on LEFT or RIGHT...
