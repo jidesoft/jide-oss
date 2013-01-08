@@ -127,8 +127,7 @@ public class Animator implements ActionListener {
                 listener.animationStarts(_source);
             }
         }
-        if (_timer != null)
-            _timer.start();
+        startTimer();
         _currentStep = 0;
     }
 
@@ -136,19 +135,26 @@ public class Animator implements ActionListener {
      * Stop the animator and reset the counter.
      */
     public void stop() {
+        stopTimer();
+        _currentStep = 0;
+    }
+
+    void startTimer() {
+        if (_timer != null)
+            _timer.start();
+    }
+
+    void stopTimer() {
         if (_timer != null) {
             _timer.stop();
         }
-        _currentStep = 0;
     }
 
     /**
      * Interrupts the animator. The counter is not reset in this case.
      */
     public void interrupt() {
-        if (_timer != null) {
-            _timer.stop();
-        }
+        stopTimer();
     }
 
     /**

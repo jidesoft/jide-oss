@@ -67,6 +67,24 @@ public abstract class Flashable {
                 _synchronizedFlashTimer.addActionListener(listener);
                 return _synchronizedFlashTimer;
             }
+
+            @Override
+            void stopTimer() {
+                if (_synchronizedFlashTimer != null) {
+                    _synchronizedFlashTimer.removeActionListener(this);
+                }
+            }
+
+            @Override
+            void startTimer() {
+                if (_synchronizedFlashTimer != null) {
+                    _synchronizedFlashTimer.removeActionListener(this);
+                    _synchronizedFlashTimer.addActionListener(this);
+                    if (!_synchronizedFlashTimer.isRunning()) {
+                        _synchronizedFlashTimer.start();
+                    }
+                }
+            }
         };
         _animator.addAnimatorListener(new AnimatorListener() {
             public void animationStarts(Component component) {
