@@ -20,6 +20,7 @@ import java.util.Locale;
  */
 abstract public class NumberConverter implements ObjectConverter {
     private NumberFormat _numberFormat;
+    private boolean _avoidNegativeZero;
 
     public static final ConverterContext CONTEXT_FRACTION_NUMBER = new ConverterContext("Fraction Number");
 
@@ -38,6 +39,31 @@ abstract public class NumberConverter implements ObjectConverter {
         _numberFormat = format;
     }
 
+    private String trimNegativeSign(String text) {
+        if (text.indexOf('-') != 0) {
+            return text;
+        }
+        for (char ch = '1'; ch <= '9'; ch++) {
+            if (text.indexOf(ch) >= 0) {
+                return text;
+            }
+        }
+        for (char ch = 'a'; ch <= 'f'; ch++) {
+            if (text.indexOf(ch) >= 0) {
+                return text;
+            }
+        }
+        for (char ch = 'A'; ch <= 'F'; ch++) {
+            if (text.indexOf(ch) >= 0) {
+                return text;
+            }
+        }
+        if (text.indexOf('0') < 0) {
+            return text;
+        }
+        return text.substring(1);
+    }
+
     public String toString(Object object, ConverterContext context) {
         // format on userOjbect has a higher priority.
         try {
@@ -46,12 +72,20 @@ abstract public class NumberConverter implements ObjectConverter {
                     return "";
                 }
                 else {
-                    return getNumberFormat().format(object);
+                    String text = getNumberFormat().format(object);
+                    if (isAvoidNegativeZero()) {
+                        text = trimNegativeSign(text);
+                    }
+                    return text;
                 }
             }
             else {
                 NumberFormat format = (NumberFormat) context.getUserObject();
-                return format.format(object);
+                String text = format.format(object);
+                if (isAvoidNegativeZero()) {
+                    text = trimNegativeSign(text);
+                }
+                return text;
             }
         }
         catch (IllegalArgumentException e) {
@@ -180,5 +214,29 @@ abstract public class NumberConverter implements ObjectConverter {
             NumberFormat numberFormat = getNumberFormat();
             numberFormat.setRoundingMode(mode);
         }
+    }
+
+    /**
+     * Gets the flag indicating if negative zero should be avoided.
+     *
+     * @return true if negative zero should be avoided. Otherwise false.
+     * @see #setAvoidNegativeZero(boolean)
+     * @since 3.5.1
+     */
+    public boolean isAvoidNegativeZero() {
+        return _avoidNegativeZero;
+    }
+
+    /**
+     * Sets the flag indicating if negative zero should be avoided.
+     * <p/>
+     * By default, the value is false to keep backward compatibility. If you don't like the string like "-0.00", please
+     * set this flag to true to remove the negative sign.
+     *
+     * @param avoidNegativeZero the flag
+     * @since 3.5.1
+     */
+    public void setAvoidNegativeZero(boolean avoidNegativeZero) {
+        _avoidNegativeZero = avoidNegativeZero;
     }
 }
