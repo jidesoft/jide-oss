@@ -1090,6 +1090,9 @@ public class JideTabbedPane extends JTabbedPane {
         updateUI(); // force calling updateUI so that the tab buttons will be updated
         if (getUI() instanceof BasicJideTabbedPaneUI) {
             ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(true);
+            if (isAutoFocusOnTabHideClose()) {
+                ((BasicJideTabbedPaneUI) getUI()).requestFocusForVisibleComponent();
+            }
         }
     }
 

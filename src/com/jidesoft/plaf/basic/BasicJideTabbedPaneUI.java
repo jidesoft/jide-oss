@@ -5356,7 +5356,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
     }
 
-    protected boolean requestFocusForVisibleComponent() {
+    public boolean requestFocusForVisibleComponent() {
         Component visibleComponent = getVisibleComponent();
         Component lastFocused = _tabPane.getLastFocusedComponent(visibleComponent);
         if (lastFocused != null && lastFocused.requestFocusInWindow()) {
