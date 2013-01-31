@@ -6,6 +6,7 @@
 
 package com.jidesoft.swing;
 
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -41,33 +42,37 @@ public class SelectAllUtils {
 
     private static FocusListener SELECT_ALL = new FocusAdapter() {
         @Override
-        public void focusGained(FocusEvent e) {
-            Object object = e.getSource();
-            if (object instanceof JTextComponent) {
-                ((JTextComponent) object).selectAll();
-                Object clientProperty = ((JTextComponent) object).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
-                if (Boolean.TRUE.equals(clientProperty)) {
-                    ((JTextComponent) object).removeFocusListener(SELECT_ALL);
-                }
-            }
-            else if (object instanceof Component) {
-                JideSwingUtilities.setRecursively((Component) object, new JideSwingUtilities.Handler() {
-                    public boolean condition(Component c) {
-                        return c instanceof JTextComponent;
-                    }
-
-                    public void action(Component c) {
-                        ((JTextComponent) c).selectAll();
-                        Object clientProperty = ((JTextComponent) c).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
+        public void focusGained(final FocusEvent e) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    Object object = e.getSource();
+                    if (object instanceof JTextComponent) {
+                        ((JTextComponent) object).selectAll();
+                        Object clientProperty = ((JTextComponent) object).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
                         if (Boolean.TRUE.equals(clientProperty)) {
-                            c.removeFocusListener(SELECT_ALL);
+                            ((JTextComponent) object).removeFocusListener(SELECT_ALL);
                         }
                     }
+                    else if (object instanceof Component) {
+                        JideSwingUtilities.setRecursively((Component) object, new JideSwingUtilities.Handler() {
+                            public boolean condition(Component c) {
+                                return c instanceof JTextComponent;
+                            }
 
-                    public void postAction(Component c) {
+                            public void action(Component c) {
+                                ((JTextComponent) c).selectAll();
+                                Object clientProperty = ((JTextComponent) c).getClientProperty(CLIENT_PROPERTY_ONLYONCE);
+                                if (Boolean.TRUE.equals(clientProperty)) {
+                                    c.removeFocusListener(SELECT_ALL);
+                                }
+                            }
+
+                            public void postAction(Component c) {
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         }
     };
 
