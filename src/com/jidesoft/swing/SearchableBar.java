@@ -585,7 +585,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _highlightsButton.setSelected(highlightAll);
     }
 
-    private int _previousCursor;
+    private int _previousCursor = -1;
 
     private void highlightAllOrNext() {
         if (_highlightsButton.isSelected()) {
