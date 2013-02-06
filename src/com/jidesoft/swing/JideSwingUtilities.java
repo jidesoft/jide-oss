@@ -2043,7 +2043,9 @@ public class JideSwingUtilities implements SwingConstants {
         for (Object o : objects) {
             RenderingHints.Key key = (RenderingHints.Key) o;
             Object value = g2d.getRenderingHint(key);
-            savedHints.put(key, value);
+            if (value != null) {
+                savedHints.put(key, value);
+            }
         }
 
         return savedHints;
