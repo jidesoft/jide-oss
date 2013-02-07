@@ -494,6 +494,20 @@ public class TextComponentSearchable extends Searchable implements DocumentListe
 
     @Override
     public int findFromCursor(String s) {
+        if (isCountMatch()) {
+            String text = getDocumentText();
+            int oldIndex;
+            int newIndex = 0;
+            _matchCount = -1;
+            do
+            {
+                oldIndex = newIndex;
+                newIndex = (isCaseSensitive() ? text.indexOf(s, oldIndex) : indexOf(text, s, oldIndex)) + 1;
+                _matchCount++;
+            }
+            while (newIndex > oldIndex);
+        }
+
         if (isReverseOrder()) {
             return reverseFindFromCursor(s);
         }

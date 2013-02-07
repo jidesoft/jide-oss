@@ -103,6 +103,8 @@ public abstract class Searchable {
     private boolean _caseSensitive = false;
     private boolean _repeats = false;
     private boolean _wildcardEnabled = true;
+    private boolean _countMatch;
+    protected int _matchCount;
     private WildcardSupport _wildcardSupport = null;
     private Color _mismatchForeground;
     private Color _foreground = null;
@@ -939,6 +941,28 @@ public abstract class Searchable {
      * @return the next index that the element matches the searching text.
      */
     public int findFromCursor(String s) {
+        if (isCountMatch()) {
+            boolean reverse = isReverseOrder();
+            setReverseOrder(false);
+            int selectedIndex = getCurrentIndex();
+            if (selectedIndex < 0) {
+                selectedIndex = 0;
+            }
+            int oldIndex;
+            int newIndex = -1;
+            _matchCount = -1;
+            do
+            {
+                setSelectedIndex(newIndex, false);
+                oldIndex = newIndex;
+                newIndex = findNext(s);
+                _matchCount++;
+            }
+            while (newIndex > oldIndex);
+            setSelectedIndex(selectedIndex, false);
+            setReverseOrder(reverse);
+        }
+
         if (isReverseOrder()) {
             return reverseFindFromCursor(s);
         }
@@ -1899,6 +1923,33 @@ public abstract class Searchable {
      */
     public void setPopupTimeout(int popupTimeout) {
         _popupTimeout = popupTimeout;
+    }
+
+    /**
+     * Gets the flag indicating if the Searchable should count all matches for every search.
+     *
+     * @return true if should count all matches. Otherwise false.
+     * @see #setCountMatch(boolean)
+     * @since 3.5.2
+     */
+    public boolean isCountMatch() {
+        return _countMatch;
+    }
+
+    /**
+     * Sets the flag indicating if the Searchable should count all matches for every search.
+     * <p/>
+     * By default, the flag is false to keep performance high.
+     *
+     * @param countMatch the flag
+     * @since 3.5.2
+     */
+    public void setCountMatch(boolean countMatch) {
+        _countMatch = countMatch;
+    }
+
+    int getMatchCount() {
+        return _matchCount;
     }
 
     /**

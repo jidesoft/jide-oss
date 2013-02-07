@@ -98,6 +98,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
     private int _visibleButtons = ~SHOW_REPEATS; // default is show all but repeats
     private boolean _compact;
+    private boolean _showMatchCount = false;
 
     private JidePopup _messagePopup;
     private MouseMotionListener _mouseMotionListener;
@@ -704,9 +705,14 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
     private void clearStatus() {
         _statusLabel.setIcon(null);
-        _statusLabel.setText("");
         _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
         _comboBox.getEditor().getEditorComponent().setBackground(UIDefaultsLookup.getColor("TextField.background"));
+        if (isShowMatchCount() && _textField.getText().length() > 0) {
+            _statusLabel.setText(getSearchable().getMatchCount() + " " + getResourceString("SearchableBar.matches"));
+        }
+        else {
+            _statusLabel.setText("");
+        }
         hideMessage();
     }
 
@@ -894,6 +900,32 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 _textField.setVisible(false);
             }
             firePropertyChange(PROPERTY_MAX_HISTORY_LENGTH, old, _maxHistoryLength);
+        }
+    }
+
+    /**
+     * Gets the flag indicating if the match count should be displayed in the status label.
+     *
+     * @return true if the match count should be displayed. Otherwise false.
+     * @see #setShowMatchCount(boolean)
+     * @since 3.5.2
+     */
+    public boolean isShowMatchCount() {
+        return _showMatchCount;
+    }
+
+    /**
+     * Sets the flag indicating if the match count should be displayed in the status label.
+     * <p/>
+     * By default, the flag is set to false to keep the original behavior.
+     *
+     * @param showMatchCount
+     * @since 3.5.2
+     */
+    public void setShowMatchCount(boolean showMatchCount) {
+        _showMatchCount = showMatchCount;
+        if (getSearchable() != null) {
+            getSearchable().setCountMatch(isShowMatchCount());
         }
     }
 
