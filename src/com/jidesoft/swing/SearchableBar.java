@@ -82,6 +82,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     protected AbstractButton _highlightsButton;
 
     protected AbstractButton _matchCaseCheckBox;
+    protected AbstractButton _wholeWordsCheckBox;
     protected AbstractButton _repeatCheckBox;
 
     public static final int SHOW_CLOSE = 0x1;
@@ -90,6 +91,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     public static final int SHOW_MATCHCASE = 0x8;
     public static final int SHOW_REPEATS = 0x10;
     public static final int SHOW_STATUS = 0x20;
+    public static final int SHOW_WHOLE_WORDS = 0x40;
     public static final int SHOW_ALL = 0xFFFFFFFF;
 
     public static final String PROPERTY_MAX_HISTORY_LENGTH = "maxHistoryLength";
@@ -240,6 +242,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _findPrevButton = createFindPrevButton(findPrevAction);
         _highlightsButton = createHighlightButton();
         _matchCaseCheckBox = createMatchCaseButton();
+        _wholeWordsCheckBox = createWholeWordsButton();
         _repeatCheckBox = createRepeatsButton();
 
         _statusLabel = new JLabel();
@@ -514,6 +517,39 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
     }
 
     /**
+     * Creates the whole words button. By default it will return a JCheckBox. Subclass class can override it to return
+     * your own button or customize the button created by default as long as it can set underlying Searchable's
+     * toEnd property.
+     *
+     * @return the whole words button.
+     * @since 3.5.2
+     */
+    protected AbstractButton createWholeWordsButton() {
+        JCheckBox checkBox = new JCheckBox(getResourceString("SearchableBar.wholeWords"));
+        checkBox.setMnemonic(getResourceString("SearchableBar.wholeWords.mnemonic").charAt(0));
+        checkBox.setRequestFocusEnabled(false);
+        checkBox.setFocusable(false);
+        if (getSearchable() instanceof WholeWordsSupport) {
+            checkBox.setSelected(((WholeWordsSupport) getSearchable()).isWholeWords());
+        }
+        else {
+            checkBox.setSelected(false);
+            checkBox.setEnabled(false);
+        }
+        checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getSource() instanceof AbstractButton && getSearchable() instanceof WholeWordsSupport) {
+                    ((WholeWordsSupport) getSearchable()).setWholeWords(((AbstractButton) e.getSource()).isSelected());
+                    addSearchingTextToHistory(getSearchingText());
+                    highlightAllOrNext();
+                }
+            }
+        });
+        checkBox.setOpaque(false);
+        return checkBox;
+    }
+
+    /**
      * Adds the buttons to the SearchableBar. Subclass can override this method to rearrange the layout of those
      * buttons.
      */
@@ -552,6 +588,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
         if ((_visibleButtons & SHOW_MATCHCASE) != 0) {
             add(_matchCaseCheckBox);
+        }
+        if ((_visibleButtons & SHOW_WHOLE_WORDS) != 0 && getSearchable() instanceof WholeWordsSupport) {
+            add(_wholeWordsCheckBox);
         }
         if ((_visibleButtons & SHOW_REPEATS) != 0) {
             add(_repeatCheckBox);
@@ -944,10 +983,10 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * @param visibleButtons bit-wise all of several constants. Valid constants are <ul> <li> {@link #SHOW_CLOSE} - the
      *                       close button <li> {@link #SHOW_NAVIGATION} - the find next and find previous buttons <li>
      *                       {@link #SHOW_HIGHLIGHTS} - highlights all button <li> {@link #SHOW_MATCHCASE} - match case
-     *                       button <li> {@link #SHOW_REPEATS} - repeats button <li> {@link #SHOW_STATUS} - status area
-     *                       <li> {@link #SHOW_ALL} - all buttons </ul> For example, if you want to show only close and
-     *                       highlights all button, call <code>setVisibleButtons(SearchableBar.SHOW_CLOSE |
-     *                       SearchableBar.SHOW_HIGHLIGHTS)</code>.
+     *                       button <li> {@link #SHOW_WHOLE_WORDS} - word only button <li> {@link #SHOW_REPEATS} - repeats
+     *                       button <li> {@link #SHOW_STATUS} - status area <li> {@link #SHOW_ALL} - all buttons </ul>
+     *                       For example, if you want to show only close and highlights all button, call
+     *                       <code>setVisibleButtons(SearchableBar.SHOW_CLOSE | SearchableBar.SHOW_HIGHLIGHTS)</code>.
      */
     public void setVisibleButtons(int visibleButtons) {
         _visibleButtons = visibleButtons;
