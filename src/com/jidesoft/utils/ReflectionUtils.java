@@ -91,6 +91,22 @@ public class ReflectionUtils {
     }
 
     /**
+     * Helper method to call a constructor.
+     *
+     * @param clazz    the class
+     * @param argTypes argument Classes for constructor lookup. Must not be null.
+     * @param args     the argument array
+     *
+     * @return the value the method returns.
+     *
+     * @throws Exception if the method is not found or invocation to the method fails.
+     */
+    public static Object callConstructor(Class<?> clazz, Class<?>[] argTypes, Object[] args) throws Exception {
+        Constructor constructor = clazz.getConstructor(argTypes);
+        return constructor.newInstance(args);
+    }
+
+    /**
      * Helper method to call a multi-argument method having a return. The class types will be derived from the input
      * values. This call is usually successful with primitive types or Strings as arguments, but care should be used
      * with other kinds of values. The constructor lookup is not polymorphic.
@@ -114,22 +130,6 @@ public class ReflectionUtils {
             }
         }
         return callAny(thisObject, methodName, argTypes, args);
-    }
-
-    /**
-     * Helper method to call a constructor.
-     *
-     * @param clazz    the class
-     * @param argTypes argument Classes for constructor lookup. Must not be null.
-     * @param args     the argument array
-     *
-     * @return the value the method returns.
-     *
-     * @throws Exception if the method is not found or invocation to the method fails.
-     */
-    public static Object callConstructor(Class<?> clazz, Class<?>[] argTypes, Object[] args) throws Exception {
-        Constructor constructor = clazz.getConstructor(argTypes);
-        return constructor.newInstance(args);
     }
 
     /**
