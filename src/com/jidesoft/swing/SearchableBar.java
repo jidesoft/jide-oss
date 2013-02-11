@@ -707,7 +707,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         _statusLabel.setIcon(null);
         _textField.setBackground(UIDefaultsLookup.getColor("TextField.background"));
         _comboBox.getEditor().getEditorComponent().setBackground(UIDefaultsLookup.getColor("TextField.background"));
-        if (isShowMatchCount() && _textField.getText().length() > 0) {
+        if (isShowMatchCount() && (_textField.getText().length() > 0 || (_comboBox.getEditor().getEditorComponent() instanceof JTextField && ((JTextField) _comboBox.getEditor().getEditorComponent()).getText().length() > 0))) {
             _statusLabel.setText(getSearchable().getMatchCount() + " " + getResourceString("SearchableBar.matches"));
         }
         else {
