@@ -32,4 +32,5 @@ public interface ButtonNames {
     public static String SAVE_AS = "SAVE_AS";
     public static String STOP = "STOP";
     public static String YES = "YES";
+    public static String RESET = "RESET";
 }
