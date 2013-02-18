@@ -10,7 +10,6 @@ import com.jidesoft.popup.JidePopup;
 import com.jidesoft.swing.DelegateAction;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.PopupMenuEvent;
@@ -19,7 +18,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -201,7 +200,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * This method will call {@link #showHints()} if and only if the text component is enabled and has focus.
      */
     protected void showHintsPopup() {
-        if (!getTextComponent().isEnabled() || !getTextComponent().hasFocus()) {
+        if (!getTextComponent().isEnabled() || !getTextComponent().isEditable() || !getTextComponent().hasFocus()) {
             return;
         }
         showHints();
@@ -263,6 +262,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * rectangle area is always visible. This method will be called twice.
      *
      * @param caretPosition the caret position.
+     *
      * @return the popup position relative to the text component. <br>Please note, this position is actually a rectangle
      *         area. The reason is the popup could be shown below or above the rectangle. Usually, the popup will be
      *         shown below the rectangle. In this case, the x and y of the rectangle will be the top-left corner of the
@@ -305,7 +305,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
 
     /**
      * Gets the context for hints. The context is the information that IntelliHints needs in order to generate a list of
-     *  hints. For example, for code-completion, the context is current word the cursor is on. for file completion, the
+     * hints. For example, for code-completion, the context is current word the cursor is on. for file completion, the
      * context is the full string starting from the file system root. <p>We provide a default context in
      * AbstractIntelliHints. If it's a JTextArea, the context will be the string at the caret line from line beginning
      * to the caret position. If it's a JTextField, the context will be whatever string in the text field. Subclass can
@@ -390,9 +390,10 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     /**
      * Returns whether the hints popup is automatically displayed. Default is true
      *
-     * @see #setAutoPopup(boolean)
      * @return true if the popup should be automatically displayed. False will never show it automatically and then need
      *         the user to manually activate it via the getShowHintsKeyStroke() key binding.
+     *
+     * @see #setAutoPopup(boolean)
      */
     public boolean isAutoPopup() {
         return _autoPopup;
@@ -417,8 +418,8 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * to navigate the list. Those keystrokes, if the popup is visible, will be delegated to the the component that
      * returns from {@link #getDelegateComponent()}.
      * <p/>
-     * NOTE: Since this method would be invoked inside the constructor of AbstractIntelliHints, please do not try to return a 
-     * field because the field is not initiated yet at this time.
+     * NOTE: Since this method would be invoked inside the constructor of AbstractIntelliHints, please do not try to
+     * return a field because the field is not initiated yet at this time.
      *
      * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when hint popup is
      *         shown.
@@ -456,7 +457,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         public boolean isDelegateEnabled() {
             return isHintsPopupVisible() && getSelectedHint() != null;
         }
-        
+
         @Override
         public boolean delegateActionPerformed(ActionEvent e) {
             JComponent tf = (JComponent) e.getSource();
@@ -543,6 +544,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Gets the delay after the key is pressed to show hints.
      *
      * @return the delay time on milliseconds.
+     *
      * @see #setShowHintsDelay(int)
      */
     public int getShowHintsDelay() {
@@ -564,6 +566,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Adds a new key stroke to show hints popup.
      *
      * @param keyStroke the key stroke
+     *
      * @see #removeShowHintsKeyStroke(javax.swing.KeyStroke)
      * @see #getAllShowHintsKeyStrokes()
      * @since 3.2.2
@@ -580,6 +583,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Removes a key stroke from the list to show hints popup.
      *
      * @param keyStroke the key stroke
+     *
      * @since 3.2.2
      */
     public void removeShowHintsKeyStroke(KeyStroke keyStroke) {
@@ -593,6 +597,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Gets all key strokes that will show hints popup.
      *
      * @return the key stroke array.
+     *
      * @since 3.2.2
      */
     public KeyStroke[] getAllShowHintsKeyStrokes() {
@@ -609,13 +614,13 @@ public abstract class AbstractIntelliHints implements IntelliHints {
         public LazyDelegateAction(KeyStroke keyStroke) {
             _keyStroke = keyStroke;
         }
-        
+
         @Override
         public boolean isDelegateEnabled() {
             Action action = getHintsPopupAction();
             return action != null && action.isEnabled();
         }
-        
+
         private Action getHintsPopupAction() {
             if (isHintsPopupVisible() && getDelegateComponent() != null) {
                 Object key = getDelegateComponent().getInputMap().get(_keyStroke);
@@ -655,6 +660,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Gets the IntelliHints object if it was installed on the component before.
      *
      * @param component the component that has IntelliHints installed
+     *
      * @return the IntelliHints.
      */
     public static IntelliHints getIntelliHints(JComponent component) {
