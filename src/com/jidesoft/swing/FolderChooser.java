@@ -328,10 +328,23 @@ public class FolderChooser extends JFileChooser {
         updateUI();
     }
 
+    /**
+     * Gets the comparator that will be used to compare the folders displayed in the FolderChooser. This comparator will
+     * determine the order of the folders. It returns null by default.
+     *
+     * @return the Comparator.
+     */
     public Comparator<File> getFileComparator() {
         return _fileComparator;
     }
 
+    /**
+     * Sets the comparator that will be used to compare the folders displayed in the FolderChooser. This comparator will
+     * determine the order of the folders. For example, you can use {@link com.jidesoft.comparator.AlphanumFileComparator}
+     * to sort the folder alphanum-ly.
+     *
+     * @param fileComparator a new Comparator.
+     */
     public void setFileComparator(Comparator<File> fileComparator) {
         _fileComparator = fileComparator;
     }
