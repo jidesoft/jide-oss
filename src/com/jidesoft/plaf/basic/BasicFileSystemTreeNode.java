@@ -11,8 +11,8 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable {
     private FolderChooser _folderChooser;
@@ -68,23 +68,29 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
             File[] files = new File[0];
             try {
                 files = _folderChooser.getFileSystemView().getFiles(_file, _folderChooser.isFileHidingEnabled());
+                ArrayList<File> folders = new ArrayList();
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        folders.add(file);
+                    }
+                }
+                files = folders.toArray(new File[folders.size()]);
+                Comparator<File> comparator = _folderChooser.getFileComparator();
+                if (comparator != null) {
+                    Arrays.sort(files, comparator);
+                }
+                else {
+                    Arrays.sort(files);
+                }
             }
             catch (Error e) {
                 // catch error like java.lang.InternalError: Unable to bind C:\blah blah\::{20D04FE0-3AEA-1069-A2D8-08002B30309D}\::{3D6BE802-FC0D-4595-A304-E611F97089DC} to parent
             }
             catch (Exception e) {
             }
-            List children = new ArrayList();
             for (File file : files) {
-                if (file.isDirectory()) {
-                    BasicFileSystemTreeNode fileTreeNode = BasicFileSystemTreeNode.createFileSystemTreeNode(file, _folderChooser);
-                    children.add(fileTreeNode);
-                }
-            }
-            BasicFileSystemTreeNode[] results = (BasicFileSystemTreeNode[]) children.toArray(new BasicFileSystemTreeNode[children.size()]);
-            Arrays.sort(results);
-            for (BasicFileSystemTreeNode result : results) {
-                add(result);
+                BasicFileSystemTreeNode fileTreeNode = BasicFileSystemTreeNode.createFileSystemTreeNode(file, _folderChooser);
+                add(fileTreeNode);
             }
         }
     }
@@ -165,6 +171,7 @@ class BasicFileSystemTreeNode extends LazyMutableTreeNode implements Comparable 
      *
      * @param file
      * @param folderChooser
+     *
      * @return tree node. If it is created before, returns the previous created instance.
      */
     public static BasicFileSystemTreeNode createFileSystemTreeNode(File file, FolderChooser folderChooser) {

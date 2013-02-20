@@ -13,6 +13,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -47,6 +48,8 @@ public class FolderChooser extends JFileChooser {
     public static final int BUTTON_REFRESH = 0x4;
     public static final int BUTTON_DESKTOP = 0x8;
     public static final int BUTTON_MY_DOCUMENTS = 0x10;
+
+    private Comparator<File> _fileComparator = null;
 
     /**
      * Property for <code>_availableButtons</code>.
@@ -205,6 +208,7 @@ public class FolderChooser extends JFileChooser {
      * be fired when a new folder is selected.
      *
      * @param selectedFolder the selected folder
+     *
      * @see #getSelectedFolder
      */
     public void setSelectedFolder(File selectedFolder) {
@@ -322,5 +326,13 @@ public class FolderChooser extends JFileChooser {
     public void setFileFilter(FileFilter filter) {
         super.setFileFilter(filter);
         updateUI();
+    }
+
+    public Comparator<File> getFileComparator() {
+        return _fileComparator;
+    }
+
+    public void setFileComparator(Comparator<File> fileComparator) {
+        _fileComparator = fileComparator;
     }
 }
