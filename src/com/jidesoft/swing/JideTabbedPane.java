@@ -1314,7 +1314,6 @@ public class JideTabbedPane extends JTabbedPane {
         }
 
 // fireStateChanged();
-    }teChanged();
     }
 	
 		    /**
