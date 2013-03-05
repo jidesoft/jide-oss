@@ -286,7 +286,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                         timer.start();
                     }
                 }
-                else if (_searchable.getSearchingDelay() == 0){
+                else if (_searchable.getSearchingDelay() == 0) {
                     highlightAllOrNext();
                 }
             }
@@ -358,6 +358,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Creates the combo box where user types the text to be searched.
      *
      * @return a combo box.
+     *
      * @since 3.4.1
      */
     protected JComboBox createComboBox() {
@@ -519,10 +520,11 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
 
     /**
      * Creates the whole words button. By default it will return a JCheckBox. Subclass class can override it to return
-     * your own button or customize the button created by default as long as it can set underlying Searchable's
-     * toEnd property.
+     * your own button or customize the button created by default as long as it can set underlying Searchable's toEnd
+     * property.
      *
      * @return the whole words button.
+     *
      * @since 3.5.2
      */
     protected AbstractButton createWholeWordsButton() {
@@ -588,12 +590,15 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             add(_highlightsButton);
         }
         if ((_visibleButtons & SHOW_MATCHCASE) != 0) {
+            add(Box.createHorizontalStrut(2));
             add(_matchCaseCheckBox);
         }
         if ((_visibleButtons & SHOW_WHOLE_WORDS) != 0 && getSearchable() instanceof WholeWordsSupport) {
+            add(Box.createHorizontalStrut(2));
             add(_wholeWordsCheckBox);
         }
         if ((_visibleButtons & SHOW_REPEATS) != 0) {
+            add(Box.createHorizontalStrut(2));
             add(_repeatCheckBox);
         }
         if ((_visibleButtons & SHOW_STATUS) != 0) {
@@ -831,6 +836,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Gets the search history.
      *
      * @return the search history.
+     *
      * @since 3.4.1
      */
     public String[] getSearchHistory() {
@@ -841,6 +847,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Sets the search history.
      *
      * @param searchHistory the search history
+     *
      * @since 3.4.1
      */
     public void setSearchHistory(String[] searchHistory) {
@@ -865,6 +872,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Gets the maximum search history length.
      *
      * @return the maximum search history length.
+     *
      * @see {@link #setMaxHistoryLength(int)}
      * @since 3.4.1
      */
@@ -880,6 +888,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * that the history size is unlimited.
      *
      * @param maxHistoryLength the maximum history length
+     *
      * @since 3.4.1
      */
     public void setMaxHistoryLength(int maxHistoryLength) {
@@ -907,6 +916,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * Gets the flag indicating if the match count should be displayed in the status label.
      *
      * @return true if the match count should be displayed. Otherwise false.
+     *
      * @see #setShowMatchCount(boolean)
      * @since 3.5.2
      */
@@ -920,6 +930,7 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * By default, the flag is set to false to keep the original behavior.
      *
      * @param showMatchCount
+     *
      * @since 3.5.2
      */
     public void setShowMatchCount(boolean showMatchCount) {
@@ -1015,9 +1026,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      * @param visibleButtons bit-wise all of several constants. Valid constants are <ul> <li> {@link #SHOW_CLOSE} - the
      *                       close button <li> {@link #SHOW_NAVIGATION} - the find next and find previous buttons <li>
      *                       {@link #SHOW_HIGHLIGHTS} - highlights all button <li> {@link #SHOW_MATCHCASE} - match case
-     *                       button <li> {@link #SHOW_WHOLE_WORDS} - word only button <li> {@link #SHOW_REPEATS} - repeats
-     *                       button <li> {@link #SHOW_STATUS} - status area <li> {@link #SHOW_ALL} - all buttons </ul>
-     *                       For example, if you want to show only close and highlights all button, call
+     *                       button <li> {@link #SHOW_WHOLE_WORDS} - word only button <li> {@link #SHOW_REPEATS} -
+     *                       repeats button <li> {@link #SHOW_STATUS} - status area <li> {@link #SHOW_ALL} - all buttons
+     *                       </ul> For example, if you want to show only close and highlights all button, call
      *                       <code>setVisibleButtons(SearchableBar.SHOW_CLOSE | SearchableBar.SHOW_HIGHLIGHTS)</code>.
      */
     public void setVisibleButtons(int visibleButtons) {
