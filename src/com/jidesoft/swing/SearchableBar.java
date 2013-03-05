@@ -590,16 +590,16 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             add(_highlightsButton);
         }
         if ((_visibleButtons & SHOW_MATCHCASE) != 0) {
-            add(Box.createHorizontalStrut(2));
             add(_matchCaseCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_WHOLE_WORDS) != 0 && getSearchable() instanceof WholeWordsSupport) {
-            add(Box.createHorizontalStrut(2));
             add(_wholeWordsCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_REPEATS) != 0) {
-            add(Box.createHorizontalStrut(2));
             add(_repeatCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_STATUS) != 0) {
             add(Box.createHorizontalStrut(24));
