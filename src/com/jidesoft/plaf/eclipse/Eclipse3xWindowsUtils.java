@@ -1,7 +1,8 @@
-// Decompiled by DJ v3.7.7.81 Copyright 2004 Atanas Neshkov  Date: 2006-4-29 10:33:49
-// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
-// Decompiler options: packimports(3) 
-// Source File Name:   EclipseWindowsUtils.java
+/*
+ * @(#)Eclipse3xWindowsUtils.java 3/17/2013
+ *
+ * Copyright 2002 - 2013 JIDE Software Inc. All rights reserved.
+ */
 
 package com.jidesoft.plaf.eclipse;
 
