@@ -1543,10 +1543,13 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                     }
                     else if (_popupType == HEAVY_WEIGHT_POPUP) {
                         p = _window.getLocationOnScreen();
+                        // light weight popup followed already but heavy weight popup didn't
+                        if (p != null) {
+                            p.x += newLocation.x - _actualOwnerLocation.x;
+                            p.y += newLocation.y - _actualOwnerLocation.y;
+                        }
                     }
                     if (p != null) {
-                        p.x += newLocation.x - _actualOwnerLocation.x;
-                        p.y += newLocation.y - _actualOwnerLocation.y;
                         showPopup(p.x, p.y, _actualOwner);
                     }
                 }
