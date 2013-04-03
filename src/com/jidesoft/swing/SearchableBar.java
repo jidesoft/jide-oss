@@ -589,12 +589,15 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
         }
         if ((_visibleButtons & SHOW_MATCHCASE) != 0) {
             add(_matchCaseCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_WHOLE_WORDS) != 0 && getSearchable() instanceof WholeWordsSupport) {
             add(_wholeWordsCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_REPEATS) != 0) {
             add(_repeatCheckBox);
+            add(Box.createHorizontalStrut(2));
         }
         if ((_visibleButtons & SHOW_STATUS) != 0) {
             add(Box.createHorizontalStrut(24));
@@ -848,7 +851,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
             _searchHistory = null;
         }
         else {
-            _searchHistory = Arrays.asList(searchHistory);
+            _searchHistory = new ArrayList<String>();
+            _searchHistory.addAll(Arrays.asList(searchHistory));
         }
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         if (_searchHistory != null) {
