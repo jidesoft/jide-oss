@@ -104,7 +104,7 @@ public class DateUtils {
     public static boolean isLastMonth(Calendar cal) {
         Calendar today = Calendar.getInstance();
         int thisMonth = today.get(Calendar.MONTH);
-        if (thisMonth > 1) {
+        if (thisMonth >= 1) {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisMonth - 1 == cal.get(Calendar.MONTH);
         }
         else {
@@ -121,7 +121,7 @@ public class DateUtils {
     public static boolean isLastQuarter(Calendar cal) {
         Calendar today = Calendar.getInstance();
         int thisQuarter = today.get(Calendar.MONTH) / 3;
-        if (thisQuarter > 1) {
+        if (thisQuarter >= 1) {
             return today.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && thisQuarter - 1 == cal.get(Calendar.MONTH) / 3;
         }
         else {
