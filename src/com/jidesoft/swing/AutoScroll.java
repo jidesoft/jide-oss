@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
  * code won't compile after upgrading to a new JIDE release.
  */
 abstract public class AutoScroll {
+    public static final String CLIENT_PROPERTY_AUTO_SCROLL = "AutoScroll";
     protected Timer _timer;
     protected boolean _autoScrolling = false;
     protected int _scrollDirection = SCROLL_UP;
@@ -34,13 +35,17 @@ abstract public class AutoScroll {
     protected int _autoScrollInterval = 100;
     private boolean _componentSelfScrollable = true;
 
+    private boolean _enabled = true;
+
     protected AutoScroll(Component component) {
         _component = component;
+        updateClientProperty(component, this);
     }
 
     protected AutoScroll(Component component, boolean vertical) {
         _component = component;
         _vertical = vertical;
+        updateClientProperty(component, this);
     }
 
     public int getAutoScrollInterval() {
@@ -49,6 +54,24 @@ abstract public class AutoScroll {
 
     public void setAutoScrollInterval(int autoScrollInterval) {
         _autoScrollInterval = autoScrollInterval;
+    }
+
+    /**
+     * Checks if the AutoScroll is enabled.
+     *
+     * @return true if enabled. Otherwise false.
+     */
+    public boolean isEnabled() {
+        return _enabled;
+    }
+
+    /**
+     * Enables or disables the AutoScroll feature.
+     *
+     * @param enabled true or false.
+     */
+    public void setEnabled(boolean enabled) {
+        _enabled = enabled;
     }
 
     private class AutoScrollActionHandler implements ActionListener {
@@ -124,15 +147,24 @@ abstract public class AutoScroll {
 
 
     public void mouseReleased(MouseEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
         _hasEntered = false;
         stopAutoScrolling();
     }
 
     public void mousePressed(MouseEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
         stopAutoScrolling();
     }
 
     public void mouseDragged(MouseEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
         if (_componentSelfScrollable && e.getSource() == _component) {
             return;
         }
@@ -185,6 +217,9 @@ abstract public class AutoScroll {
     }
 
     public void mouseMoved(MouseEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
         if (e.getSource() == _component) {
             Point location = e.getPoint();
             Rectangle r = new Rectangle();
@@ -209,4 +244,32 @@ abstract public class AutoScroll {
     abstract public void autoScrolling(int direction);
 
     abstract public void updateSelectionForEvent(MouseEvent e, boolean shouldScroll);
+
+    /**
+     * Gets the AutoScroll installed on the component. Null is no AutoScroll was installed.
+     *
+     * @param component the component
+     * @return the AutoScroll installed. Null is no AutoScroll was installed.
+     */
+    public static AutoScroll getAutoScroll(Component component) {
+        Object clientProperty = component instanceof JComponent ? ((JComponent) component).getClientProperty(CLIENT_PROPERTY_AUTO_SCROLL) : null;
+        if (clientProperty instanceof AutoScroll) {
+            return ((AutoScroll) clientProperty);
+        }
+        else {
+            return null;
+        }
+    }
+
+    private void updateClientProperty(Component component, AutoScroll autoScroll) {
+        if (component != null) {
+            Object clientProperty = ((JComponent) _component).getClientProperty(CLIENT_PROPERTY_AUTO_SCROLL);
+            if (clientProperty instanceof AutoScroll) {
+                ((AutoScroll) clientProperty).stopAutoScrolling();
+            }
+            if (component instanceof JComponent) {
+                ((JComponent) component).putClientProperty(CLIENT_PROPERTY_AUTO_SCROLL, autoScroll);
+            }
+        }
+    }
 }
