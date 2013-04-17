@@ -577,11 +577,18 @@ public class JideTabbedPane extends JTabbedPane {
                 String tooltip = getToolTipTextAt(tabIndex);
                 Icon icon = getIconAt(tabIndex);
                 _suppressSetSelectedIndex = true;
+                Object closable = null;
+                if (_closableMap != null) {
+                    closable = _closableMap.get(title);
+                }
                 try {
                     if (tabIndex > selectedIndex)
                         insertTab(title, icon, frame, tooltip, selectedIndex);
                     else {
                         insertTab(title, icon, frame, tooltip, selectedIndex + 1);
+                    }
+                    if (closable != null) {
+                        _closableMap.put(title, closable);
                     }
                 }
                 finally {
@@ -594,11 +601,18 @@ public class JideTabbedPane extends JTabbedPane {
                 String tooltip = getToolTipTextAt(selectedIndex);
                 Icon icon = getIconAt(selectedIndex);
                 _suppressSetSelectedIndex = true;
+                Object closable = null;
+                if (_closableMap != null) {
+                    closable = _closableMap.get(title);
+                }
                 try {
                     if (tabIndex > selectedIndex)
                         insertTab(title, icon, frame, tooltip, tabIndex + 1);
                     else {
                         insertTab(title, icon, frame, tooltip, tabIndex);
+                    }
+                    if (closable != null) {
+                        _closableMap.put(title, closable);
                     }
                 }
                 finally {
