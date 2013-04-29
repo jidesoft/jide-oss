@@ -7,7 +7,6 @@
 package com.jidesoft.plaf;
 
 import com.jidesoft.converter.ObjectConverterManager;
-import sun.reflect.Reflection;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -65,6 +64,7 @@ public class UIDefaultsLookup {
         ((Map) v).put(cl, value);
     }
 
+/*  This is the old method used before JDk8 b87. The getCallerClass(int) is removed in b87 so we can't use it any longer.
     // Returns the invoker's class loader, or null if none.
     // NOTE: This must always be invoked when there is exactly one intervening
     // frame from the core libraries on the stack between this method's
@@ -83,6 +83,23 @@ public class UIDefaultsLookup {
         }
         // Circumvent security check since this is package-private
         return caller.getClassLoader();
+    }
+*/
+
+
+    static ClassLoader getCallerClassLoader() {
+        Object cl = UIManager.get("ClassLoader");
+        if (cl instanceof ClassLoader) {
+            return (ClassLoader) cl;
+        }
+
+        String className = Thread.currentThread().getStackTrace()[3].getClassName();
+        try {
+            return Class.forName(className).getClassLoader();
+        }
+        catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     public static Object get(Object key) {
@@ -178,7 +195,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Font</code>, return the
      *         <code>Font</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Font getFont(Object key, Locale l) {
@@ -207,7 +223,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Color</code>, return the
      *         <code>Color</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Color getColor(Object key, Locale l) {
@@ -237,7 +252,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Icon</code>, return the
      *         <code>Icon</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Icon getIcon(Object key, Locale l) {
@@ -267,7 +281,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Border</code>, return the
      *         <code>Border</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Border getBorder(Object key, Locale l) {
@@ -296,7 +309,6 @@ public class UIDefaultsLookup {
      * @param l   the desired <code>Locale</code>
      * @return if the value for <code>key</code> for the given <code>Locale</code> is a <code>String</code>, return the
      *         <code>String</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static String getString(Object key, Locale l) {
@@ -324,7 +336,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Integer</code>, return its value,
      *         otherwise return 0
-     *
      * @since 1.9.5.04
      */
     public static int getInt(Object key, Locale l) {
@@ -338,7 +349,6 @@ public class UIDefaultsLookup {
      *
      * @param key an <code>Object</code> specifying the key for the desired boolean value
      * @return if the value of <code>key</code> is boolean, return the boolean value, otherwise return false.
-     *
      * @since 1.9.5.04
      */
     public static boolean getBoolean(Object key) {
@@ -367,7 +377,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is boolean, return the boolean value, otherwise
      *         return false.
-     *
      * @since 1.9.5.04
      */
     public static boolean getBoolean(Object key, Locale l) {
@@ -397,7 +406,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is an <code>Insets</code>, return the
      *         <code>Insets</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Insets getInsets(Object key, Locale l) {
@@ -427,7 +435,6 @@ public class UIDefaultsLookup {
      * @param l   the desired locale
      * @return if the value for <code>key</code> and <code>Locale</code> is a <code>Dimension</code>, return the
      *         <code>Dimension</code> object; otherwise return <code>null</code>
-     *
      * @since 1.9.5.04
      */
     public static Dimension getDimension(Object key, Locale l) {
