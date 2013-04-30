@@ -119,6 +119,9 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
      */
     @Override
     public void insertIndexInterval(int index, int length, boolean before) {
+        if (index < 0) {
+            return;
+        }
         if (before) {
             boolean old = isSelectedIndex(index);
             boolean adjusting = getValueIsAdjusting();
