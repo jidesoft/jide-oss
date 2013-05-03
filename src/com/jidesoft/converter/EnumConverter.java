@@ -83,7 +83,7 @@ public class EnumConverter implements ObjectConverter {
     }
 
     public EnumConverter(String name, Object[] values, String[] strings) {
-        this(name, values[0].getClass(), values, strings);
+        this(name, values[0] == null ? (values.length > 1 ? values[1].getClass() : Object.class) : values[0].getClass(), values, strings);
     }
 
     public EnumConverter(String name, Class<?> type, Object[] values, String[] strings) {
