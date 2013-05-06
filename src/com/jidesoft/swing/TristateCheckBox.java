@@ -131,6 +131,16 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
         }
     }
 
+    @Override
+    public void setSelected(boolean b) {
+        if (b) {
+            setState(STATE_SELECTED);
+        }
+        else {
+            setState(STATE_UNSELECTED);
+        }
+    }
+
     /**
      * Sets the selection state. It could be one of the three states as defined - {@link #STATE_SELECTED}, {@link
      * #STATE_UNSELECTED} and {@link #STATE_MIXED}.
