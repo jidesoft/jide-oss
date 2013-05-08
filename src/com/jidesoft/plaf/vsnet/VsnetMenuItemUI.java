@@ -1013,8 +1013,8 @@ public class VsnetMenuItemUI extends MenuItemUI {
         }
         else {
             try {
-                checkIconRect.width = checkIcon.getIconWidth();
-                checkIconRect.height = checkIcon.getIconHeight();
+                checkIconRect.width = icon != null ? icon.getIconWidth() : checkIcon.getIconWidth();
+                checkIconRect.height = icon != null ? icon.getIconHeight() : checkIcon.getIconHeight();
             }
             catch (Exception e) {
                 checkIconRect.width = checkIconRect.height = 0;
