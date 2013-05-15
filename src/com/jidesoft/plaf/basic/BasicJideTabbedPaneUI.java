@@ -4521,6 +4521,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     public int tabForCoordinate(JTabbedPane pane, int x, int y) {
         ensureCurrentLayout();
         Point p = new Point(x, y);
+        if (!_tabPane.isShowTabArea()) {
+            return -1;
+        }
 
         if (scrollableTabLayoutEnabled()) {
             translatePointToTabPanel(x, y, p);
