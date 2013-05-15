@@ -266,7 +266,7 @@ public class CheckBoxTree extends JTree {
      * @see #setSelectPartialOnToggling(boolean)
      */
     public boolean isSelectPartialOnToggling() {
-        return _selectPartialOnToggling;
+        return _selectPartialOnToggling || selectionModel.getClass().getName().contains("Filter");
     }
 
     /**
