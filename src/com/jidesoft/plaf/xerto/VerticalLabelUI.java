@@ -17,6 +17,7 @@ public class VerticalLabelUI extends BasicLabelUI {
     }
 
     protected boolean clockwise;
+    private boolean _rotateIcon = true;
 
     public VerticalLabelUI(boolean clockwise) {
         super();
@@ -63,6 +64,12 @@ public class VerticalLabelUI extends BasicLabelUI {
 
         Graphics2D g2 = (Graphics2D) i_oGraphics;
         AffineTransform oTransform = g2.getTransform();
+        if (!isRotateIcon()) {
+            if (oIcon != null) {
+                oIcon.paintIcon(i_oComponent, i_oGraphics, s_oPaintIconRectangle.x, s_oPaintIconRectangle.y);
+            }
+        }
+
         if (clockwise) {
             g2.rotate(Math.PI / 2);
             g2.translate(0, -i_oComponent.getWidth());
@@ -72,8 +79,10 @@ public class VerticalLabelUI extends BasicLabelUI {
             g2.translate(-i_oComponent.getHeight(), 0);
         }
 
-        if (oIcon != null) {
-            oIcon.paintIcon(i_oComponent, i_oGraphics, s_oPaintIconRectangle.x, s_oPaintIconRectangle.y);
+        if (isRotateIcon()) {
+            if (oIcon != null) {
+                oIcon.paintIcon(i_oComponent, i_oGraphics, s_oPaintIconRectangle.x, s_oPaintIconRectangle.y);
+            }
         }
 
         if (oText != null) {
@@ -89,5 +98,27 @@ public class VerticalLabelUI extends BasicLabelUI {
         }
 
         g2.setTransform(oTransform);
+    }
+
+    /**
+     * Gets the flag indicating if the icon should be rotated.
+     *
+     * @return true if the icon should be rotated with the text. Otherwise false.
+     * @since 3.5.5
+     */
+    public boolean isRotateIcon() {
+        return _rotateIcon;
+    }
+
+    /**
+     * Sets the flag indicating if the icon should be rotated.
+     * <p/>
+     * By default the value is true.
+     *
+     * @param rotateIcon the flag
+     * @since 3.5.5
+     */
+    public void setRotateIcon(boolean rotateIcon) {
+        _rotateIcon = rotateIcon;
     }
 }
