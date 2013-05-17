@@ -298,7 +298,6 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         }
     }
 
-
     public Insets getOverlayLocationInsets() {
         return _overlayLocationInsets;
     }
