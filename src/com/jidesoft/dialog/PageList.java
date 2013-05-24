@@ -155,8 +155,6 @@ public class PageList extends DefaultComboBoxModel {
 
         if (!JideSwingUtilities.equals(oldPage, page)) {
             setSelectedItem(page);
-        }
-        else {
             AbstractDialogPage newPage = getCurrentPage();
             if (newPage != null) {
                 newPage.firePageEvent(source, PageEvent.PAGE_OPENED);
