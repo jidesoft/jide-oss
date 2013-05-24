@@ -8768,6 +8768,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
     private class ContainerHandler implements ContainerListener {
         public void componentAdded(ContainerEvent e) {
+            if (_tabPane == null) {
+                return;
+            }
             JideTabbedPane tp = (JideTabbedPane) e.getContainer();
 //            updateTabPanel();
             Component child = e.getChild();
@@ -8805,6 +8808,9 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
         }
 
         public void componentRemoved(ContainerEvent e) {
+            if (_tabPane == null) {
+                return;
+            }
             JideTabbedPane tp = (JideTabbedPane) e.getContainer();
 //            updateTabPanel();
             Component child = e.getChild();
