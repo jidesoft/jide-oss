@@ -1368,8 +1368,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
                 color = ((TabColorProvider) comp).getTabForeground();
             }
             if (_tabPane.isEnabled() && _tabPane.isEnabledAt(tabIndex)) {
-                if (color == null && colorProvider != null) {
-                    g2d.setColor(colorProvider.getForegroudAt(tabIndex));
+                if (color == null && colorProvider != null && colorProvider.getForegroundAt(tabIndex) != null) {
+                    g2d.setColor(colorProvider.getForegroundAt(tabIndex));
                 }
                 else {
                     if (color == null) {
@@ -4651,8 +4651,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
     }
 
     /**
-     * Returns if the point resides in the empty tab area, which means it is in the tab area however no real tab contains
-     * that point.
+     * Returns if the point resides in the empty tab area, which means it is in the tab area however no real tab
+     * contains that point.
      *
      * @param x x value of the point
      * @param y y value of the point
@@ -9381,7 +9381,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 //            setBorder(BorderFactory.createEmptyBorder());
             setBorder(BorderFactory
                     .createCompoundBorder(new PartialLineBorder(Color.BLACK, 1, true),
-                    BorderFactory.createEmptyBorder(0, 2, 0, 2)));
+                            BorderFactory.createEmptyBorder(0, 2, 0, 2)));
         }
 
         public boolean stopEditing() {
