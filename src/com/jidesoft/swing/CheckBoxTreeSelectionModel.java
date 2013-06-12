@@ -247,8 +247,10 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
      */
     @Override
     public void addSelectionPaths(TreePath[] paths) {
-        addSelectionPaths(paths, true);
+        addSelectionPaths(paths, !_avoidCheckPathSelection);
     }
+
+    private boolean _avoidCheckPathSelection = false;
 
     /**
      * Add the selection paths.
@@ -357,7 +359,13 @@ public class CheckBoxTreeSelectionModel extends DefaultTreeSelectionModel implem
                     }
                     if (temp != null) {
                         if (temp.getParentPath() != null) {
-                            addSelectionPath(temp.getParentPath());
+                            try {
+                                _avoidCheckPathSelection = true;
+                                addSelectionPath(temp.getParentPath());
+                            }
+                            finally {
+                                _avoidCheckPathSelection = false;
+                            }
                         }
                         else {
                             if (!isSelectionEmpty()) {
