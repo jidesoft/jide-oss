@@ -5689,6 +5689,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             }
 
             if (pane.getCloseAction() != null) {
+                e2 = new ActionEvent(e2.getSource(), e2.getID(), (String) pane.getCloseAction().getValue(Action.ACTION_COMMAND_KEY), e2.getWhen(), e2.getModifiers());
                 pane.getCloseAction().actionPerformed(e2);
             }
             else {
