@@ -274,7 +274,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Called by the constructor to set up the <code>JRootPane</code>.
      *
      * @return a new <code>JRootPane</code>
-     *
      * @see javax.swing.JRootPane
      */
     protected JRootPane createRootPane() {
@@ -329,7 +328,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Returns the name of the look-and-feel class that renders this component.
      *
      * @return the string "PopupUI"
-     *
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
@@ -342,7 +340,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Returns whether calls to <code>add</code> and <code>setLayout</code> cause an exception to be thrown.
      *
      * @return <code>true</code> if <code>add</code> and <code>setLayout</code> are checked
-     *
      * @see #addImpl
      * @see #setLayout
      * @see #setRootPaneCheckingEnabled
@@ -356,7 +353,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @param enabled a boolean value, <code>true</code> if checking is to be enabled, which cause the exceptions to be
      *                thrown
-     *
      * @see #addImpl
      * @see #setLayout
      * @see #isRootPaneCheckingEnabled
@@ -377,7 +373,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param comp        the <code>Component</code> to be added
      * @param constraints the object containing the constraints, if any
      * @param index       the index
-     *
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
@@ -395,7 +390,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Removes the specified component from this container.
      *
      * @param comp the component to be removed
-     *
      * @see #add
      */
     @Override
@@ -420,7 +414,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * disable this behavior.
      *
      * @param manager the <code>LayoutManager</code>
-     *
      * @throws Error if called with <code>isRootPaneChecking</code> <code>true</code>
      * @see #setRootPaneCheckingEnabled
      */
@@ -443,7 +436,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * been set.
      *
      * @return the <code>JMenuBar</code> used by this Popup.
-     *
      * @see #setJMenuBar
      */
     public JMenuBar getJMenuBar() {
@@ -454,7 +446,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets the <code>menuBar</code> property for this <code>Popup</code>.
      *
      * @param m the <code>JMenuBar</code> to use in this Popup.
-     *
      * @see #getJMenuBar
      */
     public void setJMenuBar(JMenuBar m) {
@@ -479,7 +470,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>contentPane</code> property.
      *
      * @param c the content pane for this popup.
-     *
      * @throws java.awt.IllegalComponentStateException
      *          (a runtime exception) if the content pane parameter is <code>null</code>
      * @see javax.swing.RootPaneContainer#getContentPane
@@ -494,7 +484,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Returns the layered pane for this popup.
      *
      * @return a <code>JLayeredPane</code> object
-     *
      * @see javax.swing.RootPaneContainer#setLayeredPane
      * @see javax.swing.RootPaneContainer#getLayeredPane
      */
@@ -506,7 +495,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>layeredPane</code> property.
      *
      * @param layered the <code>JLayeredPane</code> for this popup
-     *
      * @throws java.awt.IllegalComponentStateException
      *          (a runtime exception) if the layered pane parameter is <code>null</code>
      * @see javax.swing.RootPaneContainer#setLayeredPane
@@ -521,7 +509,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Returns the glass pane for this popup.
      *
      * @return the glass pane
-     *
      * @see javax.swing.RootPaneContainer#setGlassPane
      */
     public Component getGlassPane() {
@@ -532,7 +519,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>glassPane</code> property.
      *
      * @param glass the glass pane for this popup
-     *
      * @see javax.swing.RootPaneContainer#getGlassPane
      */
     public void setGlassPane(Component glass) {
@@ -545,7 +531,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Returns the <code>rootPane</code> object for this popup.
      *
      * @return the <code>rootPane</code> property
-     *
      * @see javax.swing.RootPaneContainer#getRootPane
      */
     @Override
@@ -600,7 +585,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      *
      * @return an <code>AccessiblePopup</code> that serves as the <code>AccessibleContext</code> of this
      *         <code>Popup</code>
-     *
      * @see com.jidesoft.popup.JidePopup.AccessiblePopup
      */
     @Override
@@ -667,7 +651,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          * Get the accessible name of this object.
          *
          * @return the localized name of the object -- can be <code>null</code> if this object does not have a name
-         *
          * @see #setAccessibleName
          */
         @Override
@@ -684,7 +667,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
          * Get the role of this object.
          *
          * @return an instance of AccessibleRole describing the role of the object
-         *
          * @see javax.accessibility.AccessibleRole
          */
         @Override
@@ -818,7 +800,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param point owner is top-left coordinate relative to screen.
      * @param size  the size of the popup window.
      * @param owner the owner
-     *
      * @return new popup location. By default, it will return the coordinate of the bottom-left corner of owner.
      */
     protected Point getPopupLocation(Point point, Dimension size, Component owner) {
@@ -973,7 +954,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Set the display start location of the popup.
      *
      * @param startLocation the display start location.
-     *
      * @see #getDisplayStartLocation(java.awt.Rectangle, java.awt.Dimension, int)
      */
     public void setDisplayStartLocation(Point startLocation) {
@@ -988,7 +968,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param screenDim the dimension of the screen
      * @param size      the size of the popup
      * @param location  the direction to show the popup
-     *
      * @return the display start location.
      */
     protected Point getDisplayStartLocation(Rectangle screenDim, Dimension size, int location) {
@@ -1082,8 +1061,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     }
 
     /**
-     * Gets the rectangle adjusted by preferred size and the monitor device settings. The client property "useAllMonitorDevices"
-     * could be registered in any ancestor component of the owner component to take effect.
+     * Gets the rectangle adjusted by preferred size and the monitor device settings. The client property
+     * "useAllMonitorDevices" could be registered in any ancestor component of the owner component to take effect.
      *
      * @param x     the original x
      * @param y     the original y
@@ -1221,7 +1200,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     /**
      * @param owner the owner for this popup container. It will be used to find the top level ancestor and use it as the
      *              parent for this popup window.
-     *
      * @return a ResizableWindow.
      */
     protected ResizableWindow createHeavyweightPopupContainer(Component owner) {
@@ -1262,7 +1240,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * @param owner the owner for this popup container. This parameter is not used in this method. It was there mainly
      *              because the corresponding {@link #createHeavyweightPopupContainer(java.awt.Component)} has this
      *              parameter.
-     *
      * @return a ResizablePanel
      */
     @SuppressWarnings({"UnusedDeclaration"})
@@ -1494,6 +1471,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
             if (!_window.isVisible()) {
                 _window.pack();
+                if (SystemInfo.isJdk7Above()) {
+                    _window.setAutoRequestFocus(true);
+                }
                 _window.setVisible(true);
             }
 
@@ -2449,7 +2429,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Checks if the popup is transient.
      *
      * @return true if transient.
-     *
      * @see #setTransient(boolean)
      */
     public boolean isTransient() {
@@ -2558,7 +2537,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Removes a <code>PopupMenuListener</code>.
      *
      * @param l the <code>PopupMenuListener</code> to remove
-     *
      * @see #addPopupMenuListener
      * @since 1.4
      */
@@ -2703,7 +2681,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * hide the popup. By default, owner is always the excluded component.
      *
      * @param component a component.
-     *
      * @return true if the component is an excluded component.
      */
     public boolean isExcludedComponent(Component component) {
@@ -2765,7 +2742,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * the mouse click is outside the popup.
      *
      * @param e the mouse event
-     *
      * @return true or false.
      */
     public boolean isClickOnPopup(MouseEvent e) {
