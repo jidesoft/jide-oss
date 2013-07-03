@@ -1471,9 +1471,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 
             if (!_window.isVisible()) {
                 _window.pack();
-                if (SystemInfo.isJdk7Above()) {
-                    _window.setAutoRequestFocus(true);
-                }
                 _window.setVisible(true);
             }
 
