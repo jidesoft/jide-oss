@@ -394,7 +394,7 @@ public class PortingUtils {
         if (containgScreen == null) {
             // it was not on any of the screens so center it on the first screen
             rect.x = (SCREENS[0].width - rect.width) / 2;
-            rect.y = (SCREENS[0].width - rect.width) / 2;
+            rect.y = (SCREENS[0].height - rect.height) / 2;
             return rect;
         }
         else {
