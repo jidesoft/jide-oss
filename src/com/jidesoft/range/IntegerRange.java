@@ -33,7 +33,7 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
         _min = Math.min(min, max);
         _max = Math.max(min, max);
     }
-    
+
     /**
      * Constructs a copy of the supplied IntegerRange object
      * @param integerRange the integer range object to copy
@@ -136,6 +136,17 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
      */
     public boolean contains(Integer x) {
         return x >= _min && x <= _max;
+    }
+
+    @Override
+    public Range<Integer> createIntermediate(Range<Integer> targetRange, double position) {
+        double sourceMin = this.minimum();
+        double sourceMax = this.maximum();
+        double targetMin = targetRange.minimum();
+        double targetMax = targetRange.maximum();
+        double min = sourceMin + position * (targetMin - sourceMin);
+        double max= sourceMax + position * (targetMax - sourceMax);
+        return new IntegerRange((int) Math.round(min), (int) Math.round(max));
     }
 
     /**

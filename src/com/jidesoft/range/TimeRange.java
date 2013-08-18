@@ -61,7 +61,7 @@ public class TimeRange extends AbstractRange<Date> {
         _min = new Date(from);
         _max = new Date(to);
     }
-    
+
     /**
      * Constructs a copy of the supplied time range
      * @param timeRange the timeRange to copy
@@ -140,6 +140,16 @@ public class TimeRange extends AbstractRange<Date> {
 
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    public Range<Date> createIntermediate(Range<Date> target, double position) {
+        double sourceMin = this.minimum();
+        double sourceMax = this.maximum();
+        double targetMin = target.minimum();
+        double targetMax = target.maximum();
+        double min = sourceMin + position * (targetMin - sourceMin);
+        double max= sourceMax + position * (targetMax - sourceMax);
+        return new TimeRange((long) min, (long) max);
     }
 
     /**
