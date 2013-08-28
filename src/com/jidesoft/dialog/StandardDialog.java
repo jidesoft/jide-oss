@@ -75,6 +75,15 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
         initDialog();
     }
 
+    public StandardDialog(Window owner) throws HeadlessException {
+        this(owner, null);
+    }
+
+    public StandardDialog(Window owner, String title) throws HeadlessException {
+        super(owner, title);
+        initDialog();
+    }
+
     public StandardDialog(Dialog owner, boolean modal) throws HeadlessException {
         this(owner, null, modal);
     }
