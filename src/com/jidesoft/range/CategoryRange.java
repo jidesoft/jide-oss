@@ -74,7 +74,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     // When you call getCategoryValues() it will call this method and retrieve a list of possible values
     // which is sorted if necessary
     public List<T> getPossibleValues() {
-        if (sorted && alreadySorted == false) {
+        if (sorted && !alreadySorted) {
             if (comparator == null) {
                 Comparator<T> defaultComparator = new Comparator<T>() {
                     public int compare(T o1, T o2) {
@@ -413,6 +413,25 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         else if (!minimum.equals(other.minimum))
             return false;
         return true;
+    }
+
+    /**
+     * Creates an intermediate range between this range and a target range. Used for range morphing.
+     * @param target the target range of the morph
+     * @param position a value between 0 and 1 indicating the position of the morph
+     * @return a CategoryRange
+     */
+    public Range<T> createIntermediate(Range<T> target, double position) {
+        double sourceMin = this.minimum();
+        double sourceMax = this.maximum();
+        double targetMin = target.minimum();
+        double targetMax = target.maximum();
+        double min = sourceMin + position * (targetMin - sourceMin);
+        double max= sourceMax + position * (targetMax - sourceMax);
+        CategoryRange r = position < 0.5 ? new CategoryRange(this) : new CategoryRange(target);
+        r.setMinimum(min);
+        r.setMaximum(max);
+        return r;
     }
 
     public String toString() {

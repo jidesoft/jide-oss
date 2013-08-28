@@ -172,6 +172,17 @@ public class CombinedNumericRange extends AbstractNumericRange<Double> {
         return new NumericRange(minimum - leadingMargin, maximum + trailingMargin);
     }
 
+    @Override
+    public Range<Double> createIntermediate(Range<Double> targetRange, double position) {
+        double sourceMin = this.minimum();
+        double sourceMax = this.maximum();
+        double targetMin = targetRange.minimum();
+        double targetMax = targetRange.maximum();
+        double min = sourceMin + position * (targetMin - sourceMin);
+        double max= sourceMax + position * (targetMax - sourceMax);
+        return new NumericRange(min, max);
+    }
+
     public String toString() {
         return String.format("#<CombinedNumericRange min=%s max=%s>", minimum(), maximum());
     }
