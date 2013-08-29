@@ -18,7 +18,7 @@ public abstract class AbstractRange<T> implements Range<T> {
 
     public AbstractRange() {
     }
-    
+
     public Range<T> copy() {
         throw new UnsupportedOperationException("Copy method not implemented");
     }
@@ -67,4 +67,6 @@ public abstract class AbstractRange<T> implements Range<T> {
         }
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
+
+    public abstract Range<T> createIntermediate(Range<T> targetRange, double position);
 }

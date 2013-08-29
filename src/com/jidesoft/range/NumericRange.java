@@ -168,6 +168,17 @@ public class NumericRange extends AbstractNumericRange<Double> {
         return new NumericRange(mid - halfSize * stretchFactorForLower, mid + halfSize * stretchFactorForUpper);
     }
 
+
+    public Range<Double> createIntermediate(Range<Double> target, double position) {
+        double sourceMin = this.minimum();
+        double sourceMax = this.maximum();
+        double targetMin = target.minimum();
+        double targetMax = target.maximum();
+        double min = sourceMin + position * (targetMin - sourceMin);
+        double max= sourceMax + position * (targetMax - sourceMax);
+        return new NumericRange(min, max);
+    }
+
     /**
      * Test for equality based on the values of min and max
      */
