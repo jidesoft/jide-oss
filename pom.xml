@@ -116,7 +116,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <gpg.keyname>06F100B6</gpg.keyname>
+                <gpg.keyname>7929F719</gpg.keyname>
                 <release.username>jidesoft</release.username>
             </properties>
             <build>
