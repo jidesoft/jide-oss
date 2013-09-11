@@ -48,7 +48,8 @@ import java.util.logging.Logger;
 /**
  * A utilities class for Swing.
  */
-public class JideSwingUtilities implements SwingConstants {
+public class JideSwingUtilities implements SwingConstants
+{
 
     private static final Logger LOGGER_FOCUS = Logger.getLogger(JideSwingUtilities.class.getName() + ".focus");
 
@@ -68,7 +69,8 @@ public class JideSwingUtilities implements SwingConstants {
     public static final Object AA_TEXT_PROPERTY_KEY =
             new StringBuffer("AATextPropertyKey");
 
-    static {
+    static
+    {
         Object aa = SecurityUtils.getProperty("swing.aatext", "false");
         AA_TEXT_DEFINED = (aa != null);
         AA_TEXT = "true".equals(aa);
@@ -76,11 +78,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Create a Panel around a component so that component aligns to left.
-     *
      * @param object the component
      * @return a Panel
      */
-    public static JPanel createLeftPanel(Component object) {
+    public static JPanel createLeftPanel(Component object)
+    {
         JPanel ret = new NullPanel(new BorderLayout());
         ret.setOpaque(false);
         ret.add(object, BorderLayout.BEFORE_LINE_BEGINS);
@@ -89,11 +91,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Create a Panel around a component so that component aligns to right.
-     *
      * @param object the component
      * @return a Panel
      */
-    public static JPanel createRightPanel(Component object) {
+    public static JPanel createRightPanel(Component object)
+    {
         JPanel ret = new NullPanel(new BorderLayout());
         ret.setOpaque(false);
         ret.add(object, BorderLayout.AFTER_LINE_ENDS);
@@ -102,11 +104,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Create a Panel around a component so that component aligns to top.
-     *
      * @param object the component
      * @return a Panel
      */
-    public static JPanel createTopPanel(Component object) {
+    public static JPanel createTopPanel(Component object)
+    {
         JPanel ret = new NullPanel(new BorderLayout());
         ret.setOpaque(false);
         ret.add(object, BorderLayout.BEFORE_FIRST_LINE);
@@ -115,11 +117,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Create a Panel around a component so that component aligns to bottom.
-     *
      * @param object the component
      * @return a Panel
      */
-    public static JPanel createBottomPanel(Component object) {
+    public static JPanel createBottomPanel(Component object)
+    {
         JPanel ret = new NullPanel(new BorderLayout());
         ret.setOpaque(false);
         ret.add(object, BorderLayout.AFTER_LAST_LINE);
@@ -128,11 +130,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Create a Panel around a component so that component is right in the middle.
-     *
      * @param object the component
      * @return a Panel
      */
-    public static JPanel createCenterPanel(Component object) {
+    public static JPanel createCenterPanel(Component object)
+    {
         JPanel ret = new NullPanel(new GridBagLayout());
         ret.setOpaque(false);
         ret.add(object, new GridBagConstraints());
@@ -141,14 +143,14 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Creates a container which a label for the component.
-     *
-     * @param title      the label
-     * @param component  the component
+     * @param title the label
+     * @param component the component
      * @param constraint the constraint as in BorderLayout. You can use all the constraints as in BorderLayout except
-     *                   CENTER.
+     * CENTER.
      * @return the container which has both the label and the component.
      */
-    public static JPanel createLabeledComponent(JLabel title, Component component, Object constraint) {
+    public static JPanel createLabeledComponent(JLabel title, Component component, Object constraint)
+    {
         JPanel ret = new NullPanel(new JideBorderLayout(3, 3));
         ret.setOpaque(false);
         ret.add(title, constraint);
@@ -159,10 +161,10 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Center the component to it's parent window.
-     *
      * @param childToCenter the parent window
      */
-    public static void centerWindow(Window childToCenter) {
+    public static void centerWindow(Window childToCenter)
+    {
         childToCenter.setLocationRelativeTo(childToCenter.getParent());
 //        Container parentWindow = childToCenter.getParent();
 //
@@ -178,10 +180,10 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Center the window to the whole screen.
-     *
      * @param childToCenter the parent window
      */
-    public static void globalCenterWindow(Window childToCenter) {
+    public static void globalCenterWindow(Window childToCenter)
+    {
         childToCenter.setLocationRelativeTo(null);
 //        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 //
@@ -194,25 +196,29 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Paints an arrow shape.
-     *
-     * @param g           the graphics instance
-     * @param color       color
-     * @param startX      start X
-     * @param startY      start Y
-     * @param width       width
+     * @param g the graphics instance
+     * @param color color
+     * @param startX start X
+     * @param startY start Y
+     * @param width width
      * @param orientation horizontal or vertical
      */
-    public static void paintArrow(Graphics g, Color color, int startX, int startY, int width, int orientation) {
+    public static void paintArrow(Graphics g, Color color, int startX, int startY, int width, int orientation)
+    {
         Color oldColor = g.getColor();
         g.setColor(color);
         width = width / 2 * 2 + 1; // make sure it's odd
-        if (orientation == HORIZONTAL) {
-            for (int i = 0; i < (width + 1) / 2; i++) {
+        if (orientation == HORIZONTAL)
+        {
+            for (int i = 0; i < (width + 1) / 2; i++)
+            {
                 g.drawLine(startX + i, startY + i, startX + width - i - 1, startY + i);
             }
         }
-        else if (orientation == VERTICAL) {
-            for (int i = 0; i < (width + 1) / 2; i++) {
+        else if (orientation == VERTICAL)
+        {
+            for (int i = 0; i < (width + 1) / 2; i++)
+            {
                 g.drawLine(startX + i, startY + i, startX + i, startY + width - i - 1);
             }
         }
@@ -221,21 +227,23 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Paints an arrow shape.
-     *
-     * @param c           the component
-     * @param g           the graphics instance
-     * @param color       color
-     * @param startX      start X
-     * @param startY      start Y
-     * @param width       width
+     * @param c the component
+     * @param g the graphics instance
+     * @param color color
+     * @param startX start X
+     * @param startY start Y
+     * @param width width
      * @param orientation horizontal or vertical
      */
-    public static void paintArrow(JComponent c, Graphics g, Color color, int startX, int startY, int width, int orientation) {
-        if (!c.getComponentOrientation().isLeftToRight()) {
+    public static void paintArrow(JComponent c, Graphics g, Color color, int startX, int startY, int width, int orientation)
+    {
+        if (!c.getComponentOrientation().isLeftToRight())
+        {
             Color oldColor = g.getColor();
             g.setColor(color);
             width = width / 2 * 2 + 1; // make sure it's odd
-            for (int i = 0; i < (width + 1) / 2; i++) {
+            for (int i = 0; i < (width + 1) / 2; i++)
+            {
                 g.drawLine(startX + width - i, startY + i, startX + width - i, startY + width - i - 1);
             }
             g.setColor(oldColor);
@@ -247,18 +255,19 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Paints a cross shape.
-     *
-     * @param g       the graphics instance
-     * @param color   color
+     * @param g the graphics instance
+     * @param color color
      * @param centerX center X
      * @param centerY center Y
-     * @param size    size
-     * @param width   width
+     * @param size size
+     * @param width width
      */
-    public static void paintCross(Graphics g, Color color, int centerX, int centerY, int size, int width) {
+    public static void paintCross(Graphics g, Color color, int centerX, int centerY, int size, int width)
+    {
         g.setColor(color);
         size = size / 2; // make sure it's odd
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < width; i++)
+        {
             g.drawLine(centerX - size, centerY - size, centerX + size, centerY + size);
             g.drawLine(centerX + size, centerY - size, centerX - size, centerY + size);
             centerX++;
@@ -267,19 +276,21 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the top level Frame of the component.
-     *
      * @param component the component
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
      */
-    public static Frame getFrame(Component component) {
+    public static Frame getFrame(Component component)
+    {
         if (component == null) return null;
 
         if (component instanceof Frame) return (Frame) component;
 
         // Find frame
         Container p = component.getParent();
-        while (p != null) {
-            if (p instanceof Frame) {
+        while (p != null)
+        {
+            if (p instanceof Frame)
+            {
                 return (Frame) p;
             }
             p = p.getParent();
@@ -290,10 +301,10 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Toggles between RTL and LTR.
-     *
      * @param topContainer the component
      */
-    public static void toggleRTLnLTR(Component topContainer) {
+    public static void toggleRTLnLTR(Component topContainer)
+    {
         ComponentOrientation co = topContainer.getComponentOrientation();
         if (co == ComponentOrientation.RIGHT_TO_LEFT)
             co = ComponentOrientation.LEFT_TO_RIGHT;
@@ -309,28 +320,33 @@ public class JideSwingUtilities implements SwingConstants {
      * <p/>
      * It's OK if you call this method with the same master viewport and slave viewport duplicate times. It won't cause
      * multiple events fired.
-     *
      * @param masterViewport the master viewport
-     * @param slaveViewport  the slave viewport
-     * @param orientation    the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
+     * @param slaveViewport the slave viewport
+     * @param orientation the orientation. It could be either SwingConstants.HORIZONTAL or SwingConstants.VERTICAL.
      */
-    public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation) {
-        if (masterViewport == null || slaveViewport == null) {
+    public static void synchronizeView(final JViewport masterViewport, final JViewport slaveViewport, final int orientation)
+    {
+        if (masterViewport == null || slaveViewport == null)
+        {
             return;
         }
         ChangeListener[] changeListeners = masterViewport.getChangeListeners();
         int i = 0;
-        for (; i < changeListeners.length; i++) {
-            if (changeListeners[i] == getViewportSynchronizationChangeListener()) {
+        for (; i < changeListeners.length; i++)
+        {
+            if (changeListeners[i] == getViewportSynchronizationChangeListener())
+            {
                 break;
             }
         }
-        if (i >= changeListeners.length) {
+        if (i >= changeListeners.length)
+        {
             masterViewport.addChangeListener(getViewportSynchronizationChangeListener());
         }
 
         Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
-        if (!(property instanceof Map)) {
+        if (!(property instanceof Map))
+        {
             property = new HashMap<JViewport, Integer>();
         }
         Map slaveViewportMap = (Map) property;
@@ -338,7 +354,8 @@ public class JideSwingUtilities implements SwingConstants {
         masterViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT, slaveViewportMap);
 
         property = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT);
-        if (!(property instanceof Map)) {
+        if (!(property instanceof Map))
+        {
             property = new HashMap<JViewport, Integer>();
         }
         Map masterViewportMap = (Map) property;
@@ -348,19 +365,22 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Un-synchronizes the two viewport.
-     *
      * @param masterViewport the master viewport
-     * @param slaveViewport  the slave viewport
+     * @param slaveViewport the slave viewport
      */
-    public static void unsynchronizeView(final JViewport masterViewport, final JViewport slaveViewport) {
-        if (masterViewport == null || slaveViewport == null) {
+    public static void unsynchronizeView(final JViewport masterViewport, final JViewport slaveViewport)
+    {
+        if (masterViewport == null || slaveViewport == null)
+        {
             return;
         }
         Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
-        if (property instanceof Map) {
+        if (property instanceof Map)
+        {
             Map slaveViewportMap = (Map) property;
             slaveViewportMap.remove(slaveViewport);
-            if (slaveViewportMap.isEmpty()) {
+            if (slaveViewportMap.isEmpty())
+            {
                 slaveViewportMap = null;
                 masterViewport.removeChangeListener(getViewportSynchronizationChangeListener());
             }
@@ -368,128 +388,166 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         property = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT);
-        if (property instanceof Map) {
+        if (property instanceof Map)
+        {
             Map masterViewportMap = (Map) property;
             masterViewportMap.remove(masterViewport);
-            if (masterViewportMap.isEmpty()) {
+            if (masterViewportMap.isEmpty())
+            {
                 masterViewportMap = null;
             }
             slaveViewport.putClientProperty(JideScrollPane.CLIENT_PROPERTY_MASTER_VIEWPORT, masterViewportMap);
         }
     }
 
-    public static int getButtonState(AbstractButton b) {
+    public static int getButtonState(AbstractButton b)
+    {
         ButtonModel model = b.getModel();
-        if (!model.isEnabled()) {
-            if (model.isSelected()) {
+        if (!model.isEnabled())
+        {
+            if (model.isSelected())
+            {
                 return ThemePainter.STATE_DISABLE_SELECTED;
             }
-            else {
+            else
+            {
                 return ThemePainter.STATE_DISABLE;
             }
         }
-        else if (model.isPressed() && model.isArmed()) {
-            if (model.isRollover()) {
+        else if (model.isPressed() && model.isArmed())
+        {
+            if (model.isRollover())
+            {
                 return ThemePainter.STATE_PRESSED;
             }
-            else if (model.isSelected()) {
+            else if (model.isSelected())
+            {
                 return ThemePainter.STATE_SELECTED;
             }
         }
-        else if (b.isRolloverEnabled() && model.isRollover()) {
-            if (model.isSelected()) {
+        else if (b.isRolloverEnabled() && model.isRollover())
+        {
+            if (model.isSelected())
+            {
                 return ThemePainter.STATE_PRESSED; // should be rollover selected
             }
-            else {
+            else
+            {
                 return ThemePainter.STATE_ROLLOVER;
             }
         }
-        else if (model.isSelected()) {
+        else if (model.isSelected())
+        {
             return ThemePainter.STATE_SELECTED;
         }
-        else if (b.hasFocus() && b.isFocusPainted()) {
-            if (model.isSelected()) {
+        else if (b.hasFocus() && b.isFocusPainted())
+        {
+            if (model.isSelected())
+            {
                 return ThemePainter.STATE_PRESSED;
             }
-            else {
+            else
+            {
                 return ThemePainter.STATE_ROLLOVER;
             }
         }
         return ThemePainter.STATE_DEFAULT;
     }
 
-    public static int[] getButtonState(JideSplitButton b) {
+    public static int[] getButtonState(JideSplitButton b)
+    {
         int[] states = new int[2];
         SplitButtonModel model = (SplitButtonModel) b.getModel();
-        if (!model.isEnabled()) {
-            if (model.isButtonSelected()) {
+        if (!model.isEnabled())
+        {
+            if (model.isButtonSelected())
+            {
                 states[0] = ThemePainter.STATE_DISABLE_SELECTED;
             }
-            else {
+            else
+            {
                 states[0] = ThemePainter.STATE_DISABLE;
             }
         }
-        else if (b.hasFocus() && b.isFocusPainted()) {
-            if (model.isButtonSelected()) {
+        else if (b.hasFocus() && b.isFocusPainted())
+        {
+            if (model.isButtonSelected())
+            {
                 states[0] = ThemePainter.STATE_SELECTED;
                 states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             }
-            else if (model.isSelected()) {
+            else if (model.isSelected())
+            {
                 states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
                 states[1] = ThemePainter.STATE_SELECTED;
             }
-            else {
+            else
+            {
                 states[0] = ThemePainter.STATE_ROLLOVER;
                 states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             }
         }
-        else if (model.isPressed() && model.isArmed()) {
-            if (model.isButtonRollover()) {
+        else if (model.isPressed() && model.isArmed())
+        {
+            if (model.isButtonRollover())
+            {
                 states[0] = ThemePainter.STATE_PRESSED;
                 states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             }
-            else if (model.isRollover()) {
+            else if (model.isRollover())
+            {
                 states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
                 states[1] = ThemePainter.STATE_ROLLOVER;
             }
         }
-        else if (b.isRolloverEnabled() && model.isButtonRollover()) {
-            if (model.isButtonSelected()) {
+        else if (b.isRolloverEnabled() && model.isButtonRollover())
+        {
+            if (model.isButtonSelected())
+            {
                 states[0] = ThemePainter.STATE_PRESSED;
                 states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             }
-            else if (model.isSelected()) {
+            else if (model.isSelected())
+            {
                 states[0] = ThemePainter.STATE_ROLLOVER;
                 states[1] = ThemePainter.STATE_PRESSED;
             }
-            else {
+            else
+            {
                 states[0] = ThemePainter.STATE_ROLLOVER;
                 states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             }
         }
-        else if (b.isRolloverEnabled() && model.isRollover()) {
-            if (model.isButtonSelected()) {
+        else if (b.isRolloverEnabled() && model.isRollover())
+        {
+            if (model.isButtonSelected())
+            {
                 states[0] = ThemePainter.STATE_PRESSED;
                 states[1] = ThemePainter.STATE_ROLLOVER;
             }
-            else if (model.isSelected()) {
+            else if (model.isSelected())
+            {
                 states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
                 states[1] = ThemePainter.STATE_PRESSED;
             }
-            else {
+            else
+            {
                 states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
                 states[1] = ThemePainter.STATE_ROLLOVER;
             }
         }
-        else if (model.isButtonSelected()) {
+        else if (model.isButtonSelected())
+        {
             states[0] = ThemePainter.STATE_SELECTED;
             states[1] = ThemePainter.STATE_INACTIVE_ROLLOVER;
         }
-        else if (model.isSelected()) {
+        else if (model.isSelected())
+        {
             states[0] = ThemePainter.STATE_INACTIVE_ROLLOVER;
             states[1] = ThemePainter.STATE_SELECTED;
         }
-        else {
+        else
+        {
             states[0] = ThemePainter.STATE_DEFAULT;
             states[1] = ThemePainter.STATE_DEFAULT;
         }
@@ -500,12 +558,12 @@ public class JideSwingUtilities implements SwingConstants {
      * Checks if the two objects equal. If both are null, they are equal. If o1 and o2 both are Comparable, we will use
      * compareTo method to see if it equals 0. At last, we will use <code>o1.equals(o2)</code> to compare. If none of
      * the above conditions match, we return false.
-     *
      * @param o1 the first object to compare
      * @param o2 the second object to compare
      * @return true if the two objects are equal. Otherwise false.
      */
-    public static boolean equals(Object o1, Object o2) {
+    public static boolean equals(Object o1, Object o2)
+    {
         return equals(o1, o2, false);
     }
 
@@ -514,66 +572,83 @@ public class JideSwingUtilities implements SwingConstants {
      * If o1 and o2 both are Comparable, we will use compareTo method to see if it equals 0. If considerArrayOrList is true
      * and o1 and o2 are both array, we will compare each element in the array. At last, we will use
      * <code>o1.equals(o2)</code> to compare. If none of the above conditions match, we return false.
-     *
-     * @param o1                  the first object to compare
-     * @param o2                  the second object to compare
+     * @param o1 the first object to compare
+     * @param o2 the second object to compare
      * @param considerArrayOrList If true, and if o1 and o2 are both array, we will compare each element in the array instead
-     *                      of just compare the two array objects.
+     * of just compare the two array objects.
      * @return true if the two objects are equal. Otherwise false.
      */
-    public static boolean equals(Object o1, Object o2, boolean considerArrayOrList) {
-        if (o1 == o2) {
+    public static boolean equals(Object o1, Object o2, boolean considerArrayOrList)
+    {
+        if (o1 == o2)
+        {
             return true;
         }
-        else if (o1 != null && o2 == null) {
+        else if (o1 != null && o2 == null)
+        {
             return false;
         }
-        else if (o1 == null) {
+        else if (o1 == null)
+        {
             return false;
         }
-        else if (o1 instanceof CharSequence && o2 instanceof CharSequence) {
+        else if (o1 instanceof CharSequence && o2 instanceof CharSequence)
+        {
             return equals((CharSequence) o1, (CharSequence) o2, true);
         }
-        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass()))
+        {
             return ((Comparable) o1).compareTo(o2) == 0;
         }
-        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass())) {
+        else if (o1 instanceof Comparable && o2 instanceof Comparable && o2.getClass().isAssignableFrom(o1.getClass()))
+        {
             return ((Comparable) o2).compareTo(o1) == 0;
         }
-        else if (considerArrayOrList && o1 instanceof List && o2 instanceof List) {
+        else if (considerArrayOrList && o1 instanceof List && o2 instanceof List)
+        {
             int length1 = ((List) o1).size();
             int length2 = ((List) o2).size();
-            if (length1 != length2) {
+            if (length1 != length2)
+            {
                 return false;
             }
-            for (int i = 0; i < length1; i++) {
-                if (!equals(((List) o1).get(i), ((List) o2).get(i), true)) {
+            for (int i = 0; i < length1; i++)
+            {
+                if (!equals(((List) o1).get(i), ((List) o2).get(i), true))
+                {
                     return false;
                 }
             }
             return true;
         }
-        else {
-            if (considerArrayOrList && o1.getClass().isArray() && o2.getClass().isArray()) {
+        else
+        {
+            if (considerArrayOrList && o1.getClass().isArray() && o2.getClass().isArray())
+            {
                 int length1 = Array.getLength(o1);
                 int length2 = Array.getLength(o2);
-                if (length1 != length2) {
+                if (length1 != length2)
+                {
                     return false;
                 }
-                for (int i = 0; i < length1; i++) {
-                    if (!equals(Array.get(o1, i), Array.get(o2, i), true)) {
+                for (int i = 0; i < length1; i++)
+                {
+                    if (!equals(Array.get(o1, i), Array.get(o2, i), true))
+                    {
                         return false;
                     }
                 }
                 return true;
             }
-            else {
+            else
+            {
                 return o1.equals(o2);
             }
         }
     }
 
-    public static boolean equals(CharSequence s1, CharSequence s2, boolean caseSensitive) {
+    public static boolean equals(CharSequence s1, CharSequence s2, boolean caseSensitive)
+    {
         if (s1 == s2) return true;
         if (s1 == null || s2 == null) return false;
 
@@ -584,10 +659,12 @@ public class JideSwingUtilities implements SwingConstants {
         int po = 0;
         int len = s1.length();
 
-        while (len-- > 0) {
+        while (len-- > 0)
+        {
             char c1 = s1.charAt(to++);
             char c2 = s2.charAt(po++);
-            if (c1 == c2) {
+            if (c1 == c2)
+            {
                 continue;
             }
             if (!caseSensitive && charsEqualIgnoreCase(c1, c2)) continue;
@@ -597,26 +674,33 @@ public class JideSwingUtilities implements SwingConstants {
         return true;
     }
 
-    public static boolean charsEqualIgnoreCase(char a, char b) {
+    public static boolean charsEqualIgnoreCase(char a, char b)
+    {
         return a == b || toUpperCase(a) == toUpperCase(b) || toLowerCase(a) == toLowerCase(b);
     }
 
-    public static char toUpperCase(char a) {
-        if (a < 'a') {
+    public static char toUpperCase(char a)
+    {
+        if (a < 'a')
+        {
             return a;
         }
-        if (a >= 'a' && a <= 'z') {
+        if (a >= 'a' && a <= 'z')
+        {
             return (char) (a + ('A' - 'a'));
         }
         return Character.toUpperCase(a);
     }
 
-    public static char toLowerCase(final char a) {
-        if (a < 'A' || a >= 'a' && a <= 'z') {
+    public static char toLowerCase(final char a)
+    {
+        if (a < 'A' || a >= 'a' && a <= 'z')
+        {
             return a;
         }
 
-        if (a >= 'A' && a <= 'Z') {
+        if (a >= 'A' && a <= 'Z')
+        {
             return (char) (a + ('a' - 'A'));
         }
 
@@ -625,21 +709,21 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Convenience method that returns a scaled instance of the provided BufferedImage.
-     *
-     * @param img                 the original image to be scaled
-     * @param targetWidth         the desired width of the scaled instance, in pixels
-     * @param targetHeight        the desired height of the scaled instance, in pixels
-     * @param hint                one of the rendering hints that corresponds to RenderingHints.KEY_INTERPOLATION (e.g.
-     *                            RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, RenderingHints.VALUE_INTERPOLATION_BILINEAR,
-     *                            RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+     * @param img the original image to be scaled
+     * @param targetWidth the desired width of the scaled instance, in pixels
+     * @param targetHeight the desired height of the scaled instance, in pixels
+     * @param hint one of the rendering hints that corresponds to RenderingHints.KEY_INTERPOLATION (e.g.
+     * RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, RenderingHints.VALUE_INTERPOLATION_BILINEAR,
+     * RenderingHints.VALUE_INTERPOLATION_BICUBIC)
      * @param progressiveBilinear if true, this method will use a multi-step scaling technique that provides higher
-     *                            quality than the usual one-step technique (only useful in down-scaling cases, where
-     *                            targetWidth or targetHeight is smaller than the original dimensions)
+     * quality than the usual one-step technique (only useful in down-scaling cases, where
+     * targetWidth or targetHeight is smaller than the original dimensions)
      * @return a scaled version of the original BufferedImage
      */
     public static BufferedImage getFasterScaledInstance(BufferedImage img,
                                                         int targetWidth, int targetHeight, Object hint,
-                                                        boolean progressiveBilinear) {
+                                                        boolean progressiveBilinear)
+    {
         int type = (img.getTransparency() == Transparency.OPAQUE) ?
                 BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
         BufferedImage ret = img;
@@ -650,36 +734,44 @@ public class JideSwingUtilities implements SwingConstants {
         int prevH = ret.getHeight();
         boolean isTranslucent = img.getTransparency() != Transparency.OPAQUE;
 
-        if (progressiveBilinear) {
+        if (progressiveBilinear)
+        {
             // Use multi-step technique: start with original size, then
             // scale down in multiple passes with drawImage()
             // until the target size is reached
             w = img.getWidth();
             h = img.getHeight();
         }
-        else {
+        else
+        {
             // Use one-step technique: scale directly from original
             // size to target size with a single drawImage() call
             w = targetWidth;
             h = targetHeight;
         }
 
-        do {
-            if (progressiveBilinear && w > targetWidth) {
+        do
+        {
+            if (progressiveBilinear && w > targetWidth)
+            {
                 w /= 2;
-                if (w < targetWidth) {
+                if (w < targetWidth)
+                {
                     w = targetWidth;
                 }
             }
 
-            if (progressiveBilinear && h > targetHeight) {
+            if (progressiveBilinear && h > targetHeight)
+            {
                 h /= 2;
-                if (h < targetHeight) {
+                if (h < targetHeight)
+                {
                     h = targetHeight;
                 }
             }
 
-            if (scratchImage == null || isTranslucent) {
+            if (scratchImage == null || isTranslucent)
+            {
                 // Use a single scratch buffer for all iterations
                 // and then copy to the final, correctly-sized image
                 // before returning
@@ -687,7 +779,8 @@ public class JideSwingUtilities implements SwingConstants {
                 g2 = scratchImage.createGraphics();
             }
 
-            if (g2 != null) {
+            if (g2 != null)
+            {
                 g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
                 g2.drawImage(ret, 0, 0, w, h, 0, 0, prevW, prevH, null);
             }
@@ -699,13 +792,15 @@ public class JideSwingUtilities implements SwingConstants {
         }
         while (w != targetWidth || h != targetHeight);
 
-        if (g2 != null) {
+        if (g2 != null)
+        {
             g2.dispose();
         }
 
         // If we used a scratch buffer that is larger than our target size,
         // create an image of the right size and copy the results into it
-        if (targetWidth != ret.getWidth() || targetHeight != ret.getHeight()) {
+        if (targetWidth != ret.getWidth() || targetHeight != ret.getHeight())
+        {
             scratchImage = new BufferedImage(targetWidth, targetHeight, type);
             g2 = scratchImage.createGraphics();
             g2.drawImage(ret, 0, 0, null);
@@ -716,37 +811,47 @@ public class JideSwingUtilities implements SwingConstants {
         return ret;
     }
 
+    public static int getFocusAcceleratorKeyMask()
+    {
+//        Toolkit tk = Toolkit.getDefaultToolkit();
+//        if (tk instanceof SunToolkit) {
+//            return ((SunToolkit)tk).getFocusAcceleratorKeyMask();
+//        }
+        return ActionEvent.ALT_MASK;
+    }
+
     private static class GetPropertyAction
-            implements java.security.PrivilegedAction {
+            implements java.security.PrivilegedAction
+    {
         private String theProp;
         private String defaultVal;
 
         /**
          * Constructor that takes the name of the system property whose string value needs to be determined.
-         *
          * @param theProp the name of the system property.
          */
-        public GetPropertyAction(String theProp) {
+        public GetPropertyAction(String theProp)
+        {
             this.theProp = theProp;
         }
 
         /**
          * Constructor that takes the name of the system property and the default value of that property.
-         *
-         * @param theProp    the name of the system property.
+         * @param theProp the name of the system property.
          * @param defaultVal the default value.
          */
-        public GetPropertyAction(String theProp, String defaultVal) {
+        public GetPropertyAction(String theProp, String defaultVal)
+        {
             this.theProp = theProp;
             this.defaultVal = defaultVal;
         }
 
         /**
          * Determines the string value of the system property whose name was specified in the constructor.
-         *
          * @return the string value of the system property, or the default value if there is no property with that key.
          */
-        public Object run() {
+        public Object run()
+        {
             String value = System.getProperty(theProp);
             return (value == null) ? defaultVal : value;
         }
@@ -773,34 +878,40 @@ public class JideSwingUtilities implements SwingConstants {
      * Last but the least, we also add system property "jide.useSystemfont" which has the highest priority. If you set
      * it to "true" or "false", this method will just check that value and return true or false respectively without
      * looking at any other settings.
-     *
      * @return true if the L&F should use system font.
      */
-    public static boolean shouldUseSystemFont() {
+    public static boolean shouldUseSystemFont()
+    {
         String property = SecurityUtils.getProperty("jide.useSystemfont", "");
-        if ("false".equals(property)) {
+        if ("false".equals(property))
+        {
             return false;
         }
-        else if ("true".equals(property)) {
+        else if ("true".equals(property))
+        {
             return true;
         }
 
-        if (SystemInfo.isJdk15Above() || SystemInfo.isCJKLocale()) {
+        if (SystemInfo.isJdk15Above() || SystemInfo.isCJKLocale())
+        {
             return true;
         }
 
         String systemFonts = null;
-        try {
+        try
+        {
             systemFonts = (String) java.security.AccessController.doPrivileged(new GetPropertyAction("swing.useSystemFontSettings"));
         }
-        catch (AccessControlException e) {
+        catch (AccessControlException e)
+        {
             // ignore
         }
 
         boolean useSystemFontSettings = (systemFonts != null &&
                 Boolean.valueOf(systemFonts));
 
-        if (useSystemFontSettings) {
+        if (useSystemFontSettings)
+        {
             Object value = UIDefaultsLookup.get("Application.useSystemFontSettings");
 
             useSystemFontSettings = (value != null ||
@@ -810,17 +921,21 @@ public class JideSwingUtilities implements SwingConstants {
         return "true".equals(SecurityUtils.getProperty("defaultFont", "false")) || useSystemFontSettings;
     }
 
-    public static void printUIDefaults() {
+    public static void printUIDefaults()
+    {
         Enumeration e = UIManager.getDefaults().keys();
         java.util.List<String> list = new ArrayList<String>();
 
         System.out.println("Non-string keys ---");
-        while (e.hasMoreElements()) {
+        while (e.hasMoreElements())
+        {
             Object key = e.nextElement();
-            if (key instanceof String) {
+            if (key instanceof String)
+            {
                 list.add((String) key);
             }
-            else {
+            else
+            {
                 System.out.println(key + " => " + UIDefaultsLookup.get(key));
             }
         }
@@ -829,7 +944,8 @@ public class JideSwingUtilities implements SwingConstants {
 
         Collections.sort(list);
         System.out.println("String keys ---");
-        for (Object key : list) {
+        for (Object key : list)
+        {
             System.out.println(key + " => " + UIDefaultsLookup.get(key));
         }
     }
@@ -843,10 +959,10 @@ public class JideSwingUtilities implements SwingConstants {
      *  postAction();
      * </pre>.
      */
-    public interface Handler {
+    public interface Handler
+    {
         /**
          * If true, it will call {@link #action(java.awt.Component)} on this component.
-         *
          * @param c the component
          * @return true or false.
          */
@@ -855,14 +971,12 @@ public class JideSwingUtilities implements SwingConstants {
         /**
          * The action you want to perform on this component. This method will only be called if {@link
          * #condition(java.awt.Component)} returns true.
-         *
          * @param c the component
          */
         void action(Component c);
 
         /**
          * The action you want to perform to any components. If action(c) is called, this action is after it.
-         *
          * @param c the component.
          */
         void postAction(Component c);
@@ -878,11 +992,11 @@ public class JideSwingUtilities implements SwingConstants {
      *  postAction();
      * </pre>.
      */
-    public interface ConditionHandler extends Handler {
+    public interface ConditionHandler extends Handler
+    {
         /**
          * If this method returns true, the recursive call will stop at the component and will not call to its
          * children.
-         *
          * @param c the component
          * @return true or false.
          */
@@ -910,10 +1024,10 @@ public class JideSwingUtilities implements SwingConstants {
      * }
      * </pre></code>
      */
-    public interface GetHandler {
+    public interface GetHandler
+    {
         /**
          * If true, it will call {@link #action(java.awt.Component)} on this component.
-         *
          * @param c the component
          * @return true or false.
          */
@@ -922,7 +1036,6 @@ public class JideSwingUtilities implements SwingConstants {
         /**
          * The action you want to perform on this component. This method will only be called if {@link
          * #condition(java.awt.Component)} returns true.
-         *
          * @param c the component
          * @return the component that will be returned from {@link com.jidesoft.swing.JideSwingUtilities#getRecursively(java.awt.Component,
          *         com.jidesoft.swing.JideSwingUtilities.GetHandler)}.
@@ -932,41 +1045,50 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Calls the handler recursively on a component.
-     *
-     * @param c       component
+     * @param c component
      * @param handler handler to be called
      */
-    public static void setRecursively(final Component c, final Handler handler) {
+    public static void setRecursively(final Component c, final Handler handler)
+    {
         setRecursively0(c, handler);
         handler.postAction(c);
     }
 
-    private static void setRecursively0(final Component c, final Handler handler) {
-        if (handler.condition(c)) {
+    private static void setRecursively0(final Component c, final Handler handler)
+    {
+        if (handler.condition(c))
+        {
             handler.action(c);
         }
 
-        if (handler instanceof ConditionHandler && ((ConditionHandler) handler).stopCondition(c)) {
+        if (handler instanceof ConditionHandler && ((ConditionHandler) handler).stopCondition(c))
+        {
             return;
         }
 
         Component[] children = null;
 
-        if (c instanceof JMenu) {
+        if (c instanceof JMenu)
+        {
             children = ((JMenu) c).getMenuComponents();
         }
-        else if (c instanceof JTabbedPane) {
+        else if (c instanceof JTabbedPane)
+        {
             JTabbedPane tabbedPane = (JTabbedPane) c;
             children = new Component[tabbedPane.getTabCount()];
-            for (int i = 0; i < children.length; i++) {
+            for (int i = 0; i < children.length; i++)
+            {
                 children[i] = tabbedPane.getComponentAt(i);
             }
         }
-        else if (c instanceof Container) {
+        else if (c instanceof Container)
+        {
             children = ((Container) c).getComponents();
         }
-        if (children != null) {
-            for (Component child : children) {
+        if (children != null)
+        {
+            for (Component child : children)
+            {
                 setRecursively0(child, handler);
             }
         }
@@ -974,85 +1096,102 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the first component inside the specified container that has the specified name.
-     *
-     * @param c    the container
+     * @param c the container
      * @param name the name of the component
      * @return the component. Null if not found.
      */
-    public static Component findFirstComponentByName(final Container c, final String name) {
-        if (name != null && name.trim().length() != 0) {
-            return getRecursively(c, new GetHandler() {
+    public static Component findFirstComponentByName(final Container c, final String name)
+    {
+        if (name != null && name.trim().length() != 0)
+        {
+            return getRecursively(c, new GetHandler()
+            {
                 @Override
-                public boolean condition(Component c) {
+                public boolean condition(Component c)
+                {
                     return name.equals(c.getName());
                 }
 
                 @Override
-                public Component action(Component c) {
+                public Component action(Component c)
+                {
                     return c;
                 }
             });
         }
-        else {
+        else
+        {
             return null;
         }
     }
 
     /**
      * Gets the first component inside the specified container that has the specified class.
-     *
-     * @param c     the container
+     * @param c the container
      * @param clazz the class of the component
      * @return the component. Null if not found.
      */
-    public static Component findFirstComponentByClass(final Container c, final Class<?> clazz) {
-        if (clazz != null) {
-            return getRecursively(c, new GetHandler() {
+    public static Component findFirstComponentByClass(final Container c, final Class<?> clazz)
+    {
+        if (clazz != null)
+        {
+            return getRecursively(c, new GetHandler()
+            {
                 @Override
-                public boolean condition(Component c) {
+                public boolean condition(Component c)
+                {
                     return c.getClass().isAssignableFrom(clazz);
                 }
 
                 @Override
-                public Component action(Component c) {
+                public Component action(Component c)
+                {
                     return c;
                 }
             });
         }
-        else {
+        else
+        {
             return null;
         }
     }
 
     /**
      * Gets to a child of a component recursively based on certain condition.
-     *
-     * @param c       component
+     * @param c component
      * @param handler handler to be called
      * @return the component that matches the condition specified in GetHandler.
      */
-    public static Component getRecursively(final Component c, final GetHandler handler) {
+    public static Component getRecursively(final Component c, final GetHandler handler)
+    {
         return getRecursively0(c, handler);
     }
 
-    private static Component getRecursively0(final Component c, final GetHandler handler) {
-        if (handler.condition(c)) {
+    private static Component getRecursively0(final Component c, final GetHandler handler)
+    {
+        if (handler.condition(c))
+        {
             return handler.action(c);
         }
 
         Component[] children = null;
 
-        if (c instanceof JMenu) {
+        if (c instanceof JMenu)
+        {
             children = ((JMenu) c).getMenuComponents();
         }
-        else if (c instanceof Container) {
+        else if (c instanceof Container)
+        {
             children = ((Container) c).getComponents();
         }
 
-        if (children != null) {
-            for (Component child : children) {
+        if (children != null)
+        {
+            for (Component child : children)
+            {
                 Component result = getRecursively0(child, handler);
-                if (result != null) {
+                if (result != null)
+                {
                     return result;
                 }
             }
@@ -1062,43 +1201,51 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Calls setEnabled method recursively on component. <code>Component</code> c is usually a <code>Container</code>
-     *
-     * @param c       component
+     * @param c component
      * @param enabled true if enable; false otherwise
      */
-    public static void setEnabledRecursively(final Component c, final boolean enabled) {
-        setRecursively(c, new Handler() {
-            public boolean condition(Component c) {
+    public static void setEnabledRecursively(final Component c, final boolean enabled)
+    {
+        setRecursively(c, new Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return true;
             }
 
-            public void action(Component c) {
+            public void action(Component c)
+            {
                 c.setEnabled(enabled);
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
             }
         });
     }
 
     /**
      * Calls putClientProperty method recursively on component and its child components as long as it is JComponent.
-     *
-     * @param c              component
+     * @param c component
      * @param clientProperty the client property name
-     * @param value          the value for the client property
+     * @param value the value for the client property
      */
-    public static void putClientPropertyRecursively(final Component c, final String clientProperty, final Object value) {
-        setRecursively(c, new Handler() {
-            public boolean condition(Component c) {
+    public static void putClientPropertyRecursively(final Component c, final String clientProperty, final Object value)
+    {
+        setRecursively(c, new Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return c instanceof JComponent;
             }
 
-            public void action(Component c) {
+            public void action(Component c)
+            {
                 ((JComponent) c).putClientProperty(clientProperty, value);
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
             }
         });
     }
@@ -1106,22 +1253,26 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Calls setRequestFocusEnabled method recursively on component. <code>Component</code> c is usually a
      * <code>Container</code>
-     *
-     * @param c       component
+     * @param c component
      * @param enabled true if setRequestFocusEnabled to true; false otherwise
      */
-    public static void setRequestFocusEnabledRecursively(final Component c, final boolean enabled) {
-        setRecursively(c, new Handler() {
-            public boolean condition(Component c) {
+    public static void setRequestFocusEnabledRecursively(final Component c, final boolean enabled)
+    {
+        setRecursively(c, new Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return true;
             }
 
-            public void action(Component c) {
+            public void action(Component c)
+            {
                 if (c instanceof JComponent)
                     ((JComponent) c).setRequestFocusEnabled(enabled);
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
             }
         });
     }
@@ -1143,36 +1294,48 @@ public class JideSwingUtilities implements SwingConstants {
      * <code>Component</code> c is usually a <code>Container</code>. If you would like certain child component not
      * affected by this call, you can call jcomponent.putClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED, Boolean.TRUE)
      * before calling this method.
-     *
-     * @param c      component
+     * @param c component
      * @param opaque true if setOpaque to true; false otherwise
      */
-    public static void setOpaqueRecursively(final Component c, final boolean opaque) {
-        setRecursively(c, new Handler() {
-            public boolean condition(Component c) {
+    public static void setOpaqueRecursively(final Component c, final boolean opaque)
+    {
+        setRecursively(c, new Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return !(c instanceof JComboBox || c instanceof JButton || c instanceof JTextComponent ||
                         c instanceof ListCellRenderer || c instanceof TreeCellRenderer || c instanceof TableCellRenderer || c instanceof CellEditor);
             }
 
-            public void action(Component c) {
-                if (c instanceof JComponent) {
+            public void action(Component c)
+            {
+                if (c instanceof JComponent)
+                {
                     JComponent jc = (JComponent) c;
-                    if (Boolean.TRUE.equals(jc.getClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED))) {
+                    if (Boolean.TRUE.equals(jc.getClientProperty(SET_OPAQUE_RECURSIVELY_EXCLUDED)))
+                    {
                         return;
                     }
 
                     Object clientProperty = jc.getClientProperty(OPAQUE_LISTENER);
-                    if (clientProperty != null) {
+                    if (clientProperty != null)
+                    {
                         jc.removePropertyChangeListener("opaque", (PropertyChangeListener) clientProperty);
                         jc.putClientProperty(OPAQUE_LISTENER, null);
                     }
                     jc.setOpaque(opaque);
-                    if (jc.getClientProperty(OPAQUE_LISTENER) == null) {
-                        if (opaque) {
-                            if (_setOpaqueTrueListener == null) {
-                                _setOpaqueTrueListener = new PropertyChangeListener() {
-                                    public void propertyChange(PropertyChangeEvent evt) {
-                                        if (evt.getSource() instanceof JComponent) {
+                    if (jc.getClientProperty(OPAQUE_LISTENER) == null)
+                    {
+                        if (opaque)
+                        {
+                            if (_setOpaqueTrueListener == null)
+                            {
+                                _setOpaqueTrueListener = new PropertyChangeListener()
+                                {
+                                    public void propertyChange(PropertyChangeEvent evt)
+                                    {
+                                        if (evt.getSource() instanceof JComponent)
+                                        {
                                             Component component = ((Component) evt.getSource());
                                             component.removePropertyChangeListener("opaque", this);
                                             if (component instanceof JComponent)
@@ -1185,12 +1348,18 @@ public class JideSwingUtilities implements SwingConstants {
                             jc.addPropertyChangeListener("opaque", _setOpaqueTrueListener);
                             jc.putClientProperty(OPAQUE_LISTENER, _setOpaqueTrueListener);
                         }
-                        else {
-                            if (_setOpaqueFalseListener == null) {
-                                _setOpaqueFalseListener = new PropertyChangeListener() {
-                                    public void propertyChange(PropertyChangeEvent evt) {
-                                        if (evt.getSource() instanceof JComponent) {
-                                            if (evt.getSource() instanceof JComponent) {
+                        else
+                        {
+                            if (_setOpaqueFalseListener == null)
+                            {
+                                _setOpaqueFalseListener = new PropertyChangeListener()
+                                {
+                                    public void propertyChange(PropertyChangeEvent evt)
+                                    {
+                                        if (evt.getSource() instanceof JComponent)
+                                        {
+                                            if (evt.getSource() instanceof JComponent)
+                                            {
                                                 Component component = ((Component) evt.getSource());
                                                 component.removePropertyChangeListener("opaque", this);
                                                 if (component instanceof JComponent)
@@ -1208,13 +1377,16 @@ public class JideSwingUtilities implements SwingConstants {
                 }
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
             }
         });
     }
 
-    public static Dimension getPreferredButtonSize(AbstractButton b, int textIconGap, boolean isHorizontal) {
-        if (b.getComponentCount() > 0) {
+    public static Dimension getPreferredButtonSize(AbstractButton b, int textIconGap, boolean isHorizontal)
+    {
+        if (b.getComponentCount() > 0)
+        {
             return null;
         }
 
@@ -1251,20 +1423,19 @@ public class JideSwingUtilities implements SwingConstants {
      * clipped version of the compound labels string.  Locations are computed relative to the viewR rectangle. The
      * JComponents orientation (LEADING/TRAILING) will also be taken into account and translated into LEFT/RIGHT values
      * accordingly.
-     *
-     * @param c                      the component
-     * @param fm                     the font metrics
-     * @param text                   the text
-     * @param icon                   the icon
-     * @param isHorizontal           the flag indicating horizontal or vertical
-     * @param verticalAlignment      vertical alignment model
-     * @param horizontalAlignment    horizontal alignment model
-     * @param verticalTextPosition   vertical text position
+     * @param c the component
+     * @param fm the font metrics
+     * @param text the text
+     * @param icon the icon
+     * @param isHorizontal the flag indicating horizontal or vertical
+     * @param verticalAlignment vertical alignment model
+     * @param horizontalAlignment horizontal alignment model
+     * @param verticalTextPosition vertical text position
      * @param horizontalTextPosition horizontal text position
-     * @param viewR                  view rectangle
-     * @param iconR                  icon rectangle
-     * @param textR                  text rectangle
-     * @param textIconGap            the gap between the text and the gap
+     * @param viewR view rectangle
+     * @param iconR icon rectangle
+     * @param textR text rectangle
+     * @param textIconGap the gap between the text and the gap
      * @return the string after layout.
      */
     public static String layoutCompoundLabel(JComponent c,
@@ -1279,20 +1450,24 @@ public class JideSwingUtilities implements SwingConstants {
                                              Rectangle viewR,
                                              Rectangle iconR,
                                              Rectangle textR,
-                                             int textIconGap) {
+                                             int textIconGap)
+    {
         boolean orientationIsLeftToRight = true;
         int hAlign = horizontalAlignment;
         int hTextPos = horizontalTextPosition;
 
-        if (c != null) {
-            if (!(c.getComponentOrientation().isLeftToRight())) {
+        if (c != null)
+        {
+            if (!(c.getComponentOrientation().isLeftToRight()))
+            {
                 orientationIsLeftToRight = false;
             }
         }
 
         // Translate LEADING/TRAILING values in horizontalAlignment
         // to LEFT/RIGHT values depending on the components orientation
-        switch (horizontalAlignment) {
+        switch (horizontalAlignment)
+        {
             case LEADING:
                 hAlign = (orientationIsLeftToRight) ? LEFT : RIGHT;
                 break;
@@ -1303,7 +1478,8 @@ public class JideSwingUtilities implements SwingConstants {
 
         // Translate LEADING/TRAILING values in horizontalTextPosition
         // to LEFT/RIGHT values depending on the components orientation
-        switch (horizontalTextPosition) {
+        switch (horizontalTextPosition)
+        {
             case LEADING:
                 hTextPos = (orientationIsLeftToRight) ? LEFT : RIGHT;
                 break;
@@ -1333,19 +1509,18 @@ public class JideSwingUtilities implements SwingConstants {
      * layoutCompoundLabel() does not know how to handle LEADING/TRAILING values in horizontalTextPosition (they will
      * default to RIGHT) and in horizontalAlignment (they will default to CENTER). Use the other version of
      * layoutCompoundLabel() instead.
-     *
-     * @param fm                     the font metrics
-     * @param text                   the text to layout
-     * @param icon                   the icon to layout
-     * @param isHorizontal           if the layout is horizontal
-     * @param verticalAlignment      the vertical alignment
-     * @param horizontalAlignment    the horizontal alignment
-     * @param verticalTextPosition   the vertical text position
+     * @param fm the font metrics
+     * @param text the text to layout
+     * @param icon the icon to layout
+     * @param isHorizontal if the layout is horizontal
+     * @param verticalAlignment the vertical alignment
+     * @param horizontalAlignment the horizontal alignment
+     * @param verticalTextPosition the vertical text position
      * @param horizontalTextPosition the horizontal text position
-     * @param viewR                  the view rectangle
-     * @param iconR                  the icon rectangle
-     * @param textR                  the text rectangle
-     * @param textIconGap            the gap between the text and the icon
+     * @param viewR the view rectangle
+     * @param iconR the icon rectangle
+     * @param textR the text rectangle
+     * @param textIconGap the gap between the text and the icon
      * @return the string after layout.
      */
     public static String layoutCompoundLabel(FontMetrics fm,
@@ -1359,7 +1534,8 @@ public class JideSwingUtilities implements SwingConstants {
                                              Rectangle viewR,
                                              Rectangle iconR,
                                              Rectangle textR,
-                                             int textIconGap) {
+                                             int textIconGap)
+    {
         return layoutCompoundLabelImpl(null, fm, text, icon,
                 isHorizontal,
                 verticalAlignment,
@@ -1389,7 +1565,8 @@ public class JideSwingUtilities implements SwingConstants {
                                                   Rectangle viewR,
                                                   Rectangle iconR,
                                                   Rectangle textR,
-                                                  int textIconGap) {
+                                                  int textIconGap)
+    {
         /* Initialize the icon bounds rectangle iconR.
          */
         if (isHorizontal)
@@ -1422,23 +1599,29 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
 
-    private static String getMaxLengthWord(String text) {
-        if (text.indexOf(' ') == -1) {
+    private static String getMaxLengthWord(String text)
+    {
+        if (text.indexOf(' ') == -1)
+        {
             return text;
         }
-        else {
+        else
+        {
             int minDiff = text.length();
             int minPos = -1;
             int mid = text.length() / 2;
 
             int pos = -1;
-            while (true) {
+            while (true)
+            {
                 pos = text.indexOf(' ', pos + 1);
-                if (pos == -1) {
+                if (pos == -1)
+                {
                     break;
                 }
                 int diff = Math.abs(pos - mid);
-                if (diff < minDiff) {
+                if (diff < minDiff)
+                {
                     minDiff = diff;
                     minPos = pos;
                 }
@@ -1458,15 +1641,18 @@ public class JideSwingUtilities implements SwingConstants {
                                                             Rectangle viewR,
                                                             Rectangle iconR,
                                                             Rectangle textR,
-                                                            int textIconGap) {
+                                                            int textIconGap)
+    {
         /* Initialize the icon bounds rectangle iconR.
          */
 
-        if (icon != null) {
+        if (icon != null)
+        {
             iconR.width = icon.getIconWidth();
             iconR.height = icon.getIconHeight();
         }
-        else {
+        else
+        {
             iconR.width = iconR.height = 0;
         }
 
@@ -1478,33 +1664,42 @@ public class JideSwingUtilities implements SwingConstants {
         boolean textIsEmpty = (text == null) || text.equals("");
 
         View v = null;
-        if (textIsEmpty) {
+        if (textIsEmpty)
+        {
             textR.width = textR.height = 0;
             text = "";
         }
-        else {
+        else
+        {
             v = (c != null) ? (View) c.getClientProperty("html") : null;
-            if (v != null) {
+            if (v != null)
+            {
                 textR.width = (int) v.getPreferredSpan(View.X_AXIS);
                 textR.height = (int) v.getPreferredSpan(View.Y_AXIS);
             }
-            else {
-                if (false) { // TODO: debug switch
+            else
+            {
+                if (false)
+                { // TODO: debug switch
                     boolean wrapText = false;
-                    if (verticalTextPosition == BOTTOM && horizontalTextPosition == CENTER) { // in this case, we will wrap the text into two lines
+                    if (verticalTextPosition == BOTTOM && horizontalTextPosition == CENTER)
+                    { // in this case, we will wrap the text into two lines
                         wrapText = true;
                     }
 
-                    if (wrapText) {
+                    if (wrapText)
+                    {
                         textR.width = SwingUtilities.computeStringWidth(fm, getMaxLengthWord(text));
                         textR.height = fm.getHeight() + fm.getAscent() + 2; // gap between the two lines is 2.
                     }
-                    else {
+                    else
+                    {
                         textR.width = SwingUtilities.computeStringWidth(fm, text) + 1; // add an extra pixel at the end of the text
                         textR.height = fm.getHeight();
                     }
                 }
-                else {
+                else
+                {
                     textR.width = SwingUtilities.computeStringWidth(fm, text); // add an extra pixel at the end of the text
                     textR.height = fm.getHeight();
                 }
@@ -1518,7 +1713,8 @@ public class JideSwingUtilities implements SwingConstants {
 
         int gap = (textIsEmpty || (icon == null)) ? 0 : textIconGap;
 
-        if (!textIsEmpty) {
+        if (!textIsEmpty)
+        {
 
             /* If the label text string is too wide to fit within the available
              * space "..." and as many characters as will fit will be
@@ -1527,25 +1723,32 @@ public class JideSwingUtilities implements SwingConstants {
 
             int availTextWidth;
 
-            if (horizontalTextPosition == CENTER) {
+            if (horizontalTextPosition == CENTER)
+            {
                 availTextWidth = viewR.width;
             }
-            else {
+            else
+            {
                 availTextWidth = viewR.width - (iconR.width + gap);
             }
 
 
-            if (textR.width > availTextWidth) {
-                if (v != null) {
+            if (textR.width > availTextWidth)
+            {
+                if (v != null)
+                {
                     textR.width = availTextWidth;
                 }
-                else {
+                else
+                {
                     String clipString = "...";
                     int totalWidth = SwingUtilities.computeStringWidth(fm, clipString);
                     int nChars;
-                    for (nChars = 0; nChars < text.length(); nChars++) {
+                    for (nChars = 0; nChars < text.length(); nChars++)
+                    {
                         totalWidth += fm.charWidth(text.charAt(nChars));
-                        if (totalWidth > availTextWidth) {
+                        if (totalWidth > availTextWidth)
+                        {
                             break;
                         }
                     }
@@ -1559,33 +1762,43 @@ public class JideSwingUtilities implements SwingConstants {
         * horizontalTextPosition properties
         */
 
-        if (verticalTextPosition == TOP) {
-            if (horizontalTextPosition != CENTER) {
+        if (verticalTextPosition == TOP)
+        {
+            if (horizontalTextPosition != CENTER)
+            {
                 textR.y = 0;
             }
-            else {
+            else
+            {
                 textR.y = -(textR.height + gap);
             }
         }
-        else if (verticalTextPosition == CENTER) {
+        else if (verticalTextPosition == CENTER)
+        {
             textR.y = (iconR.height >> 1) - (textR.height >> 1);
         }
-        else { // (verticalTextPosition == BOTTOM)
-            if (horizontalTextPosition != CENTER) {
+        else
+        { // (verticalTextPosition == BOTTOM)
+            if (horizontalTextPosition != CENTER)
+            {
                 textR.y = iconR.height - textR.height;
             }
-            else {
+            else
+            {
                 textR.y = (iconR.height + gap);
             }
         }
 
-        if (horizontalTextPosition == LEFT) {
+        if (horizontalTextPosition == LEFT)
+        {
             textR.x = -(textR.width + gap);
         }
-        else if (horizontalTextPosition == CENTER) {
+        else if (horizontalTextPosition == CENTER)
+        {
             textR.x = (iconR.width >> 1) - (textR.width >> 1);
         }
-        else { // (horizontalTextPosition == RIGHT)
+        else
+        { // (horizontalTextPosition == RIGHT)
             textR.x = (iconR.width + gap);
         }
 
@@ -1605,23 +1818,29 @@ public class JideSwingUtilities implements SwingConstants {
 
         int dx, dy;
 
-        if (verticalAlignment == TOP) {
+        if (verticalAlignment == TOP)
+        {
             dy = viewR.y - labelR_y;
         }
-        else if (verticalAlignment == CENTER) {
+        else if (verticalAlignment == CENTER)
+        {
             dy = (viewR.y + (viewR.height >> 1)) - (labelR_y + (labelR_height >> 1));
         }
-        else { // (verticalAlignment == BOTTOM)
+        else
+        { // (verticalAlignment == BOTTOM)
             dy = (viewR.y + viewR.height) - (labelR_y + labelR_height);
         }
 
-        if (horizontalAlignment == LEFT) {
+        if (horizontalAlignment == LEFT)
+        {
             dx = viewR.x - labelR_x;
         }
-        else if (horizontalAlignment == RIGHT) {
+        else if (horizontalAlignment == RIGHT)
+        {
             dx = (viewR.x + viewR.width) - (labelR_x + labelR_width);
         }
-        else { // (horizontalAlignment == CENTER)
+        else
+        { // (horizontalAlignment == CENTER)
             dx = (viewR.x + (viewR.width >> 1)) -
                     (labelR_x + (labelR_width >> 1));
         }
@@ -1649,15 +1868,18 @@ public class JideSwingUtilities implements SwingConstants {
                                                           Rectangle viewR,
                                                           Rectangle iconR,
                                                           Rectangle textR,
-                                                          int textIconGap) {
+                                                          int textIconGap)
+    {
         /* Initialize the icon bounds rectangle iconR.
          */
 
-        if (icon != null) {
+        if (icon != null)
+        {
             iconR.width = icon.getIconWidth();
             iconR.height = icon.getIconHeight();
         }
-        else {
+        else
+        {
             iconR.width = iconR.height = 0;
         }
 
@@ -1669,17 +1891,21 @@ public class JideSwingUtilities implements SwingConstants {
         boolean textIsEmpty = (text == null) || text.equals("");
 
         View v = null;
-        if (textIsEmpty) {
+        if (textIsEmpty)
+        {
             textR.width = textR.height = 0;
             text = "";
         }
-        else {
+        else
+        {
             v = (c != null) ? (View) c.getClientProperty("html") : null;
-            if (v != null) {
+            if (v != null)
+            {
                 textR.height = (int) v.getPreferredSpan(View.X_AXIS);
                 textR.width = (int) v.getPreferredSpan(View.Y_AXIS);
             }
-            else {
+            else
+            {
                 textR.height = SwingUtilities.computeStringWidth(fm, text);
                 textR.width = fm.getHeight();
             }
@@ -1692,7 +1918,8 @@ public class JideSwingUtilities implements SwingConstants {
 
         int gap = (textIsEmpty || (icon == null)) ? 0 : textIconGap;
 
-        if (!textIsEmpty) {
+        if (!textIsEmpty)
+        {
 
             /* If the label text string is too wide to fit within the available
              * space "..." and as many characters as will fit will be
@@ -1701,25 +1928,32 @@ public class JideSwingUtilities implements SwingConstants {
 
             int availTextHeight;
 
-            if (horizontalTextPosition == CENTER) {
+            if (horizontalTextPosition == CENTER)
+            {
                 availTextHeight = viewR.height;
             }
-            else {
+            else
+            {
                 availTextHeight = viewR.height - (iconR.height + gap);
             }
 
 
-            if (textR.height > availTextHeight) {
-                if (v != null) {
+            if (textR.height > availTextHeight)
+            {
+                if (v != null)
+                {
                     textR.height = availTextHeight;
                 }
-                else {
+                else
+                {
                     String clipString = "...";
                     int totalHeight = SwingUtilities.computeStringWidth(fm, clipString);
                     int nChars;
-                    for (nChars = 0; nChars < text.length(); nChars++) {
+                    for (nChars = 0; nChars < text.length(); nChars++)
+                    {
                         totalHeight += fm.charWidth(text.charAt(nChars));
-                        if (totalHeight > availTextHeight) {
+                        if (totalHeight > availTextHeight)
+                        {
                             break;
                         }
                     }
@@ -1733,33 +1967,43 @@ public class JideSwingUtilities implements SwingConstants {
         * horizontalTextPosition properties
         */
 
-        if (verticalTextPosition == TOP) {
-            if (horizontalTextPosition != CENTER) {
+        if (verticalTextPosition == TOP)
+        {
+            if (horizontalTextPosition != CENTER)
+            {
                 textR.x = 0;
             }
-            else {
+            else
+            {
                 textR.x = -(textR.width + gap);
             }
         }
-        else if (verticalTextPosition == CENTER) {
+        else if (verticalTextPosition == CENTER)
+        {
             textR.y = (iconR.width >> 1) - (textR.width >> 1);
         }
-        else { // (verticalTextPosition == BOTTOM)
-            if (horizontalTextPosition != CENTER) {
+        else
+        { // (verticalTextPosition == BOTTOM)
+            if (horizontalTextPosition != CENTER)
+            {
                 textR.x = iconR.width - textR.width;
             }
-            else {
+            else
+            {
                 textR.x = (iconR.width + gap);
             }
         }
 
-        if (horizontalTextPosition == LEFT) {
+        if (horizontalTextPosition == LEFT)
+        {
             textR.y = -(textR.height + gap);
         }
-        else if (horizontalTextPosition == CENTER) {
+        else if (horizontalTextPosition == CENTER)
+        {
             textR.y = (iconR.height >> 1) - (textR.height >> 1);
         }
-        else { // (horizontalTextPosition == RIGHT)
+        else
+        { // (horizontalTextPosition == RIGHT)
             textR.y = (iconR.height + gap);
         }
 
@@ -1781,26 +2025,32 @@ public class JideSwingUtilities implements SwingConstants {
         int dIcony; // because we will rotate icon, so the position will
         // be different from text. However after transform, they will be same
 
-        if (verticalAlignment == TOP) {
+        if (verticalAlignment == TOP)
+        {
             dy = viewR.x - labelR_y;
             dIcony = (viewR.x + viewR.width) - (labelR_y + labelR_height);
         }
-        else if (verticalAlignment == CENTER) {
+        else if (verticalAlignment == CENTER)
+        {
             dy = (viewR.x + (viewR.width >> 1)) - (labelR_y + (labelR_height >> 1));
             dIcony = dy;
         }
-        else { // (verticalAlignment == BOTTOM)
+        else
+        { // (verticalAlignment == BOTTOM)
             dy = (viewR.x + viewR.width) - (labelR_y + labelR_height);
             dIcony = viewR.x - labelR_y;
         }
 
-        if (horizontalAlignment == LEFT) {
+        if (horizontalAlignment == LEFT)
+        {
             dx = viewR.y - labelR_x;
         }
-        else if (horizontalAlignment == RIGHT) {
+        else if (horizontalAlignment == RIGHT)
+        {
             dx = (viewR.y + viewR.height) - (labelR_x + labelR_width);
         }
-        else { // (horizontalAlignment == CENTER)
+        else
+        { // (horizontalAlignment == CENTER)
             dx = (viewR.y + (viewR.height >> 1)) -
                     (labelR_x + (labelR_width >> 1));
         }
@@ -1817,11 +2067,14 @@ public class JideSwingUtilities implements SwingConstants {
         return text;
     }
 
-    public static int getOrientationOf(Component component) {
-        if (component instanceof Alignable) {
+    public static int getOrientationOf(Component component)
+    {
+        if (component instanceof Alignable)
+        {
             return ((Alignable) component).getOrientation();
         }
-        else if (component instanceof JComponent) {
+        else if (component instanceof JComponent)
+        {
             Integer value = (Integer) ((JComponent) component).getClientProperty(Alignable.PROPERTY_ORIENTATION);
             if (value != null)
                 return value;
@@ -1829,21 +2082,27 @@ public class JideSwingUtilities implements SwingConstants {
         return HORIZONTAL;
     }
 
-    public static void setOrientationOf(Component component, int orientation) {
+    public static void setOrientationOf(Component component, int orientation)
+    {
         int old = getOrientationOf(component);
-        if (orientation != old) {
-            if (component instanceof Alignable) {
+        if (orientation != old)
+        {
+            if (component instanceof Alignable)
+            {
                 ((Alignable) component).setOrientation(orientation);
             }
-            else if (component instanceof JComponent) {
+            else if (component instanceof JComponent)
+            {
                 ((JComponent) component).putClientProperty(Alignable.PROPERTY_ORIENTATION, orientation);
             }
         }
     }
 
-    public static void setChildrenOrientationOf(Container c, int orientation) {
+    public static void setChildrenOrientationOf(Container c, int orientation)
+    {
         Component[] components = c.getComponents();
-        for (Component component : components) {
+        for (Component component : components)
+        {
             setOrientationOf(component, orientation);
         }
     }
@@ -1852,24 +2111,29 @@ public class JideSwingUtilities implements SwingConstants {
      * Disables the double buffered flag of the component and its children. The return map contains the components that
      * were double buffered. After this call, you can then restore the double buffered flag using {@link
      * #restoreDoubleBuffered(java.awt.Component, java.util.Map)} using the map that is returned from this method.
-     *
      * @param c the parent container.
      * @return the map that contains all components that were double buffered.
      */
-    public static Map<Component, Boolean> disableDoubleBuffered(final Component c) {
+    public static Map<Component, Boolean> disableDoubleBuffered(final Component c)
+    {
         final Map<Component, Boolean> map = new HashMap<Component, Boolean>();
-        if (c instanceof JComponent) {
-            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-                public boolean condition(Component c) {
+        if (c instanceof JComponent)
+        {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler()
+            {
+                public boolean condition(Component c)
+                {
                     return c instanceof JComponent && c.isDoubleBuffered();
                 }
 
-                public void action(Component c) {
+                public void action(Component c)
+                {
                     map.put(c, Boolean.TRUE);
                     ((JComponent) c).setDoubleBuffered(false);
                 }
 
-                public void postAction(Component c) {
+                public void postAction(Component c)
+                {
 
                 }
             });
@@ -1881,24 +2145,29 @@ public class JideSwingUtilities implements SwingConstants {
      * Enables the double buffered flag of the component and its children. The return map contains the components that
      * weren't double buffered. After this call, you can then restore the double buffered flag using {@link
      * #restoreDoubleBuffered(java.awt.Component, java.util.Map)} using the map that is returned from this method.
-     *
      * @param c the parent container.
      * @return the map that contains all components that weren't double buffered.
      */
-    public static Map<Component, Boolean> enableDoubleBuffered(final Component c) {
+    public static Map<Component, Boolean> enableDoubleBuffered(final Component c)
+    {
         final Map<Component, Boolean> map = new HashMap<Component, Boolean>();
-        if (c instanceof JComponent) {
-            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-                public boolean condition(Component c) {
+        if (c instanceof JComponent)
+        {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler()
+            {
+                public boolean condition(Component c)
+                {
                     return c instanceof JComponent && !c.isDoubleBuffered();
                 }
 
-                public void action(Component c) {
+                public void action(Component c)
+                {
                     map.put(c, Boolean.FALSE);
                     ((JComponent) c).setDoubleBuffered(true);
                 }
 
-                public void postAction(Component c) {
+                public void postAction(Component c)
+                {
 
                 }
             });
@@ -1909,30 +2178,36 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Restores the double buffered flag of the component and its children. Only components that are in the map will be
      * changed.
-     *
-     * @param c   the parent container.
+     * @param c the parent container.
      * @param map a map maps from component to a boolean. If the boolean is true, it means the component was double
-     *            buffered bore. Otherwise, not double buffered.
+     * buffered bore. Otherwise, not double buffered.
      */
-    public static void restoreDoubleBuffered(final Component c, final Map<Component, Boolean> map) {
-        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-            public boolean condition(Component c) {
+    public static void restoreDoubleBuffered(final Component c, final Map<Component, Boolean> map)
+    {
+        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return c instanceof JComponent;
             }
 
-            public void action(Component c) {
+            public void action(Component c)
+            {
                 Boolean value = map.get(c);
-                if (value != null) {
+                if (value != null)
+                {
                     ((JComponent) c).setDoubleBuffered(Boolean.TRUE.equals(value));
                 }
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
             }
         });
     }
 
-    public static void paintBackground(Graphics g, Rectangle rect, Color border, Color bk) {
+    public static void paintBackground(Graphics g, Rectangle rect, Color border, Color bk)
+    {
         Color old = g.getColor();
         g.setColor(bk);
         g.fillRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
@@ -1941,7 +2216,8 @@ public class JideSwingUtilities implements SwingConstants {
         g.setColor(old);
     }
 
-    public static void paintBackground(Graphics2D g2d, Rectangle rect, Color border, Paint paint) {
+    public static void paintBackground(Graphics2D g2d, Rectangle rect, Color border, Paint paint)
+    {
         Color old = g2d.getColor();
         g2d.setPaint(paint);
         g2d.fillRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
@@ -1952,19 +2228,23 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Returns whether or not text should be drawn anti-aliased.
-     *
      * @param c JComponent to test.
      * @return Whether or not text should be drawn anti-aliased for the specified component.
      */
-    private static boolean drawTextAntialiased(Component c) {
-        if (!AA_TEXT_DEFINED) {
-            if (c != null) {
+    private static boolean drawTextAntialiased(Component c)
+    {
+        if (!AA_TEXT_DEFINED)
+        {
+            if (c != null)
+            {
                 // Check if the component wants aa text
-                if (c instanceof JComponent) {
+                if (c instanceof JComponent)
+                {
                     Boolean aaProperty = (Boolean) ((JComponent) c).getClientProperty(AA_TEXT_PROPERTY_KEY);
                     return aaProperty != null ? aaProperty : false;
                 }
-                else {
+                else
+                {
                     return false;
                 }
             }
@@ -1977,12 +2257,13 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Returns whether or not text should be drawn anti-aliased.
-     *
      * @param aaText Whether or not aa text has been turned on for the component.
      * @return Whether or not text should be drawn anti-aliased.
      */
-    public static boolean drawTextAntialiased(boolean aaText) {
-        if (!AA_TEXT_DEFINED) {
+    public static boolean drawTextAntialiased(boolean aaText)
+    {
+        if (!AA_TEXT_DEFINED)
+        {
             // 'swing.aatext' wasn't defined, use the components aa text value.
             return aaText;
         }
@@ -1991,10 +2272,12 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static void drawStringUnderlineCharAt(JComponent c, Graphics g, String text,
-                                                 int underlinedIndex, int x, int y) {
+                                                 int underlinedIndex, int x, int y)
+    {
         drawString(c, g, text, x, y);
 
-        if (underlinedIndex >= 0 && underlinedIndex < text.length()) {
+        if (underlinedIndex >= 0 && underlinedIndex < text.length())
+        {
             FontMetrics fm = g.getFontMetrics();
             int underlineRectX = x + fm.stringWidth(text.substring(0, underlinedIndex));
             int underlineRectY = y;
@@ -2007,13 +2290,18 @@ public class JideSwingUtilities implements SwingConstants {
 
     static Map renderingHints = null;
 
-    static {
-        if (SystemInfo.isJdk6Above()) {
+    static
+    {
+        if (SystemInfo.isJdk6Above())
+        {
             Toolkit tk = Toolkit.getDefaultToolkit();
             renderingHints = (Map) (tk.getDesktopProperty("awt.font.desktophints"));
-            tk.addPropertyChangeListener("awt.font.desktophints", new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if (evt.getNewValue() instanceof RenderingHints) {
+            tk.addPropertyChangeListener("awt.font.desktophints", new PropertyChangeListener()
+            {
+                public void propertyChange(PropertyChangeEvent evt)
+                {
+                    if (evt.getNewValue() instanceof RenderingHints)
+                    {
                         renderingHints = (RenderingHints) evt.getNewValue();
                     }
                 }
@@ -2028,22 +2316,28 @@ public class JideSwingUtilities implements SwingConstants {
      */
     private static Map getRenderingHints(Graphics2D g2d,
                                          Map hintsToSave,
-                                         Map savedHints) {
-        if (savedHints == null) {
+                                         Map savedHints)
+    {
+        if (savedHints == null)
+        {
             savedHints = new RenderingHints(null);
         }
-        else {
+        else
+        {
             savedHints.clear();
         }
-        if (hintsToSave == null || hintsToSave.size() == 0) {
+        if (hintsToSave == null || hintsToSave.size() == 0)
+        {
             return savedHints;
         }
         /* RenderingHints.keySet() returns Set*/
         Set objects = hintsToSave.keySet();
-        for (Object o : objects) {
+        for (Object o : objects)
+        {
             RenderingHints.Key key = (RenderingHints.Key) o;
             Object value = g2d.getRenderingHint(key);
-            if (value != null) {
+            if (value != null)
+            {
                 savedHints.put(key, value);
             }
         }
@@ -2051,29 +2345,36 @@ public class JideSwingUtilities implements SwingConstants {
         return savedHints;
     }
 
-    public static void drawString(JComponent c, Graphics g, String text, int x, int y) {
-        if (SystemInfo.isJdk6Above()) {
+    public static void drawString(JComponent c, Graphics g, String text, int x, int y)
+    {
+        if (SystemInfo.isJdk6Above())
+        {
             Graphics2D g2d = (Graphics2D) g;
             Map oldHints = null;
-            if (renderingHints != null) {
+            if (renderingHints != null)
+            {
                 oldHints = getRenderingHints(g2d, renderingHints, null);
                 g2d.addRenderingHints(renderingHints);
             }
             g2d.drawString(text, x, y);
-            if (oldHints != null) {
+            if (oldHints != null)
+            {
                 g2d.addRenderingHints(oldHints);
             }
         }
-        else {
+        else
+        {
             // If we get here we're not printing
-            if (drawTextAntialiased(c) && (g instanceof Graphics2D)) {
+            if (drawTextAntialiased(c) && (g instanceof Graphics2D))
+            {
                 Graphics2D g2 = (Graphics2D) g;
                 Object oldAAValue = g2.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
                 g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 g2.drawString(text, x, y);
                 g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, oldAAValue);
             }
-            else {
+            else
+            {
                 g.drawString(text, x, y);
             }
         }
@@ -2085,24 +2386,28 @@ public class JideSwingUtilities implements SwingConstants {
      * Under JDK1.4 and JDK5, this method will use a system property "swing.aatext" to determine if anti-alias is used.
      * Under JDK6, we will read the system setting. For example, on Windows XP, there is a check box to turn on clear
      * type anti-alias. We will use the same settings.
-     *
      * @param c the component
      * @param g the Graphics instance
      * @return the old hints. You will need this value as the third parameter in {@link
      *         #restoreAntialiasing(java.awt.Component, java.awt.Graphics, Object)}.
      */
-    public static Object setupAntialiasing(Component c, Graphics g) {
+    public static Object setupAntialiasing(Component c, Graphics g)
+    {
         Graphics2D g2d = (Graphics2D) g;
         Object oldHints;
-        if (SystemInfo.isJdk6Above()) {
+        if (SystemInfo.isJdk6Above())
+        {
             oldHints = getRenderingHints(g2d, renderingHints, null);
-            if (renderingHints != null) {
+            if (renderingHints != null)
+            {
                 g2d.addRenderingHints(renderingHints);
             }
         }
-        else {
+        else
+        {
             oldHints = g2d.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
-            if (drawTextAntialiased(c)) {
+            if (drawTextAntialiased(c))
+            {
                 g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             }
         }
@@ -2111,31 +2416,34 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Restores the old setting for text anti-alias.
-     *
      * @param c
      * @param g
      * @param oldHints the value returned from {@link #setupAntialiasing(java.awt.Component, java.awt.Graphics)}.
      */
-    public static void restoreAntialiasing(Component c, Graphics g, Object oldHints) {
+    public static void restoreAntialiasing(Component c, Graphics g, Object oldHints)
+    {
         Graphics2D g2d = (Graphics2D) g;
-        if (SystemInfo.isJdk6Above()) {
-            if (oldHints instanceof RenderingHints) {
+        if (SystemInfo.isJdk6Above())
+        {
+            if (oldHints instanceof RenderingHints)
+            {
                 g2d.addRenderingHints((RenderingHints) oldHints);
             }
         }
-        else {
+        else
+        {
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, oldHints);
         }
     }
 
     /**
      * Setups the graphics to draw shape using anti-alias.
-     *
      * @param g
      * @return the old hints. You will need this value as the third parameter in {@link
      *         #restoreShapeAntialiasing(java.awt.Graphics, Object)}.
      */
-    public static Object setupShapeAntialiasing(Graphics g) {
+    public static Object setupShapeAntialiasing(Graphics g)
+    {
         Graphics2D g2d = (Graphics2D) g;
         Object oldHints = g2d.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -2144,30 +2452,37 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Restores the old setting for shape anti-alias.
-     *
      * @param g
      * @param oldHints the value returned from {@link #setupShapeAntialiasing(java.awt.Graphics)}.
      */
-    public static void restoreShapeAntialiasing(Graphics g, Object oldHints) {
+    public static void restoreShapeAntialiasing(Graphics g, Object oldHints)
+    {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldHints);
     }
 
-    public static void drawGrip(Graphics g, Rectangle rectangle, int maxLength, int maxThickness) {
+    public static void drawGrip(Graphics g, Rectangle rectangle, int maxLength, int maxThickness)
+    {
         drawGrip(g, rectangle, maxLength, maxThickness, true);
     }
 
-    public static void drawGrip(Graphics g, Rectangle rectangle, int maxLength, int maxThickness, boolean isSelected) {
-        if (rectangle.width > rectangle.height) {
+    public static void drawGrip(Graphics g, Rectangle rectangle, int maxLength, int maxThickness, boolean isSelected)
+    {
+        if (rectangle.width > rectangle.height)
+        {
             int count = maxLength;
-            if (maxLength * 3 > rectangle.width) {
+            if (maxLength * 3 > rectangle.width)
+            {
                 count = rectangle.width / 3;
             }
             int startX = rectangle.x + ((rectangle.width - (count * 3)) >> 1);
             int startY = rectangle.y + ((rectangle.height - (maxThickness * 3)) >> 1);
-            for (int i = 0; i < maxThickness; i++) {
-                for (int j = 0; j < count; j++) {
-                    if (isSelected) {
+            for (int i = 0; i < maxThickness; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    if (isSelected)
+                    {
                         g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
                         g.drawLine(startX + j * 3, startY + i * 3, startX + j * 3, startY + i * 3);
                     }
@@ -2176,16 +2491,21 @@ public class JideSwingUtilities implements SwingConstants {
                 }
             }
         }
-        else {
+        else
+        {
             int count = maxLength;
-            if (maxLength * 3 > rectangle.height) {
+            if (maxLength * 3 > rectangle.height)
+            {
                 count = rectangle.height / 3;
             }
             int startX = rectangle.x + ((rectangle.width - (maxThickness * 3)) >> 1);
             int startY = rectangle.y + ((rectangle.height - (count * 3)) >> 1);
-            for (int i = 0; i < maxThickness; i++) {
-                for (int j = 0; j < count; j++) {
-                    if (isSelected) {
+            for (int i = 0; i < maxThickness; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    if (isSelected)
+                    {
                         g.setColor(UIDefaultsLookup.getColor("controlLtHighlight"));
                         g.drawLine(startX + i * 3, startY + j * 3, startX + i * 3, startY + j * 3);
                     }
@@ -2198,38 +2518,47 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Register the tab key with the container.
-     *
      * @param container
      */
-    public static void registerTabKey(Container container) {
-        if (container instanceof JComponent) {
-            ((JComponent) container).registerKeyboardAction(new AbstractAction() {
-                        public void actionPerformed(ActionEvent e) {
+    public static void registerTabKey(Container container)
+    {
+        if (container instanceof JComponent)
+        {
+            ((JComponent) container).registerKeyboardAction(new AbstractAction()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    // JDK 1.3 Porting Hint
+                    // comment out for now
+                    DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+                }
+            }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
+        }
+        else
+        {
+            for (int i = 0; i < container.getComponentCount(); i++)
+            {
+                Component c = container.getComponent(i);
+                // JDK 1.3 Porting Hint
+                // change to isFocusTraversable()
+                if (c instanceof JComponent && c.isFocusable())
+                {
+                    ((JComponent) container).registerKeyboardAction(new AbstractAction()
+                    {
+                        public void actionPerformed(ActionEvent e)
+                        {
                             // JDK 1.3 Porting Hint
                             // comment out for now
                             DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
                         }
                     }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
-        }
-        else {
-            for (int i = 0; i < container.getComponentCount(); i++) {
-                Component c = container.getComponent(i);
-                // JDK 1.3 Porting Hint
-                // change to isFocusTraversable()
-                if (c instanceof JComponent && c.isFocusable()) {
-                    ((JComponent) container).registerKeyboardAction(new AbstractAction() {
-                                public void actionPerformed(ActionEvent e) {
-                                    // JDK 1.3 Porting Hint
-                                    // comment out for now
-                                    DefaultKeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
-                                }
-                            }, KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0), JComponent.WHEN_FOCUSED);
                 }
             }
         }
     }
 
-    public static void fillGradient(Graphics g, Rectangle rect, int orientation) {
+    public static void fillGradient(Graphics g, Rectangle rect, int orientation)
+    {
         Graphics2D g2d = (Graphics2D) g;
         // paint upper gradient
         Color col1 = new Color(255, 255, 255, 0);
@@ -2237,14 +2566,16 @@ public class JideSwingUtilities implements SwingConstants {
         Color col3 = new Color(0, 0, 0, 0);
         Color col4 = new Color(0, 0, 0, 32);
 
-        if (orientation == SwingConstants.HORIZONTAL) {
+        if (orientation == SwingConstants.HORIZONTAL)
+        {
             // paint upper gradient
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height >> 1), col2, col1, true);
 
             // paint lower gradient
             fillGradient(g2d, new Rectangle(rect.x, rect.y + (rect.height >> 1), rect.width, rect.height >> 1), col3, col4, true);
         }
-        else {
+        else
+        {
             // paint left gradient
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width >> 1, rect.height), col2, col1, false);
 
@@ -2253,25 +2584,31 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
-    public static void fillSingleGradient(Graphics g, Rectangle rect, int orientation) {
+    public static void fillSingleGradient(Graphics g, Rectangle rect, int orientation)
+    {
         fillSingleGradient(g, rect, orientation, 127);
     }
 
-    public static void fillSingleGradient(Graphics g, Rectangle rect, int orientation, int level) {
+    public static void fillSingleGradient(Graphics g, Rectangle rect, int orientation, int level)
+    {
         Graphics2D g2d = (Graphics2D) g;
         Color col1 = new Color(255, 255, 255, 0);
         Color col2 = new Color(255, 255, 255, level);
 
-        if (orientation == SwingConstants.SOUTH) {
+        if (orientation == SwingConstants.SOUTH)
+        {
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), col2, col1, true);
         }
-        else if (orientation == SwingConstants.NORTH) {
+        else if (orientation == SwingConstants.NORTH)
+        {
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), col1, col2, true);
         }
-        else if (orientation == SwingConstants.EAST) {
+        else if (orientation == SwingConstants.EAST)
+        {
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), col2, col1, false);
         }
-        else if (orientation == SwingConstants.WEST) {
+        else if (orientation == SwingConstants.WEST)
+        {
             fillGradient(g2d, new Rectangle(rect.x, rect.y, rect.width, rect.height), col1, col2, false);
         }
     }
@@ -2285,37 +2622,49 @@ public class JideSwingUtilities implements SwingConstants {
      * include batik-awt-util.jar which also has a RadialGradientPaint class. This method will use reflection to
      * determine if the RadialGradientPaint class is in the class path and use the one it can find.
      */
-    public static Paint getRadialGradientPaint(Point2D point, float radius, float[] fractions, Color[] colors) {
+    public static Paint getRadialGradientPaint(Point2D point, float radius, float[] fractions, Color[] colors)
+    {
         Class<?> radialGradientPaintClass = null;
-        try {
-            if (SystemInfo.isJdk6Above()) {
+        try
+        {
+            if (SystemInfo.isJdk6Above())
+            {
                 radialGradientPaintClass = Class.forName("java.awt.RadialGradientPaint");
             }
-            else {
+            else
+            {
                 radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
             }
         }
-        catch (ClassNotFoundException e1) {
+        catch (ClassNotFoundException e1)
+        {
             // ignore
         }
-        if (radialGradientPaintClass != null) {
-            try {
-                if (_radialGradientPaintConstructor2 == null) {
+        if (radialGradientPaintClass != null)
+        {
+            try
+            {
+                if (_radialGradientPaintConstructor2 == null)
+                {
                     _radialGradientPaintConstructor2 = radialGradientPaintClass.getConstructor(new Class[]{Point2D.class, float.class, float[].class, Color[].class});
                 }
                 final Object radialGradientPaint = _radialGradientPaintConstructor2.newInstance(point, radius, fractions, colors);
                 return (Paint) radialGradientPaint;
             }
-            catch (NoSuchMethodException e) {
+            catch (NoSuchMethodException e)
+            {
                 // ignore
             }
-            catch (InstantiationException e) {
+            catch (InstantiationException e)
+            {
                 // ignore
             }
-            catch (IllegalAccessException e) {
+            catch (IllegalAccessException e)
+            {
                 // ignore
             }
-            catch (InvocationTargetException e) {
+            catch (InvocationTargetException e)
+            {
                 // ignore
             }
         }
@@ -2329,38 +2678,51 @@ public class JideSwingUtilities implements SwingConstants {
      * include batik-awt-util.jar which also has a RadialGradientPaint class. This method will use reflection to
      * determine if the RadialGradientPaint class is in the class path and use the one it can find.
      */
-    public static Paint getRadialGradientPaint(float cx, float cy, float radius, float[] fractions, Color[] colors) {
-        if (_radialGradientPaintClass == null) {
-            try {
-                if (SystemInfo.isJdk6Above()) {
+    public static Paint getRadialGradientPaint(float cx, float cy, float radius, float[] fractions, Color[] colors)
+    {
+        if (_radialGradientPaintClass == null)
+        {
+            try
+            {
+                if (SystemInfo.isJdk6Above())
+                {
                     _radialGradientPaintClass = Class.forName("java.awt.RadialGradientPaint");
                 }
-                else {
+                else
+                {
                     _radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
                 }
             }
-            catch (ClassNotFoundException e1) {
+            catch (ClassNotFoundException e1)
+            {
                 // ignore
             }
         }
-        if (_radialGradientPaintClass != null) {
-            try {
-                if (_radialGradientPaintConstructor1 == null) {
+        if (_radialGradientPaintClass != null)
+        {
+            try
+            {
+                if (_radialGradientPaintConstructor1 == null)
+                {
                     _radialGradientPaintConstructor1 = _radialGradientPaintClass.getConstructor(new Class[]{float.class, float.class, float.class, float[].class, Color[].class});
                 }
                 final Object radialGradientPaint = _radialGradientPaintConstructor1.newInstance(cx, cy, radius, fractions, colors);
                 return (Paint) radialGradientPaint;
             }
-            catch (NoSuchMethodException e) {
+            catch (NoSuchMethodException e)
+            {
                 // ignore
             }
-            catch (InstantiationException e) {
+            catch (InstantiationException e)
+            {
                 // ignore
             }
-            catch (IllegalAccessException e) {
+            catch (IllegalAccessException e)
+            {
                 // ignore
             }
-            catch (InvocationTargetException e) {
+            catch (InvocationTargetException e)
+            {
                 // ignore
             }
         }
@@ -2378,38 +2740,51 @@ public class JideSwingUtilities implements SwingConstants {
      * include batik-awt-util.jar which also has a LinearGradientPaint class. This method will use reflection to
      * determine if the LinearGradientPaint class is in the class path and use the one it can find.
      */
-    public static Paint getLinearGradientPaint(float startX, float startY, float endX, float endY, float[] fractions, Color[] colors) {
-        if (_linearGradientPaintClass == null) {
-            try {
-                if (SystemInfo.isJdk6Above()) {
+    public static Paint getLinearGradientPaint(float startX, float startY, float endX, float endY, float[] fractions, Color[] colors)
+    {
+        if (_linearGradientPaintClass == null)
+        {
+            try
+            {
+                if (SystemInfo.isJdk6Above())
+                {
                     _linearGradientPaintClass = Class.forName("java.awt.LinearGradientPaint");
                 }
-                else {
+                else
+                {
                     _linearGradientPaintClass = Class.forName("org.apache.batik.ext.awt.LinearGradientPaint");
                 }
             }
-            catch (ClassNotFoundException e1) {
+            catch (ClassNotFoundException e1)
+            {
                 // ignore
             }
         }
-        if (_linearGradientPaintClass != null) {
-            try {
-                if (_linearGradientPaintConstructor1 == null) {
+        if (_linearGradientPaintClass != null)
+        {
+            try
+            {
+                if (_linearGradientPaintConstructor1 == null)
+                {
                     _linearGradientPaintConstructor1 = _linearGradientPaintClass.getConstructor(new Class[]{float.class, float.class, float.class, float.class, float[].class, Color[].class});
                 }
                 final Object linearGradientPaint = _linearGradientPaintConstructor1.newInstance(startX, startY, endX, endY, fractions, colors);
                 return (Paint) linearGradientPaint;
             }
-            catch (NoSuchMethodException e) {
+            catch (NoSuchMethodException e)
+            {
                 // ignore
             }
-            catch (InstantiationException e) {
+            catch (InstantiationException e)
+            {
                 // ignore
             }
-            catch (IllegalAccessException e) {
+            catch (IllegalAccessException e)
+            {
                 // ignore
             }
-            catch (InvocationTargetException e) {
+            catch (InvocationTargetException e)
+            {
                 // ignore
             }
         }
@@ -2420,19 +2795,20 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * containerContainsFocus, does the specified container contain the current focusOwner?
-     *
      * @param cont the specified container
      * @return Is the current focusOwner a descendant of the specified container, or the container itself?
      */
 
-    public static boolean containerContainsFocus(Container cont) {
+    public static boolean containerContainsFocus(Container cont)
+    {
         Component focusOwner =
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
         Component permFocusOwner =
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
         boolean focusOwned;
         focusOwned = ((focusOwner != null) && SwingUtilities.isDescendingFrom(focusOwner, cont));
-        if (!focusOwned) {
+        if (!focusOwned)
+        {
             focusOwned = ((permFocusOwner != null) &&
                     SwingUtilities.isDescendingFrom(permFocusOwner, cont));
         }
@@ -2441,7 +2817,8 @@ public class JideSwingUtilities implements SwingConstants {
 
 //<syd_0002>
 
-    public static boolean componentIsPermanentFocusOwner(Component comp) {
+    public static boolean componentIsPermanentFocusOwner(Component comp)
+    {
         return ((comp != null) && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner() == comp));
     }
@@ -2451,45 +2828,56 @@ public class JideSwingUtilities implements SwingConstants {
     public static void installColorsAndFont(Component c,
                                             Color background,
                                             Color foreground,
-                                            Font font) {
+                                            Font font)
+    {
         installFont(c, font);
         installColors(c, background, foreground);
     }
 
-    public static void installFont(Component c, Font font) {
+    public static void installFont(Component c, Font font)
+    {
         Font f = c.getFont();
-        if (f == null || f instanceof UIResource) {
+        if (f == null || f instanceof UIResource)
+        {
             c.setFont(font);
         }
     }
 
     public static void installColors(Component c,
-                                     Color background, Color foreground) {
+                                     Color background, Color foreground)
+    {
         Color bg = c.getBackground();
-        if (background != null && (bg == null || bg instanceof UIResource)) {
+        if (background != null && (bg == null || bg instanceof UIResource))
+        {
             c.setBackground(background);
         }
 
         Color fg = c.getForeground();
-        if (foreground != null && (fg == null || fg instanceof UIResource)) {
+        if (foreground != null && (fg == null || fg instanceof UIResource))
+        {
             c.setForeground(foreground);
         }
     }
 
-    public static void installBorder(JComponent c, Border defaultBorder) {
+    public static void installBorder(JComponent c, Border defaultBorder)
+    {
         Border border = c.getBorder();
-        if (border == null || border instanceof UIResource) {
+        if (border == null || border instanceof UIResource)
+        {
             c.setBorder(defaultBorder);
         }
     }
 
-    public static void fillNormalGradient(Graphics2D g2d, Shape s, Color startColor, Color endColor, boolean isVertical) {
+    public static void fillNormalGradient(Graphics2D g2d, Shape s, Color startColor, Color endColor, boolean isVertical)
+    {
         Rectangle rect = s.getBounds();
         GradientPaint paint;
-        if (isVertical) {
+        if (isVertical)
+        {
             paint = new GradientPaint(rect.x, rect.y, startColor, rect.x, rect.height + rect.y, endColor, true); // turn cyclic to true will be faster
         }
-        else {
+        else
+        {
             paint = new GradientPaint(rect.x, rect.y, startColor, rect.width + rect.x, rect.y, endColor, true);  // turn cyclic to true will be faster
         }
         Paint old = g2d.getPaint();
@@ -2504,18 +2892,20 @@ public class JideSwingUtilities implements SwingConstants {
      * <p/>
      * We also leave an option to use the normal GradientPaint to paint the gradient. To do so, just set a system
      * property "normalGradientPaint" to "false".
-     *
      * @param g2d
      * @param s
      * @param startColor
      * @param endColor
      * @param isVertical
      */
-    public static void fillGradient(Graphics2D g2d, Shape s, Color startColor, Color endColor, boolean isVertical) {
-        if ("true".equals(SecurityUtils.getProperty("normalGradientPaint", "false"))) {
+    public static void fillGradient(Graphics2D g2d, Shape s, Color startColor, Color endColor, boolean isVertical)
+    {
+        if ("true".equals(SecurityUtils.getProperty("normalGradientPaint", "false")))
+        {
             fillNormalGradient(g2d, s, startColor, endColor, isVertical);
         }
-        else {
+        else
+        {
             FastGradientPainter.drawGradient(g2d, s, startColor, endColor, isVertical);
         }
     }
@@ -2523,20 +2913,23 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Clears the gradient cache used for fast gradient painting
      */
-    public static void clearGradientCache() {
+    public static void clearGradientCache()
+    {
         FastGradientPainter.clearGradientCache();
     }
 
     /**
      * Gets the top modal dialog of current window.
-     *
      * @param w
      * @return the top modal dialog of current window.
      */
-    public static Window getTopModalDialog(Window w) {
+    public static Window getTopModalDialog(Window w)
+    {
         Window[] ws = w.getOwnedWindows();
-        for (Window w1 : ws) {
-            if (w1.isVisible() && w1 instanceof Dialog && ((Dialog) w1).isModal()) {
+        for (Window w1 : ws)
+        {
+            if (w1.isVisible() && w1 instanceof Dialog && ((Dialog) w1).isModal())
+            {
                 return (getTopModalDialog(w1));
             }
         }
@@ -2548,28 +2941,35 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * For internal usage only.
      */
-    public static void traceFocus() {
+    public static void traceFocus()
+    {
         traceFocus(false);
     }
 
     /**
      * For internal usage only.
      */
-    public static void traceFocus(final boolean useBorders) {
+    public static void traceFocus(final boolean useBorders)
+    {
         if (tracingFocus)
             return;
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (useBorders) {
+        PropertyChangeListener listener = new PropertyChangeListener()
+        {
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                if (useBorders)
+                {
                     Component oldValue = (Component) evt.getOldValue();
-                    if (oldValue instanceof JComponent) {
+                    if (oldValue instanceof JComponent)
+                    {
                         Border oldBorder = ((JComponent) oldValue).getBorder();
                         if (oldBorder instanceof TraceDebugBorder)
                             ((JComponent) oldValue).setBorder(((TraceDebugBorder) oldBorder).getInsideBorder());
                     }
 
                     Component newValue = (Component) evt.getNewValue();
-                    if (newValue instanceof JComponent) {
+                    if (newValue instanceof JComponent)
+                    {
                         Border oldBorder = ((JComponent) newValue).getBorder();
                         if (oldBorder == null)
                             oldBorder = new EmptyBorder(0, 0, 0, 0);
@@ -2594,24 +2994,29 @@ public class JideSwingUtilities implements SwingConstants {
         tracingFocus = true;
     }
 
-    public static class TraceDebugBorder extends CompoundBorder {
+    public static class TraceDebugBorder extends CompoundBorder
+    {
         private static final long serialVersionUID = -1396250213346461982L;
 
-        public TraceDebugBorder(Border insideBorder) {
+        public TraceDebugBorder(Border insideBorder)
+        {
             super(BorderFactory.createLineBorder(Color.RED, 1), insideBorder);
         }
 
-        public Insets getBorderInsets(Component c) {
+        public Insets getBorderInsets(Component c)
+        {
             return getInsideBorder().getBorderInsets(c);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets) {
+        public Insets getBorderInsets(Component c, Insets insets)
+        {
             return getInsideBorder().getBorderInsets(c);
         }
     }
 
 
-    public static void runGCAndPrintFreeMemory() {
+    public static void runGCAndPrintFreeMemory()
+    {
         java.text.DecimalFormat memFormatter = new java.text.DecimalFormat("###,###,##0.####");
         String memFree = memFormatter
                 .format(Runtime.getRuntime().freeMemory() / 1024);
@@ -2624,11 +3029,13 @@ public class JideSwingUtilities implements SwingConstants {
                 + memFree + "k]) = Used [" + memUsed + "k]");
         System.runFinalization();
         System.gc();
-        try {
+        try
+        {
             // give the gc time.
             Thread.sleep(100);
         }
-        catch (InterruptedException ie) {
+        catch (InterruptedException ie)
+        {
         }
         memFree = memFormatter.format(Runtime.getRuntime().freeMemory() / 1024);
         memTotal = memFormatter.format(Runtime.getRuntime().totalMemory() / 1024);
@@ -2641,25 +3048,32 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * For internal usage only.
      */
-    public static JPanel createTableModelModifier(final DefaultTableModel tableModel) {
+    public static JPanel createTableModelModifier(final DefaultTableModel tableModel)
+    {
         JPanel tableModelPanel = new JPanel(new BorderLayout(6, 6));
         final JTable table = new JTable(tableModel);
         tableModelPanel.add(new JScrollPane(table));
         ButtonPanel buttonPanel = new ButtonPanel();
 
         JButton insert = new JButton("Insert");
-        insert.addActionListener(new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
+        insert.addActionListener(new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
                 Vector rowData = tableModel.getDataVector();
                 int index = table.getSelectedRow();
-                if (index != -1) {
+                if (index != -1)
+                {
                     Vector v = (Vector) rowData.get(index);
                     Vector clone = new Vector();
-                    for (int i = 0; i < v.size(); i++) {
-                        if (i == 0) {
+                    for (int i = 0; i < v.size(); i++)
+                    {
+                        if (i == 0)
+                        {
                             clone.add((int) (Math.random() * 10));
                         }
-                        else {
+                        else
+                        {
                             clone.add("" + v.get(i));
                         }
                     }
@@ -2669,10 +3083,13 @@ public class JideSwingUtilities implements SwingConstants {
         });
 
         JButton delete = new JButton("Delete");
-        delete.addActionListener(new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
+        delete.addActionListener(new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
                 int[] rows = table.getSelectedRows();
-                for (int i = rows.length - 1; i >= 0; i--) {
+                for (int i = rows.length - 1; i >= 0; i--)
+                {
                     int row = rows[i];
                     tableModel.removeRow(row);
                 }
@@ -2680,9 +3097,12 @@ public class JideSwingUtilities implements SwingConstants {
         });
 
         JButton clear = new JButton("Clear");
-        clear.addActionListener(new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < tableModel.getRowCount(); i++) {
+        clear.addActionListener(new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                for (int i = 0; i < tableModel.getRowCount(); i++)
+                {
                     tableModel.removeRow(0);
                 }
             }
@@ -2701,26 +3121,31 @@ public class JideSwingUtilities implements SwingConstants {
      * Note that this doesn't do something smart like trying to walk the hierarchy horizontally at each level so that
      * the focused subcomponent is as high as possible. Rather, it drills vertically. It's just a safety valve so that
      * focus can be requested somewhere rather than being lost.
-     *
      * @param container
      * @return a focusable subcomponent
      */
-    public static Component findSomethingFocusable(Container container) {
-        if (passesFocusabilityTest(container)) {
+    public static Component findSomethingFocusable(Container container)
+    {
+        if (passesFocusabilityTest(container))
+        {
             container.requestFocusInWindow();
             return container;
         }
         Component[] comps;
         Component comp;
         comps = container.getComponents();
-        for (Component comp1 : comps) {
-            if (passesFocusabilityTest(comp1)) {
+        for (Component comp1 : comps)
+        {
+            if (passesFocusabilityTest(comp1))
+            {
                 container.requestFocusInWindow();
                 return container;
             }
-            else if (comp1 instanceof Container) {
+            else if (comp1 instanceof Container)
+            {
                 comp = findSomethingFocusable((Container) (comp1));
-                if (comp != null) {
+                if (comp != null)
+                {
                     return comp;
                 }
             }
@@ -2730,11 +3155,11 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * There are four standard tests which determine if Swing will be able to request focus for a component. Test them.
-     *
      * @param comp
      * @return does the specified component pass the four focusability tests
      */
-    public static boolean passesFocusabilityTest(Component comp) {
+    public static boolean passesFocusabilityTest(Component comp)
+    {
         return ((comp != null) &&
                 comp.isEnabled() && comp.isDisplayable() &&
                 comp.isVisible() && comp.isFocusable() && comp.isShowing());
@@ -2744,32 +3169,34 @@ public class JideSwingUtilities implements SwingConstants {
      * Ignore the exception. This method does nothing. However it's a good practice to use this method so that we can
      * easily find out the place that ignoring exception. In development phase, we can log a message in this method so
      * that we can verify if it makes sense to ignore.
-     *
      * @param e
      */
-    public static void ignoreException(Exception e) {
+    public static void ignoreException(Exception e)
+    {
     }
 
     /**
      * Prints out the message of the exception.
-     *
      * @param e
      */
-    public static void printException(Exception e) {
+    public static void printException(Exception e)
+    {
         System.err.println(e.getLocalizedMessage());
     }
 
     /**
      * Throws the exception. If the exception is RuntimeException, just throw it. Otherwise, wrap it in RuntimeException
      * and throw it.
-     *
      * @param e
      */
-    public static void throwException(Exception e) {
-        if (e instanceof RuntimeException) {
+    public static void throwException(Exception e)
+    {
+        if (e instanceof RuntimeException)
+        {
             throw (RuntimeException) e;
         }
-        else {
+        else
+        {
             throw new RuntimeException(e);
         }
     }
@@ -2778,25 +3205,30 @@ public class JideSwingUtilities implements SwingConstants {
      * Throws the InvocationTargetException. Usually InvocationTargetException has a nested exception as target
      * exception. If the target exception is a RuntimeException or Error, we will throw it. Otherwise, we will wrap it
      * inside RuntimeException and throw it.
-     *
      * @param e
      */
-    public static void throwInvocationTargetException(InvocationTargetException e) {
+    public static void throwInvocationTargetException(InvocationTargetException e)
+    {
         // in most cases, target exception will be RuntimeException
         // but to be on safer side (it may be Error) we explicitly check it
-        if (e.getTargetException() instanceof RuntimeException) {
+        if (e.getTargetException() instanceof RuntimeException)
+        {
             throw (RuntimeException) e.getTargetException();
         }
-        else if (e.getTargetException() instanceof Error) {
+        else if (e.getTargetException() instanceof Error)
+        {
             throw (Error) e.getTargetException();
         }
-        else {
+        else
+        {
             throw new RuntimeException(e.getTargetException());
         }
     }
 
-    public static int findDisplayedMnemonicIndex(String text, int mnemonic) {
-        if (text == null || mnemonic == '\0') {
+    public static int findDisplayedMnemonicIndex(String text, int mnemonic)
+    {
+        if (text == null || mnemonic == '\0')
+        {
             return -1;
         }
 
@@ -2806,13 +3238,16 @@ public class JideSwingUtilities implements SwingConstants {
         int uci = text.indexOf(uc);
         int lci = text.indexOf(lc);
 
-        if (uci == -1) {
+        if (uci == -1)
+        {
             return lci;
         }
-        else if (lci == -1) {
+        else if (lci == -1)
+        {
             return uci;
         }
-        else {
+        else
+        {
             return (lci < uci) ? lci : uci;
         }
     }
@@ -2820,24 +3255,28 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Gets the first occurrence of the component with specified type in the container. It used deep-first searching to
      * find it.
-     *
      * @param c
      * @param container
      * @return the first occurrence of the component with specified type in the container. Null if nothing is found.
      */
-    public static Component getDescendantOfClass(Class c, Container container) {
+    public static Component getDescendantOfClass(Class c, Container container)
+    {
         if (container == null || c == null)
             return null;
 
         Component[] components = container.getComponents();
 
-        for (Component component : components) {
-            if (c.isInstance(component)) {
+        for (Component component : components)
+        {
+            if (c.isInstance(component))
+            {
                 return component;
             }
-            if (component instanceof Container) {
+            if (component instanceof Container)
+            {
                 Component found = getDescendantOfClass(c, (Container) component);
-                if (found != null) {
+                if (found != null)
+                {
                     return found;
                 }
             }
@@ -2845,76 +3284,97 @@ public class JideSwingUtilities implements SwingConstants {
         return null;
     }
 
-    public static float getDefaultFontSize() {
+    public static float getDefaultFontSize()
+    {
         // read the font size from system property.
         String fontSize = SecurityUtils.getProperty("jide.fontSize", null);
         float defaultFontSize = -1f;
-        try {
-            if (fontSize != null) {
+        try
+        {
+            if (fontSize != null)
+            {
                 defaultFontSize = Float.parseFloat(fontSize);
             }
         }
-        catch (NumberFormatException e) {
+        catch (NumberFormatException e)
+        {
             // ignore
         }
 
         return defaultFontSize;
     }
 
-    public static Object getMenuFont(Toolkit toolkit, UIDefaults table) {
+    public static Object getMenuFont(Toolkit toolkit, UIDefaults table)
+    {
         Object menuFont = null;
         // read the font size from system property.
         float defaultFontSize = getDefaultFontSize();
 
-        if (JideSwingUtilities.shouldUseSystemFont()) {
-            if (defaultFontSize == -1/* || SystemInfo.isCJKLocale()*/) {
+        if (JideSwingUtilities.shouldUseSystemFont())
+        {
+            if (defaultFontSize == -1/* || SystemInfo.isCJKLocale()*/)
+            {
                 menuFont = table.getFont("ToolBar.font");
             }
-            else {
+            else
+            {
                 menuFont = new WindowsDesktopProperty("win.menu.font", table.getFont("ToolBar.font"), toolkit, defaultFontSize);
             }
         }
-        else {
+        else
+        {
             Font font = table.getFont("ToolBar.font");
-            if (font == null) {
+            if (font == null)
+            {
                 menuFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
             }
-            else {
+            else
+            {
                 menuFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : font.getSize());
             }
         }
 
-        if (menuFont == null) {
+        if (menuFont == null)
+        {
             return getControlFont(toolkit, table);
         }
-        else {
+        else
+        {
             return menuFont;
         }
     }
 
-    public static Object getControlFont(Toolkit toolkit, UIDefaults table) {
+    public static Object getControlFont(Toolkit toolkit, UIDefaults table)
+    {
         Object controlFont;
         // read the font size from system property.
         float defaultFontSize = getDefaultFontSize();
 
-        if (JideSwingUtilities.shouldUseSystemFont()) {
+        if (JideSwingUtilities.shouldUseSystemFont())
+        {
             Font font = table.getFont("Label.font");
-            if (font == null) {
+            if (font == null)
+            {
                 font = new Font("Tahoma", Font.PLAIN, 12); // use default font
             }
-            if (defaultFontSize == -1/* || SystemInfo.isCJKLocale()*/) {
+            if (defaultFontSize == -1/* || SystemInfo.isCJKLocale()*/)
+            {
                 controlFont = font;
             }
-            else {
+            else
+            {
                 controlFont = new WindowsDesktopProperty("win.defaultGUI.font", font, toolkit, defaultFontSize);
             }
         }
-        else {
+        else
+        {
             Font font = table.getFont("Label.font");
-            if (font == null) {
+            if (font == null)
+            {
                 controlFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
             }
-            else {
+            else
+            {
                 controlFont = defaultFontSize == -1f ? font : new WindowsDesktopProperty("win.defaultGUI.font", font, toolkit, defaultFontSize);
             }
         }
@@ -2922,33 +3382,43 @@ public class JideSwingUtilities implements SwingConstants {
         return controlFont;
     }
 
-    public static Object getBoldFont(Toolkit toolkit, UIDefaults table) {
-        if (SystemInfo.isCJKLocale()) {
+    public static Object getBoldFont(Toolkit toolkit, UIDefaults table)
+    {
+        if (SystemInfo.isCJKLocale())
+        {
             return getControlFont(toolkit, table);
         }
-        else {
+        else
+        {
             Object boldFont;
             // read the font size from system property.
             float defaultFontSize = getDefaultFontSize();
 
-            if (JideSwingUtilities.shouldUseSystemFont()) {
+            if (JideSwingUtilities.shouldUseSystemFont())
+            {
                 Font font = table.getFont("Label.font");
-                if (font == null) {
+                if (font == null)
+                {
                     font = new Font("Tahoma", Font.PLAIN, 12); // use default font
                 }
-                if (defaultFontSize == -1) {
+                if (defaultFontSize == -1)
+                {
                     boldFont = new FontUIResource(font.deriveFont(Font.BOLD));
                 }
-                else {
+                else
+                {
                     boldFont = new WindowsDesktopProperty("win.defaultGUI.font", font, toolkit, defaultFontSize, Font.BOLD);
                 }
             }
-            else {
+            else
+            {
                 Font font = table.getFont("Label.font");
-                if (font == null) {
+                if (font == null)
+                {
                     boldFont = SecurityUtils.createFontUIResource("Tahoma", Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : 11);
                 }
-                else {
+                else
+                {
                     boldFont = SecurityUtils.createFontUIResource(font.getFontName(), Font.BOLD, defaultFontSize != -1f ? (int) defaultFontSize : font.getSize());
                 }
             }
@@ -2956,8 +3426,10 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
-    public static void drawShadow(Graphics g, Component c, int x, int y, int w, int h) {
-        if (w <= 0 || h <= 0) {
+    public static void drawShadow(Graphics g, Component c, int x, int y, int w, int h)
+    {
+        if (w <= 0 || h <= 0)
+        {
             return;
         }
         ShadowFactory factory = new ShadowFactory(6, 0.7f, Color.GRAY);
@@ -2972,7 +3444,8 @@ public class JideSwingUtilities implements SwingConstants {
         g.drawImage(shadow, x, y, c);
     }
 
-    static {
+    static
+    {
         Font.getFont("defaultFont");
         Font.getFont("emphasizedFont");
     }
@@ -3021,7 +3494,8 @@ public class JideSwingUtilities implements SwingConstants {
      * Draws a border based on an image. The image can be divided into nine different areas. Each area size is
      * determined by the insets.
      */
-    public static void drawImageBorder(Graphics g, ImageIcon img, Rectangle rect, Insets ins, boolean drawCenter) {
+    public static void drawImageBorder(Graphics g, ImageIcon img, Rectangle rect, Insets ins, boolean drawCenter)
+    {
         int left = ins.left;
         int right = ins.right;
         int top = ins.top;
@@ -3055,7 +3529,8 @@ public class JideSwingUtilities implements SwingConstants {
         g.drawImage(img.getImage(), x + w - right, y + h - bottom, x + w, y + h,
                 img.getIconWidth() - right, img.getIconHeight() - bottom, img.getIconWidth(), img.getIconHeight(), null);
 
-        if (drawCenter) {
+        if (drawCenter)
+        {
             g.drawImage(img.getImage(), x + left, y + top, x + w - right, y + h - bottom,
                     left, top, img.getIconWidth() - right, img.getIconHeight() - bottom, null);
         }
@@ -3063,49 +3538,57 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Copied from BasicLookAndFeel as the method is package local.
-     *
      * @param component
      * @return if request focus is success or not.
      */
-    public static boolean compositeRequestFocus(Component component) {
+    public static boolean compositeRequestFocus(Component component)
+    {
         LOGGER_FOCUS.fine("compositeRequestFocus " + component);
-        if (component instanceof Container) {
+        if (component instanceof Container)
+        {
             LOGGER_FOCUS.fine("compositeRequestFocus " + "is container.");
             Container container = (Container) component;
-            if (container.isFocusCycleRoot()) {
+            if (container.isFocusCycleRoot())
+            {
                 LOGGER_FOCUS.fine("compositeRequestFocus " + "is focuscycleroot.");
                 FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
                 Component comp = policy.getDefaultComponent(container);
                 LOGGER_FOCUS.fine("compositeRequestFocus " + "default component = " + comp);
 
-                if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0) {
+                if ((comp != null) && comp.isShowing() && container.getComponentCount() > 0)
+                {
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "default component passesFocusabilityTest =" + passesFocusabilityTest(comp));
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
                     return comp.requestFocusInWindow();
                 }
             }
             Container rootAncestor = container.getFocusCycleRootAncestor();
-            if (rootAncestor != null) {
+            if (rootAncestor != null)
+            {
                 LOGGER_FOCUS.fine("compositeRequestFocus " + "using rootAncestor =" + rootAncestor);
                 FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
                 Component comp = null;
-                try {
+                try
+                {
                     comp = policy.getComponentAfter(rootAncestor, container);
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     // ClassCastException when docking frames on Solaris
                     // http://jidesoft.com/forum/viewtopic.php?p=32569
                 }
 
                 LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter =" + comp);
-                if (comp != null && SwingUtilities.isDescendingFrom(comp, container)) {
+                if (comp != null && SwingUtilities.isDescendingFrom(comp, container))
+                {
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "getComponentAfter passesFocusabilityTest =" + passesFocusabilityTest(comp));
                     LOGGER_FOCUS.fine("compositeRequestFocus " + "requestFocus for " + comp);
                     return comp.requestFocusInWindow();
                 }
             }
         }
-        if (!passesFocusabilityTest(component)) {
+        if (!passesFocusabilityTest(component))
+        {
             LOGGER_FOCUS.fine("compositeRequestFocus " + "returingfalse because !passesFocusabilityTest" + component);
             return false;
         }
@@ -3114,10 +3597,12 @@ public class JideSwingUtilities implements SwingConstants {
         return component.requestFocusInWindow();
     }
 
-    public static boolean isAncestorOfFocusOwner(Component component) {
+    public static boolean isAncestorOfFocusOwner(Component component)
+    {
         boolean hasFocus = false;
         Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-        if (component == focusOwner || (component instanceof Container && ((Container) component).isAncestorOf(focusOwner))) {
+        if (component == focusOwner || (component instanceof Container && ((Container) component).isAncestorOf(focusOwner)))
+        {
             hasFocus = true;
         }
         return hasFocus;
@@ -3125,12 +3610,12 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the top level Window of the component.
-     *
      * @param parentComponent
      * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
      */
     public static Window getWindowForComponent(Component parentComponent)
-            throws HeadlessException {
+            throws HeadlessException
+    {
         if (parentComponent == null)
             return JOptionPane.getRootFrame();
         if (parentComponent instanceof Frame || parentComponent instanceof Dialog)
@@ -3140,15 +3625,17 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the key listener is already registered on the component.
-     *
      * @param component the component
-     * @param l         the listener
+     * @param l the listener
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isKeyListenerRegistered(Component component, KeyListener l) {
+    public static boolean isKeyListenerRegistered(Component component, KeyListener l)
+    {
         KeyListener[] listeners = component.getKeyListeners();
-        for (KeyListener listener : listeners) {
-            if (listener == l) {
+        for (KeyListener listener : listeners)
+        {
+            if (listener == l)
+            {
                 return true;
             }
         }
@@ -3157,25 +3644,29 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Inserts the key listener at the particular index in the listeners' chain.
-     *
      * @param component
      * @param l
      * @param index
      */
-    public static void insertKeyListener(Component component, KeyListener l, int index) {
+    public static void insertKeyListener(Component component, KeyListener l, int index)
+    {
         KeyListener[] listeners = component.getKeyListeners();
-        for (KeyListener listener : listeners) {
+        for (KeyListener listener : listeners)
+        {
             component.removeKeyListener(listener);
         }
-        for (int i = 0; i < listeners.length; i++) {
+        for (int i = 0; i < listeners.length; i++)
+        {
             KeyListener listener = listeners[i];
-            if (index == i) {
+            if (index == i)
+            {
                 component.addKeyListener(l);
             }
             component.addKeyListener(listener);
         }
         // index is too large, add to the end.
-        if (index > listeners.length - 1) {
+        if (index > listeners.length - 1)
+        {
             component.addKeyListener(l);
         }
     }
@@ -3183,44 +3674,51 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Inserts the table model listener at the particular index in the listeners' chain. The listeners are fired in
      * reverse order. So the listener at index 0 will be fired at last.
-     *
      * @param model the AbstractTableModel
-     * @param l     the TableModelListener to be inserted
+     * @param l the TableModelListener to be inserted
      * @param index the index.
      */
-    public static void insertTableModelListener(TableModel model, TableModelListener l, int index) {
-        if (!(model instanceof AbstractTableModel)) {
+    public static void insertTableModelListener(TableModel model, TableModelListener l, int index)
+    {
+        if (!(model instanceof AbstractTableModel))
+        {
             model.addTableModelListener(l);
             return;
         }
         TableModelListener[] listeners = ((AbstractTableModel) model).getTableModelListeners();
-        for (TableModelListener listener : listeners) {
+        for (TableModelListener listener : listeners)
+        {
             model.removeTableModelListener(listener);
         }
-        for (int i = 0; i < listeners.length; i++) {
+        for (int i = 0; i < listeners.length; i++)
+        {
             TableModelListener listener = listeners[i];
-            if (index == i) {
+            if (index == i)
+            {
                 model.addTableModelListener(l);
             }
             model.addTableModelListener(listener);
         }
         // index is too large, add to the end.
-        if (index < 0 || index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1)
+        {
             model.addTableModelListener(l);
         }
     }
 
     /**
      * Checks if the property change listener is already registered on the component.
-     *
      * @param component the component
-     * @param l         the listener
+     * @param l the listener
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isPropertyChangeListenerRegistered(Component component, PropertyChangeListener l) {
+    public static boolean isPropertyChangeListenerRegistered(Component component, PropertyChangeListener l)
+    {
         PropertyChangeListener[] listeners = component.getPropertyChangeListeners();
-        for (PropertyChangeListener listener : listeners) {
-            if (listener == l) {
+        for (PropertyChangeListener listener : listeners)
+        {
+            if (listener == l)
+            {
                 return true;
             }
         }
@@ -3229,19 +3727,22 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the property change listener is already registered on the component.
-     *
      * @param component the component
      * @param propertyName the property name
-     * @param l         the listener
+     * @param l the listener
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isPropertyChangeListenerRegistered(Component component, String propertyName, PropertyChangeListener l) {
-        if (propertyName == null) {
+    public static boolean isPropertyChangeListenerRegistered(Component component, String propertyName, PropertyChangeListener l)
+    {
+        if (propertyName == null)
+        {
             return isPropertyChangeListenerRegistered(component, l);
         }
         PropertyChangeListener[] listeners = component.getPropertyChangeListeners(propertyName);
-        for (PropertyChangeListener listener : listeners) {
-            if (listener == l) {
+        for (PropertyChangeListener listener : listeners)
+        {
+            if (listener == l)
+            {
                 return true;
             }
         }
@@ -3250,15 +3751,17 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the mouse listener is already registered on the component.
-     *
      * @param component the component
-     * @param l         the listener
+     * @param l the listener
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isMouseListenerRegistered(Component component, MouseListener l) {
+    public static boolean isMouseListenerRegistered(Component component, MouseListener l)
+    {
         MouseListener[] listeners = component.getMouseListeners();
-        for (MouseListener listener : listeners) {
-            if (listener == l) {
+        for (MouseListener listener : listeners)
+        {
+            if (listener == l)
+            {
                 return true;
             }
         }
@@ -3267,40 +3770,46 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Inserts the mouse listener at the particular index in the listeners' chain.
-     *
      * @param component
      * @param l
      * @param index
      */
-    public static void insertMouseListener(Component component, MouseListener l, int index) {
+    public static void insertMouseListener(Component component, MouseListener l, int index)
+    {
         MouseListener[] listeners = component.getMouseListeners();
-        for (MouseListener listener : listeners) {
+        for (MouseListener listener : listeners)
+        {
             component.removeMouseListener(listener);
         }
-        for (int i = 0; i < listeners.length; i++) {
+        for (int i = 0; i < listeners.length; i++)
+        {
             MouseListener listener = listeners[i];
-            if (index == i) {
+            if (index == i)
+            {
                 component.addMouseListener(l);
             }
             component.addMouseListener(listener);
         }
         // index is too large, add to the end.
-        if (index < 0 || index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1)
+        {
             component.addMouseListener(l);
         }
     }
 
     /**
      * Checks if the mouse motion listener is already registered on the component.
-     *
      * @param component the component
-     * @param l         the listener
+     * @param l the listener
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isMouseMotionListenerRegistered(Component component, MouseMotionListener l) {
+    public static boolean isMouseMotionListenerRegistered(Component component, MouseMotionListener l)
+    {
         MouseMotionListener[] listeners = component.getMouseMotionListeners();
-        for (MouseMotionListener listener : listeners) {
-            if (listener == l) {
+        for (MouseMotionListener listener : listeners)
+        {
+            if (listener == l)
+            {
                 return true;
             }
         }
@@ -3309,45 +3818,52 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Inserts the mouse motion listener at the particular index in the listeners' chain.
-     *
      * @param component
      * @param l
      * @param index
      */
-    public static void insertMouseMotionListener(Component component, MouseMotionListener l, int index) {
+    public static void insertMouseMotionListener(Component component, MouseMotionListener l, int index)
+    {
         MouseMotionListener[] listeners = component.getMouseMotionListeners();
-        for (MouseMotionListener listener : listeners) {
+        for (MouseMotionListener listener : listeners)
+        {
             component.removeMouseMotionListener(listener);
         }
-        for (int i = 0; i < listeners.length; i++) {
+        for (int i = 0; i < listeners.length; i++)
+        {
             MouseMotionListener listener = listeners[i];
-            if (index == i) {
+            if (index == i)
+            {
                 component.addMouseMotionListener(l);
             }
             component.addMouseMotionListener(listener);
         }
         // index is too large, add to the end.
-        if (index < 0 || index > listeners.length - 1) {
+        if (index < 0 || index > listeners.length - 1)
+        {
             component.addMouseMotionListener(l);
         }
     }
 
     /**
      * Gets the scroll pane around the component.
-     *
      * @param innerComponent
      * @return the scroll pane. Null if the component is not in any JScrollPane.
      */
-    public static Component getScrollPane(Component innerComponent) {
+    public static Component getScrollPane(Component innerComponent)
+    {
         Component component = innerComponent;
-        if (innerComponent instanceof JScrollPane) {
+        if (innerComponent instanceof JScrollPane)
+        {
             return innerComponent;
         }
-        if (component.getParent() != null && component.getParent().getParent() != null && component.getParent().getParent() instanceof JScrollPane) {
+        if (component.getParent() != null && component.getParent().getParent() != null && component.getParent().getParent() instanceof JScrollPane)
+        {
             component = component.getParent().getParent();
             return component;
         }
-        else {
+        else
+        {
             return null;
         }
     }
@@ -3355,13 +3871,13 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Checks if the listener is always registered to the EventListenerList to avoid duplicated registration of the same
      * listener
-     *
      * @param list the EventListenerList to register the listener.
-     * @param t    the type of the EventListener.
-     * @param l    the listener.
+     * @param t the type of the EventListener.
+     * @param l the listener.
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isListenerRegistered(EventListenerList list, Class t, EventListener l) {
+    public static boolean isListenerRegistered(EventListenerList list, Class t, EventListener l)
+    {
         Object[] objects = list.getListenerList();
         return isListenerRegistered(objects, t, l);
     }
@@ -3369,20 +3885,23 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Checks if the listener is always registered to the Component to avoid duplicated registration of the same
      * listener
-     *
      * @param component the component that you want to register the listener.
-     * @param t         the type of the EventListener.
-     * @param l         the listener.
+     * @param t the type of the EventListener.
+     * @param l the listener.
      * @return true if already registered. Otherwise false.
      */
-    public static boolean isListenerRegistered(Component component, Class t, EventListener l) {
+    public static boolean isListenerRegistered(Component component, Class t, EventListener l)
+    {
         Object[] objects = component.getListeners(t);
         return isListenerRegistered(objects, t, l);
     }
 
-    private static boolean isListenerRegistered(Object[] objects, Class t, EventListener l) {
-        for (int i = objects.length - 2; i >= 0; i -= 2) {
-            if ((objects[i] == t) && (objects[i + 1].equals(l))) {
+    private static boolean isListenerRegistered(Object[] objects, Class t, EventListener l)
+    {
+        for (int i = objects.length - 2; i >= 0; i -= 2)
+        {
+            if ((objects[i] == t) && (objects[i + 1].equals(l)))
+            {
                 return true;
             }
         }
@@ -3391,18 +3910,21 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the first child of the component that is the specified type.
-     *
      * @param clazz the type of the component to look for
-     * @param c     the component
+     * @param c the component
      * @return the first child of the component that is the specified type.
      */
-    public static Component getFirstChildOf(final Class<?> clazz, Component c) {
-        return getRecursively(c, new GetHandler() {
-            public boolean condition(Component c) {
+    public static Component getFirstChildOf(final Class<?> clazz, Component c)
+    {
+        return getRecursively(c, new GetHandler()
+        {
+            public boolean condition(Component c)
+            {
                 return clazz.isAssignableFrom(c.getClass());
             }
 
-            public Component action(Component c) {
+            public Component action(Component c)
+            {
                 return c;
             }
         });
@@ -3410,18 +3932,21 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Get the index of the component in the container. It will return -1 if c's parent is not container.
-     *
      * @param container the container
-     * @param c         the component
+     * @param c the component
      * @return the index
      */
-    public static int getComponentIndex(Container container, Component c) {
-        if (c.getParent() != container) {
+    public static int getComponentIndex(Container container, Component c)
+    {
+        if (c.getParent() != container)
+        {
             return -1;
         }
         Component[] children = container.getComponents();
-        for (int i = 0; i < children.length; i++) {
-            if (children[i] == c) {
+        for (int i = 0; i < children.length; i++)
+        {
+            if (children[i] == c)
+            {
                 return i;
             }
         }
@@ -3429,9 +3954,11 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
 
-    public static Vector convertDefaultComboBoxModelToVector(DefaultComboBoxModel model) {
+    public static Vector convertDefaultComboBoxModelToVector(DefaultComboBoxModel model)
+    {
         Vector v = new Vector();
-        for (int i = 0; i < model.getSize(); i++) {
+        for (int i = 0; i < model.getSize(); i++)
+        {
             v.add(model.getElementAt(i));
         }
         return v;
@@ -3441,11 +3968,11 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * To make sure the row is visible. If the table's horizontal scroll bar is visible, the method will not change the
      * horizontal scroll bar's position.
-     *
      * @param table
      * @param row
      */
-    public static void ensureRowVisible(JTable table, int row) {
+    public static void ensureRowVisible(JTable table, int row)
+    {
         Rectangle r = table.getVisibleRect();
 // Hack! make above and below visible if necessary
 // TODO: how to center it or make it the first?
@@ -3464,21 +3991,26 @@ public class JideSwingUtilities implements SwingConstants {
         if (rBefore != null)
             yLow = (int) rBefore.getMinY();
 
-        if (rAfter != null) {
+        if (rAfter != null)
+        {
             yHi = (int) rAfter.getMaxY();
         }
 
         Rectangle rScrollTo = new Rectangle(xLow, yLow, xHi - xLow, yHi - yLow);
-        if (!r.contains(rScrollTo) && rScrollTo.height != 0) {
+        if (!r.contains(rScrollTo) && rScrollTo.height != 0)
+        {
             table.scrollRectToVisible(rScrollTo);
         }
     }
 
-    public static void retargetMouseEvent(int id, MouseEvent e, Component target) {
-        if (target == null || (target == e.getSource() && id == e.getID())) {
+    public static void retargetMouseEvent(int id, MouseEvent e, Component target)
+    {
+        if (target == null || (target == e.getSource() && id == e.getID()))
+        {
             return;
         }
-        if (e.isConsumed()) {
+        if (e.isConsumed())
+        {
             return;
         }
 
@@ -3503,23 +4035,28 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * If c is a JRootPane descendant return its outermost JRootPane ancestor. If c is a RootPaneContainer then return
      * its JRootPane.
-     *
      * @param c the component.
      * @return the outermost JRootPane for Component c or {@code null}.
      */
-    public static JRootPane getOutermostRootPane(Component c) {
-        if (c instanceof RootPaneContainer && c.getParent() == null) {
+    public static JRootPane getOutermostRootPane(Component c)
+    {
+        if (c instanceof RootPaneContainer && c.getParent() == null)
+        {
             return ((RootPaneContainer) c).getRootPane();
         }
         JRootPane lastRootPane;
-        for (; c != null; c = SwingUtilities.getRootPane(c)) {
-            if (c instanceof JRootPane) {
+        for (; c != null; c = SwingUtilities.getRootPane(c))
+        {
+            if (c instanceof JRootPane)
+            {
                 lastRootPane = (JRootPane) c;
-                if (c.getParent().getParent() == null) {
+                if (c.getParent().getParent() == null)
+                {
                     return lastRootPane;
                 }
                 if (c.getParent() instanceof JDialog || c.getParent() instanceof JWindow
-                        || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet) {
+                        || c.getParent() instanceof JFrame || c.getParent() instanceof JApplet)
+                {
                     return lastRootPane;
                 }
                 c = c.getParent().getParent();
@@ -3531,16 +4068,17 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Checks if the font specified by the font name is fixed width font. Fixed width font means all chars have the
      * exact same width.
-     *
-     * @param fontName  the font name
+     * @param fontName the font name
      * @param component the component where the font will be displayed.
      * @return true if the font is fixed width. Otherwise false.
      */
-    public static boolean isFixedWidthFont(String fontName, Component component) {
+    public static boolean isFixedWidthFont(String fontName, Component component)
+    {
         if (fontName.endsWith(" Bold") || fontName.endsWith(" ITC") || fontName.endsWith(" MT") || fontName.endsWith(" LET")
                 || fontName.endsWith(".bold") || fontName.endsWith(".italic"))
             return false;
-        try {
+        try
+        {
             Font font = new Font(fontName, 0, 12);
             if (!font.canDisplay('W'))
                 return false;
@@ -3549,19 +4087,23 @@ public class JideSwingUtilities implements SwingConstants {
             FontMetrics fmBold = component.getFontMetrics(boldFont);
             int l1 = fm.charWidth('l');
             int l2 = fmBold.charWidth('l');
-            if (l1 == l2) {
+            if (l1 == l2)
+            {
                 int w1 = fm.charWidth('W');
                 int w2 = fmBold.charWidth('W');
-                if (w1 == w2 && l1 == w1) {
+                if (w1 == w2 && l1 == w1)
+                {
                     int s1 = fm.charWidth(' ');
                     int s2 = fmBold.charWidth(' ');
-                    if (s1 == s2) {
+                    if (s1 == s2)
+                    {
                         return true;
                     }
                 }
             }
         }
-        catch (Throwable throwable) {
+        catch (Throwable throwable)
+        {
             // ignore it and return false
         }
         return false;
@@ -3569,21 +4111,25 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Sets the locale recursively on the component and all its child components if any.
-     *
-     * @param c      the component
+     * @param c the component
      * @param locale the new locales.
      */
-    public static void setLocaleRecursively(final Component c, final Locale locale) {
-        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-            public boolean condition(Component c) {
+    public static void setLocaleRecursively(final Component c, final Locale locale)
+    {
+        JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler()
+        {
+            public boolean condition(Component c)
+            {
                 return true;
             }
 
-            public void action(Component c) {
+            public void action(Component c)
+            {
                 c.setLocale(locale);
             }
 
-            public void postAction(Component c) {
+            public void postAction(Component c)
+            {
 
             }
         });
@@ -3592,16 +4138,18 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Sets the bounds. If the container orientation is from right to left, this method will adjust the x to the
      * opposite.
-     *
      * @param container the container. It is usually the parent of the component.
      * @param component the component to set bounds
-     * @param bounds    the bounds.
+     * @param bounds the bounds.
      */
-    public static void setBounds(Container container, Component component, Rectangle bounds) {
-        if (container.getComponentOrientation().isLeftToRight()) {
+    public static void setBounds(Container container, Component component, Rectangle bounds)
+    {
+        if (container.getComponentOrientation().isLeftToRight())
+        {
             component.setBounds(bounds);
         }
-        else {
+        else
+        {
             Rectangle r = new Rectangle(bounds);
             int w = container.getWidth();
             r.x = w - (bounds.x + bounds.width);
@@ -3612,19 +4160,21 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Sets the bounds. If the container orientation is from right to left, this method will adjust the x to the
      * opposite.
-     *
      * @param container the container. It is usually the parent of the component.
      * @param component the component to set bounds
-     * @param x         the x of the bounds
-     * @param y         the y of the bounds
-     * @param width     the the height of the bounds. of the bounds.
-     * @param height    the height of the bounds.
+     * @param x the x of the bounds
+     * @param y the y of the bounds
+     * @param width the the height of the bounds. of the bounds.
+     * @param height the height of the bounds.
      */
-    public static void setBounds(Container container, Component component, int x, int y, int width, int height) {
-        if (container.getComponentOrientation().isLeftToRight()) {
+    public static void setBounds(Container container, Component component, int x, int y, int width, int height)
+    {
+        if (container.getComponentOrientation().isLeftToRight())
+        {
             component.setBounds(x, y, width, height);
         }
-        else {
+        else
+        {
             int w = container.getWidth();
             component.setBounds(w - x - width, y, width, height);
         }
@@ -3632,22 +4182,27 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Invalidate and doLayout on the component and all its child components if any.
-     *
      * @param c the component
      */
-    public static void invalidateRecursively(final Component c) {
-        if (c instanceof JComponent) {
-            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler() {
-                public boolean condition(Component c) {
+    public static void invalidateRecursively(final Component c)
+    {
+        if (c instanceof JComponent)
+        {
+            JideSwingUtilities.setRecursively(c, new JideSwingUtilities.Handler()
+            {
+                public boolean condition(Component c)
+                {
                     return true;
                 }
 
-                public void action(Component c) {
+                public void action(Component c)
+                {
                     if (c instanceof JComponent) ((JComponent) c).revalidate();
                     c.invalidate();
                 }
 
-                public void postAction(Component c) {
+                public void postAction(Component c)
+                {
                 }
             });
         }
@@ -3658,17 +4213,19 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Registers all actions registered on the source component and registered them on the target component at the
      * specified condition.
-     *
      * @param sourceComponent the source component.
      * @param targetComponent the target component.
-     * @param keyStrokes      the keystrokes
-     * @param condition       the condition which will be used in {@link javax.swing.JComponent#registerKeyboardAction(java.awt.event.ActionListener,
-     *                        javax.swing.KeyStroke, int)} as the last parameter.
+     * @param keyStrokes the keystrokes
+     * @param condition the condition which will be used in {@link javax.swing.JComponent#registerKeyboardAction(java.awt.event.ActionListener,
+     * javax.swing.KeyStroke, int)} as the last parameter.
      */
-    public static void synchronizeKeyboardActions(JComponent sourceComponent, JComponent targetComponent, KeyStroke[] keyStrokes, int condition) {
-        for (KeyStroke keyStroke : keyStrokes) {
+    public static void synchronizeKeyboardActions(JComponent sourceComponent, JComponent targetComponent, KeyStroke[] keyStrokes, int condition)
+    {
+        for (KeyStroke keyStroke : keyStrokes)
+        {
             ActionListener actionListener = sourceComponent.getActionForKeyStroke(keyStroke);
-            if (actionListener != null) {
+            if (actionListener != null)
+            {
                 targetComponent.registerKeyboardAction(actionListener, keyStroke, condition);
             }
         }
@@ -3676,17 +4233,20 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the first JComponent from the RootPaneContainer.
-     *
      * @param rootPaneContainer a rootPaneContainer
      * @return the first JComponent from the rootPaneContainer's content pane.
      */
-    public static JComponent getFirstJComponent(RootPaneContainer rootPaneContainer) {
-        return (JComponent) getRecursively(rootPaneContainer.getContentPane(), new GetHandler() {
-            public boolean condition(Component c) {
+    public static JComponent getFirstJComponent(RootPaneContainer rootPaneContainer)
+    {
+        return (JComponent) getRecursively(rootPaneContainer.getContentPane(), new GetHandler()
+        {
+            public boolean condition(Component c)
+            {
                 return c instanceof JComponent;
             }
 
-            public Component action(Component c) {
+            public Component action(Component c)
+            {
                 return c;
             }
         });
@@ -3704,27 +4264,34 @@ public class JideSwingUtilities implements SwingConstants {
      * }
      * <p/>
      * </code></pre>
-     *
-     * @param list                the JList
+     * @param list the JList
      * @param defaultViewportSize the default viewport size from JList#getPreferredScrollableViewportSize().
      * @return the adjusted size.
      */
-    public static Dimension adjustPreferredScrollableViewportSize(JList list, Dimension defaultViewportSize) {
+    public static Dimension adjustPreferredScrollableViewportSize(JList list, Dimension defaultViewportSize)
+    {
         // workaround the bug that the list is tiny when the first element is empty
         Rectangle cellBonds = list.getCellBounds(0, 0);
-        if (cellBonds != null && cellBonds.height < 3) {
+        if (cellBonds != null && cellBonds.height < 3)
+        {
             ListCellRenderer renderer = list.getCellRenderer();
-            if (renderer != null) {
+            if (renderer != null)
+            {
                 Component c = renderer.getListCellRendererComponent(list, "DUMMY STRING", 0, false, false);
-                if (c != null) {
+                if (c != null)
+                {
                     Dimension preferredSize = c.getPreferredSize();
-                    if (preferredSize != null) {
+                    if (preferredSize != null)
+                    {
                         int height = preferredSize.height;
-                        if (height < 3) {
-                            try {
+                        if (height < 3)
+                        {
+                            try
+                            {
                                 height = list.getCellBounds(1, 1).height;
                             }
-                            catch (Exception e) {
+                            catch (Exception e)
+                            {
                                 height = 16;
                             }
                         }
@@ -3733,10 +4300,12 @@ public class JideSwingUtilities implements SwingConstants {
                 }
             }
         }
-        if (SystemInfo.isJdk15Above()) {
+        if (SystemInfo.isJdk15Above())
+        {
             return defaultViewportSize;
         }
-        else {
+        else
+        {
             // in JDK1.4.2, the vertical scroll bar is shown because of the wrong size is calculated.
             defaultViewportSize.height++;
             return defaultViewportSize;
@@ -3747,13 +4316,14 @@ public class JideSwingUtilities implements SwingConstants {
      * The semantics in AWT of hiding a component, removing a component, and reparenting a component are inconsistent
      * with respect to focus. By calling this function before any of the operations above focus is guaranteed a
      * consistent degregation.
-     *
      * @param component
      */
-    public static void removeFromParentWithFocusTransfer(Component component) {
+    public static void removeFromParentWithFocusTransfer(Component component)
+    {
         boolean wasVisible = component.isVisible();
         component.setVisible(false);
-        if (component.getParent() != null) {
+        if (component.getParent() != null)
+        {
             component.getParent().remove(component);
         }
         component.setVisible(wasVisible);
@@ -3761,15 +4331,16 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the line height for the font for the component
-     *
-     * @param c             the component
+     * @param c the component
      * @param defaultHeight the default height if the font on the specified component is null
      * @return the line height for the font for the component (or the passed in the default value if the font on the
      *         specified component is null)
      */
-    public static int getLineHeight(Component c, int defaultHeight) {
+    public static int getLineHeight(Component c, int defaultHeight)
+    {
         Font f = c == null ? null : c.getFont();
-        if (f == null) {
+        if (f == null)
+        {
             return defaultHeight;
         }
         FontMetrics fm = c.getFontMetrics(f);
@@ -3782,12 +4353,13 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Adds a separator to the popup menu if there are menu items on it already.
-     *
      * @param popup the popup menu.
      */
-    public static void addSeparatorIfNecessary(JPopupMenu popup) {
+    public static void addSeparatorIfNecessary(JPopupMenu popup)
+    {
         int count = popup.getComponentCount();
-        if (count > 0 && !(popup.getComponent(count - 1) instanceof JSeparator)) {
+        if (count > 0 && !(popup.getComponent(count - 1) instanceof JSeparator))
+        {
             popup.addSeparator();
         }
     }
@@ -3795,21 +4367,26 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Removes extra separators, if any. This can be used when you remove some menu items and leave extra separators on
      * the UI.
-     *
      * @param popup the popup menu.
      */
-    public static void removeExtraSeparators(JPopupMenu popup) {
+    public static void removeExtraSeparators(JPopupMenu popup)
+    {
         Component[] components = popup.getComponents();
-        if (components.length <= 1) {
+        if (components.length <= 1)
+        {
             return;
         }
-        for (int i = 0; i < components.length; i++) {
+        for (int i = 0; i < components.length; i++)
+        {
             Component component = components[i];
-            if (component instanceof JSeparator) {
-                if (i == 0 || i == components.length - 1) { // if the separator is the first one or the last one, remove it because the separator is not necessary here
+            if (component instanceof JSeparator)
+            {
+                if (i == 0 || i == components.length - 1)
+                { // if the separator is the first one or the last one, remove it because the separator is not necessary here
                     popup.remove(component);
                 }
-                else if (components[i - 1] instanceof JSeparator) {
+                else if (components[i - 1] instanceof JSeparator)
+                {
                     popup.remove(component);
                 }
             }
@@ -3819,22 +4396,22 @@ public class JideSwingUtilities implements SwingConstants {
     /**
      * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
      * in case the L&F doesn't respect the opaque flag.
-     *
      * @param component the text component to be set to transparent.
      * @deprecated replaced by {@link #setComponentTransparent(javax.swing.JComponent)}.
      */
     @Deprecated
-    public static void setTextComponentTransparent(JComponent component) {
+    public static void setTextComponentTransparent(JComponent component)
+    {
         setComponentTransparent(component);
     }
 
     /**
      * Sets the text component transparent. It will call setOpaque(false) and also set client property for certain L&Fs
      * in case the L&F doesn't respect the opaque flag.
-     *
      * @param component the text component to be set to transparent.
      */
-    public static void setComponentTransparent(JComponent component) {
+    public static void setComponentTransparent(JComponent component)
+    {
         component.setOpaque(false);
 
 // add this for the Synthetica
@@ -3847,28 +4424,33 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Perform a binary search over a sorted list for the given key.
-     *
-     * @param a   the array to search
+     * @param a the array to search
      * @param key the key to search for
      * @return the index of the given key if it exists in the list, otherwise -1 times the index value at the insertion
      *         point that would be used if the key were added to the list.
      */
-    public static int binarySearch(List<Object> a, Object key) {
+    public static int binarySearch(List<Object> a, Object key)
+    {
         int x1 = 0;
         int x2 = a.size();
         int i = x2 / 2, c;
-        while (x1 < x2) {
-            if (!(a.get(i) instanceof Comparable)) {
+        while (x1 < x2)
+        {
+            if (!(a.get(i) instanceof Comparable))
+            {
                 return i;
             }
             c = ((Comparable) a.get(i)).compareTo(key);
-            if (c == 0) {
+            if (c == 0)
+            {
                 return i;
             }
-            else if (c < 0) {
+            else if (c < 0)
+            {
                 x1 = i + 1;
             }
-            else {
+            else
+            {
                 x2 = i;
             }
             i = x1 + (x2 - x1) / 2;
@@ -3878,28 +4460,33 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Perform a binary search over a sorted array for the given key.
-     *
-     * @param a   the array to search
+     * @param a the array to search
      * @param key the key to search for
      * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
      *         point that would be used if the key were added to the array.
      */
-    public static int binarySearch(Object[] a, Object key) {
+    public static int binarySearch(Object[] a, Object key)
+    {
         int x1 = 0;
         int x2 = a.length;
         int i = x2 / 2, c;
-        while (x1 < x2) {
-            if (!(a[i] instanceof Comparable)) {
+        while (x1 < x2)
+        {
+            if (!(a[i] instanceof Comparable))
+            {
                 return i;
             }
             c = ((Comparable) a[i]).compareTo(key);
-            if (c == 0) {
+            if (c == 0)
+            {
                 return i;
             }
-            else if (c < 0) {
+            else if (c < 0)
+            {
                 x1 = i + 1;
             }
-            else {
+            else
+            {
                 x2 = i;
             }
             i = x1 + (x2 - x1) / 2;
@@ -3909,38 +4496,42 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Perform a binary search over a sorted array for the given key.
-     *
-     * @param a   the array to search
+     * @param a the array to search
      * @param key the key to search for
      * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
      *         point that would be used if the key were added to the array.
      */
-    public static int binarySearch(int[] a, int key) {
+    public static int binarySearch(int[] a, int key)
+    {
         return binarySearch(a, key, 0, a.length);
     }
 
     /**
      * Perform a binary search over a sorted array for the given key.
-     *
-     * @param a     the array to search
-     * @param key   the key to search for
+     * @param a the array to search
+     * @param key the key to search for
      * @param start the start index to search inclusive
-     * @param end   the end index to search exclusive
+     * @param end the end index to search exclusive
      * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
      *         point that would be used if the key were added to the array.
      */
-    public static int binarySearch(int[] a, int key, int start, int end) {
+    public static int binarySearch(int[] a, int key, int start, int end)
+    {
         int x1 = start;
         int x2 = end;
         int i = x2 / 2;
-        while (x1 < x2) {
-            if (a[i] == key) {
+        while (x1 < x2)
+        {
+            if (a[i] == key)
+            {
                 return i;
             }
-            else if (a[i] < key) {
+            else if (a[i] < key)
+            {
                 x1 = i + 1;
             }
-            else {
+            else
+            {
                 x2 = i;
             }
             i = x1 + (x2 - x1) / 2;
@@ -3950,86 +4541,104 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Checks if the ctrl key is pressed. On Mac oS X, it will be command key.
-     *
      * @param event the InputEvent.
      * @return true or false.
      */
-    public static boolean isMenuShortcutKeyDown(InputEvent event) {
+    public static boolean isMenuShortcutKeyDown(InputEvent event)
+    {
         return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
     }
 
     /**
      * Checks if the ctrl key is pressed. On Mac oS X, it will be command key.
-     *
      * @param event the InputEvent.
      * @return true or false.
      */
-    public static boolean isMenuShortcutKeyDown(ActionEvent event) {
+    public static boolean isMenuShortcutKeyDown(ActionEvent event)
+    {
         return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
     }
 
     private static ChangeListener _viewportSyncListener;
 
-    public static ChangeListener getViewportSynchronizationChangeListener() {
-        if (_viewportSyncListener == null) {
+    public static ChangeListener getViewportSynchronizationChangeListener()
+    {
+        if (_viewportSyncListener == null)
+        {
             _viewportSyncListener = new viewportSynchronizationChangeListener();
         }
         return _viewportSyncListener;
     }
 
-    private static class viewportSynchronizationChangeListener implements ChangeListener {
-        public void stateChanged(ChangeEvent e) {
-            if (!(e.getSource() instanceof JViewport)) {
+    private static class viewportSynchronizationChangeListener implements ChangeListener
+    {
+        public void stateChanged(ChangeEvent e)
+        {
+            if (!(e.getSource() instanceof JViewport))
+            {
                 return;
             }
             JViewport masterViewport = (JViewport) e.getSource();
             Object property = masterViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
-            if (!(property instanceof Map)) {
+            if (!(property instanceof Map))
+            {
                 return;
             }
 
             Dimension size = masterViewport.getSize();
-            if (size.width == 0 || size.height == 0) {
+            if (size.width == 0 || size.height == 0)
+            {
                 return;
             }
             Map<JViewport, Integer> slaveViewportMap = (Map) property;
             Map<JViewport, Integer> allViewportToSync = new HashMap<JViewport, Integer>();
             allViewportToSync.putAll(slaveViewportMap);
-            do {
+            do
+            {
                 Map<JViewport, Integer> viewportToAdd = new HashMap<JViewport, Integer>();
-                for (JViewport slaveViewport : allViewportToSync.keySet()) {
+                for (JViewport slaveViewport : allViewportToSync.keySet())
+                {
                     Object slaveProperty = slaveViewport.getClientProperty(JideScrollPane.CLIENT_PROPERTY_SLAVE_VIEWPORT);
-                    if (!(slaveProperty instanceof Map)) {
+                    if (!(slaveProperty instanceof Map))
+                    {
                         continue;
                     }
                     int orientation = allViewportToSync.get(slaveViewport);
                     Map<JViewport, Integer> viewportMap = (Map) slaveProperty;
-                    for (JViewport viewport : viewportMap.keySet()) {
-                        if (viewport != masterViewport && !allViewportToSync.containsKey(viewport) && viewportMap.get(viewport) == orientation) {
+                    for (JViewport viewport : viewportMap.keySet())
+                    {
+                        if (viewport != masterViewport && !allViewportToSync.containsKey(viewport) && viewportMap.get(viewport) == orientation)
+                        {
                             viewportToAdd.put(viewport, viewportMap.get(viewport));
                         }
                     }
                 }
-                if (viewportToAdd.isEmpty()) {
+                if (viewportToAdd.isEmpty())
+                {
                     break;
                 }
                 allViewportToSync.putAll(viewportToAdd);
             }
             while (true);
-            for (JViewport slaveViewport : allViewportToSync.keySet()) {
+            for (JViewport slaveViewport : allViewportToSync.keySet())
+            {
                 slaveViewport.removeChangeListener(getViewportSynchronizationChangeListener());
                 int orientation = allViewportToSync.get(slaveViewport);
-                if (orientation == HORIZONTAL) {
+                if (orientation == HORIZONTAL)
+                {
                     Point v1 = masterViewport.getViewPosition();
                     Point v2 = slaveViewport.getViewPosition();
-                    if (v1.x != v2.x) {
+                    if (v1.x != v2.x)
+                    {
                         slaveViewport.setViewPosition(new Point(v1.x, v2.y));
                     }
                 }
-                else if (orientation == VERTICAL) {
+                else if (orientation == VERTICAL)
+                {
                     Point v1 = masterViewport.getViewPosition();
                     Point v2 = slaveViewport.getViewPosition();
-                    if (v1.y != v2.y) {
+                    if (v1.y != v2.y)
+                    {
                         slaveViewport.setViewPosition(new Point(v2.x, v1.y));
                     }
                 }
@@ -4040,67 +4649,75 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Sets the Window opaque using AWTUtilities.setWindowOpaque on JDK6u10 and later.
-     *
      * @param window the Window
      * @param opaque true or false
      */
-    public static void setWindowOpaque(Window window, boolean opaque) {
-        try {
+    public static void setWindowOpaque(Window window, boolean opaque)
+    {
+        try
+        {
             Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
             Method m = c.getMethod("setWindowOpaque", Window.class, boolean.class);
             m.invoke(null, window, opaque);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             // ignore
         }
     }
 
     /**
      * Sets the Window opacity using AWTUtilities.setWindowOpacity on JDK6u10 and later.
-     *
-     * @param window  the Window
+     * @param window the Window
      * @param opacity the opacity
      */
-    public static void setWindowOpacity(Window window, float opacity) {
-        try {
+    public static void setWindowOpacity(Window window, float opacity)
+    {
+        try
+        {
             Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
             Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpacity", Window.class, float.class);
             mSetWindowOpacity.invoke(null, window, opacity);
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             // ignore
         }
     }
 
     /**
      * Sets the Window shape using AWTUtilities.setWindowOpacity on JDK6u10 and later.
-     *
      * @param window the Window
-     * @param shape  the shape
+     * @param shape the shape
      */
-    public static void setWindowShape(Window window, Shape shape) {
-        try {
+    public static void setWindowShape(Window window, Shape shape)
+    {
+        try
+        {
             Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
             Method m = c.getMethod("setWindowShape", Window.class, Shape.class);
             m.invoke(null, window, shape);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             // ignore
         }
     }
 
     /**
      * Gets the string representing OK button.
-     *
      * @param locale the locale
      * @return the string.
      * @since 3.3.8
      */
-    public static String getOKString(Locale locale) {
+    public static String getOKString(Locale locale)
+    {
         String text = UIDefaultsLookup.getString("OptionPane.okButtonText", locale);
-        if (text == null || text.length() <= 0) {
+        if (text == null || text.length() <= 0)
+        {
             text = UIDefaultsLookup.getString("ColorChooser.okText");
-            if (text == null || text.length() <= 0) {
+            if (text == null || text.length() <= 0)
+            {
                 text = ButtonResources.getResourceBundle(locale).getString("Button.ok");
             }
         }
@@ -4109,16 +4726,18 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the string representing Cancel button.
-     *
      * @param locale the locale
      * @return the string.
      * @since 3.3.8
      */
-    public static String getCancelString(Locale locale) {
+    public static String getCancelString(Locale locale)
+    {
         String text = UIDefaultsLookup.getString("OptionPane.cancelButtonText", locale);
-        if (text == null || text.length() <= 0) {
+        if (text == null || text.length() <= 0)
+        {
             text = UIDefaultsLookup.getString("ColorChooser.cancelText");
-            if (text == null || text.length() <= 0) {
+            if (text == null || text.length() <= 0)
+            {
                 text = ButtonResources.getResourceBundle(locale).getString("Button.cancel");
             }
         }
@@ -4127,14 +4746,15 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the string representing Yes button.
-     *
      * @param locale the locale
      * @return the string.
      * @since 3.3.8
      */
-    public static String getYesString(Locale locale) {
+    public static String getYesString(Locale locale)
+    {
         String text = UIDefaultsLookup.getString("OptionPane.yesButtonText", locale);
-        if (text == null || text.length() <= 0) {
+        if (text == null || text.length() <= 0)
+        {
             text = ButtonResources.getResourceBundle(locale).getString("Button.yes");
         }
         return text;
@@ -4142,14 +4762,15 @@ public class JideSwingUtilities implements SwingConstants {
 
     /**
      * Gets the string representing No button.
-     *
      * @param locale the locale
      * @return the string.
      * @since 3.3.8
      */
-    public static String getNoString(Locale locale) {
+    public static String getNoString(Locale locale)
+    {
         String text = UIDefaultsLookup.getString("OptionPane.noButtonText", locale);
-        if (text == null || text.length() <= 0) {
+        if (text == null || text.length() <= 0)
+        {
             text = ButtonResources.getResourceBundle(locale).getString("Button.no");
         }
         return text;
