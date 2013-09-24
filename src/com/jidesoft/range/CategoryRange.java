@@ -428,7 +428,16 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         double targetMax = target.maximum();
         double min = sourceMin + position * (targetMin - sourceMin);
         double max= sourceMax + position * (targetMax - sourceMax);
-        CategoryRange r = position < 0.5 ? new CategoryRange(this) : new CategoryRange(target);
+        CategoryRange r;
+        if (position < 0.5) {
+            r = new CategoryRange(this);
+        } else {
+            if (target instanceof CategoryRange) {
+                r = new CategoryRange((CategoryRange) target);
+            } else {
+                throw new IllegalArgumentException("Cannot create intermediate range from "+target.getClass());
+            }
+        }
         r.setMinimum(min);
         r.setMaximum(max);
         return r;
