@@ -51,8 +51,8 @@ public class Office2007Painter extends BasicPainter {
     /**
      * Creates a default painter that paints something that could not be painted by Office2007Painter.'
      * <p/>
-     * By default, it returns an Office2003Painter. However, if you doesn't like the painting theme of Office2003Painter,
-     * you could override this method to offer another default painter.
+     * By default, it returns an Office2003Painter. However, if you doesn't like the painting theme of
+     * Office2003Painter, you could override this method to offer another default painter.
      *
      * @return the default painter instance.
      */
@@ -428,8 +428,8 @@ public class Office2007Painter extends BasicPainter {
     public void paintStatusBarSeparator
             (JComponent
                      c, Graphics
-                    g, Rectangle
-                    rect, int orientation,
+                     g, Rectangle
+                     rect, int orientation,
              int state) {
         g.setColor(new Color(0x8DACD5));
         g.drawLine(rect.x, rect.y, rect.x, rect.y + rect.height);
@@ -460,9 +460,10 @@ public class Office2007Painter extends BasicPainter {
 
     @Override
     public void paintPopupMenuSeparator(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+        int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");
         super.paintPopupMenuSeparator(c, g, rect, orientation, state);
         g.setColor(new Color(0xC5C5C5));
-        g.drawLine(rect.x + 24, rect.y, rect.x + 24, rect.y + rect.height);
+        g.drawLine(rect.x + defaultShadowWidth, rect.y, rect.x + defaultShadowWidth, rect.y + rect.height);
     }
 
     public void paintDropDownIcon(Graphics g, int x, int y) {
