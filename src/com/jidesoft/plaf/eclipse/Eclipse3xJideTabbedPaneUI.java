@@ -202,7 +202,7 @@ public class Eclipse3xJideTabbedPaneUI extends VsnetJideTabbedPaneUI {
                 int next = _tabRuns[(i == _runCount - 1) ? 0 : i + 1];
                 int end = (next != 0 ? next - 1 : tabCount - 1);
                 for (int j = start; j <= end; j++) {
-                    if (_rects[j].intersects(clipRect)) {// 两者是否相交
+                    if (_rects[j].intersects(clipRect)) {
                         paintTab(g, tabPlacement, _rects, j, iconRect, textRect);
                     }
                 }
