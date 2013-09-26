@@ -21,8 +21,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -165,7 +166,10 @@ public class JideTabbedPane extends JTabbedPane {
 
     private boolean _boldActiveTab = false;
 
-    private Map<Object, Object> _closableMap = new Hashtable<Object, Object>();
+    /**
+     * The Set for the tab closable. If there is an entry in the Set, it means the tab is NOT closable.
+     */
+    private Set<Object> _closableSet = new HashSet<Object>();
 
     private Hashtable<Component, Object> _pageLastFocusTrackers = new Hashtable<Component, Object>();
 
@@ -502,17 +506,28 @@ public class JideTabbedPane extends JTabbedPane {
         setSelectedIndex(index);
     }
 
-    public void setComponentAt(int index, Component component) {
+    public void setComponentAt(int index, Component c) {
         Component oldComponent = getComponentAt(index);
         if (oldComponent != null) {
-            // JTabbedPane allows a null component, but doesn't really support it.
+            // JTabbedPane allows a null c, but doesn't really support it.
             PageLastFocusTracker tracker = (PageLastFocusTracker) _pageLastFocusTrackers.get(oldComponent);
             _pageLastFocusTrackers.remove(oldComponent);
             if (tracker != null) {
                 tracker.setHeighestComponent(null); // Clear its listeners
             }
         }
-        super.setComponentAt(index, component);
+
+        boolean contains = false;
+        if (_closableSet.contains(oldComponent)) {
+            contains = true;
+        }
+
+        super.setComponentAt(index, c);
+
+        if (contains) {
+            _closableSet.add(c);
+        }
+
         if (!isAutoFocusOnTabHideClose())
             clearVisComp();
     }
@@ -567,23 +582,23 @@ public class JideTabbedPane extends JTabbedPane {
             setAutoRequestFocus(false);
 
             if (selectedIndex - tabIndex == 1 || tabIndex - selectedIndex == 1) {
-                Component frame = getComponentAt(tabIndex);
+                Component c = getComponentAt(tabIndex);
                 String title = getTitleAt(tabIndex);
                 String tooltip = getToolTipTextAt(tabIndex);
                 Icon icon = getIconAt(tabIndex);
                 _suppressSetSelectedIndex = true;
-                Object closable = null;
-                if (_closableMap != null) {
-                    closable = _closableMap.get(title);
+                boolean closable = true;
+                if (_closableSet != null) {
+                    closable = isTabClosableAt(tabIndex);
                 }
                 try {
                     if (tabIndex > selectedIndex)
-                        insertTab(title, icon, frame, tooltip, selectedIndex);
+                        insertTab(title, icon, c, tooltip, selectedIndex);
                     else {
-                        insertTab(title, icon, frame, tooltip, selectedIndex + 1);
+                        insertTab(title, icon, c, tooltip, selectedIndex + 1);
                     }
-                    if (closable != null) {
-                        _closableMap.put(title, closable);
+                    if (!closable) {
+                        _closableSet.add(c);
                     }
                 }
                 finally {
@@ -591,23 +606,23 @@ public class JideTabbedPane extends JTabbedPane {
                 }
             }
             else {
-                Component frame = getComponentAt(selectedIndex);
+                Component c = getComponentAt(selectedIndex);
                 String title = getTitleAt(selectedIndex);
                 String tooltip = getToolTipTextAt(selectedIndex);
                 Icon icon = getIconAt(selectedIndex);
                 _suppressSetSelectedIndex = true;
-                Object closable = null;
-                if (_closableMap != null) {
-                    closable = _closableMap.get(title);
+                boolean closable = true;
+                if (_closableSet != null) {
+                    closable = isTabClosableAt(tabIndex);
                 }
                 try {
                     if (tabIndex > selectedIndex)
-                        insertTab(title, icon, frame, tooltip, tabIndex + 1);
+                        insertTab(title, icon, c, tooltip, tabIndex + 1);
                     else {
-                        insertTab(title, icon, frame, tooltip, tabIndex);
+                        insertTab(title, icon, c, tooltip, tabIndex);
                     }
-                    if (closable != null) {
-                        _closableMap.put(title, closable);
+                    if (!closable) {
+                        _closableSet.add(c);
                     }
                 }
                 finally {
@@ -1056,26 +1071,24 @@ public class JideTabbedPane extends JTabbedPane {
             enforce = !SystemInfo.isJdk15Above();
         }
 
+        Component c = getComponentAt(index);
         boolean contains = false;
-        String titleAt = getTitleAt(index);
-        if (_closableMap.containsKey(titleAt)) {
+        if (_closableSet.contains(c)) {
             contains = true;
         }
 
-        Component component = getComponentAt(index);
         if (!isAutoFocusOnTabHideClose())
             clearVisComp();
 
         super.removeTabAt(index);
 
-
         if (contains) {
-            _closableMap.remove(titleAt);
+            _closableSet.remove(c);
         }
-        if (component != null) {
-            // JTabbedPane allows a null component, but doesn't really support it.
-            PageLastFocusTracker tracker = (PageLastFocusTracker) _pageLastFocusTrackers.get(component);
-            _pageLastFocusTrackers.remove(component);
+        if (c != null) {
+            // JTabbedPane allows a null c, but doesn't really support it.
+            PageLastFocusTracker tracker = (PageLastFocusTracker) _pageLastFocusTrackers.get(c);
+            _pageLastFocusTrackers.remove(c);
             if (tracker != null) {
                 tracker.setHeighestComponent(null); // Clear its listeners
             }
@@ -1100,18 +1113,6 @@ public class JideTabbedPane extends JTabbedPane {
         }
     }
 
-    @Override
-    public void setTitleAt(int index, String title) {
-        boolean contains = false;
-        if (_closableMap.containsKey(getTitleAt(index))) {
-            contains = true;
-        }
-        super.setTitleAt(index, title);
-        if (contains) {
-            _closableMap.put(title, "");
-        }
-    }
-
     /**
      * Checks if the tab at tabIndex should show the close button. This is only a valid if showCloseButtonOnTab
      * attribute is true.
@@ -1123,7 +1124,7 @@ public class JideTabbedPane extends JTabbedPane {
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public boolean isTabClosableAt(int tabIndex) {
-        return !_closableMap.containsKey(getTitleAt(tabIndex));
+        return !_closableSet.contains(getComponentAt(tabIndex));
     }
 
     /**
@@ -1135,15 +1136,15 @@ public class JideTabbedPane extends JTabbedPane {
      * Please note, this attribute has effect only when {@link #isShowCloseButtonOnTab()} return true.
      *
      * @param tabIndex the tab index
-     * @param closable the flag indicating if the tab is clossable
+     * @param closable the flag indicating if the tab is closable
      * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
      */
     public void setTabClosableAt(int tabIndex, boolean closable) {
         if (closable) {
-            _closableMap.remove(getTitleAt(tabIndex));
+            _closableSet.remove(getComponentAt(tabIndex));
         }
         else {
-            _closableMap.put(getTitleAt(tabIndex), Boolean.FALSE);
+            _closableSet.add(getComponentAt(tabIndex));
         }
         firePropertyChange(TAB_CLOSABLE_PROPERTY, !closable, closable);
     }
