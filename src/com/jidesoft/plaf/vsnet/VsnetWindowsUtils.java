@@ -447,7 +447,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                     "DockableFrameTitlePane.showIcon", Boolean.FALSE, // show icon or not
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 6), // gap
 
-                    "Contour.color", new ColorUIResource(136, 136, 136),
+                    "Contour.color", activeTitleBackgroundColor,
                     "Contour.thickness", 4,
 
                     "DockingFramework.changeCursor", Boolean.FALSE,

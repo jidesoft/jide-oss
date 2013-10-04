@@ -424,7 +424,7 @@ public class EclipseWindowsUtils extends EclipseLookAndFeelExtension {
                     "DockableFrameTitlePane.showIcon", Boolean.TRUE, // show icon or not, the alignment is the same as titleAlignment
                     "DockableFrameTitlePane.margin", new InsetsUIResource(0, 6, 0, 0), // gap
 
-                    "Contour.color", new ColorUIResource(136, 136, 136),
+                    "Contour.color", activeTitleBackgroundColor,
                     "Contour.thickness", 2,
 
                     "DockingFramework.changeCursor", Boolean.TRUE,
