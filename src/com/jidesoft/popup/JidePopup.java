@@ -805,9 +805,6 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
     protected Point getPopupLocation(Point point, Dimension size, Component owner) {
         Component actualOwner = (owner != null) ? owner : getOwner();
         Dimension ownerSize = actualOwner != null ? actualOwner.getSize() : new Dimension(0, 0);
-        Dimension screenSize = PortingUtils.getScreenSize(owner);
-        Rectangle screenBounds = PortingUtils.getScreenBounds(owner);
-
         if (size.width == 0) {
             size = this.getPreferredSize();
         }
@@ -816,14 +813,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         int left = p.x + size.width;
         int bottom = p.y + size.height;
 
-        if (left > screenSize.width) {
-            p.x -= left - screenSize.width; // move left so that the whole popup can fit in
-            if (p.x < screenBounds.x) {
-                p.x = screenBounds.x;
-            }
-        }
+        Rectangle screenBounds = PortingUtils.getContainingScreenBounds(new Rectangle(p, size), true);
 
-        if (bottom > screenSize.height) {
+        if (bottom > screenBounds.y + screenBounds.height) {
             p.y = point.y + _insets.top - size.height; // flip to upward
             if (p.y < screenBounds.y) {
                 p.y = screenBounds.y;
@@ -837,7 +829,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 setupResizeCorner(Resizable.LOWER_RIGHT);
             }
         }
-        Rectangle rectangle = getAdjustedRectangle(p.x, p.y, _actualOwner);
+
+        Rectangle bounds = PortingUtils.containsInScreenBounds(actualOwner, new Rectangle(p, size));
+        p.x = bounds.x;
+        p.y = bounds.y;
         return p;
     }
 
