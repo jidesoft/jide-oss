@@ -440,7 +440,7 @@ public abstract class Searchable {
                 boolean incremental = e != null && isIncrementalSelectKey(e);
                 setSelectedIndex(index, incremental);
                 Searchable.this.setCursor(index, incremental);
-                _textField.setForeground(getForeground());
+                _textField.setForeground(Searchable.this.getForeground());
                 _noMatch.setText("");
             }
             else {
