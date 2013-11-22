@@ -8,12 +8,13 @@
  */
 package com.jidesoft.swing;
 
-import com.jidesoft.plaf.UIDefaultsLookup;
-
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicHTML;
 import java.awt.*;
+import java.awt.geom.Path2D;
+import java.beans.ConstructorProperties;
 
 /**
  * The source code is the same as TitledBorder in JDK 1.4.2 except field TEXT_INSET_H is 0 instead of 5.
@@ -28,7 +29,7 @@ public class JideTitledBorder extends AbstractBorder {
     protected Font titleFont;
     protected Color titleColor;
 
-    private Point textLoc = new Point();
+    private final JLabel label;
 
     /**
      * Use the default vertical orientation for the title text.
@@ -89,8 +90,6 @@ public class JideTitledBorder extends AbstractBorder {
     // Space between the border and the component's edge
     static protected final int EDGE_SPACING = 2;
 
-    static protected final int TITLE_MARGIN = 5;
-
     // Space between the border and text
     static protected final int TEXT_SPACING = 2;
 
@@ -103,7 +102,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param title the title the border should display
      */
     public JideTitledBorder(String title) {
-        this(null, title, LEADING, TOP, null, null);
+        this(null, title, LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
@@ -112,7 +111,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param border the border
      */
     public JideTitledBorder(Border border) {
-        this(border, "", LEADING, TOP, null, null);
+        this(border, "", LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
@@ -122,7 +121,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param title  the title the border should display
      */
     public JideTitledBorder(Border border, String title) {
-        this(border, title, LEADING, TOP, null, null);
+        this(border, title, LEADING, DEFAULT_POSITION, null, null);
     }
 
     /**
@@ -171,6 +170,7 @@ public class JideTitledBorder extends AbstractBorder {
      * @param titleFont          the font of the title
      * @param titleColor         the color of the title
      */
+    @ConstructorProperties({"border", "title", "titleJustification", "titlePosition", "titleFont", "titleColor"})
     public JideTitledBorder(Border border,
                             String title,
                             int titleJustification,
@@ -184,6 +184,10 @@ public class JideTitledBorder extends AbstractBorder {
 
         setTitleJustification(titleJustification);
         setTitlePosition(titlePosition);
+
+        this.label = new JLabel();
+        this.label.setOpaque(false);
+        this.label.putClientProperty(BasicHTML.propertyKey, null);
     }
 
     /**
@@ -198,187 +202,107 @@ public class JideTitledBorder extends AbstractBorder {
      */
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        Border border = getBorderUI();
+        String title = getTitle();
+        if ((title != null) && !title.isEmpty()) {
+            int edge = (border instanceof JideTitledBorder) ? 0 : EDGE_SPACING;
+            JLabel label = getLabel(c);
+            Dimension size = label.getPreferredSize();
+            Insets insets = (border != null)
+                    ? border.getBorderInsets(c)
+                    : new Insets(0, 0, 0, 0);
 
-        Border border = getBorder();
+            int borderX = x + edge;
+            int borderY = y + edge;
+            int borderW = width - edge - edge;
+            int borderH = height - edge - edge;
 
-        if (getTitle() == null || getTitle().equals("")) {
+            int labelY = y;
+            int labelH = size.height;
+            int position = getPosition();
+            switch (position) {
+                case ABOVE_TOP:
+                    insets.left = 0;
+                    insets.right = 0;
+                    borderY += labelH - edge;
+                    borderH -= labelH - edge;
+                    break;
+                case TOP:
+                    insets.top = edge + insets.top / 2 - labelH / 2;
+                    if (insets.top < edge) {
+                        borderY -= insets.top;
+                        borderH += insets.top;
+                    } else {
+                        labelY += insets.top;
+                    }
+                    break;
+                case BELOW_TOP:
+                    labelY += insets.top + edge;
+                    break;
+                case ABOVE_BOTTOM:
+                    labelY += height - labelH - insets.bottom - edge;
+                    break;
+                case BOTTOM:
+                    labelY += height - labelH;
+                    insets.bottom = edge + (insets.bottom - labelH) / 2;
+                    if (insets.bottom < edge) {
+                        borderH += insets.bottom;
+                    } else {
+                        labelY -= insets.bottom;
+                    }
+                    break;
+                case BELOW_BOTTOM:
+                    insets.left = 0;
+                    insets.right = 0;
+                    labelY += height - labelH;
+                    borderH -= labelH - edge;
+                    break;
+            }
+            insets.left += edge + TEXT_INSET_H;
+            insets.right += edge + TEXT_INSET_H;
+
+            int labelX = x;
+            int labelW = width - insets.left - insets.right;
+            if (labelW > size.width) {
+                labelW = size.width;
+            }
+            switch (getJustification(c)) {
+                case LEFT:
+                    labelX += insets.left;
+                    break;
+                case RIGHT:
+                    labelX += width - insets.right - labelW;
+                    break;
+                case CENTER:
+                    labelX += (width - labelW) / 2;
+                    break;
+            }
+
             if (border != null) {
-                border.paintBorder(c, g, x, y, width, height);
-            }
-            return;
-        }
-
-        Rectangle grooveRect = new Rectangle(x + EDGE_SPACING, y + EDGE_SPACING,
-                width - (EDGE_SPACING << 1),
-                height - (EDGE_SPACING << 1));
-        Font font = g.getFont();
-        Color color = g.getColor();
-
-        g.setFont(getFont(c));
-
-        FontMetrics fm = g.getFontMetrics();
-        int fontHeight = fm.getHeight();
-        int descent = fm.getDescent();
-        int ascent = fm.getAscent();
-        int diff;
-        int stringWidth = fm.stringWidth(getTitle());
-        Insets insets;
-
-        if (border != null) {
-            insets = border.getBorderInsets(c);
-        }
-        else {
-            insets = new Insets(0, 0, 0, 0);
-        }
-
-        int titlePos = getTitlePosition();
-        switch (titlePos) {
-            case ABOVE_TOP:
-                diff = ascent + descent + (Math.max(EDGE_SPACING,
-                        TEXT_SPACING << 1) - EDGE_SPACING);
-                grooveRect.y += diff;
-                grooveRect.height -= diff;
-                textLoc.y = grooveRect.y - (descent + TEXT_SPACING);
-                break;
-            case TOP:
-            case DEFAULT_POSITION:
-                diff = Math.max(0, ((ascent >> 1) + TEXT_SPACING) - EDGE_SPACING);
-                grooveRect.y += diff;
-                grooveRect.height -= diff;
-                textLoc.y = (grooveRect.y - descent) +
-                        ((insets.top + ascent + descent) >> 1);
-                break;
-            case BELOW_TOP:
-                textLoc.y = grooveRect.y + insets.top + ascent + TEXT_SPACING;
-                break;
-            case ABOVE_BOTTOM:
-                textLoc.y = (grooveRect.y + grooveRect.height) -
-                        (insets.bottom + descent + TEXT_SPACING);
-                break;
-            case BOTTOM:
-                grooveRect.height -= fontHeight >> 1;
-                textLoc.y = ((grooveRect.y + grooveRect.height) - descent) +
-                        (((ascent + descent) - insets.bottom) >> 1);
-                break;
-            case BELOW_BOTTOM:
-                grooveRect.height -= fontHeight;
-                textLoc.y = grooveRect.y + grooveRect.height + ascent +
-                        TEXT_SPACING;
-                break;
-        }
-
-        int justification = getTitleJustification();
-        if (c.getComponentOrientation().isLeftToRight()) {
-            if (justification == LEADING ||
-                    justification == DEFAULT_JUSTIFICATION) {
-                justification = LEFT;
-            }
-            else if (justification == TRAILING) {
-                justification = RIGHT;
-            }
-        }
-        else {
-            if (justification == LEADING ||
-                    justification == DEFAULT_JUSTIFICATION) {
-                justification = RIGHT;
-            }
-            else if (justification == TRAILING) {
-                justification = LEFT;
-            }
-        }
-
-        switch (justification) {
-            case LEFT:
-                textLoc.x = grooveRect.x + TEXT_INSET_H + insets.left;
-                break;
-            case RIGHT:
-                textLoc.x = (grooveRect.x + grooveRect.width) -
-                        (stringWidth + TEXT_INSET_H + insets.right);
-                break;
-            case CENTER:
-                textLoc.x = grooveRect.x +
-                        ((grooveRect.width - stringWidth) >> 1);
-                break;
-        }
-
-        // If title is positioned in middle of border AND its fontsize
-        // is greater than the border's thickness, we'll need to paint
-        // the border in sections to leave space for the component's background
-        // to show through the title.
-        //
-        if (border != null) {
-            if (((titlePos == TOP || titlePos == DEFAULT_POSITION) && (grooveRect.y > textLoc.y - ascent)) ||
-                    (titlePos == BOTTOM && (grooveRect.y + grooveRect.height < textLoc.y + descent))) {
-
-                Rectangle clipRect = new Rectangle();
-
-                // save original clip
-                Rectangle saveClip = g.getClipBounds();
-
-                // paint strip left of text
-                clipRect.setBounds(saveClip);
-                if (computeIntersection(clipRect, x, y, textLoc.x - TITLE_MARGIN - x, height)) {
-                    g.setClip(clipRect);
-                    border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                            grooveRect.width, grooveRect.height);
-                }
-
-                // paint strip right of text
-                clipRect.setBounds(saveClip);
-                if (computeIntersection(clipRect, textLoc.x + stringWidth + TITLE_MARGIN, y,
-                        x + width - (textLoc.x + stringWidth + TITLE_MARGIN), height)) {
-                    g.setClip(clipRect);
-                    border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                            grooveRect.width, grooveRect.height);
-                }
-
-                if (titlePos == TOP || titlePos == DEFAULT_POSITION) {
-                    // paint strip below text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect, textLoc.x - TITLE_MARGIN, textLoc.y + descent,
-                            stringWidth + 2 * TITLE_MARGIN, y + height - textLoc.y - descent)) {
-                        g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                grooveRect.width, grooveRect.height);
+                if ((position != TOP) && (position != BOTTOM)) {
+                    border.paintBorder(c, g, borderX, borderY, borderW, borderH);
+                } else {
+                    Graphics g2 = g.create();
+                    if (g2 instanceof Graphics2D) {
+                        Graphics2D g2d = (Graphics2D) g2;
+                        Path2D path = new Path2D.Float();
+                        path.append(new Rectangle(borderX, borderY, borderW, labelY - borderY), false);
+                        path.append(new Rectangle(borderX, labelY, labelX - borderX - TEXT_SPACING, labelH), false);
+                        path.append(new Rectangle(labelX + labelW + TEXT_SPACING, labelY, borderX - labelX + borderW - labelW - TEXT_SPACING, labelH), false);
+                        path.append(new Rectangle(borderX, labelY + labelH, borderW, borderY - labelY + borderH - labelH), false);
+                        g2d.clip(path);
                     }
-
+                    border.paintBorder(c, g2, borderX, borderY, borderW, borderH);
+                    g2.dispose();
                 }
-                else { // titlePos == BOTTOM
-                    // paint strip above text
-                    clipRect.setBounds(saveClip);
-                    if (computeIntersection(clipRect, textLoc.x - TITLE_MARGIN, y,
-                            stringWidth + 2 * TITLE_MARGIN, textLoc.y - ascent - y)) {
-                        g.setClip(clipRect);
-                        border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                                grooveRect.width, grooveRect.height);
-                    }
-                }
-
-                // restore clip
-                g.setClip(saveClip);
-
             }
-            else {
-                border.paintBorder(c, g, grooveRect.x, grooveRect.y,
-                        grooveRect.width, grooveRect.height);
-            }
+            g.translate(labelX, labelY);
+            label.setSize(labelW, labelH);
+            label.paint(g);
+            g.translate(-labelX, -labelY);
+        } else if (border != null) {
+            border.paintBorder(c, g, x, y, width, height);
         }
-
-        g.setColor(getTitleColor());
-        JideSwingUtilities.drawString((JComponent) c, g, getTitle(), textLoc.x, textLoc.y);
-
-        g.setFont(font);
-        g.setColor(color);
-    }
-
-    /**
-     * Returns the insets of the border.
-     *
-     * @param c the component for which this border insets value applies
-     */
-    @Override
-    public Insets getBorderInsets(Component c) {
-        return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
 
     /**
@@ -389,71 +313,52 @@ public class JideTitledBorder extends AbstractBorder {
      */
     @Override
     public Insets getBorderInsets(Component c, Insets insets) {
-        FontMetrics fm;
-        int descent = 0;
-        int ascent = 16;
-        int height = 16;
+        Border border = getBorderUI();
+        if (border == null) {
+            insets.set(0, 0, 0, 0);
+        } else if (border instanceof AbstractBorder) {
+            AbstractBorder ab = (AbstractBorder) border;
+            insets = ab.getBorderInsets(c, insets);
+        } else {
+            Insets i = border.getBorderInsets(c);
+            insets.set(i.top, i.left, i.bottom, i.right);
+        }
+        String title = getTitle();
+        if ((title != null) && !title.isEmpty()) {
+            int edge = (border instanceof JideTitledBorder) ? 0 : EDGE_SPACING;
+            JLabel label = getLabel(c);
+            Dimension size = label.getPreferredSize();
 
-        Border border = getBorder();
-        if (border != null) {
-            if (border instanceof AbstractBorder) {
-                ((AbstractBorder) border).getBorderInsets(c, insets);
+            switch (getPosition()) {
+                case ABOVE_TOP:
+                    insets.top += size.height - edge;
+                    break;
+                case TOP: {
+                    if (insets.top < size.height) {
+                        insets.top = size.height - edge;
+                    }
+                    break;
+                }
+                case BELOW_TOP:
+                    insets.top += size.height;
+                    break;
+                case ABOVE_BOTTOM:
+                    insets.bottom += size.height;
+                    break;
+                case BOTTOM: {
+                    if (insets.bottom < size.height) {
+                        insets.bottom = size.height - edge;
+                    }
+                    break;
+                }
+                case BELOW_BOTTOM:
+                    insets.bottom += size.height - edge;
+                    break;
             }
-            else {
-                // Can't reuse border insets because the Border interface
-                // can't be enhanced.
-                Insets i = border.getBorderInsets(c);
-                insets.top = i.top;
-                insets.right = i.right;
-                insets.bottom = i.bottom;
-                insets.left = i.left;
-            }
-        }
-        else {
-            insets.left = insets.top = insets.right = insets.bottom = 0;
-        }
-
-        insets.left += EDGE_SPACING + (insets.left > 0 ? TEXT_SPACING : 0);
-        insets.right += EDGE_SPACING + (insets.right > 0 ? TEXT_SPACING : 0);
-        insets.top += EDGE_SPACING + (insets.top > 0 ? TEXT_SPACING : 0);
-        insets.bottom += EDGE_SPACING + (insets.bottom > 0 ? TEXT_SPACING : 0);
-
-        if (c == null || getTitle() == null || getTitle().equals("")) {
-            return insets;
-        }
-
-        Font font = getFont(c);
-
-        fm = c.getFontMetrics(font);
-
-        if (fm != null) {
-            descent = fm.getDescent();
-            ascent = fm.getAscent();
-            height = fm.getHeight();
-        }
-
-        switch (getTitlePosition()) {
-            case ABOVE_TOP:
-                insets.top += ascent + descent
-                        + (Math.max(EDGE_SPACING, TEXT_SPACING << 1)
-                        - EDGE_SPACING);
-                break;
-            case TOP:
-            case DEFAULT_POSITION:
-                insets.top += ascent + descent;
-                break;
-            case BELOW_TOP:
-                insets.top += ascent + descent + TEXT_SPACING;
-                break;
-            case ABOVE_BOTTOM:
-                insets.bottom += ascent + descent + TEXT_SPACING;
-                break;
-            case BOTTOM:
-                insets.bottom += ascent + descent;
-                break;
-            case BELOW_BOTTOM:
-                insets.bottom += height;
-                break;
+            insets.top += edge + TEXT_SPACING;
+            insets.left += edge + TEXT_SPACING;
+            insets.right += edge + TEXT_SPACING;
+            insets.bottom += edge + TEXT_SPACING;
         }
         return insets;
     }
@@ -477,10 +382,7 @@ public class JideTitledBorder extends AbstractBorder {
      * Returns the border of the titled border.
      */
     public Border getBorder() {
-        Border b = border;
-        if (b == null)
-            b = UIDefaultsLookup.getBorder("TitledBorder.border");
-        return b;
+        return border;
     }
 
     /**
@@ -501,20 +403,14 @@ public class JideTitledBorder extends AbstractBorder {
      * Returns the title-font of the titled border.
      */
     public Font getTitleFont() {
-        Font f = titleFont;
-        if (f == null)
-            f = UIDefaultsLookup.getFont("TitledBorder.font");
-        return f;
+        return titleFont;
     }
 
     /**
      * Returns the title-color of the titled border.
      */
     public Color getTitleColor() {
-        Color c = titleColor;
-        if (c == null)
-            c = UIDefaultsLookup.getColor("TitledBorder.titleColor");
-        return c;
+        return titleColor;
     }
 
     // REMIND(aim): remove all or some of these set methods?
@@ -605,49 +501,189 @@ public class JideTitledBorder extends AbstractBorder {
         Insets insets = getBorderInsets(c);
         Dimension minSize = new Dimension(insets.right + insets.left,
                 insets.top + insets.bottom);
-        Font font = getFont(c);
-        FontMetrics fm = c.getFontMetrics(font);
-        switch (titlePosition) {
-            case ABOVE_TOP:
-            case BELOW_BOTTOM:
-                minSize.width = Math.max(fm.stringWidth(getTitle()), minSize.width);
-                break;
-            case BELOW_TOP:
-            case ABOVE_BOTTOM:
-            case TOP:
-            case BOTTOM:
-            case DEFAULT_POSITION:
-            default:
-                minSize.width += fm.stringWidth(getTitle());
+        String title = getTitle();
+        if ((title != null) && !title.isEmpty()) {
+            JLabel label = getLabel(c);
+            Dimension size = label.getPreferredSize();
+
+            int position = getPosition();
+            if ((position != ABOVE_TOP) && (position != BELOW_BOTTOM)) {
+                minSize.width += size.width;
+            } else if (minSize.width < size.width) {
+                minSize.width += size.width;
+            }
         }
         return minSize;
     }
 
-    protected Font getFont(Component c) {
-        Font font;
-        if ((font = getTitleFont()) != null) {
-            return font;
+    /**
+     * Returns the baseline.
+     *
+     * @throws NullPointerException     {@inheritDoc}
+     * @throws IllegalArgumentException {@inheritDoc}
+     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @since 1.6
+     */
+    public int getBaseline(Component c, int width, int height) {
+        if (c == null) {
+            throw new NullPointerException("Must supply non-null component");
         }
-        else if (c != null && (font = c.getFont()) != null) {
-            return font;
+        if (width < 0) {
+            throw new IllegalArgumentException("Width must be >= 0");
         }
-        return new Font("Dialog", Font.PLAIN, 12);
+        if (height < 0) {
+            throw new IllegalArgumentException("Height must be >= 0");
+        }
+        Border border = getBorderUI();
+        String title = getTitle();
+        if ((title != null) && !title.isEmpty()) {
+            int edge = (border instanceof JideTitledBorder) ? 0 : EDGE_SPACING;
+            JLabel label = getLabel(c);
+            Dimension size = label.getPreferredSize();
+            Insets insets = (border != null)
+                    ? border.getBorderInsets(c)
+                    : new Insets(0, 0, 0, 0);
+
+            int baseline = label.getBaseline(size.width, size.height);
+            switch (getPosition()) {
+                case ABOVE_TOP:
+                    return baseline;
+                case TOP:
+                    insets.top = edge + (insets.top - size.height) / 2;
+                    return (insets.top < edge)
+                            ? baseline
+                            : baseline + insets.top;
+                case BELOW_TOP:
+                    return baseline + insets.top + edge;
+                case ABOVE_BOTTOM:
+                    return baseline + height - size.height - insets.bottom - edge;
+                case BOTTOM:
+                    insets.bottom = edge + (insets.bottom - size.height) / 2;
+                    return (insets.bottom < edge)
+                            ? baseline + height - size.height
+                            : baseline + height - size.height + insets.bottom;
+                case BELOW_BOTTOM:
+                    return baseline + height - size.height;
+            }
+        }
+        return -1;
     }
 
-    private static boolean computeIntersection(Rectangle dest,
-                                               int rx, int ry, int rw, int rh) {
-        int x1 = Math.max(rx, dest.x);
-        int x2 = Math.min(rx + rw, dest.x + dest.width);
-        int y1 = Math.max(ry, dest.y);
-        int y2 = Math.min(ry + rh, dest.y + dest.height);
-        dest.x = x1;
-        dest.y = y1;
-        dest.width = x2 - x1;
-        dest.height = y2 - y1;
-
-        if (dest.width <= 0 || dest.height <= 0) {
-            return false;
+    /**
+     * Returns an enum indicating how the baseline of the border
+     * changes as the size changes.
+     *
+     * @throws NullPointerException {@inheritDoc}
+     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @since 1.6
+     */
+    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+            Component c) {
+        super.getBaselineResizeBehavior(c);
+        switch (getPosition()) {
+            case JideTitledBorder.ABOVE_TOP:
+            case JideTitledBorder.TOP:
+            case JideTitledBorder.BELOW_TOP:
+                return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+            case JideTitledBorder.ABOVE_BOTTOM:
+            case JideTitledBorder.BOTTOM:
+            case JideTitledBorder.BELOW_BOTTOM:
+                return JComponent.BaselineResizeBehavior.CONSTANT_DESCENT;
         }
-        return true;
+        return Component.BaselineResizeBehavior.OTHER;
+    }
+
+    private Border getBorderUI() {
+        Border border = getBorder();
+        return border != null
+                ? border
+                : UIManager.getBorder("TitledBorder.border");
+    }
+
+    private int getPosition() {
+        int position = getTitlePosition();
+        if (position != DEFAULT_POSITION) {
+            return position;
+        }
+        Object value = UIManager.get("TitledBorder.position");
+        if (value instanceof Integer) {
+            int i = (Integer) value;
+            if ((0 < i) && (i <= 6)) {
+                return i;
+            }
+        } else if (value instanceof String) {
+            String s = (String) value;
+            if (s.equalsIgnoreCase("ABOVE_TOP")) {
+                return ABOVE_TOP;
+            }
+            if (s.equalsIgnoreCase("TOP")) {
+                return TOP;
+            }
+            if (s.equalsIgnoreCase("BELOW_TOP")) {
+                return BELOW_TOP;
+            }
+            if (s.equalsIgnoreCase("ABOVE_BOTTOM")) {
+                return ABOVE_BOTTOM;
+            }
+            if (s.equalsIgnoreCase("BOTTOM")) {
+                return BOTTOM;
+            }
+            if (s.equalsIgnoreCase("BELOW_BOTTOM")) {
+                return BELOW_BOTTOM;
+            }
+        }
+        return TOP;
+    }
+
+    private int getJustification(Component c) {
+        int justification = getTitleJustification();
+        if ((justification == LEADING) || (justification == DEFAULT_JUSTIFICATION)) {
+            return c.getComponentOrientation().isLeftToRight() ? LEFT : RIGHT;
+        }
+        if (justification == TRAILING) {
+            return c.getComponentOrientation().isLeftToRight() ? RIGHT : LEFT;
+        }
+        return justification;
+    }
+
+    protected Font getFont(Component c) {
+        Font font = getTitleFont();
+        if (font != null) {
+            return font;
+        }
+        font = UIManager.getFont("TitledBorder.font");
+        if (font != null) {
+            return font;
+        }
+        if (c != null) {
+            font = c.getFont();
+            if (font != null) {
+                return font;
+            }
+        }
+        return new Font(Font.DIALOG, Font.PLAIN, 12);
+    }
+
+    private Color getColor(Component c) {
+        Color color = getTitleColor();
+        if (color != null) {
+            return color;
+        }
+        color = UIManager.getColor("TitledBorder.titleColor");
+        if (color != null) {
+            return color;
+        }
+        return (c != null)
+                ? c.getForeground()
+                : null;
+    }
+
+    private JLabel getLabel(Component c) {
+        this.label.setText(getTitle());
+        this.label.setFont(getFont(c));
+        this.label.setForeground(getColor(c));
+        this.label.setComponentOrientation(c.getComponentOrientation());
+        this.label.setEnabled(c.isEnabled());
+        return this.label;
     }
 }
