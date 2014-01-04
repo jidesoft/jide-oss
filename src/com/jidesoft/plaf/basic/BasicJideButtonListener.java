@@ -12,22 +12,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 
-public class BasicJideButtonListener extends BasicButtonListener
-{
+public class BasicJideButtonListener extends BasicButtonListener {
     private boolean _mouseOver = false;
 
-    public BasicJideButtonListener(AbstractButton b)
-    {
+    public BasicJideButtonListener(AbstractButton b) {
         super(b);
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
-        if (b.isRolloverEnabled())
-        {
+        if (b.isRolloverEnabled()) {
             model.setRollover(true);
         }
 
@@ -38,28 +34,24 @@ public class BasicJideButtonListener extends BasicButtonListener
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent e)
-    {
+    public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         String prop = e.getPropertyName();
         if (JideButton.BUTTON_STYLE_PROPERTY.equals(prop)
                 || "opaque".equals(prop)
                 || AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY.equals(prop)
-                )
-        {
+                ) {
             AbstractButton b = (AbstractButton) e.getSource();
             b.repaint();
         }
         else if (JideButton.PROPERTY_ORIENTATION.equals(prop)
-                || "hideActionText".equals(prop))
-        {
+                || "hideActionText".equals(prop)) {
             AbstractButton b = (AbstractButton) e.getSource();
             b.invalidate();
             b.repaint();
         }
         else if ("verticalTextPosition".equals(prop)
-                || "horizontalTextPosition".equals(prop))
-        {
+                || "horizontalTextPosition".equals(prop)) {
             AbstractButton b = (AbstractButton) e.getSource();
             b.updateUI();
         }
@@ -69,26 +61,21 @@ public class BasicJideButtonListener extends BasicButtonListener
     // So listen to clicked event instead.
     // bug at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4991772
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
         cancelMenuIfNecessary(e);
     }
 
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
-        if (b.contains(e.getPoint()))
-        {
-            if (b.isRolloverEnabled())
-            {
+        if (b.contains(e.getPoint())) {
+            if (b.isRolloverEnabled()) {
                 model.setRollover(true);
             }
         }
-        if (!_mouseOver)
-        {
+        if (!_mouseOver) {
             // these two lines order matters. In this order, it would not trigger actionPerformed.
             model.setArmed(false);
             model.setPressed(false);
@@ -99,23 +86,20 @@ public class BasicJideButtonListener extends BasicButtonListener
 
     /**
      * Cancel the menu if this button is on JPopupMenu.
+     *
      * @param e the mouse event.
      */
-    private void cancelMenuIfNecessary(MouseEvent e)
-    {
+    private void cancelMenuIfNecessary(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         MenuSelectionManager manager = MenuSelectionManager.defaultManager();
         MenuElement[] menuElements = manager.getSelectedPath();
-        for (int i = menuElements.length - 1; i >= 0; i--)
-        {
+        for (int i = menuElements.length - 1; i >= 0; i--) {
             MenuElement menuElement = menuElements[i];
-            if (menuElement instanceof JPopupMenu && ((JPopupMenu) menuElement).isAncestorOf(b))
-            {
+            if (menuElement instanceof JPopupMenu && ((JPopupMenu) menuElement).isAncestorOf(b)) {
                 b.getModel().setPressed(false);
                 b.getModel().setArmed(false);
                 b.getModel().setRollover(false);
-                if (!Boolean.FALSE.equals(b.getClientProperty(JideButton.CLIENT_PROPERTY_HIDE_POPUPMENU)))
-                {
+                if (!Boolean.FALSE.equals(b.getClientProperty(JideButton.CLIENT_PROPERTY_HIDE_POPUPMENU))) {
                     manager.clearSelectedPath();
                 }
                 break;
@@ -124,12 +108,10 @@ public class BasicJideButtonListener extends BasicButtonListener
     }
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
-        if (b.isRolloverEnabled())
-        {
+        if (b.isRolloverEnabled()) {
             model.setRollover(false);
         }
         model.setArmed(false);
@@ -138,18 +120,16 @@ public class BasicJideButtonListener extends BasicButtonListener
 
     /**
      * Resets the binding for the mnemonic in the WHEN_IN_FOCUSED_WINDOW UI InputMap.
+     *
      * @param b the button.
      */
-    void updateMnemonicBinding(AbstractButton b)
-    {
+    void updateMnemonicBinding(AbstractButton b) {
         int m = b.getMnemonic();
-        if (m != 0)
-        {
+        if (m != 0) {
             InputMap map = SwingUtilities.getUIInputMap(
                     b, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-            if (map == null)
-            {
+            if (map == null) {
                 map = new ComponentInputMapUIResource(b);
                 SwingUtilities.replaceUIInputMap(b,
                         JComponent.WHEN_IN_FOCUSED_WINDOW, map);
@@ -161,12 +141,10 @@ public class BasicJideButtonListener extends BasicButtonListener
                     "released");
             map.put(KeyStroke.getKeyStroke(m, 0, true), "released");
         }
-        else
-        {
+        else {
             InputMap map = SwingUtilities.getUIInputMap(b, JComponent.
                     WHEN_IN_FOCUSED_WINDOW);
-            if (map != null)
-            {
+            if (map != null) {
                 map.clear();
             }
         }
@@ -174,14 +152,13 @@ public class BasicJideButtonListener extends BasicButtonListener
 
     /**
      * Returns the ui that is of type <code>clazz</code>, or null if one can not be found.
-     * @param ui the ComponentUI
+     *
+     * @param ui    the ComponentUI
      * @param clazz the class
      * @return the UI of the ComponentUI if it is an instance of the type.
      */
-    static Object getUIOfType(ComponentUI ui, Class clazz)
-    {
-        if (clazz.isInstance(ui))
-        {
+    static Object getUIOfType(ComponentUI ui, Class clazz) {
+        if (clazz.isInstance(ui)) {
             return ui;
         }
         return null;
@@ -190,18 +167,16 @@ public class BasicJideButtonListener extends BasicButtonListener
     /**
      * Returns the InputMap for condition <code>condition</code>. Called as part of
      * <code>installKeyboardActions</code>.
+     *
      * @param condition the condition.
-     * @param c the component
+     * @param c         the component
      * @return the InputMap on the component for the condition.
      */
-    public InputMap getInputMap(int condition, JComponent c)
-    {
-        if (condition == JComponent.WHEN_FOCUSED)
-        {
+    public InputMap getInputMap(int condition, JComponent c) {
+        if (condition == JComponent.WHEN_FOCUSED) {
             BasicJideButtonUI ui = (BasicJideButtonUI) getUIOfType(
                     ((AbstractButton) c).getUI(), BasicJideButtonUI.class);
-            if (ui != null)
-            {
+            if (ui != null) {
                 return (InputMap) UIDefaultsLookup.get(ui.getPropertyPrefix() + "focusInputMap");
             }
         }
@@ -212,32 +187,26 @@ public class BasicJideButtonListener extends BasicButtonListener
      * Actions for Buttons. Two type of action are supported: pressed: Moves the button to a pressed state released:
      * Disarms the button.
      */
-    private static class Actions extends UIAction
-    {
+    private static class Actions extends UIAction {
         private static final String PRESS = "pressed";
         private static final String RELEASE = "released";
 
-        Actions(String name)
-        {
+        Actions(String name) {
             super(name);
         }
 
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             AbstractButton b = (AbstractButton) e.getSource();
             String key = getName();
-            if (PRESS.equals(key))
-            {
+            if (PRESS.equals(key)) {
                 ButtonModel model = b.getModel();
                 model.setArmed(true);
                 model.setPressed(true);
-                if (!b.hasFocus() && b.isRequestFocusEnabled())
-                {
+                if (!b.hasFocus() && b.isRequestFocusEnabled()) {
                     b.requestFocus();
                 }
             }
-            else if (RELEASE.equals(key))
-            {
+            else if (RELEASE.equals(key)) {
                 ButtonModel model = b.getModel();
                 model.setPressed(false);
                 model.setArmed(false);
@@ -245,8 +214,7 @@ public class BasicJideButtonListener extends BasicButtonListener
         }
 
         @Override
-        public boolean isEnabled(Object sender)
-        {
+        public boolean isEnabled(Object sender) {
             return !(sender != null && (sender instanceof AbstractButton) &&
                     !((AbstractButton) sender).getModel().isEnabled());
         }
@@ -254,18 +222,17 @@ public class BasicJideButtonListener extends BasicButtonListener
 
     /**
      * Populates Buttons actions.
+     *
      * @param map the action map.
      */
-    public static void loadActionMap(LazyActionMap map)
-    {
+    public static void loadActionMap(LazyActionMap map) {
         map.put(new Actions(Actions.PRESS));
         map.put(new Actions(Actions.RELEASE));
     }
 
 
     @Override
-    public void installKeyboardActions(JComponent c)
-    {
+    public void installKeyboardActions(JComponent c) {
         AbstractButton b = (AbstractButton) c;
         // Update the mnemonic binding.
         updateMnemonicBinding(b);

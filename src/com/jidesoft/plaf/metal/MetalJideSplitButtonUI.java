@@ -22,10 +22,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -1110,6 +1107,26 @@ public class MetalJideSplitButtonUI extends MetalMenuUI {
         map.put(new Actions(Actions.RELEASE));
         map.put(new Actions(Actions.DOWN_PRESS));
         map.put(new Actions(Actions.DOWN_RELEASE));
+    }
+
+    @Override
+    protected void updateMnemonicBinding() {
+        super.updateMnemonicBinding();
+        int mnemonic = menuItem.getModel().getMnemonic();
+        if (mnemonic != 0 && windowInputMap != null) {
+            int[] shortcutKeys = (int[]) UIDefaultsLookup.get("Menu.shortcutKeys");
+            if (shortcutKeys == null) {
+                shortcutKeys = new int[]{KeyEvent.ALT_MASK};
+            }
+            for (int shortcutKey : shortcutKeys) {
+                windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
+                        shortcutKey, false),
+                        "pressed");
+                windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
+                        shortcutKey, true),
+                        "released");
+            }
+        }
     }
 
     protected static void downButtonPressed(JMenu menu) {
