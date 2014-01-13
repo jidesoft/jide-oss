@@ -382,7 +382,7 @@ public abstract class Searchable {
                 }
 
                 protected void applyText() {
-                    String text = _textField.getText().trim();
+                    String text = _textField.getText();
                     firePropertyChangeEvent(text);
                     if (text.length() != 0) {
                         int found = findFromCursor(text);
