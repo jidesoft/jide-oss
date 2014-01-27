@@ -17,6 +17,9 @@ public class GrouperContext extends AbstractContext {
      */
     public static GrouperContext DEFAULT_CONTEXT = new GrouperContext("");
 
+    private boolean _useOnAutoFilter = true;
+    private boolean _useOnCustomFilter = true;
+
     /**
      * Creates a converter context with a name.
      *
@@ -34,5 +37,46 @@ public class GrouperContext extends AbstractContext {
      */
     public GrouperContext(String name, Object object) {
         super(name, object);
+    }
+
+
+    /**
+     * Checks if the grouper will be used on the auto-filter drop down list.
+     *
+     * @return true or false.
+     * @since 3.5.14
+     */
+    public boolean isUseOnAutoFilter() {
+        return _useOnAutoFilter;
+    }
+
+    /**
+     * Sets the flag to tell the auto-filter drop down list to use the grouper or not.
+     *
+     * @param useOnAutoFilter true or false. Default is true.
+     * @since 3.5.14
+     */
+    public void setUseOnAutoFilter(boolean useOnAutoFilter) {
+        _useOnAutoFilter = useOnAutoFilter;
+    }
+
+    /**
+     * Checks if the grouper will be used on the custom filter editor.
+     *
+     * @return true or false.
+     * @since 3.5.14
+     */
+    public boolean isUseOnCustomFilter() {
+        return _useOnCustomFilter;
+    }
+
+    /**
+     * Sets the flag to tell the custom filter editor to use the grouper or not.
+     *
+     * @param useOnCustomFilter true or false. Default is true.
+     * @since 3.5.14
+     */
+    public void setUseOnCustomFilter(boolean useOnCustomFilter) {
+        _useOnCustomFilter = useOnCustomFilter;
     }
 }
