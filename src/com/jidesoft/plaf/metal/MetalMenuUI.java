@@ -120,8 +120,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
             }
             for (int shortcutKey : shortcutKeys) {
                 windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
-                        shortcutKey, false),
-                        "selectMenu");
+                        shortcutKey, false), "selectMenu");
             }
         }
         lastMnemonic = mnemonic;
@@ -136,7 +135,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
      * The ActionMap for BasicMenUI can not be shared, this is subclassed to create a new one for each invocation.
      */
     @Override
-    ActionMap getActionMap() {
+    protected ActionMap getActionMap() {
         return createActionMap();
     }
 
@@ -144,7 +143,7 @@ public class MetalMenuUI extends MetalMenuItemUI {
      * Invoked to create the ActionMap.
      */
     @Override
-    ActionMap createActionMap() {
+    protected ActionMap createActionMap() {
         ActionMap am = super.createActionMap();
         if (am != null) {
             am.put("selectMenu", new PostAction((JMenu) menuItem, true));

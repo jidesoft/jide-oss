@@ -296,7 +296,7 @@ public class VsnetMenuItemUI extends MenuItemUI {
         return new PropertyChangeHandler();
     }
 
-    ActionMap getActionMap() {
+    protected ActionMap getActionMap() {
         String propertyPrefix = getPropertyPrefix();
         String uiKey = propertyPrefix + ".actionMap";
         ActionMap am = (ActionMap) UIDefaultsLookup.get(uiKey);

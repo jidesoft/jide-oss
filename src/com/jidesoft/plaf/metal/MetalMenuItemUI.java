@@ -277,7 +277,7 @@ public class MetalMenuItemUI extends MenuItemUI {
         return new PropertyChangeHandler();
     }
 
-    ActionMap getActionMap() {
+    protected ActionMap getActionMap() {
         String propertyPrefix = getPropertyPrefix();
         String uiKey = propertyPrefix + ".actionMap";
         ActionMap am = (ActionMap) UIDefaultsLookup.get(uiKey);
@@ -288,13 +288,13 @@ public class MetalMenuItemUI extends MenuItemUI {
         return am;
     }
 
-    ActionMap createActionMap() {
+    protected ActionMap createActionMap() {
         ActionMap map = new ActionMapUIResource();
         map.put("doClick", new ClickAction());
         return map;
     }
 
-    InputMap createInputMap(int condition) {
+    protected InputMap createInputMap(int condition) {
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
             return new ComponentInputMapUIResource(menuItem);
         }

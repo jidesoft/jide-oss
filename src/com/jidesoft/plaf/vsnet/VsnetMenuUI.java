@@ -224,8 +224,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
             }
             for (int shortcutKey : shortcutKeys) {
                 windowInputMap.put(KeyStroke.getKeyStroke(mnemonic,
-                        shortcutKey, false),
-                        "selectMenu");
+                        shortcutKey, false), "selectMenu");
             }
         }
         lastMnemonic = mnemonic;
@@ -240,7 +239,7 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
      * The ActionMap for BasicMenUI can not be shared, this is subclassed to create a new one for each invocation.
      */
     @Override
-    ActionMap getActionMap() {
+    protected ActionMap getActionMap() {
         return createActionMap();
     }
 
