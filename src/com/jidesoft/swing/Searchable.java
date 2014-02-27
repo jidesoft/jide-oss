@@ -13,9 +13,7 @@ import com.jidesoft.utils.DefaultWildcardSupport;
 import com.jidesoft.utils.WildcardSupport;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.EventListenerList;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
@@ -1200,6 +1198,25 @@ public abstract class Searchable {
             _popup.setVisible(true);
             _popup.validate();
         }
+
+        _popup.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                // clear up the internal cached values so that a new search popup will be shown after this.
+                _popup = null;
+                _searchableProvider = null;
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
+
+            }
+        });
     }
 
     private Point updateSizeAndLocation() {
