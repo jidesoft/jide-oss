@@ -157,11 +157,13 @@ abstract public class NavigationComponentHelper {
         MouseInputAdapter inputAdapter = new MouseInputAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
-                _mousePosition = null;
-                int old = _rolloverRow;
-                _rolloverRow = -1;
-                if (old != -1) {
-                    c.repaint(getRowBounds(old));
+                if (c != null) {
+                    _mousePosition = null;
+                    int old = _rolloverRow;
+                    _rolloverRow = -1;
+                    if (old != -1) {
+                        c.repaint(getRowBounds(old));
+                    }
                 }
                 NavigationComponentHelper.this.mouseExited(e);
             }
@@ -188,32 +190,34 @@ abstract public class NavigationComponentHelper {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                int row = rowAtPoint(e.getPoint());
-                if (row != -1) {
-                    if (c instanceof JTree) {
-                        int maxIconSize = getRowBounds(row).height;
-                        if (_mousePosition != null) {
-                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                if (c != null) {
+                    int row = rowAtPoint(e.getPoint());
+                    if (row != -1) {
+                        if (c instanceof JTree) {
+                            int maxIconSize = getRowBounds(row).height;
+                            if (_mousePosition != null) {
+                                c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                            }
+                            _mousePosition = e.getPoint();
+                            if (_mousePosition != null) {
+                                c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                            }
                         }
-                        _mousePosition = e.getPoint();
-                        if (_mousePosition != null) {
-                            c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
+                        if (_rolloverRow != row) {
+                            int old = _rolloverRow;
+                            _rolloverRow = row;
+                            if (old != -1) {
+                                c.repaint(getRowBounds(old));
+                            }
+                            c.repaint(getRowBounds(row));
                         }
                     }
-                    if (_rolloverRow != row) {
+                    else {
                         int old = _rolloverRow;
-                        _rolloverRow = row;
+                        _rolloverRow = -1;
                         if (old != -1) {
                             c.repaint(getRowBounds(old));
                         }
-                        c.repaint(getRowBounds(row));
-                    }
-                }
-                else {
-                    int old = _rolloverRow;
-                    _rolloverRow = -1;
-                    if (old != -1) {
-                        c.repaint(getRowBounds(old));
                     }
                 }
                 NavigationComponentHelper.this.mouseMoved(e);
