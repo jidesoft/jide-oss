@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!--
-  ~ @(#)pom.xml 5/16/2012
-  ~
-  ~ Copyright 2002 - 2012 JIDE Software Inc. All rights reserved.
-  -->
+~ @(#)pom.xml 5/16/2012
+~
+~ Copyright 2002 - 2012 JIDE Software Inc. All rights reserved.
+-->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -16,7 +16,7 @@
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
-    <version>3.5.11</version>
+    <version>3.5.14</version>
     <packaging>jar</packaging>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://github.com/jidesoft/jide-oss</url>
@@ -99,22 +99,6 @@
                     <value>true</value>
                 </property>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>aqua_ui</groupId>
-                    <artifactId>ui</artifactId>
-                    <version>5.0</version>
-                    <scope>system</scope>
-                    <systemPath>${basedir}/libs/ui.jar</systemPath>
-                </dependency>
-                <dependency>
-                    <groupId>aqua_ui</groupId>
-                    <artifactId>jrs</artifactId>
-                    <version>5.0</version>
-                    <scope>system</scope>
-                    <systemPath>${basedir}/libs/ui.jar</systemPath>
-                </dependency>
-            </dependencies>
             <properties>
                 <gpg.keyname>7929F719</gpg.keyname>
                 <release.username>jidesoft</release.username>

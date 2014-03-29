@@ -306,6 +306,19 @@ public class JideTitledBorder extends AbstractBorder {
     }
 
     /**
+     * This default implementation returns a new <code>Insets</code>
+     * instance where the <code>top</code>, <code>left</code>,
+     * <code>bottom</code>, and
+     * <code>right</code> fields are set to <code>0</code>.
+     * @param c the component for which this border insets value applies
+     * @return the new <code>Insets</code> object initialized to 0
+     */
+    @Override
+    public Insets getBorderInsets(Component c) {
+        return getBorderInsets(c, new Insets(0, 0, 0, 0));
+    }
+
+    /**
      * Reinitialize the insets parameter with this Border's current Insets.
      *
      * @param c      the component for which this border insets value applies

@@ -8,7 +8,7 @@ GPL v2 with Classpath Exception: http://openjdk.java.net/legal/gplv2+ce.html
 
 The second license is the original commercial license under which all other JIDE products are released, except it is free of charge in this case. You can read the license agreement from the link below.
 
-Commercial License: http://www.jidesoft.com/purchase/EULA.htm
+Commercial License: http://www.jidesoft.com/purchase/SLA.htm
 
 FAQ:
 

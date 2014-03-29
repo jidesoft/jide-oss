@@ -14,6 +14,7 @@
 
 package com.jidesoft.plaf.aqua;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.utils.SecurityUtils;
 
 import java.io.File;
@@ -31,7 +32,6 @@ import java.util.logging.Logger;
  */
 class AquaPreferences {
     private static final Logger LOGGER = Logger.getLogger(AquaPreferences.class.getName());
-
     private static HashMap prefs;
 
     /**
@@ -40,7 +40,19 @@ class AquaPreferences {
     public AquaPreferences() {
     }
 
+    /**
+     * Gets the preference value from Mac OS X's global preference. We added a way to override the setting. As long as
+     * you add an entry to UIDefaults with "AquaPreference." prefix and the key, we will use the entry you added instead
+     * of getting it from the system.
+     *
+     * @param key the key
+     * @return the value.
+     */
     public static String getString(String key) {
+        String string = UIDefaultsLookup.getString("AquaPreference." + key);
+        if (string != null) {
+            return string;
+        }
         return (String) get(key);
     }
 
@@ -52,7 +64,6 @@ class AquaPreferences {
         //System.out.println("Preferences.get("+key+"):"+prefs.get(key));
         return prefs.get(key);
     }
-
 
     private static void loadGlobalPreferences() {
         // Load Mac OS X global preferences
@@ -77,11 +88,11 @@ class AquaPreferences {
         );
         try {
             XMLElement xml = readPList(globalPrefsFile);
-            for (Iterator i0 = xml.iterateChildren(); i0.hasNext();) {
+            for (Iterator i0 = xml.iterateChildren(); i0.hasNext(); ) {
                 XMLElement xml1 = (XMLElement) i0.next();
 
                 String key = null;
-                for (Iterator i1 = xml1.iterateChildren(); i1.hasNext();) {
+                for (Iterator i1 = xml1.iterateChildren(); i1.hasNext(); ) {
                     XMLElement xml2 = (XMLElement) i1.next();
                     if (xml2.getName().equals("key")) {
                         key = xml2.getContent();
@@ -104,10 +115,9 @@ class AquaPreferences {
         }
     }
 
-
     /**
-     * Reads the specified PList file and returns it as an XMLElement.
-     * This method can deal with XML encoded and binary encoded PList files.
+     * Reads the specified PList file and returns it as an XMLElement. This method can deal with XML encoded and binary
+     * encoded PList files.
      */
     private static XMLElement readPList(File plistFile) throws IOException {
         FileReader reader = null;

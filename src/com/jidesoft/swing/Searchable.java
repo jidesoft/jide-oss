@@ -13,9 +13,7 @@ import com.jidesoft.utils.DefaultWildcardSupport;
 import com.jidesoft.utils.WildcardSupport;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.EventListenerList;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
@@ -240,7 +238,6 @@ public abstract class Searchable {
      * used to compare with the string that user types in.
      *
      * @param index the index
-     *
      * @return the element at the specified index.
      */
     protected abstract Object getElementAt(int index);
@@ -249,7 +246,6 @@ public abstract class Searchable {
      * Converts the element that returns from getElementAt() to string.
      *
      * @param element the element to be converted
-     *
      * @return the string representing the element in the component.
      */
     protected abstract String convertElementToString(Object element);
@@ -261,7 +257,6 @@ public abstract class Searchable {
      * method for ShrinkSearchSupport without breaking the existing code of the customers.
      *
      * @param element the element to be converted
-     *
      * @return the string representing the element in the component.
      * @since 3.4.5
      */
@@ -287,7 +282,6 @@ public abstract class Searchable {
      * Set the flag indicating if the search popup should be hidden on the component's event.
      *
      * @param hideSearchPopupOnEvent the flag
-     *
      * @see #isHideSearchPopupOnEvent()
      */
     public void setHideSearchPopupOnEvent(boolean hideSearchPopupOnEvent) {
@@ -382,7 +376,7 @@ public abstract class Searchable {
                 }
 
                 protected void applyText() {
-                    String text = _textField.getText().trim();
+                    String text = _textField.getText();
                     firePropertyChangeEvent(text);
                     if (text.length() != 0) {
                         int found = findFromCursor(text);
@@ -715,7 +709,6 @@ public abstract class Searchable {
      *
      * @param element       the element to be checked
      * @param searchingText the searching text
-     *
      * @return true if matches.
      */
     protected boolean compare(Object element, String searchingText) {
@@ -729,7 +722,6 @@ public abstract class Searchable {
      *
      * @param text          the text to be checked
      * @param searchingText the searching text
-     *
      * @return true if matches.
      */
     protected boolean compare(String text, String searchingText) {
@@ -866,7 +858,6 @@ public abstract class Searchable {
      * Finds the next matching index from the cursor.
      *
      * @param s the searching text
-     *
      * @return the next index that the element matches the searching text.
      */
     public int findNext(String s) {
@@ -906,7 +897,6 @@ public abstract class Searchable {
      * Finds the previous matching index from the cursor.
      *
      * @param s the searching text
-     *
      * @return the previous index that the element matches the searching text.
      */
     public int findPrevious(String s) {
@@ -937,7 +927,6 @@ public abstract class Searchable {
      * beginning, it will restart from the end.
      *
      * @param s the searching text
-     *
      * @return the next index that the element matches the searching text.
      */
     public int findFromCursor(String s) {
@@ -951,8 +940,7 @@ public abstract class Searchable {
             int oldIndex;
             int newIndex = -1;
             _matchCount = -1;
-            do
-            {
+            do {
                 setSelectedIndex(newIndex, false);
                 oldIndex = newIndex;
                 newIndex = findNext(s);
@@ -996,7 +984,6 @@ public abstract class Searchable {
      * Finds the previous matching index from the cursor. If it reaches the beginning, it will restart from the end.
      *
      * @param s the searching text
-     *
      * @return the next index that the element matches the searching text.
      */
     public int reverseFindFromCursor(String s) {
@@ -1033,7 +1020,6 @@ public abstract class Searchable {
      * Finds the first element that matches the searching text.
      *
      * @param s the searching text
-     *
      * @return the first element that matches with the searching text.
      */
     public int findFirst(String s) {
@@ -1056,7 +1042,6 @@ public abstract class Searchable {
      * Finds the last element that matches the searching text.
      *
      * @param s the searching text
-     *
      * @return the last element that matches the searching text.
      */
     public int findLast(String s) {
@@ -1139,7 +1124,6 @@ public abstract class Searchable {
      * Creates the popup to hold the searching text.
      *
      * @param searchingText the searching text
-     *
      * @return the searching popup.
      */
     protected SearchPopup createSearchPopup(String searchingText) {
@@ -1199,6 +1183,27 @@ public abstract class Searchable {
             updateSizeAndLocation();
             _popup.setVisible(true);
             _popup.validate();
+        }
+
+        if (_popup != null) {
+            _popup.addPopupMenuListener(new PopupMenuListener() {
+                @Override
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+
+                }
+
+                @Override
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                    // clear up the internal cached values so that a new search popup will be shown after this.
+                    _popup = null;
+                    _searchableProvider = null;
+                }
+
+                @Override
+                public void popupMenuCanceled(PopupMenuEvent e) {
+
+                }
+            });
         }
     }
 
@@ -1265,7 +1270,6 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the first occurrence.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a key to find the firstoccurrencee. By default, home key is used.
      */
     protected boolean isFindFirstKey(KeyEvent e) {
@@ -1276,7 +1280,6 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the last occurrence.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a key to find the last occurrence. By default, end key is used.
      */
     protected boolean isFindLastKey(KeyEvent e) {
@@ -1287,7 +1290,6 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the previous occurrence.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a key to find the previous occurrence. By default, up arrow key is used.
      */
     protected boolean isFindPreviousKey(KeyEvent e) {
@@ -1298,7 +1300,6 @@ public abstract class Searchable {
      * Checks if the key is used as a key to find the next occurrence.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a key to find the next occurrence. By default, down arrow key is used.
      */
     protected boolean isFindNextKey(KeyEvent e) {
@@ -1310,7 +1311,6 @@ public abstract class Searchable {
      * occurrences of the searching string.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a navigation key.
      */
     protected boolean isNavigationKey(KeyEvent e) {
@@ -1321,7 +1321,6 @@ public abstract class Searchable {
      * Checks if the key in KeyEvent should activate the search popup.
      *
      * @param e the key event
-     *
      * @return true if the keyChar is visible except space and tab.
      */
     protected boolean isActivateKey(KeyEvent e) {
@@ -1335,9 +1334,8 @@ public abstract class Searchable {
      * hidden.
      *
      * @param e the key event
-     *
      * @return true if the keyCode in the KeyEvent is escape key, enter key, or any of the arrow keys such as page up,
-     *         page down, home, end, left, right, up and down.
+     * page down, home, end, left, right, up and down.
      */
     protected boolean isDeactivateKey(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -1352,7 +1350,6 @@ public abstract class Searchable {
      * Checks if the key will trigger selecting all.
      *
      * @param e the key event
-     *
      * @return true if the key in KeyEvent is a key to trigger selecting all.
      */
     protected boolean isSelectAllKey(KeyEvent e) {
@@ -1363,9 +1360,7 @@ public abstract class Searchable {
      * Checks if the key will trigger incremental selection.
      *
      * @param e the key event
-     *
-     * @return true if the key in KeyEvent is a key to trigger incremental selection. By default, ctrl down key is
-     *         used.
+     * @return true if the key in KeyEvent is a key to trigger incremental selection. By default, ctrl down key is used.
      */
     protected boolean isIncrementalSelectKey(KeyEvent e) {
         return JideSwingUtilities.isMenuShortcutKeyDown(e);
@@ -1375,7 +1370,7 @@ public abstract class Searchable {
      * Gets the foreground color when the searching text doesn't match with any of the elements in the component.
      *
      * @return the foreground color for mismatch. If you never call {@link #setMismatchForeground(java.awt.Color)}. red
-     *         color will be used.
+     * color will be used.
      */
     public Color getMismatchForeground() {
         if (_mismatchForeground == null) {
@@ -1518,7 +1513,6 @@ public abstract class Searchable {
      * Enable or disable the usage of wildcard.
      *
      * @param wildcardEnabled the flag if wildcard is enabled
-     *
      * @see #isWildcardEnabled()
      */
     public void setWildcardEnabled(boolean wildcardEnabled) {
@@ -1593,7 +1587,6 @@ public abstract class Searchable {
      * <code>addSearchableListener</code>.
      *
      * @return all of the <code>SearchableListener</code>s added or an empty array if no listeners have been added
-     *
      * @see #addSearchableListener
      */
     public SearchableListener[] getSearchableListeners() {
@@ -1604,9 +1597,7 @@ public abstract class Searchable {
      * Returns if a given listener is already installed.
      *
      * @param l the listener
-     *
      * @return true if the listener is already installed. Otherwise false.
-     *
      * @since 3.2.3
      */
     public boolean isSearchableListenerInstalled(SearchableListener l) {
@@ -1777,7 +1768,6 @@ public abstract class Searchable {
      * keys are defined in swing.properties that begin with "Searchable.".
      *
      * @param key the resource string key
-     *
      * @return the localized string.
      */
     protected String getResourceString(String key) {
@@ -1849,7 +1839,6 @@ public abstract class Searchable {
      * Gets the Searchable installed on the component. Null is no Searchable was installed.
      *
      * @param component the component
-     *
      * @return the Searchable installed. Null is no Searchable was installed.
      */
     public static Searchable getSearchable(JComponent component) {
@@ -1895,7 +1884,6 @@ public abstract class Searchable {
      * <p/>
      *
      * @param processModelChangeEvent the flag
-     *
      * @see #isProcessModelChangeEvent()
      */
     public void setProcessModelChangeEvent(boolean processModelChangeEvent) {
@@ -1906,7 +1894,6 @@ public abstract class Searchable {
      * Gets the timeout for showing the popup.
      *
      * @return the popup timeout.
-     *
      * @see #setPopupTimeout(int)
      */
     public int getPopupTimeout() {
@@ -1956,7 +1943,6 @@ public abstract class Searchable {
      * <code>findAll</code> uses the Searchable to find all the element indices that match the searching string.
      *
      * @param s the searching string.
-     *
      * @return the list of indices.
      */
     public java.util.List<Integer> findAll(String s) {
@@ -1975,7 +1961,6 @@ public abstract class Searchable {
      * Gets the element at the specified index as string using {@link #convertElementToString(Object)} method.
      *
      * @param index the index.
-     *
      * @return the element at the index converted to string.
      */
     public String getElementAtAsString(int index) {
