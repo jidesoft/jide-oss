@@ -7,13 +7,16 @@
 
 package com.jidesoft.range;
 
+import java.io.Serializable;
+
 /**
  * This class is really an adapter because it takes any object and allows it to be used as a Category.
  *
  * @author Simon White (swhite@catalysoft.com)
  */
-public class Category<T> implements Positionable {
-    private String _name;
+public class Category<T> implements Positionable, Serializable {
+	private static final long serialVersionUID = -273502456506105902L;
+	private String _name;
     private T _value;
     private CategoryRange<T> _range;
 
