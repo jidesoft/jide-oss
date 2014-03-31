@@ -7,13 +7,37 @@ import java.util.Date;
 
 /**
  * An abstract Grouper which can take data type such as Date, Calendar or Long and provide {@link
- * #getCalendarFieldAsInt(Object,int)} and {@link #getCalendarField(Object,int)} methods to access the field of the
+ * #getCalendarFieldAsInt(Object, int)} and {@link #getCalendarField(Object, int)} methods to access the field of the
  * Calendar.
  */
 abstract public class DateGrouper extends AbstractObjectGrouper {
     protected static Calendar INSTANCE = Calendar.getInstance();
 
-    public static Object getCalendarField(Object value, int field) {
+    /**
+     * To avoid creating too many instance of Calendar and improve the performance, {@link #getCalendarField(Object,
+     * int)} and {@link #getCalendarFieldAsInt(Object, int)} will use a cached instance of Calendar if the value passed
+     * in is Date or Long. By default, the cached Calendar instance was created from Calendar.getInstance(). This method
+     * will give you this instance and allow you to modify it. For example, setting a different time-zone. Since this
+     * instance is static, there is only one instance for the whole application. So just so you know, if you modify it,
+     * it will affect all the usages.
+     *
+     * @return the Calendar instance used by the two getCalendarField methods.
+     */
+    public static Calendar getCalendarInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * Gets the field value from the value.
+     *
+     * @param value a Date, Long or Calendar. If the value is a Date or a Long, we will use a cached Calendar instance
+     *              to get the field value. This cached Calendar instance can be retrieved using {@link
+     *              #getCalendarInstance()} in case you want to customize it.
+     * @param field the field as defined in Calendar such as Calender.YEAR, Calendar.DAY_OF_MONTH.
+     * @return the field value. Null if the value that was passed in is null.
+     * @throws java.lang.IllegalArgumentException if the value is not a Date, a Long or a Calendar.
+     */
+    public synchronized static Object getCalendarField(Object value, int field) {
         if (value instanceof Date) {
             INSTANCE.setTime(((Date) value));
             return INSTANCE.get(field);
@@ -33,7 +57,17 @@ abstract public class DateGrouper extends AbstractObjectGrouper {
         }
     }
 
-    public static int getCalendarFieldAsInt(Object value, int field) {
+    /**
+     * Gets the field value from the value.
+     *
+     * @param value a Date, Long or Calendar. If the value is a Date or a Long, we will use a cached Calendar instance
+     *              to get the field value. This cached Calendar instance can be retrieved using {@link
+     *              #getCalendarInstance()} in case you want to customize it.
+     * @param field the field as defined in Calendar such as Calender.YEAR, Calendar.DAY_OF_MONTH.
+     * @return the field value. -1 if the value that was passed in is null.
+     * @throws java.lang.IllegalArgumentException if the value is not a Date, a Long or a Calendar.
+     */
+    public synchronized static int getCalendarFieldAsInt(Object value, int field) {
         if (value instanceof Date) {
             INSTANCE.setTime(((Date) value));
             return INSTANCE.get(field);
