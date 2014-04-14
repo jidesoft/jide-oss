@@ -28,6 +28,12 @@ abstract public class NavigationComponentHelper {
     private int _rolloverRow = -1;
     private Point _mousePosition = null;
 
+    /**
+     * Gets the bounds of the row.
+     *
+     * @param row the bounds of the specific row.
+     * @return the bounds of the row. Or null if there is no row at all or the specified row doesn't exist.
+     */
     protected abstract Rectangle getRowBounds(int row);
 
     protected abstract int rowAtPoint(Point p);
@@ -90,9 +96,11 @@ abstract public class NavigationComponentHelper {
     protected void paintSelectedRow(Graphics g, JComponent c, int row) {
         Color selectedColor = getSelectionColor(c);
         Rectangle bounds = getRowBounds(row);
-        bounds.width -= 1;
-        bounds.height -= 1;
-        paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
+        if (bounds != null) {
+            bounds.width -= 1;
+            bounds.height -= 1;
+            paintRow(g, row, bounds, selectedColor, 30, 70, 50, 128);
+        }
     }
 
     /**
@@ -130,12 +138,11 @@ abstract public class NavigationComponentHelper {
     protected void paintRolloverRow(Graphics g, JComponent c, int row) {
         Color selectedColor = UIManager.getColor("Tree.selectionBackground");
         Rectangle bounds = getRowBounds(row);
-        if (bounds == null) {
-            return;
+        if (bounds != null) {
+            bounds.width -= 1;
+            bounds.height -= 1;
+            paintRow(g, row, bounds, selectedColor, 10, 40, 20, 100);
         }
-        bounds.width -= 1;
-        bounds.height -= 1;
-        paintRow(g, row, bounds, selectedColor, 10, 40, 20, 100);
     }
 
     @SuppressWarnings({"UnusedParameters"})
@@ -162,7 +169,10 @@ abstract public class NavigationComponentHelper {
                     int old = _rolloverRow;
                     _rolloverRow = -1;
                     if (old != -1) {
-                        c.repaint(getRowBounds(old));
+                        Rectangle bounds = getRowBounds(old);
+                        if (bounds != null) {
+                            c.repaint(bounds);
+                        }
                     }
                 }
                 NavigationComponentHelper.this.mouseExited(e);
@@ -193,8 +203,9 @@ abstract public class NavigationComponentHelper {
                 if (c != null) {
                     int row = rowAtPoint(e.getPoint());
                     if (row != -1) {
+                        Rectangle bounds = getRowBounds(row);
                         if (c instanceof JTree) {
-                            int maxIconSize = getRowBounds(row).height;
+                            int maxIconSize = bounds != null ? bounds.height : ((JTree) c).getRowHeight();
                             if (_mousePosition != null) {
                                 c.repaint(new Rectangle(_mousePosition.x - maxIconSize, _mousePosition.y - maxIconSize, 2 * maxIconSize, 2 * maxIconSize));
                             }
@@ -207,16 +218,24 @@ abstract public class NavigationComponentHelper {
                             int old = _rolloverRow;
                             _rolloverRow = row;
                             if (old != -1) {
-                                c.repaint(getRowBounds(old));
+                                Rectangle oldBounds = getRowBounds(old);
+                                if (oldBounds != null) {
+                                    c.repaint(oldBounds);
+                                }
                             }
-                            c.repaint(getRowBounds(row));
+                            if (bounds != null) {
+                                c.repaint(bounds);
+                            }
                         }
                     }
                     else {
                         int old = _rolloverRow;
                         _rolloverRow = -1;
                         if (old != -1) {
-                            c.repaint(getRowBounds(old));
+                            Rectangle bounds = getRowBounds(old);
+                            if (bounds != null) {
+                                c.repaint(bounds);
+                            }
                         }
                     }
                 }
@@ -245,13 +264,18 @@ abstract public class NavigationComponentHelper {
         if (rows != null) {
             for (int row : rows) {
                 Rectangle bounds = getRowBounds(row);
-                bounds.x = 0;
-                bounds.width = c.getWidth();
-                c.repaint(bounds);
+                if (bounds != null) {
+                    bounds.x = 0;
+                    bounds.width = c.getWidth();
+                    c.repaint(bounds);
+                }
             }
         }
         if (_rolloverRow != -1) {
-            c.repaint(getRowBounds(_rolloverRow));
+            Rectangle bounds = getRowBounds(_rolloverRow);
+            if (bounds != null) {
+                c.repaint(bounds);
+            }
         }
     }
 
