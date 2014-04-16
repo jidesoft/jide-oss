@@ -553,23 +553,21 @@ public class JideSwingUtilities implements SwingConstants {
             }
             return true;
         }
-        else {
-            if (considerArrayOrList && o1.getClass().isArray() && o2.getClass().isArray()) {
-                int length1 = Array.getLength(o1);
-                int length2 = Array.getLength(o2);
-                if (length1 != length2) {
+        else if (considerArrayOrList && o1.getClass().isArray() && o2.getClass().isArray()) {
+            int length1 = Array.getLength(o1);
+            int length2 = Array.getLength(o2);
+            if (length1 != length2) {
+                return false;
+            }
+            for (int i = 0; i < length1; i++) {
+                if (!equals(Array.get(o1, i), Array.get(o2, i), true)) {
                     return false;
                 }
-                for (int i = 0; i < length1; i++) {
-                    if (!equals(Array.get(o1, i), Array.get(o2, i), true)) {
-                        return false;
-                    }
-                }
-                return true;
             }
-            else {
-                return o1.equals(o2);
-            }
+            return true;
+        }
+        else {
+            return o1.equals(o2);
         }
     }
 
@@ -3215,6 +3213,98 @@ public class JideSwingUtilities implements SwingConstants {
         // index is too large, add to the end.
         if (index < 0 || index > listeners.length - 1) {
             model.addTableModelListener(l);
+        }
+    }
+
+    /**
+     * Inserts the property change listener at the particular index in the listeners' chain.
+     *
+     * @param component    the component where the listener will be inserted.
+     * @param l            the listener to be inserted
+     * @param propertyName the name of the property. Could be null.
+     * @param index        the index to be inserted
+     */
+    public static void insertPropertyChangeListener(Component component, PropertyChangeListener l, String propertyName, int index) {
+        PropertyChangeListener[] listeners = propertyName == null ? component.getPropertyChangeListeners() : component.getPropertyChangeListeners(propertyName);
+        for (PropertyChangeListener listener : listeners) {
+            if (propertyName == null) {
+                component.removePropertyChangeListener(listener);
+            }
+            else {
+                component.removePropertyChangeListener(propertyName, listener);
+            }
+        }
+        for (int i = 0; i < listeners.length; i++) {
+            PropertyChangeListener listener = listeners[i];
+            if (index == i) {
+                if (propertyName == null) {
+                    component.addPropertyChangeListener(l);
+                }
+                else {
+                    component.addPropertyChangeListener(propertyName, l);
+                }
+            }
+            if (propertyName == null) {
+                component.addPropertyChangeListener(listener);
+            }
+            else {
+                component.addPropertyChangeListener(propertyName, listener);
+            }
+        }
+        // index is too large, add to the end.
+        if (index > listeners.length - 1) {
+            if (propertyName == null) {
+                component.addPropertyChangeListener(l);
+            }
+            else {
+                component.addPropertyChangeListener(propertyName, l);
+            }
+        }
+    }
+
+    /**
+     * Inserts the property change listener at the particular index in the listeners' chain.
+     *
+     * @param manager      the KeyboardFocusManager where the listener will be inserted.
+     * @param l            the listener to be inserted
+     * @param propertyName the name of the property. Could be null.
+     * @param index        the index to be inserted
+     */
+    public static void insertPropertyChangeListener(KeyboardFocusManager manager, PropertyChangeListener l, String propertyName, int index) {
+        PropertyChangeListener[] listeners = propertyName == null ? manager.getPropertyChangeListeners() : manager.getPropertyChangeListeners(propertyName);
+        for (PropertyChangeListener listener : listeners) {
+            if (propertyName == null) {
+                manager.removePropertyChangeListener(listener);
+            }
+            else {
+                manager.removePropertyChangeListener(propertyName, listener);
+            }
+        }
+        for (int i = 0; i < listeners.length; i++) {
+            PropertyChangeListener listener = listeners[i];
+            if (index == i) {
+                if (propertyName == null) {
+                    manager.addPropertyChangeListener(l);
+                }
+                else {
+                    manager.addPropertyChangeListener(propertyName, l);
+                }
+            }
+            if (propertyName == null) {
+                manager.addPropertyChangeListener(listener);
+            }
+            else {
+                manager.addPropertyChangeListener(propertyName, listener);
+            }
+        }
+        // index is too large, add to the end.
+        if (index > listeners.length - 1) {
+            if (propertyName == null) {
+                manager.addPropertyChangeListener(l);
+            }
+            else {
+                manager.addPropertyChangeListener(propertyName, l);
+            }
         }
     }
 
