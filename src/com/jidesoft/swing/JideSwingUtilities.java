@@ -3951,7 +3951,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @return the index of the given key if it exists in the list, otherwise -1 times the index value at the insertion
      * point that would be used if the key were added to the list.
      */
-    public static int binarySearch(List<Object> a, Object key) {
+    public static <T> int binarySearch(List<T> a, T key) {
         int x1 = 0;
         int x2 = a.size();
         int i = x2 / 2, c;
@@ -3982,7 +3982,7 @@ public class JideSwingUtilities implements SwingConstants {
      * @return the index of the given key if it exists in the array, otherwise -1 times the index value at the insertion
      * point that would be used if the key were added to the array.
      */
-    public static int binarySearch(Object[] a, Object key) {
+    public static <T> int binarySearch(T[] a, T key) {
         int x1 = 0;
         int x2 = a.length;
         int i = x2 / 2, c;
