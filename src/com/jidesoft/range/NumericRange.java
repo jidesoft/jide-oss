@@ -125,8 +125,19 @@ public class NumericRange extends AbstractNumericRange<Double> {
      * Sets the minimum and maximum values of the range in a single call
      */
     public void adjust(Double lower, Double upper) {
-        setMin(lower);
-        setMax(upper);
+        double size = size(); // save it
+        if (lower != null) {
+            setMin(lower);
+        }
+        else if (upper != null) {
+            setMin(upper - size);
+        }
+        if (upper != null) {
+            setMax(upper);
+        }
+        else if (lower != null) {
+            setMin(lower + size);
+        }
     }
 
     /**
