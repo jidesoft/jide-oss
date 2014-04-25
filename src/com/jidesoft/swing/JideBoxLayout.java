@@ -477,7 +477,8 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
                         getSizeForSecondaryAxis(insets, false);
             }
         }
-        if (_axis == 0) {
+        ComponentOrientation o = _target.getComponentOrientation();
+        if (resolveAxis(_axis, o) == X_AXIS) {
             return new Dimension(prePrimary + getGapSize(), preSecondary);
         }
         else {
