@@ -88,8 +88,19 @@ public class TimeRange extends AbstractRange<Date> {
     }
 
     public void adjust(Date lower, Date upper) {
-        setMin(lower);
-        setMax(upper);
+        double size = size(); // save it
+        if (lower != null) {
+            setMin(lower);
+        }
+        else if (upper != null) {
+            setMin(new Date(upper.getTime() - (long) size));
+        }
+        if (upper != null) {
+            setMax(upper);
+        }
+        else if (lower != null) {
+            setMax(new Date(lower.getTime() + (long) size));
+        }
     }
 
     public void setMax(Date to) {

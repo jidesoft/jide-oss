@@ -117,9 +117,9 @@ public class XPStyle {
      * @param state a <code>String</code>
      * @param prop  a <code>String</code>
      * @return a <code>String</code> or null if key is not found in the current style
-     *         <p/>
-     *         This is currently only used by WindowsInternalFrameTitlePane for painting title foreground and can be
-     *         removed when no longer needed
+     * <p/>
+     * This is currently only used by WindowsInternalFrameTitlePane for painting title foreground and can be removed
+     * when no longer needed
      */
     public String getString(Component c, Part part, State state, Prop prop) {
         return getTypeEnumName(c, part, state, prop);
@@ -159,9 +159,9 @@ public class XPStyle {
      * Get a named <code>Dimension</code> value from the current style
      *
      * @return a <code>Dimension</code> or null if key is not found in the current style
-     *         <p/>
-     *         This is currently only used by WindowsProgressBarUI and the value should probably be cached there instead
-     *         of here.
+     * <p/>
+     * This is currently only used by WindowsProgressBarUI and the value should probably be cached there instead of
+     * here.
      */
     public Dimension getDimension(Component c, Part part, State state, Prop prop) {
         return ThemeReader.getPosition(part.getControlName(c), part.getValue(),
@@ -173,9 +173,9 @@ public class XPStyle {
      * Get a named <code>Point</code> (e.g. a location or an offset) value from the current style
      *
      * @return a <code>Point</code> or null if key is not found in the current style
-     *         <p/>
-     *         This is currently only used by WindowsInternalFrameTitlePane for painting title foregound and can be
-     *         removed when no longer needed
+     * <p/>
+     * This is currently only used by WindowsInternalFrameTitlePane for painting title foregound and can be removed when
+     * no longer needed
      */
     public Point getPoint(Component c, Part part, State state, Prop prop) {
         Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
@@ -193,9 +193,9 @@ public class XPStyle {
      * Get a named <code>Insets</code> value from the current style
      *
      * @return an <code>Insets</code> object or null if key is not found in the current style
-     *         <p/>
-     *         This is currently only used to create borders and by WindowsInternalFrameTitlePane for painting title
-     *         foregound. The return value is already cached in those places.
+     * <p/>
+     * This is currently only used to create borders and by WindowsInternalFrameTitlePane for painting title foregound.
+     * The return value is already cached in those places.
      */
     public Insets getMargin(Component c, Part part, State state, Prop prop) {
         return ThemeReader.getThemeMargins(part.getControlName(c), part.getValue(),
@@ -235,7 +235,7 @@ public class XPStyle {
      *
      * @param part a <code>Part</code>
      * @return a <code>Border</code> or null if key is not found in the current style or if the style for the particular
-     *         part is not defined as "borderfill".
+     * part is not defined as "borderfill".
      */
     public synchronized Border getBorder(Component c, Part part) {
         if (part == Part.MENU) {
@@ -636,7 +636,6 @@ public class XPStyle {
         protected void paintToImage(Component c, Image image, Graphics g,
                                     int w, int h, Object[] args) {
             if (!SystemInfo.isJdk7Above()) {
-                sun.awt.image.CachingSurfaceManager csm = null;
                 boolean accEnabled = false;
                 Skin skin = (Skin) args[0];
                 TMSchema.Part part = skin.part;
@@ -654,9 +653,13 @@ public class XPStyle {
                 // Calling setLocalAccelerationEnabled on that image's surface
                 // manager re-enables it.
                 SurfaceManager sm = SurfaceManager.getManager(bi);
-                if (sm instanceof sun.awt.image.CachingSurfaceManager) {
-                    csm = (sun.awt.image.CachingSurfaceManager) sm;
-                    accEnabled = csm.isLocalAccelerationEnabled();
+                if (sm.getClass().getName().equals("sun.awt.image.CachingSurfaceManager")) {
+                    try {
+                        accEnabled = (Boolean) ReflectionUtils.callGet(sm, "isLocalAccelerationEnabled");
+                    }
+                    catch (Exception e) {
+                        // ignore
+                    }
                 }
 
                 WritableRaster raster = bi.getRaster();
@@ -666,9 +669,17 @@ public class XPStyle {
                         TMSchema.State.getValue(part, state),
                         0, 0, w, h, w);
 
-                if (csm != null && accEnabled != csm.isLocalAccelerationEnabled()) {
-                    csm.setLocalAccelerationEnabled(accEnabled);
-                    csm.rasterChanged();
+                if (sm.getClass().getName().equals("sun.awt.image.CachingSurfaceManager")) {
+                    try {
+                        boolean oldAccEnabled = (Boolean) ReflectionUtils.callGet(sm, "isLocalAccelerationEnabled");
+                        if (accEnabled != oldAccEnabled) {
+                            ReflectionUtils.callSet(sm, "setLocalAccelerationEnabled", accEnabled);
+                            ReflectionUtils.call(sm, "rasterChanged");
+                        }
+                    }
+                    catch (Exception e) {
+                        // ignore
+                    }
                 }
             }
             else {  // copied from JDK7 XPStyle. To make the code compilable under JDk6, we use RefectionUtils

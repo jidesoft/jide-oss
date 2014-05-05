@@ -106,8 +106,19 @@ public class IntegerRange extends AbstractNumericRange<Integer> {
     }
 
     public void adjust(Integer lower, Integer upper) {
-        setMin(lower);
-        setMax(upper);
+        double size = size(); // save it
+        if (lower != null) {
+            setMin(lower);
+        }
+        else if (upper != null) {
+            setMin(upper - (int) size);
+        }
+        if (upper != null) {
+            setMax(upper);
+        }
+        else if (lower != null) {
+            setMin(lower + (int) size);
+        }
     }
 
     /**
