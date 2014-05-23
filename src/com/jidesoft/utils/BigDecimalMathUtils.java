@@ -1,5 +1,8 @@
 package com.jidesoft.utils;
 
+import com.jidesoft.range.BigDecimalRange;
+import com.jidesoft.range.Range;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -62,6 +65,17 @@ public final class BigDecimalMathUtils {
      */
     public static BigDecimal max(List<BigDecimal> numbers) {
         return new TreeSet<BigDecimal>(numbers).last();
+    }
+
+    /**
+     * Returns the max number in the numbers list.
+     *
+     * @param numbers the numbers to calculate the max.
+     * @return the max number in the numbers list.
+     */
+    public static Range<BigDecimal> range(List<BigDecimal> numbers) {
+        TreeSet<BigDecimal> decimals = new TreeSet<BigDecimal>(numbers);
+        return new BigDecimalRange(decimals.first(), decimals.last());
     }
 
     /**
