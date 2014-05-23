@@ -5,7 +5,9 @@ import java.awt.*;
 import java.util.Calendar;
 import java.util.Date;
 
-/** Utils methods for data type. */
+/**
+ * Utils methods for data type.
+ */
 public class TypeUtils {
     // indexes referring to columns in the PRIMITIVE_ARRAY_TYPES table.
     private static final int WRAPPER_TYPE_INDEX = 0;
@@ -75,7 +77,19 @@ public class TypeUtils {
     }
 
     /**
-     * Checks if the type is a temporal type such as Date, Calendar, long or double that can be used to represent date or time.
+     * Checks if the type is a numeric type.
+     *
+     * @param type the data type.
+     * @return true if it is numeric type including all subclasses of Number, double, int, float, short and long.
+     */
+    public static boolean isIntegerType(Class<?> type) {
+        return type != null && (Integer.class.isAssignableFrom(type)
+                || type == int.class);
+    }
+
+    /**
+     * Checks if the type is a temporal type such as Date, Calendar, long or double that can be used to represent date
+     * or time.
      *
      * @param type the data type.
      * @return true if it is temporal type including all subclasses.

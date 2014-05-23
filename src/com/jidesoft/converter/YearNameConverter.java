@@ -6,11 +6,13 @@
 
 package com.jidesoft.converter;
 
+import java.text.NumberFormat;
+
 /**
  * Converter which converts year to int and converts it back. It is no difference from a number converter except it
  * doesn't use grouping when formatting.
  */
-public class YearNameConverter implements ObjectConverter {
+public class YearNameConverter extends NumberConverter {
 
     /**
      * Default ConverterContext for MonthConverter.
@@ -21,19 +23,16 @@ public class YearNameConverter implements ObjectConverter {
      * Creates a new CalendarConverter.
      */
     public YearNameConverter() {
+        setNumberFormat(getDefaultNumberFormat());
     }
 
-    public String toString(Object object, ConverterContext context) {
-        if (object == null || !(object instanceof Number)) {
-            return "";
-        }
-        else {
-            return object.toString();
-        }
-    }
-
-    public boolean supportToString(Object object, ConverterContext context) {
-        return true;
+    @Override
+    protected NumberFormat getDefaultNumberFormat() {
+        NumberFormat format = super.getDefaultNumberFormat();
+        format.setGroupingUsed(false);
+        format.setMaximumFractionDigits(0);
+        format.setMinimumFractionDigits(0);
+        return format;
     }
 
     public Object fromString(String string, ConverterContext context) {

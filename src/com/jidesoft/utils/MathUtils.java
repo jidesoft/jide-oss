@@ -1,5 +1,9 @@
 package com.jidesoft.utils;
 
+import com.jidesoft.range.IntegerRange;
+import com.jidesoft.range.NumericRange;
+import com.jidesoft.range.Range;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,5 +128,47 @@ public final class MathUtils {
         double sum = sum(squares);
         return sum / (biasCorrected ? (n - 1) : n);
 
+    }
+
+    /**
+     * Returns the range of numbers.
+     *
+     * @param numbers the numbers to calculate the range.
+     * @return the range of the numbers.
+     */
+    public static Range<Double> range(List<Number> numbers) {
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        for (Number value : numbers) {
+            double v = value.doubleValue();
+            if (v < min) {
+                min = v;
+            }
+            if (v > max) {
+                max = v;
+            }
+        }
+        return new NumericRange(min, max);
+    }
+
+    /**
+     * Returns the range of numbers.
+     *
+     * @param numbers the numbers to calculate the range.
+     * @return the range of the numbers.
+     */
+    public static Range<Integer> rangeInteger(List<Number> numbers) {
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        for (Number value : numbers) {
+            double v = value.doubleValue();
+            if (v < min) {
+                min = v;
+            }
+            if (v > max) {
+                max = v;
+            }
+        }
+        return new IntegerRange((int) min, (int) max);
     }
 }

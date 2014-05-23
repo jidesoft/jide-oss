@@ -5,6 +5,9 @@
  */
 package com.jidesoft.converter;
 
+import com.jidesoft.range.IntegerRange;
+import com.jidesoft.range.NumericRange;
+import com.jidesoft.range.TimeRange;
 import com.jidesoft.utils.CacheMap;
 import com.jidesoft.utils.RegistrationListener;
 import com.jidesoft.utils.TypeUtils;
@@ -466,6 +469,10 @@ public class ObjectConverterManager {
             registerConverter(short[].class, new DefaultArrayConverter("; ", short.class));
 
             registerConverter(BigDecimal.class, new BigDecimalConverter());
+
+            registerConverter(NumericRange.class, new RangeConverter(Double.class));
+            registerConverter(IntegerRange.class, new RangeConverter(Integer.class));
+            registerConverter(TimeRange.class, new RangeConverter(Date.class));
         }
         finally {
             _initing = false;
