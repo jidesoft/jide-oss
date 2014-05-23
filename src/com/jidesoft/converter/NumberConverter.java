@@ -37,6 +37,9 @@ abstract public class NumberConverter implements ObjectConverter {
      */
     public NumberConverter(NumberFormat format) {
         _numberFormat = format;
+        if (_numberFormat != null) {
+            _numberFormat.setGroupingUsed(isGroupingUsed()); // apply the grouingUsed flag.
+        }
     }
 
     private String trimNegativeSign(String text) {
