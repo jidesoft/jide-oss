@@ -77,9 +77,9 @@ public class RangeConverter implements ObjectConverter {
         if (object instanceof Range) {
             Range range = (Range) object;
             if (range.size() == 0) {
-                return arrayToString(new Object[]{range.minimum()}, context);
+                return arrayToString(new Object[]{range.lower()}, context);
             }
-            return arrayToString(new Object[]{range.minimum(), range.maximum()}, context);
+            return arrayToString(new Object[]{range.lower(), range.upper()}, context);
         }
         else {
             return "";
@@ -106,6 +106,6 @@ public class RangeConverter implements ObjectConverter {
     }
 
     public boolean supportFromString(String string, ConverterContext context) {
-        return true;
+        return false;
     }
 }
