@@ -1,6 +1,7 @@
 package com.jidesoft.utils;
 
 import com.jidesoft.range.IntegerRange;
+import com.jidesoft.range.LongRange;
 import com.jidesoft.range.NumericRange;
 import com.jidesoft.range.Range;
 
@@ -170,5 +171,26 @@ public final class MathUtils {
             }
         }
         return new IntegerRange((int) min, (int) max);
+    }
+
+    /**
+     * Returns the range of numbers.
+     *
+     * @param numbers the numbers to calculate the range.
+     * @return the range of the numbers.
+     */
+    public static Range<Long> rangeLong(List<Number> numbers) {
+        double min = Long.MAX_VALUE;
+        double max = Long.MIN_VALUE;
+        for (Number value : numbers) {
+            double v = value.doubleValue();
+            if (v < min) {
+                min = v;
+            }
+            if (v > max) {
+                max = v;
+            }
+        }
+        return new LongRange((long) min, (long) max);
     }
 }

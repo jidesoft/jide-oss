@@ -80,11 +80,31 @@ public class TypeUtils {
      * Checks if the type is a numeric type.
      *
      * @param type the data type.
-     * @return true if it is numeric type including all subclasses of Number, double, int, float, short and long.
+     * @return true if it is numeric type including all subclasses of Integer or int.
      */
     public static boolean isIntegerType(Class<?> type) {
         return type != null && (Integer.class.isAssignableFrom(type)
                 || type == int.class);
+    }
+
+    /**
+     * Checks if the type is a string type.
+     *
+     * @param type the data type.
+     * @return true if it is numeric type including all subclasses of String.
+     */
+    public static boolean isStringType(Class<?> type) {
+        return type != null && (String.class.isAssignableFrom(type));
+    }
+
+    /**
+     * Checks if the type is a boolean type.
+     *
+     * @param type the data type.
+     * @return true if it is a boolean
+     */
+    public static boolean isBooleanType(Class<?> type) {
+        return type != null && (Boolean.class.isAssignableFrom(type) || type == boolean.class);
     }
 
     /**
