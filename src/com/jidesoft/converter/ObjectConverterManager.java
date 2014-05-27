@@ -470,9 +470,11 @@ public class ObjectConverterManager {
 
             registerConverter(NumericRange.class, new RangeConverter(Double.class));
             registerConverter(IntegerRange.class, new RangeConverter(Integer.class));
+            registerConverter(LongRange.class, new RangeConverter(Long.class));
             registerConverter(TimeRange.class, new RangeConverter(Date.class));
             registerConverter(BigDecimalRange.class, new RangeConverter(BigDecimal.class));
             registerConverter(StringRange.class, new RangeConverter(String.class));
+            registerConverter(BooleanRange.class, new RangeConverter(Boolean.class));
         }
         finally {
             _initing = false;
