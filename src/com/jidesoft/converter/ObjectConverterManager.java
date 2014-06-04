@@ -35,7 +35,9 @@ public class ObjectConverterManager {
     /**
      * Registers a converter with the type specified as class and a converter context specified as context.
      *
-     * @param clazz     the type of which the converter will registered.
+     * @param clazz     the type of which the converter will registered. You can use superclass if several subclasses
+     *                  share the same superclass and the same converter can be used. If you register converters for
+     *                  both subclass and superclass, the one registered with the subclass will be in effect.
      * @param converter the converter to be registered
      * @param context   the converter context.
      */
@@ -58,7 +60,9 @@ public class ObjectConverterManager {
     /**
      * Registers as the default converter with type specified as clazz.
      *
-     * @param clazz     the type of which the converter will be registered.
+     * @param clazz     the type of which the converter will registered. You can use superclass if several subclasses
+     *                  share the same superclass and the same converter can be used. If you register converters for
+     *                  both subclass and superclass, the one registered with the subclass will be in effect.
      * @param converter the converter to be registered
      */
     public static void registerConverter(Class<?> clazz, ObjectConverter converter) {
@@ -113,7 +117,6 @@ public class ObjectConverterManager {
      *
      * @param clazz   the type of which the converter will be registered.
      * @param context the converter context.
-     *
      * @return the registered converter.
      */
     public static ObjectConverter getConverter(Class<?> clazz, ConverterContext context) {
@@ -143,7 +146,6 @@ public class ObjectConverterManager {
      * Gets the converter associated with the type.
      *
      * @param clazz type
-     *
      * @return the converter
      */
     public static ObjectConverter getConverter(Class<?> clazz) {
@@ -154,7 +156,6 @@ public class ObjectConverterManager {
      * Converts an object to string using default converter context.
      *
      * @param object object to be converted.
-     *
      * @return the string
      */
     public static String toString(Object object) {
@@ -169,7 +170,6 @@ public class ObjectConverterManager {
      *
      * @param object object to be converted.
      * @param clazz  type of the object
-     *
      * @return the string
      */
     public static String toString(Object object, Class<?> clazz) {
@@ -182,7 +182,6 @@ public class ObjectConverterManager {
      * @param object  object to be converted.
      * @param clazz   type of the object
      * @param context converter context
-     *
      * @return the string converted from object
      */
     public static String toString(Object object, Class<?> clazz, ConverterContext context) {
@@ -203,7 +202,6 @@ public class ObjectConverterManager {
      *
      * @param string the string to be converted
      * @param clazz  the type to be converted to
-     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz) {
@@ -216,7 +214,6 @@ public class ObjectConverterManager {
      * @param string  the string to be converted
      * @param clazz   the type to be converted to
      * @param context converter context to be used
-     *
      * @return the object of type class which is converted from string
      */
     public static Object fromString(String string, Class<?> clazz, ConverterContext context) {
@@ -261,7 +258,6 @@ public class ObjectConverterManager {
      * Checks the value of autoInit.
      *
      * @return true or false.
-     *
      * @see #setAutoInit(boolean)
      */
     public static boolean isAutoInit() {
@@ -305,8 +301,7 @@ public class ObjectConverterManager {
      * Returns an array of all the registration listeners registered on this manager.
      *
      * @return all of this registration's <code>RegistrationListener</code>s or an empty array if no registration
-     *         listeners are currently registered
-     *
+     * listeners are currently registered
      * @see #addRegistrationListener
      * @see #removeRegistrationListener
      */
@@ -318,7 +313,6 @@ public class ObjectConverterManager {
      * Gets the available ConverterContexts registered with the class.
      *
      * @param clazz the class.
-     *
      * @return the available ConverterContexts.
      */
     public static ConverterContext[] getConverterContexts(Class<?> clazz) {
