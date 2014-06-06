@@ -348,10 +348,10 @@ public class PortingUtils {
         if (!mainScreenBounds.contains(bounds.getLocation())) {
             Rectangle screenBounds = PortingUtils.getScreenBounds(invoker, false);
             if (bounds.x > screenBounds.x + screenBounds.width || bounds.x < screenBounds.x) {
-                bounds.x = mainScreenBounds.x;
+                bounds.x = screenBounds.x;
             }
             if (bounds.y > screenBounds.y + screenBounds.height || bounds.y < screenBounds.y) {
-                bounds.y = mainScreenBounds.y;
+                bounds.y = screenBounds.y;
             }
         }
         return bounds;
@@ -360,7 +360,7 @@ public class PortingUtils {
     /**
      * Modifies the position of rect so that it is completely on screen if that is possible.
      *
-     * @param rect Therectanglee to move onto a single screen
+     * @param rect The rectangle to be moved to a single screen
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
