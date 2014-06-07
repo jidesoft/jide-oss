@@ -1,14 +1,18 @@
 package com.jidesoft.utils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * This is a fast access Vector that sacrifices memory for speed. It will reduce the speed of indexOf method from O(n)
  * to O(1). However it will at least double the memory used by Vector. So use it appropriately. <p><strong>Just like
- * Vector, this implementation is synchronized.</strong> Incomparisonn, {@link CachedArrayList} is not synchronized.
+ * Vector, this implementation is synchronized.</strong> In comparison, {@link CachedArrayList} is not synchronized.
  */
 public class CachedVector<E> extends Vector<E> {
-    private Map<Object, Integer> _indexCache;
+    private static final long serialVersionUID = -4994486169224407197L;
+    private Map<Object, IntegerWrapper> _indexCache;
     private boolean _lazyCaching = false;
 
     public CachedVector() {
@@ -28,9 +32,9 @@ public class CachedVector<E> extends Vector<E> {
     @Override
     public int indexOf(Object elem) {
         initializeCache();
-        Integer o = _indexCache.get(elem);
+        IntegerWrapper o = _indexCache.get(elem);
         if (o != null) {
-            return o;
+            return o.integer;
         }
         else if (isLazyCaching()) {
             int i = super.indexOf(elem);
@@ -56,23 +60,22 @@ public class CachedVector<E> extends Vector<E> {
      */
     protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
-            Map<Object, Integer> newCache = createCache();
-            Set<Object> keys = _indexCache.keySet();
-            for (Object key : keys) {
-                int value = _indexCache.get(key);
-                if (value >= index) {
-                    newCache.put(key, value + increase);
-                }
-                else {
-                    newCache.put(key, value);
+            if (!isLazyCaching() || size() - index <= size() >> 2) {
+                Collection<IntegerWrapper> values = _indexCache.values();
+                for (IntegerWrapper value : values) {
+                    if (value.integer >= index) {
+                        value.integer += increase;
+                    }
                 }
             }
-            _indexCache = newCache;
+            else {
+                uncacheAll();
+            }
         }
     }
 
-    protected Map<Object, Integer> createCache() {
-        return new IdentityHashMap();
+    protected Map<Object, IntegerWrapper> createCache() {
+        return new IdentityHashMap<Object, IntegerWrapper>();
     }
 
     /**
@@ -82,8 +85,8 @@ public class CachedVector<E> extends Vector<E> {
      * @param index the index.
      */
     public synchronized void cacheIt(Object o, int index) {
-        if (_indexCache != null && (_indexCache.get(o) == null || index < _indexCache.get(o))) {
-            _indexCache.put(o, index);
+        if (_indexCache != null && (_indexCache.get(o) == null || index < _indexCache.get(o).integer)) {
+            _indexCache.put(o, new IntegerWrapper(index));
         }
     }
 
@@ -222,16 +225,10 @@ public class CachedVector<E> extends Vector<E> {
         Integer i = 0;
         for (Object elem : this) {
             if (_indexCache.get(elem) == null) {
-                _indexCache.put(elem, i);
+                _indexCache.put(elem, new IntegerWrapper(i));
             }
             i++;
         }
-//        for (int i = 0; i < size(); i++) {
-//            _indexCache.put(get(i), i);
-//        }
-//        for (int i = size() - 1; i >= 0; i--) {
-//            _indexCache.put(get(i), i);
-//        }
     }
 
     public boolean isLazyCaching() {
@@ -253,6 +250,14 @@ public class CachedVector<E> extends Vector<E> {
             if (!isLazyCaching()) {
                 cacheAll();
             }
+        }
+    }
+
+    private static class IntegerWrapper {
+        int integer;
+
+        private IntegerWrapper(int integer) {
+            this.integer = integer;
         }
     }
 }
