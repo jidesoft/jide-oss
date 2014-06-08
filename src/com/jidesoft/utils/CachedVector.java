@@ -253,7 +253,7 @@ public class CachedVector<E> extends Vector<E> {
         }
     }
 
-    private static class IntegerWrapper {
+    public static class IntegerWrapper {
         int integer;
 
         private IntegerWrapper(int integer) {
