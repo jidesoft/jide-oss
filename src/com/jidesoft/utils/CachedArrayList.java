@@ -5,7 +5,10 @@
  */
 package com.jidesoft.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 /**
  * This is a fast access ArrayList that sacrifices memory for speed. It will reduce the speed of indexOf method from
@@ -15,7 +18,7 @@ import java.util.*;
  */
 public class CachedArrayList<E> extends ArrayList<E> {
     private static final long serialVersionUID = 3835017332487313880L;
-    private Map<Object, Integer> _indexCache;
+    private Map<Object, IntegerWrapper> _indexCache;
     private boolean _lazyCaching = false;
     private boolean _isDirty = false;
 
@@ -38,9 +41,9 @@ public class CachedArrayList<E> extends ArrayList<E> {
         if (_indexCache == null || _isDirty) {
             cacheAll();
         }
-        Integer o = _indexCache.get(elem);
+        IntegerWrapper o = _indexCache.get(elem);
         if (o != null) {
-            return o;
+            return o.integer;
         }
         else if (isLazyCaching()) {
             int i = super.indexOf(elem);
@@ -68,23 +71,17 @@ public class CachedArrayList<E> extends ArrayList<E> {
     @Deprecated
     protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
-            Map<Object, Integer> newCache = createCache();
-            Set<Object> keys = _indexCache.keySet();
-            for (Object key : keys) {
-                int value = _indexCache.get(key);
-                if (value >= index) {
-                    newCache.put(key, value + increase);
-                }
-                else {
-                    newCache.put(key, value);
+            Collection<IntegerWrapper> values = _indexCache.values();
+            for (IntegerWrapper value : values) {
+                if (value.integer >= index) {
+                    value.integer += increase;
                 }
             }
-            _indexCache = newCache;
         }
     }
 
-    protected Map<Object, Integer> createCache() {
-        return new IdentityHashMap<Object, Integer>();
+    protected Map<Object, IntegerWrapper> createCache() {
+        return new IdentityHashMap<Object, IntegerWrapper>();
     }
 
 
@@ -95,17 +92,17 @@ public class CachedArrayList<E> extends ArrayList<E> {
      * @param index the index.
      */
     public void cacheIt(Object o, int index) {
-        if (_indexCache != null ) {
-            Integer old = _indexCache.put(o, index);
-            if (old != null && old < index) {
+        if (_indexCache != null) {
+            IntegerWrapper old = _indexCache.put(o, new IntegerWrapper(index));
+            if (old != null && old.integer < index) {
                 _indexCache.put(o, old);
             }
 
             markDirtyIfNecessary(index);
             if (!_isDirty && !isLazyCaching()) {
                 for (int i = size() - 1; i > index; i--) {
-                    Integer oldI = _indexCache.put(get(i), i);
-                    if (oldI != null && oldI < index) {
+                    IntegerWrapper oldI = _indexCache.put(get(i), new IntegerWrapper(i));
+                    if (oldI != null && oldI.integer < index) {
                         _indexCache.put(get(i), oldI);
                     }
                 }
@@ -272,7 +269,7 @@ public class CachedArrayList<E> extends ArrayList<E> {
 //            _indexCache.put(get(i), i);
 //        }
         for (int i = size() - 1; i >= 0; i--) {
-            _indexCache.put(get(i), i);
+            _indexCache.put(get(i), new IntegerWrapper(i));
         }
         _isDirty = false;
     }
@@ -293,6 +290,14 @@ public class CachedArrayList<E> extends ArrayList<E> {
         else {
             super.removeRange(fromIndex, toIndex);
             uncacheAll();
+        }
+    }
+
+    public static class IntegerWrapper {
+        int integer;
+
+        private IntegerWrapper(int integer) {
+            this.integer = integer;
         }
     }
 }
