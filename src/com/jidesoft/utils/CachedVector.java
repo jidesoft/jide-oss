@@ -60,7 +60,7 @@ public class CachedVector<E> extends Vector<E> {
      */
     protected synchronized void adjustCache(int index, int increase) {
         if (_indexCache != null) {
-            if (!isLazyCaching() || size() - index <= size() >> 2) {
+            if (size() - index <= size() >> 2) {
                 Collection<IntegerWrapper> values = _indexCache.values();
                 for (IntegerWrapper value : values) {
                     if (value.integer >= index) {
