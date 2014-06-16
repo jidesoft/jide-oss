@@ -61,9 +61,9 @@ public interface Range<T> {
     public double size();
 
     /**
-     * Determines whether the supplied point lies within this range. For continuous ranges this is interpreted
-     * as a pair of inequalities on the supplied value (i.e., min <= x <= max), but for discrete ranges
-     * the <code>contains()</code> method is more like a set membership test.
+     * Determines whether the supplied point lies within this range. For continuous ranges this is interpreted as a pair
+     * of inequalities on the supplied value (i.e., min <= x <= max), but for discrete ranges the
+     * <code>contains()</code> method is more like a set membership test.
      *
      * @param x
      * @return a boolean to indicate whether the supplied point lies within the range
@@ -83,5 +83,19 @@ public interface Range<T> {
      * @param listener the <code>PropertyChangeListener</code> to remove
      */
     public void removePropertyChangeListener(PropertyChangeListener listener);
+
+    /**
+     * Gets the registered property change listeners.
+     *
+     * @return the registered property change listeners.
+     */
+    public PropertyChangeListener[] getPropertyChangeListeners();
+
+    /**
+     * Gets the registered property change listeners for a property.
+     *
+     * @return the registered property change listeners for a property.
+     */
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName);
 
 }

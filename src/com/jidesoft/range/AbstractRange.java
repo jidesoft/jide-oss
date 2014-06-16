@@ -40,6 +40,20 @@ public abstract class AbstractRange<T> implements Range<T> {
         changeSupport.removePropertyChangeListener(listener);
     }
 
+    public PropertyChangeListener[] getPropertyChangeListeners() {
+        if (changeSupport == null) {
+            return new PropertyChangeListener[0];
+        }
+        return changeSupport.getPropertyChangeListeners();
+    }
+
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+        if (changeSupport == null) {
+            return new PropertyChangeListener[0];
+        }
+        return changeSupport.getPropertyChangeListeners(propertyName);
+    }
+
     protected void firePropertyChange(PropertyChangeEvent evt) {
         if (changeSupport == null) {
             return;

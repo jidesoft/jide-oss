@@ -7,7 +7,10 @@
 package com.jidesoft.range;
 
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A range class formed from a collection of Positionable instances.
@@ -187,5 +190,15 @@ public class AggregatedRange implements Range<Double> {
      */
     public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
         throw new UnsupportedOperationException("An aggregated range is immutable");
+    }
+
+    @Override
+    public PropertyChangeListener[] getPropertyChangeListeners() {
+        return new PropertyChangeListener[0];
+    }
+
+    @Override
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+        return new PropertyChangeListener[0];
     }
 }
