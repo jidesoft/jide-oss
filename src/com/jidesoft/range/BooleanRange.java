@@ -77,4 +77,24 @@ public class BooleanRange extends AbstractRange<Boolean> {
                 ", upper='" + _upper + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BooleanRange)) return false;
+
+        BooleanRange that = (BooleanRange) o;
+
+        if (_lower != null ? !_lower.equals(that._lower) : that._lower != null) return false;
+        if (_upper != null ? !_upper.equals(that._upper) : that._upper != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _lower != null ? _lower.hashCode() : 0;
+        result = 31 * result + (_upper != null ? _upper.hashCode() : 0);
+        return result;
+    }
 }

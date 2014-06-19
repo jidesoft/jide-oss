@@ -13,7 +13,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * An abstract implementation of <code>Range</code>
  */
-public abstract class AbstractRange<T> implements Range<T> {
+public abstract class AbstractRange<T> implements Range<T>, Comparable<Range> {
     private PropertyChangeSupport changeSupport;
 
     public AbstractRange() {
@@ -83,4 +83,10 @@ public abstract class AbstractRange<T> implements Range<T> {
     }
 
     public abstract Range<T> createIntermediate(Range<T> targetRange, double position);
+
+    @Override
+    public int compareTo(Range o) {
+        int minGap = (int) (minimum() - o.minimum());
+        return minGap == 0 ? (int) (maximum() - o.maximum()) : minGap;
+    }
 }

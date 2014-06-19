@@ -77,4 +77,33 @@ public class StringRange extends AbstractRange<String> {
                 ", upper='" + _upper + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StringRange)) return false;
+
+        StringRange that = (StringRange) o;
+
+        if (_lower != null ? !_lower.equals(that._lower) : that._lower != null) return false;
+        if (_upper != null ? !_upper.equals(that._upper) : that._upper != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = _lower != null ? _lower.hashCode() : 0;
+        result = 31 * result + (_upper != null ? _upper.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public int compareTo(Range o) {
+        if (o instanceof StringRange) {
+            int lowerGap = _lower.compareTo(((StringRange) o)._lower);
+            return lowerGap == 0 ? _upper.compareTo(((StringRange) o)._upper) : lowerGap;
+        }
+        return 0;
+    }
 }
