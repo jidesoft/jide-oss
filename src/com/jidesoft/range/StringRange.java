@@ -102,6 +102,9 @@ public class StringRange extends AbstractRange<String> {
     public int compareTo(Range o) {
         if (o instanceof StringRange) {
             int lowerGap = _lower.compareTo(((StringRange) o)._lower);
+            if (size() == 0 && o.size() == 0) return lowerGap;
+            if (size() == 0 && size() < o.size()) return -1;
+            if (o.size() == 0 && size() > o.size()) return 1;
             return lowerGap == 0 ? _upper.compareTo(((StringRange) o)._upper) : lowerGap;
         }
         return 0;

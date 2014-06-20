@@ -86,7 +86,10 @@ public abstract class AbstractRange<T> implements Range<T>, Comparable<Range> {
 
     @Override
     public int compareTo(Range o) {
-        int minGap = (int) (minimum() - o.minimum());
-        return minGap == 0 ? (int) (maximum() - o.maximum()) : minGap;
+        int lowerGap = (int) (minimum() - o.minimum());
+        if (size() == 0 && o.size() == 0) return lowerGap;
+        if (size() == 0 && size() < o.size()) return -1;
+        if (o.size() == 0 && size() > o.size()) return 1;
+        return lowerGap == 0 ? (int) (maximum() - o.maximum()) : lowerGap;
     }
 }
