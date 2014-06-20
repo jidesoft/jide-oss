@@ -59,7 +59,7 @@ public class StringRange extends AbstractRange<String> {
 
     @Override
     public double size() {
-        return _lower.compareTo(_upper);
+        return Math.abs(_lower.compareTo(_upper));
     }
 
     @Override
