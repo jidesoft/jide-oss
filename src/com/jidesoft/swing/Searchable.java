@@ -2001,7 +2001,7 @@ public abstract class Searchable {
             int index = getIndex(count, i);
             Object element = getElementAt(index);
             String text = convertElementToString(element);
-            if (text != null && text.equals(str))
+            if (JideSwingUtilities.equals(text, str))
                 return index;
         }
 
