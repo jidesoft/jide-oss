@@ -417,6 +417,10 @@ public class AutoCompletion {
             if (isKeyTyped() || isStrict()) {
                 // lookup and select a matching item
                 final String text = getText(0, getLength());
+                int exactIndex = getSearchable().findFirstExactly(text);
+                if (exactIndex != -1) {
+                    return;
+                }
                 int index = getSearchable().findFromCursor(text);
                 Object item;
                 if (index != -1) {

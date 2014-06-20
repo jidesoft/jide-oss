@@ -1983,4 +1983,28 @@ public abstract class Searchable {
             fireSearchableEvent(new SearchableEvent(this, SearchableEvent.SEARCHABLE_MATCH, text, element, convertElementToString(element)));
         }
     }
+
+    /**
+     * Finds the first element that matches the searching text exactly.
+     *
+     * @param s the searching text
+     * @return the first element that matches with the searching text.
+     * @since 3.6.1
+     */
+    public int findFirstExactly(String s) {
+        String str = isCaseSensitive() ? s : s.toLowerCase();
+        int count = getElementCount();
+        if (count == 0)
+            return s.length() > 0 ? -1 : 0;
+
+        for (int i = 0; i < count; i++) {
+            int index = getIndex(count, i);
+            Object element = getElementAt(index);
+            String text = convertElementToString(element);
+            if (text != null && text.equals(str))
+                return index;
+        }
+
+        return -1;
+    }
 }
