@@ -183,6 +183,9 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
                 else if (found != -1) {
                     select(found, text, false);
                     clearStatus();
+                    if (_searchable.getSearchingDelay() < 0) { // never updated the count so we update here
+                        highlightAllOrNext();
+                    }
                 }
             }
         };
