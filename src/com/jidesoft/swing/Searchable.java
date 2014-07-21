@@ -492,6 +492,7 @@ public abstract class Searchable {
             }
             _popup = null;
             _searchableProvider = null;
+            _previousSearchText = null;
             fireSearchableEvent(new SearchableEvent(Searchable.this, SearchableEvent.SEARCHABLE_END, "", getCurrentIndex(), _previousSearchText));
         }
         setCursor(-1);
