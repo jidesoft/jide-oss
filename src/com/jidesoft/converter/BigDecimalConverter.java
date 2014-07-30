@@ -1,7 +1,6 @@
 package com.jidesoft.converter;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -21,19 +20,7 @@ public class BigDecimalConverter extends NumberFormatConverter {
     @Override
     public Object fromString(String string, ConverterContext context) {
         Object value = super.fromString(string, context);
-        if (value instanceof Double) {
-            return new BigDecimal(string);
-        }
-        else if (value instanceof Long) {
-            return new BigDecimal((Long) value);
-        }
-        else if (value instanceof Integer) {
-            return new BigDecimal((Integer) value);
-        }
-        else if (value instanceof BigInteger) {
-            return new BigDecimal((BigInteger) value);
-        }
-        return value;
+        return new BigDecimal("" + value);
     }
 
     @Override

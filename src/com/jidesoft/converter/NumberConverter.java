@@ -68,7 +68,7 @@ abstract public class NumberConverter implements ObjectConverter {
     }
 
     public String toString(Object object, ConverterContext context) {
-        // format on userOjbect has a higher priority.
+        // format on userObject has a higher priority.
         try {
             if (context == null || context.getUserObject() == null || !(context.getUserObject() instanceof NumberFormat)) {
                 if (object instanceof Number && ((Number) object).doubleValue() == Double.NaN) {

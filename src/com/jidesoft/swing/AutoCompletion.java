@@ -29,7 +29,7 @@ import java.util.List;
  * There are three constructors. The simplest one is {@link #AutoCompletion(javax.swing.JComboBox)}. It takes any
  * combobox and make it auto completion. If you are looking for an auto-complete combobox solution, this is all you
  * need. However <code>AutoCompletion</code> can do more than that. There are two more constructors. One is {@link
- * #AutoCompletion(javax.swing.text.JTextComponent,Searchable)}. It will use {@link Searchable} which is another
+ * #AutoCompletion(javax.swing.text.JTextComponent, Searchable)}. It will use {@link Searchable} which is another
  * component available in JIDE to make the JTextCompoent auto-complete. We used Searchable here because it provides a
  * common interface to access the element in JTree, JList or JTable. In the other word, the known list item we used to
  * auto-complete can be got from JTree or JList or even JTable or any other component as long as it has Searchable
@@ -302,7 +302,7 @@ public class AutoCompletion {
                         int index = getSearchable().findFirst(text);
                         if (index != -1) {
                             if (text.length() == 0) {
-                                setSelectedItem(null);
+                                setSelectedItem("");
                             }
                             else {
                                 Object item = getSearchable().getElementAt(index);
@@ -417,6 +417,10 @@ public class AutoCompletion {
             if (isKeyTyped() || isStrict()) {
                 // lookup and select a matching item
                 final String text = getText(0, getLength());
+                int exactIndex = getSearchable().findFirstExactly(text);
+                if (exactIndex != -1) {
+                    return;
+                }
                 int index = getSearchable().findFromCursor(text);
                 Object item;
                 if (index != -1) {
@@ -527,7 +531,7 @@ public class AutoCompletion {
         for (int i = 0, n = getSearchable().getElementCount(); i < n; i++) {
             Object currentItem = getSearchable().getElementAt(i);
             // current item starts with the pattern?
-            if (item == currentItem) {
+            if (JideSwingUtilities.equals(item, currentItem)) {
                 getSearchable().setSelectedIndex(i, false);
             }
         }
@@ -558,7 +562,6 @@ public class AutoCompletion {
      * Gets the strict completion property.
      *
      * @return the value of strict completion property.
-     *
      * @see #setStrictCompletion(boolean)
      */
     public boolean isStrictCompletion() {
@@ -587,7 +590,7 @@ public class AutoCompletion {
     }
 
     /**
-     * Gets the underlying Searchable. If you use the constructor {@link #AutoCompletion(javax.swing.text.JTextComponent,Searchable)},
+     * Gets the underlying Searchable. If you use the constructor {@link #AutoCompletion(javax.swing.text.JTextComponent, Searchable)},
      * the return value will be the Searchable you passed in. If you use the other twoconstructorss, internally we will
      * still create a Searchable. If so, this Searchable will be returned.
      *
