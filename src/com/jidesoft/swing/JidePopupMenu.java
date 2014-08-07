@@ -29,6 +29,8 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
 
     private boolean _useLightWeightPopup;
 
+    private int _visibleMenuItemCount;
+
     /**
      * Constructs a <code>JPopupMenu</code> without an "invoker".
      */
@@ -116,7 +118,15 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
         Container container = SwingUtilities.getAncestorOfClass(SimpleScrollPane.class, this);
         if (container instanceof SimpleScrollPane) {
             SimpleScrollPane scrollPane = (SimpleScrollPane) container;
-            size.height = Math.min(size.height, screenSize.height - scrollPane.getScrollUpButton().getPreferredSize().height - scrollPane.getScrollDownButton().getPreferredSize().height);
+            int height = screenSize.height;
+            // limit it to the height determined by the visible menu item count
+            if (getVisibleMenuItemCount() > 0) {
+                int totalHeight = getVisibleMenuItemCount() * getScrollableUnitIncrement(null, 0, 0);
+                if (height > totalHeight) {
+                    height = totalHeight;
+                }
+            }
+            size.height = Math.min(size.height, height - scrollPane.getScrollUpButton().getPreferredSize().height - scrollPane.getScrollDownButton().getPreferredSize().height);
         }
         return size;
     }
@@ -151,4 +161,30 @@ public class JidePopupMenu extends JPopupMenu implements Scrollable {
             ToolTipManager.sharedInstance().setLightWeightPopupEnabled(_useLightWeightPopup);
         }
     }
+
+    /**
+     * Gets the maximum visible menu item count.
+     *
+     * @return the maximum visible menu item count.
+     * @since 3.6.2
+     */
+    public int getVisibleMenuItemCount() {
+        return _visibleMenuItemCount;
+    }
+
+    /**
+     * Sets the visible menu item count. It will control the popup menu height along with the screen size, whichever is
+     * smaller.
+     *
+     * @param visibleMenuItemCount the maximum menu item count to be shown. -1 means no limit.
+     * @since 3.6.2
+     */
+    public void setVisibleMenuItemCount(int visibleMenuItemCount) {
+        if (_visibleMenuItemCount != visibleMenuItemCount) {
+            int oldValue = _visibleMenuItemCount;
+            _visibleMenuItemCount = visibleMenuItemCount;
+            firePropertyChange("visibleMenuCount", oldValue, visibleMenuItemCount);
+        }
+    }
+
 }
