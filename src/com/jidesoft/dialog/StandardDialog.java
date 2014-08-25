@@ -393,12 +393,12 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
                         return selectedPath != null && selectedPath.length > 0;
                     }
                 };
-                DelegateAction.replaceAction(getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), delegateAction, false);
+                getRootPane().unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+                getRootPane().registerKeyboardAction(delegateAction, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
             }
             else if (StandardDialogPane.PROPERTY_DEFAULT_ACTION.equals(evt.getPropertyName())) {
                 getRootPane().unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-                getRootPane().registerKeyboardAction(getDefaultAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-                        JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                getRootPane().registerKeyboardAction(getDefaultAction(), KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
             }
         }
