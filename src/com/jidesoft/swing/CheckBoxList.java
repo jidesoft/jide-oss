@@ -36,7 +36,7 @@ import java.util.List;
  * CheckBoxList#getCheckBoxListSelectionModel()}. If you need to add a check to a check box or to find out if a check
  * box is checked, you need to ask the getCheckBoxListSelectionModel() by using addListSelectionListener.
  * <p/>
- * It is possible to add an "(All)" item. All you need to do is to add CheckBoxList.ALL to the list model. Then check
+ * It is possible to add an "(All)" item. All you need to do is to add CheckBoxList.ALL_ENTRY to the list model. Then check
  * the (All) item will select all the check boxes and uncheck it will deselect all.
  * <p/>
  * Please note, we changed CheckBoxList implementation in 1.9.2 release. The old CheckBoxList class is renamed to {@link
