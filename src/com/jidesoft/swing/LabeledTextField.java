@@ -158,7 +158,7 @@ public class LabeledTextField extends JPanel {
             foreground = Color.GRAY;
         }
         _hintLabel.setForeground(foreground);
-        _hintOverlayable = new DefaultOverlayable(field, _hintLabel, DefaultOverlayable.WEST);
+        _hintOverlayable = new DefaultOverlayable(field, _hintLabel, DefaultOverlayable.LEADING);
         _hintOverlayable.setOpaque(false);
         field.addFocusListener(new FocusListener() {
             public void focusLost(FocusEvent e) {
