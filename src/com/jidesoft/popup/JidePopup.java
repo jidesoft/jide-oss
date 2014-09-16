@@ -1467,6 +1467,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (!_window.isVisible()) {
                 _window.pack();
                 _window.setVisible(true);
+                Window owner = _window.getOwner();
+                if (owner == null || owner.getClass().getName().contains("LightweightFrame")) { // workaround for a JavaFX limitation when SwingNode is used, there is no way to set the JavaFX main window as the owner
+                    _window.setAlwaysOnTop(true);
+                }
             }
 
             if (needFireEvents) {
