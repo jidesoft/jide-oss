@@ -113,7 +113,7 @@ public class LabeledTextField extends JPanel {
             }
             if (menu != null && menu.getComponentCount() > 0) {
                 Point location = calculateContextMenuLocation();
-                menu.show(this, location.x, location.y);
+                JideSwingUtilities.showPopupMenu(menu, this, location.x, location.y);
             }
         }
     }
@@ -193,7 +193,6 @@ public class LabeledTextField extends JPanel {
      * shown when the text field doesn't have focus.
      *
      * @return true or false.
-     *
      * @since 3.3.6
      */
     public boolean isShowHintTextWhenFocused() {
@@ -206,7 +205,6 @@ public class LabeledTextField extends JPanel {
      * regardless if the text field has focus.
      *
      * @param showHintTextWhenFocused true or false.
-     *
      * @since 3.3.6
      */
     public void setShowHintTextWhenFocused(boolean showHintTextWhenFocused) {
