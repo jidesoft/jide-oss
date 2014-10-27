@@ -452,13 +452,13 @@ public class PortingUtils {
 //        if (SCREEN_AREA.contains(rect)) return SCREEN_AREA;
 
         // see if the top left is on any of the screens
-        Rectangle containgScreen = null;
+        Rectangle containingScreen = null;
         Insets insets = null;
         Point rectPos = rect.getLocation();
         for (int i = 0; i < SCREENS.length; i++) {
             Rectangle screenBounds = SCREENS[i];
             if (screenBounds.contains(rectPos)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 insets = INSETS[i];
                 break;
             }
@@ -467,19 +467,19 @@ public class PortingUtils {
         for (int i = 0; i < SCREENS.length; i++) {
             Rectangle screenBounds = SCREENS[i];
             if (screenBounds.intersects(rect)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 insets = INSETS[i];
                 break;
             }
         }
 
         // fall back to the first screen
-        if (containgScreen == null) {
-            containgScreen = SCREENS[0];
+        if (containingScreen == null) {
+            containingScreen = SCREENS[0];
             insets = INSETS[0];
         }
 
-        Rectangle bounds = new Rectangle(containgScreen);
+        Rectangle bounds = new Rectangle(containingScreen);
         if (considerInsets && insets != null) {
             bounds.x += insets.left;
             bounds.y += insets.top;
