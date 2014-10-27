@@ -394,25 +394,25 @@ public class PortingUtils {
         waitForInitialization();
 
         // check if rect is total on screen
-        if (allowCrossScreen && SCREEN_AREA.contains(rect)) return rect;
+        if (allowCrossScreen && getScreenArea().contains(rect)) return rect;
         // see if the top left is on any of the screens
-        Rectangle containgScreen = null;
+        Rectangle containingScreen = null;
         Point rectPos = rect.getLocation();
         for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.contains(rectPos)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 break;
             }
         }
         // if not see if rect partial on any screen
         for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.intersects(rect)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 break;
             }
         }
         // check if it was on any screen
-        if (containgScreen == null) {
+        if (containingScreen == null) {
             // it was not on any of the screens so center it on the first screen
             rect.x = (SCREENS[0].width - rect.width) / 2;
             rect.y = (SCREENS[0].height - rect.height) / 2;
@@ -422,18 +422,18 @@ public class PortingUtils {
             // move rect so it is completely on a single screen
             // check X
             int rectRight = rect.x + rect.width;
-            int screenRight = containgScreen.x + containgScreen.width;
+            int screenRight = containingScreen.x + containingScreen.width;
             if (rectRight > screenRight) {
                 rect.x = screenRight - rect.width;
             }
-            if (rect.x < containgScreen.x) rect.x = containgScreen.x;
+            if (rect.x < containingScreen.x) rect.x = containingScreen.x;
             // check Y
             int rectBottom = rect.y + rect.height;
-            int screenBottom = containgScreen.y + containgScreen.height;
+            int screenBottom = containingScreen.y + containingScreen.height;
             if (rectBottom > screenBottom) {
                 rect.y = screenBottom - rect.height;
             }
-            if (rect.y < containgScreen.y) rect.y = containgScreen.y;
+            if (rect.y < containingScreen.y) rect.y = containingScreen.y;
             // return corrected rect
             return rect;
         }
