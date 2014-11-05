@@ -171,7 +171,27 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
         int cw = size.width;
         int ch = size.height;
 
-        switch (getOverlayLocation(component)) {
+        int overlayLocation = getOverlayLocation(component);
+
+        // adjust the location based on the orientation
+        if (overlayLocation == LEADING) {
+            if (component.getComponentOrientation() == ComponentOrientation.LEFT_TO_RIGHT) {
+                overlayLocation = WEST;
+            }
+            else if (component.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+                overlayLocation = EAST;
+            }
+        }
+        else if (overlayLocation == TRAILING) {
+            if (component.getComponentOrientation() == ComponentOrientation.LEFT_TO_RIGHT) {
+                overlayLocation = EAST;
+            }
+            else if (component.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+                overlayLocation = WEST;
+            }
+        }
+
+        switch (overlayLocation) {
             case CENTER:
                 cx = bounds.x + (bounds.width - cw) / 2;
                 cy = bounds.y + (bounds.height - ch) / 2;

@@ -54,75 +54,84 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     private int _dialogResult = RESULT_CANCELLED;
     public StandardDialogPropertyChangeListener _propertyChangeListener;
 
-    public StandardDialog() throws HeadlessException {
-        this(null);
+    public StandardDialog() {
+        initDialog();
     }
 
-    public StandardDialog(Frame owner) throws HeadlessException {
-        this(owner, true);
+    public StandardDialog(Frame owner) {
+        super(owner);
+        initDialog();
     }
 
-    public StandardDialog(Frame owner, boolean modal) throws HeadlessException {
-        this(owner, null, modal);
+    public StandardDialog(Frame owner, boolean modal) {
+        super(owner, modal);
+        initDialog();
     }
 
-    public StandardDialog(Frame owner, String title) throws HeadlessException {
-        this(owner, title, true);
+    public StandardDialog(Frame owner, String title) {
+        super(owner, title, true);
+        initDialog();
     }
 
-    public StandardDialog(Frame owner, String title, boolean modal) throws HeadlessException {
+    public StandardDialog(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
         initDialog();
     }
 
-    public StandardDialog(Window owner) throws HeadlessException {
-        this(owner, null);
-    }
-
-    public StandardDialog(Window owner, String title) throws HeadlessException {
-        super(owner, title);
-        initDialog();
-    }
-
-    public StandardDialog(Dialog owner, boolean modal) throws HeadlessException {
-        this(owner, null, modal);
-    }
-
-    public StandardDialog(Dialog owner, String title) throws HeadlessException {
-        this(owner, title, true);
-    }
-
-    public StandardDialog(Dialog owner, String title, boolean modal) throws HeadlessException {
-        super(owner, title, modal);
-        initDialog();
-    }
-
-    public StandardDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) throws HeadlessException {
+    public StandardDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
         super(owner, title, modal, gc);
         initDialog();
     }
 
-//    public StandardDialog(Window owner) {
-//        this(owner, null, ModalityType.MODELESS);
-//    }
-//
-//    public StandardDialog(Window owner, ModalityType modalityType) {
-//        this(owner, null, modalityType);
-//    }
-//
-//    public StandardDialog(Window owner, String title) {
-//        this(owner, title, ModalityType.MODELESS);
-//    }
-//
-//    public StandardDialog(Window owner, String title, ModalityType modalityType) {
-//        super(owner, title, modalityType);
-//        initDialog();
-//    }
-//
-//    public StandardDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
-//        super(owner, title, modalityType, gc);
-//        initDialog();
-//    }
+    public StandardDialog(Dialog owner) {
+        super(owner, true);
+        initDialog();
+    }
+
+    public StandardDialog(Dialog owner, boolean modal) {
+        super(owner, modal);
+        initDialog();
+    }
+
+    public StandardDialog(Dialog owner, String title) {
+        super(owner, title, true);
+        initDialog();
+    }
+
+    public StandardDialog(Dialog owner, String title, boolean modal) {
+        super(owner, title, modal);
+        initDialog();
+    }
+
+    public StandardDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
+        super(owner, title, modal, gc);
+        initDialog();
+    }
+
+    public StandardDialog(Window owner) {
+        super(owner, ModalityType.APPLICATION_MODAL);
+        initDialog();
+    }
+
+    public StandardDialog(Window owner, ModalityType modalityType) {
+        super(owner, modalityType);
+        initDialog();
+    }
+
+    public StandardDialog(Window owner, String title) {
+        super(owner, title, ModalityType.APPLICATION_MODAL);
+        initDialog();
+    }
+
+    public StandardDialog(Window owner, String title, ModalityType modalityType) {
+        super(owner, title, modalityType);
+        initDialog();
+    }
+
+    public StandardDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
+        super(owner, title, modalityType, gc);
+        initDialog();
+    }
 
     private void initDialog() {
         _standardDialogPane = createStandardDialogPane();

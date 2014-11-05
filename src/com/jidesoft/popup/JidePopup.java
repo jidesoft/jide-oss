@@ -131,6 +131,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     private boolean _movable = false;
 
+    private boolean _ensureInOneScreen = true;
+
     private boolean _returnFocusToOwner = true;
 
     /**
@@ -470,8 +472,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>contentPane</code> property.
      *
      * @param c the content pane for this popup.
-     * @throws java.awt.IllegalComponentStateException
-     *          (a runtime exception) if the content pane parameter is <code>null</code>
+     * @throws java.awt.IllegalComponentStateException (a runtime exception) if the content pane parameter is
+     *                                                 <code>null</code>
      * @see javax.swing.RootPaneContainer#getContentPane
      */
     public void setContentPane(Container c) {
@@ -495,8 +497,8 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * Sets this <code>Popup</code>'s <code>layeredPane</code> property.
      *
      * @param layered the <code>JLayeredPane</code> for this popup
-     * @throws java.awt.IllegalComponentStateException
-     *          (a runtime exception) if the layered pane parameter is <code>null</code>
+     * @throws java.awt.IllegalComponentStateException (a runtime exception) if the layered pane parameter is
+     *                                                 <code>null</code>
      * @see javax.swing.RootPaneContainer#setLayeredPane
      */
     public void setLayeredPane(JLayeredPane layered) {
@@ -584,7 +586,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      * <code>AccessiblePopup</code> instance is created if necessary.
      *
      * @return an <code>AccessiblePopup</code> that serves as the <code>AccessibleContext</code> of this
-     *         <code>Popup</code>
+     * <code>Popup</code>
      * @see com.jidesoft.popup.JidePopup.AccessiblePopup
      */
     @Override
@@ -830,7 +832,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
         }
 
-        Rectangle bounds = PortingUtils.containsInScreenBounds(actualOwner, new Rectangle(p, size));
+        Rectangle bounds = PortingUtils.containsInScreenBounds(actualOwner, new Rectangle(p, size), isEnsureInOneScreen());
         p.x = bounds.x;
         p.y = bounds.y;
         return p;
@@ -1467,6 +1469,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             if (!_window.isVisible()) {
                 _window.pack();
                 _window.setVisible(true);
+                Window owner = _window.getOwner();
+                if (owner == null || owner.getClass().getName().contains("LightweightFrame")) { // workaround for a JavaFX limitation when SwingNode is used, there is no way to set the JavaFX main window as the owner
+                    _window.setAlwaysOnTop(true);
+                }
             }
 
             if (needFireEvents) {
@@ -2803,5 +2809,26 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public void setReturnFocusToOwner(boolean returnFocusToOwner) {
         _returnFocusToOwner = returnFocusToOwner;
+    }
+
+    /**
+     * Checks if the popup will be shown in one screen.
+     *
+     * @return true or false.
+     * @since 3.6.3
+     */
+    public boolean isEnsureInOneScreen() {
+        return _ensureInOneScreen;
+    }
+
+    /**
+     * Sets the flag if the popup should appear within one screen. True in one screen. False to allow cross two
+     * screens.
+     *
+     * @param ensureInOneScreen true or false.
+     * @since 3.6.3
+     */
+    public void setEnsureInOneScreen(boolean ensureInOneScreen) {
+        _ensureInOneScreen = ensureInOneScreen;
     }
 }

@@ -4298,4 +4298,23 @@ public class JideSwingUtilities implements SwingConstants {
         }
         return Toolkit.getDefaultToolkit().getFontMetrics(font);
     }
+
+    /**
+     * Shows the popup menu with the consideration of the invoker's orientation.
+     *
+     * @param popup   the popup menu
+     * @param invoker the invoker for the popup menu
+     * @param x       the x, usually the x of the mouse clicked position
+     * @param y       the y, usually the y of the mouse clicked position
+     */
+    public static void showPopupMenu(JPopupMenu popup, Component invoker, int x, int y) {
+        popup.applyComponentOrientation(invoker.getComponentOrientation());
+        if (popup.getComponentOrientation().isLeftToRight()) {
+            popup.show(invoker, x, y);
+        }
+        else {
+            popup.show(invoker, x - popup.getPreferredSize().width, y);
+        }
+
+    }
 }

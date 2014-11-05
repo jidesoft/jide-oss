@@ -9,8 +9,8 @@ import com.jidesoft.dialog.ButtonPanel;
 import com.jidesoft.hints.FileIntelliHints;
 import com.jidesoft.plaf.FolderChooserUI;
 import com.jidesoft.swing.FolderChooser;
-import com.jidesoft.swing.SelectAllUtils;
 import com.jidesoft.swing.JideBoxLayout;
+import com.jidesoft.swing.SelectAllUtils;
 import com.jidesoft.utils.SystemInfo;
 import sun.awt.shell.ShellFolder;
 
@@ -295,7 +295,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                 String folderName = JOptionPane.showInputDialog(_folderChooser, resourceBundle.getString("FolderChooser.new.folderName"),
                         resourceBundle.getString("FolderChooser.new.title"), JOptionPane.OK_CANCEL_OPTION | JOptionPane.QUESTION_MESSAGE);
 
-                if (folderName != null) {
+                if (folderName != null && folderName.trim().length() > 0) {
                     folderName = eraseBlankInTheEnd(folderName);
                     File newFolder = new File(parent, folderName);
                     boolean success = newFolder.mkdir();

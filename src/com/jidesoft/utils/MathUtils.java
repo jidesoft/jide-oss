@@ -8,6 +8,8 @@ import com.jidesoft.range.Range;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Double.*;
+
 /**
  * A collection of several util methods related to Math. We only used it in DefaultSummaryCalculator in JIDE Pivot Grid
  * to calculate statistics but this class will be reserved as a place holder for methods related to Math.
@@ -48,7 +50,7 @@ public final class MathUtils {
      * @return the min number in the numbers list.
      */
     public static double min(List<Number> numbers) {
-        double min = Integer.MAX_VALUE;
+        double min = MAX_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v < min) {
@@ -65,7 +67,7 @@ public final class MathUtils {
      * @return the max number in the numbers list.
      */
     public static double max(List<Number> numbers) {
-        double max = Integer.MIN_VALUE;
+        double max = MIN_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v > max) {
@@ -86,7 +88,7 @@ public final class MathUtils {
      * @return the standard deviation
      */
     public static double stddev(List<Number> numbers, boolean biasCorrected) {
-        double stddev = Double.NaN;
+        double stddev = NaN;
         int n = numbers.size();
         if (n > 0) {
             if (n > 1) {
@@ -115,7 +117,7 @@ public final class MathUtils {
     public static double var(List<Number> numbers, boolean biasCorrected) {
         int n = numbers.size();
         if (n == 0) {
-            return Double.NaN;
+            return NaN;
         }
         else if (n == 1) {
             return 0d;
@@ -138,8 +140,8 @@ public final class MathUtils {
      * @return the range of the numbers.
      */
     public static Range<Double> range(List<Number> numbers) {
-        double min = Integer.MAX_VALUE;
-        double max = Integer.MIN_VALUE;
+        double min = MAX_VALUE;
+        double max = MIN_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v < min) {
