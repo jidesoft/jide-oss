@@ -69,7 +69,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Frame owner, String title) {
-        super(owner, title);
+        super(owner, title, true);
         initDialog();
     }
 
@@ -84,7 +84,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Dialog owner) {
-        super(owner);
+        super(owner, true);
         initDialog();
     }
 
@@ -94,7 +94,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Dialog owner, String title) {
-        super(owner, title);
+        super(owner, title, true);
         initDialog();
     }
 
@@ -109,7 +109,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Window owner) {
-        super(owner);
+        super(owner, ModalityType.APPLICATION_MODAL);
         initDialog();
     }
 
@@ -119,7 +119,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Window owner, String title) {
-        super(owner, title);
+        super(owner, title, ModalityType.APPLICATION_MODAL);
         initDialog();
     }
 
