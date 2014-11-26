@@ -100,13 +100,37 @@ public class SearchableUtils {
         return new TextComponentSearchable(textComponent);
     }
 
+    /**
+     * Uninstall the searchable that was installed to a component
+     *
+     * @param searchable the searchable.
+     */
     public static void uninstallSearchable(Searchable searchable) {
-        searchable.hidePopup();
-        searchable.uninstallListeners();
-        if (searchable.getComponent() instanceof JComponent) {
-            Object clientProperty = ((JComponent) searchable.getComponent()).getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE);
-            if (clientProperty == searchable) {
-                ((JComponent) searchable.getComponent()).putClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE, null);
+        if (searchable != null) {
+            searchable.hidePopup();
+            searchable.uninstallListeners();
+            if (searchable.getComponent() instanceof JComponent) {
+                Object clientProperty = ((JComponent) searchable.getComponent()).getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE);
+                if (clientProperty == searchable) {
+                    ((JComponent) searchable.getComponent()).putClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE, null);
+                }
+            }
+        }
+    }
+
+    /**
+     * Uninstall the searchable that was installed to a component
+     *
+     * @param component the component that has a searchable installed.
+     */
+    public static void uninstallSearchable(JComponent component) {
+        if (component != null) {
+            Object clientProperty = component.getClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE);
+            if (clientProperty instanceof Searchable) {
+                Searchable searchable = ((Searchable) clientProperty);
+                searchable.hidePopup();
+                searchable.uninstallListeners();
+                component.putClientProperty(Searchable.CLIENT_PROPERTY_SEARCHABLE, null);
             }
         }
     }
