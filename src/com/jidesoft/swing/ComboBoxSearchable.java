@@ -84,15 +84,15 @@ public class ComboBoxSearchable extends Searchable implements ListDataListener, 
                                 }
                             }
                         }
-                        textChanged(text);
-                        if (removedListener != null) {
-                            model.addListDataListener(removedListener);
-                        }
                         if (isShowPopupDuringSearching()) {
                             if (!comboBox.getUI().getClass().getName().contains("ExComboBoxUI")) { // only cover the JComboBox for now but not the subclass of JComboBox because don't want dependency on ExComboBox in JCL
                                 comboBox.hidePopup();
                             }
                             comboBox.showPopup();
+                        }
+                        textChanged(text);
+                        if (removedListener != null) {
+                            model.addListDataListener(removedListener);
                         }
                     }
                 }
