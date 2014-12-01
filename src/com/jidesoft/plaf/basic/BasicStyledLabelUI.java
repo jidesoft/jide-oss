@@ -6,10 +6,10 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.swing.FontUtils;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
-import com.jidesoft.swing.FontUtils;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
@@ -436,9 +436,6 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             x = 0;
                             i--;
                             _preferredRowCount++;
-                            if (label.getMaxRows() > 0 && _preferredRowCount >= label.getMaxRows()) {
-                                needBreak = true;
-                            }
                             needContinue = true;
                             break;
                         }
@@ -447,6 +444,11 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                             nextWordStartIndex = Math.min(s.length(), availLength);
                         }
                     }
+
+                    if (label.getMaxRows() > 0 && _preferredRowCount >= label.getMaxRows()) {
+                        needBreak = true;
+                    }
+
                     nextRowStartIndexInSubString = firstRowWordEndIndex + 1;
                     String subStringThisRow = s.substring(0, Math.min(nextRowStartIndexInSubString, s.length()));
                     strWidth = fm2.stringWidth(subStringThisRow);
