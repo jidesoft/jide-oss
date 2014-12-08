@@ -70,6 +70,9 @@ public class CachedVector<E> extends Vector<E> {
             }
             else {
                 uncacheAll();
+                if (!isLazyCaching()) {
+                    cacheAll();
+                }
             }
         }
     }
