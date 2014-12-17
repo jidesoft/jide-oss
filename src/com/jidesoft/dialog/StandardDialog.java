@@ -31,7 +31,7 @@ import java.beans.PropertyChangeListener;
  */
 abstract public class StandardDialog extends JDialog implements ButtonNames {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 9114102922553383723L;
 
@@ -55,22 +55,19 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     public StandardDialogPropertyChangeListener _propertyChangeListener;
 
     public StandardDialog() {
-        initDialog();
+        this((Frame) null);
     }
 
     public StandardDialog(Frame owner) {
-        super(owner);
-        initDialog();
+        this(owner, true);
     }
 
     public StandardDialog(Frame owner, boolean modal) {
-        super(owner, modal);
-        initDialog();
+        this(owner, null, modal);
     }
 
     public StandardDialog(Frame owner, String title) {
-        super(owner, title, true);
-        initDialog();
+        this(owner, title, true);
     }
 
     public StandardDialog(Frame owner, String title, boolean modal) {
@@ -84,18 +81,15 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Dialog owner) {
-        super(owner, true);
-        initDialog();
+        this(owner, true);
     }
 
     public StandardDialog(Dialog owner, boolean modal) {
-        super(owner, modal);
-        initDialog();
+        this(owner, null, modal);
     }
 
     public StandardDialog(Dialog owner, String title) {
-        super(owner, title, true);
-        initDialog();
+        this(owner, title, true);
     }
 
     public StandardDialog(Dialog owner, String title, boolean modal) {
@@ -109,18 +103,15 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     }
 
     public StandardDialog(Window owner) {
-        super(owner, ModalityType.APPLICATION_MODAL);
-        initDialog();
-    }
-
-    public StandardDialog(Window owner, ModalityType modalityType) {
-        super(owner, modalityType);
-        initDialog();
+        this(owner, (String) null);
     }
 
     public StandardDialog(Window owner, String title) {
-        super(owner, title, ModalityType.APPLICATION_MODAL);
-        initDialog();
+        this(owner, title, ModalityType.APPLICATION_MODAL);
+    }
+
+    public StandardDialog(Window owner, ModalityType modalityType) {
+        this(owner, "", modalityType);
     }
 
     public StandardDialog(Window owner, String title, ModalityType modalityType) {
@@ -207,7 +198,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
     /**
      * @deprecated As of JDK version 1.5, replaced by {@link Component#setVisible(boolean)
-     *             Component.setVisible(boolean)}.
+     * Component.setVisible(boolean)}.
      */
     @Override
     @Deprecated
@@ -329,7 +320,6 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
      * recommended to use our {@link ButtonPanel}.
      *
      * @return the button panel.
-     *
      * @see ButtonPanel
      */
     abstract public ButtonPanel createButtonPanel();
@@ -391,7 +381,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
                         }
                         return false;
                     }
-                    
+
                     @Override
                     public boolean isDelegateEnabled() {
                         return hasSelectionPath();
@@ -415,11 +405,11 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
     protected class DefaultStandardDialogPane extends StandardDialogPane {
         /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6976658176495038104L;
+         *
+         */
+        private static final long serialVersionUID = -6976658176495038104L;
 
-	@Override
+        @Override
         public JComponent createBannerPanel() {
             return StandardDialog.this.createBannerPanel();
         }
