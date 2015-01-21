@@ -13,7 +13,6 @@ import com.jidesoft.swing.*;
 import com.jidesoft.utils.PortingUtils;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
-import sun.awt.EmbeddedFrame;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
@@ -1935,8 +1934,9 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
 //
 // 1/2/07: we have to put this code back because combobox's popup not hiding when the window is deactivated.
 // But I also copied the code from MenuSelectionManager to check doUnpostPopupOnDeactivation. Hopefully that addresses the issue above.
+// 1/21/15: add a check for LightweightFrame because it caused the popup to hide immediately when mixing usage it with JavaFX
             else if (isTransient() && e.getID() == WindowEvent.WINDOW_DEACTIVATED
-                    && !(e.getWindow() instanceof EmbeddedFrame)) {
+                    && !(e.getWindow().getClass().getName().contains("EmbeddedFrame")) && !(e.getWindow().getClass().getName().contains("LightweightFrame"))) {
                 // TODO: don't why DEACTIVATED event is fired when popup is showing only if the applet is in browser mode.
                 // so the best solution is to find out why. For now just skip the case if the frame is a EmbeddedFrame.
                 if (doUnpostPopupOnDeactivation()) {
