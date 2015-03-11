@@ -105,7 +105,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public boolean add(E element) {
+    public synchronized boolean add(E element) {
         boolean added = super.add(element);
         if (!isLazyCaching() && added) {
             initializeCache();
@@ -115,7 +115,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public void add(int index, E element) {
+    public synchronized void add(int index, E element) {
         super.add(index, element);
         if (!isLazyCaching()) {
             initializeCache();
@@ -135,7 +135,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public E remove(int index) {
+    public synchronized E remove(int index) {
         E element = super.remove(index);
         if (element != null) {
             uncacheIt(element);
@@ -145,7 +145,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public synchronized boolean remove(Object o) {
         int oldIndex = indexOf(o);
         boolean removed = super.remove(o);
         if (removed) {
@@ -156,21 +156,21 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public synchronized boolean removeAll(Collection<?> c) {
         uncacheAll();
         return super.removeAll(c);
     }
 
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         uncacheAll();
         super.clear();
     }
 
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
+    public synchronized boolean addAll(Collection<? extends E> c) {
         boolean added = super.addAll(c);
         if (added) {
             cacheAll();
@@ -179,7 +179,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public synchronized boolean addAll(int index, Collection<? extends E> c) {
         boolean added = super.addAll(index, c);
         initializeCache();
         adjustCache(index, c.size());
@@ -190,7 +190,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    public E set(int index, E element) {
+    public synchronized E set(int index, E element) {
         if (!isLazyCaching()) {
             initializeCache();
             E e = super.set(index, element);
@@ -206,7 +206,7 @@ public class CachedVector<E> extends Vector<E> {
     /**
      * Invalidated the whole cache.
      */
-    public void invalidateCache() {
+    public synchronized void invalidateCache() {
         uncacheAll();
     }
 
@@ -243,7 +243,7 @@ public class CachedVector<E> extends Vector<E> {
     }
 
     @Override
-    protected void removeRange(int fromIndex, int toIndex) {
+    protected synchronized void removeRange(int fromIndex, int toIndex) {
         if (fromIndex == toIndex) {
             remove(fromIndex);
         }
