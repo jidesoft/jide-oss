@@ -3,6 +3,7 @@ package com.jidesoft.plaf.xerto;
 import com.jidesoft.plaf.UIDefaultsLookup;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 
 
@@ -43,9 +44,21 @@ public class XertoUtils {
     public static void updateColors() {
         UIDefaults uiDefaults = UIManager.getDefaults();
         BASE_COLOR = uiDefaults.getColor("activeCaption");
+        if (BASE_COLOR == null) {
+            BASE_COLOR = new ColorUIResource(0, 0, 128);
+        }
         CONTROL_COLOR = uiDefaults.getColor("control");
+        if (CONTROL_COLOR == null) {
+            CONTROL_COLOR = new ColorUIResource(Color.GRAY);
+        }
         INACTIVE_CAPTION_COLOR = uiDefaults.getColor("inactiveCaption");
+        if (INACTIVE_CAPTION_COLOR == null) {
+            INACTIVE_CAPTION_COLOR = new ColorUIResource(Color.DARK_GRAY);
+        }
         LIGHT_CONTROL_COLOR = uiDefaults.getColor("MenuItem.background");
+        if (LIGHT_CONTROL_COLOR == null) {
+            LIGHT_CONTROL_COLOR = new ColorUIResource(Color.LIGHT_GRAY);
+        }
         // get hsb base colors
         float[] oControlHSB = Color.RGBtoHSB(CONTROL_COLOR.getRed(), CONTROL_COLOR.getGreen(),
                 CONTROL_COLOR.getBlue(), null);
