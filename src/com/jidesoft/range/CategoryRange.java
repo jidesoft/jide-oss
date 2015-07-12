@@ -306,10 +306,9 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
 
 
     public int position(T value) {
-        List<T> possibleValues = getPossibleValues();
-        Integer index;
-        index = positionIndices.get(value);
+        Integer index = positionIndices.get(value);
         if (index == null) {
+            List<T> possibleValues = getPossibleValues();
             index = possibleValues.indexOf(value);
             if (index < 0) {
                 throw new IllegalArgumentException("Value " + value + " not known");
