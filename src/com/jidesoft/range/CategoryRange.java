@@ -1,8 +1,8 @@
 /*
  * @(#)CategoryRange.java
- * 
- * 2002 - 2012 JIDE Software Incorporated. All rights reserved.
- * Copyright (c) 2005 - 2012 Catalysoft Limited. All rights reserved.
+ *
+ * 2002 - 2015 JIDE Software Incorporated. All rights reserved.
+ * Copyright (c) 2005 - 2015 Catalysoft Limited. All rights reserved.
  */
 
 package com.jidesoft.range;
@@ -27,6 +27,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     private boolean sorted = false;
     // Private member variable to flag whether the possible values have been sorted or are in need of a sort
     private boolean alreadySorted = false;
+    private Map<T, Integer> positionIndices = new HashMap<T, Integer>();
 
     public CategoryRange() {
         _possibleValues = new ArrayList<T>();
@@ -99,8 +100,10 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
                     }
                 };
                 Collections.sort(_possibleValues, defaultComparator);
+                positionIndices.clear();
             } else {
                 Collections.sort(_possibleValues, comparator);
+                positionIndices.clear();
             }
         }
         return _possibleValues;
@@ -264,6 +267,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
     public void reset() {
         maximum = null;
         minimum = null;
+        positionIndices.clear();
     }
 
     public void setMinimum(double value) {
@@ -302,9 +306,15 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
 
 
     public int position(T value) {
-        int index = _possibleValues.indexOf(value);
-        if (index < 0) {
-            throw new IllegalArgumentException("Value " + value + " not known");
+        List<T> possibleValues = getPossibleValues();
+        Integer index;
+        index = positionIndices.get(value);
+        if (index == null) {
+            index = possibleValues.indexOf(value);
+            if (index < 0) {
+                throw new IllegalArgumentException("Value " + value + " not known");
+            }
+            positionIndices.put(value, index);
         }
         return 1 + index;
     }
