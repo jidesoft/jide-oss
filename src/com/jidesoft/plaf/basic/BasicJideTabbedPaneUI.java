@@ -5369,10 +5369,8 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             JideSwingUtilities.compositeRequestFocus(visibleComponent);
             return true;
         }
-        else if (visibleComponent instanceof JComponent) {
-            if (((JComponent) visibleComponent).requestDefaultFocus()) {
-                return true;
-            }
+        else if (visibleComponent != null && visibleComponent.requestFocusInWindow()) {
+            return true;
         }
         return false;
     }

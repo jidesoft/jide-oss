@@ -10,9 +10,9 @@ import com.jidesoft.swing.event.SearchableEvent;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.*;
 
 /**
  * <code>ListSearchable</code> is an concrete implementation of {@link Searchable} that enables the search function in
@@ -119,8 +119,11 @@ public class ListSearchable extends Searchable implements ListDataListener, Prop
                     }
                     else if (component instanceof CheckBoxListCellRenderer) {
                         ListCellRenderer actualRenderer = ((CheckBoxListCellRenderer) component).getActualListRenderer();
-                        if (actualRenderer != null && actualRenderer instanceof JLabel) {
-                            return ((JLabel) actualRenderer).getText();
+                        if (actualRenderer != null) {
+                            Component rendererComponent = actualRenderer.getListCellRendererComponent((JList) _component, object, 0, false, false);
+                            if (rendererComponent instanceof JLabel) {
+                                return ((JLabel) rendererComponent).getText();
+                            }
                         }
                     }
                 }

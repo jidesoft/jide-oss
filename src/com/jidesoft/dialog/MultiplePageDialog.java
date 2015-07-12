@@ -159,6 +159,11 @@ public class MultiplePageDialog extends StandardDialog {
         this(owner, title, modal, TAB_STYLE);
     }
 
+    public MultiplePageDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
+        super(owner, title, modal, gc);
+        setStyle(TAB_STYLE);
+    }
+
     /**
      * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title and the specified
      * owner <code>Frame</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
@@ -174,6 +179,26 @@ public class MultiplePageDialog extends StandardDialog {
      */
     public MultiplePageDialog(Frame owner, String title, boolean modal, int style) throws HeadlessException {
         super(owner, title, modal);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc, int style) {
+        super(owner, title, modal, gc);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Dialog owner, int style) {
+        super(owner);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Dialog owner, boolean modal, int style) {
+        super(owner, modal);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Dialog owner, String title, int style) {
+        super(owner, title);
         setStyle(style);
     }
 
@@ -231,6 +256,36 @@ public class MultiplePageDialog extends StandardDialog {
         this(owner, title, modal, TAB_STYLE);
     }
 
+    public MultiplePageDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
+        super(owner, title, modal, gc);
+        setStyle(TAB_STYLE);
+    }
+
+    public MultiplePageDialog(Window owner) {
+        super(owner);
+        setStyle(TAB_STYLE);
+    }
+
+    public MultiplePageDialog(Window owner, ModalityType modalityType) {
+        super(owner, modalityType);
+        setStyle(TAB_STYLE);
+    }
+
+    public MultiplePageDialog(Window owner, String title) {
+        super(owner, title);
+        setStyle(TAB_STYLE);
+    }
+
+    public MultiplePageDialog(Window owner, String title, ModalityType modalityType) {
+        super(owner, title, modalityType);
+        setStyle(TAB_STYLE);
+    }
+
+    public MultiplePageDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
+        super(owner, title, modalityType, gc);
+        setStyle(TAB_STYLE);
+    }
+
     /**
      * Creates a modal or non-modal MultiplePageDialog with the specified style, the specified title and the specified
      * owner <code>Dialog</code>.  If <code>owner</code> is <code>null</code>, a shared, hidden frame will be set as the
@@ -246,6 +301,55 @@ public class MultiplePageDialog extends StandardDialog {
      */
     public MultiplePageDialog(Dialog owner, String title, boolean modal, int style) throws HeadlessException {
         super(owner, title, modal);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc, int style) {
+        super(owner, title, modal, gc);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Window owner, int style) {
+        super(owner);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Window owner, ModalityType modalityType, int style) {
+        super(owner, modalityType);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Window owner, String title, int style) {
+        super(owner, title);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Window owner, String title, ModalityType modalityType, int style) {
+        super(owner, title, modalityType);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc, int style) {
+        super(owner, title, modalityType, gc);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(int style) {
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Frame owner, int style) {
+        super(owner);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Frame owner, boolean modal, int style) {
+        super(owner, modal);
+        setStyle(style);
+    }
+
+    public MultiplePageDialog(Frame owner, String title, int style) {
+        super(owner, title);
         setStyle(style);
     }
 

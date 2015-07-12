@@ -340,6 +340,13 @@ public class ObjectComparatorManager {
             registerComparator(int.class, numberComparator);
             registerComparator(short.class, numberComparator);
             registerComparator(byte.class, numberComparator);
+            registerComparator(Double.class, numberComparator);
+            registerComparator(Float.class, numberComparator);
+            registerComparator(Long.class, numberComparator);
+            registerComparator(Integer.class, numberComparator);
+            registerComparator(Short.class, numberComparator);
+            registerComparator(Byte.class, numberComparator);
+
 
             NumberComparator absoluteNumberComparator = new NumberComparator();
             absoluteNumberComparator.setAbsolute(true);
@@ -350,6 +357,13 @@ public class ObjectComparatorManager {
             registerComparator(int.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
             registerComparator(short.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
             registerComparator(byte.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Double.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Float.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Long.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Integer.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Short.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+            registerComparator(Byte.class, absoluteNumberComparator, NumberComparator.CONTEXT_ABSOLUTE);
+
 
             registerComparator(Comparable.class, new FastComparableComparator());
             registerComparator(String.class, Collator.getInstance());

@@ -18,10 +18,10 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * CheckBoxTree is a special JTree which uses JCheckBox as the tree renderer. In addition to regular JTree's features,
@@ -374,6 +374,13 @@ public class CheckBoxTree extends JTree {
             TreePath path = preventToggleEvent(e);
             if (path != null) {
                 toggleSelections(new TreePath[] {path});
+                Object source = e.getSource();
+                if(source instanceof JTree) {
+                    JTree tree = ((JTree) source);
+                    if (!tree.hasFocus() && tree.isFocusable() && tree.isRequestFocusEnabled()) {
+                        tree.requestFocusInWindow();
+                    }
+                }
                 e.consume();
             }
         }
@@ -433,13 +440,13 @@ public class CheckBoxTree extends JTree {
             if (treePaths == null || treePaths.length == 0 || !_tree.isEnabled()) {
                 return;
             }
-            if (treePaths.length == 1 && !_tree.isCheckBoxEnabled(treePaths[0])) {
-                return;
-            }
             CheckBoxTreeSelectionModel selectionModel = _tree.getCheckBoxTreeSelectionModel();
             List<TreePath> pathToAdded = new ArrayList<TreePath>();
             List<TreePath> pathToRemoved = new ArrayList<TreePath>();
             for (TreePath treePath : treePaths) {
+                if (!_tree.isCheckBoxEnabled(treePath)) {
+                    continue;
+                }
                 boolean selected = selectionModel.isPathSelected(treePath, selectionModel.isDigIn());
                 if (selected) {
                     pathToRemoved.add(treePath);

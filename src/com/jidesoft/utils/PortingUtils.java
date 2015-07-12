@@ -20,7 +20,8 @@ public class PortingUtils {
     private static Rectangle SCREEN_BOUNDS = null;
 
     /**
-     * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the correct focused component.
+     * Gets current focused components. If 1.3, just uses event's source; 1.4, used keyboard focus manager to get the
+     * correct focused component.
      *
      * @param event the AWT event
      * @return current focused component
@@ -94,8 +95,8 @@ public class PortingUtils {
     /**
      * To make sure the rectangle is within the screen bounds.
      *
-     * @param invoker the invoker component
-     * @param rect    the rectangle
+     * @param invoker          the invoker component
+     * @param rect             the rectangle
      * @param useInvokerDevice the flag to return invoker device or not
      * @return the rectangle that is in the screen bounds.
      * @since 3.4.1
@@ -190,8 +191,9 @@ public class PortingUtils {
     }
 
     /**
-     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker is null, the whole screen bounds including all display devices will be returned.
-     * If the invoker is not null and the useInvokeDevice flag is true, the screen of the display device for the invoker will be returned.
+     * Gets the screen bounds. In JDK1.4+, the returned bounds will exclude task bar area on Windows OS. If the invoker
+     * is null, the whole screen bounds including all display devices will be returned. If the invoker is not null and
+     * the useInvokeDevice flag is true, the screen of the display device for the invoker will be returned.
      *
      * @param invoker          the invoker component
      * @param useInvokerDevice the flag to return invoker device or not
@@ -223,7 +225,6 @@ public class PortingUtils {
      *
      * @param invoker the invoker component
      * @return the screen bounds.
-     *
      * @see #getScreenBounds(java.awt.Component, boolean)
      */
     public static Rectangle getScreenBounds(Component invoker) {
@@ -259,24 +260,31 @@ public class PortingUtils {
     private static Thread _initializationThread = null;
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call call this method in the class where you will use those three methods. This method
-     * will spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done so user will not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
+     * #getContainingScreenBounds(java.awt.Rectangle, boolean)} or {@link #getScreenArea()} for the first time, it will
+     * take up to a few seconds to run because it needs to get device information. To avoid any slowness, you can call
+     * call this method in the class where you will use those three methods. This method will spawn a thread to retrieve
+     * device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done
+     * so user will not notice any slowness.
      */
     synchronized public static void initializeScreenArea() {
         initializeScreenArea(Thread.NORM_PRIORITY);
     }
 
     /**
-     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link #getContainingScreenBounds(java.awt.Rectangle,boolean)} or {@link #getScreenArea()} for the first time, it will
-     * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can call {@link #initializeScreenArea()} method in the class where you will use
-     * those three methods. This method will spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done so user will
-     * not notice any slowness.
+     * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
+     * #getContainingScreenBounds(java.awt.Rectangle, boolean)} or {@link #getScreenArea()} for the first time, it will
+     * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can
+     * call {@link #initializeScreenArea()} method in the class where you will use those three methods. This method will
+     * spawn a thread to retrieve device information thus it will return immediately. Hopefully, when you use the three
+     * methods, the thread is done so user will not notice any slowness.
      *
-     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the priority of the thread. If you are waiting for the result before the next step,
-     *                 you should use normal priority (which is 5). If you just want to calculate when app starts, you can use a lower priority (such as 3). For example, AbstractComboBox needs screen
-     *                 size so that the popup doesn't go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority 3. If user clicks on the drop down after the
-     *                 thread finished, there will be no time delay.
+     * @param priority as we will use a thread to calculate the screen area, you can use this parameter to control the
+     *                 priority of the thread. If you are waiting for the result before the next step, you should use
+     *                 normal priority (which is 5). If you just want to calculate when app starts, you can use a lower
+     *                 priority (such as 3). For example, AbstractComboBox needs screen size so that the popup doesn't
+     *                 go beyond the screen. So when AbstractComboBox is used, we will kick off the thread at priority
+     *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
      */
     synchronized public static void initializeScreenArea(int priority) {
         if (_initializationThread == null) {
@@ -358,12 +366,25 @@ public class PortingUtils {
     }
 
     /**
-     * Modifies the position of rect so that it is completely on screen if that is possible.
+     * Modifies the position of rect so that it is completely on screen if that is possible. By default, it will allow
+     * the rect to cross two screens. You can call {@link #ensureOnScreen(java.awt.Rectangle, boolean)} and set the
+     * second parameter to false if you don't want to allow that case.
      *
      * @param rect The rectangle to be moved to a single screen
      * @return rect after its position has been modified
      */
     public static Rectangle ensureOnScreen(Rectangle rect) {
+        return ensureOnScreen(rect, true);
+    }
+
+    /**
+     * Modifies the position of rect so that it is completely on screen if that is possible.
+     *
+     * @param rect             The rectangle to be moved to a single screen
+     * @param allowCrossScreen a flag to allow or disallow when the rect is cross two screens.
+     * @return rect after its position has been modified
+     */
+    public static Rectangle ensureOnScreen(Rectangle rect, boolean allowCrossScreen) {
         // optimize it so that it is faster for most cases
         Rectangle localScreenBounds = getLocalScreenBounds();
         if (localScreenBounds.contains(rect)) {
@@ -373,25 +394,25 @@ public class PortingUtils {
         waitForInitialization();
 
         // check if rect is total on screen
-        if (SCREEN_AREA.contains(rect)) return rect;
+        if (allowCrossScreen && getScreenArea().contains(rect)) return rect;
         // see if the top left is on any of the screens
-        Rectangle containgScreen = null;
+        Rectangle containingScreen = null;
         Point rectPos = rect.getLocation();
         for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.contains(rectPos)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 break;
             }
         }
         // if not see if rect partial on any screen
         for (Rectangle screenBounds : SCREENS) {
             if (screenBounds.intersects(rect)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 break;
             }
         }
         // check if it was on any screen
-        if (containgScreen == null) {
+        if (containingScreen == null) {
             // it was not on any of the screens so center it on the first screen
             rect.x = (SCREENS[0].width - rect.width) / 2;
             rect.y = (SCREENS[0].height - rect.height) / 2;
@@ -401,18 +422,18 @@ public class PortingUtils {
             // move rect so it is completely on a single screen
             // check X
             int rectRight = rect.x + rect.width;
-            int screenRight = containgScreen.x + containgScreen.width;
+            int screenRight = containingScreen.x + containingScreen.width;
             if (rectRight > screenRight) {
                 rect.x = screenRight - rect.width;
             }
-            if (rect.x < containgScreen.x) rect.x = containgScreen.x;
+            if (rect.x < containingScreen.x) rect.x = containingScreen.x;
             // check Y
             int rectBottom = rect.y + rect.height;
-            int screenBottom = containgScreen.y + containgScreen.height;
+            int screenBottom = containingScreen.y + containingScreen.height;
             if (rectBottom > screenBottom) {
                 rect.y = screenBottom - rect.height;
             }
-            if (rect.y < containgScreen.y) rect.y = containgScreen.y;
+            if (rect.y < containingScreen.y) rect.y = containingScreen.y;
             // return corrected rect
             return rect;
         }
@@ -431,13 +452,13 @@ public class PortingUtils {
 //        if (SCREEN_AREA.contains(rect)) return SCREEN_AREA;
 
         // see if the top left is on any of the screens
-        Rectangle containgScreen = null;
+        Rectangle containingScreen = null;
         Insets insets = null;
         Point rectPos = rect.getLocation();
         for (int i = 0; i < SCREENS.length; i++) {
             Rectangle screenBounds = SCREENS[i];
             if (screenBounds.contains(rectPos)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 insets = INSETS[i];
                 break;
             }
@@ -446,19 +467,19 @@ public class PortingUtils {
         for (int i = 0; i < SCREENS.length; i++) {
             Rectangle screenBounds = SCREENS[i];
             if (screenBounds.intersects(rect)) {
-                containgScreen = screenBounds;
+                containingScreen = screenBounds;
                 insets = INSETS[i];
                 break;
             }
         }
 
         // fall back to the first screen
-        if (containgScreen == null) {
-            containgScreen = SCREENS[0];
+        if (containingScreen == null) {
+            containingScreen = SCREENS[0];
             insets = INSETS[0];
         }
 
-        Rectangle bounds = new Rectangle(containgScreen);
+        Rectangle bounds = new Rectangle(containingScreen);
         if (considerInsets && insets != null) {
             bounds.x += insets.left;
             bounds.y += insets.top;
@@ -499,7 +520,8 @@ public class PortingUtils {
     }
 
     /**
-     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and exit.
+     * Checks the prerequisite needed by JIDE demos. If the prerequisite doesn't meet, it will prompt a message box and
+     * exit.
      */
     public static void prerequisiteChecking() {
         if (!SystemInfo.isJdk14Above()) {
@@ -520,8 +542,10 @@ public class PortingUtils {
     }
 
     /**
-     * Sets the preferred size on a component. This method is there mainly to fix the issue that setPreferredSize method is there on Component only after JDK5. For JDK1.4 and before, you need to cast
-     * to JComponent first. So this method captures this logic and only call setPreferedSize when the JDK is 1.5 and above or when the component is instance of JComponent.
+     * Sets the preferred size on a component. This method is there mainly to fix the issue that setPreferredSize method
+     * is there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this
+     * method captures this logic and only call setPreferedSize when the JDK is 1.5 and above or when the component is
+     * instance of JComponent.
      *
      * @param component the component
      * @param size      the preferred size.
@@ -537,8 +561,9 @@ public class PortingUtils {
     }
 
     /**
-     * Sets the minimum size on a component. This method is there mainly to fix the issue that setMinimumSize method is there on Component only after JDK5. For JDK1.4 and before, you need to cast to
-     * JComponent first. So this method captures this logic and only call setMinimumSize when the JDK is 1.5 and above or when the component is
+     * Sets the minimum size on a component. This method is there mainly to fix the issue that setMinimumSize method is
+     * there on Component only after JDK5. For JDK1.4 and before, you need to cast to JComponent first. So this method
+     * captures this logic and only call setMinimumSize when the JDK is 1.5 and above or when the component is
      *
      * @param component the component
      * @param size      the preferred size.

@@ -2,6 +2,7 @@ package com.jidesoft.utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -77,7 +78,7 @@ public class TypeUtils {
     }
 
     /**
-     * Checks if the type is a numeric type.
+     * Checks if the type is an integer type.
      *
      * @param type the data type.
      * @return true if it is numeric type including all subclasses of Integer or int.
@@ -85,6 +86,27 @@ public class TypeUtils {
     public static boolean isIntegerType(Class<?> type) {
         return type != null && (Integer.class.isAssignableFrom(type)
                 || type == int.class);
+    }
+
+    /**
+     * Checks if the type is a long type.
+     *
+     * @param type the data type.
+     * @return true if it is numeric type including all subclasses of Long or long.
+     */
+    public static boolean isLongType(Class<?> type) {
+        return type != null && (Long.class.isAssignableFrom(type)
+                || type == long.class);
+    }
+
+    /**
+     * Checks if the type is a BigDecimal type.
+     *
+     * @param type the data type.
+     * @return true if it is numeric type including all subclasses of BigDecimal.
+     */
+    public static boolean isBigDecimalType(Class<?> type) {
+        return type != null && BigDecimal.class.isAssignableFrom(type);
     }
 
     /**

@@ -2898,13 +2898,13 @@ public class JideSwingUtilities implements SwingConstants {
         }
     }
 
-    public static Object getControlFont(Toolkit toolkit, UIDefaults table) {
+    public static Object getControlFont(Toolkit toolkit, UIDefaults table, String defaultUIDefault) {
         Object controlFont;
         // read the font size from system property.
         float defaultFontSize = getDefaultFontSize();
 
         if (JideSwingUtilities.shouldUseSystemFont()) {
-            Font font = table.getFont("Label.font");
+            Font font = table.getFont(defaultUIDefault);
             if (font == null) {
                 font = new Font("Tahoma", Font.PLAIN, 12); // use default font
             }
@@ -2916,7 +2916,7 @@ public class JideSwingUtilities implements SwingConstants {
             }
         }
         else {
-            Font font = table.getFont("Label.font");
+            Font font = table.getFont(defaultUIDefault);
             if (font == null) {
                 controlFont = SecurityUtils.createFontUIResource("Tahoma", Font.PLAIN, defaultFontSize != -1f ? (int) defaultFontSize : 11);
             }
@@ -2926,6 +2926,10 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         return controlFont;
+    }
+
+    public static Object getControlFont(Toolkit toolkit, UIDefaults table) {
+        return getControlFont(toolkit, table, "Label.font");
     }
 
     public static Object getBoldFont(Toolkit toolkit, UIDefaults table) {
@@ -3594,7 +3598,8 @@ public class JideSwingUtilities implements SwingConstants {
                 p.x,
                 p.y,
                 e.getClickCount(),
-                e.isPopupTrigger());
+                e.isPopupTrigger(),
+                e.getButton());
         target.dispatchEvent(retargeted);
     }
 
@@ -4297,5 +4302,24 @@ public class JideSwingUtilities implements SwingConstants {
             return c.getFontMetrics(font);
         }
         return Toolkit.getDefaultToolkit().getFontMetrics(font);
+    }
+
+    /**
+     * Shows the popup menu with the consideration of the invoker's orientation.
+     *
+     * @param popup   the popup menu
+     * @param invoker the invoker for the popup menu
+     * @param x       the x, usually the x of the mouse clicked position
+     * @param y       the y, usually the y of the mouse clicked position
+     */
+    public static void showPopupMenu(JPopupMenu popup, Component invoker, int x, int y) {
+        popup.applyComponentOrientation(invoker.getComponentOrientation());
+        if (popup.getComponentOrientation().isLeftToRight()) {
+            popup.show(invoker, x, y);
+        }
+        else {
+            popup.show(invoker, x - popup.getPreferredSize().width, y);
+        }
+
     }
 }

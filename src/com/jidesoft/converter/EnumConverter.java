@@ -45,7 +45,6 @@ public class EnumConverter implements ObjectConverter {
      * method to work.
      *
      * @param enumType the enum type
-     *
      * @since 3.4.0
      */
     public EnumConverter(Class<? extends Enum> enumType) {
@@ -146,7 +145,6 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param object  the object to be converted.
      * @param context the converter context.
-     *
      * @return the string for the object.
      */
     public String toString(Object object, ConverterContext context) {
@@ -171,7 +169,6 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param string  the string to be converted
      * @param context the converter context.
-     *
      * @return the object of the string.
      */
     public Object fromString(String string, ConverterContext context) {
@@ -226,6 +223,20 @@ public class EnumConverter implements ObjectConverter {
     }
 
     /**
+     * Gets a partial object array from the complete enum <code>objects</code> array.
+     *
+     * @param indices of the partial enum values.
+     * @return the <code>objects</code> array.
+     */
+    public Object[] getObjects(int[] indices) {
+        Object[] objects = new Object[indices.length];
+        for (int i = 0; i < objects.length; i++) {
+            objects[i] = _objects[indices[i]];
+        }
+        return objects;
+    }
+
+    /**
      * Gets the <code>strings</code> array.
      *
      * @return the <code>strings</code> array.
@@ -246,7 +257,6 @@ public class EnumConverter implements ObjectConverter {
      * Of course, you can still define your own string array for the enum values if the default one doesn't work well.
      *
      * @param values the object array.
-     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values) {
@@ -258,7 +268,6 @@ public class EnumConverter implements ObjectConverter {
      *
      * @param values           the object array.
      * @param converterContext the converter context used when calling ObjectConverterManager.toString.
-     *
      * @return the string array.
      */
     public static String[] toStrings(Object[] values, ConverterContext converterContext) {
