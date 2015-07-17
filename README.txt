@@ -58,7 +58,7 @@ If you just want to use JIDE Common Layer in your project which used Maven, you 
   <dependency> 
     <groupId>com.jidesoft</groupId> 
     <artifactId>jide-oss</artifactId> 
-    <version>3.6.9</version> 
+    <version>3.6.10</version> 
   </dependency> 
 
 You can specify different versions if you want to use that version. You can find all available version numbers at http://search.maven.org by searching jide-oss. 
