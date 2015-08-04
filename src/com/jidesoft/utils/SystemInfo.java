@@ -5,6 +5,8 @@
  */
 package com.jidesoft.utils;
 
+import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,12 +95,6 @@ final public class SystemInfo {
     private static JavaVersion _currentVersion;
 
     /**
-     * Make sure the constructor can never be called.
-     */
-    private SystemInfo() {
-    }
-
-    /**
      * Initialize the settings statically.
      */
     static {
@@ -151,6 +147,12 @@ final public class SystemInfo {
                 _isMacClassic = true;
             }
         }
+    }
+
+    /**
+     * Make sure the constructor can never be called.
+     */
+    private SystemInfo() {
     }
 
     /**
@@ -358,7 +360,7 @@ final public class SystemInfo {
      * Returns whether or not the os is any Mac os.
      *
      * @return <tt>true</tt> if the application is running on Mac OSX or any previous mac version, <tt>false</tt>
-     *         otherwise.
+     * otherwise.
      */
     public static boolean isAnyMac() {
         return _isMacClassic || _isMacOSX;
@@ -386,7 +388,7 @@ final public class SystemInfo {
      * Returns whether or not the os is some version of Unix, defined here as only Solaris or Linux.
      *
      * @return <tt>true</tt> if the application is running on a type of UNIX such as Linux or Solaris, <tt>false</tt>
-     *         otherwise.
+     * otherwise.
      */
     public static boolean isUnix() {
         return _isLinux || _isSolaris;
@@ -490,6 +492,16 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or no the JDK version is 1.7u40 and above.
+     *
+     * @return <tt>true</tt> if the application is running on JDK 1.7u40 and above, <tt>false</tt> otherwise.
+     */
+    public static boolean isJdk7u40Above() {
+        checkJdkVersion();
+        return _currentVersion.compareVersion(1.7, 0, 40) >= 0;
+    }
+
+    /**
      * Returns whether or no the JDK version is 1.8 and above.
      *
      * @return <tt>true</tt> if the application is running on JDK 1.8 and above, <tt>false</tt> otherwise.
@@ -564,6 +576,30 @@ final public class SystemInfo {
                 || locale.equals(Locale.JAPANESE)
                 || locale.equals(Locale.KOREA)
                 || locale.equals(Locale.KOREAN);
+    }
+
+    public static int getDisplayScale() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return 1;
+        }
+
+        if (isJdk7u40Above()) {
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice device = graphicsEnvironment.getDefaultScreenDevice();
+            try {
+                Field field = device.getClass().getDeclaredField("scale");
+                if (field != null) {
+                    field.setAccessible(true);
+                    Object scale = field.get(device);
+                    if (scale instanceof Integer) {
+                        return (Integer) scale;
+                    }
+                }
+            }
+            catch (Exception ignore) {
+            }
+        }
+        return 1;
     }
 
     public static class JavaVersion {
@@ -655,4 +691,5 @@ final public class SystemInfo {
             return _patch;
         }
     }
+
 }
