@@ -23,7 +23,7 @@ import java.awt.event.ItemListener;
  * JideToggleSplitButton}s.
  */
 
-public class JideToggleSplitButton extends JideSplitButton implements Accessible {
+public class JideToggleSplitButton extends JideSplitButton implements Accessible, ItemListener {
     /**
      * Creates an initially unselected toggle button without setting the text or image.
      */
@@ -104,6 +104,8 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
 
         // initialize
         init(text, icon);
+
+        addItemListener(this);
     }
 
     @Override
@@ -135,6 +137,33 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
         super.actionPropertyChanged(action, propertyName);
         if (Action.SELECTED_KEY.equals(propertyName)) {
             ((ToggleSplitButtonModel) getModel()).setButtonSelected((Boolean) action.getValue(propertyName));
+        }
+    }
+
+    /**
+     * Button subclasses that support mirroring the selected state from
+     * the action should override this to return true.  AbstractButton's
+     * implementation returns false.
+     */
+    protected boolean shouldUpdateSelectedStateFromAction() {
+        return true;
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        updateSelectedKey();
+    }
+
+    private void updateSelectedKey() {
+        if (shouldUpdateSelectedStateFromAction()) {
+            Action action = getAction();
+            if (action != null && action.getValue(Action.SELECTED_KEY) != null) {
+                boolean selected = isSelected();
+                boolean isActionSelected = Boolean.TRUE.equals(action.getValue(Action.SELECTED_KEY));
+                if (isActionSelected != selected) {
+                    action.putValue(Action.SELECTED_KEY, selected);
+                }
+            }
         }
     }
 // *********************************************************************
@@ -200,7 +229,6 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
                     ItemEvent.ITEM_STATE_CHANGED,
                     this,
                     this.isSelected() ? ItemEvent.SELECTED : ItemEvent.DESELECTED));
-
         }
 
         /**
