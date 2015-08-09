@@ -12,10 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.Position;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -146,6 +143,7 @@ public class CheckBoxList extends JList {
         _handler = createHandler();
         _checkBoxListSelectionModel.addListSelectionListener(_handler);
         JideSwingUtilities.insertMouseListener(this, _handler, 0);
+        JideSwingUtilities.insertMouseMotionListener(this, _handler, 0);
         addKeyListener(_handler);
         addPropertyChangeListener("model", _handler);
         ListModel model = getModel();
@@ -200,7 +198,7 @@ public class CheckBoxList extends JList {
         return super.getCellRenderer();
     }
 
-    protected static class Handler implements MouseListener, KeyListener, ListSelectionListener, PropertyChangeListener, ListDataListener {
+    protected static class Handler implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListener, PropertyChangeListener, ListDataListener {
         protected CheckBoxList _list;
         int hotspot = new JCheckBox().getPreferredSize().width;
 
@@ -253,9 +251,38 @@ public class CheckBoxList extends JList {
                 int index = _list.locationToIndex(e.getPoint());
                 toggleSelection(index);
                 if (clickInBox) {
+                    Object source = e.getSource();
+                    if(source instanceof JList) {
+                        JList list = ((JList) source);
+                        if (!list.hasFocus() && list.isFocusable() && list.isRequestFocusEnabled()) {
+                            list.requestFocusInWindow();
+                        }
+                    }
                     e.consume();
                 }
             }
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (e.isConsumed()) {
+                return;
+            }
+
+            if (!_list.isCheckBoxEnabled()) {
+                return;
+            }
+
+            boolean clickInBox = clicksInCheckBox(e);
+            if (!_list.isClickInCheckBoxOnly() || clickInBox) {
+                if (clickInBox) {
+                    e.consume();
+                }
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
         }
 
         public void mouseReleased(MouseEvent e) {

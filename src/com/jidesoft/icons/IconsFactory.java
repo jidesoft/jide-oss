@@ -23,12 +23,12 @@ import java.util.logging.Logger;
 
 /**
  * <code>IconsFactory</code> provides a consistent way to access icon resource in any application.
- * <p/>
+ * <p>
  * Any application usually need to access image files. One way to do it is to put those image files in the installation
  * and access them use direct file access. However this is not a good way because you have to know the full path to the
  * image file. So a better way that most Java applications take is to bundle the image files with in the jar and use
  * class loader to load them.
- * <p/>
+ * <p>
  * For example, if a class Foo needs to access image files foo.gif and bar.png, we put the image files right below the
  * source code under icons subfolder. See an example directory structure below.
  * <pre>
@@ -47,17 +47,17 @@ import java.util.logging.Logger;
  * for your reference. If so, all your images will get copies automatically to class output folder. Although I haven't
  * tried, I believe most Java IDEs have the same or similar feature. This feature will make the usage of IconsFactory
  * much easier. </i>
- * <p/>
+ * <p>
  * If you setup directory structure as above, you can now use IconsFactory to access the images like this.
  * <pre><code>
  * ImageIcon icon = IconsFactory.get(Foo.class, "icons/foo.gif");
  * </code></pre>
  * IconsFactory will cache the icon for you. So next time if you get the same icon, it will get from cache instead of
  * reading from disk again.
- * <p/>
+ * <p>
  * There are a few methods on IconsFactory to create difference variation from the original icon. For example, {@link
  * #getDisabledImageIcon(Class, String)} will get the image icon with disabled effect.
- * <p/>
+ * <p>
  * We also suggest you to use the template below to create a number of IconsFactory classes in your application. The
  * idea is that you should have one for each functional area so that all your image files can be grouped into each
  * functional area. All images used in that functional area should be put under the folder where this IconsFactory is.
@@ -69,20 +69,20 @@ import java.util.logging.Logger;
  *        public static final String IMAGE2 = "icons/image12.png";
  *        public static final String IMAGE3 = "icons/image13.png";
  *    }
- * <p/>
+ * <p>
  *    public static class Group2 {
  *        public static final String IMAGE1 = "icons/image21.png";
  *        public static final String IMAGE2 = "icons/image22.png";
  *        public static final String IMAGE3 = "icons/image23.png";
  *    }
- * <p/>
+ * <p>
  *    public static ImageIcon getImageIcon(String name) {
  *        if (name != null)
  *            return IconsFactory.getImageIcon(TemplateIconsFactory.class, name);
  *        else
  *            return null;
  *    }
- * <p/>
+ * <p>
  *    public static void main(String[] argv) {
  *        IconsFactory.generateHTML(TemplateIconsFactory.class);
  *    }
@@ -90,7 +90,7 @@ import java.util.logging.Logger;
  * </code></pre>
  * In your own IconsFactory, you can further divide images into different groups. The example above has two groups.
  * There is also a convenient method getImageIcon() which takes just the icon name.
- * <p/>
+ * <p>
  * In the template, we defined the image names as constants. When you have a lot of images, it's hard to remember all of
  * them when writing code. If using the IconsFactory above, you can use
  * <pre><code>
@@ -99,7 +99,7 @@ import java.util.logging.Logger;
  * without saying the actual image file name. With the help of intelli-sense (or code completion) feature in most Java
  * IDE, you will find it is much easier to find the icons you want. You can refer to JIDE Components Developer Guide to
  * see a screenshot of what it looks like in IntelliJ IDEA.
- * <p/>
+ * <p>
  * You probably also notice this is a main() method in this template. You can run it. When you run, you will see a
  * message printed out like this.
  * <pre><code>
@@ -108,18 +108,14 @@ import java.util.logging.Logger;
  * </code></pre>
  * if you follow the instruction and copy the html file to the same location as the source code and open the html, you
  * will see the all image files defined in this IconsFactory are listed nicely in the page.
- * <p/>
+ * <p>
  * By default, all image files are loaded using ImageIO. However if you set system property "jide.useImageIO" to
  * "false", we will disable the usage of ImageIO and use Toolkit.getDefaultToolkit().createImage method to create the
  * image file.
  */
 public class IconsFactory {
 
-    static Map<String, ImageIcon> _icons = new HashMap<String, ImageIcon>();
-    static Map<String, ImageIcon> _disableIcons = new HashMap<String, ImageIcon>();
-    static Map<String, ImageIcon> _brighterIcons = new HashMap<String, ImageIcon>();
-    static Map<String, ImageIcon> _tintedIcons = new HashMap<String, ImageIcon>();
-
+    static final double DEGREE_90 = 90.0 * Math.PI / 180.0;
     public static ImageIcon EMPTY_ICON = new ImageIcon() {
         private static final long serialVersionUID = 5081581607741629368L;
 
@@ -137,25 +133,29 @@ public class IconsFactory {
         public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         }
     };
+    static Map<String, ImageIcon> _icons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _disableIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _brighterIcons = new HashMap<String, ImageIcon>();
+    static Map<String, ImageIcon> _tintedIcons = new HashMap<String, ImageIcon>();
 
     /**
      * Gets ImageIcon by passing class and a relative image file path.
-     * <p/>
+     * <p>
      * Please note, getImageIcon will print out error message to stderr if image is not found. The reason we did so is
      * because we want you to make sure all image files are there in your application. If you ever see the error
      * message, you should correct it before shipping the product. But if you just want to test if the image file is
      * there, you don't want any error message print out. If so, you can use {@link #findImageIcon(Class, String)}
      * method. It will throw IOException when image is not found.
-     * <p/>
+     * <p>
      * We used this method to create all the icons we used in JIDE's code. If you ever want to use your own icon instead
      * of JIDE's default icon, you just need to put it onto UIManager. For example, AutoFilterTableHeader uses an icon
      * on the table header. This is how it was called. <br/> <code> IconsFactory.getImageIcon(AutoFilterTableHeader.class,
      * "icons/filterYes_over.png") </code>
-     * <p/>
+     * <p>
      * The key for this icon is "com.jidesoft.grid.AutoFilterTableHeader:icons/filterYes_over.png". So you can call the
      * code below to register your own icon. <p/> <code> UIManager.put("com.jidesoft.grid.AutoFilterTableHeader:icons/filterYes_over.png",
      * your_new_icon); </code>
-     * <p/>
+     * <p>
      * If you don't know what key to use, just put a breakpoint at this method, run it to inspect the id variable
      * below.
      *
@@ -185,7 +185,6 @@ public class IconsFactory {
      * @param clazz    the Class<?>
      * @param fileName relative file name
      * @return the ImageIcon
-     *
      * @throws IOException when image file is not found.
      */
     public static ImageIcon findImageIcon(Class<?> clazz, String fileName) throws IOException {
@@ -282,7 +281,6 @@ public class IconsFactory {
         }
     }
 
-
     /**
      * Creates a gray version from an input image. Usually gray icon indicates disabled. If input image is null, a blank
      * ImageIcon will be returned.
@@ -355,7 +353,6 @@ public class IconsFactory {
             return EMPTY_ICON;
         return new ImageIcon(ColorFilter.createBrighterImage(image, percent));
     }
-
 
     /**
      * Creates a gray version from an input image. Usually gray icon indicates disabled. If input icon is null, a blank
@@ -457,8 +454,6 @@ public class IconsFactory {
         icon.paintIcon(c, image.getGraphics(), 0, 0);
         return new ImageIcon(MaskFilter.createImage(image, oldColor, newColor));
     }
-
-    static final double DEGREE_90 = 90.0 * Math.PI / 180.0;
 
     /**
      * Creates a rotated version of the input image.
@@ -1076,27 +1071,7 @@ public class IconsFactory {
      * @return an image of the component
      */
     public static BufferedImage createImage(final Component component, Rectangle bounds, int imageType) {
-        BufferedImage img = new BufferedImage(bounds.width,
-                bounds.height,
-                imageType);
-        final Graphics2D graphics = img.createGraphics();
-        graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
-        // If we are painting a JComponent then switch off double buffering because it
-        // causes a failure when running headlessly on Linux
-        if (component instanceof JComponent) {
-            JComponent c = (JComponent) component;
-            boolean isDoubleBuffered = c.isDoubleBuffered();
-            c.setDoubleBuffered(false);
-            graphics.translate(-bounds.x, -bounds.y);
-            graphics.setClip(bounds.x, bounds.y, bounds.width, bounds.height);
-            c.paint(graphics);
-            c.setDoubleBuffered(isDoubleBuffered);
-        }
-        else {
-            component.paint(graphics);
-        }
-        graphics.dispose();
-        return img;
+        return createImage(component, bounds, imageType, 1);
     }
 
     /**
@@ -1108,24 +1083,46 @@ public class IconsFactory {
      */
     public static BufferedImage createImage(final Component component, int imageType) {
         Dimension componentSize = component.getSize();
-        BufferedImage img = new BufferedImage(componentSize.width,
-                componentSize.height,
+        return createImage(component, new Rectangle(0, 0, componentSize.width, componentSize.height), imageType, 1);
+    }
+
+    /**
+     * Creates a buffered image (of the specified type) from the supplied component.
+     * <p>
+     * This method will consider the scale factor for hi-def display such as retina display.
+     * If the scale factor is 2, the returned image size will double the size of the bounds.
+     * When you paint the returned image, you should call g.scale(0.5, 0.5) or SystemInfo.endScale(g, SystemInfo.getDisplayScale())
+     * to paint the image to its normal size. For performance consideration, you may want to keep the
+     * return value of SystemInfo.getDisplayScale() instead of calling it all the time.
+     *
+     * @param component the component to draw
+     * @param bounds    the area relative to the component where the image will be created.
+     * @param imageType the type of buffered image to draw
+     * @param scale     the scale factor of the display
+     * @return an image of the component
+     */
+    public static BufferedImage createImage(final Component component, Rectangle bounds, int imageType, int scale) {
+        BufferedImage img = new BufferedImage(bounds.width * scale,
+                bounds.height * scale,
                 imageType);
-        final Graphics2D graphics = img.createGraphics();
-        graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
+        final Graphics2D g = img.createGraphics();
+        g.scale(scale, scale);
+        g.fillRect(0, 0, img.getWidth(), img.getHeight());
         // If we are painting a JComponent then switch off double buffering because it
         // causes a failure when running headlessly on Linux
         if (component instanceof JComponent) {
             JComponent c = (JComponent) component;
             boolean isDoubleBuffered = c.isDoubleBuffered();
             c.setDoubleBuffered(false);
-            c.paint(graphics);
+            g.translate(-bounds.x, -bounds.y);
+            g.setClip(bounds.x, bounds.y, bounds.width, bounds.height);
+            c.paint(g);
             c.setDoubleBuffered(isDoubleBuffered);
         }
         else {
-            component.paint(graphics);
+            component.paint(g);
         }
-        graphics.dispose();
+        g.dispose();
         return img;
     }
 

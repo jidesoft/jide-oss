@@ -374,6 +374,13 @@ public class CheckBoxTree extends JTree {
             TreePath path = preventToggleEvent(e);
             if (path != null) {
                 toggleSelections(new TreePath[] {path});
+                Object source = e.getSource();
+                if(source instanceof JTree) {
+                    JTree tree = ((JTree) source);
+                    if (!tree.hasFocus() && tree.isFocusable() && tree.isRequestFocusEnabled()) {
+                        tree.requestFocusInWindow();
+                    }
+                }
                 e.consume();
             }
         }

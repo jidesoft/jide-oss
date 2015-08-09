@@ -27,30 +27,6 @@ public class BasicJideLabelUI extends BasicLabelUI {
     }
 
     @Override
-    public Dimension getMinimumSize(JComponent c) {
-        Dimension d = super.getMinimumSize(c);
-        if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL) {
-            return d;
-        }
-        else {
-            //noinspection SuspiciousNameCombination
-            return new Dimension(d.height, d.width); // swap width and height
-        }
-    }
-
-    @Override
-    public Dimension getMaximumSize(JComponent c) {
-        Dimension d = super.getMaximumSize(c);
-        if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL) {
-            return d;
-        }
-        else {
-            //noinspection SuspiciousNameCombination
-            return new Dimension(d.height, d.width); // swap width and height
-        }
-    }
-
-    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension d = super.getPreferredSize(c);
         if (JideSwingUtilities.getOrientationOf(c) == SwingConstants.HORIZONTAL) {
