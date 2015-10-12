@@ -92,6 +92,11 @@ final public class SystemInfo {
      */
     private static boolean _isSolaris = false;
 
+    /**
+     * Variable for whether or not we're on *BSD.
+     */
+    private static boolean _isBSD = false;
+
     private static JavaVersion _currentVersion;
 
     /**
@@ -138,6 +143,7 @@ final public class SystemInfo {
         }
         if (_isWindows) _supportsTray = true;
         _isSolaris = (os.indexOf("Solaris") != -1) || (os.indexOf("SunOS") != -1);
+        _isBSD = os.endsWith("BSD");
         _isLinux = os.indexOf("Linux") != -1;
         if (os.startsWith("Mac OS")) {
             if (os.endsWith("X")) {
@@ -385,13 +391,22 @@ final public class SystemInfo {
     }
 
     /**
-     * Returns whether or not the os is some version of Unix, defined here as only Solaris or Linux.
+     * Returns whether or not the os is *BSD.
      *
-     * @return <tt>true</tt> if the application is running on a type of UNIX such as Linux or Solaris, <tt>false</tt>
+     * @return <tt>true</tt> if the application is running on *BSD, <tt>false</tt> otherwise.
+     */
+    public static boolean isBSD() {
+        return _isBSD;
+    }
+
+    /**
+     * Returns whether or not the os is some version of Unix, defined here as only Solaris, Linux or *BSD.
+     *
+     * @return <tt>true</tt> if the application is running on a type of UNIX such as Linux, Solaris or *BSD, <tt>false</tt>
      * otherwise.
      */
     public static boolean isUnix() {
-        return _isLinux || _isSolaris;
+        return _isLinux || _isSolaris || _isBSD;
     }
 
     private static void checkJdkVersion() {
