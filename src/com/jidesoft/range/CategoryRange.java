@@ -163,6 +163,7 @@ public class CategoryRange<T> extends AbstractRange<T> implements Iterable<Categ
         if (sorted) {
             _categoryValues = null;
         }
+        positionIndices.clear();
         firePropertyChange(PROPERTY_SORTED, oldValue, sorted);
     }
 
