@@ -2149,9 +2149,9 @@ public class JideTabbedPane extends JTabbedPane {
                 break;
         }
 
-        Rectangle screenBounds = PortingUtils.getScreenBounds(this);
-        int right = x + size.width + 3;
-        int bottom = y + size.height + 3;
+        Rectangle screenBounds = PortingUtils.getScreenBounds(this, true);
+        int right = x + size.width + 3 - screenBounds.x;
+        int bottom = y + size.height + 3 - screenBounds.y;
 
         if (right > screenBounds.x + screenBounds.width) {
             x -= right - screenBounds.x - screenBounds.width; // move left so that the whole popup can fit in
