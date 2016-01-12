@@ -272,6 +272,15 @@ public class PortingUtils {
     }
 
     /**
+     * Invalidate the screen area so that initializeScreenArea will discard the cache and recalculate the screen bounds. Only call this when
+     * you detect the screen display setting changed on the system.
+     */
+    synchronized public static void invalidateScreenArea() {
+        SCREEN_BOUNDS = null;
+        SCREEN_AREA = null;
+    }
+
+    /**
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
      * #getContainingScreenBounds(java.awt.Rectangle, boolean)} or {@link #getScreenArea()} for the first time, it will
      * take up to a couple of seconds to run because it needs to get device information. To avoid any slowness, you can
@@ -287,6 +296,9 @@ public class PortingUtils {
      *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
      */
     synchronized public static void initializeScreenArea(int priority) {
+        if (SCREEN_BOUNDS != null) {
+            return;
+        }
         if (_initializationThread == null) {
             _initializationThread = new Thread() {
                 @Override
@@ -327,7 +339,7 @@ public class PortingUtils {
         return _initializationThread != null && _initializationThread.isAlive();
     }
 
-    public static boolean isInitalizationThreadStarted() {
+    public static boolean isInitializationThreadStarted() {
         return _initializationThread != null;
     }
 
@@ -337,8 +349,7 @@ public class PortingUtils {
         while (_initializationThread != null && _initializationThread.isAlive()) {
             try {
                 Thread.sleep(100);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 // ignore
             }
         }
