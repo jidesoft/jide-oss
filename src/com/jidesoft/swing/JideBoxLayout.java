@@ -5,10 +5,11 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.dialog.JideOptionPane;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
-import com.jidesoft.dialog.JideOptionPane;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -113,7 +114,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      * @param axis   the axis to lay out components along. Can be one of: <code>JideBoxLayout.X_AXIS</code>,
      *               <code>JideBoxLayout.Y_AXIS</code>, <code>JideBoxLayout.LINE_AXIS</code> or
      *               <code>JideBoxLayout.PAGE_AXIS</code>
-     * @param gap the gap
+     * @param gap    the gap
      */
     public JideBoxLayout(Container target, int axis, int gap) {
         if (axis != X_AXIS && axis != Y_AXIS &&
@@ -597,7 +598,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in Components preferred size.
-
+     *
      * @param c the component
      * @return the preferred size of the component.
      */
@@ -608,7 +609,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in Components minimum size.
-
+     *
      * @param c the component
      * @return the minimum size of the component.
      */
@@ -619,7 +620,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the width of the passed in component.
-
+     *
      * @param c the component
      * @return the size of the component.
      */
@@ -629,9 +630,9 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
 
     /**
      * Returns the available width based on the container size and Insets.
-
+     *
      * @param containerSize the size of the container
-     * @param insets the insets
+     * @param insets        the insets
      * @return the available size.
      */
     protected int getAvailableSize(Dimension containerSize,
@@ -660,10 +661,10 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
      * Sets the width of the component c to be size, placing its x location at location, y to the insets.top and height
      * to the containersize.height less the top and bottom insets.
      *
-     * @param c the component
-     * @param size the size of the component
-     * @param location the location of the component
-     * @param insets the insets of the component
+     * @param c             the component
+     * @param size          the size of the component
+     * @param location      the location of the component
+     * @param insets        the insets of the component
      * @param containerSize the size of the container
      */
     protected void setComponentToSize(Component c, int size,
@@ -702,7 +703,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     }
 
     /*
-     * If the axis == 0, the width is returned, otherwise the height.
+     * If the axis == JideBoxLayout.X_AXIS, the width is returned, otherwise the height.
      */
     int getSizeForPrimaryAxis(Dimension size) {
         ComponentOrientation o = _target.getComponentOrientation();
@@ -715,7 +716,7 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     }
 
     /*
-     * If the axis == X_AXIS, the width is returned, otherwise the height.
+     * If the axis == X_AXIS, the height is returned, otherwise the width.
      */
     int getSizeForSecondaryAxis(Dimension size) {
         ComponentOrientation o = _target.getComponentOrientation();
@@ -826,6 +827,18 @@ public class JideBoxLayout implements LayoutManager2, Serializable {
     }
 
     protected Dimension getPreferredSizeOf(Component comp, int atIndex) {
+        // for JTextArea, the preferred size only returns the height of one line if the size is never set.
+        if (comp instanceof JTextArea && getSizeForSecondaryAxis(comp.getSize()) == 0) {
+            Insets insets = _target.getInsets();
+            ComponentOrientation o = _target.getComponentOrientation();
+            Dimension size = _target.getSize();
+            if (resolveAxis(_axis, o) == X_AXIS) {
+                comp.setSize(new Dimension(comp.getPreferredSize().width, size.height - insets.top - insets.bottom));
+            }
+            else {
+                comp.setSize(new Dimension(size.width - insets.left - insets.right, comp.getPreferredSize().height));
+            }
+        }
         Dimension preferredSize = comp.getPreferredSize();
         Dimension minimumSize = comp.getMinimumSize();
         if (preferredSize.height < minimumSize.height) {
