@@ -532,8 +532,8 @@ public class LabeledTextField extends JPanel {
      * PopupMenuCustomizer has a customize method. The popup menu of this menu will be passed in. You can
      * add/remove/change the menu items in customize method. For example,
      * <code><pre>
-     * field.setPopupMenuCustomzier(new LabeledTextField.PopupMenuCustomizer() {
-     *     void customize(LabledTextField field, JPopupMenu menu) {
+     * field.setPopupMenuCustomizer(new LabeledTextField.PopupMenuCustomizer() {
+     *     void customize(LabeledTextField field, JPopupMenu menu) {
      *         menu.removeAll();
      *         menu.add(new JMenuItem("..."));
      *         menu.add(new JMenuItem("..."));

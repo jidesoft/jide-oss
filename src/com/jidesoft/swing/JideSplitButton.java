@@ -444,7 +444,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
     protected void setIconFromAction(Action action) {
         Icon icon = null;
         if (action != null) {
-            icon = SystemInfo.isJdk6Above() ? (Icon) action.getValue(Action.LARGE_ICON_KEY) : null;
+            icon = SystemInfo.isJdk6Above() && !(getParent() instanceof JPopupMenu) ? (Icon) action.getValue(Action.LARGE_ICON_KEY) : null;
             if (icon == null) {
                 icon = (Icon) action.getValue(Action.SMALL_ICON);
             }
@@ -460,9 +460,7 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
             setButtonEnabled(isSplitButtonEnabled(action));
         }
         else if (Action.SMALL_ICON.equals(propertyName)) {
-            if (!SystemInfo.isJdk6Above() || action.getValue(Action.LARGE_ICON_KEY) == null) {
-                setIconFromAction(action);
-            }
+            setIconFromAction(action);
         }
         else if (SystemInfo.isJdk6Above() && Action.LARGE_ICON_KEY.equals(propertyName)) {
             setIconFromAction(action);
@@ -488,6 +486,12 @@ public class JideSplitButton extends JideMenu implements ButtonStyle, ComponentS
                 return action.isEnabled();
             }
         }
+    }
+
+    void largeIconChanged(Action a) {
+    }
+
+    void smallIconChanged(Action a) {
     }
 }
 
