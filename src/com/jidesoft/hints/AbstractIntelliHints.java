@@ -100,7 +100,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
                 if (hints instanceof AbstractIntelliHints) {
                     AbstractIntelliHints aih = (AbstractIntelliHints) hints;
                     if (tf.isEnabled() && !aih.isHintsPopupVisible()) {
-                        aih.showHintsPopup();
+                        aih.showHintsPopup(false);
                         return true;
                     }
                 }
@@ -197,20 +197,34 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * This method will call {@link #showHints()} if and only if the text component is enabled and has focus.
+     * This method will call {@link #showHints(boolean)} if and only if the text component is enabled and has focus.
+     *
+     * @param autoPopup
      */
-    protected void showHintsPopup() {
+    protected void showHintsPopup(boolean autoPopup) {
         if (!getTextComponent().isEnabled() || !getTextComponent().isEditable() || !getTextComponent().hasFocus()) {
             return;
         }
-        showHints();
+        showHints(autoPopup);
+    }
+
+    @Override
+    public boolean updateHints(Object context) {
+        return false;
+    }
+
+    @Override
+    public boolean updateHints(Object context, boolean autoPopup) {
+        return updateHints(context);
     }
 
     /**
      * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object)}. Only if it returns
      * true, the popup will be shown. You can call this method to fore the hints to be displayed.
+     *
+     * @param autoPopup
      */
-    public void showHints() {
+    public void showHints(boolean autoPopup) {
         if (_popup == null) {
             return;
         }
@@ -228,7 +242,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
                 }
             });
         }
-        if (updateHints(getContext())) {
+        if (updateHints(getContext(), autoPopup)) {
             if (!isHintsPopupVisible()) {
                 DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), hideAction);
                 DelegateAction.replaceAction(getTextComponent(), JComponent.WHEN_FOCUSED, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), acceptAction, true);
@@ -264,12 +278,11 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * @param caretPosition the caret position.
      *
      * @return the popup position relative to the text component. <br>Please note, this position is actually a rectangle
-     *         area. The reason is the popup could be shown below or above the rectangle. Usually, the popup will be
-     *         shown below the rectangle. In this case, the x and y of the rectangle will be the top-left corner of the
-     *         popup. However if there isn't enough space for the popup because it's close to screen bottom border, we
-     *         will show the popup above the rectangle. In this case, the bottom-left corner of the popup will be at x
-     *         and (y - height). Simply speaking, the popup will never cover the area specified by the rectangle (either
-     *         below it or above it).
+     * area. The reason is the popup could be shown below or above the rectangle. Usually, the popup will be shown below
+     * the rectangle. In this case, the x and y of the rectangle will be the top-left corner of the popup. However if
+     * there isn't enough space for the popup because it's close to screen bottom border, we will show the popup above
+     * the rectangle. In this case, the bottom-left corner of the popup will be at x and (y - height). Simply speaking,
+     * the popup will never cover the area specified by the rectangle (either below it or above it).
      *
      * @throws BadLocationException if the given position does not represent a valid location in the associated
      *                              document.
@@ -370,7 +383,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Should the hints popup follows the caret.
      *
      * @return true if the popup shows up right below the caret. False if the popup always shows at the bottom-left
-     *         corner (or top-left if there isn't enough on the bottom of the screen) of the JTextComponent.
+     * corner (or top-left if there isn't enough on the bottom of the screen) of the JTextComponent.
      */
     public boolean isFollowCaret() {
         return _followCaret;
@@ -391,7 +404,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * Returns whether the hints popup is automatically displayed. Default is true
      *
      * @return true if the popup should be automatically displayed. False will never show it automatically and then need
-     *         the user to manually activate it via the getShowHintsKeyStroke() key binding.
+     * the user to manually activate it via the getShowHintsKeyStroke() key binding.
      *
      * @see #setAutoPopup(boolean)
      */
@@ -421,8 +434,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
      * NOTE: Since this method would be invoked inside the constructor of AbstractIntelliHints, please do not try to
      * return a field because the field is not initiated yet at this time.
      *
-     * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when hint popup is
-     *         shown.
+     * @return an array of keystrokes that will be delegate to {@link #getDelegateComponent()} when hint popup is shown.
      */
     abstract protected KeyStroke[] getDelegateKeyStrokes();
 
@@ -499,7 +511,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
             public void actionPerformed(ActionEvent e) {
                 if (isKeyTyped()) {
                     if (isHintsPopupVisible() || isAutoPopup()) {
-                        showHintsPopup();
+                        showHintsPopup(true);
                     }
                     setKeyTyped(false);
                 }
