@@ -7,6 +7,7 @@
 package com.jidesoft.converter;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Converter which converts percentage to String and converts it back.
@@ -15,7 +16,7 @@ public class PercentConverter extends NumberFormatConverter {
     public static ConverterContext CONTEXT = new ConverterContext("Percent");
 
     public PercentConverter() {
-        this(NumberFormat.getPercentInstance());
+        this(NumberFormat.getPercentInstance(Locale.getDefault()));
     }
 
     public PercentConverter(NumberFormat format) {
@@ -25,7 +26,7 @@ public class PercentConverter extends NumberFormatConverter {
     @Override
     public Object fromString(String string, ConverterContext context) {
         Object o = super.fromString(string, context);
-        if (string != null && !string.trim().endsWith("%") && o instanceof Number && ((Number) o).longValue() > 1) {
+        if (string != null && !string.trim().endsWith("%") && o instanceof Number && ((Number) o).doubleValue() > 1) {
             o = ((Number) o).doubleValue() / 100;
         }
         return o;
