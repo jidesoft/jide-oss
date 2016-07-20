@@ -219,7 +219,7 @@ public abstract class AbstractIntelliHints implements IntelliHints {
     }
 
     /**
-     * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object)}. Only if it returns
+     * Shows the hints popup which contains the hints. It will call {@link #updateHints(Object, boolean)}. Only if it returns
      * true, the popup will be shown. You can call this method to fore the hints to be displayed.
      *
      * @param autoPopup
