@@ -3152,10 +3152,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Gets the top level Window of the component.
+     * Gets the top level Dialog or Frame of the component.
      *
      * @param parentComponent
-     * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
+     * @return the top level Frame or Dialog. Null if we didn't find an ancestor which is instance of Frame.
      */
     public static Window getWindowForComponent(Component parentComponent)
             throws HeadlessException {
