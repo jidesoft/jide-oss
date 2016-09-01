@@ -1095,7 +1095,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 installBorder();
             }
 
-            if (_previousSize != null) {
+            if (_previousSize != null && isKeepPreviousSize()) {
                 setPreferredSize(null); // set it to null so that it will be recalculated
                 Dimension preferredSize = getPreferredSize();
                 if (_previousSize.width < 0) {
@@ -1139,7 +1139,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
                 installBorder();
             }
 
-            if (_previousSize != null) {
+            if (_previousSize != null && isKeepPreviousSize()) {
                 setPreferredSize(null); // set it to null so that it will be recalculated
                 Dimension preferredSize = getPreferredSize();
                 if (_previousSize.width < 0) {
