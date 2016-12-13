@@ -1080,8 +1080,6 @@ public class JideTabbedPane extends JTabbedPane {
         if (!isAutoFocusOnTabHideClose())
             clearVisComp();
 
-        super.removeTabAt(index);
-
         if (contains) {
             _closableSet.remove(c);
         }
@@ -1094,6 +1092,15 @@ public class JideTabbedPane extends JTabbedPane {
             }
         }
 
+        if (getUI() instanceof BasicJideTabbedPaneUI) {
+            ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(true);
+            if (isAutoFocusOnTabHideClose()) {
+                ((BasicJideTabbedPaneUI) getUI()).requestFocusForVisibleComponent();
+            }
+        }
+
+        super.removeTabAt(index);
+
         // We need to fire events
         if (enforce) {
             try {
@@ -1101,14 +1108,6 @@ public class JideTabbedPane extends JTabbedPane {
             }
             catch (Throwable th) {
                 th.printStackTrace();
-            }
-        }
-
-//        updateUI(); // force calling updateUI so that the tab buttons will be updated
-        if (getUI() instanceof BasicJideTabbedPaneUI) {
-            ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(true);
-            if (isAutoFocusOnTabHideClose()) {
-                ((BasicJideTabbedPaneUI) getUI()).requestFocusForVisibleComponent();
             }
         }
     }
@@ -1217,8 +1216,10 @@ public class JideTabbedPane extends JTabbedPane {
     public void insertTab(String title, Icon icon, Component component, String tip, int index) {
         // set the component to visible false initially because the layout manager will set it to visible when
         // appropriate. This also limits the flicker from mixing lightweight/heavyweight components.
-        if (component == getTabLeadingComponent() || component == getTabTrailingComponent()) {
-            return;
+        if(component != null) {
+            if (component == getTabLeadingComponent() || component == getTabTrailingComponent()) {
+                return;
+            }
         }
         if (component != null && !component.isVisible())
             component.setVisible(false);
