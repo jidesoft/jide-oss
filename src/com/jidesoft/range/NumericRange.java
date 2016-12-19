@@ -215,12 +215,12 @@ public class NumericRange extends AbstractNumericRange<Double> {
     }
 
     /**
-     * Creates a new TimeRange as the union of two existing TimeRanges. The date format of the first time range is
+     * Creates a new NumericRange as the union of two existing NumericRanges. The date format of the first time range is
      * retained in the returned result.
      *
-     * @param r1 the first TimeRange
-     * @param r2 the second TimeRange
-     * @return the union of the supplied TimeRanges
+     * @param r1 the first NumericRange
+     * @param r2 the second NumericRange
+     * @return the union of the supplied NumericRanges
      */
     public static NumericRange union(NumericRange r1, NumericRange r2) {
         if (r1 == null) {
