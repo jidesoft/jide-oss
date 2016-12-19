@@ -26,7 +26,7 @@ public class BooleanRange extends AbstractRange<Boolean> {
 
     @Override
     public Boolean upper() {
-        return _lower;
+        return _upper;
     }
 
     @Override

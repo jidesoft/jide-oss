@@ -214,9 +214,11 @@ public class SidePane extends JPanel implements SwingConstants, Accessible {
     public String getToolTipText(MouseEvent event) {
         if (getUI() != null && !isRollover()) {
             int index = getUI().getSelectedItemIndex(event.getPoint());
-            SidePaneItem item = getUI().getItemForIndex(index);
-            if (item != null && item.getComponent() instanceof JComponent) {
-                return ((JComponent) item.getComponent()).getToolTipText();
+            if (index != -1) {
+                SidePaneItem item = getUI().getItemForIndex(index);
+                if (item != null && item.getComponent() instanceof JComponent) {
+                    return ((JComponent) item.getComponent()).getToolTipText();
+                }
             }
         }
         return null;

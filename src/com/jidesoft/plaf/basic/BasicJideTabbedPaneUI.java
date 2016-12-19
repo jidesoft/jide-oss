@@ -982,7 +982,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         // Paint selected tab if its in the front run
         // since it may overlap other tabs
-        if (selectedIndex >= 0 && getRunForTab(tabCount, selectedIndex) == 0) {
+        if (selectedIndex >= 0 && selectedIndex < _tabPane.getTabCount() && getRunForTab(tabCount, selectedIndex) == 0) {
             if (_rects[selectedIndex].intersects(rect) || !leftToRight) {
                 paintTab(g, tabPlacement, _rects, selectedIndex, iconRect, textRect);
             }

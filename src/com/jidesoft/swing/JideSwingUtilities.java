@@ -522,6 +522,24 @@ public class JideSwingUtilities implements SwingConstants {
      * @return true if the two objects are equal. Otherwise false.
      */
     public static boolean equals(Object o1, Object o2, boolean considerArrayOrList) {
+        return equals(o1, o2, considerArrayOrList, true);
+    }
+
+    /**
+     * Checks if the two objects equal. If both are the same instance, they are equal. If both are null, they are equal.
+     * If o1 and o2 both are Comparable, we will use compareTo method to see if it equals 0. If considerArrayOrList is
+     * true and o1 and o2 are both array, we will compare each element in the array. At last, we will use
+     * <code>o1.equals(o2)</code> to compare. If none of the above conditions match, we return false.
+     *
+     * @param o1                  the first object to compare
+     * @param o2                  the second object to compare
+     * @param considerArrayOrList If true, and if o1 and o2 are both array, we will compare each element in the array
+     *                            instead of just compare the two array objects.
+     * @param caseSensitive       if the o1 and o2 are CharSequence, we will use this parameter to do a case sensitive
+     *                            or insensitive comparison
+     * @return true if the two objects are equal. Otherwise false.
+     */
+    public static boolean equals(Object o1, Object o2, boolean considerArrayOrList, boolean caseSensitive) {
         if (o1 == o2) {
             return true;
         }
@@ -532,7 +550,7 @@ public class JideSwingUtilities implements SwingConstants {
             return false;
         }
         else if (o1 instanceof CharSequence && o2 instanceof CharSequence) {
-            return equals((CharSequence) o1, (CharSequence) o2, true);
+            return equals((CharSequence) o1, (CharSequence) o2, caseSensitive);
         }
         else if (o1 instanceof Comparable && o2 instanceof Comparable && o1.getClass().isAssignableFrom(o2.getClass())) {
             return ((Comparable) o1).compareTo(o2) == 0;
@@ -3134,10 +3152,10 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     /**
-     * Gets the top level Window of the component.
+     * Gets the top level Dialog or Frame of the component.
      *
      * @param parentComponent
-     * @return the top level Frame. Null if we didn't find an ancestor which is instance of Frame.
+     * @return the top level Frame or Dialog. Null if we didn't find an ancestor which is instance of Frame.
      */
     public static Window getWindowForComponent(Component parentComponent)
             throws HeadlessException {

@@ -7,6 +7,7 @@
 package com.jidesoft.converter;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Converter which converts currency to String and converts it back.
@@ -15,7 +16,7 @@ public class CurrencyConverter extends NumberFormatConverter {
     public static ConverterContext CONTEXT = new ConverterContext("Currency");
 
     public CurrencyConverter() {
-        this(NumberFormat.getCurrencyInstance());
+        this(NumberFormat.getCurrencyInstance(Locale.getDefault()));
     }
 
     public CurrencyConverter(NumberFormat format) {

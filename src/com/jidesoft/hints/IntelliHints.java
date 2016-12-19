@@ -11,7 +11,7 @@ import javax.swing.*;
  * <code>IntelliHints</code> is an interface that defines all necessary methods to implement showing a hint popup
  * depending on a context and allows user to pick from a list of hints. {@link #createHintsComponent()} will create a
  * component that contains the hints. It will be shown in a popup window. After hint popup is created, {@link
- * #updateHints(Object)} will update the content of hints based on the context. Once user picks a hint from the hint
+ * #updateHints(Object, boolean)} will update the content of hints based on the context. Once user picks a hint from the hint
  * popup, {@link #getSelectedHint()} will be called to find the hint that user selected and call {@link
  * #acceptHint(Object)} to accept it.
  */
@@ -24,7 +24,7 @@ public interface IntelliHints {
 
     /**
      * Creates the component which contains hints. At this moment, the content should be empty. Following call {@link
-     * #updateHints(Object)} will update the content.
+     * #updateHints(Object, boolean)} will update the content.
      *
      * @return the component which will be used to display the hints.
      */
@@ -36,9 +36,26 @@ public interface IntelliHints {
      * true after that.
      *
      * @param context the current context
+     *
+     * @return true or false. If it is false, hint popup will not be shown.
+     * @deprecated replaced it by {{@link #updateHints(Object, boolean)}}
+     */
+    @Deprecated
+    boolean updateHints(Object context);
+
+    /**
+     * Update hints depending on the context. This method will be triggered for every key typed event in the text
+     * component. Subclass can override it to provide your own list of hints and call setListData to set it and returns
+     * true after that.
+     *
+     * @param context   the current context
+     * @param autoPopup true or false. If true, it means this method was called through the auto-popup feature because
+     *                  of the show hint timer is triggered. If false, it means user pressed the show hint key stroke to
+     *                  show the popup.
+     *
      * @return true or false. If it is false, hint popup will not be shown.
      */
-    boolean updateHints(Object context);
+    boolean updateHints(Object context, boolean autoPopup);
 
     /**
      * Gets the selected value. This value will be used to complete the text component.

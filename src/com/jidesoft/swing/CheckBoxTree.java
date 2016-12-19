@@ -139,7 +139,7 @@ public class CheckBoxTree extends JTree {
      * Gets the cell renderer with check box.
      *
      * @return CheckBoxTree's own cell renderer which has the check box. The actual cell renderer you set by
-     *         setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
+     * setCellRenderer() can be accessed by using {@link #getActualCellRenderer()}.
      */
     @Override
     public TreeCellRenderer getCellRenderer() {
@@ -236,8 +236,8 @@ public class CheckBoxTree extends JTree {
     /**
      * Get the CheckBox used for CheckBoxTreeCellRenderer.
      *
-     * @see #setCheckBox(TristateCheckBox)
      * @return the check box.
+     * @see #setCheckBox(TristateCheckBox)
      */
     public TristateCheckBox getCheckBox() {
         return _checkBox;
@@ -373,9 +373,9 @@ public class CheckBoxTree extends JTree {
 
             TreePath path = preventToggleEvent(e);
             if (path != null) {
-                toggleSelections(new TreePath[] {path});
+                toggleSelections(new TreePath[]{path});
                 Object source = e.getSource();
-                if(source instanceof JTree) {
+                if (source instanceof JTree) {
                     JTree tree = ((JTree) source);
                     if (!tree.hasFocus() && tree.isFocusable() && tree.isRequestFocusEnabled()) {
                         tree.requestFocusInWindow();
@@ -577,9 +577,10 @@ public class CheckBoxTree extends JTree {
     }
 
     /**
-     * Gets the value of property clickInCheckBoxOnly. If true, user can click on check boxes on each tree node to
-     * select and deselect. If false, user can't click but you as developer can programmatically call API to
-     * select/deselect it.
+     * Gets the value of property clickInCheckBoxOnly. When clickInCheckBoxOnly is false, clicking on anywhere of an
+     * tree node will do select the tree node and toggle check/uncheck. When clickInCheckBoxOnly is true, only click on
+     * checkbox will change check/uncheck status without affecting selected tree nodes, and click on label will only
+     * select the tree node without affecting check/uncheck status.
      *
      * @return the value of property clickInCheckBoxOnly.
      */
@@ -590,8 +591,7 @@ public class CheckBoxTree extends JTree {
     /**
      * Sets the value of property clickInCheckBoxOnly.
      *
-     * @param clickInCheckBoxOnly true to allow to check the check box. False to disable it which means user can see
-     *                            whether a row is checked or not but they cannot change it.
+     * @param clickInCheckBoxOnly see {@Link #isClickInCheckBoxOnly} for more information.
      */
     public void setClickInCheckBoxOnly(boolean clickInCheckBoxOnly) {
         if (clickInCheckBoxOnly != _clickInCheckBoxOnly) {

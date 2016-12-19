@@ -1096,16 +1096,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
-                setPreferredSize(null);
+                setPreferredSize(null); // set it to null so that it will be recalculated
+                Dimension preferredSize = getPreferredSize();
                 if (_previousSize.width < 0) {
-                    _previousSize.width = getPreferredSize().width;
+                    _previousSize.width = preferredSize.width;
                 }
                 if (_previousSize.height < 0) {
-                    _previousSize.height = getPreferredSize().height;
+                    _previousSize.height = preferredSize.height;
                 }
                 setPreferredSize(_previousSize);
             }
-            _previousSize = null;
             packPopup();
 
             if (_insets != null) {
@@ -1140,16 +1140,16 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             }
 
             if (_previousSize != null && isKeepPreviousSize()) {
-                setPreferredSize(null);
+                setPreferredSize(null); // set it to null so that it will be recalculated
+                Dimension preferredSize = getPreferredSize();
                 if (_previousSize.width < 0) {
-                    _previousSize.width = getPreferredSize().width;
+                    _previousSize.width = preferredSize.width;
                 }
                 if (_previousSize.height < 0) {
-                    _previousSize.height = getPreferredSize().height;
+                    _previousSize.height = preferredSize.height;
                 }
                 setPreferredSize(_previousSize);
             }
-            _previousSize = null;
             packPopup();
 
             if (_insets != null) {
@@ -2774,6 +2774,10 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
      */
     public void setPreferredPopupSize(Dimension size) {
         _previousSize = size;
+    }
+
+    public Dimension getPreferredPopupSize() {
+        return _previousSize;
     }
 
     public static boolean isPopupAncestorOf(JidePopup popup, Component c) {

@@ -234,7 +234,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 || selectedIndex >= _tabPane.getTabCount()) {
             return;
         }
 
@@ -466,7 +466,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 || selectedIndex >= _tabPane.getTabCount()) {
             return;
         }
 
@@ -687,7 +687,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 || selectedIndex >= _tabPane.getTabCount()) {
             return;
         }
 
@@ -893,7 +893,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
             return;
         }
 
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 || selectedIndex >= _tabPane.getTabCount()) {
             return;
         }
 
@@ -1099,7 +1099,12 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         Insets insets = getContentBorderInsets(_tabPane.getTabPlacement());
 
         Color backgroundAt = null;
-        Component comp = _tabPane.getSelectedIndex() == -1 ? null : _tabPane.getComponentAt(_tabPane.getSelectedIndex());
+        int selectedIndex = _tabPane.getSelectedIndex();
+        if (selectedIndex < 0 || selectedIndex >= _tabPane.getTabCount()) {
+            return;
+        }
+
+        Component comp = selectedIndex == -1 ? null : _tabPane.getComponentAt(selectedIndex);
         if (comp instanceof TabColorProvider) {
             backgroundAt = ((TabColorProvider) comp).getTabBackground();
         }
@@ -1108,8 +1113,8 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         if (colorProvider != null || backgroundAt != null) {
             if (backgroundAt == null) {
                 backgroundAt = _tabPane.getBackground();
-                if (_tabPane.getSelectedIndex() != -1)
-                    backgroundAt = colorProvider.getBackgroundAt(_tabPane.getSelectedIndex());
+                if (selectedIndex != -1)
+                    backgroundAt = colorProvider.getBackgroundAt(selectedIndex);
             }
             if (backgroundAt != null) {
                 g.setColor(backgroundAt);
@@ -1119,7 +1124,7 @@ public class VsnetJideTabbedPaneUI extends BasicJideTabbedPaneUI {
         }
 
         if (useDefault) {
-            Color[] colors = getGradientColors(_tabPane.getSelectedIndex(), true);
+            Color[] colors = getGradientColors(selectedIndex, true);
             if (colors != null) {
                 g.setColor(colors[1]);
                 g.fillRect(x, y, w, insets.top); // top
