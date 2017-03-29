@@ -858,7 +858,6 @@ public class VsnetMenuUI extends VsnetMenuItemUI {
 
         if (!model.isEnabled()) {
             // *** paint the text disabled
-            textRect.y++;
             WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
         }
         else {
