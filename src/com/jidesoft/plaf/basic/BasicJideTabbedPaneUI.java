@@ -7871,51 +7871,54 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
             Insets contentInsets = getContentBorderInsets(tabPlacement);
             int checkX;
-            switch (tabPlacement) {
-                case LEFT:
-                    _tabPane.repaint(vpRect.x + vpRect.width, vpRect.y, contentInsets.left, vpRect.height);
-                    scrollBackwardButton.setEnabled(viewRect.y > 0 || leadingTabIndex > 0);
-                    scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.height - viewRect.y > viewRect.height);
-                    break;
-                case RIGHT:
-                    _tabPane.repaint(vpRect.x - contentInsets.right, vpRect.y, contentInsets.right, vpRect.height);
-                    scrollBackwardButton.setEnabled(viewRect.y > 0 || leadingTabIndex > 0);
-                    scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.height - viewRect.y > viewRect.height);
-                    break;
-                case BOTTOM:
-                    _tabPane.repaint(vpRect.x, vpRect.y - contentInsets.bottom, vpRect.width, contentInsets.bottom);
-                    if (_tabPane.getComponentOrientation().isLeftToRight()) {
-                        scrollBackwardButton.setEnabled(viewRect.x > 0 || leadingTabIndex > 0);
-                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
-                    }
-                    else {
-                        scrollBackwardButton.setEnabled(_rects[0].x + _rects[0].width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
-                        boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
-                        if (enabled && _rects.length > 0) {
-                            if (_rects[0].x + _rects[0].width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
-                                enabled = false;
-                            }
+            if(_rects.length > 0) {
+                Rectangle rect = _rects[0];
+                switch (tabPlacement) {
+                    case LEFT:
+                        _tabPane.repaint(vpRect.x + vpRect.width, vpRect.y, contentInsets.left, vpRect.height);
+                        scrollBackwardButton.setEnabled(viewRect.y > 0 || leadingTabIndex > 0);
+                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.height - viewRect.y > viewRect.height);
+                        break;
+                    case RIGHT:
+                        _tabPane.repaint(vpRect.x - contentInsets.right, vpRect.y, contentInsets.right, vpRect.height);
+                        scrollBackwardButton.setEnabled(viewRect.y > 0 || leadingTabIndex > 0);
+                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.height - viewRect.y > viewRect.height);
+                        break;
+                    case BOTTOM:
+                        _tabPane.repaint(vpRect.x, vpRect.y - contentInsets.bottom, vpRect.width, contentInsets.bottom);
+                        if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                            scrollBackwardButton.setEnabled(viewRect.x > 0 || leadingTabIndex > 0);
+                            scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
                         }
-                        scrollForwardButton.setEnabled(enabled);
-                    }
-                    break;
-                case TOP:
-                default:
-                    _tabPane.repaint(vpRect.x, vpRect.y + vpRect.height, vpRect.width, contentInsets.top);
-                    if (_tabPane.getComponentOrientation().isLeftToRight()) {
-                        scrollBackwardButton.setEnabled(viewRect.x > 0 || leadingTabIndex > 0);
-                        scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
-                    }
-                    else {
-                        scrollBackwardButton.setEnabled(_rects[0].x + _rects[0].width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
-                        boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
-                        if (enabled && _rects.length > 0) {
-                            if (_rects[0].x + _rects[0].width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
-                                enabled = false;
+                        else {
+                            scrollBackwardButton.setEnabled(rect.x + rect.width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
+                            boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
+                            if (enabled && _rects.length > 0) {
+                                if (rect.x + rect.width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
+                                    enabled = false;
+                                }
                             }
+                            scrollForwardButton.setEnabled(enabled);
                         }
-                        scrollForwardButton.setEnabled(enabled);
-                    }
+                        break;
+                    case TOP:
+                    default:
+                        _tabPane.repaint(vpRect.x, vpRect.y + vpRect.height, vpRect.width, contentInsets.top);
+                        if (_tabPane.getComponentOrientation().isLeftToRight()) {
+                            scrollBackwardButton.setEnabled(viewRect.x > 0 || leadingTabIndex > 0);
+                            scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width);
+                        }
+                        else {
+                            scrollBackwardButton.setEnabled(rect.x + rect.width + _additionalWidth - _tabScroller.viewport.getViewPosition().x > viewRect.width);
+                            boolean enabled = leadingTabIndex < tabCount - 1 && _tabScroller.viewport.getViewPosition().x > 0;
+                            if (enabled && _rects.length > 0) {
+                                if (rect.x + rect.width + _additionalWidth - _rects[_rects.length - 1].x < viewRect.width) {
+                                    enabled = false;
+                                }
+                            }
+                            scrollForwardButton.setEnabled(enabled);
+                        }
+                }
             }
 
             if (SystemInfo.isJdk15Above()) {
