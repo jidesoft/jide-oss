@@ -1,0 +1,3 @@
+--add-exports java.desktop/com.sun.java.swing.plaf.windows=ALL-UNNAMED --add-exports java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-exports java.desktop/sun.swing=ALL-UNNAMED --add-exports java.desktop/sun.awt=ALL-UNNAMED --add-exports java.desktop/sun.awt.image=ALL-UNNAMED --add-exports java.desktop/sun.awt.shell=ALL-UNNAMED --add-exports java.desktop/sun.awt.dnd=ALL-UNNAMED --add-exports java.desktop/sun.awt.windows=ALL-UNNAMED --add-exports java.base/sun.security.action=ALL-UNNAMED
+
+Remove xerces.jar from the classpath

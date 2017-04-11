@@ -1,3 +1,9 @@
+/*
+ * @(#)AnimationController.java 4/11/2017
+ *
+ * Copyright 2002 - 2017 JIDE Software Inc. All rights reserved.
+ */
+
 package com.jidesoft.plaf.windows;
 
 import com.jidesoft.plaf.windows.TMSchema.Part;
