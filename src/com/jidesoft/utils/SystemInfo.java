@@ -5,6 +5,8 @@
  */
 package com.jidesoft.utils;
 
+import com.jidesoft.jdk.JdkSpecificClass;
+
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.Locale;
@@ -528,6 +530,17 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or no the JDK version is 1.9 and above.
+     *
+     * @return <tt>true</tt> if the application is running on JDK 1.9 and above, <tt>false</tt> otherwise.
+     * @since 4.0
+     */
+    public static boolean isJdk9Above() {
+        checkJdkVersion();
+        return _currentVersion.compareVersion(9, 0, 0) >= 0;
+    }
+
+    /**
      * Returns whether or not the JDK version is exactly the version you are expecting
      *
      * @param majorVersion your intended major version for JDK6u10, it should be 1.6
@@ -652,6 +665,14 @@ final public class SystemInfo {
                     if (groups >= 6 && matcher.group(6) != null) {
                         String s = matcher.group(6);
                         if (s != null && s.trim().length() > 0) _patch = s;
+                    }
+                }
+                else { // JDK9 and above
+                    int[] versions = JdkSpecificClass.getVersions();
+                    if(version != null) {
+                        _majorVersion = versions[0];
+                        _minorVersion = versions[1];
+                        _buildNumber = versions[2];
                     }
                 }
             }

@@ -6,17 +6,11 @@
 
 package com.jidesoft.swing;
 
-import sun.swing.plaf.synth.SynthIcon;
+import com.jidesoft.jdk.JdkSpecificClass;
 
 import javax.swing.*;
-import javax.swing.plaf.synth.Region;
 import javax.swing.plaf.synth.SynthConstants;
-import javax.swing.plaf.synth.SynthContext;
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TristateCheckBoxIcon implements Icon, SynthConstants {
     private UIDefaults.LazyValue _originalIcon;
@@ -25,59 +19,14 @@ public class TristateCheckBoxIcon implements Icon, SynthConstants {
         _originalIcon = originalIcon;
     }
 
-    private static Map<String, Boolean> _synthIconMap;
-
-    /**
-     * Check if the class name is a SynthIcon class name.
-     * <p/>
-     * It's an interface reserved in case Sun changes the name or package of the class SynthIcon.
-     *
-     * @param name the class name to check
-     * @return true if it's a SynthIcon class name. Otherwise false.
-     */
-    protected boolean isSynthIconClassName(String name) {
-        return name != null && name.contains("sun.swing.plaf.synth.SynthIcon");
-    }
-
-    private boolean isSynthIcon(Icon icon) {
-        if (_synthIconMap == null) {
-            _synthIconMap = new HashMap<String, Boolean>();
-        }
-        Class<?> aClass = icon.getClass();
-        java.util.List<String> classNamesToPut = new ArrayList<String>();
-        boolean isSynthIcon = false;
-        while (aClass != null) {
-            String name = aClass.getCanonicalName();
-            if (name != null) {
-                Boolean value = _synthIconMap.get(name);
-                if (value != null) {
-                    return value;
-                }
-                classNamesToPut.add(name);
-                if (isSynthIconClassName(name)) {
-                    isSynthIcon = true;
-                    break;
-                }
-            }
-            aClass = aClass.getSuperclass();
-        }
-        for (String name : classNamesToPut) {
-            _synthIconMap.put(name, isSynthIcon);
-        }
-        return isSynthIcon;
-    }
-
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         Icon icon = (Icon) _originalIcon.createValue(UIManager.getDefaults());
-        if (isSynthIcon(icon)) {
+        if (JdkSpecificClass.isSynthIcon(icon)) {
             int state = getComponentState((JComponent) c);
             if (c instanceof TristateCheckBox && ((TristateCheckBox) c).getModel() instanceof TristateButtonModel && ((TristateButtonModel) ((TristateCheckBox) c).getModel()).isMixed())
                 state &= ~SynthConstants.SELECTED;
-            SynthContext context = new SynthContext((JComponent) c, Region.CHECK_BOX, SynthLookAndFeel.getStyle((JComponent) c, Region.CHECK_BOX), state);
-            final int w = ((SynthIcon) icon).getIconWidth(context);
-            final int h = ((SynthIcon) icon).getIconHeight(context);
-            ((SynthIcon) icon).paintIcon(context, g, x, y, w, h);
+            JdkSpecificClass.paintCheckBoxIcon((JComponent) c, icon, g, state, x, y);
         }
         else {
             if (c instanceof TristateCheckBox && ((TristateCheckBox) c).getModel() instanceof TristateButtonModel && ((TristateButtonModel) ((TristateCheckBox) c).getModel()).isMixed()) {

@@ -1,5 +1,6 @@
 package com.jidesoft.plaf.basic;
 
+import com.jidesoft.jdk.JdkSpecificClass;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.swing.*;
@@ -8,14 +9,10 @@ import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
 import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import sun.swing.plaf.synth.SynthIcon;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.UIResource;
-import javax.swing.plaf.synth.Region;
-import javax.swing.plaf.synth.SynthContext;
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import java.awt.*;
 
 /**
@@ -903,6 +900,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             Color oldColor = g.getColor();
             g.setColor(indexColor);
             int x = rect.x + rect.width / 2 - (iconWidth + ARROW_TEXT_GAP + textWidth) / 2;
+            int y = rect.y + V_GAP;
             if (shouldDisplayOnTop()) {
                 JideSwingUtilities.drawString(c, g, str, x + ARROW_TEXT_GAP + iconWidth, rect.y + V_GAP + c.getFontMetrics(font).getAscent() - 2);
             }
@@ -915,64 +913,39 @@ public class BasicPainter implements SwingConstants, ThemePainter {
             g.setColor(oldColor);
             g.setFont(oldFont);
             if (sortIcon != null) {
-                if (shouldDisplayOnTop()) {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, x, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                if (!shouldDisplayOnTop()) {
+                    if (leftToRight) {
+                        x = rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP;
                     }
                     else {
-                        sortIcon.paintIcon(c, g, x, rect.y + V_GAP);
+                        x = rect.x + textWidth + H_GAP + ARROW_TEXT_GAP;
                     }
                 }
-                else if (leftToRight) {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    }
-                    else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - textWidth - H_GAP - ARROW_TEXT_GAP, rect.y + yOffset);
-                    }
+                if(JdkSpecificClass.isSynthIcon(sortIcon)) {
+                    JdkSpecificClass.paintTableHeaderIcon(c, sortIcon, g, x, y);
                 }
-                else {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    }
-                    else {
-                        sortIcon.paintIcon(c, g, rect.x + textWidth + H_GAP + ARROW_TEXT_GAP, rect.y + yOffset);
-                    }
-                }
+                else sortIcon.paintIcon(c, g, x, y);
             }
         }
         else {
             if (sortIcon != null) {
-                if (shouldDisplayOnTop()) {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
+                int x = rect.x + rect.width / 2 - iconWidth / 2;
+                int y = rect.y + V_GAP;
+
+                if (!shouldDisplayOnTop()) {
+                    if (leftToRight) {
+                        x = rect.x + rect.width - iconWidth - H_GAP;
+                        y = rect.y + yOffset;
                     }
                     else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width / 2 - iconWidth / 2, rect.y + V_GAP);
+                        x = rect.x + H_GAP;
+                        y = rect.y + yOffset;
                     }
                 }
-                else if (leftToRight) {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    }
-                    else {
-                        sortIcon.paintIcon(c, g, rect.x + rect.width - iconWidth - H_GAP, rect.y + yOffset);
-                    }
+                if(JdkSpecificClass.isSynthIcon(sortIcon)) {
+                    JdkSpecificClass.paintTableHeaderIcon(c, sortIcon, g, x, y);
                 }
-                else {
-                    if (sortIcon instanceof SynthIcon) {
-                        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-                        ((SynthIcon) sortIcon).paintIcon(context, g, rect.x + H_GAP, rect.y + yOffset, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-                    }
-                    else {
-                        sortIcon.paintIcon(c, g, rect.x + H_GAP, rect.y + yOffset);
-                    }
-                }
+                else sortIcon.paintIcon(c, g, x, y);
             }
         }
     }
