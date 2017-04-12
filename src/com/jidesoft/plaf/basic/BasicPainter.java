@@ -922,7 +922,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     }
                 }
                 if(JdkSpecificClass.isSynthIcon(sortIcon)) {
-                    JdkSpecificClass.paintTableHeaderIcon(c, g, sortIcon, x, y);
+                    JdkSpecificClass.paintTableHeaderIcon(c, sortIcon, g, x, y);
                 }
                 else sortIcon.paintIcon(c, g, x, y);
             }
@@ -943,7 +943,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
                     }
                 }
                 if(JdkSpecificClass.isSynthIcon(sortIcon)) {
-                    JdkSpecificClass.paintTableHeaderIcon(c, g, sortIcon, x, y);
+                    JdkSpecificClass.paintTableHeaderIcon(c, sortIcon, g, x, y);
                 }
                 else sortIcon.paintIcon(c, g, x, y);
             }

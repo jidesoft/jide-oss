@@ -19,15 +19,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class JdkSpecificClass {
-    protected void paintIcon(JComponent c, Graphics g, Icon sortIcon, int x, int y) {
-        if (sortIcon instanceof SynthIcon) {
-            SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-            ((SynthIcon) sortIcon).paintIcon(context, g, x, y, ((SynthIcon) sortIcon).getIconWidth(context), ((SynthIcon) sortIcon).getIconHeight(context));
-        }
-        else {
-            sortIcon.paintIcon(c, g, x, y);
-        }
-    }
 
     private static Map<String, Boolean> _synthIconMap;
 
@@ -83,6 +74,11 @@ public class JdkSpecificClass {
         ((SynthIcon) icon).paintIcon(context, g, iconX, iconY, ((SynthIcon) icon).getIconWidth(context), ((SynthIcon) icon).getIconHeight(context));
     }
 
+    public static void paintTableHeaderIcon(JComponent c, Icon icon, Graphics g, int x, int y) {
+        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
+        ((SynthIcon) icon).paintIcon(context, g, x, y, ((SynthIcon) icon).getIconWidth(context), ((SynthIcon) icon).getIconHeight(context));
+    }
+
     public static int[] getVersions() {
         Runtime.Version ver = Runtime.version();
         int majorVersion = ver.major();
@@ -93,9 +89,5 @@ public class JdkSpecificClass {
             buildNumber = build.get();
         }
         return new int[]{majorVersion, minorVersion, buildNumber};
-    }
-
-    public static void paintTableHeaderIcon(JComponent c, Graphics g, Icon sortIcon, int x, int y) {
-        
     }
 }

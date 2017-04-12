@@ -18,11 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JdkSpecificClass {
-    public static void paintTableHeaderIcon(JComponent c, Graphics g, Icon icon, int x, int y) {
-        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
-        ((SynthIcon) icon).paintIcon(context, g, x, y, ((SynthIcon) icon).getIconWidth(context), ((SynthIcon) icon).getIconHeight(context));
-    }
-
     private static Map<String, Boolean> _synthIconMap;
 
     /**
@@ -70,6 +65,11 @@ public class JdkSpecificClass {
         final int w = ((SynthIcon) icon).getIconWidth(context);
         final int h = ((SynthIcon) icon).getIconHeight(context);
         ((SynthIcon) icon).paintIcon(context, g, x, y, w, h);
+    }
+
+    public static void paintTableHeaderIcon(JComponent c, Icon icon, Graphics g, int x, int y) {
+        SynthContext context = new SynthContext(c, Region.TABLE_HEADER, SynthLookAndFeel.getStyle(c, Region.TABLE_HEADER), 0);
+        ((SynthIcon) icon).paintIcon(context, g, x, y, ((SynthIcon) icon).getIconWidth(context), ((SynthIcon) icon).getIconHeight(context));
     }
 
     public static void paintTableCellIcon(JTable table, Icon icon, Graphics g, int iconX, int iconY) {
