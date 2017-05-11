@@ -1094,7 +1094,7 @@ public class JideTabbedPane extends JTabbedPane {
 
         if (getUI() instanceof BasicJideTabbedPaneUI) {
             ((BasicJideTabbedPaneUI) getUI()).ensureActiveTabIsVisible(true);
-            if (isAutoFocusOnTabHideClose()) {
+            if (isAutoFocusOnTabHideClose() && hasFocusComponent()) {
                 ((BasicJideTabbedPaneUI) getUI()).requestFocusForVisibleComponent();
             }
         }
