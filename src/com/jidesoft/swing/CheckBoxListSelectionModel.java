@@ -93,6 +93,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     public void intervalAdded(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
+            updateAllEntryIf();
         }
     }
 
@@ -100,6 +101,7 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     public void intervalRemoved(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
+            updateAllEntryIf();
         }
     }
 
@@ -107,6 +109,16 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     public void contentsChanged(ListDataEvent e) {
         if (isAllEntryConsidered()) {
             _allEntryIndex = findAllEntryIndex();
+            updateAllEntryIf();
+        }
+    }
+
+    protected void updateAllEntryIf() {
+        if (_allEntryIndex != -1) {
+            if (isSelectedIndex(_allEntryIndex))
+                unselectAllIf();
+            else
+                selectAllIf();
         }
     }
 
@@ -145,7 +157,8 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     /**
-     * Gets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is one.
+     * Gets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is
+     * one.
      *
      * @return true if need check. Otherwise false.
      * @see #setAllEntryConsidered(boolean)
@@ -156,10 +169,11 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
     }
 
     /**
-     * Sets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is one.
+     * Sets the flag indicating if this CheckBoxListSelectionModel should consider the CheckBoxList.ALL item if there is
+     * one.
      * <p/>
-     * By default, the flag is true. If you want to improve the performance and don't have "all" entry, or if you do have
-     * an entry similar to "all" entry but want to treat it as a normal entry, please set it to false.
+     * By default, the flag is true. If you want to improve the performance and don't have "all" entry, or if you do
+     * have an entry similar to "all" entry but want to treat it as a normal entry, please set it to false.
      *
      * @param allEntryConsidered the flag
      * @since 3.3.3
@@ -220,11 +234,23 @@ public class CheckBoxListSelectionModel extends DefaultListSelectionModel implem
             return;
         }
         for (int i = getModel().getSize() - 1; i >= 0; i--) {
-            if (i != getAllEntryIndex() && !isSelectedIndex(i)) {
+            if (i != getAllEntryIndex() && !super.isSelectedIndex(i)) {
                 return;
             }
         }
         super.addSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
+    }
+
+    private void unselectAllIf() {
+        if (getAllEntryIndex() < 0) {
+            return;
+        }
+        for (int i = getModel().getSize() - 1; i >= 0; i--) {
+            if (i != getAllEntryIndex() && !super.isSelectedIndex(i)) {
+                super.removeSelectionInterval(getAllEntryIndex(), getAllEntryIndex());
+                return;
+            }
+        }
     }
 
     @Override
