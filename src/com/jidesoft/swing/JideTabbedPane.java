@@ -2704,4 +2704,10 @@ public class JideTabbedPane extends JTabbedPane {
             _mousePressed = mousePressed;
         }
     }
+
+    @Override
+    public void removeAll() {
+        super.removeAll();
+        updateUI();
+    }
 }
