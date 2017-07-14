@@ -177,7 +177,7 @@ public class ObjectComparatorManager {
         else if (clazz2.isAssignableFrom(clazz1)) {
             clazz = clazz2;
         }
-        else if (clazz1.isAssignableFrom(Comparable.class) && clazz2.isAssignableFrom(Comparable.class)) {
+        else if (Comparable.class.isAssignableFrom(clazz1) && Comparable.class.isAssignableFrom(clazz2)) {
             clazz = Comparable.class;
         }
         else {
