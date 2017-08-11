@@ -683,8 +683,7 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
             // The requests have been invalidated... recalculate
             // the request information.
             int componentCount = _target.getComponentCount();
-            if(componentCount == 0) return;
-            
+
             int visibleComponentCount = componentCount;
             for (int i = 0; i < componentCount; i++) {
                 if (!_target.getComponent(i).isVisible()) {
@@ -732,9 +731,11 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
                 _maxWidth = SizeRequirements.getAlignedSizeRequirements(_xChildren).maximum;
 
                 // limit the maxWidth so that it is not too large.
-                int averageWidth = (_target.getPreferredSize().width - (_target.getComponentCount() - 1) * getButtonGap()) / _target.getComponentCount();
-                if (_maxWidth > averageWidth) {
-                    _maxWidth = averageWidth;
+                if(visibleComponentCount > 0) {
+                    int averageWidth = (_target.getPreferredSize().width - (visibleComponentCount - 1) * getButtonGap()) / visibleComponentCount;
+                    if (_maxWidth > averageWidth) {
+                        _maxWidth = averageWidth;
+                    }
                 }
 
                 if (_sizeConstraint == ButtonPanel.SAME_SIZE) {
