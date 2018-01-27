@@ -730,14 +730,6 @@ class ButtonPanelLayout implements LayoutManager2, Serializable {
 
                 _maxWidth = SizeRequirements.getAlignedSizeRequirements(_xChildren).maximum;
 
-                // limit the maxWidth so that it is not too large.
-                if(visibleComponentCount > 0) {
-                    int averageWidth = (_target.getPreferredSize().width - (visibleComponentCount - 1) * getButtonGap()) / visibleComponentCount;
-                    if (_maxWidth > averageWidth) {
-                        _maxWidth = averageWidth;
-                    }
-                }
-
                 if (_sizeConstraint == ButtonPanel.SAME_SIZE) {
                     int width = getMinButtonWidth();
                     if (_maxWidth < width) {
