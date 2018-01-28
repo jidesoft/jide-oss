@@ -7,6 +7,7 @@ package com.jidesoft.utils;
 
 import com.jidesoft.jdk.JdkSpecificClass;
 
+import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.Locale;
@@ -669,7 +670,7 @@ final public class SystemInfo {
                 }
                 else { // JDK9 and above
                     int[] versions = JdkSpecificClass.getVersions();
-                    if(version != null) {
+                    if (versions != null) {
                         _majorVersion = versions[0];
                         _minorVersion = versions[1];
                         _buildNumber = versions[2];
@@ -726,6 +727,22 @@ final public class SystemInfo {
         public String getPatch() {
             return _patch;
         }
+    }
+
+    /**
+     * Gets the state of the hide mnemonic flag. This only has meaning
+     * if this feature is supported by the underlying OS.
+     *
+     * @return true if mnemonics are hidden, otherwise, false
+     * @since 3.7.2
+     */
+    public static boolean isMnemonicHidden() {
+        boolean isMnemonicHidden = true;
+        if (UIManager.getBoolean("Button.showMnemonics")) {
+            // Do not hide mnemonics if the UI defaults do not support this
+            isMnemonicHidden = false;
+        }
+        return isMnemonicHidden;
     }
 
 }
