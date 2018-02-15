@@ -24,6 +24,9 @@ public class Animator implements ActionListener {
     private final int _totalSteps;
     private int _currentStep;
 
+    protected int _delay;
+    protected int _initialDelay;
+
     /**
      * The list of all registered AnimatorListeners.
      *
@@ -52,9 +55,15 @@ public class Animator implements ActionListener {
     public Animator(Component source, int initDelay, int delay, int totalSteps) {
         _source = source;
         _totalSteps = totalSteps;
+        _delay = delay;
+        _initialDelay = initDelay;
 
-        _timer = createTimer(delay, this);
-        _timer.setInitialDelay(initDelay);
+    }
+
+    protected Timer createTimer(int initDelay, int delay) {
+        Timer timer = createTimer(delay, this);
+        timer.setInitialDelay(initDelay);
+        return timer;
     }
 
     /**
@@ -140,13 +149,16 @@ public class Animator implements ActionListener {
     }
 
     void startTimer() {
-        if (_timer != null)
-            _timer.start();
+        if (_timer == null) {
+            _timer = createTimer(_initialDelay, _delay);
+        }
+        _timer.start();
     }
 
     void stopTimer() {
         if (_timer != null) {
             _timer.stop();
+            _timer = null;
         }
     }
 
@@ -163,16 +175,21 @@ public class Animator implements ActionListener {
      * @return true if animator is running. Otherwise, returns false.
      */
     public boolean isRunning() {
-        return _timer != null && _timer.isRunning();
+        return _timer != null;
     }
 
     public void setDelay(int delay) {
-        _timer.setDelay(delay);
+        _delay = delay;
+        if (_timer != null) {
+            _timer.setDelay(_delay);
+        }
     }
 
     public void dispose() {
         stop();
-        _timer.removeActionListener(this);
-        _timer = null;
+        if (_timer != null) {
+            _timer.removeActionListener(this);
+            _timer = null;
+        }
     }
 }
