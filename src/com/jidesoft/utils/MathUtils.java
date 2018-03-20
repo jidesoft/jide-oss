@@ -8,7 +8,8 @@ import com.jidesoft.range.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Double.*;
+import static java.lang.Double.MAX_VALUE;
+import static java.lang.Double.NaN;
 
 /**
  * A collection of several util methods related to Math. We only used it in DefaultSummaryCalculator in JIDE Pivot Grid
@@ -67,7 +68,7 @@ public final class MathUtils {
      * @return the max number in the numbers list.
      */
     public static double max(List<Number> numbers) {
-        double max = MIN_VALUE;
+        double max = -MAX_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v > max) {
@@ -141,7 +142,7 @@ public final class MathUtils {
      */
     public static Range<Double> range(List<Number> numbers) {
         double min = MAX_VALUE;
-        double max = MIN_VALUE;
+        double max = -MAX_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v < min) {
@@ -162,7 +163,7 @@ public final class MathUtils {
      */
     public static Range<Integer> rangeInteger(List<Number> numbers) {
         double min = Integer.MAX_VALUE;
-        double max = Integer.MIN_VALUE;
+        double max = -Integer.MAX_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v < min) {
@@ -183,7 +184,7 @@ public final class MathUtils {
      */
     public static Range<Long> rangeLong(List<Number> numbers) {
         double min = Long.MAX_VALUE;
-        double max = Long.MIN_VALUE;
+        double max = -Long.MAX_VALUE;
         for (Number value : numbers) {
             double v = value.doubleValue();
             if (v < min) {
