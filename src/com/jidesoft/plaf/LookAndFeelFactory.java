@@ -26,7 +26,6 @@ import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.utils.ProductNames;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -533,10 +532,10 @@ public class LookAndFeelFactory implements ProductNames {
             if (_defaultStyle == -1) {
                 int suggestedStyle;
                 try {
-                    if (SystemInfo.isWindowsVistaAbove() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && SystemInfo.isJdk6Above()) {
+                    if (SystemInfo.isWindowsVistaAbove() && isWindowsLaF(UIManager.getLookAndFeel()) && SystemInfo.isJdk6Above()) {
                         suggestedStyle = EXTENSION_STYLE_OFFICE2007;
                     }
-                    else if (XPUtils.isXPStyleOn() && UIManager.getLookAndFeel() instanceof WindowsLookAndFeel) {
+                    else if (XPUtils.isXPStyleOn() && isWindowsLaF(UIManager.getLookAndFeel())) {
                         suggestedStyle = EXTENSION_STYLE_OFFICE2003;
                     }
                     else {
@@ -845,7 +844,7 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
             }
         }
-        else if (lnf instanceof WindowsLookAndFeel) {
+        else if (isWindowsLaF(lnf)) {
             switch (style) {
                 case EXTENSION_STYLE_OFFICE2007:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -1836,6 +1835,26 @@ public class LookAndFeelFactory implements ProductNames {
             }
         }
         return _productsUsed;
+    }
+    
+    private static boolean isWindowsLaF(LookAndFeel lnf) {
+         // as of Java 10, com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+         // is no longer available on macOS
+         // thus "instanceof WindowsLookAndFeel" directives will result
+         // in a NoClassDefFoundError during runtime
+         if (lnf == null) {
+             return false;
+         } else {
+             try {
+                 Class c = Class.forName(WINDOWS_LNF);
+                 return c.isInstance(lnf);
+             } catch (ClassNotFoundException cnfe) {
+                 // if it is not possible to load the Windows LnF class, the
+                 // given lnf instance cannot be an instance of the Windows
+                 // LnF class
+                 return false;
+             }
+         }
     }
 
     /**
