@@ -9,13 +9,13 @@ package com.jidesoft.plaf.vsnet;
 import com.jidesoft.icons.IconsFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.basic.ThemePainter;
+import com.jidesoft.plaf.windows.WindowsGraphicsUtilsPort;
 import com.jidesoft.swing.ButtonStyle;
 import com.jidesoft.swing.JideSplitButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
 import com.jidesoft.utils.SecurityUtils;
-import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -883,12 +883,12 @@ public class VsnetMenuItemUI extends MenuItemUI {
 
         if (!model.isEnabled()) {
             // *** paint the text disabled
-            WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+            WindowsGraphicsUtilsPort.paintText(g, menuItem, textRect, text, 0);
         }
         else {
             int mnemonicIndex = menuItem.getDisplayedMnemonicIndex();
             // W2K Feature: Check to see if the Underscore should be rendered.
-            if (WindowsLookAndFeel.isMnemonicHidden()) {
+            if (SystemInfo.isMnemonicHidden()) {
                 mnemonicIndex = -1;
             }
 

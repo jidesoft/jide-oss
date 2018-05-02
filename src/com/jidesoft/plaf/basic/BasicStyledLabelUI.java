@@ -5,12 +5,12 @@
  */
 package com.jidesoft.plaf.basic;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.swing.FontUtils;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.StyleRange;
 import com.jidesoft.swing.StyledLabel;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -686,8 +686,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int endX = paintWidth + startX;
         int x = startX;
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
-        if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
-                WindowsLookAndFeel.isMnemonicHidden()) {
+        if (LookAndFeelFactory.isWindowsLookAndFeel(UIManager.getLookAndFeel()) &&
+                LookAndFeelFactory.isMnemonicHidden()) {
             mnemonicIndex = -1;
         }
 
@@ -1083,8 +1083,8 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         paintWidth = Math.min(paintWidth, rightMostX - leftAlignmentX);
 
         int mnemonicIndex = label.getDisplayedMnemonicIndex();
-        if (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel &&
-                WindowsLookAndFeel.isMnemonicHidden()) {
+        if (LookAndFeelFactory.isWindowsLookAndFeel(UIManager.getLookAndFeel()) &&
+                LookAndFeelFactory.isMnemonicHidden()) {
             mnemonicIndex = -1;
         }
 

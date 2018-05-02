@@ -6,11 +6,11 @@
 
 package com.jidesoft.plaf.eclipse;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.plaf.windows.WindowsGraphicsUtilsPort;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.TopLevelMenuContainer;
-import com.sun.java.swing.plaf.windows.WindowsGraphicsUtils;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -807,13 +807,13 @@ public class EclipseMenuUI extends EclipseMenuItemUI {
         if (!model.isEnabled()) {
             // *** paint the text disabled
             textRect.y++;
-            WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+            WindowsGraphicsUtilsPort.paintText(g, menuItem, textRect, text, 0);
         }
         else {
             FontMetrics fm = g.getFontMetrics();
             int mnemonicIndex = menuItem.getDisplayedMnemonicIndex();
             // W2K Feature: Check to see if the Underscore should be rendered.
-            if (WindowsLookAndFeel.isMnemonicHidden()) {
+            if (LookAndFeelFactory.isMnemonicHidden()) {
                 mnemonicIndex = -1;
             }
 

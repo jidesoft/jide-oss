@@ -195,6 +195,11 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String A03_LNF = "a03.swing.plaf.A03LookAndFeel";
 
     /**
+     * Class name of Darcula L&F.
+     */
+    public static final String DARCULA_LNF = "com.bulenkov.darcula.DarculaLaf";
+
+    /**
      * Class name of Pgs L&F.
      */
     public static final String PGS_LNF = "com.pagosoft.plaf.PgsLookAndFeel";
@@ -532,10 +537,10 @@ public class LookAndFeelFactory implements ProductNames {
             if (_defaultStyle == -1) {
                 int suggestedStyle;
                 try {
-                    if (SystemInfo.isWindowsVistaAbove() && isWindowsLaF(UIManager.getLookAndFeel()) && SystemInfo.isJdk6Above()) {
+                    if (SystemInfo.isWindowsVistaAbove() && isWindowsLookAndFeel(UIManager.getLookAndFeel()) && SystemInfo.isJdk6Above()) {
                         suggestedStyle = EXTENSION_STYLE_OFFICE2007;
                     }
-                    else if (XPUtils.isXPStyleOn() && isWindowsLaF(UIManager.getLookAndFeel())) {
+                    else if (XPUtils.isXPStyleOn() && isWindowsLookAndFeel(UIManager.getLookAndFeel())) {
                         suggestedStyle = EXTENSION_STYLE_OFFICE2003;
                     }
                     else {
@@ -844,7 +849,7 @@ public class LookAndFeelFactory implements ProductNames {
                     break;
             }
         }
-        else if (isWindowsLaF(lnf)) {
+        else if (isWindowsLookAndFeel(lnf)) {
             switch (style) {
                 case EXTENSION_STYLE_OFFICE2007:
                     VsnetWindowsUtils.initComponentDefaultsWithMenu(uiDefaults);
@@ -1339,6 +1344,12 @@ public class LookAndFeelFactory implements ProductNames {
         if (lnfClassName.endsWith("LookAndFeel")) {
             return lnfClassName.substring(start, lnfClassName.length() - "LookAndFeel".length());
         }
+        else if (lnfClassName.endsWith("Laf")) {
+            return lnfClassName.substring(start, lnfClassName.length() - "Laf".length());
+        }
+        else if (lnfClassName.endsWith("Lnf")) {
+            return lnfClassName.substring(start, lnfClassName.length() - "Lnf".length());
+        }
         return null;
     }
 
@@ -1350,7 +1361,6 @@ public class LookAndFeelFactory implements ProductNames {
      * if the L&F is installed.
      *
      * @param lnfName the L&F name.
-     *
      * @return <tt>true</tt> if the L&F is in classpath, <tt>false</tt> otherwise
      */
     public static boolean isLnfInstalled(String lnfName) {
@@ -1377,7 +1387,6 @@ public class LookAndFeelFactory implements ProductNames {
      * Checks if the L&F is the L&F or a subclass of the L&F.
      *
      * @param lnf the full class name of the L&F (including the package).
-     *
      * @return true or false.
      */
     public static boolean isLnfInUse(String lnf) {
@@ -1481,7 +1490,6 @@ public class LookAndFeelFactory implements ProductNames {
      * Returns whether Plastic3D L&F is in classpath
      *
      * @return <tt>true</tt> Plastic3D L&F is in classpath, <tt>false</tt> otherwise
-     *
      * @deprecated replace by {@link #isPlastic3DLnfInstalled()}
      */
     @Deprecated
@@ -1514,6 +1522,15 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isA03LnfInstalled() {
         return isLnfInstalled(A03_LNF);
+    }
+
+    /**
+     * Returns whether Darcula L&F is in classpath
+     *
+     * @return <tt>true</tt> Darcula L&F is in classpath, <tt>false</tt> otherwise
+     */
+    public static boolean isDarculaLnfInstalled() {
+        return isLnfInstalled(DARCULA_LNF);
     }
 
     /**
@@ -1836,25 +1853,57 @@ public class LookAndFeelFactory implements ProductNames {
         }
         return _productsUsed;
     }
-    
-    private static boolean isWindowsLaF(LookAndFeel lnf) {
-         // as of Java 10, com.sun.java.swing.plaf.windows.WindowsLookAndFeel
-         // is no longer available on macOS
-         // thus "instanceof WindowsLookAndFeel" directives will result
-         // in a NoClassDefFoundError during runtime
-         if (lnf == null) {
-             return false;
-         } else {
-             try {
-                 Class c = Class.forName(WINDOWS_LNF);
-                 return c.isInstance(lnf);
-             } catch (ClassNotFoundException cnfe) {
-                 // if it is not possible to load the Windows LnF class, the
-                 // given lnf instance cannot be an instance of the Windows
-                 // LnF class
-                 return false;
-             }
-         }
+
+    /**
+     * As of Java 10, com.sun.java.swing.plaf.windows.WindowsLookAndFeel is no longer available on macOS thus
+     * "instanceof WindowsLookAndFeel" directives will result in a NoClassDefFoundError during runtime. This method
+     * was introduced to avoid this exception.
+     *
+     * @param lnf
+     * @return true if it is a WindowsLookAndFeel.
+     */
+    public static boolean isWindowsLookAndFeel(LookAndFeel lnf) {
+        if (lnf == null) {
+            return false;
+        }
+        else {
+            try {
+                Class c = Class.forName(WINDOWS_LNF);
+                return c.isInstance(lnf);
+            }
+            catch (ClassNotFoundException cnfe) {
+                // if it is not possible to load the Windows LnF class, the
+                // given lnf instance cannot be an instance of the Windows
+                // LnF class
+                return false;
+            }
+        }
+    }
+
+    /**
+     * As of Java 10, com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel is no longer available on macOS thus
+     * "instanceof WindowsClassicLookAndFeel" directives will result in a NoClassDefFoundError during runtime. This method
+     * was introduced to avoid this exception.
+     *
+     * @param lnf
+     * @return true if it is a WindowsClassicLookAndFeel.
+     */
+    public static boolean isWindowsClassicLookAndFeel(LookAndFeel lnf) {
+        if (lnf == null) {
+            return false;
+        }
+        else {
+            try {
+                Class c = Class.forName(WINDOWS_CLASSIC_LNF);
+                return c.isInstance(lnf);
+            }
+            catch (ClassNotFoundException cnfe) {
+                // if it is not possible to load the Windows LnF class, the
+                // given lnf instance cannot be an instance of the Windows
+                // LnF class
+                return false;
+            }
+        }
     }
 
     /**
@@ -1884,7 +1933,6 @@ public class LookAndFeelFactory implements ProductNames {
      * Gets the flag indicating if JIDE will try to load the LnF class when {@link #isLnfInstalled(String)} is invoked.
      *
      * @return true if JIDE will try to load the LnF class. Otherwise false
-     *
      * @see #setLoadLookAndFeelClass(boolean)
      * @since 3.2.0
      */
@@ -1901,12 +1949,16 @@ public class LookAndFeelFactory implements ProductNames {
      * you wish.
      *
      * @param loadLookAndFeelClass the flag
-     *
      * @since 3.2.0
      */
     public static void setLoadLookAndFeelClass(boolean loadLookAndFeelClass) {
         _loadLookAndFeelClass = loadLookAndFeelClass;
     }
+
+    public static boolean isMnemonicHidden() {
+        return !UIManager.getBoolean("Button.showMnemonics");
+    }
+
 
     public static void main(String[] args) {
 //        LookAndFeelFactory.setLnfInstalled(AQUA_LNF, false);

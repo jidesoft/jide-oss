@@ -1,14 +1,13 @@
 package com.jidesoft.plaf.basic;
 
 import com.jidesoft.jdk.JdkSpecificClass;
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.UIDefaultsLookup;
 import com.jidesoft.plaf.XPUtils;
 import com.jidesoft.swing.*;
 import com.jidesoft.utils.ColorUtils;
 import com.jidesoft.utils.SecurityUtils;
 import com.jidesoft.utils.SystemInfo;
-import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -844,7 +843,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
      */
     protected boolean shouldDisplayOnTop() {
         return SystemInfo.isWindowsVistaAbove() &&
-                (UIManager.getLookAndFeel() instanceof WindowsLookAndFeel && !(UIManager.getLookAndFeel() instanceof WindowsClassicLookAndFeel)) && XPUtils.isXPStyleOn();
+                (LookAndFeelFactory.isWindowsLookAndFeel(UIManager.getLookAndFeel()) && !LookAndFeelFactory.isWindowsClassicLookAndFeel(UIManager.getLookAndFeel())) && XPUtils.isXPStyleOn();
     }
 
     public void fillBackground(JComponent c, Graphics g, Rectangle rect, int orientation, int state, Color color) {
