@@ -5,6 +5,15 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.popup.JidePopup;
+import com.jidesoft.swing.event.SearchableEvent;
+import com.jidesoft.swing.event.SearchableListener;
+import com.jidesoft.utils.DefaultWildcardSupport;
+import com.jidesoft.utils.WildcardSupport;
+
+import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
@@ -15,16 +24,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import javax.swing.*;
-import javax.swing.event.*;
-
-import com.jidesoft.plaf.UIDefaultsLookup;
-import com.jidesoft.popup.JidePopup;
-import com.jidesoft.swing.event.SearchableEvent;
-import com.jidesoft.swing.event.SearchableListener;
-import com.jidesoft.utils.DefaultWildcardSupport;
-import com.jidesoft.utils.WildcardSupport;
 
 /**
  * JList, JTable and JTree are three data-rich components. They can be used to display a huge amount of data so
@@ -1750,7 +1749,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Checks the searching order. By default the searchable starts searching from top to bottom. If this flag is false,
+     * Checks the searching order. By default the searchable starts searching from top to bottom. If this flag is true,
      * it searches from bottom to top.
      *
      * @return the reverseOrder flag.
@@ -1760,7 +1759,7 @@ public abstract class Searchable {
     }
 
     /**
-     * Sets the searching order. By default the searchable starts searching from top to bottom. If this flag is false,
+     * Sets the searching order. By default the searchable starts searching from top to bottom. If this flag is true,
      * it searches from bottom to top.
      *
      * @param reverseOrder the flag if searching from top to bottom or from bottom to top

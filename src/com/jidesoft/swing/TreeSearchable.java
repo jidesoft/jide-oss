@@ -8,7 +8,6 @@ package com.jidesoft.swing;
 import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.beans.PropertyChangeEvent;
@@ -76,7 +75,7 @@ public class TreeSearchable extends Searchable implements TreeModelListener, Pro
     /**
      * Sets the recursive attribute.
      * <p/>
-     * If TreeSearchable is recursive, it will all tree nodes including those which are not visible to find the matching
+     * If TreeSearchable is recursive, it will consider all tree nodes including those which are not visible to find the matching
      * node. Obviously, if your tree has unlimited number of tree nodes or a potential huge number of tree nodes (such
      * as a tree to represent file system), the recursive attribute should be false. To avoid this potential problem in
      * this case, we default it to false.
