@@ -1,10 +1,10 @@
 package com.jidesoft.plaf.windows;
 
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.windows.TMSchema.Part;
 import com.jidesoft.plaf.windows.TMSchema.Prop;
 import com.jidesoft.plaf.windows.TMSchema.State;
 import com.jidesoft.plaf.windows.XPStyle.Skin;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import sun.awt.AppContext;
 import sun.security.action.GetBooleanAction;
 
@@ -218,7 +218,7 @@ class AnimationController implements ActionListener, PropertyChangeListener {
 
     public synchronized void propertyChange(PropertyChangeEvent e) {
         if ("lookAndFeel" == e.getPropertyName()
-                && !(e.getNewValue() instanceof WindowsLookAndFeel)) {
+                && !LookAndFeelFactory.isWindowsLookAndFeel((LookAndFeel) e.getNewValue())) {
             dispose();
         }
     }
