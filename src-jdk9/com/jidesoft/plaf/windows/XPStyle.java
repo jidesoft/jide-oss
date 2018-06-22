@@ -11,7 +11,6 @@ import com.jidesoft.utils.ReflectionUtils;
 import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 import com.sun.java.swing.plaf.windows.WindowsComboBoxUI;
 import sun.awt.image.SunWritableRaster;
-import sun.awt.image.SurfaceManager;
 import sun.awt.windows.ThemeReader;
 import sun.security.action.GetPropertyAction;
 import sun.swing.CachedPainter;

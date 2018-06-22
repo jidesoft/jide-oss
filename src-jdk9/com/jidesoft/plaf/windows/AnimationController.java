@@ -1,12 +1,12 @@
 package com.jidesoft.plaf.windows;
 
-import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.plaf.windows.TMSchema.Part;
 import com.jidesoft.plaf.windows.TMSchema.Prop;
 import com.jidesoft.plaf.windows.TMSchema.State;
 import com.jidesoft.plaf.windows.XPStyle.Skin;
 import sun.awt.AppContext;
 import sun.security.action.GetBooleanAction;
+import sun.swing.UIClientPropertyKey;
 
 import javax.swing.*;
 import java.awt.*;
@@ -216,9 +216,35 @@ class AnimationController implements ActionListener, PropertyChangeListener {
         }
     }
 
+    /**
+     * As of Java 10, com.sun.java.swing.plaf.windows.WindowsLookAndFeel is no longer available on macOS thus
+     * "instanceof WindowsLookAndFeel" directives will result in a NoClassDefFoundError during runtime. This method
+     * was introduced to avoid this exception.
+     *
+     * @param lnf
+     * @return true if it is a WindowsLookAndFeel.
+     */
+    public static boolean isWindowsLookAndFeel(LookAndFeel lnf) {
+        if (lnf == null) {
+            return false;
+        }
+        else {
+            try {
+                Class c = Class.forName("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                return c.isInstance(lnf);
+            }
+            catch (ClassNotFoundException cnfe) {
+                // if it is not possible to load the Windows LnF class, the
+                // given lnf instance cannot be an instance of the Windows
+                // LnF class
+                return false;
+            }
+        }
+    }
+
     public synchronized void propertyChange(PropertyChangeEvent e) {
         if ("lookAndFeel" == e.getPropertyName()
-                && !LookAndFeelFactory.isWindowsLookAndFeel((LookAndFeel) e.getNewValue())) {
+                && !isWindowsLookAndFeel((LookAndFeel) e.getNewValue())) {
             dispose();
         }
     }
