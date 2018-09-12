@@ -12,14 +12,17 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
     <version>3.7.4</version>
+
     <packaging>jar</packaging>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://github.com/jidesoft/jide-oss</url>
+
     <licenses>
         <license>
             <name>GPL with classpath exception</name>
@@ -32,6 +35,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <id>jidesoft</id>
@@ -39,8 +43,19 @@
             <email>support@jidesoft.com</email>
         </developer>
     </developers>
+
+    <properties>
+        <!-- path to JDK9+ -->
+        <java9.jdk>/home/bourgesl/apps/jdk-9/</java9.jdk>
+        <java9.sourceDirectory>${project.basedir}/src-jdk9</java9.sourceDirectory>
+        <java9.build.outputDirectory>${project.build.directory}/classes-jdk9</java9.build.outputDirectory>
+        <!-- enable release tasks (javadoc, sources, release) -->
+        <skipRelease>true</skipRelease>
+    </properties>
+
     <build>
-        <sourceDirectory>src,src-jdk6</sourceDirectory>
+        <!-- define base src folder (common) -->
+        <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
                 <directory>src</directory>
@@ -52,16 +67,136 @@
                 </includes>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>	
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <!-- add src-jdk8 and src-apple for JDK8 build -->
+                            <sources>
+                                <source>src-jdk8</source>
+                                <source>src-apple</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>compile-java9</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <!-- build JDK9+ specific classes -->
+
+                                <mkdir dir="${java9.build.outputDirectory}" />
+                                <javac srcdir="${java9.sourceDirectory}"
+                                       destdir="${java9.build.outputDirectory}"
+                                       classpath="${project.build.outputDirectory}"
+                                       includeantruntime="false"
+                                       executable="${java9.jdk}/bin/javac" fork="true">
+
+                                    <compilerarg value="--add-exports"/>
+                                    <compilerarg value="java.desktop/com.sun.java.swing.plaf.windows=ALL-UNNAMED"/>
+                                    <compilerarg value="--add-exports"/>
+                                    <compilerarg value="java.desktop/sun.swing=ALL-UNNAMED"/>
+                                    <compilerarg value="--add-exports"/>
+                                    <compilerarg value="java.desktop/sun.awt.image=ALL-UNNAMED"/>
+                                    <compilerarg value="--add-exports"/>
+                                    <compilerarg value="java.desktop/sun.awt.windows=ALL-UNNAMED"/>
+                                    <compilerarg value="--add-exports"/>
+                                    <compilerarg value="java.base/sun.security.action=ALL-UNNAMED"/>
+
+                                    <!-- useless extra arguments (see Readme JDK9.txt) -->
+                                    <!--
+                                    -add-exports java.desktop/javax.swing.plaf.synth=ALL-UNNAMED
+                                    -add-exports java.desktop/sun.awt=ALL-UNNAMED
+                                    -add-exports java.desktop/sun.awt.shell=ALL-UNNAMED
+                                    -add-exports java.desktop/sun.awt.dnd=ALL-UNNAMED
+                                    -->
+                                </javac>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- copy JDK9+ specific classes into main classes (version 9+)-->
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${java9.build.outputDirectory}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>apple/**</exclude>
+                        <exclude>com/apple/**</exclude>
+                    </excludes>
+                    <archive>
+                        <!-- enable Multi-Release Jar file -->
+                        <manifestEntries>
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <skip>${skipRelease}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -72,6 +207,10 @@
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <skip>${skipRelease}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -89,11 +228,12 @@
             </extension>
         </extensions>
     </build>
+
     <profiles>
         <profile>
             <id>aqua</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>!${skipRelease}</activeByDefault>
                 <property>
                     <name>performRelease</name>
                     <value>true</value>
@@ -123,12 +263,14 @@
             </build>
         </profile>
     </profiles>
+
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
+
     <scm>
         <connection>scm:git:git://github.com/jidesoft/jide-oss.git</connection>
         <developerConnection>scm:git:https://jidesoft@github.com/jidesoft/jide-oss.git</developerConnection>
