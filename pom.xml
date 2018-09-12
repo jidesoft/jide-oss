@@ -195,7 +195,7 @@
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
-                    <skip>${skipRelease}</skip>
+                    <skipSource>${skipRelease}</skipSource>
                 </configuration>
                 <executions>
                     <execution>
