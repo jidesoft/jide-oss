@@ -957,7 +957,7 @@ public class BasicJideSplitButtonUI extends VsnetMenuUI {
         // Note: This method is almost identical to the same method in WindowsMenuItemUI
         ButtonModel model = menuItem.getModel();
 
-        FontMetrics fm = g.getFontMetrics();
+        FontMetrics fm = menuItem.getFontMetrics(menuItem.getFont());
         if (!(menuItem instanceof JMenu) || !((JMenu) menuItem).isTopLevelMenu()) {
             int defaultTextIconGap = UIDefaultsLookup.getInt("MenuItem.textIconGap");
             int defaultShadowWidth = UIDefaultsLookup.getInt("MenuItem.shadowWidth");

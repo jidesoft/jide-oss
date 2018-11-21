@@ -1086,7 +1086,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
             font = font.deriveFont(Font.BOLD);
         }
 
-        FontMetrics metrics = g.getFontMetrics(font);
+        FontMetrics metrics = _tabPane.getFontMetrics(font);
 
 //        while (title == null || title.length() < 3)
 //            title += " ";

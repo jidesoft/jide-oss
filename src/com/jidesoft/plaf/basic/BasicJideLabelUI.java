@@ -67,7 +67,7 @@ public class BasicJideLabelUI extends BasicLabelUI {
             return;
         }
 
-        FontMetrics fm = g.getFontMetrics();
+        FontMetrics fm = c.getFontMetrics(c.getFont());
         paintViewInsets = c.getInsets(paintViewInsets);
 
         paintViewR.x = paintViewInsets.left;

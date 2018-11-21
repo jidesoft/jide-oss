@@ -262,7 +262,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         }
 
 
-        FontMetrics fm = g.getFontMetrics();
+        FontMetrics fm = c.getFontMetrics(c.getFont());
 
         Insets i = c.getInsets();
 
@@ -412,7 +412,7 @@ public class BasicJideButtonUI extends JideButtonUI {
         }
 
         ButtonModel model = b.getModel();
-        FontMetrics fm = g.getFontMetrics();
+        FontMetrics fm = c.getFontMetrics(c.getFont());
         // JDK PORTING HINT
         // JDK1.3: No getDisplayedMnemonicIndex, use getMnemonic
         int mnemonicIndex = b.getDisplayedMnemonicIndex();
