@@ -53,20 +53,17 @@
         <skipRelease>true</skipRelease>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <!-- define base src folder (common) -->
-        <sourceDirectory>src</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.gif</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.png</include>
-                </includes>
-            </resource>
-        </resources>
 
         <plugins>
             <plugin>
@@ -82,8 +79,8 @@
                         <configuration>
                             <!-- add src-jdk8 and src-apple for JDK8 build -->
                             <sources>
-                                <source>src-jdk8</source>
-                                <source>src-apple</source>
+                                <source>src/main/jdk8</source>
+                                <source>src/main/apple</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -96,52 +93,6 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>compile-java9</id>
-                        <phase>compile</phase>
-                        <configuration>
-                            <tasks>
-                                <!-- build JDK9+ specific classes -->
-
-                                <mkdir dir="${java9.build.outputDirectory}" />
-                                <javac srcdir="${java9.sourceDirectory}"
-                                       destdir="${java9.build.outputDirectory}"
-                                       classpath="${project.build.outputDirectory}"
-                                       includeantruntime="false"
-                                       executable="${java9.jdk}/bin/javac" fork="true">
-
-                                    <compilerarg value="--add-exports"/>
-                                    <compilerarg value="java.desktop/com.sun.java.swing.plaf.windows=ALL-UNNAMED"/>
-                                    <compilerarg value="--add-exports"/>
-                                    <compilerarg value="java.desktop/sun.swing=ALL-UNNAMED"/>
-                                    <compilerarg value="--add-exports"/>
-                                    <compilerarg value="java.desktop/sun.awt.image=ALL-UNNAMED"/>
-                                    <compilerarg value="--add-exports"/>
-                                    <compilerarg value="java.desktop/sun.awt.windows=ALL-UNNAMED"/>
-                                    <compilerarg value="--add-exports"/>
-                                    <compilerarg value="java.base/sun.security.action=ALL-UNNAMED"/>
-
-                                    <!-- useless extra arguments (see Readme JDK9.txt) -->
-                                    <!--
-                                    -add-exports java.desktop/javax.swing.plaf.synth=ALL-UNNAMED
-                                    -add-exports java.desktop/sun.awt=ALL-UNNAMED
-                                    -add-exports java.desktop/sun.awt.shell=ALL-UNNAMED
-                                    -add-exports java.desktop/sun.awt.dnd=ALL-UNNAMED
-                                    -->
-                                </javac>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
