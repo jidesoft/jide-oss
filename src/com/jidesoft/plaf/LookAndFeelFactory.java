@@ -1871,7 +1871,7 @@ public class LookAndFeelFactory implements ProductNames {
                 Class c = Class.forName(WINDOWS_LNF);
                 return c.isInstance(lnf);
             }
-            catch (ClassNotFoundException cnfe) {
+            catch (ClassNotFoundException | NoClassDefFoundError ignore) {
                 // if it is not possible to load the Windows LnF class, the
                 // given lnf instance cannot be an instance of the Windows
                 // LnF class
@@ -1897,7 +1897,7 @@ public class LookAndFeelFactory implements ProductNames {
                 Class c = Class.forName(WINDOWS_CLASSIC_LNF);
                 return c.isInstance(lnf);
             }
-            catch (ClassNotFoundException cnfe) {
+            catch (ClassNotFoundException | NoClassDefFoundError ignore) {
                 // if it is not possible to load the Windows LnF class, the
                 // given lnf instance cannot be an instance of the Windows
                 // LnF class
