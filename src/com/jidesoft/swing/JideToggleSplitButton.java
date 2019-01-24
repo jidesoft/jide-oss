@@ -157,10 +157,10 @@ public class JideToggleSplitButton extends JideSplitButton implements Accessible
     private void updateSelectedKey() {
         if (shouldUpdateSelectedStateFromAction()) {
             Action action = getAction();
-            if (action != null && action.getValue(Action.SELECTED_KEY) != null) {
+            if (action != null) {
                 boolean selected = isSelected();
-                boolean isActionSelected = Boolean.TRUE.equals(action.getValue(Action.SELECTED_KEY));
-                if (isActionSelected != selected) {
+                Object existingKey = action.getValue(Action.SELECTED_KEY);
+                if (existingKey == null || Boolean.TRUE.equals(existingKey) != selected) {
                     action.putValue(Action.SELECTED_KEY, selected);
                 }
             }
