@@ -69,7 +69,7 @@ public class Office2007Painter extends BasicPainter {
 
     public void installDefaults() {
         Boolean highContrast = UIManager.getBoolean("Theme.highContrast");
-        if (highContrast) {
+        if (highContrast) {           
             super.installDefaults();
         }
     }
