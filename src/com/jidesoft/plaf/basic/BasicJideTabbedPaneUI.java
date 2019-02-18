@@ -7998,15 +7998,17 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         @Override
         public Dimension getPreferredSize() {
-            if (_rects.length <= 0) {
+            if (_rects == null || _rects.length <= 0) {
                 return new Dimension(0, 0);
             }
-            if (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM) {
-                if (_tabPane.getComponentOrientation().isLeftToRight()) {
-                    return new Dimension(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width + 10, _rects[0].y + _rects[0].height);
-                }
-                else {
-                    return new Dimension(_rects[0].x + _rects[0].width + getLeftMargin(), _rects[0].y + _rects[0].height);
+            if (_tabPane != null && (_tabPane.getTabPlacement() == TOP || _tabPane.getTabPlacement() == BOTTOM)) {
+                ComponentOrientation componentOrientation = _tabPane.getComponentOrientation();
+                if (componentOrientation == null || componentOrientation.isLeftToRight()) {
+                    return new Dimension(_rects[_rects.length - 1].x + _rects[_rects.length - 1].width + 10,
+                                         _rects[0].y + _rects[0].height);
+                } else {
+                    return new Dimension(_rects[0].x + _rects[0].width + getLeftMargin(),
+                                         _rects[0].y + _rects[0].height);
                 }
             }
             else {
