@@ -701,7 +701,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
         int defaultFontSize = font.getSize();
 
         synchronized (_styledTexts) {
-            String nextS;
+            String nextS = "";
             int maxRowHeight = fm.getHeight();
             int minStartY = fm.getAscent();
             int horizontalAlignment = label.getHorizontalAlignment();
@@ -911,7 +911,7 @@ public class BasicStyledLabelUI extends BasicLabelUI implements SwingConstants {
                     else {
                         nextFm2 = fm;
                     }
-                    if (nextFm2.stringWidth(nextText) > widthLeft - strWidth) {
+                    if (nextS.equals("...")) {
                         nextS = SwingUtilities.layoutCompoundLabel(label, nextFm2, nextText, null, label.getVerticalAlignment(), label.getHorizontalAlignment(),
                                 label.getVerticalTextPosition(), label.getHorizontalTextPosition(), new Rectangle(x + strWidth, y, widthLeft - strWidth, labelHeight), new Rectangle(), new Rectangle(), 0);
                         if (nextFm2.stringWidth(nextS) > widthLeft - strWidth) {

@@ -36,10 +36,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.security.AccessControlException;
 import java.util.*;
 import java.util.List;
@@ -4339,5 +4336,72 @@ public class JideSwingUtilities implements SwingConstants {
             popup.show(invoker, x - popup.getPreferredSize().width, y);
         }
 
+    }
+
+    public static final boolean JETBRAINS_JRE = System.getProperty("java.vendor").toLowerCase().contains("jetbrains");
+
+    public static Double cachedScaleFactor = null;
+
+    public static boolean isIntegerScaleFactor(Graphics2D g) {
+        double scaleFactor = getScaleFactor(g);
+        return Math.floor(scaleFactor) == scaleFactor;
+    }
+
+    public static double getScaleFactor(Graphics2D g) {
+        if (g == null) {
+            throw new NullPointerException("graphics is null");
+        }
+        GraphicsConfiguration deviceConfiguration = g.getDeviceConfiguration();
+        if (deviceConfiguration == null) {
+            throw new NullPointerException("deviceConfiguration is null");
+        }
+        double scale = deviceConfiguration.getDefaultTransform().getScaleX();
+        if (SystemInfo.isMacOSX() && scale == 1f && !JETBRAINS_JRE) {
+            if (cachedScaleFactor == null) {
+                initCachedScaleFactor();
+            }
+            return cachedScaleFactor;
+        }
+
+        return scale;
+    }
+
+    private static void initCachedScaleFactor() {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = graphicsEnvironment.getDefaultScreenDevice();
+        cachedScaleFactor = 1d;
+        try {
+            Field field = device.getClass().getDeclaredField("scale");
+            if (field != null) {
+                field.setAccessible(true);
+                Object scaleValue = field.get(device);
+                if (scaleValue instanceof Integer && (Integer)scaleValue == 2) {
+                    cachedScaleFactor = 2d;
+                }
+            }
+        } catch (Exception ignore) {
+        }
+    }
+
+    public static void withFractionalAntiAliasing(Graphics g, Runnable r) {
+        withFractionalAntiAliasing(g, RenderingHints.VALUE_ANTIALIAS_ON, r);
+    }
+
+    public static void withoutFractionalAntiAliasing(Graphics g, Runnable r) {
+        withFractionalAntiAliasing(g, RenderingHints.VALUE_ANTIALIAS_OFF, r);
+    }
+
+    public static void withFractionalAntiAliasing(Graphics g, Object value, Runnable r) {
+        Graphics2D g2 = (Graphics2D)g;
+        boolean fractionalScale = !isIntegerScaleFactor(g2);
+        Object oldAntiAliasingHint = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+        if (fractionalScale) {
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, value);
+        }
+        try {
+            r.run();
+        } finally {
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAntiAliasingHint);
+        }
     }
 }

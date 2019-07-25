@@ -110,4 +110,14 @@ public class StringUtils {
         }
         return new StringRange(min, max);
     }
+
+    public static int countChar(char c, String text) {
+        int count = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (c == text.charAt(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
