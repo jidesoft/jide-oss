@@ -180,8 +180,7 @@ public class PortingUtils {
             bounds.width -= insets.left + insets.right;
             bounds.height -= insets.top + insets.bottom;
             return bounds.getSize();
-        }
-        else {
+        } else {
             return getScreenSize(invoker);
         }
     }
@@ -231,8 +230,20 @@ public class PortingUtils {
      * @return the screen bounds.
      */
     public static Rectangle getLocalScreenBounds() {
-        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return e.getMaximumWindowBounds();
+        Rectangle bounds;
+        try {
+            // use this because it takes into account areas
+            // like the taskbar, but it can throw
+            // a "Window must not be zero" if there are 3 monitors
+            // on Linux with some newer Java versions, see
+            // https://github.com/lbalazscs/Pixelitor/issues/15
+            bounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getMaximumWindowBounds();
+        } catch (Exception e) {
+            return new Rectangle(new Point(0, 0), Toolkit.getDefaultToolkit().getScreenSize());
+        }
+
+        return bounds;
     }
 
     private static Rectangle getScreenBounds() {
@@ -253,18 +264,23 @@ public class PortingUtils {
      * call this method in the class where you will use those three methods. This method will spawn a thread to retrieve
      * device information thus it will return immediately. Hopefully, when you use the three methods, the thread is done
      * so user will not notice any slowness.
+     *
      * @deprecated Call GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()
      */
-    @Deprecated synchronized public static void initializeScreenArea() {
+    @Deprecated
+    synchronized public static void initializeScreenArea() {
         initializeScreenArea(Thread.NORM_PRIORITY);
     }
 
     /**
      * Invalidate the screen area so that initializeScreenArea will discard the cache and recalculate the screen bounds. Only call this when
      * you detect the screen display setting changed on the system.
+     *
      * @deprecated Cache no longer used.
      */
-    @Deprecated synchronized public static void invalidateScreenArea() {}
+    @Deprecated
+    synchronized public static void invalidateScreenArea() {
+    }
 
     /**
      * If you use methods such as {@link #ensureOnScreen(java.awt.Rectangle)}, {@link
@@ -282,7 +298,8 @@ public class PortingUtils {
      *                 3. If user clicks on the drop down after the thread finished, there will be no time delay.
      * @deprecated Call GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()
      */
-    @Deprecated synchronized public static void initializeScreenArea(int priority) {
+    @Deprecated
+    synchronized public static void initializeScreenArea(int priority) {
         final Thread _initializationThread = new Thread() {
             @Override
             public void run() {
@@ -290,25 +307,33 @@ public class PortingUtils {
             }
         };
 
-          _initializationThread.setPriority(priority);
-          if (INITIALIZE_SCREEN_AREA_USING_THREAD) {
-              _initializationThread.start();
-          }
-          else {
-              _initializationThread.run();
-          }
+        _initializationThread.setPriority(priority);
+        if (INITIALIZE_SCREEN_AREA_USING_THREAD) {
+            _initializationThread.start();
+        } else {
+            _initializationThread.run();
+        }
     }
 
-    /** @deprecated No longer used. */
-    @Deprecated public static boolean INITIALIZE_SCREEN_AREA_USING_THREAD = true;
+    /**
+     * @deprecated No longer used.
+     */
+    @Deprecated
+    public static boolean INITIALIZE_SCREEN_AREA_USING_THREAD = true;
 
-    /** @deprecated No longer used. */
-    @Deprecated public static boolean isInitializationThreadAlive() {
+    /**
+     * @deprecated No longer used.
+     */
+    @Deprecated
+    public static boolean isInitializationThreadAlive() {
         return false;
     }
 
-    /** @deprecated No longer used. */
-    @Deprecated public static boolean isInitializationThreadStarted() {
+    /**
+     * @deprecated No longer used.
+     */
+    @Deprecated
+    public static boolean isInitializationThreadStarted() {
         return false;
 
     }
@@ -386,8 +411,7 @@ public class PortingUtils {
             rect.x = (SCREENS[0].width - rect.width) / 2;
             rect.y = (SCREENS[0].height - rect.height) / 2;
             return rect;
-        }
-        else {
+        } else {
             // move rect so it is completely on a single screen
             // check X
             int rectRight = rect.x + rect.width;
@@ -467,46 +491,41 @@ public class PortingUtils {
      * @return Union of all screens
      */
     public static Area getScreenArea() {
-          Area SCREEN_AREA = new Area();
-          GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-          GraphicsDevice[] screenDevices = environment.getScreenDevices();
-          for (GraphicsDevice device : screenDevices) {
-              GraphicsConfiguration configuration = device.getDefaultConfiguration();
-              Rectangle screenBounds = configuration.getBounds();
-              SCREEN_AREA.add(new Area(screenBounds));
-          }
-          return SCREEN_AREA;
+        Area SCREEN_AREA = new Area();
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] screenDevices = environment.getScreenDevices();
+        for (GraphicsDevice device : screenDevices) {
+            GraphicsConfiguration configuration = device.getDefaultConfiguration();
+            Rectangle screenBounds = configuration.getBounds();
+            SCREEN_AREA.add(new Area(screenBounds));
+        }
+        return SCREEN_AREA;
     }
 
     private static Rectangle[] getScreens() {
-          GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-          List<Rectangle> screensList = new ArrayList<Rectangle>();
-          GraphicsDevice[] screenDevices = environment.getScreenDevices();
-          for (GraphicsDevice device : screenDevices) {
-              GraphicsConfiguration configuration = device.getDefaultConfiguration();
-              Rectangle screenBounds = configuration.getBounds();
-              screensList.add(screenBounds);
-          }
-          return screensList.toArray(new Rectangle[screensList.size()]);
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        List<Rectangle> screensList = new ArrayList<Rectangle>();
+        GraphicsDevice[] screenDevices = environment.getScreenDevices();
+        for (GraphicsDevice device : screenDevices) {
+            GraphicsConfiguration configuration = device.getDefaultConfiguration();
+            Rectangle screenBounds = configuration.getBounds();
+            screensList.add(screenBounds);
+        }
+        return screensList.toArray(new Rectangle[screensList.size()]);
     }
 
     private static Insets[] getInsets() {
-          GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-          List<Insets> insetsList = new ArrayList<Insets>();
-          GraphicsDevice[] screenDevices = environment.getScreenDevices();
-          for (GraphicsDevice device : screenDevices) {
-              GraphicsConfiguration configuration = device.getDefaultConfiguration();
-              Rectangle screenBounds = configuration.getBounds();
-              Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(configuration);
-              insetsList.add(insets);
-          }
-          return insetsList.toArray(new Insets[insetsList.size()]);
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        List<Insets> insetsList = new ArrayList<Insets>();
+        GraphicsDevice[] screenDevices = environment.getScreenDevices();
+        for (GraphicsDevice device : screenDevices) {
+            GraphicsConfiguration configuration = device.getDefaultConfiguration();
+            Rectangle screenBounds = configuration.getBounds();
+            Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(configuration);
+            insetsList.add(insets);
+        }
+        return insetsList.toArray(new Insets[insetsList.size()]);
     }
-
-
-
-
-
 
 
     /**
@@ -562,8 +581,7 @@ public class PortingUtils {
     public static void setPreferredSize(Component component, Dimension size) {
         if (SystemInfo.isJdk15Above()) {
             component.setPreferredSize(size);
-        }
-        else if (component instanceof JComponent) {
+        } else if (component instanceof JComponent) {
             //noinspection RedundantCast
             ((JComponent) component).setPreferredSize(size);
         }
@@ -580,8 +598,7 @@ public class PortingUtils {
     public static void setMinimumSize(Component component, Dimension size) {
         if (SystemInfo.isJdk15Above()) {
             component.setMinimumSize(size);
-        }
-        else if (component instanceof JComponent) {
+        } else if (component instanceof JComponent) {
             //noinspection RedundantCast
             ((JComponent) component).setMinimumSize(size);
         }
