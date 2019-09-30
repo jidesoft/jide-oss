@@ -635,8 +635,8 @@ final public class SystemInfo {
         /**
          * For example: 1.6.0_12: Group 1 = major version (1.6) Group 3 = minor version (0) Group 5 = build number (12)
          */
-        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(_([^-]+))?(.*)");
-        private static Pattern SUN_JAVA_VERSION_SIMPLE = Pattern.compile("(\\d+\\.\\d+)(\\.(\\d+))?(.*)");
+        private static Pattern SUN_JAVA_VERSION = Pattern.compile("(\\d+(?:\\.\\d+)?)(\\.(\\d+))?(_([^-]+))?(.*)");
+        private static Pattern SUN_JAVA_VERSION_SIMPLE = Pattern.compile("(\\d+(?:\\.\\d+)?)(\\.(\\d+))?(.*)");
 
         private double _majorVersion;
         private int _minorVersion;
