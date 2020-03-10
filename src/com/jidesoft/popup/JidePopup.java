@@ -2027,11 +2027,15 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         hidePopup(false);
     }
 
-    public void hidePopup(boolean cancelled) {
+    /**
+     * Hides the popup.
+     * @param canceled true means the popup menu is canceled, thus firePopupMenuCanceled will be called. Otherwise only firePopupMenuWillBecomeInvisible will be called.
+     */
+    public void hidePopup(boolean canceled) {
         if (!isPopupVisible()) {
             return;
         }
-        hidePopupImmediately(cancelled);
+        hidePopupImmediately(canceled);
     }
 
     public boolean isPopupVisible() {
@@ -2054,7 +2058,7 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
         return null;
     }
 
-    public void hidePopupImmediately(boolean cancelled) {
+    public void hidePopupImmediately(boolean canceled) {
         Component owner = getActualOwner();
         if (owner != null) {
             owner.removeHierarchyListener(_hierarchyListener);
@@ -2087,14 +2091,14 @@ public class JidePopup extends JComponent implements Accessible, WindowConstants
             _window.removeComponentListener(_componentListener);
             _componentListener = null;
             _window.getContentPane().remove(this);
-            if (cancelled) {
+            if (canceled ) {
                 firePopupMenuCanceled(); // will cause hidePopupImmediately called again.
             }
             firePopupMenuWillBecomeInvisible();
         }
         if (_panel != null) {
             _panel.remove(this);
-            if (cancelled) {
+            if (canceled ) {
                 firePopupMenuCanceled(); // will cause hidePopupImmediately called again.
             }
             firePopupMenuWillBecomeInvisible();
