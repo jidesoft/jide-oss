@@ -436,7 +436,7 @@ public class MultiplePageDialog extends StandardDialog {
             private static final long serialVersionUID = 2671605366801733356L;
 
             public void actionPerformed(ActionEvent e) {
-                setDialogResult(RESULT_CANCELLED);
+                setDialogResult(RESULT_CANCELED);
                 setVisible(false);
                 dispose();
             }

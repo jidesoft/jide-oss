@@ -42,6 +42,11 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
     /**
      * Dialog result.
      */
+    public static final int RESULT_CANCELED = -1;
+    /**
+     * IT has a typo and was replaced with RESULT_CANCELED.
+     */
+    @Deprecated
     public static final int RESULT_CANCELLED = -1;
 
     /**
@@ -51,7 +56,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
 
 
     // indicate user press OK or Cancel.
-    private int _dialogResult = RESULT_CANCELLED;
+    private int _dialogResult = RESULT_CANCELED;
     public StandardDialogPropertyChangeListener _propertyChangeListener;
 
     public StandardDialog() {
@@ -345,7 +350,7 @@ abstract public class StandardDialog extends JDialog implements ButtonNames {
             private static final long serialVersionUID = 7131352846873132805L;
 
             public void actionPerformed(ActionEvent e) {
-                setDialogResult(RESULT_CANCELLED);
+                setDialogResult(RESULT_CANCELED);
                 setVisible(false);
             }
         };
