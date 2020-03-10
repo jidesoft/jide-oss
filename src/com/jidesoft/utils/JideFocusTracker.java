@@ -9,6 +9,7 @@ package com.jidesoft.utils;
  */
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -97,23 +98,31 @@ public class JideFocusTracker {
 ////////////////////////////////////////////////////////////////////////////////
 
     protected void addInternalListeners(Component component) {
-        component.addFocusListener(listenerFocus);
-        if (component instanceof Container) {
-            Container container = (Container) component;
-            container.addContainerListener(listenerContainer);
-            for (int i = 0; i < container.getComponentCount(); i++) {
-                addInternalListeners(container.getComponent(i));
+        if(!isExcludedComponent(component)) {
+            component.addFocusListener(listenerFocus);
+            if (component instanceof Container) {
+                Container container = (Container) component;
+                container.addContainerListener(listenerContainer);
+                for (int i = 0; i < container.getComponentCount(); i++) {
+                    addInternalListeners(container.getComponent(i));
+                }
             }
         }
     }
 
+    protected boolean isExcludedComponent(Component component) {
+        return component instanceof CellRendererPane;
+    }
+
     protected void removeInternalListeners(Component component) {
-        component.removeFocusListener(listenerFocus);
-        if (component instanceof Container) {
-            Container container = (Container) component;
-            container.removeContainerListener(listenerContainer);
-            for (int i = 0; i < container.getComponentCount(); i++) {
-                removeInternalListeners(container.getComponent(i));
+        if(!isExcludedComponent(component)) {
+            component.removeFocusListener(listenerFocus);
+            if (component instanceof Container) {
+                Container container = (Container) component;
+                container.removeContainerListener(listenerContainer);
+                for (int i = 0; i < container.getComponentCount(); i++) {
+                    removeInternalListeners(container.getComponent(i));
+                }
             }
         }
     }
