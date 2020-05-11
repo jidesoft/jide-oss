@@ -725,6 +725,10 @@ public class JideTabbedPane extends JTabbedPane {
         _layoutTrailingComponentBeforeButtons = layoutTrailingComponentBeforeButtons;
     }
 
+    protected boolean isTabEditingAllowed(int tabIndex) {
+        return true;
+    }
+
     /*
       * Used to allow the tabswitching to be delayed until after drag/reorder opperations are done.
       */

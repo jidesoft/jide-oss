@@ -9415,7 +9415,7 @@ public class BasicJideTabbedPaneUI extends JideTabbedPaneUI implements SwingCons
 
         if (!e.isPopupTrigger() && tabIndex >= 0
                 && _tabPane.isEnabledAt(tabIndex)
-                && _tabPane.isTabEditingAllowed() && (e.getClickCount() == 2)) {
+                && _tabPane.isTabEditingAllowed() && _tabPane.isTabEditingAllowed(tabIndex) && (e.getClickCount() == 2)) {
             boolean shouldEdit = true;
             if (_tabPane.getTabEditingValidator() != null)
                 shouldEdit = _tabPane.getTabEditingValidator().shouldStartEdit(tabIndex, e);
