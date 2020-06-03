@@ -725,7 +725,7 @@ public class JideTabbedPane extends JTabbedPane {
         _layoutTrailingComponentBeforeButtons = layoutTrailingComponentBeforeButtons;
     }
 
-    protected boolean isTabEditingAllowed(int tabIndex) {
+    public boolean isTabEditingAllowed(int tabIndex) {
         return true;
     }
 
