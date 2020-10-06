@@ -12,6 +12,7 @@ import com.jidesoft.swing.FolderChooser;
 import com.jidesoft.swing.JideBoxLayout;
 import com.jidesoft.swing.SelectAllUtils;
 import com.jidesoft.utils.SystemInfo;
+import sun.awt.shell.ShellFolder;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -27,7 +28,6 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
@@ -542,21 +542,14 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
      * @return <code>true</code> if <code>f</code> is a real file or directory.
      */
     public static boolean isFileSystem(File f) {
-        return !isShellFolder(f) && !(isLink(f) && f.isDirectory());
-    }
-
-    /**
-     * @return Whether this is a file system shell folder
-     */
-    private static boolean isShellFolder(File f) {
-        return f.getPath().startsWith("ShellFolder");
-    }
-
-    private static boolean isLink(File f) {
-        try {
-            return !f.getCanonicalPath().startsWith(f.getParentFile().getCanonicalPath());
-        } catch (IOException e) {
-            return false;
+        if (f instanceof ShellFolder) {
+            ShellFolder sf = (ShellFolder) f;
+            // Shortcuts to directories are treated as not being file system objects,
+            // so that they are never returned by JFileChooser.
+            return sf.isFileSystem() && !(sf.isLink() && sf.isDirectory());
+        }
+        else {
+            return true;
         }
     }
 
@@ -702,9 +695,9 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
                     _folderChooser.setSelectedFolder(folder);
 
                     /*
-                     * Ensure the _navigationTextField is in sync with the folder tree. That is, each time a folder is
-                     * selected in the tree, update the text field to reflect this.
-                     */
+                    * Ensure the _navigationTextField is in sync with the folder tree. That is, each time a folder is
+                    * selected in the tree, update the text field to reflect this.
+                    */
                     TreePath treePath = _fileSystemTree.getSelectionPath();
                     if (treePath != null) {
                         _navigationTextField.setText("" + treePath.getLastPathComponent());
