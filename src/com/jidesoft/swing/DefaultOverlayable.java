@@ -175,18 +175,18 @@ public class DefaultOverlayable extends JPanel implements Overlayable, Component
 
         // adjust the location based on the orientation
         if (overlayLocation == LEADING) {
-            if (component.getComponentOrientation() == ComponentOrientation.LEFT_TO_RIGHT) {
+            if (component.getComponentOrientation().isLeftToRight()) {
                 overlayLocation = WEST;
             }
-            else if (component.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+            else {
                 overlayLocation = EAST;
             }
         }
         else if (overlayLocation == TRAILING) {
-            if (component.getComponentOrientation() == ComponentOrientation.LEFT_TO_RIGHT) {
+            if (component.getComponentOrientation().isLeftToRight()) {
                 overlayLocation = EAST;
             }
-            else if (component.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT) {
+            else {
                 overlayLocation = WEST;
             }
         }
