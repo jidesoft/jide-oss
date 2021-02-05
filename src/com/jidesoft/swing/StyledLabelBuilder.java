@@ -454,15 +454,22 @@ public class StyledLabelBuilder {
         // Number of characters to check
         int len = text.length - offset;
 
+        boolean escaped = false;
         // Scan forwards
         for (int i = 0; i < len; i++, offset++) {
+            if (escaped) {
+                escaped = false;
+                continue;
+            }
             // If text[i] == c, we have found another
             // opening bracket, therefore we will need
             // two closing brackets to complete the
             // match.
             char x = text[offset];
-
-            if (x == '{') {
+            if (x == '\\') {
+                escaped = true;
+            }
+            else if (x == '{') {
                 count++;
             }
 
