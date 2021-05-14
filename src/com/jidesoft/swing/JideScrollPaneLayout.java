@@ -987,16 +987,18 @@ public class JideScrollPaneLayout extends ScrollPaneLayout implements JideScroll
                     Rectangle rect = new Rectangle(vsbR);
                     if (_vTop != null) {
                         Dimension dim = _vTop.getPreferredSize();
-                        rect.y += dim.height;
-                        rect.height -= dim.height;
+                        int overlapIntoVsb = Math.max(0, dim.height - (vsbR.y - insets.top));
+                        rect.y += overlapIntoVsb;
+                        rect.height -= overlapIntoVsb;
                         _vTop.setVisible(true);
-                        _vTop.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y, vsbR.width, dim.height), ltr));
+                        _vTop.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, insets.top, vsbR.width, dim.height), ltr));
                     }
                     if (_vBottom != null) {
                         Dimension dim = _vBottom.getPreferredSize();
-                        rect.height -= dim.height;
+                        int overlapIntoVsb = Math.max(0, (vsbR.y + vsbR.height + insets.bottom + dim.height - scrollPane.getHeight()));
+                        rect.height -= overlapIntoVsb;
                         _vBottom.setVisible(true);
-                        _vBottom.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, vsbR.y + vsbR.height - dim.height, vsbR.width, dim.height), ltr));
+                        _vBottom.setBounds(adjustBounds(parent, new Rectangle(vsbR.x, scrollPane.getHeight() - insets.bottom - dim.height, vsbR.width, dim.height), ltr));
                     }
                     vsb.setBounds(adjustBounds(parent, rect, ltr));
                 }
