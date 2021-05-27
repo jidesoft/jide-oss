@@ -1718,6 +1718,9 @@ public class JideTabbedPane extends JTabbedPane {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value instanceof JideTabbedPane) {
                 JideTabbedPane tabbedPane = (JideTabbedPane) value;
+                if(tabbedPane.getTabCount() == 0 || tabbedPane.getTabCount() <= index) {
+                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                }
                 String title = tabbedPane.getTitleAt(index);
                 String tooltip = tabbedPane.getToolTipTextAt(index);
                 Icon icon = tabbedPane.getIconForTab(index);
