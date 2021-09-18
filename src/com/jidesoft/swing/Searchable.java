@@ -528,7 +528,9 @@ public abstract class Searchable {
         if (_focusListener == null) {
             _focusListener = createFocusListener();
         }
-        getComponent().addFocusListener(_focusListener);
+        if(_focusListener != null) {
+            getComponent().addFocusListener(_focusListener);
+        }
         if (_searchableListener == null) {
             _searchableListener = new SearchableListener() {
                 public void searchableEventFired(SearchableEvent e) {
@@ -631,7 +633,14 @@ public abstract class Searchable {
             public void focusLost(FocusEvent focusevent) {
                 boolean passive = _searchableProvider == null || _searchableProvider.isPassive();
                 if (passive) {
-                    hidePopup();
+                    Timer timer = new Timer(1000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            hidePopup();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
                 }
             }
         };
