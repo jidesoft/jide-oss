@@ -65,7 +65,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
                 comboBox, new BasicJideComboBoxIcon(),
                 comboBox.isEditable(),
                 currentValuePane, listBox);
-        button.setMargin(new Insets(1, 3, 0, 4));
+        button.setMargin(new Insets(1, 3, 0, 3));
         button.setFocusPainted(comboBox.isEditable());
         button.addMouseListener(_rolloverListener);
         return button;
@@ -87,10 +87,40 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
     @Override
     public void configureEditor() {
         if (editor instanceof JComponent) {
-            ((JComponent) editor).setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
+            ((JComponent) editor).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         }
         editor.addMouseListener(_rolloverListener);
         editor.addFocusListener(_rolloverListener);
+    }
+
+    @Override
+    public Dimension getMinimumSize( JComponent c ) {
+        if ( !isMinimumSizeDirty ) {
+            return new Dimension(cachedMinimumSize);
+        }
+
+        Dimension size = getDisplaySize();
+        Insets insets = getInsets();
+        int buttonHeight = size.height;
+        int buttonWidth;
+        if (arrowButton instanceof BasicJideComboBoxButton) {
+            Icon icon = ((BasicJideComboBoxButton) arrowButton).getComboIcon();
+            Insets buttonInsets = arrowButton.getInsets();
+            buttonWidth = icon.getIconWidth() + buttonInsets.left + buttonInsets.right;
+        }
+        else {
+            buttonWidth = squareButton ? buttonHeight : arrowButton.getPreferredSize().width;
+        }
+
+        //calculate the width and height of the button
+        //adjust the size based on the button width
+        size.height += insets.top + insets.bottom;
+        size.width +=  insets.left + insets.right + buttonWidth + 2;
+
+        cachedMinimumSize.setSize( size.width, size.height );
+        isMinimumSizeDirty = false;
+
+        return new Dimension(size);
     }
 
     // This is here because of a bug in the compiler.
@@ -102,9 +132,8 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
             if (arrowButton instanceof BasicJideComboBoxButton) {
                 Icon icon = ((BasicJideComboBoxButton) arrowButton).getComboIcon();
                 Insets buttonInsets = arrowButton.getInsets();
+                int buttonWidth = icon.getIconWidth() + buttonInsets.left + buttonInsets.right;
                 Insets insets = comboBox.getInsets();
-                int buttonWidth = icon.getIconWidth() + buttonInsets.left +
-                        buttonInsets.right;
                 arrowButton.setBounds(
                         comboBox.getComponentOrientation().isLeftToRight()
                                 ? (comboBox.getWidth() - insets.right - buttonWidth)
