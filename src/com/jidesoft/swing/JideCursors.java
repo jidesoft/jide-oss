@@ -170,21 +170,21 @@ public class JideCursors {
             int maxColor = toolkit.getMaximumCursorColors();
             switch (type) {
                 case HSPLIT_CURSOR: {
-                    if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.hsplit");
-                        if (icon == null)
-                            return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Horizonal Split");
-                    }
+//                    if (bestSize.width != 0 && maxColor > 3) {
+//                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.hsplit");
+//                        if (icon == null)
+//                            return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+//                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Horizonal Split");
+//                    }
                     return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
                 }
                 case VSPLIT_CURSOR: {
-                    if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.vsplit");
-                        if (icon == null)
-                            return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Vertical Split");
-                    }
+//                    if (bestSize.width != 0 && maxColor > 3) {
+//                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.vsplit");
+//                        if (icon == null)
+//                            return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
+//                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Vertical Split");
+//                    }
                     return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
                 }
                 case DRAG_CURSOR: {
