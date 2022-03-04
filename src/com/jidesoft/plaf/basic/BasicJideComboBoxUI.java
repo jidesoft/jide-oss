@@ -65,7 +65,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
                 comboBox, new BasicJideComboBoxIcon(),
                 comboBox.isEditable(),
                 currentValuePane, listBox);
-        button.setMargin(new Insets(1, 3, 0, 3));
+        button.setMargin(new Insets(1, 3, 0, 4));
         button.setFocusPainted(comboBox.isEditable());
         button.addMouseListener(_rolloverListener);
         return button;
@@ -115,7 +115,7 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
         //calculate the width and height of the button
         //adjust the size based on the button width
         size.height += insets.top + insets.bottom;
-        size.width +=  insets.left + insets.right + buttonWidth + 2;
+        size.width +=  insets.left + insets.right + buttonWidth + 3;
 
         cachedMinimumSize.setSize( size.width, size.height );
         isMinimumSizeDirty = false;
