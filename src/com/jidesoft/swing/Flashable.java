@@ -72,8 +72,10 @@ public abstract class Flashable {
             void stopTimer() {
                 if (_synchronizedFlashTimer != null) {
                     _synchronizedFlashTimer.removeActionListener(this);
+                    if(_synchronizedFlashTimer.getActionListeners().length == 1) {
+                        super.stopTimer();
+                    }
                 }
-                super.stopTimer();
             }
 
             @Override

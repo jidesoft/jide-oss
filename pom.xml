@@ -16,7 +16,7 @@
     <groupId>com.jidesoft</groupId>
     <artifactId>jide-oss</artifactId>
     <name>JIDE Common Layer</name>
-    <version>3.7.12</version>
+    <version>3.7.14-pre</version>
     <packaging>jar</packaging>
     <description>JIDE Common Layer (Professional Swing Components)</description>
     <url>https://github.com/jidesoft/jide-oss</url>
