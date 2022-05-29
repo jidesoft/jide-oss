@@ -64,20 +64,20 @@ public class WindowsRangeSliderUI extends WindowsSliderUI {
         final Actions actionMinScrollIncrementUpper = new Actions(Actions.MIN_SCROLL_INCREMENT_UPPER);
         final Actions actionMaxScrollIncrementUpper = new Actions(Actions.MAX_SCROLL_INCREMENT_UPPER);
 
-        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_RIGHT, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_UP, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionPositiveBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.CTRL_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_RIGHT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
 
-        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_LEFT, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_DOWN, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionNegativeBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_LEFT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
 
-        registerAction(actionMinScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_HOME, InputEvent.CTRL_DOWN_MASK), km, am);
-        registerAction(actionMaxScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_END, InputEvent.CTRL_DOWN_MASK), km, am);
+        registerAction(actionMinScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_HOME, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionMaxScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_END, InputEvent.SHIFT_DOWN_MASK), km, am);
     }
 
     private void registerAction(final Actions action, final KeyStroke keyStroke, final InputMap km, final ActionMap am) {
