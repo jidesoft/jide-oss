@@ -6,15 +6,30 @@
 
 package com.jidesoft.plaf.aqua;
 
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.Field;
+
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JSlider;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicSliderUI;
+
 import com.apple.laf.AquaSliderUI;
 import com.jidesoft.swing.RangeSlider;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.Field;
+import sun.swing.UIAction;
 
 public class AquaRangeSliderUI extends AquaSliderUI {
     public AquaRangeSliderUI(JSlider jSlider) {
@@ -23,6 +38,127 @@ public class AquaRangeSliderUI extends AquaSliderUI {
 
     public static ComponentUI createUI(JComponent c) {
         return new AquaRangeSliderUI((JSlider) c);
+    }
+    protected void installKeyboardActions( JSlider slider ) {
+        super.installKeyboardActions(slider);
+        installAdditionalKeyboardActions(slider);
+    }
+
+    protected void installAdditionalKeyboardActions(JSlider slider) {
+        final InputMap km = SwingUtilities.getUIInputMap(slider, JComponent.WHEN_FOCUSED);
+        final ActionMap am = SwingUtilities.getUIActionMap(slider);
+
+        final Actions actionPositiveUnitIncrementUpper = new Actions(Actions.POSITIVE_UNIT_INCREMENT_UPPER);
+        final Actions actionPositiveBlockIncrementUpper = new Actions(Actions.POSITIVE_BLOCK_INCREMENT_UPPER);
+        final Actions actionNegativeUnitIncrementUpper = new Actions(Actions.NEGATIVE_UNIT_INCREMENT_UPPER);
+        final Actions actionNegativeBlockIncrementUpper = new Actions(Actions.NEGATIVE_BLOCK_INCREMENT_UPPER);
+        final Actions actionMinScrollIncrementUpper = new Actions(Actions.MIN_SCROLL_INCREMENT_UPPER);
+        final Actions actionMaxScrollIncrementUpper = new Actions(Actions.MAX_SCROLL_INCREMENT_UPPER);
+
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_RIGHT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionPositiveBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.SHIFT_DOWN_MASK), km, am);
+
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_LEFT, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeUnitIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_KP_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionNegativeBlockIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.SHIFT_DOWN_MASK), km, am);
+
+        registerAction(actionMinScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_HOME, InputEvent.SHIFT_DOWN_MASK), km, am);
+        registerAction(actionMaxScrollIncrementUpper, KeyStroke.getKeyStroke(KeyEvent.VK_END, InputEvent.SHIFT_DOWN_MASK), km, am);
+    }
+
+    private void registerAction(final Actions action, final KeyStroke keyStroke, final InputMap km, final ActionMap am) {
+        km.put(keyStroke, action.getValue(Action.NAME));
+        am.put(action.getValue(Action.NAME), action);
+    }
+
+    private static class Actions extends UIAction {
+        public static final String POSITIVE_UNIT_INCREMENT_UPPER =
+                "positiveUnitIncrementUpper";
+        public static final String POSITIVE_BLOCK_INCREMENT_UPPER =
+                "positiveBlockIncrementUpper";
+        public static final String NEGATIVE_UNIT_INCREMENT_UPPER =
+                "negativeUnitIncrementUpper";
+        public static final String NEGATIVE_BLOCK_INCREMENT_UPPER =
+                "negativeBlockIncrementUpper";
+        public static final String MIN_SCROLL_INCREMENT_UPPER = "minScrollUpper";
+        public static final String MAX_SCROLL_INCREMENT_UPPER = "maxScrollUpper";
+
+        Actions() {
+            super(null);
+        }
+
+        public Actions(String name) {
+            super(name);
+        }
+
+        public void actionPerformed(ActionEvent evt) {
+            RangeSlider rangeSlider = (RangeSlider)evt.getSource();
+            BasicSliderUI ui = (BasicSliderUI) getUIOfType(rangeSlider.getUI(), BasicSliderUI.class);
+            String name = getName();
+
+            if (ui == null) {
+                return;
+            }
+
+            try {
+                if (POSITIVE_UNIT_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, POSITIVE_SCROLL, false);
+                } else if (NEGATIVE_UNIT_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, NEGATIVE_SCROLL, false);
+                } else if (POSITIVE_BLOCK_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, POSITIVE_SCROLL, true);
+                } else if (NEGATIVE_BLOCK_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, NEGATIVE_SCROLL, true);
+                } else if (MIN_SCROLL_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, MIN_SCROLL, false);
+                } else if (MAX_SCROLL_INCREMENT_UPPER == name) {
+                    scroll(rangeSlider, ui, MAX_SCROLL, false);
+                }
+            }
+            finally {
+                rangeSlider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, null);
+            }
+        }
+
+        private void scroll(RangeSlider rangeSlider, BasicSliderUI ui, int direction,
+                            boolean isBlock) {
+            boolean invert = rangeSlider.getInverted();
+
+            rangeSlider.putClientProperty(RangeSlider.CLIENT_PROPERTY_MOUSE_POSITION, false);
+
+            if (direction == NEGATIVE_SCROLL || direction == POSITIVE_SCROLL) {
+                if (invert) {
+                    direction = (direction == POSITIVE_SCROLL) ?
+                            NEGATIVE_SCROLL : POSITIVE_SCROLL;
+                }
+
+                if (isBlock) {
+                    ui.scrollByBlock(direction);
+                } else {
+                    ui.scrollByUnit(direction);
+                }
+            } else {  // MIN or MAX
+                if (invert) {
+                    direction = (direction == MIN_SCROLL) ?
+                            MAX_SCROLL : MIN_SCROLL;
+                }
+
+                rangeSlider.setHighValue((direction == MIN_SCROLL) ?
+                        rangeSlider.getMinimum() : rangeSlider.getMaximum());
+            }
+        }
+
+        static Object getUIOfType(ComponentUI ui, Class<?> klass) {
+            if (klass.isInstance(ui)) {
+                return ui;
+            }
+            return null;
+        }
     }
 
     @Override
