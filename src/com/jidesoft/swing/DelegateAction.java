@@ -230,7 +230,18 @@ abstract public class DelegateAction extends AbstractAction {
         while (action instanceof DelegateAction) {
             if (actionToBeRemoved == action) {
                 if (top == action) {
-                    component.registerKeyboardAction(((DelegateAction) action).getAction(), keyStroke, condition);
+                    Action oldAction = ((DelegateAction) action).getAction();
+                    if(oldAction != null) {
+                        Object name = component.getInputMap().get(keyStroke);
+                        if(name != null) {
+                            component.getActionMap().remove(name);
+                            component.getActionMap().remove(action);
+                        }
+                        component.registerKeyboardAction(oldAction, keyStroke, condition);
+                    }
+                    else {
+                        component.unregisterKeyboardAction(keyStroke);
+                    }
                 }
                 else {
                     ((DelegateAction) parent).setAction(((DelegateAction) action).getAction());
