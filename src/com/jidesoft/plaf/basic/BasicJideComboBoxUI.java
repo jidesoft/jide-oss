@@ -107,9 +107,11 @@ public class BasicJideComboBoxUI extends MetalComboBoxUI {
             Icon icon = ((BasicJideComboBoxButton) arrowButton).getComboIcon();
             Insets buttonInsets = arrowButton.getInsets();
             buttonWidth = icon.getIconWidth() + buttonInsets.left + buttonInsets.right;
+            size.height += buttonInsets.top + buttonInsets.bottom;
         }
         else {
             buttonWidth = squareButton ? buttonHeight : arrowButton.getPreferredSize().width;
+            size.height = Math.max(size.height, squareButton ? buttonHeight : arrowButton.getPreferredSize().height);
         }
 
         //calculate the width and height of the button
