@@ -651,6 +651,20 @@ public class XPStyle {
                 ReflectionUtils.callStatic(SunWritableRaster.class, "markDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
 //                    SunWritableRaster.markDirty(dbi);
             }
+            catch (NoSuchMethodError err) {
+                try {
+                    ReflectionUtils.callStatic(ThemeReader.class, "paintBackground", new Class[]{ int[].class, String.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class }, new Object[]{
+                            (int[]) ReflectionUtils.callStatic(SunWritableRaster.class, "stealData", new Class[]{DataBufferInt.class, int.class}, new Object[]{dbi, 0}),
+                            /*SunWritableRaster.stealData(dbi, 0),*/
+                            part.getControlName(c), part.getValue(),
+                            State.getValue(part, state),
+                            0, 0, w, h, w, 96 /* dpi */});
+                    ReflectionUtils.callStatic(SunWritableRaster.class, "markDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             catch (Exception e) {
                 e.printStackTrace();
             }
