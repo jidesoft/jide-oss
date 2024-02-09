@@ -25,6 +25,7 @@ import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.UIResource;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
@@ -642,16 +643,27 @@ public class XPStyle {
             // Note that stealData() requires a markDirty() afterwards
             // since we modify the data in it.
             try {
-                ThemeReader.paintBackground(
-                        (int[]) ReflectionUtils.callStatic(SunWritableRaster.class, "stealData", new Class[]{DataBufferInt.class, int.class}, new Object[]{dbi, 0}),
-                            /*SunWritableRaster.stealData(dbi, 0),*/
-                        part.getControlName(c), part.getValue(),
-                        State.getValue(part, state),
-                        0, 0, w, h, w);
+                int[] data = (int[]) ReflectionUtils.callStatic(SunWritableRaster.class, "stealData", new Class[]{DataBufferInt.class, int.class}, new Object[]{dbi, 0});
+                try {
+                    ReflectionUtils.callStatic(ThemeReader.class, "paintBackground", new Class[]{int[].class, String.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class},
+                            new Object[]{
+                                    data,
+                                    part.getControlName(c), part.getValue(),
+                                    State.getValue(part, state),
+                                    0, 0, w, h, w});
+                } catch (Exception e) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    AffineTransform at = g2d.getTransform();
+                    int dpi = (int) (at.getScaleX() * 96);
+                    ReflectionUtils.callStatic(ThemeReader.class, "paintBackground", new Class[]{int[].class, String.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class},
+                            new Object[]{
+                                    data,
+                                    part.getControlName(c), part.getValue(),
+                                    State.getValue(part, state),
+                                    0, 0, w, h, w, dpi});
+                }
                 ReflectionUtils.callStatic(SunWritableRaster.class, "markDirty", new Class[]{DataBuffer.class}, new Object[]{dbi});
-//                    SunWritableRaster.markDirty(dbi);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
