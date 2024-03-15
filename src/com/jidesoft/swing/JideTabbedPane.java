@@ -56,6 +56,20 @@ public class JideTabbedPane extends JTabbedPane {
     private boolean _scrollSelectedTabOnWheel = false;
 
     private int _tabAlignment = SwingConstants.LEADING;
+	
+	
+    /**
+     * The flag of fastTab feature.
+     * add an item ("+") to the end of tab list like a web browser.
+     */
+    private boolean _fastTab = false;
+
+    /**
+     * Checks is Fastab tab is aleady created
+     */
+    private boolean _fastTabCreated = false;
+
+	
 
     /**
      * Bound property name for shrink tabs.
@@ -1241,6 +1255,111 @@ public class JideTabbedPane extends JTabbedPane {
 //        fireStateChanged();
     }
 
+
+
+    /**
+     * Insert a Component into a JideTabbdedPane with the fastTab feature if it's actived.
+     * Add an item ("+") to the end of tab list like a web browser.
+     * component.
+     * @param title of JideTabbdedPane
+     * @param icon of JideTabbdedPane
+     * @param component the component to insert
+     * @param tip Tooltip
+     * @param index to insert the component
+     * @param fastTab the new component to insert at the end of tab when the item ("+") is selected.
+     */
+
+    public void insertTab(String title, Icon icon, Component component, String tip, int index, final Component fastTab) {
+        // set the component to visible false initially because the layout manager will set it to visible when
+        // appropriate. This also limits the flicker from mixing lightweight/heavyweight components.
+        if (component == getTabLeadingComponent() || component == getTabTrailingComponent()) {
+            return;
+        }
+        if (component != null && !component.isVisible())
+            component.setVisible(false);
+        //Check if fastTab is actived
+        if(isfastTab()){
+            //Check if there is already a fastTab tab
+            if(isfastTabCreated()){
+                //Control index of the new tab, the fastTab must be at the end of tabbedPane
+                if(index >= getTabCount())
+                    index = getTabCount()-1;
+                super.insertTab(title, icon, component, tip, index);
+            }else{
+                super.insertTab(title, icon, component, tip, index);
+                //Create the fastTab
+                addTab("+", new JLabel());
+                setFastTabCreated(true);
+                //The fastTab is not closable
+                setTabClosableAt(getTabCount()-1 , false);
+                //Add a mouse listener to manage FastTab
+                addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        //Check if fastTab is selected
+                        if (getSelectedComponent() instanceof JLabel ) {
+                            int count = getTabCount();
+                            //create a new DockableFrame
+                            DockableFrame  _fastTab= new DockableFrame();
+                            _fastTab.setShowTitleBar(false);
+                            //Insert the fastTab component into the new DockableFrame
+                            _fastTab.add(fastTab);
+                            add(_fastTab, count - 1);
+                            setTitleAt(count - 1, "new tab");
+                            //focus the newTab
+                            setSelectedComponent(_fastTab);
+                            setTabClosableAt(count , false);
+                        }
+
+                    }
+                });
+            }
+        }else{
+            super.insertTab(title, icon, component, tip, index);
+        }
+        if (component != null) {
+            // JTabbedPane allows a null component, but doesn't really support it.
+            _pageLastFocusTrackers.put(component, new PageLastFocusTracker(component));
+        }
+
+// fireStateChanged();
+    }
+	
+		    /**
+     * Checks if fastTab feature is actived.
+     * FastTab add an item ("+") to the end of tab list like a web browser.
+     * It is false by default.
+     * @return the flag fastTab
+     */
+    public boolean isfastTab() {
+        return _fastTab;
+    }
+
+    /**
+     * Set the fastTab flag.
+     * FastTab add an item ("+") to the end of tab list like a web browser.
+     * It is false by default.
+     * @param fastTab the flag
+     */
+    public void setFastTab(boolean fastTab) {
+        this._fastTab = fastTab;
+    }
+
+    /**
+     * Checks is Fastab tab is aleady created
+     * @return the flag fastTabCreated
+     */
+    public boolean isfastTabCreated() {
+        return _fastTabCreated;
+    }
+
+    /**
+     * Set the flag is Fastab tab is aleady created
+     * @param fastTabCreated the flag
+     */
+    public void setFastTabCreated(boolean _fastTabCreated) {
+        this._fastTabCreated = _fastTabCreated;
+    }
     protected class PageLastFocusTracker extends JideFocusTracker {
         // keep track of last focused component
         private Component _lastFocusedComponent;
