@@ -8,6 +8,7 @@ package com.jidesoft.plaf.windows;
 
 import com.jidesoft.swing.TristateButtonModel;
 import com.jidesoft.swing.TristateCheckBox;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.UIResource;
@@ -25,9 +26,8 @@ public class WindowsIconFactory {
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JCheckBox cb = (JCheckBox) c;
             ButtonModel model = cb.getModel();
-            XPStyle xp = XPStyle.getXP();
-
-            if (xp != null) {
+            if (!SystemInfo.isJdk17Above()) {
+                XPStyle xp = XPStyle.getXP();
                 TMSchema.State state;
 
                 // the following statement added for LegacyTristateCheckBox
@@ -152,12 +152,16 @@ public class WindowsIconFactory {
         }
 
         public int getIconWidth() {
-            XPStyle xp = XPStyle.getXP();
-            if (xp != null) {
-                if (cw == -1) {
-                    cw = xp.getSkin(null, TMSchema.Part.BP_CHECKBOX).getWidth();
+            if(!SystemInfo.isJdk17Above()) {
+                XPStyle xp = XPStyle.getXP();
+                if (xp != null) {
+                    if (cw == -1) {
+                        cw = xp.getSkin(null, TMSchema.Part.BP_CHECKBOX).getWidth();
+                    }
+                    return cw;
+                } else {
+                    return csize;
                 }
-                return cw;
             }
             else {
                 return csize;
@@ -165,16 +169,18 @@ public class WindowsIconFactory {
         }
 
         public int getIconHeight() {
-            XPStyle xp = XPStyle.getXP();
-            if (xp != null) {
-                if (ch == -1) {
-                    ch = xp.getSkin(null, TMSchema.Part.BP_CHECKBOX).getHeight();
+            if(!SystemInfo.isJdk17Above()) {
+                XPStyle xp = XPStyle.getXP();
+                if (xp != null) {
+                    if (ch == -1) {
+                        ch = xp.getSkin(null, TMSchema.Part.BP_CHECKBOX).getHeight();
+                    }
+                    return ch;
+                } else {
+                    return csize;
                 }
-                return ch;
             }
-            else {
-                return csize;
-            }
+            return csize;
         }
     }
 

@@ -19,6 +19,7 @@ import com.jidesoft.plaf.windows.WindowsIconFactory;
 import com.jidesoft.swing.JideButton;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -53,22 +54,38 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
         VsnetLookAndFeelExtension.initClassDefaults(table);
 
         final String windowsPackageName = "com.jidesoft.plaf.windows.";
+        final String basicPackageName = "com.jidesoft.plaf.basic.";
 
-        // common
-        table.put("JidePopupMenuUI", windowsPackageName + "WindowsJidePopupMenuUI");
-        table.put("RangeSliderUI", windowsPackageName + "WindowsRangeSliderUI");
+        if (SystemInfo.isJdk17Above()) {
+            table.put("JidePopupMenuUI", basicPackageName + "BasicJidePopupMenuUI");
+            table.put("RangeSliderUI", basicPackageName + "BasicRangeSliderUI");
+        } else {
+            table.put("JidePopupMenuUI", windowsPackageName + "WindowsPopupMenuUI");
+            table.put("RangeSliderUI", windowsPackageName + "WindowsRangeSliderUI");
+        }
 
         int products = LookAndFeelFactory.getProductsUsed();
 
         if ((products & PRODUCT_GRIDS) != 0) {
             // grids
-            table.put("CellStyleTableHeaderUI", windowsPackageName + "WindowsCellStyleTableHeaderUI");
-            table.put("SortableTableHeaderUI", windowsPackageName + "WindowsSortableTableHeaderUI");
-            table.put("NestedTableHeaderUI", windowsPackageName + "WindowsNestedTableHeaderUI");
-            table.put("EditableTableHeaderUI", windowsPackageName + "WindowsEditableTableHeaderUI");
-            table.put("AutoFilterTableHeaderUI", windowsPackageName + "WindowsAutoFilterTableHeaderUI");
-            table.put("GroupTableHeaderUI", windowsPackageName + "WindowsGroupTableHeaderUI");
-            table.put("ExComboBoxUI", windowsPackageName + "WindowsExComboBoxUI");
+            if (SystemInfo.isJdk17Above()) {
+                table.put("CellStyleTableHeaderUI", basicPackageName + "BasicCellStyleTableHeaderUI");
+                table.put("SortableTableHeaderUI", basicPackageName + "BasicSortableTableHeaderUI");
+                table.put("NestedTableHeaderUI", basicPackageName + "BasicNestedTableHeaderUI");
+                table.put("EditableTableHeaderUI", basicPackageName + "BasicEditableTableHeaderUI");
+                table.put("AutoFilterTableHeaderUI", basicPackageName + "BasicAutoFilterTableHeaderUI");
+                table.put("GroupTableHeaderUI", basicPackageName + "BasicGroupTableHeaderUI");
+                table.put("ExComboBoxUI", basicPackageName + "BasicExComboBoxUI");
+            }
+            else {
+                table.put("CellStyleTableHeaderUI", windowsPackageName + "WindowsCellStyleTableHeaderUI");
+                table.put("SortableTableHeaderUI", windowsPackageName + "WindowsSortableTableHeaderUI");
+                table.put("NestedTableHeaderUI", windowsPackageName + "WindowsNestedTableHeaderUI");
+                table.put("EditableTableHeaderUI", windowsPackageName + "WindowsEditableTableHeaderUI");
+                table.put("AutoFilterTableHeaderUI", windowsPackageName + "WindowsAutoFilterTableHeaderUI");
+                table.put("GroupTableHeaderUI", windowsPackageName + "WindowsGroupTableHeaderUI");
+                table.put("ExComboBoxUI", windowsPackageName + "WindowsExComboBoxUI");
+            }
         }
     }
 
@@ -153,8 +170,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 Object p = UIDefaultsLookup.get("Theme.painter");
                 if (p instanceof ThemePainter) {
                     ((ThemePainter) p).paintGripper(c, g, rect, orientation, state);
-                }
-                else {
+                } else {
                     BasicPainter.getInstance().paintGripper(c, g, rect, orientation, state);
                 }
             }
@@ -314,6 +330,18 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
                 "MeterProgressBar.cellBackground", new ColorUIResource(0x008000),
                 "MeterProgressBar.cellLength", 2,
                 "MeterProgressBar.cellSpacing", 2,
+
+                "Icon.down", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.DOWN),
+                "Icon.left", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.LEFT),
+                "Icon.right", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.RIGHT),
+                "Icon.up", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.UP),
+
+
+                "Icon.down", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.DOWN),
+                "Icon.left", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.LEFT),
+                "Icon.right", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.RIGHT),
+                "Icon.up", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.UP),
+
 
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),

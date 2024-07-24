@@ -281,6 +281,11 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
                 "HeaderBox.background", defaultBackgroundColor,
 
+                "Icon.down", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.DOWN),
+                "Icon.left", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.LEFT),
+                "Icon.right", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.RIGHT),
+                "Icon.up", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.UP),
+
                 "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
                 "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
 

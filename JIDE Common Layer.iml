@@ -17,6 +17,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="aqua" level="project" />
     <orderEntry type="library" exported="" name="junit" level="project" />
+    <orderEntry type="library" exported="" name="flatlaf" level="project" />
   </component>
   <component name="copyright">
     <Base>

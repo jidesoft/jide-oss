@@ -28,8 +28,6 @@ import javax.swing.plaf.basic.BasicSliderUI;
 
 import com.jidesoft.swing.RangeSlider;
 
-import sun.swing.UIAction;
-
 /**
  * BasicRangeSliderUI implementation
  */

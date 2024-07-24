@@ -6,31 +6,19 @@
 
 package com.jidesoft.plaf.windows;
 
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import com.jidesoft.plaf.basic.UIAction;
+import com.jidesoft.swing.RangeSlider;
+import com.sun.java.swing.plaf.windows.WindowsSliderUI;
+
+import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicSliderUI;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
-
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JSlider;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
-import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
-
-import com.jidesoft.swing.RangeSlider;
-import com.sun.java.swing.plaf.windows.WindowsSliderUI;
-
-import sun.swing.UIAction;
 
 /**
  * WindowsRangeSliderUI implementation

@@ -27,9 +27,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalSliderUI;
 
+import com.jidesoft.plaf.basic.UIAction;
 import com.jidesoft.swing.RangeSlider;
-
-import sun.swing.UIAction;
 
 /**
  * BasicRangeSliderUI implementation

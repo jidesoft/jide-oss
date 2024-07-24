@@ -27,9 +27,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 import com.apple.laf.AquaSliderUI;
+import com.jidesoft.plaf.basic.UIAction;
 import com.jidesoft.swing.RangeSlider;
-
-import sun.swing.UIAction;
 
 public class AquaRangeSliderUI extends AquaSliderUI {
     public AquaRangeSliderUI(JSlider jSlider) {
