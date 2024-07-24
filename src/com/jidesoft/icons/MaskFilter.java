@@ -5,7 +5,9 @@
  */
 package com.jidesoft.icons;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
@@ -38,6 +40,34 @@ public class MaskFilter extends RGBImageFilter {
         _oldColor = oldColor;
     }
 
+    public static Icon replaceIconColor(Icon originalIcon, Color originalColor, Color newColor) {
+        // Convert Icon to BufferedImage
+        BufferedImage image = new BufferedImage(
+                originalIcon.getIconWidth(),
+                originalIcon.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        originalIcon.paintIcon(null, g2d, 0, 0);
+        g2d.dispose();
+
+        // Replace color in BufferedImage
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                Color pixelColor = new Color(image.getRGB(x, y), true);
+                if (colorMatches(pixelColor, originalColor)) {
+                    image.setRGB(x, y, newColor.getRGB());
+                }
+            }
+        }
+
+        // Convert BufferedImage back to Icon
+        return new ImageIcon(image);
+    }
+
+    private static boolean colorMatches(Color c1, Color c2) {
+        return c1.getRGB() == c2.getRGB();
+    }
+
     /**
      * Creates an image from an existing one by replacing the old color with the new color.
      */
@@ -46,6 +76,10 @@ public class MaskFilter extends RGBImageFilter {
         ImageProducer prod = new FilteredImageSource(i.getSource(), filter);
         Image image = Toolkit.getDefaultToolkit().createImage(prod);
         return image;
+    }
+
+    public static Icon createIcon(Icon i, Color oldColor, Color newColor) {
+        return replaceIconColor(i, oldColor, newColor);
     }
 
     /**

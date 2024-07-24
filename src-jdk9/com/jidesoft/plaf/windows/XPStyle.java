@@ -644,16 +644,16 @@ public class XPStyle {
             // since we modify the data in it.
             try {
                 int[] data = (int[]) ReflectionUtils.callStatic(SunWritableRaster.class, "stealData", new Class[]{DataBufferInt.class, int.class}, new Object[]{dbi, 0});
-                try {
-                    ThemeReader.paintBackground(
-                            data,
-                            /*SunWritableRaster.stealData(dbi, 0),*/
-                            part.getControlName(c), part.getValue(),
-                            State.getValue(part, state),
-                            0, 0, w, h, w);
-                } catch (NoSuchMethodError e) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    AffineTransform at = g2d.getTransform();
+                Graphics2D g2d = (Graphics2D) g;
+                AffineTransform at = g2d.getTransform();
+                Object result = ReflectionUtils.callStatic(ThemeReader.class, "paintBackground", new Class[]{int[].class, String.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class},
+                        new Object[]{
+                                data,
+                                part.getControlName(c), part.getValue(),
+                                State.getValue(part, state),
+                                0, 0, w, h, w});
+
+                if(result == null) {
                     int dpi = (int) (at.getScaleX() * 96);
                     ReflectionUtils.callStatic(ThemeReader.class, "paintBackground", new Class[]{int[].class, String.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class, int.class},
                             new Object[]{

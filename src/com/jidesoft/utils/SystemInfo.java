@@ -542,6 +542,17 @@ final public class SystemInfo {
     }
 
     /**
+     * Returns whether or no the JDK version is 17 and above.
+     *
+     * @return <tt>true</tt> if the application is running on JDK 17 and above, <tt>false</tt> otherwise.
+     * @since 4.0
+     */
+    public static boolean isJdk17Above() {
+        checkJdkVersion();
+        return _currentVersion.compareVersion(17, 0, 0) >= 0;
+    }
+
+    /**
      * Returns whether or not the JDK version is exactly the version you are expecting
      *
      * @param majorVersion your intended major version for JDK6u10, it should be 1.6

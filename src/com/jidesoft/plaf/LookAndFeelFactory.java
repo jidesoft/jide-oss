@@ -190,6 +190,11 @@ public class LookAndFeelFactory implements ProductNames {
     public static final String TONIC_LNF = "com.digitprop.tonic.TonicLookAndFeel";
 
     /**
+     * Class name of Flat L&F.
+     */
+    public static final String FLAT_LNF = "com.formdev.flatlaf.FlatLaf";
+
+    /**
      * Class name of A03 L&F.
      */
     public static final String A03_LNF = "a03.swing.plaf.A03LookAndFeel";
@@ -710,6 +715,7 @@ public class LookAndFeelFactory implements ProductNames {
                 || (lnf.getClass().getName().equals(PLASTIC3D_LNF) && isPlastic3DLnfInstalled())
                 || (lnf.getClass().getName().equals(PLASTICXP_LNF) && isPlasticXPLnfInstalled())
                 || (lnf.getClass().getName().equals(PGS_LNF) && isPgsLnfInstalled())
+                || (lnf.getClass().getName().contains("Flat") && isFlatLnfInstalled())
                 || (lnf.getClass().getName().equals(TONIC_LNF) && isTonicLnfInstalled())) {
 
             switch (style) {
@@ -731,21 +737,21 @@ public class LookAndFeelFactory implements ProductNames {
                     VsnetMetalUtils.initComponentDefaults(uiDefaults);
                     VsnetMetalUtils.initClassDefaults(uiDefaults);
 
-                    Painter gripperPainter = new Painter() {
-                        public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
-                            Office2003Painter.getInstance().paintGripper(c, g, rect, orientation, state);
-                        }
-                    };
+//                    Painter gripperPainter = new Painter() {
+//                        public void paint(JComponent c, Graphics g, Rectangle rect, int orientation, int state) {
+//                            Office2003Painter.getInstance().paintGripper(c, g, rect, orientation, state);
+//                        }
+//                    };
 
                     // set all grippers to Office2003 style gripper
-                    uiDefaults.put("Gripper.painter", gripperPainter);
-                    uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
+//                    uiDefaults.put("Gripper.painter", gripperPainter);
+//                    uiDefaults.put("JideTabbedPane.gripperPainter", gripperPainter);
                     uiDefaults.put("JideTabbedPane.defaultTabShape", JideTabbedPane.SHAPE_OFFICE2003);
                     uiDefaults.put("JideTabbedPane.selectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.unselectedTabTextForeground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.foreground", UIDefaultsLookup.getColor("controlText"));
                     uiDefaults.put("JideTabbedPane.light", UIDefaultsLookup.getColor("control"));
-                    uiDefaults.put("JideSplitPaneDivider.gripperPainter", gripperPainter);
+//                    uiDefaults.put("JideSplitPaneDivider.gripperPainter", gripperPainter);
 
                     int products = LookAndFeelFactory.getProductsUsed();
                     if ((products & PRODUCT_DOCK) != 0) {
@@ -764,7 +770,7 @@ public class LookAndFeelFactory implements ProductNames {
                         uiDefaults.put("DockableFrameTitlePane.buttonGap", 4); // gap between buttons
                         uiDefaults.put("DockableFrame.titleBorder", new BorderUIResource(BorderFactory.createEmptyBorder(1, 0, 2, 0)));
                         uiDefaults.put("DockableFrame.border", new BorderUIResource(BorderFactory.createEmptyBorder(2, 0, 0, 0)));
-                        uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
+//                        uiDefaults.put("DockableFrameTitlePane.gripperPainter", gripperPainter);
                     }
                     break;
                 case EXTENSION_STYLE_ECLIPSE:
@@ -1513,6 +1519,15 @@ public class LookAndFeelFactory implements ProductNames {
      */
     public static boolean isTonicLnfInstalled() {
         return isLnfInstalled(TONIC_LNF);
+    }
+
+    /**
+     * Returns whether Flat L&F is in classpath
+     *
+     * @return <tt>true</tt> Flat L&F is in classpath, <tt>false</tt> otherwise
+     */
+    public static boolean isFlatLnfInstalled() {
+        return isLnfInstalled(FLAT_LNF);
     }
 
     /**

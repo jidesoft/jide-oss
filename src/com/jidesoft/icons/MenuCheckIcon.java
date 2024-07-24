@@ -21,10 +21,10 @@ import java.awt.*;
  */
 public class MenuCheckIcon implements Icon, UIResource, Serializable {
 
-    private ImageIcon _icon;
+    private Icon _icon;
     private static final long serialVersionUID = -6303936713472505092L;
 
-    public MenuCheckIcon(ImageIcon icon) {
+    public MenuCheckIcon(Icon icon) {
         if (icon == null) {
             throw new IllegalArgumentException("The icon should not be null.");
         }

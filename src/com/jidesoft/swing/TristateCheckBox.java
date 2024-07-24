@@ -80,18 +80,23 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
         super.updateUI();
         if (isMixed()) {
             adjustMixedIcon();
-        }
-        else {
+        } else {
             restoreMixedIcon();
         }
     }
 
+    static String SELECTED_STATE = "JButton.selectedState";
+    static String SELECTED_STATE_INDETERMINATE = "indeterminate";
+
+
     protected void adjustMixedIcon() {
         setIcon(UIManager.getIcon("TristateCheckBox.icon"));
+        putClientProperty(SELECTED_STATE, SELECTED_STATE_INDETERMINATE);
     }
 
     protected void restoreMixedIcon() {
         setIcon(null);
+        putClientProperty(SELECTED_STATE, null);
     }
 
     /**
@@ -111,8 +116,7 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
     public void setMixed(boolean b) {
         if (b) {
             setState(STATE_MIXED);
-        }
-        else {
+        } else {
             setState(STATE_UNSELECTED);
         }
     }
@@ -135,8 +139,7 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
     public void setSelected(boolean b) {
         if (b) {
             setState(STATE_SELECTED);
-        }
-        else {
+        } else {
             setState(STATE_UNSELECTED);
         }
     }
@@ -152,8 +155,7 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
             int old = ((TristateButtonModel) model).getState();
             if (old != state) ((TristateButtonModel) model).setState(state);
             stateUpdated(state);
-        }
-        else {
+        } else {
             throw new IllegalStateException("TristateButtonModel is required for TristateCheckBox");
         }
     }
@@ -179,8 +181,7 @@ public class TristateCheckBox extends JCheckBox implements ActionListener {
             if (name != null) {
                 setName(name); // for Synthetica
             }
-        }
-        else {
+        } else {
             restoreMixedIcon();
             Object cp = UIDefaultsLookup.get("TristateCheckBox.clearMixed.clientProperty");
             if (cp != null) {

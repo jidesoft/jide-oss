@@ -542,7 +542,7 @@ public class BasicFolderChooserUI extends BasicFileChooserUI implements FolderCh
      * @return <code>true</code> if <code>f</code> is a real file or directory.
      */
     public static boolean isFileSystem(File f) {
-        if (f instanceof ShellFolder) {
+        if (!SystemInfo.isJdk17Above() && f instanceof ShellFolder) {
             ShellFolder sf = (ShellFolder) f;
             // Shortcuts to directories are treated as not being file system objects,
             // so that they are never returned by JFileChooser.
