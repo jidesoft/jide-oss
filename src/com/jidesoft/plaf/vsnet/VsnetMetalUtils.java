@@ -286,9 +286,6 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
                 "Icon.right", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.RIGHT),
                 "Icon.up", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.UP),
 
-                "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
-                "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
-
                 "Cursor.north", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.NORTH),
                 "Cursor.south", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.SOUTH),
                 "Cursor.east", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.EAST),
@@ -353,14 +350,14 @@ public class VsnetMetalUtils extends VsnetLookAndFeelExtension {
 
                     "DockableFrameTitlePane.gripperPainter", gripperPainter,
                     "DockableFrameTitlePane.font", controlFont,
-                    "DockableFrameTitlePane.hideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 0, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.unfloatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.floatIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 2 * titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.autohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 3 * titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.stopAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 4 * titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.hideAutohideIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 5 * titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.maximizeIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 6 * titleButtonSize, titleButtonSize, titleButtonSize),
-                    "DockableFrameTitlePane.restoreIcon", IconsFactory.getIcon(null, titleButtonImage, 0, 7 * titleButtonSize, titleButtonSize, titleButtonSize),
+                    "DockableFrameTitlePane.hideIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.HIDE),
+                    "DockableFrameTitlePane.unfloatIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.UNFLOAT),
+                    "DockableFrameTitlePane.floatIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.FLOAT),
+                    "DockableFrameTitlePane.autohideIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.AUTOHIDE),
+                    "DockableFrameTitlePane.stopAutohideIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.STOP_AUTOHIDE),
+                    "DockableFrameTitlePane.hideAutohideIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.HIDE_AUTOHIDE),
+                    "DockableFrameTitlePane.maximizeIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.MAXIMIZE),
+                    "DockableFrameTitlePane.restoreIcon", JideIconsFactory.getScaledIcon(JideIconsFactory.FrameActions.RESTORE),
                     "DockableFrameTitlePane.titleBarComponent", Boolean.FALSE,
 
                     "DockableFrameTitlePane.alwaysShowAllButtons", Boolean.FALSE, // true if show all three buttons no matter if the buttons is available. false if only show buttons which is available

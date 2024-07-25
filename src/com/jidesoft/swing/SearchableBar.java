@@ -1066,8 +1066,8 @@ public class SearchableBar extends JToolBar implements SearchableProvider {
      *
      * @return the icon of the specified name.
      */
-    protected ImageIcon getImageIcon(String name) {
-        return SearchableBarIconsFactory.getImageIcon(name);
+    protected Icon getImageIcon(String name) {
+        return SearchableBarIconsFactory.getScaledIcon(name);
     }
 
     /**

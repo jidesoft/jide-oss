@@ -57,13 +57,13 @@ public class JideSplitPaneDivider extends JPanel
      * Cursor used for HORIZONTAL_SPLIT split panes.
      */
     static final Cursor HORIZONTAL_CURSOR =
-            JideCursors.getPredefinedCursor(JideCursors.HSPLIT_CURSOR);
+            Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
 
     /**
      * Cursor used for VERTICAL_SPLIT split panes.
      */
     static final Cursor VERTICAL_CURSOR =
-            JideCursors.getPredefinedCursor(JideCursors.VSPLIT_CURSOR);
+            Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
 
     /**
      * Default cursor.

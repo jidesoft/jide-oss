@@ -41,8 +41,8 @@ public class DialogPageTreeCellRenderer extends JLabel implements TreeCellRender
 
     private boolean m_selected;
 
-    private static final Icon SELECTED = TreeIconsFactory.getImageIcon(TreeIconsFactory.CellRenderer.SELECTED_B16);
-    private static final Icon BLANK = TreeIconsFactory.getImageIcon(TreeIconsFactory.CellRenderer.BLANK_16);
+    private static final Icon SELECTED = TreeIconsFactory.getScaledIcon(TreeIconsFactory.CellRenderer.SELECTED_B16);
+    private static final Icon BLANK = TreeIconsFactory.getScaledIcon(TreeIconsFactory.CellRenderer.BLANK_16);
 
     /**
      * The constructor.

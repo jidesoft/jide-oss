@@ -5,6 +5,8 @@
  */
 package com.jidesoft.icons;
 
+import com.formdev.flatlaf.util.ScaledImageIcon;
+import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideSwingUtilities;
 import com.jidesoft.utils.SecurityUtils;
 
@@ -12,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BaseMultiResolutionImage;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
@@ -169,13 +172,22 @@ public class IconsFactory {
         if (iconInUIDefaults instanceof ImageIcon) {
             return (ImageIcon) iconInUIDefaults;
         }
-        Icon saved = _icons.get(id);
+        ImageIcon saved = _icons.get(id);
         if (saved != null)
-            return (ImageIcon) saved;
+            return saved;
         else {
             ImageIcon icon = createImageIcon(clazz, fileName);
             _icons.put(id, icon);
             return icon;
+        }
+    }
+
+    public static Icon getScaledIcon(Class<?> clazz, String fileName) {
+        if (LookAndFeelFactory.isFlatLnfInstalled()) {
+            return new ScaledImageIcon(getImageIcon(clazz, fileName));
+        }
+        else {
+            return getImageIcon(clazz, fileName);
         }
     }
 
@@ -549,20 +561,55 @@ public class IconsFactory {
     }
 
     private static ImageIcon createImageIconWithException(final Class<?> baseClass, final String file) throws IOException {
-        InputStream resource = baseClass.getResourceAsStream(file);
-        if (resource == null) {
+        InputStream input1 = baseClass.getResourceAsStream(file);
+        if (input1 == null) {
             throw new FileNotFoundException(file);
         }
         else {
+            String file2 = addSuffixToFilename(file, "@2x");
+            String file3 = addSuffixToFilename(file, "@3x");
+            InputStream input2 = baseClass.getResourceAsStream(file2);
+            InputStream input3 = baseClass.getResourceAsStream(file3);
             Image image;
+            Image image2 = null;
+            Image image3 = null;
             if ("true".equals(SecurityUtils.getProperty("jide.useImageIO", "true"))) {
-                image = ImageIO.read(resource);
+                image = ImageIO.read(input1);
+                if (input2 != null) image2 = ImageIO.read(input2);
+                if (input3 != null) image3 = ImageIO.read(input3);
             }
             else {
-                image = readImageIcon(baseClass, file, resource);
+                image = readImageIcon(baseClass, file, input1);
+                if (input2 != null) image2 = readImageIcon(baseClass, file, input2);
+                if (input3 != null) image3 = readImageIcon(baseClass, file, input3);
             }
-            resource.close();
-            return new ImageIcon(image);
+            try {
+                input1.close();
+                if (input2 != null) input2.close();
+                if (input3 != null) input3.close();
+            }
+            catch (IOException e) {
+            }
+            if (image2 == null && image3 == null) return new ImageIcon(image);
+            else if (image3 == null) return new ImageIcon(new BaseMultiResolutionImage(image, image2));
+            else return new ImageIcon(new BaseMultiResolutionImage(image, image2, image3));
+        }
+    }
+
+    public static String addSuffixToFilename(String filename, String scale) {
+        // Find the last dot (.) to split base name and extension
+        int lastDotIndex = filename.lastIndexOf('.');
+        if (lastDotIndex == -1) {
+            // No dot found, filename has no extension
+            return filename + scale;
+        }
+        else {
+            // Split filename into base name and extension
+            String baseName = filename.substring(0, lastDotIndex);
+            String extension = filename.substring(lastDotIndex); // includes the dot
+
+            // Construct new filename with _2x inserted before extension
+            return baseName + scale + extension;
         }
     }
 
@@ -793,7 +840,7 @@ public class IconsFactory {
      *                    NORTH_WEST, SOUTH_WEST and SOUTH_EAST.
      * @return the new icon.
      */
-    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location) {
+    public static Icon getOverlayIcon(Component c, Icon icon, Icon overlayIcon, int location) {
         return getOverlayIcon(c, icon, overlayIcon, location, new Insets(0, 0, 0, 0));
     }
 
@@ -811,7 +858,7 @@ public class IconsFactory {
      *                    the left side of the overlay icon.
      * @return the new icon.
      */
-    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int location, Insets insets) {
+    public static Icon getOverlayIcon(Component c, Icon icon, Icon overlayIcon, int location, Insets insets) {
         int x = -1, y = -1;
         int w = icon.getIconWidth();
         int h = icon.getIconHeight();
@@ -869,17 +916,15 @@ public class IconsFactory {
      * @param y           the y location relative to the original icon where the overlayIcon will be pained.
      * @return the overlay icon
      */
-    public static ImageIcon getOverlayIcon(Component c, ImageIcon icon, ImageIcon overlayIcon, int x, int y) {
+    public static Icon getOverlayIcon(Component c, Icon icon, Icon overlayIcon, int x, int y) {
         int w = icon == null ? overlayIcon.getIconWidth() : icon.getIconWidth();
         int h = icon == null ? overlayIcon.getIconHeight() : icon.getIconHeight();
-        int sw = overlayIcon.getIconWidth();
-        int sh = overlayIcon.getIconHeight();
         if (x != -1 && y != -1) {
             BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             if (icon != null) {
-                image.getGraphics().drawImage(icon.getImage(), 0, 0, w, h, c);
+                icon.paintIcon(c, image.getGraphics(), 0, 0);
             }
-            image.getGraphics().drawImage(overlayIcon.getImage(), x, y, sw, sh, c);
+            overlayIcon.paintIcon(c, image.getGraphics(), x, y);
             return new ImageIcon(image);
         }
         else {
@@ -898,7 +943,7 @@ public class IconsFactory {
      * @param gap         the gap between the two icons
      * @return the new icon.
      */
-    public static ImageIcon getCombinedIcon(Component c, ImageIcon icon1, ImageIcon icon2, int orientation, int gap) {
+    public static Icon getCombinedIcon(Component c, Icon icon1, Icon icon2, int orientation, int gap) {
         if (icon1 == null) {
             return icon2;
         }
@@ -929,8 +974,8 @@ public class IconsFactory {
         }
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        image.getGraphics().drawImage(icon1.getImage(), x1, y1, w1, h1, c);
-        image.getGraphics().drawImage(icon2.getImage(), x2, y2, w2, h2, c);
+        icon1.paintIcon(c, image.getGraphics(), x1, y1);
+        icon2.paintIcon(c, image.getGraphics(), x2, y2);
         return new ImageIcon(image);
     }
 
@@ -1106,7 +1151,6 @@ public class IconsFactory {
                 bounds.height * scale,
                 imageType);
         final Graphics2D g = img.createGraphics();
-        g.scale(scale, scale);
         g.fillRect(0, 0, img.getWidth(), img.getHeight());
         // If we are painting a JComponent then switch off double buffering because it
         // causes a failure when running headlessly on Linux

@@ -28,6 +28,13 @@ public class OverlayableIconsFactory {
             return null;
     }
 
+    public static Icon getScaledIcon(String name) {
+        if (name != null)
+            return IconsFactory.getScaledIcon(OverlayableIconsFactory.class, name);
+        else
+            return null;
+    }
+
     public static void main(String[] argv) {
         IconsFactory.generateHTML(OverlayableIconsFactory.class);
     }

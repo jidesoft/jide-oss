@@ -101,35 +101,35 @@ public class BasicPainter implements SwingConstants, ThemePainter {
         return UIDefaultsLookup.getColor("CollapsiblePane.foreground");
     }
 
-    public ImageIcon getCollapsiblePaneUpIcon() {
-        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.upIcon");
+    public Icon getCollapsiblePaneUpIcon() {
+        return UIDefaultsLookup.getIcon("CollapsiblePane.upIcon");
     }
 
-    public ImageIcon getCollapsiblePaneDownIcon() {
-        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.downIcon");
+    public Icon getCollapsiblePaneDownIcon() {
+        return UIDefaultsLookup.getIcon("CollapsiblePane.downIcon");
     }
 
-    public ImageIcon getCollapsiblePaneUpIconEmphasized() {
+    public Icon getCollapsiblePaneUpIconEmphasized() {
         return getCollapsiblePaneUpIcon();
     }
 
-    public ImageIcon getCollapsiblePaneDownIconEmphasized() {
+    public Icon getCollapsiblePaneDownIconEmphasized() {
         return getCollapsiblePaneDownIcon();
     }
 
-    public ImageIcon getCollapsiblePaneTitleButtonBackground() {
-        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground");
+    public Icon getCollapsiblePaneTitleButtonBackground() {
+        return UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground");
     }
 
-    public ImageIcon getCollapsiblePaneTitleButtonBackgroundEmphasized() {
-        return (ImageIcon) UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground.emphasized");
+    public Icon getCollapsiblePaneTitleButtonBackgroundEmphasized() {
+        return UIDefaultsLookup.getIcon("CollapsiblePane.titleButtonBackground.emphasized");
     }
 
-    public ImageIcon getCollapsiblePaneUpMask() {
+    public Icon getCollapsiblePaneUpMask() {
         return getCollapsiblePaneUpIcon();
     }
 
-    public ImageIcon getCollapsiblePaneDownMask() {
+    public Icon getCollapsiblePaneDownMask() {
         return getCollapsiblePaneDownIcon();
     }
 
@@ -824,7 +824,7 @@ public class BasicPainter implements SwingConstants, ThemePainter {
     /**
      * The distant from top edge of the table header to the top edge of the sort arrow.
      */
-    public static int V_GAP = 0;
+    public static int V_GAP = 2;
 
     /**
      * The distant from the right edge of the table header to left edge of sort arrow.

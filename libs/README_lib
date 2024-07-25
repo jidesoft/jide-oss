@@ -1,3 +1,6 @@
 The ui.jar is part of JDK distribution on Mac OSX from Apple Inc.
 We included this jar here only to make our source code compile. You shouldn't include
 them in your release no matter your application supports Mac OS X.
+
+The flatlaf-x.x.jar is the FlatLaf from  FormDev Software GmbH. We used their ScaledImageIcon
+class in IconFactory.java. You need it to compile the source code.

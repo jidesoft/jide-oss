@@ -618,30 +618,6 @@ final public class SystemInfo {
                 || locale.equals(Locale.KOREAN);
     }
 
-    public static int getDisplayScale() {
-        if (GraphicsEnvironment.isHeadless()) {
-            return 1;
-        }
-
-        if (isJdk7u40Above()) {
-            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice device = graphicsEnvironment.getDefaultScreenDevice();
-            try {
-                Field field = device.getClass().getDeclaredField("scale");
-                if (field != null) {
-                    field.setAccessible(true);
-                    Object scale = field.get(device);
-                    if (scale instanceof Integer) {
-                        return (Integer) scale;
-                    }
-                }
-            }
-            catch (Exception ignore) {
-            }
-        }
-        return 1;
-    }
-
     public static class JavaVersion {
         /**
          * For example: 1.6.0_12: Group 1 = major version (1.6) Group 3 = minor version (0) Group 5 = build number (12)
@@ -748,12 +724,39 @@ final public class SystemInfo {
      * @since 3.7.2
      */
     public static boolean isMnemonicHidden() {
-        boolean isMnemonicHidden = true;
-        if (UIManager.getBoolean("Button.showMnemonics")) {
-            // Do not hide mnemonics if the UI defaults do not support this
-            isMnemonicHidden = false;
-        }
-        return isMnemonicHidden;
+        // Do not hide mnemonics if the UI defaults do not support this
+        return !UIManager.getBoolean("Button.showMnemonics");
     }
 
+    public static double getScaleFactor() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        DisplayMode dm = gd.getDisplayMode();
+        // Assuming 96 DPI as standard resolution
+        return (double) Toolkit.getDefaultToolkit().getScreenResolution() / 96.0;
+    }
+
+    public static int getDisplayScale() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return 1;
+        }
+
+        if (isJdk7u40Above()) {
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice device = graphicsEnvironment.getDefaultScreenDevice();
+            try {
+                Field field = device.getClass().getDeclaredField("scale");
+                if (field != null) {
+                    field.setAccessible(true);
+                    Object scale = field.get(device);
+                    if (scale instanceof Integer) {
+                        return (Integer) scale;
+                    }
+                }
+            }
+            catch (Exception ignore) {
+            }
+        }
+        return 1;
+    }
 }

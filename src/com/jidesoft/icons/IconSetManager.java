@@ -141,7 +141,7 @@ public class IconSetManager {
      *
      * @return the ImageIcon.
      */
-    public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location) {
+    public Icon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location) {
         return getOverlayImageIcon(iconName, size, overlayIconName, location, new Insets(0, 0, 0, 0));
     }
 
@@ -160,7 +160,7 @@ public class IconSetManager {
      *
      * @return the ImageIcon.
      */
-    public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location, Insets insets) {
+    public Icon getOverlayImageIcon(String iconName, int size, String overlayIconName, int location, Insets insets) {
         ImageIcon icon = getImageIcon(iconName, size);
         if (icon == null) {
             return null;
@@ -192,7 +192,7 @@ public class IconSetManager {
      *
      * @return the ImageIcon.
      */
-    public ImageIcon getOverlayImageIcon(String iconName, int size, String overlayIconName, int overlayIconSize, int location, Insets insets) {
+    public Icon getOverlayImageIcon(String iconName, int size, String overlayIconName, int overlayIconSize, int location, Insets insets) {
         ImageIcon icon = getImageIcon(iconName, size);
         if (icon == null) {
             return null;

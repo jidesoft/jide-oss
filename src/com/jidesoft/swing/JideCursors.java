@@ -5,10 +5,13 @@
  */
 package com.jidesoft.swing;
 
+import com.jidesoft.icons.IconUtils;
 import com.jidesoft.plaf.UIDefaultsLookup;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.MultiResolutionImage;
 
 /**
  * A utility class that create additional cursors used by JIDE products.
@@ -22,16 +25,6 @@ public class JideCursors {
      * First id of Cursors used in JIDE products.
      */
     public static final int FIRST_CUSTOM_CURSOR = 20;
-
-    /**
-     * The horizontal split cursor type.
-     */
-    public static final int HSPLIT_CURSOR = 20;
-
-    /**
-     * The vertical split cursor type.
-     */
-    public static final int VSPLIT_CURSOR = 21;
 
     /**
      * The drag cursor type.
@@ -169,165 +162,147 @@ public class JideCursors {
             Dimension bestSize = toolkit.getBestCursorSize(32, 32);
             int maxColor = toolkit.getMaximumCursorColors();
             switch (type) {
-                case HSPLIT_CURSOR: {
-//                    if (bestSize.width != 0 && maxColor > 3) {
-//                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.hsplit");
-//                        if (icon == null)
-//                            return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-//                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Horizonal Split");
-//                    }
-                    return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-                }
-                case VSPLIT_CURSOR: {
-//                    if (bestSize.width != 0 && maxColor > 3) {
-//                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.vsplit");
-//                        if (icon == null)
-//                            return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-//                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Vertical Split");
-//                    }
-                    return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-                }
                 case DRAG_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.drag");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.drag");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(17, 12), "Drag");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(17, 12), "Drag");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case DRAG_STOP_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.dragStop");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.dragStop");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(17, 12), "Drag Stop");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(17, 12), "Drag Stop");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case DRAG_TEXT_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.dragText");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.dragText");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(0, 0), "Drag Text");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(0, 0), "Drag Text");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case DRAG_TEXT_STOP_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.dragTextStop");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.dragTextStop");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Drag Text Stop");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 15), "Drag Text Stop");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case NORTH_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.north");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.north");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 10), "North");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 10), "North");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case SOUTH_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.south");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.south");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 20), "South");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 20), "South");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case EAST_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.east");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.east");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(20, 15), "East");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(20, 15), "East");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case WEST_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.west");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.west");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(10, 15), "West");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(10, 15), "West");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case TAB_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.tab");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.tab");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Tabbed");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 15), "Tabbed");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case FLOAT_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.float");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.float");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Floating");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 15), "Floating");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case VERTICAL_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.vertical");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.vertical");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Vertical");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 15), "Vertical");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case HORIZONTAL_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.horizontal");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.horizontal");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(15, 15), "Horizontal");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(15, 15), "Horizontal");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case DELETE_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.delete");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.delete");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(10, 10), "Delete");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(10, 10), "Delete");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case PERCENTAGE_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.percentage");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.percentage");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(20, 15), "Percentage");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(20, 15), "Percentage");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case MOVE_EAST_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.moveEast");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.moveEast");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(11, 15), "Move East");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(11, 15), "Move East");
                     }
                     return Cursor.getDefaultCursor();
                 }
                 case MOVE_WEST_CURSOR: {
                     if (bestSize.width != 0 && maxColor > 3) {
-                        ImageIcon icon = (ImageIcon) UIDefaultsLookup.getIcon("Cursor.moveWest");
+                        Icon icon = UIDefaultsLookup.getIcon("Cursor.moveWest");
                         if (icon == null)
                             return Cursor.getDefaultCursor();
-                        return toolkit.createCustomCursor(icon.getImage(), new Point(20, 15), "Move West");
+                        return toolkit.createCustomCursor(getImageIfNeeded(icon), new Point(20, 15), "Move West");
                     }
                     return Cursor.getDefaultCursor();
                 }
@@ -337,6 +312,18 @@ public class JideCursors {
         catch (Exception e) {
             return Cursor.getDefaultCursor(); // mainly for HeadlessException.
         }
+    }
+
+    private static Image getImageIfNeeded(Icon icon) {
+        if (icon instanceof ImageIcon) {
+            Image image = ((ImageIcon) icon).getImage();
+            if(image instanceof MultiResolutionImage){
+                double size = 64 * SystemInfo.getScaleFactor();
+                return ((MultiResolutionImage) image).getResolutionVariant(size, size);
+            }
+            else return image;
+        }
+        else return IconUtils.iconToImageIcon(icon).getImage();
     }
 
 }

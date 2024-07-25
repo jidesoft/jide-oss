@@ -16,14 +16,21 @@ import javax.swing.*;
 class TreeIconsFactory {
 
     static class CellRenderer {
-        public static final String SELECTED_C16 = "icons/selected-c16.gif";
-        public static final String SELECTED_B16 = "icons/selected-b16.gif";
-        public static final String BLANK_16 = "icons/blank-16.gif";
+        public static final String SELECTED_C16 = "icons/tree_selected_c16.png";
+        public static final String SELECTED_B16 = "icons/tree_selected_b16.png";
+        public static final String BLANK_16 = "icons/tree_blank_16.png";
     }
 
     public static ImageIcon getImageIcon(String name) {
         if (name != null)
             return IconsFactory.getImageIcon(TreeIconsFactory.class, name);
+        else
+            return null;
+    }
+
+    public static Icon getScaledIcon(String name) {
+        if (name != null)
+            return IconsFactory.getScaledIcon(TreeIconsFactory.class, name);
         else
             return null;
     }

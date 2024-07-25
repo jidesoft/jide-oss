@@ -1,13 +1,9 @@
 /*
- * @(#)FileSystemIconsFactory.java 9/12/2005
+ * @(#)BasicFolderChooserIconsFactory.java 9/12/2005
  *
  * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
  */
-package com.jidesoft.plaf.basic;/*
- * @(#)CiscoIconsFactory.java 6/16/2005
- *
- * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
- */
+package com.jidesoft.plaf.basic;
 
 import com.jidesoft.icons.IconsFactory;
 
@@ -33,6 +29,14 @@ public class BasicFolderChooserIconsFactory {
         else
             return null;
     }
+
+    public static Icon getScaledIcon(String name) {
+        if (name != null)
+            return IconsFactory.getScaledIcon(BasicFolderChooserIconsFactory.class, name);
+        else
+            return null;
+    }
+
 
     public static void main(String[] argv) {
         IconsFactory.generateHTML(BasicFolderChooserIconsFactory.class);

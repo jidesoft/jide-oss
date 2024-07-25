@@ -362,9 +362,6 @@ public class XertoMetalUtils extends VsnetLookAndFeelExtension {
                 "Icon.up", JideIconsFactory.getImageIcon(JideIconsFactory.Arrow.UP),
 
 
-                "Cursor.hsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.HSPLIT),
-                "Cursor.vsplit", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.VSPLIT),
-
                 "Cursor.north", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.NORTH),
                 "Cursor.south", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.SOUTH),
                 "Cursor.east", JideIconsFactory.getImageIcon(JideIconsFactory.Cursor.EAST),

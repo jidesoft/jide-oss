@@ -42,6 +42,8 @@ import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+
 /**
  * A utilities class for Swing.
  */
@@ -200,20 +202,27 @@ public class JideSwingUtilities implements SwingConstants {
      * @param orientation horizontal or vertical
      */
     public static void paintArrow(Graphics g, Color color, int startX, int startY, int width, int orientation) {
-        Color oldColor = g.getColor();
-        g.setColor(color);
-        width = width / 2 * 2 + 1; // make sure it's odd
-        if (orientation == HORIZONTAL) {
-            for (int i = 0; i < (width + 1) / 2; i++) {
-                g.drawLine(startX + i, startY + i, startX + width - i - 1, startY + i);
+        Graphics2D g2d = (Graphics2D) g.create();
+        try {
+            // Get the scaling factor
+            double scaleFactor = SystemInfo.getScaleFactor();
+            g2d.scale(1 / scaleFactor, 1 / scaleFactor);
+            g2d.setColor(color);
+            width = width / 2 * 2 + 1; // make sure it's odd
+            if (orientation == HORIZONTAL) {
+                for (int i = 0; i < (width + 1) / 2; i++) {
+                    g.drawLine(startX + i, startY + i, startX + width - i - 1, startY + i);
+                }
             }
-        }
-        else if (orientation == VERTICAL) {
-            for (int i = 0; i < (width + 1) / 2; i++) {
-                g.drawLine(startX + i, startY + i, startX + i, startY + width - i - 1);
+            else if (orientation == VERTICAL) {
+                for (int i = 0; i < (width + 1) / 2; i++) {
+                    g.drawLine(startX + i, startY + i, startX + i, startY + width - i - 1);
+                }
             }
+        } finally {
+            g2d.dispose();
         }
-        g.setColor(oldColor);
+
     }
 
     /**
@@ -813,8 +822,7 @@ public class JideSwingUtilities implements SwingConstants {
         String systemFonts = null;
         try {
             systemFonts = (String) java.security.AccessController.doPrivileged(new GetPropertyAction("swing.useSystemFontSettings"));
-        }
-        catch (AccessControlException e) {
+        } catch (AccessControlException e) {
             // ignore
         }
 
@@ -1577,8 +1585,8 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         /* Compute textR.x,y given the verticalTextPosition and
-        * horizontalTextPosition properties
-        */
+         * horizontalTextPosition properties
+         */
 
         if (verticalTextPosition == TOP) {
             if (horizontalTextPosition != CENTER) {
@@ -1751,8 +1759,8 @@ public class JideSwingUtilities implements SwingConstants {
         }
 
         /* Compute textR.x,y given the verticalTextPosition and
-        * horizontalTextPosition properties
-        */
+         * horizontalTextPosition properties
+         */
 
         if (verticalTextPosition == TOP) {
             if (horizontalTextPosition != CENTER) {
@@ -2315,8 +2323,7 @@ public class JideSwingUtilities implements SwingConstants {
             else {
                 radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
             }
-        }
-        catch (ClassNotFoundException e1) {
+        } catch (ClassNotFoundException e1) {
             // ignore
         }
         if (radialGradientPaintClass != null) {
@@ -2326,17 +2333,13 @@ public class JideSwingUtilities implements SwingConstants {
                 }
                 final Object radialGradientPaint = _radialGradientPaintConstructor2.newInstance(point, radius, fractions, colors);
                 return (Paint) radialGradientPaint;
-            }
-            catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException e) {
                 // ignore
-            }
-            catch (InstantiationException e) {
+            } catch (InstantiationException e) {
                 // ignore
-            }
-            catch (IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 // ignore
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 // ignore
             }
         }
@@ -2359,8 +2362,7 @@ public class JideSwingUtilities implements SwingConstants {
                 else {
                     _radialGradientPaintClass = Class.forName("org.apache.batik.ext.awt.RadialGradientPaint");
                 }
-            }
-            catch (ClassNotFoundException e1) {
+            } catch (ClassNotFoundException e1) {
                 // ignore
             }
         }
@@ -2371,17 +2373,13 @@ public class JideSwingUtilities implements SwingConstants {
                 }
                 final Object radialGradientPaint = _radialGradientPaintConstructor1.newInstance(cx, cy, radius, fractions, colors);
                 return (Paint) radialGradientPaint;
-            }
-            catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException e) {
                 // ignore
-            }
-            catch (InstantiationException e) {
+            } catch (InstantiationException e) {
                 // ignore
-            }
-            catch (IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 // ignore
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 // ignore
             }
         }
@@ -2408,8 +2406,7 @@ public class JideSwingUtilities implements SwingConstants {
                 else {
                     _linearGradientPaintClass = Class.forName("org.apache.batik.ext.awt.LinearGradientPaint");
                 }
-            }
-            catch (ClassNotFoundException e1) {
+            } catch (ClassNotFoundException e1) {
                 // ignore
             }
         }
@@ -2420,17 +2417,13 @@ public class JideSwingUtilities implements SwingConstants {
                 }
                 final Object linearGradientPaint = _linearGradientPaintConstructor1.newInstance(startX, startY, endX, endY, fractions, colors);
                 return (Paint) linearGradientPaint;
-            }
-            catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException e) {
                 // ignore
-            }
-            catch (InstantiationException e) {
+            } catch (InstantiationException e) {
                 // ignore
-            }
-            catch (IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 // ignore
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 // ignore
             }
         }
@@ -2648,8 +2641,7 @@ public class JideSwingUtilities implements SwingConstants {
         try {
             // give the gc time.
             Thread.sleep(100);
-        }
-        catch (InterruptedException ie) {
+        } catch (InterruptedException ie) {
         }
         memFree = memFormatter.format(Runtime.getRuntime().freeMemory() / 1024);
         memTotal = memFormatter.format(Runtime.getRuntime().totalMemory() / 1024);
@@ -2874,8 +2866,7 @@ public class JideSwingUtilities implements SwingConstants {
             if (fontSize != null) {
                 defaultFontSize = Float.parseFloat(fontSize);
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // ignore
         }
 
@@ -3116,8 +3107,7 @@ public class JideSwingUtilities implements SwingConstants {
                 Component comp = null;
                 try {
                     comp = policy.getComponentAfter(rootAncestor, container);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     // ClassCastException when docking frames on Solaris
                     // http://jidesoft.com/forum/viewtopic.php?p=32569
                 }
@@ -3678,8 +3668,7 @@ public class JideSwingUtilities implements SwingConstants {
                     }
                 }
             }
-        }
-        catch (Throwable throwable) {
+        } catch (Throwable throwable) {
             // ignore it and return false
         }
         return false;
@@ -3841,8 +3830,7 @@ public class JideSwingUtilities implements SwingConstants {
                         if (height < 3) {
                             try {
                                 height = list.getCellBounds(1, 1).height;
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 height = 16;
                             }
                         }
@@ -4167,8 +4155,7 @@ public class JideSwingUtilities implements SwingConstants {
             Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
             Method m = c.getMethod("setWindowOpaque", Window.class, boolean.class);
             m.invoke(null, window, opaque);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
     }
@@ -4184,8 +4171,7 @@ public class JideSwingUtilities implements SwingConstants {
             Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
             Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpacity", Window.class, float.class);
             mSetWindowOpacity.invoke(null, window, opacity);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             // ignore
         }
     }
@@ -4201,8 +4187,7 @@ public class JideSwingUtilities implements SwingConstants {
             Class<?> c = Class.forName("com.sun.awt.AWTUtilities");
             Method m = c.getMethod("setWindowShape", Window.class, Shape.class);
             m.invoke(null, window, shape);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
     }
@@ -4375,7 +4360,7 @@ public class JideSwingUtilities implements SwingConstants {
             if (field != null) {
                 field.setAccessible(true);
                 Object scaleValue = field.get(device);
-                if (scaleValue instanceof Integer && (Integer)scaleValue == 2) {
+                if (scaleValue instanceof Integer && (Integer) scaleValue == 2) {
                     cachedScaleFactor = 2d;
                 }
             }
@@ -4392,7 +4377,7 @@ public class JideSwingUtilities implements SwingConstants {
     }
 
     public static void withFractionalAntiAliasing(Graphics g, Object value, Runnable r) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         boolean fractionalScale = !isIntegerScaleFactor(g2);
         Object oldAntiAliasingHint = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
         if (fractionalScale) {

@@ -117,21 +117,21 @@ public interface ThemePainter {
 
     Color getCollapsiblePaneFocusTitleForegroundEmphasized();
 
-    ImageIcon getCollapsiblePaneUpIcon();
+    Icon getCollapsiblePaneUpIcon();
 
-    ImageIcon getCollapsiblePaneDownIcon();
+    Icon getCollapsiblePaneDownIcon();
 
-    ImageIcon getCollapsiblePaneUpIconEmphasized();
+    Icon getCollapsiblePaneUpIconEmphasized();
 
-    ImageIcon getCollapsiblePaneDownIconEmphasized();
+    Icon getCollapsiblePaneDownIconEmphasized();
 
-    ImageIcon getCollapsiblePaneTitleButtonBackground();
+    Icon getCollapsiblePaneTitleButtonBackground();
 
-    ImageIcon getCollapsiblePaneTitleButtonBackgroundEmphasized();
+    Icon getCollapsiblePaneTitleButtonBackgroundEmphasized();
 
-    ImageIcon getCollapsiblePaneUpMask();
+    Icon getCollapsiblePaneUpMask();
 
-    ImageIcon getCollapsiblePaneDownMask();
+    Icon getCollapsiblePaneDownMask();
 
     Color getBackgroundDk();
 

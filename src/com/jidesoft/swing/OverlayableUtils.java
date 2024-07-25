@@ -109,4 +109,19 @@ public class OverlayableUtils {
     public static Icon getPredefinedOverlayIcon(String name) {
         return OverlayableIconsFactory.getImageIcon(name);
     }
+
+    /**
+     * Gets the predefined icon that can be used as the overlay icon for the Swing component. Available icon names are
+     * <ul> <li>{@link OverlayableIconsFactory#CORRECT} <li>{@link OverlayableIconsFactory#ERROR} <li>{@link
+     * OverlayableIconsFactory#ATTENTION} <li>{@link OverlayableIconsFactory#INFO} <li>{@link
+     * OverlayableIconsFactory#QUESTION} </ul>.
+     *
+     * Different from {@link #getPredefinedOverlayIcon(String)}, this method return an instance of {@link com.formdev.flatlaf.util.ScaledImageIcon}.
+     *
+     * @param name name defined in {@link com.jidesoft.swing.OverlayableIconsFactory}.
+     * @return the icon
+     */
+    public static Icon getPredefinedOverlayScaledIcon(String name) {
+        return OverlayableIconsFactory.getScaledIcon(name);
+    }
 }
