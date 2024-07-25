@@ -42,6 +42,7 @@
 
     <path id="standard_classpath">
         <pathelement location="${basedir}\libs\ui.jar"/>
+        <pathelement location="${basedir}\libs\flatlaf-3.5.jar"/>
         <pathelement location="${basedir}\libs\JavaRuntimeSupport.jar"/>
     </path>
 
