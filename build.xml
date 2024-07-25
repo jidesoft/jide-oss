@@ -70,7 +70,7 @@
         </javadoc>
     </target>
 
-    <target name="jar" depends="compile" description="create the distributation jar">
+    <target name="jar" depends="compile" description="create the distribution jar">
         <delete file="${base_dir}/jide-oss-${jide_version}.jar"/>
         <jar update="false" jarfile="${base_dir}/jide-oss-${jide_version}.jar" basedir="${output_dir}"
              includes="com/jidesoft/**">
@@ -135,10 +135,10 @@
     </target>
 
     <target name="dist" depends="javadoc, jar, source"
-            description="build the distributation jar, generate javadoc and create the source code zip file">
+            description="build the distribution jar, generate javadoc and create the source code zip file">
     </target>
 
     <target name="dist-nojavadoc" depends="compile, jar, source"
-            description="build the distributation jar, and create the source code zip file">
+            description="build the distribution jar, and create the source code zip file">
     </target>
 </project>
