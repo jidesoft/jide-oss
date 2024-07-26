@@ -60,7 +60,7 @@ public class VsnetWindowsUtils extends VsnetLookAndFeelExtension {
             table.put("JidePopupMenuUI", basicPackageName + "BasicJidePopupMenuUI");
             table.put("RangeSliderUI", basicPackageName + "BasicRangeSliderUI");
         } else {
-            table.put("JidePopupMenuUI", windowsPackageName + "WindowsPopupMenuUI");
+            table.put("JidePopupMenuUI", windowsPackageName + "WindowsJidePopupMenuUI");
             table.put("RangeSliderUI", windowsPackageName + "WindowsRangeSliderUI");
         }
 
