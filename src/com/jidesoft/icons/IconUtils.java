@@ -6,8 +6,6 @@
 
 package com.jidesoft.icons;
 
-import com.formdev.flatlaf.util.ScaledImageIcon;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
