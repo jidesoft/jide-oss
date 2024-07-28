@@ -6,6 +6,7 @@
 package com.jidesoft.swing;
 
 import com.jidesoft.utils.PortingUtils;
+import com.jidesoft.utils.SystemInfo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -86,6 +87,9 @@ public class ResizableFrame extends JFrame implements ResizableSupport {
             @Override
             protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
                 boolean processed = super.processKeyBinding(ks, e, condition, pressed);
+                if (SystemInfo.isJdk17Above()) {
+                    return processed;
+                }
                 if (processed || e.isConsumed() || !isRoutingKeyStrokes())
                     return processed;
 
