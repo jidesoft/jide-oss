@@ -1213,15 +1213,15 @@ public class LookAndFeelFactory implements ProductNames {
             // ignore
         }
 
-        for (String s : classLookup) {
-            String initializer = findDefaultInitializer(s);
+        for (String s : lookup) {
+            String initializer = getDefaultInitializer(s);
             if (initializer != null) {
                 invokeInitialize(uiDefaults, initializer);
             }
         }
 
-        for (String s : lookup) {
-            String initializer = getDefaultInitializer(s);
+        for (String s : classLookup) {
+            String initializer = findDefaultInitializer(s);
             if (initializer != null) {
                 invokeInitialize(uiDefaults, initializer);
             }
